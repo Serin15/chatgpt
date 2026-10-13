@@ -1,7 +1,7 @@
 [project]
 name = "memecoin-research"
-version = "0.1.0"
-description = "Evidence-first Solana research scanner and paper portfolio"
+version = "0.2.0"
+description = "Crypto news, market research, Solana discovery and manual paper portfolio"
 requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115,<1",

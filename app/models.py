@@ -46,6 +46,13 @@ class PaperBuy(BaseModel):
 class SignalRequest(BaseModel):
     account: Literal["scanner", "news"] = "scanner"
     news_id: int | None = Field(default=None, gt=0)
+    thesis: str = Field(default="", max_length=1000)
+
+
+class AssetBuy(BaseModel):
+    asset_id: str = Field(pattern=r"^[a-z0-9-]{1,80}$")
+    amount_usd: str = Field(max_length=32)
+    signal_id: int
 
 
 class Market(BaseModel):

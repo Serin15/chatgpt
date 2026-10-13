@@ -57,3 +57,13 @@ deduplicare și limite de alertare. Nicio trimitere externă nu este activată a
 
 Execuția reală este un proiect ulterior separat, cu autorizare explicită, signing izolat,
 simulation unde este suportată, limite de cheltuieli, confirmări și kill switch.
+
+## Extinderea v0.2 — implementată
+
+Știri crypto generale și surse primare, piață CoinGecko, public book pentru unele active, piețe
+raportate, metadata de identitate, experiment manual de $50 și UI PULSE desktop/mobil. Detalii
+și limite în [V0.2.md](V0.2.md). Nu confundăm această extindere cu verificarea fundamentelor.
+
+Următoarea prioritate: validarea anunțului original și a contractului, date despre produs, echipă,
+tokenomics/vesting și audit; cazuri etichetate manual pentru măsurarea potrivirilor false. Mai apoi,
+compararea rezultatelor forward și infrastructură web cu autentificare și monitorizare persistentă.

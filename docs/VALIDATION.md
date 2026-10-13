@@ -47,3 +47,32 @@ inițializat cu $500; ambele aveau 0 ordine. Nu am plasat un ordin în locul uti
 Verificarea integrală a articolelor și cauzalitatea știre–token nu sunt implementate. Toate
 articolele păstrează `article_verified=false` și potrivirile `lexical_hypothesis`. Nu afirmăm că
 poolurile găsite sunt tokenuri noi. Nu există notificări în afara aplicației sau Telegram.
+
+## PULSE v0.2 — crypto generale și UI
+
+Verificare pe 13 octombrie 2026:
+
+- `uv sync --frozen`, Ruff și `node --check app/static/app.js`: exit 0.
+- **87 teste trecute**. Se verifică suplimentar bid/ask, cantități L1, comisioane, modelul de
+  referință, timestamp lipsă/expirat/invalid, respingerea unei ieșiri fără book, separarea
+  conturilor și equity necunoscut când lipsește o evaluare validă. Testele de știri verifică
+  filtrarea politicii fără crypto, prioritatea surselor fără a confirma susținerea tokenului,
+  Bitcoin Cash versus Bitcoin și păstrarea primei asocieri la actualizarea potrivirilor.
+- Browser smoke izolat: știre → DEX paper $50 → ieșire; activ crypto general → piețe → ipoteză
+  scrisă → paper $50 → ieșire. Fără erori JavaScript; viewport 390px fără overflow.
+- Probe live `python -m app.smoke`: 12 profiluri Solana valide, RPC/GoPlus funcționale, 26 de
+  active păstrate în cache, book BTC public și 10 titluri CoinDesk eligibile. Niciun ordin.
+- Pornire prin `python -m app.desktop --no-browser`: aplicație gata pe portul local 8000,
+  `app_id=pulse_crypto_research`, versiune 0.2.0. Nu s-a testat scriptul `.cmd` pe Windows real;
+  helper-ul Python și pornirea serverului s-au testat în Linux.
+- Feedurile au răspuns pentru toate cele 9 surse/subiecte; Zelenski și Ethereum Foundation
+  au avut zero titluri recente eligibile. Nu s-au inventat informații pentru a completa feedul.
+- Capturi ale aplicației cu date reale în [screenshots](screenshots/). Desktop, știri, piață și
+  mobil fără erori JavaScript. Capturile nu reprezintă un site public.
+- După upgrade: Scanner $100, Research $500, ambele cu 0 ordine. Baza de date și istoricul
+  observațiilor au fost păstrate, cu backup SQLite consistent în afara repository-ului.
+
+Warningul de deprecation Starlette/httpx rămâne vizibil. Testele software și probele de surse
+nu demonstrează profitabilitate, afiliere oficială sau calitatea fundamentelor unui proiect.
+Contractele și linkurile metadata rămân declarații ale furnizorului. Accesul înaintea unei
+listări viitoare nu este stabilit. Detalii despre acoperire și surse în [V0.2.md](V0.2.md).

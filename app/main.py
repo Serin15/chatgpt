@@ -9,8 +9,9 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from app.assets import Assets, research_case
 from app.config import Settings
-from app.models import AddToken, PaperBuy, SignalRequest, solana_address
+from app.models import AddToken, AssetBuy, PaperBuy, SignalRequest, solana_address
 from app.news import News
 from app.paper import Rejected
 from app.providers import ProviderError, Providers
@@ -20,7 +21,9 @@ from app.store import Store
 STATIC = Path(__file__).parent / "static"
 
 
-def create_app(settings=None, providers=None, run_scanner=True, news_factory=None):
+def create_app(
+    settings=None, providers=None, run_scanner=True, news_factory=None, assets_factory=None
+):
     settings = settings or Settings.from_environment()
 
     @asynccontextmanager
@@ -28,10 +31,19 @@ def create_app(settings=None, providers=None, run_scanner=True, news_factory=Non
         store = Store(settings)
         sources = providers or Providers(settings)
         app.state.service = Service(settings, store, sources)
+        assets = (assets_factory or Assets)(store)
+        app.state.service.assets = assets
+        assets.held_assets = lambda: [
+            p["address"][6:]
+            for p in app.state.service.news_paper.portfolio()["positions"]
+            if p["address"].startswith("asset:") and not p["closed_at"]
+        ]
         news = (news_factory or News)(store, sources)
+        news.assets = assets
         app.state.service.news = news
         task = asyncio.create_task(app.state.service.run()) if run_scanner else None
         news_task = asyncio.create_task(news.run()) if run_scanner else None
+        assets_task = asyncio.create_task(assets.run()) if run_scanner else None
         try:
             yield
         finally:
@@ -43,10 +55,15 @@ def create_app(settings=None, providers=None, run_scanner=True, news_factory=Non
                 news_task.cancel()
                 with suppress(asyncio.CancelledError):
                     await news_task
+            if assets_task:
+                assets_task.cancel()
+                with suppress(asyncio.CancelledError):
+                    await assets_task
+            await assets.close()
             await news.close()
             await sources.close()
 
-    app = FastAPI(title="Memecoin Research · Paper only", lifespan=lifespan)
+    app = FastAPI(title="PULSE Crypto Research · Paper only", lifespan=lifespan)
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
     @app.middleware("http")
@@ -99,11 +116,60 @@ def create_app(settings=None, providers=None, run_scanner=True, news_factory=Non
             "ai_summaries": "not_implemented",
             "news": service.news.status,
             "news_paper_initial_balance": str(service.news_paper.initial_balance),
+            "crypto_market": service.assets.status,
+            "version": "0.2.0",
+            "app_id": "pulse_crypto_research",
         }
 
     @app.get("/api/tokens")
     def tokens(request: Request):
         return request.app.state.service.listing()
+
+    @app.get("/api/assets")
+    def asset_listing(request: Request):
+        return request.app.state.service.assets.listing()
+
+    @app.post("/api/assets/refresh")
+    async def asset_refresh(request: Request):
+        return await request.app.state.service.assets.refresh()
+
+    @app.get("/api/assets/{asset_id}")
+    def asset_detail(asset_id: str, request: Request):
+        assets = request.app.state.service.assets
+        asset = assets.get(asset_id)
+        if not asset:
+            raise HTTPException(404, "Activ fără observații. Actualizează piața.")
+        return {
+            "asset": asset,
+            "history": assets.history(asset_id),
+            "research": research_case(asset),
+        }
+
+    @app.get("/api/assets/{asset_id}/venues")
+    async def venues(asset_id: str, request: Request):
+        assets = request.app.state.service.assets
+        if not assets.get(asset_id):
+            raise HTTPException(404, "Activ necunoscut")
+        return {
+            "venues": await assets.venues(asset_id),
+            "prelisting_access": "not_established",
+            "note": "Acestea sunt piețe raportate, nu acces confirmat înaintea unei listări viitoare.",
+        }
+
+    @app.get("/api/assets/{asset_id}/profile")
+    async def asset_profile(asset_id: str, request: Request):
+        assets = request.app.state.service.assets
+        if not assets.get(asset_id):
+            raise HTTPException(404, "Activ necunoscut")
+        return await assets.profile(asset_id)
+
+    @app.post("/api/assets/{asset_id}/signal")
+    async def asset_signal(asset_id: str, request: Request, body: SignalRequest):
+        return await request.app.state.service.asset_signal(asset_id, body.news_id, body.thesis)
+
+    @app.post("/api/paper/assets/buy")
+    async def asset_buy(body: AssetBuy, request: Request):
+        return await request.app.state.service.asset_buy(body)
 
     @app.post("/api/tokens", status_code=201)
     async def add_token(body: AddToken, request: Request):
@@ -149,7 +215,7 @@ def create_app(settings=None, providers=None, run_scanner=True, news_factory=Non
     def signal(address: str, request: Request, body: SignalRequest | None = None):
         service = request.app.state.service
         body = body or SignalRequest()
-        return service.signal(address, body.account, body.news_id)
+        return service.signal(address, body.account, body.news_id, body.thesis)
 
     @app.get("/api/news")
     def news_listing(request: Request):
@@ -158,6 +224,11 @@ def create_app(settings=None, providers=None, run_scanner=True, news_factory=Non
     @app.post("/api/news/refresh")
     async def news_refresh(request: Request):
         return await request.app.state.service.news.refresh()
+
+    @app.post("/api/news/{news_id}/seen")
+    def news_seen(news_id: int, request: Request):
+        request.app.state.service.news.mark_seen(news_id)
+        return {"seen": True}
 
     @app.post("/api/scan")
     async def scan(request: Request):

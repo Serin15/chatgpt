@@ -25,7 +25,7 @@ def test_roundtrip_loses_fees_at_unchanged_price(settings, store):
     assert Store(settings).portfolio() == store.portfolio()
 
 
-@pytest.mark.parametrize("value", ["NaN", "Infinity", "-5", "0", "garbage"])
+@pytest.mark.parametrize("value", ["NaN", "Infinity", "-5", "0", "garbage", "1e999999999"])
 def test_invalid_amounts_do_not_change_balance(settings, store, value):
     snap = snapshot(settings)
     with pytest.raises(Rejected):

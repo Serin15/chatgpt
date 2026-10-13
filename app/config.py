@@ -21,6 +21,8 @@ class Settings:
     min_position: Decimal = Decimal("2")
     max_snapshot_age: int = 120
     min_signal_delay: int = 3
+    reference_fee: Decimal = Decimal("0.006")
+    reference_slippage: Decimal = Decimal("0.005")
 
     def __post_init__(self):
         for key in ("initial_balance", "min_liquidity", "min_position"):
@@ -35,6 +37,10 @@ class Settings:
             raise ValueError("swap_fee trebuie să fie în [0, 1)")
         if not self.network_fee_usd.is_finite() or self.network_fee_usd < 0:
             raise ValueError("network_fee_usd invalid")
+        for key in ("reference_fee", "reference_slippage"):
+            value = getattr(self, key)
+            if not value.is_finite() or not 0 <= value < 1:
+                raise ValueError(f"{key} invalid")
 
     @classmethod
     def from_environment(cls):
@@ -49,6 +55,8 @@ class Settings:
             "swap_fee": "SIM_SWAP_FEE",
             "network_fee_usd": "SIM_NETWORK_FEE_USD",
             "min_position": "MIN_POSITION_USD",
+            "reference_fee": "SIM_CEX_FEE",
+            "reference_slippage": "SIM_REFERENCE_SLIPPAGE",
         }
         rules = {
             key: Decimal(os.getenv(name, str(getattr(defaults, key))))

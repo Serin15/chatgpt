@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import time
 from dataclasses import replace
@@ -25,6 +26,57 @@ class Service:
             )
         )
         self.news = None
+        self.assets = None
+
+    def reference_analysis(self, asset):
+        updated = asset.get("source_updated_at")
+        try:
+            fresh = (
+                updated is not None
+                and 0 <= time.time() - epoch(updated) <= self.settings.max_snapshot_age
+            )
+        except (ValueError, TypeError):
+            fresh = False
+        return {
+            "paper_allowed": fresh and (asset.get("volume_24h") or 0) > 0,
+            "scope": "reference_price_scenario_not_token_security",
+            "fundamentals_verified": False,
+            "critical": [],
+            "unknown": [
+                "Fundamentele proiectului nu au fost evaluate",
+                "Prețul nu garantează execuția unui ordin",
+            ],
+            "warnings": [
+                "Comisionul este o presupunere configurabilă",
+                "Fără order book, slippage este estimat",
+            ],
+            "action": "investigate" if fresh else "monitor",
+        }
+
+    async def asset_snapshot(self, asset_id):
+        asset = await self.assets.quote(asset_id)
+        return self.news_paper.save_reference(asset, self.reference_analysis(asset))
+
+    async def asset_signal(self, asset_id, news_id=None, thesis=""):
+        snapshot = await self.asset_snapshot(asset_id)
+        context = {"paper_account": "news", "thesis": thesis, "asset_kind": "market_asset"}
+        if news_id:
+            try:
+                context["news_context"] = self.news.context(news_id, snapshot["address"])
+            except ValueError as exc:
+                raise paper.Rejected(str(exc)) from None
+        return self.news_paper.signal(snapshot, context)
+
+    async def asset_buy(self, body):
+        address = "asset:" + body.asset_id
+        try:
+            snapshot = await self.asset_snapshot(body.asset_id)
+            return paper.buy(
+                self.news_paper, snapshot, body.signal_id, body.amount_usd, self.settings
+            )
+        except (ProviderError, paper.Rejected) as exc:
+            self.news_paper.failed_order(address, "buy", str(exc))
+            raise
 
     def paper_store(self, account):
         return self.news_paper if account == "news" else self.store
@@ -36,11 +88,11 @@ class Service:
         self.news_paper.save_snapshot(market, snapshot["security"], snapshot["analysis"])
         return self.news_paper.latest(market.address)
 
-    def signal(self, address, account, news_id=None):
+    def signal(self, address, account, news_id=None, thesis=""):
         snapshot = self.store.latest(address)
         if not snapshot:
             raise paper.Rejected("Token fără observații de piață.")
-        context = {"paper_account": account}
+        context = {"paper_account": account, "thesis": thesis}
         if news_id:
             try:
                 context["news_context"] = self.news.context(news_id, address)
@@ -52,17 +104,42 @@ class Service:
         portfolio = self.paper_store(account).portfolio() | {"account": account}
         for position in portfolio["positions"]:
             position["valuation"] = None
+            position["kind"] = (
+                "market_asset" if position["address"].startswith("asset:") else "dex_token"
+            )
             if position["closed_at"]:
                 continue
-            snapshot = self.store.latest(position["address"])
+            if position["kind"] == "market_asset":
+                asset = self.assets.get(position["address"][6:]) if self.assets else None
+                snapshot = {"at": asset["observed_at"], "market": asset} if asset else None
+                current = self.reference_analysis(asset) if asset else {"paper_allowed": False}
+                with self.paper_store(account).connect() as db:
+                    entry = db.execute(
+                        "SELECT market FROM snapshots WHERE id=?", (position["entry_snapshot_id"],)
+                    ).fetchone()
+                if entry and json.loads(entry[0]).get("book") and asset and not asset.get("book"):
+                    current["paper_allowed"] = False
+            else:
+                snapshot = self.store.latest(position["address"])
+                current = (
+                    analyze(
+                        Market(**snapshot["market"]),
+                        snapshot["security"],
+                        self.settings,
+                        time.time(),
+                    )
+                    if snapshot
+                    else {"paper_allowed": False}
+                )
             if not snapshot:
                 continue
-            market = Market(**snapshot["market"])
-            current = analyze(market, snapshot["security"], self.settings, time.time())
+            market = snapshot["market"]
+            position["symbol"] = market["symbol"]
+            position["name"] = market["name"]
             valuation = {
                 "observed_at": snapshot["at"],
                 "indicative_value_usd": str(
-                    Decimal(position["quantity"]) * Decimal(str(market.price_usd))
+                    Decimal(position["quantity"]) * Decimal(str(market["price_usd"]))
                 ),
                 "estimated_exit_proceeds_usd": None,
                 "estimated_unrealized_pnl_usd": None,
@@ -83,6 +160,27 @@ class Service:
                 except paper.Rejected:
                     pass
             position["valuation"] = valuation
+        portfolio["realized_pnl_usd"] = str(
+            sum((Decimal(p["pnl"]) for p in portfolio["positions"] if p["closed_at"]), Decimal(0))
+        )
+        open_positions = [p for p in portfolio["positions"] if not p["closed_at"]]
+        portfolio["estimated_equity_usd"] = (
+            str(
+                Decimal(portfolio["cash"])
+                + sum(
+                    (
+                        Decimal(p["valuation"]["estimated_exit_proceeds_usd"])
+                        for p in open_positions
+                    ),
+                    Decimal(0),
+                )
+            )
+            if all(
+                p["valuation"] and p["valuation"]["estimated_exit_proceeds_usd"] is not None
+                for p in open_positions
+            )
+            else None
+        )
         return portfolio
 
     async def refresh(self, address):
@@ -118,6 +216,7 @@ class Service:
                     for p in self.news_paper.portfolio()["positions"]
                     if not p["closed_at"]
                 ]
+                held = [address for address in held if not address.startswith("asset:")]
                 addresses = list(dict.fromkeys(held + [t["address"] for t in self.store.tokens()]))[
                     :30
                 ]
@@ -195,6 +294,9 @@ class Service:
         if not position:
             raise paper.Rejected("Poziție deschisă inexistentă.")
         try:
+            if position["address"].startswith("asset:"):
+                current = await self.asset_snapshot(position["address"][6:])
+                return paper.sell(store, position_id, current, self.settings)
             current = await self.refresh(position["address"])
             return paper.sell(
                 store, position_id, self.copy_for_paper(current, account), self.settings

@@ -33,10 +33,16 @@ Browserul se deschide automat când aplicația este gata. Păstrează Terminalul
 
 ## Ce faci în aplicație
 
-1. Deschide secțiunea **Știri & tokenuri** și apasă **Caută știri** dacă feedul încă se încarcă.
+1. Deschide secțiunea **Inteligență de piață** și apasă **Actualizează știrile** dacă feedul încă se încarcă.
 2. Alege **Analizează pentru paper** lângă un token.
 3. Citește datele, salvează semnalul și plasează manual ordinul virtual de $50 dacă verificările
-   permit simularea. Contul **Știri** pornește cu $500 fictivi.
+   permit simularea. Contul **Research** pornește cu $500 fictivi.
 
 Oprești serverul cu `Ctrl+C`. Nu este necesar un wallet sau bani reali. Pentru cerințe și limite,
 vezi `README.md`. Pachetul nu reprezintă un site public; interfața se servește pe calculatorul tău.
+
+## Actualizare dintr-o versiune anterioară
+
+Închide fereastra de comandă a aplicației. Fă o copie de siguranță a directorului `data`, apoi
+copiază fișierele noii versiuni peste folderul anterior, păstrând `data`. Pornește din nou
+`start-windows.cmd`. Nu porni două versiuni pe același director de date.

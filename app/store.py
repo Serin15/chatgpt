@@ -110,6 +110,24 @@ class Store:
             result[key] = json.loads(result[key])
         return result
 
+    def save_reference(self, market, analysis):
+        security = {
+            "observed_at": market["observed_at"],
+            "scope": "market_reference_not_security_audit",
+        }
+        with self.connect() as db:
+            db.execute(
+                "INSERT INTO snapshots(address,at,market,security,analysis) VALUES(?,?,?,?,?)",
+                (
+                    market["address"],
+                    market["observed_at"],
+                    json.dumps(market),
+                    json.dumps(security),
+                    json.dumps(analysis),
+                ),
+            )
+        return self.latest(market["address"])
+
     def latest(self, address):
         with self.connect() as db:
             return self.unpack(

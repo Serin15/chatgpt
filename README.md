@@ -1,41 +1,71 @@
-# Memecoin Research — primul milestone
+# PULSE — Crypto Research v0.2
 
-Tool personal de cercetare pentru Solana: scanner cu date reale, verificări de risc explicabile,
-istoric SQLite, watchlist, știri și portofoliu paper. Interfața este în română.
+Terminal personal pentru știri crypto, cercetare de proiecte și un portofoliu virtual. Interfață
+în română, navigare desktop/mobil și ordine manuale de $50. Nicio tranzacție reală.
 
-## Fluxul principal: știre → ipoteză → ordin virtual
+![PULSE desktop](docs/screenshots/pulse-desktop.png)
 
-În fila **Știri & tokenuri**, aplicația caută la fiecare 5 minute titluri despre Claude/Anthropic și
-anunțuri Trump, prin Google News RSS. Afișează titlul original, publicația, data raportată și linkul.
-Filtrează expresii precum „100x”, „price prediction” și „price today”. Nu verifică integral articolul,
-nu stabilește adevărul titlului și nu interpretează încă semantic toate știrile din internet.
+## Cum îl deschizi pe Windows
 
-Pentru fiecare subiect, caută tokenuri Solana prin DEX Screener și păstrează potrivirile după
-nume/simbol. Acestea sunt **ipoteze**, nu afilieri oficiale și nici dovada că știrea a creat tokenul.
-Compară data creării poolului cu data articolului; data creării tokenului rămâne necunoscută.
-Un pool mai vechi decât articolul este etichetat explicit. Nu afirmăm „tocmai s-a creat” dintr-o
-simplă potrivire de nume. Nu sunt încă suportate detectarea tuturor evenimentelor virale și
-asocierile indirecte (de exemplu un token cu alt nume inspirat de un citat).
+Din [repository](https://github.com/Serin15/chatgpt), **Code → Download ZIP**, apoi **Extrage tot**.
+În folderul `chatgpt-main`, dublu clic pe `start-windows.cmd`. Necesită Python/Python Launcher
+sau `uv`; vezi [DESCHIDE-APLICATIA.md](DESCHIDE-APLICATIA.md). La prima pornire se instalează
+dependențele, apoi browserul se deschide automat. Păstrează fereastra de comandă deschisă.
 
-Apasă **Analizează pentru paper**, citește verificările, apoi **Salvează semnal** și
-**Simulează intrarea**. Suma implicită este **$50 virtuali**. Contul „Știri” are **$500 fictivi**
-inițial în `data/news_paper/research.sqlite3`; contul anterior „Scanner” și istoricul său rămân
-separate, selectabile din portofoliu. Niciun ordin nu se plasează automat.
+Pentru actualizare, oprește aplicația, fă backup directorului `data`, apoi copiază fișierele noi
+peste folderul folosit anterior, păstrând `data`. Dacă pornești dintr-un folder nou, contul virtual
+va fi nou. Nu șterge istoricul pentru a rezolva o problemă de instalare.
 
-După intrare vezi PnL net estimat pentru o ieșire simulată la ultima observație validă. La ieșire,
-jurnalul înregistrează PnL net realizat și păstrează titlul/sursa/asocierea disponibile când ai
-salvat ipoteza. Actualizările ulterioare ale știrii nu rescriu acel context.
+## Fluxul tău
 
-Feedul este informarea în aplicație, actualizată periodic când serverul rulează. Nu sunt mesaje
-proactive în chat, email sau Telegram. Exemplul „Claude a descoperit o planetă” nu este tratat drept
-știre verificată și nu este introdus ca date reale.
+1. **Inteligență de piață**: știri generale, lansări, listări și persoane publice. Surse primare
+   Ethereum Foundation/Kraken, CoinDesk și căutări Google News pentru crypto, Trump, Musk,
+   Zelenski și Claude/Anthropic. Titluri „100x”/„price prediction” și știri politice fără context
+   crypto în feedul persoanelor publice sunt filtrate. Actualizare la 5 minute când serverul rulează.
+2. **Piața crypto**: până la 25 de active per actualizare CoinGecko, cu păstrarea observațiilor anterioare. Prețuri, volume, capitalizare
+   și dosare cu întrebările de verificat. Linkuri de proiect/whitepaper/repository pot fi cerute
+   din metadata CoinGecko; sunt declarații ale furnizorului, nu o evaluare independentă.
+3. **Unde există tranzacționare?**: perechi și linkuri reportate de CoinGecko; ticker-ele marcate
+   stale/anomalous sunt omise. Pentru Solana, pool și mint prin DEX Screener/explorer. Nu presupunem
+   acces la presale sau înaintea unei viitoare listări CEX.
+4. **Paper trading**: contul Research păstrează vechiul cont de știri în
+   `data/news_paper/research.sqlite3`, inițial $500 fictivi. Suma implicită este $50. Salvezi
+   informația/ipoteza, aștepți minimum 3 secunde, apoi apeși manual **Simulează intrarea**.
+5. **Portofoliu / jurnal**: cantitate, cost, estimare netă de ieșire, rezultat realizat și motivele
+   inițiale. Articolul și ipoteza capturate la intrare nu sunt rescrise de feedul ulterior.
 
-Acest milestone nu demonstrează un avantaj de trading. Scorurile sunt euristici, iar simulările
-de execuție sunt scenarii aproximative. Nu există conectare de wallet, semnare sau tranzacții reale.
+Sursa primară și o redacție cunoscută primesc prioritate de afișare. Aceasta nu verifică afirmația,
+nu confirmă susținerea unui token și nu măsoară probabilitatea de profit. Numele este uneori doar
+un indiciu de cercetare; afilierea oficială și cauzalitatea știre–token rămân neconfirmate.
 
-Pentru pornire pe Windows/macOS/Linux după descărcare, vezi
-[DESCHIDE-APLICATIA.md](DESCHIDE-APLICATIA.md). Windows: `start-windows.cmd` pornește aplicația
-și deschide browserul; păstrează fereastra de comandă deschisă.
+## Simularea crypto generale
+
+Pentru unele active (BTC, ETH, SOL etc.), la semnal/intrare/ieșire cerem order book public Coinbase
+L1: cumpărare la ask, vânzare la bid și respingere dacă ordinul depășește cantitatea observată.
+Fee-ul presupus este configurabil, implicit 0,6% pe sens; nu este fee-ul unui cont Coinbase.
+Când book-ul nu este disponibil, un **nou** experiment poate folosi preț CoinGecko, fee presupus
+și slippage de scenariu (0,5%). Modelul și lipsa verificării execuției sunt salvate în fiecare ordin.
+
+O poziție intrată pe modelul cu order book necesită un book nou pentru ieșire; nu înlocuim
+lichiditatea lipsă cu un fill la preț de referință. În fundal se actualizează până la 5 poziții crypto
+cu prioritate pentru cele recente, pe lângă catalogul de 25 de active, la aproximativ 2 minute.
+Restul pot necesita refresh la ieșire; o estimare nevalidabilă rămâne necunoscută.
+
+Prețurile și book-urile sunt observații, nu ordine garantate. Nu avem latență zero, fee real per cont,
+minimum-order validation complet sau model pentru eșecuri on-chain. DEX rămâne simularea aproximativă
+de pool descrisă mai jos. Toate fill-urile au `execution_verified=false`.
+
+## Ce rămâne de demonstrat
+
+Aplicația nu validează încă automat produsul, echipa, tokenomics/vesting sau auditurile și nu poate
+numi un proiect „solid” fără acele dovezi. Nu detectează toate lansările de pe toate chain-urile.
+Endpointul CoinGecko de coins recent adăugate cere Analyst sau un plan superior; nu am introdus
+un abonament plătit. Știrile de lansare și discovery-ul Solana sunt acoperire parțială.
+
+Avantajul financiar rămâne de măsurat pe informații înregistrate înainte de intrare, cu costuri,
+întârzieri și ieșiri eșuate. Testele verifică funcționarea și calculele, nu profitabilitatea.
+AI-ul de verificare/sinteză, datele istorice de wallets, Base on-chain și alertele externe sunt etape
+ulterioare. Datele se actualizează automat cât timp serverul rulează; codul nu se modifică singur.
 
 ## Pornire
 
@@ -94,7 +124,7 @@ Parametrii pot fi configurați prin variabilele din `.env.example`. Setările im
 
 | Regulă | Valoare |
 | --- | --- |
-| Capital fictiv inițial | $100 |
+| Capital fictiv inițial Scanner / Research | $100 / $500 |
 | Alocare maximă per poziție, inclusiv costuri | 20% din capitalul conservator |
 | Expunere totală la cost | 50% din capitalul conservator |
 | Capital conservator | min(capital inițial, cash + costul pozițiilor deschise) |
@@ -120,7 +150,7 @@ cercetare cu verificările MVP trecute. Niciuna nu reprezintă recomandare de cu
 
 ## Limite ale paper tradingului
 
-Modelul presupune un pool constant-product cu jumătate din lichiditatea USD pe fiecare latură.
+Pentru DEX, modelul presupune un pool constant-product cu jumătate din lichiditatea USD pe fiecare latură.
 Acest lucru nu descrie corect poolurile cu lichiditate concentrată, bonding curves sau rutarea
 multi-hop. Costurile nu provin dintr-o cotație Jupiter și nu includ ATA rent, prioritate variabilă,
 MEV, schimbarea prețului între cotație și execuție sau costurile tranzacțiilor eșuate on-chain.
@@ -128,7 +158,7 @@ Impactul estimat nu este o limită garantată de slippage. Toate fill-urile au `
 
 Eșecurile înregistrate acum sunt respingeri înainte de execuția ipotetică, fără debit de fee.
 Nu inventăm probabilități de eșec. O ieșire nevalidabilă nu închide poziția și nu creditează soldul;
-pozițiile neieșite nu sunt prezentate ca pierderi realizate. Nu avem încă equity/drawdown complet.
+pozițiile neieșite nu sunt prezentate ca pierderi realizate. Equity-ul estimat rămâne necunoscut dacă o ieșire nu poate fi evaluată; drawdown-ul istoric nu este implementat.
 Pragul break-even este valabil numai în același model, cu lichiditate constantă și fee-urile presupuse.
 
 Nu sunt încă verificate concentrarea pe proprietari, istoricul deployerului, LP locks/withdrawals,
@@ -146,8 +176,8 @@ node --check app/static/app.js
 ```
 
 `pytest` folosește răspunsuri simulate și baze temporare. `app.smoke` contactează API-urile reale;
-folosește wrapped SOL doar pentru verificarea infrastructurii, fără să îl introducă în scanner
-ca memecoin și fără ordine. Testul live eșuează cu exit nonzero dacă probele obligatorii eșuează.
+folosește wrapped SOL pentru infrastructura Solana, BTC pentru preț/order book și CoinDesk pentru
+metadata de știri, fără ordine. Observațiile de piață pot fi actualizate; soldul nu se modifică. Testul live eșuează cu exit nonzero dacă probele obligatorii eșuează.
 
 Test opțional în browser, cu Chromium instalat:
 

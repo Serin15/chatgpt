@@ -53,7 +53,7 @@ with tempfile.TemporaryDirectory() as folder:
             errors = []
             page.on("pageerror", lambda error: errors.append(str(error)))
             page.goto(base)
-            expect(page.locator("#empty")).to_be_visible()
+            page.locator('.nav-item[data-page="news"]').click()
             page.locator("#news-button").click()
             expect(page.locator(".story")).to_have_count(1)
             expect(page.locator(".story")).to_contain_text("Asociere ipotetică")
@@ -69,12 +69,26 @@ with tempfile.TemporaryDirectory() as folder:
             page.get_by_role("button", name="Simulează ieșirea").click()
             expect(page.locator("#positions")).to_contain_text("PnL net realizat")
             expect(page.locator("#cash")).not_to_have_text("500,00 USD")
+            page.locator('.nav-item[data-page="market"]').click()
+            page.locator("#market-button").click()
+            page.get_by_role("button", name="Deschide dosarul").click()
+            page.get_by_role("button", name="Verifică piețele raportate").click()
+            expect(page.locator(".venue")).to_have_count(1)
+            page.get_by_role("textbox", name="Ipoteza de intrare").fill(
+                "Testing a sourced crypto thesis"
+            )
+            page.get_by_role("button", name="Salvează semnal").click()
+            general_buy = page.get_by_role("button", name="Simulează intrarea")
+            expect(general_buy).to_be_enabled(timeout=7000)
+            general_buy.click()
+            expect(page.locator("#positions")).to_contain_text("Cost intrare: 50,00")
+            page.get_by_role("button", name="Simulează ieșirea").click()
             assert not errors, errors
             page.set_viewport_size({"width": 390, "height": 844})
             assert page.evaluate("document.documentElement.scrollWidth") == 390
             browser.close()
             print(
-                "PASS: isolated mocked UI headline → token hypothesis → manual $50 paper entry → exit; desktop/mobile; no JS errors"
+                "PASS: sourced headline → DEX $50 paper trade; general crypto → venues → thesis → $50 paper trade; desktop/mobile"
             )
     finally:
         process.terminate()

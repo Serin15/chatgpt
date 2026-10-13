@@ -21,22 +21,126 @@ TOPICS = {
         "query": "Claude Anthropic",
         "aliases": ["claude", "anthropic"],
     },
-    "trump": {"label": "Trump", "query": "Donald Trump announcement", "aliases": ["trump"]},
+    "trump": {
+        "label": "Trump",
+        "query": '"Donald Trump" (crypto OR bitcoin OR token OR cryptocurrency)',
+        "aliases": ["trump"],
+    },
+    "crypto": {
+        "label": "Piață crypto",
+        "query": "(cryptocurrency OR blockchain OR crypto) (launch OR funding OR exchange OR regulation OR mainnet)",
+        "aliases": ["crypto", "cryptocurrency", "blockchain", "bitcoin", "ethereum", "token"],
+        "search": None,
+    },
+    "launches": {
+        "label": "Lansări și proiecte",
+        "query": "crypto token mainnet launch funding",
+        "aliases": ["crypto", "token", "mainnet", "blockchain", "launch", "funding"],
+        "search": None,
+    },
+    "elon": {
+        "label": "Elon Musk",
+        "query": '"Elon Musk" (crypto OR bitcoin OR dogecoin)',
+        "aliases": ["elon", "musk"],
+        "search": "musk",
+    },
+    "zelensky": {
+        "label": "Zelenski",
+        "query": "(Zelensky OR Zelenskyy OR Zelenski) (crypto OR cryptocurrency OR blockchain)",
+        "aliases": ["zelensky", "zelenskyy", "zelenski"],
+        "search": None,
+    },
+    "ethereum_official": {
+        "label": "Ethereum · sursă primară",
+        "aliases": [],
+        "feed": "https://blog.ethereum.org/en/feed.xml",
+        "publisher": "Ethereum Foundation",
+        "source_kind": "primary",
+        "source_host": "blog.ethereum.org",
+        "asset": "ethereum",
+    },
+    "kraken_official": {
+        "label": "Kraken · sursă primară",
+        "aliases": [],
+        "feed": "https://blog.kraken.com/feed",
+        "publisher": "Kraken Blog",
+        "source_kind": "primary",
+        "source_host": "blog.kraken.com",
+    },
+    "coindesk": {
+        "label": "CoinDesk",
+        "aliases": [],
+        "feed": "https://www.coindesk.com/arc/outboundfeeds/rss",
+        "publisher": "CoinDesk",
+        "source_kind": "publisher",
+        "source_host": "www.coindesk.com",
+    },
 }
 
 HYPE = re.compile(
     r"\b(?:\d{2,}x|price prediction|price forecast|price today|buy now|next millionaire|to the moon)\b",
     re.I,
 )
+KNOWN_PUBLISHERS = {
+    "reuters",
+    "coindesk",
+    "the block",
+    "decrypt",
+    "associated press",
+    "ap news",
+    "bloomberg",
+    "financial times",
+    "cnbc",
+    "bbc",
+    "bbc news",
+    "the guardian",
+    "the verge",
+    "techcrunch",
+    "the decoder",
+}
 
 
 def event_headline(title):
     return not HYPE.search(title)
 
 
+def relevant_headline(title, topic):
+    if topic in {"trump", "elon", "zelensky"}:
+        return bool(
+            re.search(
+                r"\b(?:crypto\w*|bitcoin|ethereum|blockchain|tokens?|coins?|dogecoin|xrp|nft|stablecoins?|digital assets?)\b",
+                title,
+                re.I,
+            )
+        )
+    return True
+
+
 def matches_name(value, aliases):
     words = set(re.findall(r"[a-z0-9]+", value.lower()))
     return bool(words.intersection(aliases))
+
+
+def mentioned_assets(title, definition, assets):
+    remaining = title
+    result = []
+    for asset in sorted(assets, key=lambda a: len(a["name"]), reverse=True):
+        pattern = r"\b" + re.escape(asset["name"]) + r"\b"
+        by_name = bool(re.search(pattern, remaining, re.I))
+        by_ticker = bool(re.search(r"\$" + re.escape(asset["symbol"]) + r"\b", title))
+        ecosystem = definition.get("asset") == asset["asset_id"]
+        if by_name or by_ticker or ecosystem:
+            result.append(
+                asset
+                | {
+                    "news_relation": "headline_mention"
+                    if by_name or by_ticker
+                    else "publisher_ecosystem"
+                }
+            )
+            if by_name:
+                remaining = re.sub(pattern, " ", remaining, flags=re.I)
+    return result[:4]
 
 
 def safe_link(value):
@@ -60,7 +164,8 @@ def parse_rss(content, topic, now=None):
             not title
             or not safe_link(link)
             or not event_headline(title)
-            or not matches_name(title, TOPICS[topic]["aliases"])
+            or not relevant_headline(title, topic)
+            or (TOPICS[topic]["aliases"] and not matches_name(title, TOPICS[topic]["aliases"]))
         ):
             continue
         raw_date = item.findtext("pubDate")
@@ -78,6 +183,10 @@ def parse_rss(content, topic, now=None):
                 pass
         source = item.find("source")
         publisher = source.text if source is not None and source.text else "Google News RSS"
+        definition = TOPICS[topic]
+        if definition.get("source_host") and urlsplit(link).hostname != definition["source_host"]:
+            continue
+        publisher = definition.get("publisher", publisher)
         output.append(
             {
                 "topic": topic,
@@ -86,7 +195,7 @@ def parse_rss(content, topic, now=None):
                 "publisher": publisher[:100],
                 "published_at": published,
                 "article_verified": False,
-                "origin": "google_news_rss",
+                "origin": definition.get("source_kind", "google_news_rss"),
                 "fingerprint": hashlib.sha256((topic + link).encode()).hexdigest(),
             }
         )
@@ -116,6 +225,7 @@ class News:
                     news_id INTEGER NOT NULL, address TEXT NOT NULL, market TEXT NOT NULL,
                     first_matched_at TEXT NOT NULL, updated_at TEXT NOT NULL,
                     PRIMARY KEY(news_id,address));
+                CREATE TABLE IF NOT EXISTS news_read(news_id INTEGER PRIMARY KEY,at TEXT NOT NULL);
             """)
 
     async def close(self):
@@ -123,10 +233,13 @@ class News:
 
     async def feed(self, topic):
         try:
+            definition = TOPICS[topic]
             response = await self.client.get(
-                "https://news.google.com/rss/search",
-                params={
-                    "q": TOPICS[topic]["query"] + " when:1d",
+                definition.get("feed", "https://news.google.com/rss/search"),
+                params=None
+                if definition.get("feed")
+                else {
+                    "q": definition["query"] + " when:1d",
                     "hl": "en-US",
                     "gl": "US",
                     "ceid": "US:en",
@@ -170,6 +283,28 @@ class News:
                     (news_id, candidate["address"], json.dumps(candidate), utcnow(), utcnow()),
                 )
 
+    def replace_matches(self, news_id, candidates):
+        """Replace current hypotheses atomically, retaining their first observation."""
+        now = utcnow()
+        with self.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            first_seen = {
+                row["address"]: row["first_matched_at"]
+                for row in db.execute("SELECT * FROM news_matches WHERE news_id=?", (news_id,))
+            }
+            db.execute("DELETE FROM news_matches WHERE news_id=?", (news_id,))
+            for candidate in candidates:
+                db.execute(
+                    "INSERT OR REPLACE INTO news_matches VALUES(?,?,?,?,?)",
+                    (
+                        news_id,
+                        candidate["address"],
+                        json.dumps(candidate),
+                        first_seen.get(candidate["address"], now),
+                        now,
+                    ),
+                )
+
     async def refresh(self):
         if self.lock.locked():
             return self.status
@@ -180,21 +315,28 @@ class News:
                     try:
                         items = await self.feed(topic)
                         ids = [self.save(item) for item in items]
-                        candidates = (
-                            await self.providers.search(definition["aliases"][0]) if ids else []
+                        query = definition.get(
+                            "search", definition["aliases"][0] if definition["aliases"] else None
                         )
+                        candidates = await self.providers.search(query) if ids and query else []
                         candidates = [
                             c
                             for c in candidates
                             if matches_name(c["name"] + " " + c["symbol"], definition["aliases"])
                         ]
-                        for news_id in ids:
-                            self.save_matches(news_id, candidates[:6])
+                        for news_id, item in zip(ids, items):
+                            assets = getattr(self, "assets", None)
+                            linked = []
+                            if assets:
+                                linked = mentioned_assets(
+                                    item["title"], definition, assets.listing()
+                                )
+                            self.replace_matches(news_id, candidates[:4] + linked[:4])
                         self.status["topics"][topic] = {
                             "state": "ok",
                             "at": utcnow(),
                             "headlines": len(items),
-                            "candidates": len(candidates[:6]),
+                            "candidates": len(candidates[:4]),
                             "error": None,
                         }
                     except ProviderError as exc:
@@ -221,17 +363,53 @@ class News:
     def listing(self):
         with self.store.connect() as db:
             result = []
+            read_ids = {r[0] for r in db.execute("SELECT news_id FROM news_read")}
             for row in db.execute(
-                "SELECT * FROM news ORDER BY COALESCE(published_at,first_seen_at) DESC LIMIT 40"
+                "SELECT * FROM news ORDER BY COALESCE(published_at,first_seen_at) DESC LIMIT 100"
             ):
                 if not event_headline(row["title"]):
+                    continue
+                if not relevant_headline(row["title"], row["topic"]):
                     continue
                 article = dict(row)
                 article |= {
                     "article_verified": False,
                     "association": "lexical_hypothesis",
-                    "topic_label": TOPICS[article["topic"]]["label"],
+                    "topic_label": TOPICS.get(article["topic"], {}).get("label", article["topic"]),
                     "matches": [],
+                }
+                definition = TOPICS.get(article["topic"], {})
+                title = article["title"].lower()
+                category = (
+                    "listings"
+                    if re.search(r"\blist(?:ing|ings|ed|s)\b", title)
+                    else "launches"
+                    if re.search(r"\b(?:launch|mainnet|funding|raises|token sale)\b", title)
+                    else "public_figures"
+                    if article["topic"] in {"trump", "elon", "zelensky"}
+                    else "ecosystem"
+                )
+                briefs = {
+                    "listings": "Poate schimba accesul la tranzacționare. Verifică data începerii și perechea exactă.",
+                    "launches": "Verifică emitentul, produsul, distribuția tokenului și existența unei piețe reale.",
+                    "public_figures": "Relatarea despre o persoană nu confirmă susținerea unui token. Este necesar anunțul original.",
+                    "ecosystem": "Context de cercetare. O actualizare de produs sau rețea nu dovedește creșterea prețului.",
+                }
+                article |= {
+                    "category": category,
+                    "brief": briefs[category],
+                    "source_kind": definition.get("source_kind", "aggregator"),
+                    "endorsement_verified": False,
+                    "fundamentals_verified": False,
+                    "published_source_url": definition.get("feed"),
+                    "seen": article["id"] in read_ids,
+                    "source_priority": (
+                        "primary"
+                        if definition.get("source_kind") == "primary"
+                        else "editorial"
+                        if article["publisher"].casefold() in KNOWN_PUBLISHERS
+                        else "review_needed"
+                    ),
                 }
                 for match in db.execute("SELECT * FROM news_matches WHERE news_id=?", (row["id"],)):
                     market = json.loads(match["market"])
@@ -254,7 +432,14 @@ class News:
                         }
                     )
                 result.append(article)
-        return result
+        return sorted(
+            result,
+            key=lambda a: (
+                {"primary": 2, "editorial": 1, "review_needed": 0}[a["source_priority"]],
+                a["published_at"] or a["first_seen_at"],
+            ),
+            reverse=True,
+        )
 
     def context(self, news_id, address):
         article = next((n for n in self.listing() if n["id"] == news_id), None)
@@ -264,3 +449,19 @@ class News:
         if not matched:
             raise ValueError("Tokenul nu are o asociere înregistrată pentru această știre.")
         return {k: v for k, v in article.items() if k != "matches"} | {"match": matched}
+
+    def is_seen(self, news_id):
+        with self.store.connect() as db:
+            db.execute(
+                "CREATE TABLE IF NOT EXISTS news_read(news_id INTEGER PRIMARY KEY,at TEXT NOT NULL)"
+            )
+            return bool(
+                db.execute("SELECT 1 FROM news_read WHERE news_id=?", (news_id,)).fetchone()
+            )
+
+    def mark_seen(self, news_id):
+        with self.store.connect() as db:
+            db.execute(
+                "CREATE TABLE IF NOT EXISTS news_read(news_id INTEGER PRIMARY KEY,at TEXT NOT NULL)"
+            )
+            db.execute("INSERT OR IGNORE INTO news_read VALUES(?,?)", (news_id, utcnow()))

@@ -1,5 +1,8 @@
 # Surse și verificare — 13 octombrie 2026
 
+Extinderea crypto generală v0.2, sursele actuale CoinGecko/Coinbase/RSS și limitele lor sunt
+documentate în [V0.2.md](V0.2.md). Secțiunile de mai jos păstrează cercetarea primului milestone.
+
 Repository-ul `Serin15/chatgpt` era gol, fără commituri sau branch remote `main`, la începutul
 implementării. Nu a existat cod anterior de reutilizat. La prima validare, codul acestui milestone
 era disponibil doar local. Nu am solicitat tokenuri GitHub: autentificarea HTTPS existentă a

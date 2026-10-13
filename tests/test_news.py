@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.main import create_app
-from app.news import News, matches_name, parse_rss
+from app.news import News, matches_name, mentioned_assets, parse_rss
 from tests.conftest import ADDRESS, OTHER, market
 from tests.test_api import FixtureProviders
 
@@ -165,3 +165,52 @@ def test_unrelated_news_context_rejected(settings):
             ).status_code
             == 409
         )
+
+
+def test_public_figure_politics_without_crypto_not_an_opportunity():
+    assert parse_rss(rss("Trump opens a golf course"), "trump") == []
+    result = parse_rss(rss("Trump discusses a bitcoin announcement"), "trump")
+    assert len(result) == 1
+    assert not result[0]["article_verified"]
+
+
+def test_source_priority_does_not_verify_endorsement(store):
+    news = News(store, None)
+    publisher = article(title="Claude news from a publisher")
+    publisher["publisher"] = "Reuters"
+    news.save(publisher)
+    primary = article("kraken_official", title="Kraken announces a token listing")
+    primary["publisher"] = "Kraken Blog"
+    news.save(primary)
+    rows = news.listing()
+    assert rows[0]["source_priority"] == "primary"
+    assert all(not r["endorsement_verified"] and not r["fundamentals_verified"] for r in rows)
+
+
+def test_bitcoin_cash_not_silently_mapped_to_bitcoin():
+    assets = [
+        {"asset_id": "bitcoin", "name": "Bitcoin", "symbol": "BTC"},
+        {"asset_id": "bitcoin-cash", "name": "Bitcoin Cash", "symbol": "BCH"},
+    ]
+    assert [
+        a["asset_id"] for a in mentioned_assets("Bitcoin Cash announces an update", {}, assets)
+    ] == ["bitcoin-cash"]
+    assert {
+        a["asset_id"] for a in mentioned_assets("Bitcoin and Bitcoin Cash update", {}, assets)
+    } == {"bitcoin", "bitcoin-cash"}
+
+
+def test_replacing_matches_preserves_first_seen_and_removes_obsolete(store):
+    news = News(store, None)
+    news_id = news.save(article())
+    news.save_matches(news_id, [{"address": "asset:bitcoin"}, {"address": "asset:ethereum"}])
+    with store.connect() as db:
+        db.execute(
+            "UPDATE news_matches SET first_matched_at=? WHERE address=?",
+            ("2026-01-01T00:00:00+00:00", "asset:bitcoin"),
+        )
+    news.replace_matches(news_id, [{"address": "asset:bitcoin", "price_usd": 100}])
+    matches = news.listing()[0]["matches"]
+    assert len(matches) == 1
+    assert matches[0]["first_matched_at"] == "2026-01-01T00:00:00+00:00"
+    assert matches[0]["market"]["price_usd"] == 100

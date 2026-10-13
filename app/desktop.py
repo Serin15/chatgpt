@@ -12,17 +12,14 @@ import httpx
 
 def our_app(url):
     try:
-        response = httpx.get(url + "/openapi.json", timeout=1, trust_env=False)
-        return (
-            response.is_success
-            and response.json().get("info", {}).get("title") == "Memecoin Research · Paper only"
-        )
+        response = httpx.get(url + "/api/status", timeout=1, trust_env=False)
+        return response.is_success and response.json().get("app_id") == "pulse_crypto_research"
     except (httpx.HTTPError, ValueError):
         return False
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Start Memecoin Research on this computer")
+    parser = argparse.ArgumentParser(description="Start PULSE Crypto Research on this computer")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--no-browser", action="store_true")
     args = parser.parse_args()

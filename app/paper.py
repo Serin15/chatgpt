@@ -27,6 +27,8 @@ def amount(value):
 
 
 def fill(side, size, market, settings):
+    if market.get("kind") == "market_asset":
+        return reference_fill(side, size, market, settings)
     size, price, reserve = (
         amount(size),
         amount(market["price_usd"]),
@@ -66,7 +68,74 @@ def fill(side, size, market, settings):
     }
 
 
+def reference_fill(side, size, market, settings):
+    if side not in ("buy", "sell"):
+        raise Rejected("Sens necunoscut.")
+    size, price = amount(size), amount(market["price_usd"])
+    book = market.get("book")
+    if book:
+        bid, ask = amount(book["bid"]), amount(book["ask"])
+        if bid > ask:
+            raise Rejected("Order book inversat/invalid.")
+        spread = 1 - bid / ask
+        if spread > settings.max_price_impact:
+            raise Rejected("Spread de piață prea mare pentru simulare.")
+        if side == "buy":
+            quantity = size * (1 - settings.reference_fee) / ask
+            if quantity > amount(book["ask_size"]):
+                raise Rejected(
+                    "Ordinul depășește cantitatea ask observată; nivelele următoare sunt necunoscute."
+                )
+            cash = -size
+            fee = size * settings.reference_fee
+        elif side == "sell":
+            if size > amount(book["bid_size"]):
+                raise Rejected("Ieșirea depășește cantitatea bid observată.")
+            quantity = size
+            cash = size * bid * (1 - settings.reference_fee)
+            fee = size * bid * settings.reference_fee
+        else:
+            raise Rejected("Sens necunoscut.")
+        model = "observed_level1_book_assumed_fee"
+        impact = spread
+    else:
+        slip = settings.reference_slippage
+        if slip > settings.max_price_impact:
+            raise Rejected("Slippage de scenariu peste limita configurată.")
+        quantity = (
+            size * (1 - settings.reference_fee) / (price * (1 + slip)) if side == "buy" else size
+        )
+        cash = -size if side == "buy" else size * price * (1 - slip) * (1 - settings.reference_fee)
+        fee = (
+            size * settings.reference_fee
+            if side == "buy"
+            else size * price * (1 - slip) * settings.reference_fee
+        )
+        model = "market_reference_assumed_slippage_and_fee"
+        impact = slip
+    return {
+        "quantity": str(quantity),
+        "cash_change": str(cash),
+        "swap_fee_usd": str(fee),
+        "network_fee_usd": "0",
+        "price_impact": str(impact),
+        "model": model,
+        "execution_verified": False,
+        "source": market["source"],
+        "book": book,
+    }
+
+
 def break_even(quote, market, settings):
+    if market.get("kind") == "market_asset":
+        sell_factor = (1 - settings.reference_fee) * (
+            1 - settings.reference_slippage if not market.get("book") else 1
+        )
+        target = -D(quote["cash_change"]) / (amount(quote["quantity"]) * sell_factor)
+        return {
+            "break_even_price_estimate": str(target),
+            "break_even_rise_pct": str((target / amount(market["price_usd"]) - 1) * 100),
+        }
     reserve = amount(market["liquidity_usd"]) / 2
     net_tokens = amount(quote["quantity"]) * (1 - settings.swap_fee)
     required_gross = -D(quote["cash_change"]) + settings.network_fee_usd
@@ -86,6 +155,14 @@ def require_fresh(snapshot, settings, now):
     age_security = now - epoch(snapshot["security"]["observed_at"])
     if not 0 <= age_security <= settings.max_snapshot_age:
         raise Rejected("Verificările de securitate sunt expirate.")
+    if snapshot["market"].get("kind") == "market_asset":
+        updated = snapshot["market"].get("source_updated_at")
+        try:
+            source_fresh = bool(updated) and 0 <= now - epoch(updated) <= settings.max_snapshot_age
+        except (ValueError, TypeError, OverflowError):
+            source_fresh = False
+        if not source_fresh:
+            raise Rejected("Timestamp-ul sursei de preț este lipsă sau expirat.")
 
 
 def buy(store, snapshot, signal_id, usd, settings, now=None):
@@ -94,6 +171,8 @@ def buy(store, snapshot, signal_id, usd, settings, now=None):
     if not snapshot["analysis"]["paper_allowed"]:
         raise Rejected("Intrare blocată: risc critic sau verificări incomplete.")
     usd = amount(usd)
+    if usd > store.initial_balance:
+        raise Rejected("Suma depășește capitalul de referință al contului.")
     if usd < settings.min_position:
         raise Rejected("Poziție sub dimensiunea minimă.")
     quote = fill("buy", usd, snapshot["market"], settings)
@@ -177,6 +256,14 @@ def sell(store, position_id, snapshot, settings, now=None):
         ).fetchone()
         if not position or position["address"] != snapshot["address"]:
             raise Rejected("Poziție închisă, inexistentă sau token diferit.")
+        if snapshot["market"].get("kind") == "market_asset":
+            entry = db.execute(
+                "SELECT market FROM snapshots WHERE id=?", (position["entry_snapshot_id"],)
+            ).fetchone()
+            if entry and json.loads(entry[0]).get("book") and not snapshot["market"].get("book"):
+                raise Rejected(
+                    "Ieșirea dintr-o poziție simulată cu order book necesită un bid/ask nou."
+                )
         quote = fill("sell", position["quantity"], snapshot["market"], settings)
         proceeds = D(quote["cash_change"])
         pnl = proceeds - D(position["entry_cost"])

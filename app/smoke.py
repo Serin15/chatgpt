@@ -4,13 +4,18 @@ import asyncio
 import time
 
 from app.analysis import analyze
+from app.assets import Assets
 from app.config import Settings
+from app.news import News
 from app.providers import ProviderError, Providers
+from app.store import Store
 
 
 async def main():
     settings = Settings.from_environment()
     providers = Providers(settings)
+    assets = Assets(Store(settings))
+    news = News(assets.store, providers)
     try:
         discovered = await providers.discover()
         print(f"Live discovery: {len(discovered)} valid Solana profile addresses")
@@ -28,8 +33,20 @@ async def main():
             for error in security["errors"]:
                 print(error)
             return 1
+        status = await assets.refresh()
+        if status["state"] != "ok":
+            print("FAILED: general crypto market unavailable.")
+            return 1
+        quote = await assets.quote("bitcoin")
         print(
-            "PASS: market ingestion and basic security interpretation. No trading/quotes executed."
+            f"General crypto: {len(assets.listing())} cached assets; BTC public book available: {quote['book'] is not None}"
+        )
+        items = await news.feed("coindesk")
+        print(
+            f"Publisher RSS: {len(items)} recent CoinDesk headlines; article contents remain unverified."
+        )
+        print(
+            "PASS: market references, news metadata and basic Solana security. No orders or transactions executed."
         )
         return 0
     except ProviderError as exc:
@@ -37,6 +54,8 @@ async def main():
         return 1
     finally:
         await providers.close()
+        await assets.close()
+        await news.close()
 
 
 if __name__ == "__main__":
