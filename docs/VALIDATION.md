@@ -76,3 +76,19 @@ Warningul de deprecation Starlette/httpx rămâne vizibil. Testele software și 
 nu demonstrează profitabilitate, afiliere oficială sau calitatea fundamentelor unui proiect.
 Contractele și linkurile metadata rămân declarații ale furnizorului. Accesul înaintea unei
 listări viitoare nu este stabilit. Detalii despre acoperire și surse în [V0.2.md](V0.2.md).
+
+## Remedierea pornirii Windows — pachet incomplet
+
+Utilizatorul a raportat `--no-dev has no effect when used outside of a project`, urmat de
+`No module named 'app'`. Mesajele indică lipsa proiectului în directorul de pornire; lansarea
+direct din ZIP sau copierea exclusivă a scriptului sunt cauze posibile. Nu am inspectat PC-ul.
+
+Launcherul verifică manifestul, lockfile-ul și fișierele aplicației înainte de instalare/pornire.
+Dacă lipsesc, afișează pașii pentru **Extrage tot**. Folosește `pushd` și transmite explicit
+`--directory` și `--project` către ambele variante de invocare `uv`.
+
+Verificare funcțională: arhiva completă extrasă într-un director temporar cu spații, diacritice și
+`&`, pornire dintr-un alt director, dependențe/date noi, comanda `uv run` cu directorul explicit.
+Serverul și dashboardul au răspuns, Research avea $500 fictivi și zero ordine. Procesul de test
+a fost oprit și datele temporare șterse. Testul s-a executat în Linux; scriptul `.cmd`, ramura
+Python Launcher și căile UNC nu au fost executate pe Windows real.

@@ -12,13 +12,25 @@ fișierul `start-windows.cmd` se află direct în acel director.
 
 1. Instalează Python de pe https://www.python.org/downloads/ dacă nu îl ai. Păstrează Python
    launcher activat în instalator; Python 3.12+ este o alegere potrivită.
-2. Dezarhivează pachetul și deschide directorul `chatgpt-main` (sau `memecoin-research` pentru
-   pachetul local).
+2. În Downloads, click dreapta pe arhiva ZIP și alege **Extrage tot...**, apoi **Extrage**.
+   Deschide folderul extras `chatgpt-main`. În același folder trebuie să vezi `app`,
+   `pyproject.toml`, `uv.lock` și `start-windows.cmd`. Nu porni scriptul din fereastra arhivei ZIP
+   și nu copia doar fișierul `.cmd`; aplicația are nevoie de întregul pachet.
 3. Dublu clic pe `start-windows.cmd`. Scriptul folosește `uv`; dacă lipsește, îl instalează prin pip.
 4. Browserul se deschide automat când serverul este gata. Păstrează fereastra de comandă deschisă.
 
 Dacă browserul nu se deschide automat, introdu `localhost:8000` în bara de adresă. Dacă portul
 este ocupat, launcherul alege următorul port disponibil și îl afișează în fereastra de comandă.
+
+### Eroarea „No module named 'app'”
+
+Dacă apare și `--no-dev has no effect when used outside of a project`, `uv` nu a găsit proiectul
+în directorul de pornire. Acest lucru se poate întâmpla dacă scriptul este deschis direct din ZIP
+sau dacă ai copiat numai `.cmd`. Nu este o problemă care cere reinstalarea Python.
+
+Extrage întreaga arhivă și pornește scriptul lângă folderul `app` și `pyproject.toml`. Launcherul
+actualizat verifică fișierele înainte să ruleze `uv` și afișează pașii de extragere dacă lipsesc.
+El transmite explicit directorul aplicației către `uv`, inclusiv pentru căi cu spații.
 
 ## macOS / Linux
 
