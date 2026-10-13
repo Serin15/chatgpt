@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Memecoin Research — Solana</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Memecoin Research">m<span>r</span><small>MEMECOIN RESEARCH</small></a>
+    <nav><a href="#news">Știri & tokenuri</a><a href="#scanner">Scanner</a><a href="#portfolio">Paper trading</a></nav>
+    <span class="mode">● PAPER ONLY</span>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">ȘTIRE → IPOTEZĂ → DECIZIE → PAPER TRADE</p>
+        <h1>Știrile vin primele.<br><span>Decizia îți aparține.</span></h1>
+        <p class="intro">Vezi sursa unei știri și tokenuri posibil asociate.<br>Alegi tu intrarea virtuală; urmărim rezultatul după costuri.</p>
+      </div>
+      <aside class="session"><span class="eyebrow">SURSE DE DATE</span><div id="provider-status"></div><small>API-uri externe · actualizare periodică<br>Live execution dezactivat</small></aside>
+    </section>
+    <div id="message" role="status" hidden></div>
+    <section class="metrics" aria-label="Rezumat">
+      <article><label>CANDIDAȚI OBSERVAȚI</label><strong id="count">0</strong><small>Profiluri recente + watchlist</small></article>
+      <article><label>FILTRU PAPER TRECUT</label><strong id="eligible">0</strong><small>Verificări MVP, fără garanții</small></article>
+      <article><label>CASH SIMULAT</label><strong id="cash">—</strong><small>Capital fictiv · sold persistent</small></article>
+      <article><label>ULTIMUL SCAN COMPLET</label><strong id="last-scan">—</strong><small id="scan-state">În așteptare</small></article>
+    </section>
+    <section id="news" class="panel">
+      <div class="section-title"><div><p class="eyebrow">01 / ȘTIRI & NARAȚIUNI</p><h2>Ce s-a întâmplat și ce tokenuri găsim?</h2></div><button id="news-button">Caută știri</button></div>
+      <p class="source-note">Urmărim acum Claude/Anthropic și Trump. Titluri din Google News RSS, cu publicația și data raportate. Articolele nu sunt verificate integral; potrivirea după nume nu confirmă că tokenul este oficial sau creat ca urmare a știrii.</p>
+      <p id="news-status" class="source-note">Știri: încă neverificate.</p>
+      <div id="stories"></div>
+    </section>
+    <section id="scanner" class="panel">
+      <div class="section-title"><div><p class="eyebrow">02 / PIAȚĂ</p><h2>Candidați de cercetare</h2></div><button id="scan-button">Scanează acum ↗</button></div>
+      <div class="toolbar">
+        <label class="search-label"><span class="sr-only">Caută token</span><input id="search" type="search" placeholder="Caută simbol sau adresă…"></label>
+        <form id="add-form"><label class="sr-only" for="address">Adresă mint Solana</label><input id="address" name="address" placeholder="Adresă mint Solana pentru watchlist" required maxlength="44"><button type="submit">+ Urmărește</button></form>
+      </div>
+      <p class="source-note">Discovery din profiluri DEX Screener: eșantion neexhaustiv, posibil promovat. Nu detectează toate lansările și nu confirmă că un token este memecoin.</p>
+      <div class="table-scroll"><table><thead><tr><th>Token / Solana</th><th>Prioritate research</th><th>Lichiditate USD</th><th>Volum / 5m</th><th>Preț / 5m</th><th>Decizie</th><th>Observație</th></tr></thead><tbody id="tokens"></tbody></table></div>
+      <div class="empty" id="empty"><span>◎</span><h3>Încă nu sunt observații de piață.</h3><p>Adaugă un mint Solana sau pornește scanarea.<br>Dacă API-urile sunt blocate, aplicația păstrează starea explicită și nu generează date fictive.</p></div>
+    </section>
+    <section id="detail" class="panel" hidden aria-live="polite"></section>
+    <section id="portfolio" class="panel">
+      <div class="section-title"><div><p class="eyebrow">03 / EXPERIMENT MANUAL</p><h2>Portofoliu și jurnal</h2></div><label class="account-label">Cont virtual <select id="paper-account"><option value="news">Știri · $500 inițial</option><option value="scanner">Scanner · cont existent</option></select></label></div>
+      <p class="source-note">Model ipotetic cu rezerve egale, comision swap și cost de rețea estimat. Nu este cotație executabilă. Pozițiile fără ieșire validabilă rămân deschise.</p>
+      <div id="positions"></div>
+      <details class="journal"><summary>Jurnal ordine — inclusiv încercări respinse</summary><div id="orders"></div></details>
+    </section>
+    <section id="method" class="method">
+      <div><p class="eyebrow">04 / CE MĂSURĂM</p><h2>Reguli vizibile.<br>Necunoscute vizibile.</h2></div>
+      <div class="method-grid">
+        <article><h3>Riscul nu se compensează</h3><p>Autorități mint/freeze, restricții GoPlus și lichiditate insuficientă blochează simularea. Momentum nu poate anula un veto.</p></article>
+        <article><h3>Scor ≠ probabilitate</h3><p>Prioritatea este o euristică explicată, fără validare de profitabilitate. Explicațiile sunt reguli deterministe; modulul AI nu este conectat.</p></article>
+        <article><h3>Istoric colectat de acum</h3><p>Salvăm observații și motivele semnalelor în SQLite. Nu avem încă backtesting, tranzacții complete de wallet sau un clasament „smart money”.</p></article>
+        <article><h3>Costuri și limite</h3><p id="rules">Se încarcă regulile…</p></article>
+      </div>
+    </section>
+    <footer>PERSONAL RESEARCH · SOLANA FIRST <span>Base, wallet profiling și validarea strategiilor: etape următoare.</span></footer>
+  </main>
+</body>
+</html>
