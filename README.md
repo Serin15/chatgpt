@@ -190,3 +190,6 @@ aplicația reală. Verifică scanare, semnal, întârziere, intrare, ieșire, ju
 
 Sursele, costurile și observațiile de validare sunt în [docs/SOURCES.md](docs/SOURCES.md).
 Etapele următoare și criteriile de acceptare sunt în [docs/ROADMAP.md](docs/ROADMAP.md).
+
+Auditul codului v0.2, bugurile reproduse și prioritățile pentru următorul milestone sunt în
+[docs/AUDIT-2026-10-13.md](docs/AUDIT-2026-10-13.md). Raportul și probele nu remediază încă bugurile.
