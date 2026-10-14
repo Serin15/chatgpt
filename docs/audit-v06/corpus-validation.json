@@ -1,8 +1,9 @@
 {
-  "at": "2026-10-14T14:30:49.010715+00:00",
+  "at": "2026-10-14T14:41:05.574707+00:00",
   "corpus_version": 2,
   "corpus_sha256": "6da9956971c54bef781ab87d209136d536043d357ac83b8cc3dfed0bff89d763",
   "prompt_version": 2,
+  "relation_gate_version": 2,
   "partition": "all",
   "cases_validated": 12,
   "observed_excerpts": 2,

@@ -646,5 +646,6 @@
     "positive_recall": 1.0,
     "always_insufficient_baseline": 0.75,
     "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
-  }
+  },
+  "relation_gate_version": 1
 }

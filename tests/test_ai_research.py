@@ -506,3 +506,36 @@ def test_evaluation_rejects_document_overlap_between_partitions(tmp_path):
     path.write_text(json.dumps(corpus))
     with pytest.raises(ValueError, match="Data leakage"):
         load_cases(path)
+
+
+@pytest.mark.parametrize("case_id", ["observed-wrapped-sol", "synthetic-injection"])
+def test_real_model_false_positive_never_grants_an_issuer_relationship(case_id):
+    case = next(c for c in load_cases() if c["id"] == case_id)
+    result = relationship_gate(answer(relationship="issuer_announcement"), case["bundle"])
+    assert result["effective"] == "insufficient_evidence"
+    assert result["model_proposed"] == "issuer_announcement"
+    assert result["limitations"]
+
+
+def test_older_positive_policy_results_require_reanalysis(store):
+    from app.models import utcnow
+
+    async def run():
+        research, engine = make_engine(store, lambda request: transport_result(request))
+        try:
+            payload = {
+                "interpretation": answer(relationship="issuer_announcement"),
+                "relationship": {"effective": "issuer_announcement"},
+            }
+            with store.connect() as db:
+                row = db.execute(
+                    "INSERT INTO ai_attempts(address,at,state,payload) VALUES(?,?,?,?)",
+                    (ADDRESS, utcnow(), "completed", json.dumps(payload)),
+                )
+                attempt_id = row.lastrowid
+            assert engine.record(attempt_id)["stale"]
+            assert engine.history(ADDRESS)[0]["stale"]
+        finally:
+            await research.close()
+
+    asyncio.run(run())

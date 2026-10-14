@@ -18,6 +18,7 @@ from app.models import epoch, utcnow
 from app.providers import ProviderError
 
 PROMPT_VERSION = 2
+RELATION_GATE_VERSION = 2
 OLLAMA = "http://127.0.0.1:11434"
 OPENAI = "https://api.openai.com/v1"
 RELATIONS = Literal[
@@ -54,6 +55,14 @@ research_questions, risks. Each statement has text_ro and citations [{source_id,
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
+
+def analysis_stale(at, payload):
+    payload = json.loads(payload) if isinstance(payload, str) else payload
+    return not 0 <= time.time() - epoch(at) <= 86400 or bool(
+        payload.get("interpretation")
+        and (payload.get("relationship") or {}).get("gate_version") != RELATION_GATE_VERSION
+    )
 
 
 class AIConfig(StrictModel):
@@ -138,6 +147,11 @@ def relationship_gate(interpretation, bundle):
     effective = proposed
     reasons = []
     if proposed in {"issuer_announcement", "listing_announcement"}:
+        # Exact quotations and source identity cannot prove the model's interpretation.
+        # Official-source verification remains a separate, explicit research workflow.
+        reasons.append(
+            "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        )
         if technical.get("identity") not in {
             "matched_subject_address",
             "provider_reported_contract_match",
@@ -155,7 +169,12 @@ def relationship_gate(interpretation, bundle):
             reasons.append("Rolul sursei nu susține relația propusă.")
         if reasons:
             effective = "insufficient_evidence"
-    return {"model_proposed": proposed, "effective": effective, "limitations": reasons}
+    return {
+        "model_proposed": proposed,
+        "effective": effective,
+        "limitations": reasons,
+        "gate_version": RELATION_GATE_VERSION,
+    }
 
 
 class AIResearch:
@@ -543,7 +562,7 @@ class AIResearch:
             dict(row)
             | {
                 "payload": json.loads(row["payload"]),
-                "stale": not 0 <= time.time() - epoch(row["at"]) <= 86400,
+                "stale": analysis_stale(row["at"], row["payload"]),
             }
             if row
             else None
@@ -565,7 +584,7 @@ class AIResearch:
             dict(r)
             | {
                 "payload": json.loads(r["payload"]),
-                "stale": not 0 <= time.time() - epoch(r["at"]) <= 86400,
+                "stale": analysis_stale(r["at"], r["payload"]),
             }
             for r in rows
         ]
@@ -585,5 +604,5 @@ class AIResearch:
             "at": row["at"],
             "relationship": payload.get("relationship"),
             "error": payload.get("error"),
-            "stale": not 0 <= time.time() - epoch(row["at"]) <= 86400,
+            "stale": analysis_stale(row["at"], payload),
         }

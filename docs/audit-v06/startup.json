@@ -3,31 +3,31 @@
   "workers": {
     "scanner": {
       "state": "running",
-      "started_at": "2026-10-14T14:21:25.463497+00:00",
+      "started_at": "2026-10-14T14:41:02.896542+00:00",
       "restarts": 0,
       "error": null
     },
     "news": {
       "state": "running",
-      "started_at": "2026-10-14T14:21:25.469741+00:00",
+      "started_at": "2026-10-14T14:41:02.904007+00:00",
       "restarts": 0,
       "error": null
     },
     "assets": {
       "state": "running",
-      "started_at": "2026-10-14T14:21:25.469815+00:00",
+      "started_at": "2026-10-14T14:41:02.904099+00:00",
       "restarts": 0,
       "error": null
     },
     "performance": {
       "state": "running",
-      "started_at": "2026-10-14T14:21:25.470163+00:00",
+      "started_at": "2026-10-14T14:41:02.904604+00:00",
       "restarts": 0,
       "error": null
     },
     "intelligence": {
       "state": "running",
-      "started_at": "2026-10-14T14:21:25.474717+00:00",
+      "started_at": "2026-10-14T14:41:02.909729+00:00",
       "restarts": 0,
       "error": null
     }
@@ -47,7 +47,7 @@
   "source_states": {
     "solana": {
       "state": "ok",
-      "at": "2026-10-14T14:21:26.271744+00:00",
+      "at": "2026-10-14T14:41:03.051549+00:00",
       "page": 1,
       "count": 20,
       "rejected": 0,
@@ -55,7 +55,7 @@
     },
     "base": {
       "state": "ok",
-      "at": "2026-10-14T14:21:26.546980+00:00",
+      "at": "2026-10-14T14:41:03.115393+00:00",
       "page": 1,
       "count": 20,
       "rejected": 0,
@@ -63,9 +63,9 @@
     },
     "profiles": {
       "state": "ok",
-      "at": "2026-10-14T14:21:26.546988+00:00",
+      "at": "2026-10-14T14:41:03.115400+00:00",
       "counts": {
-        "solana": 22,
+        "solana": 24,
         "base": 0
       }
     }

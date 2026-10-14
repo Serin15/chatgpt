@@ -7,7 +7,13 @@ import json
 import tempfile
 from pathlib import Path
 
-from app.ai_research import PROMPT_VERSION, AIConfig, AIResearch, relationship_gate
+from app.ai_research import (
+    PROMPT_VERSION,
+    RELATION_GATE_VERSION,
+    AIConfig,
+    AIResearch,
+    relationship_gate,
+)
 from app.announcements import Announcements
 from app.config import Settings
 from app.models import utcnow
@@ -153,6 +159,7 @@ def main():
         "corpus_version": 2,
         "corpus_sha256": hashlib.sha256(CORPUS.read_bytes()).hexdigest(),
         "prompt_version": PROMPT_VERSION,
+        "relation_gate_version": RELATION_GATE_VERSION,
         "partition": args.partition,
         "cases_validated": len(cases),
         "observed_excerpts": sum(c["origin"] == "observed_excerpt" for c in cases),

@@ -1,0 +1,38 @@
+{
+  "smoke": {
+    "exit_code": 0,
+    "output": "PASS: sourced headline → DEX $50 paper trade; general crypto → venues → thesis → $50 paper trade; desktop/mobile",
+    "data_providers": "simulated",
+    "browser": "real Chromium"
+  },
+  "regressions": {
+    "exit_code": 0,
+    "output": "PASS: partial failures, health, tiny prices, navigation, search/watch, manual evidence, signal invalidation, mobile contracts/journal, JSON export and ZIP backup",
+    "data_providers": "simulated",
+    "browser": "real Chromium"
+  },
+  "ai": {
+    "exit_code": 0,
+    "output": "PASS: AI configuration, connection, exact quotations, immutable signal/export, bad host rejected, desktop/mobile, zero automatic orders. Model transport is simulated.",
+    "data_providers": "simulated",
+    "browser": "real Chromium"
+  },
+  "announcements": {
+    "exit_code": 0,
+    "output": "PASS: original document, exact contract, manual source review, revocation, negative context, immutable signal/export, mobile, no orders",
+    "data_providers": "simulated",
+    "browser": "real Chromium"
+  },
+  "advanced": {
+    "exit_code": 0,
+    "output": "PASS: login, authenticated mutations with CSRF, advanced panels, mobile width, logout; fake data, real browser",
+    "data_providers": "simulated",
+    "browser": "real Chromium"
+  },
+  "slow_news": {
+    "exit_code": 0,
+    "output": "PASS: healthy market section rendered while news response remained blocked; real Chromium, fake data",
+    "data_providers": "simulated",
+    "browser": "real Chromium"
+  }
+}

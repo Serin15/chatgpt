@@ -1,3 +1,12 @@
+> Actualizare v0.6 (14 octombrie 2026): starea curentă, cerințele de chei și verificările reale
+> sunt în [auditul v0.6](V0.6-AUDIT.md). Secțiunile cronologice de mai jos descriu și versiuni anterioare;
+> afirmațiile vechi „nu este implementat”/„fără secrete declarate” nu descriu integral v0.6.
+> Surse noi: [GeckoTerminal new pools](https://apiguide.geckoterminal.com/),
+> [Base RPC](https://docs.base.org/base-chain/quickstart/connecting-to-base),
+> [Jupiter quote API](https://dev.jup.ag/api-reference/swap/quote),
+> [Ollama](https://github.com/ollama/ollama), [Telegram Bot API](https://core.telegram.org/bots/api).
+> Linkurile de documentație sunt referințe; disponibilitatea și generarea reală sunt raportate separat.
+
 # Surse și verificare — 13 octombrie 2026
 
 Actualizare v0.5: adaptoare HTTP pentru Ollama local (`/api/chat`, JSON schema, fără streaming)

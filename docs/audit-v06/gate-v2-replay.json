@@ -1,0 +1,140 @@
+{
+  "new_model_generations": false,
+  "scope": "Deterministic policy replay on previously generated 7B outputs; used during development, not an independent accuracy estimate",
+  "source_report": "model-qwen7b.json",
+  "relation_gate_version": 2,
+  "metrics": {
+    "cases": 12,
+    "valid_outputs": 10,
+    "invalid_or_failed": 2,
+    "correct_including_failures": 7,
+    "accuracy": 0.5833333333333334,
+    "positive_predictions": 0,
+    "false_positive_associations": 0,
+    "positive_precision": null,
+    "positive_recall": 0.0,
+    "always_insufficient_baseline": 0.75,
+    "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+  },
+  "results": [
+    {
+      "id": "observed-wrapped-sol",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        ],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "observed-kraken",
+      "state": "error"
+    },
+    {
+      "id": "synthetic-issuer",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        ],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-listing",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "listing_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        ],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-namesake",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": [],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-denial",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "insufficient_evidence",
+        "effective": "insufficient_evidence",
+        "limitations": [],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-wrong-contract",
+      "state": "error"
+    },
+    {
+      "id": "synthetic-wrong-chain",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract.",
+          "Contractul și chain-ul exact nu sunt susținute de document."
+        ],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-public-figure",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "insufficient_evidence",
+        "effective": "insufficient_evidence",
+        "limitations": [],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-injection",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        ],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-editorial-claim",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "insufficient_evidence",
+        "effective": "insufficient_evidence",
+        "limitations": [],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-unknown-native",
+      "state": "completed",
+      "relationship": {
+        "model_proposed": "insufficient_evidence",
+        "effective": "insufficient_evidence",
+        "limitations": [],
+        "gate_version": 2
+      }
+    }
+  ]
+}

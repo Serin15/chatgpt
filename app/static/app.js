@@ -824,42 +824,51 @@ async function load() {
     market: "/api/assets",
     performance: `/api/performance?account=${account}`,
   };
-  const keys = Object.keys(requests),
-    results = await Promise.allSettled(keys.map((key) => api(requests[key])));
+  const renderers = {
+    status: () => {
+      renderSources();
+      renderAssets();
+      renderNews();
+    },
+    scanner: renderTokens,
+    news: () => {
+      $("news-count").textContent = state.news.length;
+      $("news-count-caption").textContent =
+        state.news.filter((a) => a.source_kind === "primary").length +
+        " din surse primare";
+      renderNews();
+    },
+    portfolio: () => {
+      renderPortfolio();
+      renderSources();
+    },
+    market: renderAssets,
+    performance: renderPerformance,
+  };
   try {
-    results.forEach((result, index) => {
-      const key = keys[index];
-      if (
-        (key === "portfolio" || key === "performance") &&
-        account !== state.account
-      )
-        return;
-      if (key === "news" && archive !== state.newsArchive) return;
-      if (result.status === "rejected") {
-        state.sectionErrors[key] = result.reason.message;
-        return;
-      }
-      delete state.sectionErrors[key];
-      state.updated[key] = new Date().toISOString();
-      state[{ scanner: "tokens", news: "news", market: "assets" }[key] || key] =
-        result.value;
-    });
-    $("news-count").textContent = state.news.length;
-    $("news-count-caption").textContent =
-      state.news.filter((a) => a.source_kind === "primary").length +
-      " din surse primare";
-    renderOverview();
-    renderNews();
-    renderAssets();
-    renderTokens();
-    renderPortfolio();
-    renderSources();
-    renderPerformance();
-    delete state.sectionErrors.render;
-    renderHealth();
-  } catch (error) {
-    state.sectionErrors.render = error.message;
-    renderHealth();
+    await Promise.allSettled(
+      Object.entries(requests).map(async ([key, path]) => {
+        try {
+          const data = await api(path);
+          if (
+            (key === "portfolio" || key === "performance") &&
+            account !== state.account
+          )
+            return;
+          if (key === "news" && archive !== state.newsArchive) return;
+          delete state.sectionErrors[key];
+          state.updated[key] = new Date().toISOString();
+          state[
+            { scanner: "tokens", news: "news", market: "assets" }[key] || key
+          ] = data;
+          renderers[key]();
+          renderOverview();
+        } catch (error) {
+          state.sectionErrors[key] = error.message;
+        }
+        renderHealth();
+      }),
+    );
   } finally {
     state.loading = false;
     if (
