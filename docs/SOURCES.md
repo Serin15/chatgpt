@@ -4,7 +4,14 @@ Actualizare v0.5: adaptoare HTTP pentru Ollama local (`/api/chat`, JSON schema, 
 și OpenAI (`/v1/responses`, Structured Outputs, `store=false`). Ambele sunt testate cu transport
 simulat; niciun model local instalat și nicio cheie API disponibile aici, deci fără validare live
 sau preț curent confirmat. Încercările de citire a documentației OpenAI/Ollama din acest cloud
-au eșuat; nu pretindem verificarea documentației actuale. Vezi [limitele](V0.5.md).
+au eșuat. Am verificat ulterior, pe 14 octombrie 2026, câmpurile protocolului în sursele oficiale:
+
+- [OpenAI Responses create](https://github.com/openai/openai-python/blob/main/src/openai/types/responses/response_create_params.py): input, text, store și max_output_tokens.
+- [OpenAI JSON schema format](https://github.com/openai/openai-python/blob/main/src/openai/types/responses/response_format_text_json_schema_config_param.py): name, schema, type=json_schema și strict.
+- [Ollama request/response types](https://github.com/ollama/ollama-python/blob/main/ollama/_types.py): messages, format JSON schema, stream, options și done.
+
+Aceste surse au răspuns HTTP 200; nu validează accesul la un anumit model, o generare reală sau
+tarifele/limitele actuale ale contului. Vezi [limitele](V0.5.md).
 Două pagini Solana/Kraken au fost citite live pentru extrasele setului de evaluare. Restul de zece
 cazuri sunt sintetice; nu reprezintă anunțuri reale ale companiilor folosite ca surse de fixture.
 

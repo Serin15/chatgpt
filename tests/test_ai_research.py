@@ -337,6 +337,8 @@ def test_timeout_is_saved_and_concurrent_call_does_not_start_a_second_generation
         research, engine = make_engine(store, fail)
         try:
             async with engine.lock:
+                with pytest.raises(ProviderError, match="schimba motorul"):
+                    engine.configure(AIConfig())
                 with pytest.raises(ProviderError, match="deja în curs"):
                     await engine.analyze(ADDRESS, AIInput(source_url=URL))
             result = await engine.analyze(ADDRESS, AIInput(source_url=URL))

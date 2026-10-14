@@ -196,7 +196,8 @@ Verificare pe 14 octombrie 2026:
 - Local Ollama: conexiunea la serviciul local a eșuat cu `ConnectError`; niciun model instalat.
   Nicio cheie API disponibilă. OpenAI/Ollama sunt adaptoare testate cu transport simulat,
   **fără generare live validată și fără precizie măsurată**. Documentația externă a celor două
-  servicii nu a putut fi citită din cloud; compatibilitatea curentă trebuie verificată la activare.
+  servicii nu a putut fi citită din cloud. Sursele oficiale OpenAI/Ollama SDK au răspuns însă
+  HTTP 200, iar câmpurile cererilor au fost verificate acolo; generarea și modelul cer validare la activare.
 - Backup consistent înainte de upgrade în `/workspace/backups/pulse-v0.5-20261014T053448Z`.
   Instanța 0.5.0 pornește cu patru workeri, AI oprit și zero generări, Scanner $100 / Research
   $500, zero ordine. Datele anterioare sunt păstrate. Interfața cu date reale și capturile desktop,

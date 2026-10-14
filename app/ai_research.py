@@ -191,6 +191,8 @@ class AIResearch:
             return AIConfig()
 
     def configure(self, body):
+        if self.lock.locked():
+            raise ProviderError("Așteaptă finalizarea analizei înainte de a schimba motorul AI.")
         if os.getenv("PULSE_AI_PROVIDER"):
             raise ProviderError(
                 "Configurația AI este stabilită prin variabilele de mediu; modifică-le și repornește aplicația."
