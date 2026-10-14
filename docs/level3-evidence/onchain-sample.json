@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-14T17:40:15.032397+00:00",
+  "real_data": true,
+  "contract": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+  "pool": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+  "live_execution": false,
+  "pool_activity": {
+    "state": "unverified",
+    "error": "RPC nu a returnat un rezultat utilizabil; acoperirea rămâne incompletă."
+  },
+  "distribution": {
+    "state": "partial",
+    "result": {
+      "chain": "solana",
+      "contract": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+      "observed_at": "2026-10-14T17:40:31.218599+00:00",
+      "origin": "rpc_observation",
+      "slot": 456924605,
+      "decimals": 6,
+      "raw_supply": "970447292785288",
+      "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "mint_authority": null,
+      "freeze_authority": null,
+      "top10_token_accounts_pct": null,
+      "distribution_error": "Sursa a răspuns HTTP 429.",
+      "distribution_note": "Conturi de token, nu proprietari unici. LP/custodie nu sunt excluse; acoperire maximum 20 conturi. Supply nativ/inconsistent nu produce procent.",
+      "audit_verified": false,
+      "sellability_verified": false
+    },
+    "note": "Mint data retrieved; token-account concentration remains unavailable because the provider returned HTTP 429."
+  }
+}

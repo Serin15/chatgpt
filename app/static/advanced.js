@@ -10,6 +10,7 @@ async function startApplication() {
       return;
     }
     await load();
+    if (state.page === "opportunities") await renderOpportunities();
   } catch (error) {
     message("Sesiunea nu poate fi verificată: " + error.message);
   }
@@ -40,6 +41,7 @@ function showLogin() {
       document.body.classList.remove("locked");
       await load();
       if (state.page === "advanced") await renderAdvanced();
+      if (state.page === "opportunities") await renderOpportunities();
     } catch (error) {
       $("login-error").textContent = error.message;
     } finally {

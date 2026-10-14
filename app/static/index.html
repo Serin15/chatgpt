@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>PULSE — Crypto Research</title>
+    <title>MemeScope — Early Opportunity Engine</title>
     <link rel="stylesheet" href="/static/style.css" />
     <script src="/static/advanced.js" defer></script>
+    <script src="/static/opportunities.js" defer></script>
     <script src="/static/app.js" defer></script>
   </head>
   <body>
@@ -15,12 +16,15 @@
         href="#overview"
         data-page="overview"
         class="brand"
-        aria-label="Pulse Crypto Research"
-        ><span class="brand-mark">p</span>
-        <div>PULSE<small>CRYPTO RESEARCH</small></div></a
+        aria-label="MemeScope"
+        ><span class="brand-mark">m</span>
+        <div>MEMESCOPE<small>EARLY OPPORTUNITY ENGINE</small></div></a
       >
       <p class="nav-label">SPAȚIUL TĂU DE CERCETARE</p>
       <nav id="navigation">
+        <button class="nav-item" data-page="opportunities">
+          <span>◎</span>Oportunități timpurii
+        </button>
         <button class="nav-item active" data-page="overview">
           <span>◈</span>Privire de ansamblu
         </button>
@@ -54,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.6</span>
+        <span class="version">v0.7 · L3</span>
       </div>
     </aside>
     <main class="main">
@@ -121,9 +125,7 @@
             ><small>Sold după ordinele simulate</small>
           </article>
           <article>
-            <div class="metric-label">
-              VALOARE NETĂ ESTIMATĂ <span>↗</span>
-            </div>
+            <div class="metric-label">VALOARE NETĂ ESTIMATĂ <span>↗</span></div>
             <strong id="equity">—</strong
             ><small>După costuri estimate de ieșire</small>
           </article>
@@ -177,9 +179,7 @@
               token.
             </p>
           </div>
-          <button class="text-button" data-page="sources">
-            Cum evaluăm ↗
-          </button>
+          <button class="text-button" data-page="sources">Cum evaluăm ↗</button>
         </div>
       </section>
       <section id="view-news" class="view" hidden>
@@ -401,6 +401,153 @@
           <div id="performance"></div>
         </section>
         <section class="panel"><div id="orders"></div></section>
+      </section>
+      <section id="view-opportunities" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">LEVEL 3 · SOLANA · PAPER ONLY</p>
+            <h1>Oportunități timpurii</h1>
+            <p>
+              Candidați descoperiți automat. Dovezi, riscuri și rezultate
+              păstrate în timp.
+            </p>
+          </div>
+        </div>
+        <p class="engine-disclaimer">
+          Scorurile sunt reguli de cercetare, fără probabilități de câștig.
+          Datele raportate de API, observațiile on-chain și simulările sunt
+          etichetate separat.
+        </p>
+        <div id="engine-health" class="section-alerts" role="status">
+          Se verifică motorul…
+        </div>
+        <div id="engine-stats" class="engine-stats"></div>
+        <section class="panel padded">
+          <div class="engine-controls">
+            <input
+              id="engine-search"
+              type="search"
+              aria-label="Caută candidat"
+              placeholder="Nume, simbol sau contract"
+            />
+            <select id="engine-verdict" aria-label="Filtru verdict">
+              <option value="all">Toate verdictele</option>
+              <option>CONSIDER</option>
+              <option>INVESTIGATE</option>
+              <option>MONITOR</option>
+              <option>REJECT</option>
+              <option>PENDING</option>
+            </select>
+            <select id="engine-sort" aria-label="Ordine candidați">
+              <option value="rank">Clasament</option>
+              <option value="recent">Descoperiri recente</option>
+            </select>
+            <button id="engine-refresh" class="secondary">
+              Actualizează afișarea
+            </button>
+          </div>
+          <div class="table-scroll">
+            <table class="engine-table">
+              <thead>
+                <tr>
+                  <th>CANDIDAT / POOL</th>
+                  <th>PREȚ / LICHIDITATE</th>
+                  <th>VERDICT / SCOR</th>
+                  <th>ACTIVITATE / PROSPEȚIME</th>
+                  <th>DOVEZI</th>
+                </tr>
+              </thead>
+              <tbody id="engine-rows"></tbody>
+            </table>
+          </div>
+          <p id="engine-empty" class="empty-state" hidden>
+            Încă nu există candidați în această selecție.
+          </p>
+          <button id="engine-more" class="secondary" hidden>
+            Mai multe descoperiri
+          </button>
+        </section>
+        <section id="engine-detail" class="panel padded" hidden></section>
+        <div class="engine-grid">
+          <section class="panel padded">
+            <h2>Alerte de cercetare</h2>
+            <p class="footnote">
+              Afișarea în aplicație este confirmată separat de livrarea
+              Telegram.
+            </p>
+            <div id="engine-alerts"></div>
+          </section>
+          <section class="panel padded">
+            <h2>Rezultatele descoperirii</h2>
+            <p class="footnote">
+              Experimente independente de $50, cu costuri estimate; observațiile
+              lipsă rămân necunoscute.
+            </p>
+            <div id="engine-performance"></div>
+          </section>
+          <section class="panel padded">
+            <h2>Narațiuni și dovezi</h2>
+            <div id="engine-narratives"></div>
+          </section>
+          <section class="panel padded">
+            <h2>Activitatea walleturilor urmărite</h2>
+            <div id="engine-wallets"></div>
+            <button class="secondary" data-page="advanced">
+              Gestionează walleturile
+            </button>
+          </section>
+        </div>
+        <details class="panel padded">
+          <summary>Praguri și funcționare</summary>
+          <form id="engine-config" class="engine-config">
+            <label
+              >Motor activ<input id="engine-enabled" type="checkbox"
+            /></label>
+            <label
+              >Poziție virtuală USD<input
+                id="engine-position"
+                type="number"
+                min="2"
+                max="500"
+                step="1"
+            /></label>
+            <label
+              >Tranzacții minime / 5m<input
+                id="engine-min-tx"
+                type="number"
+                min="1"
+                max="10000"
+            /></label>
+            <label
+              >Cooldown alerte (secunde)<input
+                id="engine-cooldown"
+                type="number"
+                min="60"
+                max="86400"
+            /></label>
+            <label
+              >Clasificare AI a narațiunilor<input
+                id="engine-ai"
+                type="checkbox"
+            /></label>
+            <label
+              >Telegram automat, dacă este configurat<input
+                id="engine-telegram"
+                type="checkbox"
+            /></label>
+            <label
+              >Separare viitoare dezvoltare/test<input
+                id="engine-test-from"
+                type="datetime-local"
+            /></label>
+            <button class="primary" type="submit">Salvează pragurile</button>
+          </form>
+          <p class="footnote">
+            Schimbările creează o politică nouă. Semnalele și costurile istorice
+            sunt păstrate. Intervalul și bugetele API se configurează și prin
+            API; funcțiile fără surse rămân necunoscute.
+          </p>
+        </details>
       </section>
       <section id="view-advanced" class="view" hidden>
         <div class="page-heading">

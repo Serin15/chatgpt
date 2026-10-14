@@ -1,0 +1,242 @@
+{
+  "live_model_generation": true,
+  "provider": "ollama",
+  "model": "pulse-qwen7b-audit:latest",
+  "at": "2026-10-14T17:36:13.518630+00:00",
+  "requests_today": 4,
+  "automatic_narrative_results": {
+    "items": [
+      {
+        "id": 4,
+        "at": "2026-10-14T17:35:02.645096+00:00",
+        "state": "completed",
+        "category": "other",
+        "interpretation": {
+          "event_summary": {
+            "text_ro": "Articolul discută despre nevoia de a actualiza rețeaua electrică în SUA pentru a susține economia digitală în creștere și despre faptul că trebuie să se decidă cine va plăti pentru aceste actualizări.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "America's growing digital economy requires power grid updates. Who will foot the bill?"
+              }
+            ]
+          },
+          "relationship": "insufficient_evidence",
+          "relationship_reason": {
+            "text_ro": "Niciun legătură directă cu un token sau o emisiune de token nu a fost menționată în articolul de opiniu.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "America's growing digital economy requires power grid updates. Who will foot the bill?"
+              }
+            ]
+          },
+          "facts": [
+            {
+              "text_ro": "Articolul discută despre nevoia de a actualiza rețeaua electrică în SUA pentru a susține economia digitală în creștere și despre faptul că trebuie să se decidă cine va plăti pentru aceste actualizări.",
+              "citations": [
+                {
+                  "source_id": "D1",
+                  "quote": "America's growing digital economy requires power grid updates. Who will foot the bill?"
+                }
+              ]
+            }
+          ],
+          "research_questions": [
+            "Ce sunt exact nevoile de actualizare ale rețelei electrici în SUA și cum ar putea afecta acestea economia digitală?",
+            "Care sunt posibilele soluții pentru finanțarea actualizărilor rețelei electrici în SUA?"
+          ],
+          "risks": [
+            "Riscul că lipsa unui plan clar de finanțare poate afecta dezvoltarea economiei digitale în SUA.",
+            "Riscul că lipsa unui plan clar de finanțare poate duce la probleme de infrastructură pentru rețelele electrici."
+          ],
+          "narrative_category": "other"
+        },
+        "error": null,
+        "citations_checked": true,
+        "sources": [
+          {
+            "url": "https://www.coindesk.com/opinion/2026/10/14/the-battle-over-the-ratepayer-protection-act-is-just-getting-started",
+            "publisher": "CoinDesk · redacție",
+            "sha256": "aedf6b2747edabbd01b4a86816fa9bba91453d669e022b77f947e424d5271dd9"
+          }
+        ],
+        "claim_verified": false,
+        "token_association": "none_without_contract_evidence"
+      },
+      {
+        "id": 3,
+        "at": "2026-10-14T17:32:56.243029+00:00",
+        "state": "error",
+        "category": null,
+        "interpretation": null,
+        "error": "Analiza AI are o schemă sau citări invalide și nu este afișată ca rezultat.",
+        "citations_checked": false,
+        "sources": [
+          {
+            "url": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
+            "publisher": "CoinDesk · redacție",
+            "sha256": "2434ec23fe348d375e5e1db814ecdd8b99f686c994423f9b2a6ea06a960b96f7"
+          }
+        ],
+        "claim_verified": false,
+        "token_association": "none_without_contract_evidence"
+      },
+      {
+        "id": 2,
+        "at": "2026-10-14T17:31:07.777118+00:00",
+        "state": "completed",
+        "category": "other",
+        "interpretation": {
+          "event_summary": {
+            "text_ro": "Inflația din U.S. a crescut mai mult decât așteptat în septembrie, cu 0,6%, ceea ce poate duce la mai multe măsuri de îngrijorare a Fed-ului.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The September Consumer Price Index rose 0.6%, according to a Wednesday morning report from the Bureau of Labor Statistics."
+              }
+            ]
+          },
+          "relationship": "insufficient_evidence",
+          "relationship_reason": {
+            "text_ro": "Articolul nu anunță explicit emisiunea unui token sau o listare pe un platformă, ci discută despre impactul inflației asupra prețului Bitcoin și a altor piețe financiare.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Markets U.S. September CPI comes in hot, sending bitcoin sharply lower The news could put multiple rate hikes by the Federal Reserve back into play."
+              }
+            ]
+          },
+          "facts": [
+            {
+              "text_ro": "Bitcoin a scăzut cu 1.000 USD pe informațiile privind inflația, ajungând la prețul de 82.800 USD.",
+              "citations": [
+                {
+                  "source_id": "D1",
+                  "quote": "Bitcoin BTC $83,212.45 dropped $1,000 on the news, now trading at $82,800."
+                }
+              ]
+            }
+          ],
+          "research_questions": [
+            "Cum se va comporta Bitcoin și alte acte de valoare în cazul unei măsuri de îngrijorare a Fed-ului?",
+            "Ce impact ar avea o posibilă creștere a măsurilor de îngrijorare asupra piețelor cripto?"
+          ],
+          "risks": [
+            "Fluctuațiile inflației pot duce la modificări ale politicii monetare a Fed-ului, care ar putea afecta prețurile actelor de valoare, inclusiv Bitcoin.",
+            "Măsurile de îngrijorare a Fed-ului pot duce la o depreciere a valutelor alternative, inclusiv Bitcoin."
+          ],
+          "narrative_category": "other"
+        },
+        "error": null,
+        "citations_checked": true,
+        "sources": [
+          {
+            "url": "https://www.coindesk.com/markets/2026/10/14/u-s-september-cpi-comes-in-hot-sending-bitcoin-sharply-lower",
+            "publisher": "CoinDesk · redacție",
+            "sha256": "ca32f73213e13026c01a5ea2470327a864dbf39733e94c50d5e9335be622e9c4"
+          }
+        ],
+        "claim_verified": false,
+        "token_association": "none_without_contract_evidence"
+      },
+      {
+        "id": 1,
+        "at": "2026-10-14T17:29:08.683786+00:00",
+        "state": "completed",
+        "category": "other",
+        "interpretation": {
+          "event_summary": {
+            "text_ro": "Analizațiile sugerează că o inflație mai mare decât așteptată ar putea provoca o nouă rundă de liquidări, datorită ajustării dobânzilor de tranzacție și a așteptărilor privind politica monetară a Fed-ului.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "A hotter-than-expected inflation print could trigger another round of liquidations as Treasury yields and Fed expectations adjust."
+              }
+            ]
+          },
+          "relationship": "insufficient_evidence",
+          "relationship_reason": {
+            "text_ro": "Analizațiile nu sugerează nicio relație directă cu un anunț de emitent sau o listare pe un nou piață.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The numbers are widely watched for cues on how the Federal Reserve might respond with interest rates."
+              }
+            ]
+          },
+          "facts": [
+            {
+              "text_ro": "Departamentul de Muncă al SUA va anunța inflația pentru septembrie în ziua de astăzi.",
+              "citations": [
+                {
+                  "source_id": "D1",
+                  "quote": "The U.S. Department of Labor announces September inflation later today."
+                }
+              ]
+            }
+          ],
+          "research_questions": [
+            "Care sunt exact așteptările pentru inflația septembrie a SUA și cum vor afecta acestea politica monetară a Fed-ului?",
+            "Cum ar putea influența inflația septembrie prețul bitcoinului și alte acte digitale?"
+          ],
+          "risks": [
+            "Fluctuațiile inflației pot duce la ajustări rapide ale dobânzilor de tranzacție, care ar putea afecta prețurile actelor digitale.",
+            "Așteptările pentru politica monetară a Fed-ului pot varia în funcție de datele de inflație, ceea ce ar putea duce la fluctuații în prețul bitcoinului."
+          ],
+          "narrative_category": "other"
+        },
+        "error": null,
+        "citations_checked": true,
+        "sources": [
+          {
+            "url": "https://www.coindesk.com/daybook-us/2026/10/14/here-s-how-analysts-see-u-s-inflation-influencing-bitcoin",
+            "publisher": "CoinDesk · redacție",
+            "sha256": "9cfe3be1f8ab0cab94e7cd7f47274281e6f4c837ae20f05c2ca51a08dd7d9341"
+          }
+        ],
+        "claim_verified": false,
+        "token_association": "none_without_contract_evidence"
+      }
+    ],
+    "document_requests": [
+      {
+        "news_id": 40,
+        "at": "2026-10-14T17:35:01.298744+00:00",
+        "state": "completed",
+        "error": null,
+        "url": "https://www.coindesk.com/opinion/2026/10/14/the-battle-over-the-ratepayer-protection-act-is-just-getting-started",
+        "title": "America's growing digital economy requires power grid updates. Who will foot the bill?"
+      },
+      {
+        "news_id": 41,
+        "at": "2026-10-14T17:32:54.324176+00:00",
+        "state": "error",
+        "error": "Analiza AI are o schemă sau citări invalide și nu este afișată ca rezultat.",
+        "url": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
+        "title": "Kraken parent Payward to become first crypto firm to buy a EU bank as it expands into deposits, lending"
+      },
+      {
+        "news_id": 42,
+        "at": "2026-10-14T17:31:06.367134+00:00",
+        "state": "completed",
+        "error": null,
+        "url": "https://www.coindesk.com/markets/2026/10/14/u-s-september-cpi-comes-in-hot-sending-bitcoin-sharply-lower",
+        "title": "U.S. September CPI comes in hot, sending bitcoin sharply lower"
+      },
+      {
+        "news_id": 43,
+        "at": "2026-10-14T17:29:06.668598+00:00",
+        "state": "completed",
+        "error": null,
+        "url": "https://www.coindesk.com/daybook-us/2026/10/14/here-s-how-analysts-see-u-s-inflation-influencing-bitcoin",
+        "title": "Here's how analysts see U.S. inflation influencing bitcoin"
+      }
+    ],
+    "ai_configured": true,
+    "enabled": true,
+    "social_api": "not_configured",
+    "community_metrics": "not_available"
+  },
+  "note": "Literal citations checked, semantic accuracy not demonstrated; invalid responses remain errors."
+}

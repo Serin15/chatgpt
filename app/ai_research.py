@@ -82,6 +82,7 @@ class AIConfig(StrictModel):
 class AIInput(StrictModel):
     source_url: str = Field(max_length=2000)
     news_id: int | None = Field(default=None, gt=0)
+    purpose: Literal["token", "narrative"] = "token"
     chain: str | None = None
     contract: str | None = Field(default=None, max_length=80)
 
@@ -117,8 +118,16 @@ class Interpretation(StrictModel):
     risks: list[str] = Field(min_length=1, max_length=6)
 
 
+class NarrativeInterpretation(Interpretation):
+    narrative_category: Literal[
+        "ai", "public_figure", "animal", "internet_culture", "launch_listing", "other"
+    ]
+
+
 def validate_interpretation(raw, bundle):
-    result = Interpretation.model_validate(raw)
+    result = (
+        NarrativeInterpretation if bundle.get("task") == "narrative" else Interpretation
+    ).model_validate(raw)
     sources = {s["id"]: s for s in bundle["sources"]}
     for statement in [result.event_summary, result.relationship_reason, *result.facts]:
         if not any(c.source_id == "D1" for c in statement.citations):
@@ -252,8 +261,10 @@ class AIResearch:
             "requests_today": used,
             "environment_override": bool(os.getenv("PULSE_AI_PROVIDER")),
             "automatic_analysis": False,
+            "automatic_analysis_scope": "token_dossier",
+            "automatic_narratives_configurable": True,
             "live_execution": False,
-            "note": "Citările sunt verificate ca text, nu ca adevăr. Analiza pornește manual; limita zilnică numără inclusiv încercările eșuate, fără a garanta un plafon de cost API.",
+            "note": "Citările sunt verificate ca text, nu ca adevăr. Analizele de dosar sunt manuale; clasificarea narativă poate fi activată separat în Level 3. Limita zilnică include încercările eșuate, fără a garanta un plafon de cost API.",
         }
 
     async def json_request(self, client, method, url, **kwargs):
@@ -395,15 +406,25 @@ class AIResearch:
                 }
             )
         return {
+            "task": body.purpose,
             "subject": {"address": address, "chain": chain, "contract": contract},
             "sources": sources,
             "technical": technical,
         }
 
     async def generate(self, config, bundle):
-        schema = Interpretation.model_json_schema()
+        narrative = bundle.get("task") == "narrative"
+        schema = (NarrativeInterpretation if narrative else Interpretation).model_json_schema()
         messages = [
-            {"role": "system", "content": SYSTEM},
+            {
+                "role": "system",
+                "content": SYSTEM
+                + (
+                    "\nThis is a narrative-only task. Also return narrative_category: ai, public_figure, animal, internet_culture, launch_listing or other. There is no target token; the relationship must remain insufficient_evidence. Classify the reported story, not a future price opportunity."
+                    if narrative
+                    else ""
+                ),
+            },
             {"role": "user", "content": json.dumps(bundle, ensure_ascii=False)},
         ]
         if config.provider == "ollama":

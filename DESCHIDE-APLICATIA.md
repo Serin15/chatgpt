@@ -45,10 +45,15 @@ Browserul se deschide automat când aplicația este gata. Păstrează Terminalul
 
 ## Ce faci în aplicație
 
-1. Deschide secțiunea **Inteligență de piață** și apasă **Actualizează știrile** dacă feedul încă se încarcă.
-2. Alege **Analizează pentru paper** lângă un token.
-3. Citește datele, salvează semnalul și plasează manual ordinul virtual de $50 dacă verificările
-   permit simularea. Contul **Research** pornește cu $500 fictivi.
+1. Aplicația deschide **Oportunități timpurii**. Motorul colectează automat candidați Solana cât timp
+   fereastra de comandă rămâne deschisă. Primele date pot întârzia sau sursele pot fi indisponibile.
+2. Apasă **Cercetează** pentru motive, scoruri, riscuri și observații ulterioare. Alertele apar numai
+   dacă regulile sunt îndeplinite; un candidat respins rămâne în istoric.
+3. Experimentele automate de $50 sunt separate de conturile manuale. Rezultatele apar după
+   orizonturile viitoare; datele lipsă rămân necunoscute. Nu se execută tranzacții reale.
+4. Pentru un ordin virtual manual, deschide **Inteligență de piață**, alege **Analizează pentru paper**,
+   citește datele și salvează semnalul. **Simulează intrarea** cere verificări valide. Contul Research
+   pornește cu $500 fictivi numai dacă baza este nouă.
 
 Oprești serverul cu `Ctrl+C`. Nu este necesar un wallet sau bani reali. Pentru cerințe și limite,
 vezi `README.md`. Pachetul nu reprezintă un site public; interfața se servește pe calculatorul tău.
@@ -60,7 +65,7 @@ copiază fișierele noii versiuni peste folderul anterior, păstrând `data`. Po
 `start-windows.cmd`. Nu porni două versiuni pe același director de date.
 
 Din v0.3, dacă launcherul găsește o versiune veche încă pornită, cere închiderea acelei ferestre
-înainte de a continua. Nu reseta contul. După actualizarea curentă, în bara laterală apare **v0.5**.
+înainte de a continua. Nu reseta contul. După actualizarea curentă, în bara laterală apare **v0.7 · L3**.
 
 Analiza AI se configurează în dosarul unei monede, la **Ce spune știrea, de fapt?**.
 Alege Ollama local și numele exact din `ollama list`, apoi salvează și testează conexiunea.

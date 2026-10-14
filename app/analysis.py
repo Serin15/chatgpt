@@ -149,6 +149,8 @@ def analyze(market, security, settings, now):
     return {
         "action": action,
         "paper_allowed": paper_allowed,
+        "security_checks_complete": rpc_complete and gp_complete,
+        "security_fresh": security_fresh,
         "scores": {
             "security_risk": 100 if critical else None,
             "liquidity_exit": exit_score,

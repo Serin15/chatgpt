@@ -19,6 +19,7 @@ jobs:
       - run: uv run pytest -q
       - run: node --check app/static/app.js
       - run: node --check app/static/advanced.js
+      - run: node --check app/static/opportunities.js
       - name: Native Windows launcher from a path with spaces
         if: runner.os == 'Windows'
         shell: pwsh

@@ -89,6 +89,8 @@ class Market(BaseModel):
     change_5m: float | None = Field(default=None, allow_inf_nan=False)
     buys_5m: int | None = Field(default=None, ge=0)
     sells_5m: int | None = Field(default=None, ge=0)
+    buyers_5m_reported: int | None = Field(default=None, ge=0)
+    sellers_5m_reported: int | None = Field(default=None, ge=0)
     market_cap: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     fdv: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     pool_created_at: int | None = None

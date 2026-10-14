@@ -31,6 +31,10 @@ class Discovery:
                 CREATE TABLE IF NOT EXISTS discovered_pools(chain TEXT NOT NULL,pool TEXT NOT NULL,contract TEXT NOT NULL,first_seen_at TEXT NOT NULL,last_seen_at TEXT NOT NULL,payload TEXT NOT NULL,PRIMARY KEY(chain,pool));
                 CREATE TABLE IF NOT EXISTS discovery_runs(id INTEGER PRIMARY KEY,at TEXT NOT NULL,payload TEXT NOT NULL);
             """)
+            if "first_payload" not in {
+                r[1] for r in db.execute("PRAGMA table_info(discovered_pools)")
+            }:
+                db.execute("ALTER TABLE discovered_pools ADD COLUMN first_payload TEXT")
 
     async def close(self):
         await self.client.aclose()
@@ -39,8 +43,16 @@ class Discovery:
         now = utcnow()
         with self.store.connect() as db:
             db.execute(
-                "INSERT INTO discovered_pools VALUES(?,?,?,?,?,?) ON CONFLICT(chain,pool) DO UPDATE SET last_seen_at=excluded.last_seen_at,payload=excluded.payload",
-                (item["chain"], item["pool"], item["contract"], now, now, json.dumps(item)),
+                "INSERT INTO discovered_pools(chain,pool,contract,first_seen_at,last_seen_at,payload,first_payload) VALUES(?,?,?,?,?,?,?) ON CONFLICT(chain,pool) DO UPDATE SET last_seen_at=excluded.last_seen_at,payload=excluded.payload",
+                (
+                    item["chain"],
+                    item["pool"],
+                    item["contract"],
+                    now,
+                    now,
+                    json.dumps(item),
+                    json.dumps(item),
+                ),
             )
 
     async def new_pools(self, chain, page):
@@ -226,3 +238,76 @@ class Discovery:
             },
             "note": "Prima observare/indexare și crearea unui pool nu stabilesc data lansării tokenului. Feedul este neexhaustiv; niciun ordin automat.",
         }
+
+    async def boosts(self):
+        """A separately labeled paid-exposure feed, never evidence of organic demand."""
+        rows = await read_json(
+            self.client, "GET", "https://api.dexscreener.com/token-boosts/latest/v1"
+        )
+        if not isinstance(rows, list):
+            raise ProviderError("Boost feed schema invalid.")
+        by_address = {}
+        for row in rows:
+            try:
+                if row.get("chainId") != "solana":
+                    continue
+                address = chain_address("solana", row["tokenAddress"])
+                by_address[address] = {
+                    "amount_reported": number(row.get("amount"), None),
+                    "total_amount_reported": number(row.get("totalAmount"), None),
+                    "observed_at": utcnow(),
+                    "source": "DEX Screener token boosts",
+                    "organic_demand_verified": False,
+                }
+            except (ValueError, TypeError, KeyError, AttributeError):
+                continue
+        count = 0
+        for start in range(0, len(by_address), 30):
+            addresses = list(by_address)[start : start + 30]
+            pairs = await read_json(
+                self.client,
+                "GET",
+                "https://api.dexscreener.com/tokens/v1/solana/" + ",".join(addresses),
+            )
+            if not isinstance(pairs, list):
+                raise ProviderError("Boost pool schema invalid.")
+            for p in pairs:
+                try:
+                    address = chain_address("solana", p["baseToken"]["address"])
+                    if p.get("chainId") != "solana" or address not in by_address:
+                        continue
+                    pool = chain_address("solana", p["pairAddress"])
+                    created = number(p.get("pairCreatedAt"), None)
+                    self.save(
+                        {
+                            "chain": "solana",
+                            "pool": pool,
+                            "contract": address,
+                            "name": p["baseToken"].get("name", "?"),
+                            "price_usd": number(p.get("priceUsd"), None),
+                            "liquidity_usd": number((p.get("liquidity") or {}).get("usd"), None),
+                            "pool_created_at_reported": datetime.fromtimestamp(
+                                created / 1000, UTC
+                            ).isoformat()
+                            if created and 0 < created / 1000 <= datetime.now(UTC).timestamp()
+                            else None,
+                            "token_launched_at": None,
+                            "indexed_at": None,
+                            "source": "DEX Screener",
+                            "discovery_basis": "paid_boost_exposure_not_launch",
+                            "promotion": by_address[address],
+                            "observed_at": utcnow(),
+                            "official_affiliation": "unverified",
+                        }
+                    )
+                    count += 1
+                except (ValueError, TypeError, KeyError, AttributeError, OverflowError):
+                    continue
+        self.status["boosts"] = {
+            "state": "ok",
+            "at": utcnow(),
+            "reported_tokens": len(by_address),
+            "pools": count,
+            "sampling_bias": "paid exposure",
+        }
+        return count

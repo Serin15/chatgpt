@@ -69,3 +69,23 @@ if os.environ.get("ANNOUNCEMENT_FIXTURE") == "1" or os.environ.get("AI_FIXTURE")
             yield
 
     app.router.lifespan_context = fixture_lifespan
+
+if os.environ.get("OPPORTUNITY_FIXTURE") == "1":
+    original_engine_lifespan = app.router.lifespan_context
+
+    @asynccontextmanager
+    async def engine_fixture_lifespan(app):
+        async with original_engine_lifespan(app):
+            import time
+
+            from tests.test_opportunities import payload, seed, stamp
+
+            engine = app.state.service.opportunities
+            c, p, cfg = seed(engine)
+            now = time.time()
+            for at, value in [(now - 370, 1), (now - 366, 1), (now - 60, 1.05)]:
+                engine.save_observation(c, payload(engine, c, at, price=value), p, cfg, stamp(at))
+            engine.update_outcomes(now)
+            yield
+
+    app.router.lifespan_context = engine_fixture_lifespan

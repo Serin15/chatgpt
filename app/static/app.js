@@ -40,6 +40,7 @@ const pageNames = {
   sources: "Surse & metodologie",
   detail: "Dosar de cercetare",
   advanced: "Cercetare avansată",
+  opportunities: "Oportunități timpurii",
 };
 const categories = {
   launches: "LANSARE / PROIECT",
@@ -109,6 +110,8 @@ function icon(type = "arrow") {
     news: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v5l4 2",
     market: "M3 17l6-6 4 3 8-10M15 4h6v6",
     scanner: "M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14M15 15l6 6",
+    opportunities:
+      "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v10M7 12h10M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4",
     portfolio: "M3 5h18v15H3zM3 9h18M14 13h4",
     journal: "M4 5h16M4 12h16M4 19h16",
   };
@@ -218,6 +221,7 @@ function navigate(page) {
   if (location.hash !== "#" + page) history.pushState(null, "", "#" + page);
   window.scrollTo({ top: 0, behavior: "instant" });
   if (page === "advanced") renderAdvanced();
+  if (page === "opportunities") renderOpportunities();
 }
 async function action(b, fn) {
   b.disabled = true;
@@ -735,6 +739,7 @@ function renderHealth() {
     coingecko_catalog: status.crypto_market,
     performance: status.performance,
     announcements: status.announcement_analysis,
+    opportunity_engine: status.opportunity_engine,
     ...Object.fromEntries(
       Object.entries(status.discovery_sources || {}).map(([k, v]) => [
         "discovery_" + k,
@@ -1455,10 +1460,17 @@ document.querySelectorAll("button").forEach((b) => {
 navigate(
   pageNames[location.hash.slice(1)] && location.hash !== "#detail"
     ? location.hash.slice(1)
-    : "overview",
+    : "opportunities",
 );
 startApplication();
 setInterval(load, 15000);
+setInterval(() => {
+  if (
+    state.page === "opportunities" &&
+    !document.body.classList.contains("locked")
+  )
+    renderOpportunities();
+}, 15000);
 
 let fieldCounter = 0;
 function inputField(parent, label, type = "text") {

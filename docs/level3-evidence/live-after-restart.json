@@ -1,0 +1,3397 @@
+{
+  "real_data": true,
+  "live_execution": false,
+  "orders_placed": 0,
+  "manual_candidate_injection": false,
+  "url_scope": "loopback test instance",
+  "at": "2026-10-14T17:28:54.972033+00:00",
+  "criteria": {
+    "1_real_token_discovered": true,
+    "2_market_and_security_collected": true,
+    "3_features_and_scores": true,
+    "4_explained_verdict": true,
+    "5_persisted_signal": true,
+    "6_eligible_alert_displayed_and_receipted": true,
+    "7_later_observation_and_evaluated_5m_paper_outcome": true,
+    "8_dashboard_displays_candidate_and_outcomes": true
+  },
+  "complete": true,
+  "duration_seconds": 1,
+  "candidate": {
+    "id": 339,
+    "chain": "solana",
+    "contract": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+    "pool": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+    "discovered_at": "2026-10-14T17:14:10.006090+00:00",
+    "ingested_at": "2026-10-14T17:14:10.026255+00:00",
+    "discovery": {
+      "chain": "solana",
+      "contract": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+      "discovery_basis": "paid_boost_exposure_not_launch",
+      "first_capture_available": true,
+      "imported_from_cache": false,
+      "indexed_at": null,
+      "liquidity_usd": 48080.04,
+      "name": "MEMEOS",
+      "observed_at": "2026-10-14T17:14:10.006088+00:00",
+      "official_affiliation": "unverified",
+      "pool": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+      "pool_created_at_reported": "2026-10-13T22:19:13+00:00",
+      "price_usd": 0.0003187,
+      "promotion": {
+        "amount_reported": 10.0,
+        "observed_at": "2026-10-14T17:14:09.749272+00:00",
+        "organic_demand_verified": false,
+        "source": "DEX Screener token boosts",
+        "total_amount_reported": 10.0
+      },
+      "source": "DEX Screener",
+      "source_first_seen_at": "2026-10-14T17:14:10.006090+00:00",
+      "token_launched_at": null
+    },
+    "eligible": 1,
+    "exclusion_reason": null,
+    "next_due": 1791998910.017809,
+    "last_attempt_at": "2026-10-14T17:27:30.017809+00:00",
+    "failures": 0,
+    "signals": [
+      {
+        "id": 580,
+        "candidate_id": 339,
+        "observation_id": null,
+        "at": "2026-10-14T17:14:10.026255+00:00",
+        "kind": "discovery",
+        "verdict": "MONITOR",
+        "policy_id": 2,
+        "payload": {
+          "decision_at": "2026-10-14T17:14:10.026255+00:00",
+          "discovery": {
+            "chain": "solana",
+            "contract": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+            "discovery_basis": "paid_boost_exposure_not_launch",
+            "first_capture_available": true,
+            "imported_from_cache": false,
+            "indexed_at": null,
+            "liquidity_usd": 48080.04,
+            "name": "MEMEOS",
+            "observed_at": "2026-10-14T17:14:10.006088+00:00",
+            "official_affiliation": "unverified",
+            "pool": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+            "pool_created_at_reported": "2026-10-13T22:19:13+00:00",
+            "price_usd": 0.0003187,
+            "promotion": {
+              "amount_reported": 10.0,
+              "observed_at": "2026-10-14T17:14:09.749272+00:00",
+              "organic_demand_verified": false,
+              "source": "DEX Screener token boosts",
+              "total_amount_reported": 10.0
+            },
+            "source": "DEX Screener",
+            "source_first_seen_at": "2026-10-14T17:14:10.006090+00:00",
+            "token_launched_at": null
+          },
+          "negative": [],
+          "no_future_data": true,
+          "positive": [],
+          "scores": {},
+          "unknown": [
+            "Discovery metadata only; enrichment has not yet completed."
+          ],
+          "verdict": "MONITOR"
+        }
+      },
+      {
+        "id": 897,
+        "candidate_id": 339,
+        "observation_id": 674,
+        "at": "2026-10-14T17:19:37.641671+00:00",
+        "kind": "baseline",
+        "verdict": "INVESTIGATE",
+        "policy_id": 3,
+        "payload": {
+          "costs": {
+            "break_even_price_estimate": "0.0002628421987135139506035750336",
+            "break_even_rise_pct": "1.100570042856042209049264200",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022593302600912442196100379",
+              "quantity": "191311.6206349061681348400525",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0863599463040643,
+            "roundtrip_net_usd": "-0.54328860914666250702450046",
+            "same_price_exit": {
+              "cash_change": "49.46671139085333749297549954",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022474896813290397685244057",
+              "quantity": "191311.6206349061681348400525",
+              "swap_fee_usd": "0.1492121171596033544269573188"
+            }
+          },
+          "decision_at": "2026-10-14T17:19:37.641671+00:00",
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "no_future_data": true,
+          "policy": {
+            "at": "2026-10-14T17:16:23.937031+00:00",
+            "id": 3,
+            "payload": {
+              "config": {
+                "activity_samples": 0,
+                "ai_narratives": true,
+                "alert_verdicts": [
+                  "INVESTIGATE",
+                  "CONSIDER"
+                ],
+                "cooldown_seconds": 3600,
+                "discovery_pages": 2,
+                "enabled": true,
+                "entry_window_seconds": 180,
+                "exit_window_seconds": 180,
+                "horizons_seconds": [
+                  300,
+                  3600,
+                  86400
+                ],
+                "interval_seconds": 60,
+                "max_change_5m_pct": 30.0,
+                "max_extension_pct": 50.0,
+                "max_liquidity_drop_pct": 30.0,
+                "max_pool_age_hours": 24,
+                "max_roundtrip_cost_pct": 5.0,
+                "min_transactions_5m": 10,
+                "observation_budget": 30,
+                "position_usd": 50.0,
+                "security_budget": 8,
+                "telegram_enabled": false,
+                "test_from": null
+              },
+              "observation_rules": {
+                "max_snapshot_age": 120,
+                "min_signal_delay": 3
+              },
+              "paper_rules": {
+                "max_price_impact": "0.02",
+                "min_liquidity": "25000",
+                "network_fee_usd": "0.01",
+                "reference_fee": "0.006",
+                "reference_slippage": "0.005",
+                "swap_fee": "0.003"
+              },
+              "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+              "rule_version": "memescope-3.0",
+              "source_sha256": "767c34ed104a8420e97aeb1155033af03e73b9f917a6b0f665374774c5032255"
+            },
+            "sha256": "40ab73cd6e0006075b7849da1a341d11b75c879f3d6001e90068ed75509025b1"
+          },
+          "positive": [
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 56,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 70,
+            "early_momentum": 36.480000000000004,
+            "entry_attractiveness": 51,
+            "exit_liquidity": 70,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "investigate",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 61,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 88,
+              "momentum": 23,
+              "research_priority": 59,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer participation is not measured; transaction count is not buyer count.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data."
+          ],
+          "verdict": "INVESTIGATE"
+        }
+      },
+      {
+        "id": 1140,
+        "candidate_id": 339,
+        "observation_id": 841,
+        "at": "2026-10-14T17:25:35.959983+00:00",
+        "kind": "decision_change",
+        "verdict": "INVESTIGATE",
+        "policy_id": 4,
+        "payload": {
+          "costs": {
+            "break_even_price_estimate": "0.0003169828207038916896764980613",
+            "break_even_rise_pct": "1.088627486236646975895080800",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022006279916869853937941242",
+              "quantity": "158626.2155983233077664357712",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0747612965400357,
+            "roundtrip_net_usd": "-0.53748812439967189880548425",
+            "same_price_exit": {
+              "cash_change": "49.47251187560032810119451575",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0021892228955235450849843898",
+              "quantity": "158626.2155983233077664357712",
+              "swap_fee_usd": "0.1492208960838432113343580887"
+            }
+          },
+          "decision_at": "2026-10-14T17:25:35.959983+00:00",
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "no_future_data": true,
+          "policy": {
+            "at": "2026-10-14T17:25:28.103132+00:00",
+            "id": 4,
+            "payload": {
+              "config": {
+                "activity_samples": 0,
+                "ai_narratives": true,
+                "alert_verdicts": [
+                  "INVESTIGATE",
+                  "CONSIDER"
+                ],
+                "cooldown_seconds": 3600,
+                "discovery_pages": 2,
+                "enabled": true,
+                "entry_window_seconds": 180,
+                "exit_window_seconds": 180,
+                "horizons_seconds": [
+                  300,
+                  3600,
+                  86400
+                ],
+                "interval_seconds": 60,
+                "max_change_5m_pct": 30.0,
+                "max_extension_pct": 50.0,
+                "max_liquidity_drop_pct": 30.0,
+                "max_pool_age_hours": 24,
+                "max_roundtrip_cost_pct": 5.0,
+                "min_transactions_5m": 10,
+                "observation_budget": 30,
+                "position_usd": 50.0,
+                "security_budget": 8,
+                "telegram_enabled": false,
+                "test_from": null
+              },
+              "observation_rules": {
+                "max_snapshot_age": 120,
+                "min_signal_delay": 3
+              },
+              "paper_rules": {
+                "max_price_impact": "0.02",
+                "min_liquidity": "25000",
+                "network_fee_usd": "0.01",
+                "reference_fee": "0.006",
+                "reference_slippage": "0.005",
+                "swap_fee": "0.003"
+              },
+              "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+              "rule_version": "memescope-3.0",
+              "source_sha256": "f138fa84a21c7075a17d0db8d9c96e0f9381fead45ab0157512b738079948042"
+            },
+            "sha256": "836f93cc9038be7ebf0bfadfbef5b8f3232edbb84e5f8227d6bc6e9f6a5a8194"
+          },
+          "positive": [
+            "[RPC] Mint authority revocată.",
+            "[RPC] Freeze authority revocată.",
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 65,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 85,
+            "early_momentum": 51.608,
+            "entry_attractiveness": 59,
+            "exit_liquidity": 72,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "monitor",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 34,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 90,
+              "momentum": 53,
+              "research_priority": 49,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "INVESTIGATE"
+        }
+      }
+    ],
+    "observations": [
+      {
+        "id": 674,
+        "candidate_id": 339,
+        "at": "2026-10-14T17:19:37.641671+00:00",
+        "status": "ok",
+        "payload": "{\"decision\": {\"costs\": {\"break_even_price_estimate\": \"0.0002628421987135139506035750336\", \"break_even_rise_pct\": \"1.100570042856042209049264200\", \"economically_feasible_in_model\": true, \"entry\": {\"cash_change\": \"-50.01\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0022593302600912442196100379\", \"quantity\": \"191311.6206349061681348400525\", \"swap_fee_usd\": \"0.1500\"}, \"execution_verified\": false, \"model\": \"estimated_pool_not_routed\", \"roundtrip_cost_pct\": 1.0863599463040643, \"roundtrip_net_usd\": \"-0.54328860914666250702450046\", \"same_price_exit\": {\"cash_change\": \"49.46671139085333749297549954\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0022474896813290397685244057\", \"quantity\": \"191311.6206349061681348400525\", \"swap_fee_usd\": \"0.1492121171596033544269573188\"}}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": true, \"negative\": [\"paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand.\"], \"positive\": [\"Small-position estimated round trip passes liquidity and impact limits.\", \"Fresh security screening, reported activity and recent pool age support further research.\"], \"rank_score\": 56, \"rule_version\": \"memescope-3.0\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 70, \"early_momentum\": 36.480000000000004, \"entry_attractiveness\": 51, \"exit_liquidity\": 70, \"market_participation_quality\": 60, \"narrative_social_evidence\": null, \"security_risk\": 0, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"investigate\", \"critical\": [], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": true, \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\"], \"scores\": {\"activity\": 61, \"copyability\": null, \"data_completeness\": 100, \"liquidity_exit\": 88, \"momentum\": 23, \"research_priority\": 59, \"security_risk\": null, \"wallet_quality\": null}, \"unknown\": [], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": true, \"unknown\": [\"Unique buyer participation is not measured; transaction count is not buyer count.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\"], \"verdict\": \"INVESTIGATE\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 19, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": null}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 0, \"history_span_seconds\": 0, \"holder_growth\": null, \"latest_liquidity_change_pct\": null, \"organic_demand_verified\": false, \"pool_age_hours\": 19.006844908595085, \"price_change_since_first_capture_pct\": -18.424560238749578, \"reported_transactions_5m\": 54, \"sellers_5m_provider_reported\": 29, \"social_mentions_growth\": null, \"suspicions\": [{\"evidence\": {\"amount_reported\": 10.0, \"observed_at\": \"2026-10-14T17:14:09.749272+00:00\", \"organic_demand_verified\": false, \"source\": \"DEX Screener token boosts\", \"total_amount_reported\": 10.0}, \"kind\": \"paid_boost_reported\", \"note\": \"Paid exposure is not proof of manipulation or organic social demand.\", \"origin\": \"provider_reported_promotion\", \"severity\": \"medium\"}], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"buyers_5m_reported\": 19, \"buys_5m\": 22, \"change_5m\": -13.52, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 44028.4214, \"market_cap\": null, \"name\": \"MEMEOS / SOL\", \"observed_at\": \"2026-10-14T17:19:25.595096+00:00\", \"pair_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"pool_created_at\": null, \"price_usd\": 0.0002599809265191051, \"sellers_5m_reported\": 29, \"sells_5m\": 32, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"MEMEOS\", \"volume_1h\": 300891.708705689, \"volume_5m\": 5003.8515802675}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 3, \"security\": {\"errors\": [], \"goplus\": {\"balance_mutable_authority\": {\"authority\": [], \"status\": \"0\"}, \"closable\": {\"authority\": [], \"status\": \"0\"}, \"creators\": [], \"default_account_state\": \"1\", \"default_account_state_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"freezable\": {\"authority\": [], \"status\": \"0\"}, \"holder_count\": \"156\", \"holders\": [{\"account\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"balance\": \"421118661.242877\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.4339\", \"tag\": \"\", \"token_account\": \"E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2\"}, {\"account\": \"HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE\", \"balance\": \"29786636.177906\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0307\", \"tag\": \"\", \"token_account\": \"AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ\"}, {\"account\": \"91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe\", \"balance\": \"25276013.064955\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0260\", \"tag\": \"\", \"token_account\": \"DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH\"}, {\"account\": \"9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv\", \"balance\": \"24325030.842314\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0251\", \"tag\": \"\", \"token_account\": \"FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR\"}, {\"account\": \"12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW\", \"balance\": \"21127291.146563\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0218\", \"tag\": \"\", \"token_account\": \"AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV\"}, {\"account\": \"CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK\", \"balance\": \"19606217.548931\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0202\", \"tag\": \"\", \"token_account\": \"F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw\"}, {\"account\": \"AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r\", \"balance\": \"18770941.026923\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0193\", \"tag\": \"\", \"token_account\": \"A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o\"}, {\"account\": \"EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn\", \"balance\": \"17768631.794056\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0183\", \"tag\": \"\", \"token_account\": \"EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA\"}, {\"account\": \"EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES\", \"balance\": \"17636630.707352\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0182\", \"tag\": \"\", \"token_account\": \"Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg\"}, {\"account\": \"5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G\", \"balance\": \"17372800.16725\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0179\", \"tag\": \"\", \"token_account\": \"51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy\"}], \"metadata\": {\"description\": \"\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}, \"metadata_mutable\": {\"metadata_upgrade_authority\": [], \"status\": \"0\"}, \"mintable\": {\"authority\": [], \"status\": \"0\"}, \"non_transferable\": \"0\", \"total_supply\": \"970482046.92404\", \"transfer_fee\": {}, \"transfer_fee_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"transfer_hook\": [], \"transfer_hook_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"trusted_token\": 0}, \"observed_at\": \"2026-10-14T17:19:35.576279+00:00\", \"rpc\": {\"extensions\": [{\"extension\": \"metadataPointer\", \"state\": {\"authority\": null, \"metadataAddress\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\"}}, {\"extension\": \"tokenMetadata\", \"state\": {\"additionalMetadata\": [], \"mint\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"updateAuthority\": null, \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}}], \"freeze_authority\": null, \"mint_authority\": null, \"program\": \"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\", \"slot\": 456918903}}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "decision": {
+          "costs": {
+            "break_even_price_estimate": "0.0002628421987135139506035750336",
+            "break_even_rise_pct": "1.100570042856042209049264200",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022593302600912442196100379",
+              "quantity": "191311.6206349061681348400525",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0863599463040643,
+            "roundtrip_net_usd": "-0.54328860914666250702450046",
+            "same_price_exit": {
+              "cash_change": "49.46671139085333749297549954",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022474896813290397685244057",
+              "quantity": "191311.6206349061681348400525",
+              "swap_fee_usd": "0.1492121171596033544269573188"
+            }
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "positive": [
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 56,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 70,
+            "early_momentum": 36.480000000000004,
+            "entry_attractiveness": 51,
+            "exit_liquidity": 70,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "investigate",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 61,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 88,
+              "momentum": 23,
+              "research_priority": 59,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer participation is not measured; transaction count is not buyer count.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data."
+          ],
+          "verdict": "INVESTIGATE"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 19,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": null
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 0,
+          "history_span_seconds": 0,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": null,
+          "organic_demand_verified": false,
+          "pool_age_hours": 19.006844908595085,
+          "price_change_since_first_capture_pct": -18.424560238749578,
+          "reported_transactions_5m": 54,
+          "sellers_5m_provider_reported": 29,
+          "social_mentions_growth": null,
+          "suspicions": [
+            {
+              "evidence": {
+                "amount_reported": 10.0,
+                "observed_at": "2026-10-14T17:14:09.749272+00:00",
+                "organic_demand_verified": false,
+                "source": "DEX Screener token boosts",
+                "total_amount_reported": 10.0
+              },
+              "kind": "paid_boost_reported",
+              "note": "Paid exposure is not proof of manipulation or organic social demand.",
+              "origin": "provider_reported_promotion",
+              "severity": "medium"
+            }
+          ],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+          "buyers_5m_reported": 19,
+          "buys_5m": 22,
+          "change_5m": -13.52,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 44028.4214,
+          "market_cap": null,
+          "name": "MEMEOS / SOL",
+          "observed_at": "2026-10-14T17:19:25.595096+00:00",
+          "pair_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "pool_created_at": null,
+          "price_usd": 0.0002599809265191051,
+          "sellers_5m_reported": 29,
+          "sells_5m": 32,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "MEMEOS",
+          "volume_1h": 300891.708705689,
+          "volume_5m": 5003.8515802675
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 3,
+        "security": {
+          "errors": [],
+          "goplus": {
+            "balance_mutable_authority": {
+              "authority": [],
+              "status": "0"
+            },
+            "closable": {
+              "authority": [],
+              "status": "0"
+            },
+            "creators": [],
+            "default_account_state": "1",
+            "default_account_state_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "freezable": {
+              "authority": [],
+              "status": "0"
+            },
+            "holder_count": "156",
+            "holders": [
+              {
+                "account": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+                "balance": "421118661.242877",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.4339",
+                "tag": "",
+                "token_account": "E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2"
+              },
+              {
+                "account": "HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE",
+                "balance": "29786636.177906",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0307",
+                "tag": "",
+                "token_account": "AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ"
+              },
+              {
+                "account": "91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe",
+                "balance": "25276013.064955",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0260",
+                "tag": "",
+                "token_account": "DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH"
+              },
+              {
+                "account": "9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv",
+                "balance": "24325030.842314",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0251",
+                "tag": "",
+                "token_account": "FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR"
+              },
+              {
+                "account": "12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW",
+                "balance": "21127291.146563",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0218",
+                "tag": "",
+                "token_account": "AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV"
+              },
+              {
+                "account": "CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK",
+                "balance": "19606217.548931",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0202",
+                "tag": "",
+                "token_account": "F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw"
+              },
+              {
+                "account": "AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r",
+                "balance": "18770941.026923",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0193",
+                "tag": "",
+                "token_account": "A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o"
+              },
+              {
+                "account": "EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn",
+                "balance": "17768631.794056",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0183",
+                "tag": "",
+                "token_account": "EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA"
+              },
+              {
+                "account": "EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES",
+                "balance": "17636630.707352",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0182",
+                "tag": "",
+                "token_account": "Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg"
+              },
+              {
+                "account": "5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G",
+                "balance": "17372800.16725",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0179",
+                "tag": "",
+                "token_account": "51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy"
+              }
+            ],
+            "metadata": {
+              "description": "",
+              "name": "MEMEOS",
+              "symbol": "MEMEOS",
+              "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+            },
+            "metadata_mutable": {
+              "metadata_upgrade_authority": [],
+              "status": "0"
+            },
+            "mintable": {
+              "authority": [],
+              "status": "0"
+            },
+            "non_transferable": "0",
+            "total_supply": "970482046.92404",
+            "transfer_fee": {},
+            "transfer_fee_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "transfer_hook": [],
+            "transfer_hook_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "trusted_token": 0
+          },
+          "observed_at": "2026-10-14T17:19:35.576279+00:00",
+          "rpc": {
+            "extensions": [
+              {
+                "extension": "metadataPointer",
+                "state": {
+                  "authority": null,
+                  "metadataAddress": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump"
+                }
+              },
+              {
+                "extension": "tokenMetadata",
+                "state": {
+                  "additionalMetadata": [],
+                  "mint": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+                  "name": "MEMEOS",
+                  "symbol": "MEMEOS",
+                  "updateAuthority": null,
+                  "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+                }
+              }
+            ],
+            "freeze_authority": null,
+            "mint_authority": null,
+            "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+            "slot": 456918903
+          }
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      },
+      {
+        "id": 721,
+        "candidate_id": 339,
+        "at": "2026-10-14T17:21:27.325005+00:00",
+        "status": "ok",
+        "payload": "{\"decision\": {\"costs\": {\"break_even_price_estimate\": \"0.0002841564901661711269423498853\", \"break_even_rise_pct\": \"1.089886321879155185188342900\", \"economically_feasible_in_model\": true, \"entry\": {\"cash_change\": \"-50.01\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0022068163079661252235845789\", \"quantity\": \"176952.1418547019568342848723\", \"swap_fee_usd\": \"0.1500\"}, \"execution_verified\": false, \"model\": \"estimated_pool_not_routed\", \"roundtrip_cost_pct\": 1.0759840748890093, \"roundtrip_net_usd\": \"-0.53809963585199350899428403\", \"same_price_exit\": {\"cash_change\": \"49.47190036414800649100571597\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0021953656246857096978897038\", \"quantity\": \"176952.1418547019568342848723\", \"swap_fee_usd\": \"0.1492199706211436659728129262\"}}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": true, \"negative\": [\"paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand.\"], \"positive\": [\"Small-position estimated round trip passes liquidity and impact limits.\", \"Fresh security screening, reported activity and recent pool age support further research.\"], \"rank_score\": 60, \"rule_version\": \"memescope-3.0\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 75, \"early_momentum\": 42.687, \"entry_attractiveness\": 55, \"exit_liquidity\": 72, \"market_participation_quality\": 60, \"narrative_social_evidence\": null, \"security_risk\": 0, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"investigate\", \"critical\": [], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": true, \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\"], \"scores\": {\"activity\": 82, \"copyability\": null, \"data_completeness\": 100, \"liquidity_exit\": 90, \"momentum\": 35, \"research_priority\": 74, \"security_risk\": null, \"wallet_quality\": null}, \"unknown\": [], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": true, \"unknown\": [\"Unique buyer participation is not measured; transaction count is not buyer count.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\"], \"verdict\": \"INVESTIGATE\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 31, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": null}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 1, \"history_span_seconds\": 109.68333411216736, \"holder_growth\": null, \"latest_liquidity_change_pct\": 2.385013513112244, \"organic_demand_verified\": false, \"pool_age_hours\": 19.03731250140402, \"price_change_since_first_capture_pct\": -11.800157788329857, \"reported_transactions_5m\": 78, \"sellers_5m_provider_reported\": 38, \"social_mentions_growth\": null, \"suspicions\": [{\"evidence\": {\"amount_reported\": 10.0, \"observed_at\": \"2026-10-14T17:14:09.749272+00:00\", \"organic_demand_verified\": false, \"source\": \"DEX Screener token boosts\", \"total_amount_reported\": 10.0}, \"kind\": \"paid_boost_reported\", \"note\": \"Paid exposure is not proof of manipulation or organic social demand.\", \"origin\": \"provider_reported_promotion\", \"severity\": \"medium\"}], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"buyers_5m_reported\": 31, \"buys_5m\": 35, \"change_5m\": -7.313, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 45078.5052, \"market_cap\": null, \"name\": \"MEMEOS / SOL\", \"observed_at\": \"2026-10-14T17:21:25.791505+00:00\", \"pair_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"pool_created_at\": null, \"price_usd\": 0.00028109289712859275, \"sellers_5m_reported\": 38, \"sells_5m\": 43, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"MEMEOS\", \"volume_1h\": 302284.639708944, \"volume_5m\": 6396.7825835224}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 3, \"security\": {\"errors\": [], \"goplus\": {\"balance_mutable_authority\": {\"authority\": [], \"status\": \"0\"}, \"closable\": {\"authority\": [], \"status\": \"0\"}, \"creators\": [], \"default_account_state\": \"1\", \"default_account_state_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"freezable\": {\"authority\": [], \"status\": \"0\"}, \"holder_count\": \"156\", \"holders\": [{\"account\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"balance\": \"421118661.242877\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.4339\", \"tag\": \"\", \"token_account\": \"E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2\"}, {\"account\": \"HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE\", \"balance\": \"29786636.177906\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0307\", \"tag\": \"\", \"token_account\": \"AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ\"}, {\"account\": \"91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe\", \"balance\": \"25276013.064955\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0260\", \"tag\": \"\", \"token_account\": \"DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH\"}, {\"account\": \"9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv\", \"balance\": \"24325030.842314\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0251\", \"tag\": \"\", \"token_account\": \"FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR\"}, {\"account\": \"12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW\", \"balance\": \"21127291.146563\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0218\", \"tag\": \"\", \"token_account\": \"AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV\"}, {\"account\": \"CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK\", \"balance\": \"19606217.548931\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0202\", \"tag\": \"\", \"token_account\": \"F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw\"}, {\"account\": \"AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r\", \"balance\": \"18770941.026923\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0193\", \"tag\": \"\", \"token_account\": \"A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o\"}, {\"account\": \"EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn\", \"balance\": \"17768631.794056\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0183\", \"tag\": \"\", \"token_account\": \"EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA\"}, {\"account\": \"EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES\", \"balance\": \"17636630.707352\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0182\", \"tag\": \"\", \"token_account\": \"Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg\"}, {\"account\": \"5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G\", \"balance\": \"17372800.16725\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0179\", \"tag\": \"\", \"token_account\": \"51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy\"}], \"metadata\": {\"description\": \"\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}, \"metadata_mutable\": {\"metadata_upgrade_authority\": [], \"status\": \"0\"}, \"mintable\": {\"authority\": [], \"status\": \"0\"}, \"non_transferable\": \"0\", \"total_supply\": \"970482046.92404\", \"transfer_fee\": {}, \"transfer_fee_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"transfer_hook\": [], \"transfer_hook_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"trusted_token\": 0}, \"observed_at\": \"2026-10-14T17:19:35.576279+00:00\", \"rpc\": {\"extensions\": [{\"extension\": \"metadataPointer\", \"state\": {\"authority\": null, \"metadataAddress\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\"}}, {\"extension\": \"tokenMetadata\", \"state\": {\"additionalMetadata\": [], \"mint\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"updateAuthority\": null, \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}}], \"freeze_authority\": null, \"mint_authority\": null, \"program\": \"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\", \"slot\": 456918903}}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "decision": {
+          "costs": {
+            "break_even_price_estimate": "0.0002841564901661711269423498853",
+            "break_even_rise_pct": "1.089886321879155185188342900",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022068163079661252235845789",
+              "quantity": "176952.1418547019568342848723",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0759840748890093,
+            "roundtrip_net_usd": "-0.53809963585199350899428403",
+            "same_price_exit": {
+              "cash_change": "49.47190036414800649100571597",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0021953656246857096978897038",
+              "quantity": "176952.1418547019568342848723",
+              "swap_fee_usd": "0.1492199706211436659728129262"
+            }
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "positive": [
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 60,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 75,
+            "early_momentum": 42.687,
+            "entry_attractiveness": 55,
+            "exit_liquidity": 72,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "investigate",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 82,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 90,
+              "momentum": 35,
+              "research_priority": 74,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer participation is not measured; transaction count is not buyer count.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data."
+          ],
+          "verdict": "INVESTIGATE"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 31,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": null
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 1,
+          "history_span_seconds": 109.68333411216736,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": 2.385013513112244,
+          "organic_demand_verified": false,
+          "pool_age_hours": 19.03731250140402,
+          "price_change_since_first_capture_pct": -11.800157788329857,
+          "reported_transactions_5m": 78,
+          "sellers_5m_provider_reported": 38,
+          "social_mentions_growth": null,
+          "suspicions": [
+            {
+              "evidence": {
+                "amount_reported": 10.0,
+                "observed_at": "2026-10-14T17:14:09.749272+00:00",
+                "organic_demand_verified": false,
+                "source": "DEX Screener token boosts",
+                "total_amount_reported": 10.0
+              },
+              "kind": "paid_boost_reported",
+              "note": "Paid exposure is not proof of manipulation or organic social demand.",
+              "origin": "provider_reported_promotion",
+              "severity": "medium"
+            }
+          ],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+          "buyers_5m_reported": 31,
+          "buys_5m": 35,
+          "change_5m": -7.313,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 45078.5052,
+          "market_cap": null,
+          "name": "MEMEOS / SOL",
+          "observed_at": "2026-10-14T17:21:25.791505+00:00",
+          "pair_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "pool_created_at": null,
+          "price_usd": 0.00028109289712859275,
+          "sellers_5m_reported": 38,
+          "sells_5m": 43,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "MEMEOS",
+          "volume_1h": 302284.639708944,
+          "volume_5m": 6396.7825835224
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 3,
+        "security": {
+          "errors": [],
+          "goplus": {
+            "balance_mutable_authority": {
+              "authority": [],
+              "status": "0"
+            },
+            "closable": {
+              "authority": [],
+              "status": "0"
+            },
+            "creators": [],
+            "default_account_state": "1",
+            "default_account_state_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "freezable": {
+              "authority": [],
+              "status": "0"
+            },
+            "holder_count": "156",
+            "holders": [
+              {
+                "account": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+                "balance": "421118661.242877",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.4339",
+                "tag": "",
+                "token_account": "E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2"
+              },
+              {
+                "account": "HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE",
+                "balance": "29786636.177906",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0307",
+                "tag": "",
+                "token_account": "AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ"
+              },
+              {
+                "account": "91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe",
+                "balance": "25276013.064955",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0260",
+                "tag": "",
+                "token_account": "DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH"
+              },
+              {
+                "account": "9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv",
+                "balance": "24325030.842314",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0251",
+                "tag": "",
+                "token_account": "FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR"
+              },
+              {
+                "account": "12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW",
+                "balance": "21127291.146563",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0218",
+                "tag": "",
+                "token_account": "AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV"
+              },
+              {
+                "account": "CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK",
+                "balance": "19606217.548931",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0202",
+                "tag": "",
+                "token_account": "F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw"
+              },
+              {
+                "account": "AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r",
+                "balance": "18770941.026923",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0193",
+                "tag": "",
+                "token_account": "A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o"
+              },
+              {
+                "account": "EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn",
+                "balance": "17768631.794056",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0183",
+                "tag": "",
+                "token_account": "EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA"
+              },
+              {
+                "account": "EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES",
+                "balance": "17636630.707352",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0182",
+                "tag": "",
+                "token_account": "Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg"
+              },
+              {
+                "account": "5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G",
+                "balance": "17372800.16725",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0179",
+                "tag": "",
+                "token_account": "51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy"
+              }
+            ],
+            "metadata": {
+              "description": "",
+              "name": "MEMEOS",
+              "symbol": "MEMEOS",
+              "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+            },
+            "metadata_mutable": {
+              "metadata_upgrade_authority": [],
+              "status": "0"
+            },
+            "mintable": {
+              "authority": [],
+              "status": "0"
+            },
+            "non_transferable": "0",
+            "total_supply": "970482046.92404",
+            "transfer_fee": {},
+            "transfer_fee_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "transfer_hook": [],
+            "transfer_hook_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "trusted_token": 0
+          },
+          "observed_at": "2026-10-14T17:19:35.576279+00:00",
+          "rpc": {
+            "extensions": [
+              {
+                "extension": "metadataPointer",
+                "state": {
+                  "authority": null,
+                  "metadataAddress": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump"
+                }
+              },
+              {
+                "extension": "tokenMetadata",
+                "state": {
+                  "additionalMetadata": [],
+                  "mint": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+                  "name": "MEMEOS",
+                  "symbol": "MEMEOS",
+                  "updateAuthority": null,
+                  "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+                }
+              }
+            ],
+            "freeze_authority": null,
+            "mint_authority": null,
+            "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+            "slot": 456918903
+          }
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      },
+      {
+        "id": 781,
+        "candidate_id": 339,
+        "at": "2026-10-14T17:23:29.503770+00:00",
+        "status": "ok",
+        "payload": "{\"decision\": {\"costs\": {\"break_even_price_estimate\": \"0.0002817223872723345574953691317\", \"break_even_rise_pct\": \"1.089132987200921660317422800\", \"economically_feasible_in_model\": true, \"entry\": {\"cash_change\": \"-50.01\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0022031130048631498791411316\", \"quantity\": \"178480.3542074253809040041928\", \"swap_fee_usd\": \"0.1500\"}, \"execution_verified\": false, \"model\": \"estimated_pool_not_routed\", \"roundtrip_cost_pct\": 1.0752523237219456, \"roundtrip_net_usd\": \"-0.53773368709334493521873966\", \"same_price_exit\": {\"cash_change\": \"49.47226631290665506478126034\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0021916896115823176612334717\", \"quantity\": \"178480.3542074253809040041928\", \"swap_fee_usd\": \"0.1492205244501227159355744438\"}}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": true, \"negative\": [\"paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand.\"], \"positive\": [\"Small-position estimated round trip passes liquidity and impact limits.\", \"Fresh security screening, reported activity and recent pool age support further research.\"], \"rank_score\": 63, \"rule_version\": \"memescope-3.0\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 80, \"early_momentum\": 52.778999999999996, \"entry_attractiveness\": 55, \"exit_liquidity\": 72, \"market_participation_quality\": 35, \"narrative_social_evidence\": null, \"security_risk\": 0, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"monitor\", \"critical\": [], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": true, \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\"], \"scores\": {\"activity\": 14, \"copyability\": null, \"data_completeness\": 100, \"liquidity_exit\": 90, \"momentum\": 56, \"research_priority\": 38, \"security_risk\": null, \"wallet_quality\": null}, \"unknown\": [], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": true, \"unknown\": [\"Unique buyer participation is not measured; transaction count is not buyer count.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\"], \"verdict\": \"INVESTIGATE\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 7, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": null}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 2, \"history_span_seconds\": 231.86209917068481, \"holder_growth\": null, \"latest_liquidity_change_pct\": 0.168465878944013, \"organic_demand_verified\": false, \"pool_age_hours\": 19.071251047253607, \"price_change_since_first_capture_pct\": -12.555031696620988, \"reported_transactions_5m\": 15, \"sellers_5m_provider_reported\": 7, \"social_mentions_growth\": null, \"suspicions\": [{\"evidence\": {\"amount_reported\": 10.0, \"observed_at\": \"2026-10-14T17:14:09.749272+00:00\", \"organic_demand_verified\": false, \"source\": \"DEX Screener token boosts\", \"total_amount_reported\": 10.0}, \"kind\": \"paid_boost_reported\", \"note\": \"Paid exposure is not proof of manipulation or organic social demand.\", \"origin\": \"provider_reported_promotion\", \"severity\": \"medium\"}], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"buyers_5m_reported\": 7, \"buys_5m\": 8, \"change_5m\": 2.779, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 45154.4471, \"market_cap\": null, \"name\": \"MEMEOS / SOL\", \"observed_at\": \"2026-10-14T17:23:25.718674+00:00\", \"pair_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"pool_created_at\": null, \"price_usd\": 0.0002786871139828689, \"sellers_5m_reported\": 7, \"sells_5m\": 7, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"MEMEOS\", \"volume_1h\": 220570.796354181, \"volume_5m\": 937.2924819123}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 3, \"security\": {\"errors\": [], \"goplus\": {\"balance_mutable_authority\": {\"authority\": [], \"status\": \"0\"}, \"closable\": {\"authority\": [], \"status\": \"0\"}, \"creators\": [], \"default_account_state\": \"1\", \"default_account_state_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"freezable\": {\"authority\": [], \"status\": \"0\"}, \"holder_count\": \"156\", \"holders\": [{\"account\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"balance\": \"421118661.242877\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.4339\", \"tag\": \"\", \"token_account\": \"E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2\"}, {\"account\": \"HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE\", \"balance\": \"29786636.177906\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0307\", \"tag\": \"\", \"token_account\": \"AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ\"}, {\"account\": \"91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe\", \"balance\": \"25276013.064955\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0260\", \"tag\": \"\", \"token_account\": \"DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH\"}, {\"account\": \"9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv\", \"balance\": \"24325030.842314\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0251\", \"tag\": \"\", \"token_account\": \"FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR\"}, {\"account\": \"12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW\", \"balance\": \"21127291.146563\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0218\", \"tag\": \"\", \"token_account\": \"AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV\"}, {\"account\": \"CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK\", \"balance\": \"19606217.548931\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0202\", \"tag\": \"\", \"token_account\": \"F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw\"}, {\"account\": \"AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r\", \"balance\": \"18770941.026923\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0193\", \"tag\": \"\", \"token_account\": \"A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o\"}, {\"account\": \"EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn\", \"balance\": \"17768631.794056\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0183\", \"tag\": \"\", \"token_account\": \"EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA\"}, {\"account\": \"EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES\", \"balance\": \"17636630.707352\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0182\", \"tag\": \"\", \"token_account\": \"Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg\"}, {\"account\": \"5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G\", \"balance\": \"17372800.16725\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0179\", \"tag\": \"\", \"token_account\": \"51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy\"}], \"metadata\": {\"description\": \"\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}, \"metadata_mutable\": {\"metadata_upgrade_authority\": [], \"status\": \"0\"}, \"mintable\": {\"authority\": [], \"status\": \"0\"}, \"non_transferable\": \"0\", \"total_supply\": \"970482046.92404\", \"transfer_fee\": {}, \"transfer_fee_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"transfer_hook\": [], \"transfer_hook_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"trusted_token\": 0}, \"observed_at\": \"2026-10-14T17:23:27.441287+00:00\", \"rpc\": {\"extensions\": [{\"extension\": \"metadataPointer\", \"state\": {\"authority\": null, \"metadataAddress\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\"}}, {\"extension\": \"tokenMetadata\", \"state\": {\"additionalMetadata\": [], \"mint\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"updateAuthority\": null, \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}}], \"freeze_authority\": null, \"mint_authority\": null, \"program\": \"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\", \"slot\": 456919971}}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "decision": {
+          "costs": {
+            "break_even_price_estimate": "0.0002817223872723345574953691317",
+            "break_even_rise_pct": "1.089132987200921660317422800",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022031130048631498791411316",
+              "quantity": "178480.3542074253809040041928",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0752523237219456,
+            "roundtrip_net_usd": "-0.53773368709334493521873966",
+            "same_price_exit": {
+              "cash_change": "49.47226631290665506478126034",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0021916896115823176612334717",
+              "quantity": "178480.3542074253809040041928",
+              "swap_fee_usd": "0.1492205244501227159355744438"
+            }
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "positive": [
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 63,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 80,
+            "early_momentum": 52.778999999999996,
+            "entry_attractiveness": 55,
+            "exit_liquidity": 72,
+            "market_participation_quality": 35,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "monitor",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 14,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 90,
+              "momentum": 56,
+              "research_priority": 38,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer participation is not measured; transaction count is not buyer count.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data."
+          ],
+          "verdict": "INVESTIGATE"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 7,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": null
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 2,
+          "history_span_seconds": 231.86209917068481,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": 0.168465878944013,
+          "organic_demand_verified": false,
+          "pool_age_hours": 19.071251047253607,
+          "price_change_since_first_capture_pct": -12.555031696620988,
+          "reported_transactions_5m": 15,
+          "sellers_5m_provider_reported": 7,
+          "social_mentions_growth": null,
+          "suspicions": [
+            {
+              "evidence": {
+                "amount_reported": 10.0,
+                "observed_at": "2026-10-14T17:14:09.749272+00:00",
+                "organic_demand_verified": false,
+                "source": "DEX Screener token boosts",
+                "total_amount_reported": 10.0
+              },
+              "kind": "paid_boost_reported",
+              "note": "Paid exposure is not proof of manipulation or organic social demand.",
+              "origin": "provider_reported_promotion",
+              "severity": "medium"
+            }
+          ],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+          "buyers_5m_reported": 7,
+          "buys_5m": 8,
+          "change_5m": 2.779,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 45154.4471,
+          "market_cap": null,
+          "name": "MEMEOS / SOL",
+          "observed_at": "2026-10-14T17:23:25.718674+00:00",
+          "pair_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "pool_created_at": null,
+          "price_usd": 0.0002786871139828689,
+          "sellers_5m_reported": 7,
+          "sells_5m": 7,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "MEMEOS",
+          "volume_1h": 220570.796354181,
+          "volume_5m": 937.2924819123
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 3,
+        "security": {
+          "errors": [],
+          "goplus": {
+            "balance_mutable_authority": {
+              "authority": [],
+              "status": "0"
+            },
+            "closable": {
+              "authority": [],
+              "status": "0"
+            },
+            "creators": [],
+            "default_account_state": "1",
+            "default_account_state_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "freezable": {
+              "authority": [],
+              "status": "0"
+            },
+            "holder_count": "156",
+            "holders": [
+              {
+                "account": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+                "balance": "421118661.242877",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.4339",
+                "tag": "",
+                "token_account": "E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2"
+              },
+              {
+                "account": "HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE",
+                "balance": "29786636.177906",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0307",
+                "tag": "",
+                "token_account": "AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ"
+              },
+              {
+                "account": "91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe",
+                "balance": "25276013.064955",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0260",
+                "tag": "",
+                "token_account": "DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH"
+              },
+              {
+                "account": "9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv",
+                "balance": "24325030.842314",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0251",
+                "tag": "",
+                "token_account": "FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR"
+              },
+              {
+                "account": "12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW",
+                "balance": "21127291.146563",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0218",
+                "tag": "",
+                "token_account": "AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV"
+              },
+              {
+                "account": "CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK",
+                "balance": "19606217.548931",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0202",
+                "tag": "",
+                "token_account": "F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw"
+              },
+              {
+                "account": "AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r",
+                "balance": "18770941.026923",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0193",
+                "tag": "",
+                "token_account": "A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o"
+              },
+              {
+                "account": "EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn",
+                "balance": "17768631.794056",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0183",
+                "tag": "",
+                "token_account": "EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA"
+              },
+              {
+                "account": "EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES",
+                "balance": "17636630.707352",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0182",
+                "tag": "",
+                "token_account": "Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg"
+              },
+              {
+                "account": "5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G",
+                "balance": "17372800.16725",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0179",
+                "tag": "",
+                "token_account": "51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy"
+              }
+            ],
+            "metadata": {
+              "description": "",
+              "name": "MEMEOS",
+              "symbol": "MEMEOS",
+              "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+            },
+            "metadata_mutable": {
+              "metadata_upgrade_authority": [],
+              "status": "0"
+            },
+            "mintable": {
+              "authority": [],
+              "status": "0"
+            },
+            "non_transferable": "0",
+            "total_supply": "970482046.92404",
+            "transfer_fee": {},
+            "transfer_fee_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "transfer_hook": [],
+            "transfer_hook_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "trusted_token": 0
+          },
+          "observed_at": "2026-10-14T17:23:27.441287+00:00",
+          "rpc": {
+            "extensions": [
+              {
+                "extension": "metadataPointer",
+                "state": {
+                  "authority": null,
+                  "metadataAddress": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump"
+                }
+              },
+              {
+                "extension": "tokenMetadata",
+                "state": {
+                  "additionalMetadata": [],
+                  "mint": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+                  "name": "MEMEOS",
+                  "symbol": "MEMEOS",
+                  "updateAuthority": null,
+                  "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+                }
+              }
+            ],
+            "freeze_authority": null,
+            "mint_authority": null,
+            "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+            "slot": 456919971
+          }
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      },
+      {
+        "id": 841,
+        "candidate_id": 339,
+        "at": "2026-10-14T17:25:35.959983+00:00",
+        "status": "ok",
+        "payload": "{\"decision\": {\"costs\": {\"break_even_price_estimate\": \"0.0003169828207038916896764980613\", \"break_even_rise_pct\": \"1.088627486236646975895080800\", \"economically_feasible_in_model\": true, \"entry\": {\"cash_change\": \"-50.01\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0022006279916869853937941242\", \"quantity\": \"158626.2155983233077664357712\", \"swap_fee_usd\": \"0.1500\"}, \"execution_verified\": false, \"model\": \"estimated_pool_not_routed\", \"roundtrip_cost_pct\": 1.0747612965400357, \"roundtrip_net_usd\": \"-0.53748812439967189880548425\", \"same_price_exit\": {\"cash_change\": \"49.47251187560032810119451575\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0021892228955235450849843898\", \"quantity\": \"158626.2155983233077664357712\", \"swap_fee_usd\": \"0.1492208960838432113343580887\"}}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": true, \"negative\": [\"paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand.\"], \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\", \"Small-position estimated round trip passes liquidity and impact limits.\", \"Fresh security screening, reported activity and recent pool age support further research.\"], \"rank_score\": 65, \"rule_version\": \"memescope-3.0\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 85, \"early_momentum\": 51.608, \"entry_attractiveness\": 59, \"exit_liquidity\": 72, \"market_participation_quality\": 60, \"narrative_social_evidence\": null, \"security_risk\": 0, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"monitor\", \"critical\": [], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": true, \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\"], \"scores\": {\"activity\": 34, \"copyability\": null, \"data_completeness\": 100, \"liquidity_exit\": 90, \"momentum\": 53, \"research_priority\": 49, \"security_risk\": null, \"wallet_quality\": null}, \"unknown\": [], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": true, \"unknown\": [\"Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\", \"Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints.\"], \"verdict\": \"INVESTIGATE\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 19, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": {\"baseline_at\": \"2026-10-14T17:19:37.641671+00:00\", \"baseline_observation_id\": 674, \"elapsed_seconds\": 358, \"liquidity_change_pct\": 2.673563944765922, \"price_change_pct\": 20.612394218733243, \"reported_buyers_change_pct\": 0.0, \"volume_5m_ratio\": 0.42501242531384376}}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 3, \"history_span_seconds\": 358.31831216812134, \"holder_growth\": null, \"latest_liquidity_change_pct\": 0.11317224167717299, \"organic_demand_verified\": false, \"pool_age_hours\": 19.10637777308623, \"price_change_since_first_capture_pct\": -1.6099090094953805, \"reported_transactions_5m\": 39, \"sellers_5m_provider_reported\": 15, \"social_mentions_growth\": null, \"suspicions\": [{\"evidence\": {\"amount_reported\": 10.0, \"observed_at\": \"2026-10-14T17:14:09.749272+00:00\", \"organic_demand_verified\": false, \"source\": \"DEX Screener token boosts\", \"total_amount_reported\": 10.0}, \"kind\": \"paid_boost_reported\", \"note\": \"Paid exposure is not proof of manipulation or organic social demand.\", \"origin\": \"provider_reported_promotion\", \"severity\": \"medium\"}], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"buyers_5m_reported\": 19, \"buys_5m\": 20, \"change_5m\": 1.608, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 45205.5494, \"market_cap\": null, \"name\": \"MEMEOS / SOL\", \"observed_at\": \"2026-10-14T17:25:30.093115+00:00\", \"pair_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"pool_created_at\": null, \"price_usd\": 0.0003135692199867382, \"sellers_5m_reported\": 15, \"sells_5m\": 19, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"MEMEOS\", \"volume_1h\": 221760.202968309, \"volume_5m\": 2126.69909604}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 4, \"security\": {\"errors\": [], \"goplus\": {\"balance_mutable_authority\": {\"authority\": [], \"status\": \"0\"}, \"closable\": {\"authority\": [], \"status\": \"0\"}, \"creators\": [], \"default_account_state\": \"1\", \"default_account_state_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"freezable\": {\"authority\": [], \"status\": \"0\"}, \"holder_count\": \"156\", \"holders\": [{\"account\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"balance\": \"421118661.242877\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.4339\", \"tag\": \"\", \"token_account\": \"E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2\"}, {\"account\": \"HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE\", \"balance\": \"29786636.177906\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0307\", \"tag\": \"\", \"token_account\": \"AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ\"}, {\"account\": \"91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe\", \"balance\": \"25276013.064955\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0260\", \"tag\": \"\", \"token_account\": \"DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH\"}, {\"account\": \"9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv\", \"balance\": \"24325030.842314\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0251\", \"tag\": \"\", \"token_account\": \"FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR\"}, {\"account\": \"12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW\", \"balance\": \"21127291.146563\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0218\", \"tag\": \"\", \"token_account\": \"AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV\"}, {\"account\": \"CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK\", \"balance\": \"19606217.548931\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0202\", \"tag\": \"\", \"token_account\": \"F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw\"}, {\"account\": \"AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r\", \"balance\": \"18770941.026923\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0193\", \"tag\": \"\", \"token_account\": \"A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o\"}, {\"account\": \"EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn\", \"balance\": \"17768631.794056\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0183\", \"tag\": \"\", \"token_account\": \"EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA\"}, {\"account\": \"EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES\", \"balance\": \"17636630.707352\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0182\", \"tag\": \"\", \"token_account\": \"Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg\"}, {\"account\": \"5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G\", \"balance\": \"17372800.16725\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0179\", \"tag\": \"\", \"token_account\": \"51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy\"}], \"metadata\": {\"description\": \"\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}, \"metadata_mutable\": {\"metadata_upgrade_authority\": [], \"status\": \"0\"}, \"mintable\": {\"authority\": [], \"status\": \"0\"}, \"non_transferable\": \"0\", \"total_supply\": \"970482046.92404\", \"transfer_fee\": {}, \"transfer_fee_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"transfer_hook\": [], \"transfer_hook_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"trusted_token\": 0}, \"observed_at\": \"2026-10-14T17:25:33.878635+00:00\", \"rpc\": {\"extensions\": [{\"extension\": \"metadataPointer\", \"state\": {\"authority\": null, \"metadataAddress\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\"}}, {\"extension\": \"tokenMetadata\", \"state\": {\"additionalMetadata\": [], \"mint\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"updateAuthority\": null, \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}}], \"freeze_authority\": null, \"mint_authority\": null, \"program\": \"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\", \"slot\": 456920551}}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "decision": {
+          "costs": {
+            "break_even_price_estimate": "0.0003169828207038916896764980613",
+            "break_even_rise_pct": "1.088627486236646975895080800",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0022006279916869853937941242",
+              "quantity": "158626.2155983233077664357712",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0747612965400357,
+            "roundtrip_net_usd": "-0.53748812439967189880548425",
+            "same_price_exit": {
+              "cash_change": "49.47251187560032810119451575",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0021892228955235450849843898",
+              "quantity": "158626.2155983233077664357712",
+              "swap_fee_usd": "0.1492208960838432113343580887"
+            }
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "positive": [
+            "[RPC] Mint authority revocată.",
+            "[RPC] Freeze authority revocată.",
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 65,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 85,
+            "early_momentum": 51.608,
+            "entry_attractiveness": 59,
+            "exit_liquidity": 72,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "monitor",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 34,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 90,
+              "momentum": 53,
+              "research_priority": 49,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "INVESTIGATE"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 19,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": {
+              "baseline_at": "2026-10-14T17:19:37.641671+00:00",
+              "baseline_observation_id": 674,
+              "elapsed_seconds": 358,
+              "liquidity_change_pct": 2.673563944765922,
+              "price_change_pct": 20.612394218733243,
+              "reported_buyers_change_pct": 0.0,
+              "volume_5m_ratio": 0.42501242531384376
+            }
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 3,
+          "history_span_seconds": 358.31831216812134,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": 0.11317224167717299,
+          "organic_demand_verified": false,
+          "pool_age_hours": 19.10637777308623,
+          "price_change_since_first_capture_pct": -1.6099090094953805,
+          "reported_transactions_5m": 39,
+          "sellers_5m_provider_reported": 15,
+          "social_mentions_growth": null,
+          "suspicions": [
+            {
+              "evidence": {
+                "amount_reported": 10.0,
+                "observed_at": "2026-10-14T17:14:09.749272+00:00",
+                "organic_demand_verified": false,
+                "source": "DEX Screener token boosts",
+                "total_amount_reported": 10.0
+              },
+              "kind": "paid_boost_reported",
+              "note": "Paid exposure is not proof of manipulation or organic social demand.",
+              "origin": "provider_reported_promotion",
+              "severity": "medium"
+            }
+          ],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+          "buyers_5m_reported": 19,
+          "buys_5m": 20,
+          "change_5m": 1.608,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 45205.5494,
+          "market_cap": null,
+          "name": "MEMEOS / SOL",
+          "observed_at": "2026-10-14T17:25:30.093115+00:00",
+          "pair_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "pool_created_at": null,
+          "price_usd": 0.0003135692199867382,
+          "sellers_5m_reported": 15,
+          "sells_5m": 19,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "MEMEOS",
+          "volume_1h": 221760.202968309,
+          "volume_5m": 2126.69909604
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 4,
+        "security": {
+          "errors": [],
+          "goplus": {
+            "balance_mutable_authority": {
+              "authority": [],
+              "status": "0"
+            },
+            "closable": {
+              "authority": [],
+              "status": "0"
+            },
+            "creators": [],
+            "default_account_state": "1",
+            "default_account_state_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "freezable": {
+              "authority": [],
+              "status": "0"
+            },
+            "holder_count": "156",
+            "holders": [
+              {
+                "account": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+                "balance": "421118661.242877",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.4339",
+                "tag": "",
+                "token_account": "E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2"
+              },
+              {
+                "account": "HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE",
+                "balance": "29786636.177906",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0307",
+                "tag": "",
+                "token_account": "AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ"
+              },
+              {
+                "account": "91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe",
+                "balance": "25276013.064955",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0260",
+                "tag": "",
+                "token_account": "DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH"
+              },
+              {
+                "account": "9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv",
+                "balance": "24325030.842314",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0251",
+                "tag": "",
+                "token_account": "FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR"
+              },
+              {
+                "account": "12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW",
+                "balance": "21127291.146563",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0218",
+                "tag": "",
+                "token_account": "AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV"
+              },
+              {
+                "account": "CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK",
+                "balance": "19606217.548931",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0202",
+                "tag": "",
+                "token_account": "F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw"
+              },
+              {
+                "account": "AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r",
+                "balance": "18770941.026923",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0193",
+                "tag": "",
+                "token_account": "A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o"
+              },
+              {
+                "account": "EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn",
+                "balance": "17768631.794056",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0183",
+                "tag": "",
+                "token_account": "EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA"
+              },
+              {
+                "account": "EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES",
+                "balance": "17636630.707352",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0182",
+                "tag": "",
+                "token_account": "Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg"
+              },
+              {
+                "account": "5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G",
+                "balance": "17372800.16725",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0179",
+                "tag": "",
+                "token_account": "51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy"
+              }
+            ],
+            "metadata": {
+              "description": "",
+              "name": "MEMEOS",
+              "symbol": "MEMEOS",
+              "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+            },
+            "metadata_mutable": {
+              "metadata_upgrade_authority": [],
+              "status": "0"
+            },
+            "mintable": {
+              "authority": [],
+              "status": "0"
+            },
+            "non_transferable": "0",
+            "total_supply": "970482046.92404",
+            "transfer_fee": {},
+            "transfer_fee_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "transfer_hook": [],
+            "transfer_hook_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "trusted_token": 0
+          },
+          "observed_at": "2026-10-14T17:25:33.878635+00:00",
+          "rpc": {
+            "extensions": [
+              {
+                "extension": "metadataPointer",
+                "state": {
+                  "authority": null,
+                  "metadataAddress": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump"
+                }
+              },
+              {
+                "extension": "tokenMetadata",
+                "state": {
+                  "additionalMetadata": [],
+                  "mint": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+                  "name": "MEMEOS",
+                  "symbol": "MEMEOS",
+                  "updateAuthority": null,
+                  "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+                }
+              }
+            ],
+            "freeze_authority": null,
+            "mint_authority": null,
+            "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+            "slot": 456920551
+          }
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      },
+      {
+        "id": 901,
+        "candidate_id": 339,
+        "at": "2026-10-14T17:27:30.017809+00:00",
+        "status": "ok",
+        "payload": "{\"decision\": {\"costs\": {\"break_even_price_estimate\": \"0.0003741859575260250517501000614\", \"break_even_rise_pct\": \"1.045181555166844470998672800\", \"economically_feasible_in_model\": true, \"entry\": {\"cash_change\": \"-50.01\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0019869574360116301222412483\", \"quantity\": \"134347.4732694491249410204891\", \"swap_fee_usd\": \"0.1500\"}, \"execution_verified\": false, \"model\": \"estimated_pool_not_routed\", \"roundtrip_cost_pct\": 1.0325318960285759, \"roundtrip_net_usd\": \"-0.51636920120389077780639302\", \"same_price_exit\": {\"cash_change\": \"49.49363079879610922219360698\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"price_impact\": \"0.0019770799750668206703876580\", \"quantity\": \"134347.4732694491249410204891\", \"swap_fee_usd\": \"0.1492528505154444607152188213\"}}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": true, \"negative\": [\"paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand.\"], \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\", \"Small-position estimated round trip passes liquidity and impact limits.\", \"Fresh security screening, reported activity and recent pool age support further research.\"], \"rank_score\": 73, \"rule_version\": \"memescope-3.0\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 85, \"early_momentum\": 64.973, \"entry_attractiveness\": 68, \"exit_liquidity\": 80, \"market_participation_quality\": 60, \"narrative_social_evidence\": null, \"security_risk\": 0, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"monitor\", \"critical\": [], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": true, \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\"], \"scores\": {\"activity\": 24, \"copyability\": null, \"data_completeness\": 100, \"liquidity_exit\": 100, \"momentum\": 80, \"research_priority\": 50, \"security_risk\": null, \"wallet_quality\": null}, \"unknown\": [], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": true, \"unknown\": [\"Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\", \"Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints.\"], \"verdict\": \"INVESTIGATE\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 14, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": {\"baseline_at\": \"2026-10-14T17:21:27.325005+00:00\", \"baseline_observation_id\": 721, \"elapsed_seconds\": 363, \"liquidity_change_pct\": 11.08957490453788, \"price_change_pct\": 31.7413183074839, \"reported_buyers_change_pct\": -54.83870967741935, \"volume_5m_ratio\": 0.31642511652770977}}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 4, \"history_span_seconds\": 472.37613797187805, \"holder_growth\": null, \"latest_liquidity_change_pct\": 10.777372390479112, \"organic_demand_verified\": false, \"pool_age_hours\": 19.13806050247616, \"price_change_since_first_capture_pct\": 16.19563487477491, \"reported_transactions_5m\": 23, \"sellers_5m_provider_reported\": 8, \"social_mentions_growth\": null, \"suspicions\": [{\"evidence\": {\"amount_reported\": 10.0, \"observed_at\": \"2026-10-14T17:14:09.749272+00:00\", \"organic_demand_verified\": false, \"source\": \"DEX Screener token boosts\", \"total_amount_reported\": 10.0}, \"kind\": \"paid_boost_reported\", \"note\": \"Paid exposure is not proof of manipulation or organic social demand.\", \"origin\": \"provider_reported_promotion\", \"severity\": \"medium\"}], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"buyers_5m_reported\": 14, \"buys_5m\": 15, \"change_5m\": 14.973, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 50077.5198, \"market_cap\": null, \"name\": \"MEMEOS / SOL\", \"observed_at\": \"2026-10-14T17:27:30.002023+00:00\", \"pair_address\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"pool_created_at\": null, \"price_usd\": 0.0003703154883459076, \"sellers_5m_reported\": 8, \"sells_5m\": 8, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"MEMEOS\", \"volume_1h\": 189513.777450728, \"volume_5m\": 2024.1026743935}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 4, \"security\": {\"errors\": [], \"goplus\": {\"balance_mutable_authority\": {\"authority\": [], \"status\": \"0\"}, \"closable\": {\"authority\": [], \"status\": \"0\"}, \"creators\": [], \"default_account_state\": \"1\", \"default_account_state_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"freezable\": {\"authority\": [], \"status\": \"0\"}, \"holder_count\": \"156\", \"holders\": [{\"account\": \"Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3\", \"balance\": \"421118661.242877\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.4339\", \"tag\": \"\", \"token_account\": \"E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2\"}, {\"account\": \"HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE\", \"balance\": \"29786636.177906\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0307\", \"tag\": \"\", \"token_account\": \"AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ\"}, {\"account\": \"91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe\", \"balance\": \"25276013.064955\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0260\", \"tag\": \"\", \"token_account\": \"DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH\"}, {\"account\": \"9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv\", \"balance\": \"24325030.842314\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0251\", \"tag\": \"\", \"token_account\": \"FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR\"}, {\"account\": \"12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW\", \"balance\": \"21127291.146563\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0218\", \"tag\": \"\", \"token_account\": \"AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV\"}, {\"account\": \"CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK\", \"balance\": \"19606217.548931\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0202\", \"tag\": \"\", \"token_account\": \"F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw\"}, {\"account\": \"AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r\", \"balance\": \"18770941.026923\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0193\", \"tag\": \"\", \"token_account\": \"A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o\"}, {\"account\": \"EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn\", \"balance\": \"17768631.794056\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0183\", \"tag\": \"\", \"token_account\": \"EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA\"}, {\"account\": \"EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES\", \"balance\": \"17636630.707352\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0182\", \"tag\": \"\", \"token_account\": \"Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg\"}, {\"account\": \"5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G\", \"balance\": \"17372800.16725\", \"is_locked\": 0, \"locked_detail\": [], \"percent\": \"0.0179\", \"tag\": \"\", \"token_account\": \"51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy\"}], \"metadata\": {\"description\": \"\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}, \"metadata_mutable\": {\"metadata_upgrade_authority\": [], \"status\": \"0\"}, \"mintable\": {\"authority\": [], \"status\": \"0\"}, \"non_transferable\": \"0\", \"total_supply\": \"970482046.92404\", \"transfer_fee\": {}, \"transfer_fee_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"transfer_hook\": [], \"transfer_hook_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"trusted_token\": 0}, \"observed_at\": \"2026-10-14T17:25:33.878635+00:00\", \"rpc\": {\"extensions\": [{\"extension\": \"metadataPointer\", \"state\": {\"authority\": null, \"metadataAddress\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\"}}, {\"extension\": \"tokenMetadata\", \"state\": {\"additionalMetadata\": [], \"mint\": \"5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump\", \"name\": \"MEMEOS\", \"symbol\": \"MEMEOS\", \"updateAuthority\": null, \"uri\": \"https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim\"}}], \"freeze_authority\": null, \"mint_authority\": null, \"program\": \"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\", \"slot\": 456920551}}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "decision": {
+          "costs": {
+            "break_even_price_estimate": "0.0003741859575260250517501000614",
+            "break_even_rise_pct": "1.045181555166844470998672800",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0019869574360116301222412483",
+              "quantity": "134347.4732694491249410204891",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 1.0325318960285759,
+            "roundtrip_net_usd": "-0.51636920120389077780639302",
+            "same_price_exit": {
+              "cash_change": "49.49363079879610922219360698",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+              "price_impact": "0.0019770799750668206703876580",
+              "quantity": "134347.4732694491249410204891",
+              "swap_fee_usd": "0.1492528505154444607152188213"
+            }
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "positive": [
+            "[RPC] Mint authority revocată.",
+            "[RPC] Freeze authority revocată.",
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 73,
+          "rule_version": "memescope-3.0",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 85,
+            "early_momentum": 64.973,
+            "entry_attractiveness": 68,
+            "exit_liquidity": 80,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "monitor",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 24,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 100,
+              "momentum": 80,
+              "research_priority": 50,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "INVESTIGATE"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 14,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": {
+              "baseline_at": "2026-10-14T17:21:27.325005+00:00",
+              "baseline_observation_id": 721,
+              "elapsed_seconds": 363,
+              "liquidity_change_pct": 11.08957490453788,
+              "price_change_pct": 31.7413183074839,
+              "reported_buyers_change_pct": -54.83870967741935,
+              "volume_5m_ratio": 0.31642511652770977
+            }
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 4,
+          "history_span_seconds": 472.37613797187805,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": 10.777372390479112,
+          "organic_demand_verified": false,
+          "pool_age_hours": 19.13806050247616,
+          "price_change_since_first_capture_pct": 16.19563487477491,
+          "reported_transactions_5m": 23,
+          "sellers_5m_provider_reported": 8,
+          "social_mentions_growth": null,
+          "suspicions": [
+            {
+              "evidence": {
+                "amount_reported": 10.0,
+                "observed_at": "2026-10-14T17:14:09.749272+00:00",
+                "organic_demand_verified": false,
+                "source": "DEX Screener token boosts",
+                "total_amount_reported": 10.0
+              },
+              "kind": "paid_boost_reported",
+              "note": "Paid exposure is not proof of manipulation or organic social demand.",
+              "origin": "provider_reported_promotion",
+              "severity": "medium"
+            }
+          ],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+          "buyers_5m_reported": 14,
+          "buys_5m": 15,
+          "change_5m": 14.973,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 50077.5198,
+          "market_cap": null,
+          "name": "MEMEOS / SOL",
+          "observed_at": "2026-10-14T17:27:30.002023+00:00",
+          "pair_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "pool_created_at": null,
+          "price_usd": 0.0003703154883459076,
+          "sellers_5m_reported": 8,
+          "sells_5m": 8,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "MEMEOS",
+          "volume_1h": 189513.777450728,
+          "volume_5m": 2024.1026743935
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 4,
+        "security": {
+          "errors": [],
+          "goplus": {
+            "balance_mutable_authority": {
+              "authority": [],
+              "status": "0"
+            },
+            "closable": {
+              "authority": [],
+              "status": "0"
+            },
+            "creators": [],
+            "default_account_state": "1",
+            "default_account_state_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "freezable": {
+              "authority": [],
+              "status": "0"
+            },
+            "holder_count": "156",
+            "holders": [
+              {
+                "account": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+                "balance": "421118661.242877",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.4339",
+                "tag": "",
+                "token_account": "E5Yi6dauCZBm8LjVRCqpWf3tzQoQnPx2sq1seWTnwbB2"
+              },
+              {
+                "account": "HNbVk5FdEcs2Cwv2PoR7K3pfKA68BK9hP8B6C4d3TzNE",
+                "balance": "29786636.177906",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0307",
+                "tag": "",
+                "token_account": "AbfcfMprCNdExuDdXwRRX56edrQEkUHXBgbmXj8RduRJ"
+              },
+              {
+                "account": "91EAG5RfdfX7jTBrMGUk1u9a7RGCCLxguTKpSaeZaHBe",
+                "balance": "25276013.064955",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0260",
+                "tag": "",
+                "token_account": "DJCPfMpseyr7SRBaHT3gw8x1yZdsa63x6o2oX12KSijH"
+              },
+              {
+                "account": "9BGTc96yY5Njxw9PzakpfqTgopuTKRCHYE3fsD4o6pPv",
+                "balance": "24325030.842314",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0251",
+                "tag": "",
+                "token_account": "FoQCFWAh4bCUYbZhoNQwiB4NKL5vrKkM1L3v9tisu5JR"
+              },
+              {
+                "account": "12GeifPyvBq4mpRHJW9JUSvAbRSgVs3upi4SUAMcmiTW",
+                "balance": "21127291.146563",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0218",
+                "tag": "",
+                "token_account": "AjQP3YT2GTzPUq2EyxGT4y2ioXVjka6irK1vYoo2FuLV"
+              },
+              {
+                "account": "CpRxdujRpeU4xZnLr3enEnQ35sxa1rViBCnj9czXSPAK",
+                "balance": "19606217.548931",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0202",
+                "tag": "",
+                "token_account": "F8K56SqZS6NdS43EeMhbJXdFBrg1eiwaEGBN1KcHZHsw"
+              },
+              {
+                "account": "AZhQKYmMPN9pJbUScZJhE5rHxQNfkQi2p8wgzdMeUG2r",
+                "balance": "18770941.026923",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0193",
+                "tag": "",
+                "token_account": "A9WTQfpcVc3kBfHCFutFKBdknY98YrxaS72iFv4Nwp2o"
+              },
+              {
+                "account": "EU1tQFQoX8Dv3XiuAVZ6unjA7mnLQiao9qkYHPgd9hjn",
+                "balance": "17768631.794056",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0183",
+                "tag": "",
+                "token_account": "EB8m4i8MJpM8nx3JvSpVqSmR289nB1V2WUuUKn4VZ5YA"
+              },
+              {
+                "account": "EtJ99fc12VsMrPgrMQF2EDxuM6j61RY54b5ySiouBBES",
+                "balance": "17636630.707352",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0182",
+                "tag": "",
+                "token_account": "Cvntg76FuDd6cUgj597CKV4xFQD72EUTFToKWiskKBfg"
+              },
+              {
+                "account": "5S8izhtVDvrr25hHWWnrhQNDBJscmUhXfH1K2xUSMF6G",
+                "balance": "17372800.16725",
+                "is_locked": 0,
+                "locked_detail": [],
+                "percent": "0.0179",
+                "tag": "",
+                "token_account": "51F9s7ej2HUn9wQN96QtSXd3GgnnoCzWy6423QMk3Azy"
+              }
+            ],
+            "metadata": {
+              "description": "",
+              "name": "MEMEOS",
+              "symbol": "MEMEOS",
+              "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+            },
+            "metadata_mutable": {
+              "metadata_upgrade_authority": [],
+              "status": "0"
+            },
+            "mintable": {
+              "authority": [],
+              "status": "0"
+            },
+            "non_transferable": "0",
+            "total_supply": "970482046.92404",
+            "transfer_fee": {},
+            "transfer_fee_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "transfer_hook": [],
+            "transfer_hook_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "trusted_token": 0
+          },
+          "observed_at": "2026-10-14T17:25:33.878635+00:00",
+          "rpc": {
+            "extensions": [
+              {
+                "extension": "metadataPointer",
+                "state": {
+                  "authority": null,
+                  "metadataAddress": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump"
+                }
+              },
+              {
+                "extension": "tokenMetadata",
+                "state": {
+                  "additionalMetadata": [],
+                  "mint": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+                  "name": "MEMEOS",
+                  "symbol": "MEMEOS",
+                  "updateAuthority": null,
+                  "uri": "https://ipfs.io/ipfs/bafkreihwnd6scazyfea6binfqnfrce6eomsxn74wgpjc2az6sdbiunpdim"
+                }
+              }
+            ],
+            "freeze_authority": null,
+            "mint_authority": null,
+            "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+            "slot": 456920551
+          }
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      }
+    ],
+    "observations_total": 5,
+    "history_truncated": false,
+    "outcomes": [
+      {
+        "signal_id": 897,
+        "horizon_seconds": 300,
+        "state": "evaluated",
+        "payload": {
+          "pnl_usd": "15.14151399944431159649770627",
+          "signal_at": "2026-10-14T17:19:37.641671+00:00",
+          "horizon_seconds": 300,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 3,
+          "entry_observation_id": 721,
+          "entry_at": "2026-10-14T17:21:27.325005+00:00",
+          "entry_delay_seconds": 110,
+          "entry_quote": {
+            "quantity": "176952.1418547019568342848723",
+            "cash_change": "-50.01",
+            "swap_fee_usd": "0.1500",
+            "price_impact": "0.0022068163079661252235845789",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "target_at_epoch": 1791998787.325005,
+          "exit_observation_id": 901,
+          "exit_at": "2026-10-14T17:27:30.017809+00:00",
+          "actual_hold_seconds": 363,
+          "exit_quote": {
+            "quantity": "176952.1418547019568342848723",
+            "cash_change": "65.15151399944431159649770627",
+            "swap_fee_usd": "0.1965843564743348128303879207",
+            "price_impact": "0.0026024257694744823043931065",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "entry_cost_usd": "50.01",
+          "price_return_pct": 31.7413183074839,
+          "economically_possible_in_model": true,
+          "mfe_observed_pct": 11.553590713211225,
+          "mae_observed_pct": -0.8558676403065735,
+          "priced_observations": 3,
+          "failed_observations": 0,
+          "max_observed_gap_seconds": 126.45621299743652,
+          "unobserved_tail_seconds": 51.36502194404602,
+          "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown."
+        },
+        "updated_at": "2026-10-14T17:27:31.891340+00:00"
+      },
+      {
+        "signal_id": 897,
+        "horizon_seconds": 3600,
+        "state": "pending",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-14T17:19:37.641671+00:00",
+          "horizon_seconds": 3600,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 3,
+          "entry_observation_id": 721,
+          "entry_at": "2026-10-14T17:21:27.325005+00:00",
+          "entry_delay_seconds": 110,
+          "entry_quote": {
+            "quantity": "176952.1418547019568342848723",
+            "cash_change": "-50.01",
+            "swap_fee_usd": "0.1500",
+            "price_impact": "0.0022068163079661252235845789",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "target_at_epoch": 1792002087.325005,
+          "mfe_observed_pct": 31.7413183074839,
+          "mae_observed_pct": -0.8558676403065735,
+          "priced_observations": 4,
+          "failed_observations": 0,
+          "max_observed_gap_seconds": 126.45621299743652,
+          "unobserved_tail_seconds": 63.12499642372131,
+          "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown."
+        },
+        "updated_at": "2026-10-14T17:28:33.149296+00:00"
+      },
+      {
+        "signal_id": 897,
+        "horizon_seconds": 86400,
+        "state": "pending",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-14T17:19:37.641671+00:00",
+          "horizon_seconds": 86400,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 3,
+          "entry_observation_id": 721,
+          "entry_at": "2026-10-14T17:21:27.325005+00:00",
+          "entry_delay_seconds": 110,
+          "entry_quote": {
+            "quantity": "176952.1418547019568342848723",
+            "cash_change": "-50.01",
+            "swap_fee_usd": "0.1500",
+            "price_impact": "0.0022068163079661252235845789",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "target_at_epoch": 1792084887.325005,
+          "mfe_observed_pct": 31.7413183074839,
+          "mae_observed_pct": -0.8558676403065735,
+          "priced_observations": 4,
+          "failed_observations": 0,
+          "max_observed_gap_seconds": 126.45621299743652,
+          "unobserved_tail_seconds": 63.12499642372131,
+          "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown."
+        },
+        "updated_at": "2026-10-14T17:28:33.149597+00:00"
+      },
+      {
+        "signal_id": 1140,
+        "horizon_seconds": 300,
+        "state": "pending",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-14T17:25:35.959983+00:00",
+          "horizon_seconds": 300,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 4,
+          "entry_observation_id": 901,
+          "entry_at": "2026-10-14T17:27:30.017809+00:00",
+          "entry_delay_seconds": 114,
+          "entry_quote": {
+            "quantity": "134347.4732694491249410204891",
+            "cash_change": "-50.01",
+            "swap_fee_usd": "0.1500",
+            "price_impact": "0.0019869574360116301222412483",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "target_at_epoch": 1791999150.017809,
+          "mfe_observed_pct": 0,
+          "mae_observed_pct": 0,
+          "priced_observations": 1,
+          "failed_observations": 0,
+          "max_observed_gap_seconds": null,
+          "unobserved_tail_seconds": 63.12499642372131,
+          "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown."
+        },
+        "updated_at": "2026-10-14T17:28:33.151834+00:00"
+      },
+      {
+        "signal_id": 1140,
+        "horizon_seconds": 3600,
+        "state": "pending",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-14T17:25:35.959983+00:00",
+          "horizon_seconds": 3600,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 4,
+          "entry_observation_id": 901,
+          "entry_at": "2026-10-14T17:27:30.017809+00:00",
+          "entry_delay_seconds": 114,
+          "entry_quote": {
+            "quantity": "134347.4732694491249410204891",
+            "cash_change": "-50.01",
+            "swap_fee_usd": "0.1500",
+            "price_impact": "0.0019869574360116301222412483",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "target_at_epoch": 1792002450.017809,
+          "mfe_observed_pct": 0,
+          "mae_observed_pct": 0,
+          "priced_observations": 1,
+          "failed_observations": 0,
+          "max_observed_gap_seconds": null,
+          "unobserved_tail_seconds": 63.12499642372131,
+          "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown."
+        },
+        "updated_at": "2026-10-14T17:28:33.151983+00:00"
+      },
+      {
+        "signal_id": 1140,
+        "horizon_seconds": 86400,
+        "state": "pending",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-14T17:25:35.959983+00:00",
+          "horizon_seconds": 86400,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 4,
+          "entry_observation_id": 901,
+          "entry_at": "2026-10-14T17:27:30.017809+00:00",
+          "entry_delay_seconds": 114,
+          "entry_quote": {
+            "quantity": "134347.4732694491249410204891",
+            "cash_change": "-50.01",
+            "swap_fee_usd": "0.1500",
+            "price_impact": "0.0019869574360116301222412483",
+            "network_fee_usd": "0.01",
+            "model": "estimated_balanced_constant_product",
+            "execution_verified": false,
+            "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+          },
+          "target_at_epoch": 1792085250.017809,
+          "mfe_observed_pct": 0,
+          "mae_observed_pct": 0,
+          "priced_observations": 1,
+          "failed_observations": 0,
+          "max_observed_gap_seconds": null,
+          "unobserved_tail_seconds": 63.12499642372131,
+          "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown."
+        },
+        "updated_at": "2026-10-14T17:28:33.152132+00:00"
+      }
+    ],
+    "live_execution": false
+  },
+  "alert": {
+    "id": 11,
+    "candidate_id": 339,
+    "signal_id": 897,
+    "at": "2026-10-14T17:19:37.641671+00:00",
+    "severity": "research",
+    "fingerprint": "7c7f5cde0430d0eace1c7682d8a0ac93479399253026f7be5d10a697bce8e6aa",
+    "payload": {
+      "chain": "solana",
+      "contract": "5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+      "costs": {
+        "break_even_price_estimate": "0.0002628421987135139506035750336",
+        "break_even_rise_pct": "1.100570042856042209049264200",
+        "economically_feasible_in_model": true,
+        "entry": {
+          "cash_change": "-50.01",
+          "execution_verified": false,
+          "model": "estimated_balanced_constant_product",
+          "network_fee_usd": "0.01",
+          "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "price_impact": "0.0022593302600912442196100379",
+          "quantity": "191311.6206349061681348400525",
+          "swap_fee_usd": "0.1500"
+        },
+        "execution_verified": false,
+        "model": "estimated_pool_not_routed",
+        "roundtrip_cost_pct": 1.0863599463040643,
+        "roundtrip_net_usd": "-0.54328860914666250702450046",
+        "same_price_exit": {
+          "cash_change": "49.46671139085333749297549954",
+          "execution_verified": false,
+          "model": "estimated_balanced_constant_product",
+          "network_fee_usd": "0.01",
+          "pool_address": "Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3",
+          "price_impact": "0.0022474896813290397685244057",
+          "quantity": "191311.6206349061681348400525",
+          "swap_fee_usd": "0.1492121171596033544269573188"
+        }
+      },
+      "data_observed_at": "2026-10-14T17:19:25.595096+00:00",
+      "decision_at": "2026-10-14T17:19:37.641671+00:00",
+      "discovered_at": "2026-10-14T17:14:10.006090+00:00",
+      "features": {
+        "activity_sample": null,
+        "buyers_5m_provider_reported": 19,
+        "changes": {
+          "15m": null,
+          "1h": null,
+          "5m": null
+        },
+        "distribution": null,
+        "excessive_extension": false,
+        "history_observations": 0,
+        "history_span_seconds": 0,
+        "holder_growth": null,
+        "latest_liquidity_change_pct": null,
+        "organic_demand_verified": false,
+        "pool_age_hours": 19.006844908595085,
+        "price_change_since_first_capture_pct": -18.424560238749578,
+        "reported_transactions_5m": 54,
+        "sellers_5m_provider_reported": 29,
+        "social_mentions_growth": null,
+        "suspicions": [
+          {
+            "evidence": {
+              "amount_reported": 10.0,
+              "observed_at": "2026-10-14T17:14:09.749272+00:00",
+              "organic_demand_verified": false,
+              "source": "DEX Screener token boosts",
+              "total_amount_reported": 10.0
+            },
+            "kind": "paid_boost_reported",
+            "note": "Paid exposure is not proof of manipulation or organic social demand.",
+            "origin": "provider_reported_promotion",
+            "severity": "medium"
+          }
+        ],
+        "token_launch_time_known": false,
+        "unique_buyers": null
+      },
+      "invalidation": [
+        "New privileged authority or transfer restriction",
+        "Liquidity decline or unavailable exit quote",
+        "Fresh evidence no longer available",
+        "Momentum becomes excessively extended",
+        "Contradictory contract/source evidence"
+      ],
+      "links": {
+        "explorer": "https://solscan.io/token/5q5pEZZwhkuazS4rGa66LcNotdsnUE9KcJ7xQmXSpump",
+        "market": "https://dexscreener.com/solana/Cxq6T1FqqwpwbnvKGP492qRUzvvLzxqAfKQupTMQd3L3"
+      },
+      "liquidity_usd": 44028.4214,
+      "live_execution": false,
+      "name": "MEMEOS / SOL",
+      "narrative": {
+        "ai_interpretations": [],
+        "community_activity": null,
+        "news_recurrence_counts": {},
+        "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+        "publication_hosts": [],
+        "score": null,
+        "social_mentions_growth": null,
+        "supported": [],
+        "uncertain": []
+      },
+      "negative": [
+        "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+      ],
+      "positive": [
+        "Small-position estimated round trip passes liquidity and impact limits.",
+        "Fresh security screening, reported activity and recent pool age support further research."
+      ],
+      "price_usd": 0.0002599809265191051,
+      "purpose": "research_candidate_not_buy_instruction",
+      "rank_score": 56,
+      "scores": {
+        "data_reliability": 70,
+        "early_momentum": 36.480000000000004,
+        "entry_attractiveness": 51,
+        "exit_liquidity": 70,
+        "market_participation_quality": 60,
+        "narrative_social_evidence": null,
+        "security_risk": 0,
+        "wallet_intelligence": null
+      },
+      "signal_id": 897,
+      "symbol": "MEMEOS",
+      "unknown": [
+        "Unique buyer participation is not measured; transaction count is not buyer count.",
+        "Owner-level holder growth unavailable.",
+        "No corroborated contract-specific narrative; name matches remain uncertain.",
+        "No reliable monitored-wallet accumulation evidence.",
+        "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data."
+      ],
+      "verdict": "INVESTIGATE"
+    },
+    "delivered_in_app_at": "2026-10-14T17:19:38.711052+00:00",
+    "seen_at": null,
+    "telegram_state": "pending",
+    "telegram_details": null
+  },
+  "performance": {
+    "rule_version": "memescope-3.0",
+    "totals": {
+      "discovered": 603,
+      "signals": 1303,
+      "alerts": 14,
+      "observations": 958,
+      "eligible": 603,
+      "eligible_without_first_evaluation": 162,
+      "risk_update_alerts": 1,
+      "delivered_in_app": 14,
+      "telegram_acknowledged": 0
+    },
+    "first_evaluation_security_pass": 19,
+    "first_evaluation_liquidity_pass": 25,
+    "first_evaluation_verdicts": {
+      "REJECT": 418,
+      "MONITOR": 11,
+      "INVESTIGATE": 12
+    },
+    "current_security_pass": 6,
+    "current_liquidity_pass": 6,
+    "current_verdicts": {
+      "REJECT": 422,
+      "INVESTIGATE": 10,
+      "MONITOR": 9,
+      "PENDING": 162
+    },
+    "known_current_price_collapses_ge_80pct": 38,
+    "known_current_appreciation_ge_100pct": 14,
+    "alerts_already_extended_at_signal": 0,
+    "confirmed_unsellable": null,
+    "missed_opportunities": null,
+    "horizons": {
+      "300": {
+        "all_eligible_first_evaluations": {
+          "experiments": 441,
+          "evaluated": 5,
+          "unresolved_or_unavailable": 436,
+          "states": {
+            "missing_forward_entry": 394,
+            "entry_unavailable": 2,
+            "evaluated": 5,
+            "pending": 40
+          },
+          "profitable_after_costs": 4,
+          "loss_rate_among_evaluated": 0.2,
+          "unprofitable_rate_among_evaluated": 0.2,
+          "net_pnl_independent_experiments_usd": "34.70418046874921131040021574",
+          "mean_net_pnl_usd": "6.940836093749842262080043148",
+          "win_rate_95pct_wilson_approx": [
+            0.3755282641185388,
+            0.9637768390302125
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 12,
+          "evaluated": 5,
+          "unresolved_or_unavailable": 7,
+          "states": {
+            "missing_forward_entry": 5,
+            "evaluated": 5,
+            "pending": 2
+          },
+          "profitable_after_costs": 4,
+          "loss_rate_among_evaluated": 0.2,
+          "unprofitable_rate_among_evaluated": 0.2,
+          "net_pnl_independent_experiments_usd": "34.70418046874921131040021574",
+          "mean_net_pnl_usd": "6.940836093749842262080043148",
+          "win_rate_95pct_wilson_approx": [
+            0.3755282641185388,
+            0.9637768390302125
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "deterministic_20pct_baseline": {
+          "experiments": 81,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 81,
+          "states": {
+            "missing_forward_entry": 72,
+            "pending": 9
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "later_alert_experiments": {
+          "experiments": 1,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 1,
+          "states": {
+            "missing_forward_entry": 1
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "cohorts": {
+          "development": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "unassigned": {
+            "experiments": 441,
+            "evaluated": 5,
+            "unresolved_or_unavailable": 436,
+            "states": {
+              "missing_forward_entry": 394,
+              "entry_unavailable": 2,
+              "evaluated": 5,
+              "pending": 40
+            },
+            "profitable_after_costs": 4,
+            "loss_rate_among_evaluated": 0.2,
+            "unprofitable_rate_among_evaluated": 0.2,
+            "net_pnl_independent_experiments_usd": "34.70418046874921131040021574",
+            "mean_net_pnl_usd": "6.940836093749842262080043148",
+            "win_rate_95pct_wilson_approx": [
+              0.3755282641185388,
+              0.9637768390302125
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 236,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 236,
+            "states": {
+              "missing_forward_entry": 234,
+              "entry_unavailable": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "2": {
+            "experiments": 41,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 40,
+            "states": {
+              "missing_forward_entry": 40,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "8.43387854408290489224814961",
+            "mean_net_pnl_usd": "8.43387854408290489224814961",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "3": {
+            "experiments": 126,
+            "evaluated": 4,
+            "unresolved_or_unavailable": 122,
+            "states": {
+              "missing_forward_entry": 120,
+              "evaluated": 4,
+              "pending": 2
+            },
+            "profitable_after_costs": 3,
+            "loss_rate_among_evaluated": 0.25,
+            "unprofitable_rate_among_evaluated": 0.25,
+            "net_pnl_independent_experiments_usd": "26.27030192466630641815206613",
+            "mean_net_pnl_usd": "6.567575481166576604538016532",
+            "win_rate_95pct_wilson_approx": [
+              0.3006360524426366,
+              0.9544139373553637
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "4": {
+            "experiments": 38,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 38,
+            "states": {
+              "pending": 38
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        }
+      },
+      "3600": {
+        "all_eligible_first_evaluations": {
+          "experiments": 441,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 441,
+          "states": {
+            "missing_forward_entry": 394,
+            "entry_unavailable": 2,
+            "pending": 45
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 12,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 12,
+          "states": {
+            "missing_forward_entry": 5,
+            "pending": 7
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "deterministic_20pct_baseline": {
+          "experiments": 81,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 81,
+          "states": {
+            "missing_forward_entry": 72,
+            "pending": 9
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "later_alert_experiments": {
+          "experiments": 1,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 1,
+          "states": {
+            "missing_forward_entry": 1
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "cohorts": {
+          "development": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "unassigned": {
+            "experiments": 441,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 441,
+            "states": {
+              "missing_forward_entry": 394,
+              "entry_unavailable": 2,
+              "pending": 45
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 236,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 236,
+            "states": {
+              "missing_forward_entry": 234,
+              "entry_unavailable": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "2": {
+            "experiments": 41,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 41,
+            "states": {
+              "missing_forward_entry": 40,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "3": {
+            "experiments": 126,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 126,
+            "states": {
+              "missing_forward_entry": 120,
+              "pending": 6
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "4": {
+            "experiments": 38,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 38,
+            "states": {
+              "pending": 38
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        }
+      },
+      "86400": {
+        "all_eligible_first_evaluations": {
+          "experiments": 441,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 441,
+          "states": {
+            "missing_forward_entry": 394,
+            "entry_unavailable": 2,
+            "pending": 45
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 12,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 12,
+          "states": {
+            "missing_forward_entry": 5,
+            "pending": 7
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "deterministic_20pct_baseline": {
+          "experiments": 81,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 81,
+          "states": {
+            "missing_forward_entry": 72,
+            "pending": 9
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "later_alert_experiments": {
+          "experiments": 1,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 1,
+          "states": {
+            "missing_forward_entry": 1
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "cohorts": {
+          "development": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "unassigned": {
+            "experiments": 441,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 441,
+            "states": {
+              "missing_forward_entry": 394,
+              "entry_unavailable": 2,
+              "pending": 45
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 236,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 236,
+            "states": {
+              "missing_forward_entry": 234,
+              "entry_unavailable": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "2": {
+            "experiments": 41,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 41,
+            "states": {
+              "missing_forward_entry": 40,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "3": {
+            "experiments": 126,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 126,
+            "states": {
+              "missing_forward_entry": 120,
+              "pending": 6
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "4": {
+            "experiments": 38,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 38,
+            "states": {
+              "pending": 38
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        }
+      }
+    },
+    "exploratory_signal_diagnostics": {
+      "volume_acceleration_ge_2": {
+        "300": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "3600": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "86400": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        }
+      },
+      "excessive_extension": {
+        "300": {
+          "experiments": 49,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 49,
+          "states": {
+            "missing_forward_entry": 45,
+            "pending": 4
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "3600": {
+          "experiments": 49,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 49,
+          "states": {
+            "missing_forward_entry": 45,
+            "pending": 4
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "86400": {
+          "experiments": 49,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 49,
+          "states": {
+            "missing_forward_entry": 45,
+            "pending": 4
+          },
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        }
+      },
+      "contract_narrative": {
+        "300": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "3600": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "86400": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        }
+      }
+    },
+    "note": "Partial provider discovery universe, not all launches. No global missed-opportunity rate. Historical or missing prices are never filled with future data. Independent experiments are not a capital-constrained strategy or demonstrated profit.",
+    "live_execution": false
+  },
+  "browser_error": null,
+  "telegram_live_verified": false,
+  "blockers": []
+}

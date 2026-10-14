@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-14T17:33:41.537983+00:00",
+  "corpus_version": 2,
+  "corpus_sha256": "6da9956971c54bef781ab87d209136d536043d357ac83b8cc3dfed0bff89d763",
+  "prompt_version": 2,
+  "relation_gate_version": 2,
+  "partition": "all",
+  "cases_validated": 12,
+  "observed_excerpts": 2,
+  "synthetic_cases": 10,
+  "model_run": false,
+  "metrics": null,
+  "note": "Validarea offline verifică structura și proveniența declarată a setului. Precizia AI nu a fost măsurată."
+}
+

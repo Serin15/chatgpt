@@ -31,6 +31,7 @@ from app.models import (
     utcnow,
 )
 from app.news import News
+from app.opportunity_rules import EngineConfig
 from app.paper import Rejected
 from app.providers import ProviderError, Providers
 from app.research import EvidenceInput, SourceInput
@@ -114,8 +115,8 @@ def create_app(
             for task in tasks:
                 with suppress(asyncio.CancelledError):
                     await task
-            await app.state.service.research.close()
             await app.state.service.close_intelligence()
+            await app.state.service.research.close()
             await assets.close()
             await news.close()
             await sources.close()
@@ -223,6 +224,7 @@ def create_app(
             "jupiter": service.jupiter.config(),
             "notifications": service.notifications.config(),
             "authentication_enabled": service.auth.enabled,
+            "opportunity_engine": service.opportunities.status,
         }
 
     @app.get("/api/tokens")
@@ -396,6 +398,56 @@ def create_app(
     @app.post("/api/research/source")
     async def research_source(body: SourceInput, request: Request):
         return await request.app.state.service.research.source(body)
+
+    @app.get("/api/opportunities")
+    def opportunities(
+        request: Request,
+        limit: int = Query(50, ge=1, le=200),
+        before: int | None = Query(None, gt=0),
+        sort: Literal["rank", "recent"] = "recent",
+    ):
+        return request.app.state.service.opportunities.listing(limit, before, sort == "rank")
+
+    @app.get("/api/opportunities/performance")
+    def opportunity_performance(request: Request):
+        return request.app.state.service.opportunities.report()
+
+    @app.get("/api/opportunities/narratives")
+    def opportunity_narratives(request: Request):
+        return request.app.state.service.opportunities.narratives.trends()
+
+    @app.get("/api/opportunities/alerts")
+    def opportunity_alerts(
+        request: Request,
+        limit: int = Query(100, ge=1, le=100),
+        before: int | None = Query(None, gt=0),
+    ):
+        rows = request.app.state.service.opportunities.alerts(limit + 1, before)
+        return {
+            "items": rows[:limit],
+            "next_cursor": rows[limit - 1]["id"] if len(rows) > limit else None,
+        }
+
+    @app.post("/api/opportunities/alerts/{alert_id}/receipt")
+    def opportunity_receipt(alert_id: int, request: Request, seen: bool = False):
+        try:
+            return request.app.state.service.opportunities.receipt(alert_id, seen)
+        except ValueError as exc:
+            raise HTTPException(404, str(exc)) from None
+
+    @app.post("/api/opportunities/config")
+    def opportunity_config(body: EngineConfig, request: Request):
+        try:
+            return request.app.state.service.opportunities.configure(body)
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from None
+
+    @app.get("/api/opportunities/{candidate_id}")
+    def opportunity_detail(candidate_id: int, request: Request):
+        try:
+            return request.app.state.service.opportunities.detail(candidate_id)
+        except ValueError as exc:
+            raise HTTPException(404, str(exc)) from None
 
     @app.get("/api/discovery")
     def discovery(

@@ -110,7 +110,7 @@ def main():
                     route.fulfill(response=response, json=payload)
 
                 page.route("**/api/**", route_api)
-                page.goto(base)
+                page.goto(base + "/#overview")
                 expect(page.locator("#cash")).to_have_text("500,00 USD")
                 flags.update(news_failure=True, cash="321")
                 page.evaluate("load()")

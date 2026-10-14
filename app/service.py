@@ -16,6 +16,7 @@ from app.listings import Listings
 from app.models import Market, epoch, freshness, utcnow
 from app.notifications import Notifications
 from app.onchain import Onchain
+from app.opportunities import Opportunities
 from app.performance import Performance
 from app.providers import ProviderError
 from app.research import Research
@@ -49,6 +50,7 @@ class Service:
         self.listings = Listings(self)
         self.notifications = Notifications(self)
         self.forward = Forward(self)
+        self.opportunities = Opportunities(self)
 
     def frozen_rules(self):
         return {
@@ -64,15 +66,10 @@ class Service:
         }
 
     async def run_intelligence(self):
-        while True:
-            try:
-                await self.discovery.refresh()
-                self.notifications.collect()
-            except Exception as exc:
-                log.error("Intelligence collection failure: %s", type(exc).__name__)
-            await asyncio.sleep(600)
+        await self.opportunities.run()
 
     async def close_intelligence(self):
+        await self.opportunities.close()
         for source in (self.onchain, self.discovery, self.jupiter, self.notifications):
             await source.close()
 
@@ -272,15 +269,16 @@ class Service:
                 self.store.set_error(address, str(exc))
                 raise
 
-    async def scan(self):
+    async def scan(self, discover=True):
         if self.scan_lock.locked():
             return self.scan_status
         async with self.scan_lock:
             self.scan_status |= {"running": True, "error": None}
             try:
                 try:
-                    for address in await self.providers.discover():
-                        self.store.add_token(address, "latest_profile")
+                    if discover:
+                        for address in await self.providers.discover():
+                            self.store.add_token(address, "latest_profile")
                 except ProviderError as exc:
                     self.scan_status["error"] = str(exc)
                 # Preserve holdings/watchlist monitoring; then refresh recent profile candidates.
@@ -293,9 +291,10 @@ class Service:
                     if not p["closed_at"]
                 ]
                 held = [address for address in held if not address.startswith("asset:")]
-                addresses = list(dict.fromkeys(held + [t["address"] for t in self.store.tokens()]))[
-                    :30
-                ]
+                tracked = self.store.tokens()
+                addresses = list(
+                    dict.fromkeys(held + [t["address"] for t in tracked if discover or t["watch"]])
+                )[:30]
                 for address in addresses:
                     try:
                         await self.refresh(address)
@@ -309,7 +308,7 @@ class Service:
     async def run(self):
         while True:
             try:
-                await self.scan()
+                await self.scan(discover=not self.opportunities.config().enabled)
             except asyncio.CancelledError:
                 raise
             except Exception as exc:

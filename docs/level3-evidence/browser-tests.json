@@ -1,0 +1,12 @@
+{
+  "data": "Explicit isolated fixture providers; real Chromium",
+  "results": {
+    "smoke": "PASS: sourced headline \u2192 DEX $50 paper trade; general crypto \u2192 venues \u2192 thesis \u2192 $50 paper trade; desktop/mobile",
+    "regressions": "PASS: partial failures, health, tiny prices, navigation, search/watch, manual evidence, signal invalidation, mobile contracts/journal, JSON export and ZIP backup",
+    "advanced": "PASS: login, authenticated mutations with CSRF, advanced panels, mobile width, logout; fake data, real browser",
+    "ai": "PASS: AI configuration, connection, exact quotations, immutable signal/export, bad host rejected, desktop/mobile, zero automatic orders. Model transport is simulated.",
+    "announcements": "PASS: original document, exact contract, manual source review, revocation, negative context, immutable signal/export, mobile, no orders",
+    "slow-news": "PASS: healthy market section rendered while news response remained blocked; real Chromium, fake data",
+    "level3": "{\"pass\": true, \"data\": \"isolated fixtures\", \"checks\": [\"discovery list\", \"filter/search\", \"alert receipt and seen\", \"unknown scores\", \"paper outcomes\", \"sample chart\", \"config\", \"mobile 390px\", \"zero ledger orders\"]}"
+  }
+}

@@ -1,0 +1,1 @@
+{"container": "PASS", "tls": "verified against generated local test CA; verification enabled", "authentication": "session/Secure/HttpOnly/CSRF/logout PASS", "user": "10001", "filesystem": "read-only except tmp/data", "orders": 0, "public_domain_deployment": false}
