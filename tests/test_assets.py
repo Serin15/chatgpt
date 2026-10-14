@@ -28,6 +28,9 @@ def cg_asset(price=100):
 
 
 class FixtureAssets(Assets):
+    async def search(self, query):
+        return [{"asset_id": "bitcoin", "name": "Bitcoin", "symbol": "BTC", "rank": 1}]
+
     async def refresh(self):
         self.save(parse_asset(cg_asset()))
         self.status = {"state": "ok", "at": datetime.now(UTC).isoformat(), "error": None}
@@ -138,7 +141,9 @@ def test_live_payload_parsers_with_mock_transport(settings, store):
             assert (await assets.refresh())["state"] == "ok"
             quote = await assets.quote("bitcoin")
             assert quote["book"]["bid"] == "99"
-            assert len(assets.history("bitcoin")) == 2
+            history = assets.history("bitcoin")
+            assert sum(not point.get("book") for point in history) == 2
+            assert history[-1]["price_source"] == "Coinbase Exchange public order book"
         finally:
             await assets.close()
 

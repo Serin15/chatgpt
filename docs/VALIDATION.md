@@ -92,3 +92,41 @@ Verificare funcțională: arhiva completă extrasă într-un director temporar c
 Serverul și dashboardul au răspuns, Research avea $500 fictivi și zero ordine. Procesul de test
 a fost oprit și datele temporare șterse. Testul s-a executat în Linux; scriptul `.cmd`, ramura
 Python Launcher și căile UNC nu au fost executate pe Windows real.
+
+## PULSE v0.3 — remedieri și experiment măsurabil
+
+Verificare pe 14 octombrie 2026:
+
+- `uv sync --frozen`, Ruff pentru `app`/`tests`, verificare sintaxă JavaScript și diff: exit 0.
+  Manifestul și lockfile-ul sunt 0.3.0, fără dependențe runtime noi.
+- **108 teste pytest trecute.** Regresiile includ break-even verificat printr-un round-trip
+  independent, migrarea știrilor cu ID/read-state/semnale păstrate, metadata neconforme, prețuri
+  expirate, prioritate pentru poziții vechi, versiune/director de date la launcher și Host allowlist.
+- Dosare: evaluări manuale persistente, retragere, restart, citat fără confirmarea afirmației,
+  contract invalid respins, confirmare expirată și dispută care nu dispare prin vechime. Semnalul
+  păstrează copia dosarului inițial chiar dacă evaluarea este retrasă ulterior.
+- Măsurători: ordine reușite/respinse, rezultat după costuri, equity lipsă, interval BTC aliniat,
+  export integral și izolarea conturilor. O eroare simulată la metrici nu raportează un fill deja
+  înregistrat drept eșuat. Backupul ZIP este extras, ambele baze trec `integrity_check`, iar soldul
+  și toate cele trei ordine ale experimentului test sunt păstrate în baza restaurată.
+- Browser smoke: ambele round-trip-uri manuale de $50, DEX și crypto general, trecute. Browser
+  regressions: știri 503 cu cash actualizat, RPC degradat vizibil, preț 0,000012, logo, căutare și
+  watchlist, dovadă manuală/retragere, semnal invalidat la schimbarea ipotezei, export JSON, backup
+  ZIP, contracte și jurnal pe mobil. Rulare finală fără erori JavaScript sau de rutare a fixture-ului.
+- Proba live, într-un `DATA_DIR` separat: 12 profiluri Solana, wrapped SOL cu RPC/GoPlus, 25 de
+  active CoinGecko, book BTC Coinbase și 10 titluri CoinDesk eligibile. Niciun ordin.
+- Backup SQLite consistent înainte de upgrade în afara repository-ului. Instanța cloud 0.3.0
+  pornește cu patru workeri, istoricul existent și cash Scanner $100 / Research $500, zero ordine.
+  Toate cele nouă surse/subiecte de știri au răspuns; unele au avut zero articole eligibile.
+- Capturi actualizate cu date reale: desktop, știri, piață, dosar, jurnal și mobil 390px, fără
+  overflow sau erori JS. În aceste capturi nu s-au adăugat evaluări ori ordine fictive.
+- Pachetul candidat din fișierele pregătite pentru commit a fost extras într-un director nou cu
+  spații, diacritice și `&`. Pornirea din alt director prin `uv --directory --project --frozen
+  --no-dev` a instalat dependențele și a pornit API/UI 0.3.0 cu date noi, $500/$100 și zero ordine.
+  Procesul de test a fost oprit; datele temporare au fost șterse.
+
+Warningul de deprecation Starlette/httpx din TestClient rămâne vizibil. Execuția nativă `.cmd`,
+Python Launcher și UNC nu a fost testată aici. Nu s-au validat profitabilitatea, execuția reală,
+afilierea unui token sau un proiect concret ca „solid”. În v0.3, evaluarea dovezilor rămâne manuală.
+Scripturile istorice din `docs/audit` reproduc buguri pe commitul vechi și nu sunt acceptance tests
+pentru această versiune. Acoperirea, limitele și etapele următoare sunt în [V0.3.md](V0.3.md).

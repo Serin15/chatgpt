@@ -14,6 +14,23 @@ def epoch(value: str) -> float:
     return datetime.fromisoformat(value).timestamp()
 
 
+def freshness(observed_at, source_at=None, max_age=120, now=None):
+    now = datetime.now(UTC).timestamp() if now is None else now
+    try:
+        receipt_age = now - epoch(observed_at)
+        source_age = now - epoch(source_at) if source_at else None
+        fresh = (
+            0 <= receipt_age <= max_age and source_age is not None and 0 <= source_age <= max_age
+        )
+        return {
+            "fresh": fresh,
+            "age_seconds": round(receipt_age),
+            "source_age_seconds": round(source_age) if source_age is not None else None,
+        }
+    except (ValueError, TypeError, OverflowError):
+        return {"fresh": False, "age_seconds": None, "source_age_seconds": None}
+
+
 def solana_address(value: str) -> str:
     alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
     if not re.fullmatch(r"[1-9A-HJ-NP-Za-km-z]{32,44}", value):
@@ -53,6 +70,10 @@ class AssetBuy(BaseModel):
     asset_id: str = Field(pattern=r"^[a-z0-9-]{1,80}$")
     amount_usd: str = Field(max_length=32)
     signal_id: int
+
+
+class AssetWatch(BaseModel):
+    asset_id: str = Field(pattern=r"^[a-z0-9-]{1,80}$")
 
 
 class Market(BaseModel):

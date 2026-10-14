@@ -1,43 +1,469 @@
 <!doctype html>
 <html lang="ro">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="dark"><title>PULSE — Crypto Research</title>
-  <link rel="stylesheet" href="/static/style.css"><script src="/static/app.js" defer></script>
-</head>
-<body>
-  <aside class="sidebar">
-    <a href="#overview" class="brand" aria-label="Pulse Crypto Research"><span class="brand-mark">p</span><div>PULSE<small>CRYPTO RESEARCH</small></div></a>
-    <p class="nav-label">SPAȚIUL TĂU DE CERCETARE</p>
-    <nav id="navigation">
-      <button class="nav-item active" data-page="overview"><span>◈</span>Privire de ansamblu</button>
-      <button class="nav-item" data-page="news"><span>◷</span>Inteligență de piață <b id="unread-badge">0</b></button>
-      <button class="nav-item" data-page="market"><span>↗</span>Piața crypto</button>
-      <button class="nav-item" data-page="scanner"><span>⌕</span>Tokenuri emergente</button>
-      <button class="nav-item" data-page="portfolio"><span>▧</span>Portofoliu virtual</button>
-      <button class="nav-item" data-page="journal"><span>≡</span>Jurnal & rezultate</button>
-    </nav>
-    <div class="sidebar-note"><span class="live-dot"></span>EXPERIMENT CONTROLAT<p>Informații reale.<br>Decizii manuale.<br>Capital virtual.</p><span class="paper-pill">PAPER ONLY</span></div>
-    <button class="nav-item settings-button" data-page="sources"><span>⚙</span>Surse & metodologie</button>
-    <div class="profile"><span class="avatar">M</span><div>Spațiul meu<small>Personal · local</small></div><span class="version">v0.2</span></div>
-  </aside>
-  <main class="main">
-    <header class="topbar"><div><span class="breadcrumb">WORKSPACE /</span> <strong id="page-name">Privire de ansamblu</strong></div><div class="top-actions"><span class="connection" id="connection"><span class="live-dot"></span>Verificare surse…</span><button class="icon-button" id="refresh-all" aria-label="Actualizează datele">↻</button><span class="avatar small-avatar">M</span></div></header>
-    <div id="message" class="toast" role="status" hidden></div>
-    <section id="view-overview" class="view">
-      <div class="welcome"><div><p class="eyebrow">INFORMAȚIE. CONTEXT. DISCIPLINĂ.</p><h1>Înainte de decizie,<br><span>caută dovezile.</span></h1><p>Știri, proiecte și piețe crypto într-un singur loc.<br>Construiește-ți ipotezele. Testează-le cu bani virtuali.</p><div class="hero-actions"><button class="primary" data-page="news">Explorează informațiile <span>↗</span></button><button class="secondary" data-page="portfolio">Portofoliul meu</button></div></div><div class="hero-card"><div class="hero-card-top"><span class="eyebrow">LABORATORUL TĂU</span><span class="pill">FĂRĂ EXECUȚIE REALĂ</span></div><p>Capital disponibil</p><strong id="hero-cash">—</strong><div class="hero-card-bottom"><span>Ordin manual implicit</span><b>$50 virtuali</b></div><div class="wave-decoration" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div></div></div>
-      <div class="metrics"><article><div class="metric-label">CASH VIRTUAL <span>▧</span></div><strong id="cash">—</strong><small>Sold după ordinele simulate</small></article><article><div class="metric-label">VALOARE NETĂ ESTIMATĂ <span>↗</span></div><strong id="equity">—</strong><small>După costuri estimate de ieșire</small></article><article><div class="metric-label">REZULTAT REALIZAT <span>◎</span></div><strong id="realized">—</strong><small>Poziții închise, după costuri</small></article><article><div class="metric-label">INFORMAȚII COLECTATE <span>◷</span></div><strong id="news-count">0</strong><small id="news-count-caption">Cu sursă și timestamp</small></article></div>
-      <div class="overview-grid"><section class="panel"><div class="panel-header"><div><p class="eyebrow">DIN PIAȚĂ</p><h2>Ce merită citit acum</h2></div><button class="text-button" data-page="news">Vezi feedul ↗</button></div><div id="overview-news"></div></section><section class="panel market-glance"><div class="panel-header"><div><p class="eyebrow">OBSERVAȚII API</p><h2>Pulsul pieței</h2></div><span class="pill">USD</span></div><div id="market-glance"></div><div class="panel-footer"><button class="text-button" data-page="market">Explorează piața crypto ↗</button></div></section></div>
-      <div class="principle-strip"><span class="principle-icon">◇</span><div><strong>O știre este începutul unei ipoteze.</strong><p>Sursa, identitatea proiectului și locul de tranzacționare se verifică separat. Un nume cunoscut nu confirmă susținerea unui token.</p></div><button class="text-button" data-page="sources">Cum evaluăm ↗</button></div>
-    </section>
-    <section id="view-news" class="view" hidden><div class="view-heading"><div><p class="eyebrow">INFORMAȚII NOI, CU CONTEXT</p><h1>Inteligență de piață</h1><p>Sursa originală când este disponibilă. Necunoscutele rămân vizibile.</p></div><button class="primary" id="news-button">Actualizează știrile ↻</button></div><div class="filter-bar"><div class="filter-tabs" id="news-filters"><button class="filter active" data-filter="all">Toate</button><button class="filter" data-filter="launches">Lansări & proiecte</button><button class="filter" data-filter="listings">Listări</button><button class="filter" data-filter="public_figures">Persoane publice</button><button class="filter" data-filter="primary">Surse primare</button></div><input id="news-search" type="search" placeholder="Caută o știre sau un subiect…" aria-label="Caută știre"></div><div class="status-line" id="news-status"></div><div id="stories" class="news-grid"></div></section>
-    <section id="view-market" class="view" hidden><div class="view-heading"><div><p class="eyebrow">CRYPTO GENERAL · DATE DE REFERINȚĂ</p><h1>Piața crypto</h1><p>Active observate, nu o listă de recomandări sau de lansări de azi.</p></div><button class="primary" id="market-button">Actualizează piața ↻</button></div><div class="filter-bar"><input id="asset-search" type="search" placeholder="Caută Bitcoin, Ethereum, Solana…" aria-label="Caută activ crypto"><span class="source-caption" id="market-status">CoinGecko · încă neverificat</span></div><section class="panel"><div class="table-scroll"><table><thead><tr><th>ACTIV</th><th>PREȚ USD</th><th>VARIAȚIE 24H</th><th>VOLUM 24H</th><th>CAPITALIZARE</th><th>CERCETARE</th></tr></thead><tbody id="asset-rows"></tbody></table></div><div id="assets-empty" class="empty-state">Se așteaptă prima observație de piață. Nu sunt folosite prețuri fictive.</div></section></section>
-    <section id="view-scanner" class="view" hidden><div class="view-heading"><div><p class="eyebrow">DESCOPERIRE SOLANA</p><h1>Tokenuri emergente</h1><p>Profiluri și watchlist. Acoperire parțială; vârsta poolului nu este vârsta tokenului.</p></div><button class="primary" id="scan-button">Scanează acum ↻</button></div><div class="filter-bar"><input id="search" type="search" placeholder="Caută simbol sau adresă…" aria-label="Caută token"><form id="add-form"><input id="address" placeholder="Mint Solana pentru watchlist" required maxlength="44" aria-label="Adresă mint Solana"><button class="secondary" type="submit">+ Urmărește</button></form></div><section class="panel"><div class="table-scroll"><table><thead><tr><th>TOKEN</th><th>PRIORITATE RESEARCH</th><th>LICHIDITATE</th><th>VOLUM 5M</th><th>DECIZIE</th><th>DATE</th></tr></thead><tbody id="tokens"></tbody></table></div><div class="empty-state" id="empty">Nicio observație de token încă. Adaugă un mint sau pornește scanarea.</div></section><p class="footnote">O listă de profiluri nu acoperă toate lansările. Numele poate fi imitat, iar atenția poate fi cumpărată.</p></section>
-    <section id="view-portfolio" class="view" hidden><div class="view-heading"><div><p class="eyebrow">TU ALEGI. NOI MĂSURĂM.</p><h1>Portofoliu virtual</h1><p>Ordine manuale, ipoteze păstrate și rezultate după costuri simulate.</p></div><select id="paper-account" aria-label="Cont virtual"><option value="news">Research · $500 inițial</option><option value="scanner">Scanner · cont anterior</option></select></div><div class="portfolio-summary"><div><small>Cash disponibil</small><strong id="portfolio-cash">—</strong></div><div><small>Valoare netă estimată</small><strong id="portfolio-equity">—</strong></div><div><small>Rezultat realizat</small><strong id="portfolio-realized">—</strong></div><div><small>Poziții deschise</small><strong id="open-count">0</strong></div></div><section class="panel"><div class="panel-header"><h2>Pozițiile mele</h2><button class="text-button" data-page="market">Cercetează un activ ↗</button></div><div id="positions"></div></section><p class="footnote">Valoarea netă este o estimare de ieșire. Când lipsesc datele necesare, rezultatul estimat rămâne necunoscut. Nu există wallet conectat.</p></section>
-    <section id="view-journal" class="view" hidden><div class="view-heading"><div><p class="eyebrow">DOVEZI, NU IMPRESII</p><h1>Jurnal & rezultate</h1><p>Ce informație ai avut, de ce ai intrat și ce s-a întâmplat.</p></div><span class="pill">ORDINE SIMULATE</span></div><section class="panel"><div id="orders"></div></section></section>
-    <section id="view-sources" class="view" hidden><div class="view-heading"><div><p class="eyebrow">TRANSPARENȚĂ ÎNAINTE DE SCOR</p><h1>Surse & metodologie</h1><p>Știm ce măsurăm și păstrăm separat ce nu putem confirma.</p></div></div><div class="method-grid"><section class="panel padded"><h2>Starea surselor</h2><div id="provider-status"></div><p class="footnote">HTTP OK arată o cerere reușită, nu adevărul tuturor afirmațiilor unei surse.</p></section><section class="panel padded"><h2>Reguli de portofoliu</h2><p id="rules"></p><p class="footnote">DEX: model de pool aproximativ. Crypto generale: order book observat dacă este disponibil; altfel preț de referință și slippage presupus. Fee-ul nu provine din contul unui exchange.</p></section><section class="panel padded"><h2>Ce înseamnă „solid”?</h2><p>Produs, emitent, tokenomics, vesting, audit, contract și surse verificabile. Capitalizarea sau asocierea cu Trump, Musk ori Zelenski nu înlocuiesc aceste dovezi.</p><p class="footnote">Evaluarea completă a fundamentelor și verificarea susținerilor oficiale nu sunt automatizate încă.</p></section><section class="panel padded"><h2>Înainte de ce listare?</h2><p>Un token poate fi deja pe un DEX înainte de un CEX. Arătăm piața raportată, adresa și timestamp-ul. Pentru un presale fără piață sau preț verificabil, nu inventăm un fill.</p><p class="footnote">Nu afișăm predicții „100x” sau probabilități nevalidate. AI-ul nu este conectat la execuție.</p></section></div></section>
-    <section id="view-detail" class="view" hidden><button class="text-button back-button" id="detail-back">← Înapoi la cercetare</button><div id="detail"></div></section>
-    <footer><span><span class="live-dot"></span> PULSE RESEARCH / PAPER TRADING</span><span>Date externe · explicații deterministe · execuție reală dezactivată</span></footer>
-  </main>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>PULSE — Crypto Research</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a
+        href="#overview"
+        data-page="overview"
+        class="brand"
+        aria-label="Pulse Crypto Research"
+        ><span class="brand-mark">p</span>
+        <div>PULSE<small>CRYPTO RESEARCH</small></div></a
+      >
+      <p class="nav-label">SPAȚIUL TĂU DE CERCETARE</p>
+      <nav id="navigation">
+        <button class="nav-item active" data-page="overview">
+          <span>◈</span>Privire de ansamblu
+        </button>
+        <button class="nav-item" data-page="news">
+          <span>◷</span>Inteligență de piață <b id="unread-badge">0</b>
+        </button>
+        <button class="nav-item" data-page="market">
+          <span>↗</span>Piața crypto
+        </button>
+        <button class="nav-item" data-page="scanner">
+          <span>⌕</span>Tokenuri emergente
+        </button>
+        <button class="nav-item" data-page="portfolio">
+          <span>▧</span>Portofoliu virtual
+        </button>
+        <button class="nav-item" data-page="journal">
+          <span>≡</span>Jurnal & rezultate
+        </button>
+      </nav>
+      <div class="sidebar-note">
+        <span class="live-dot"></span>EXPERIMENT CONTROLAT
+        <p>Informații reale.<br />Decizii manuale.<br />Capital virtual.</p>
+        <span class="paper-pill">PAPER ONLY</span>
+      </div>
+      <button class="nav-item settings-button" data-page="sources">
+        <span>⚙</span>Surse & metodologie
+      </button>
+      <div class="profile">
+        <span class="avatar">M</span>
+        <div>Spațiul meu<small>Personal · local</small></div>
+        <span class="version">v0.3</span>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <span class="breadcrumb">WORKSPACE /</span>
+          <strong id="page-name">Privire de ansamblu</strong>
+        </div>
+        <div class="top-actions">
+          <span class="connection" id="connection"
+            ><span class="live-dot"></span>Verificare surse…</span
+          ><button
+            class="icon-button"
+            id="refresh-all"
+            aria-label="Actualizează datele"
+          >
+            ↻</button
+          ><span class="avatar small-avatar">M</span>
+        </div>
+      </header>
+      <div id="message" class="toast" role="status" hidden></div>
+      <div
+        id="section-alerts"
+        class="section-alerts"
+        role="status"
+        hidden
+      ></div>
+      <section id="view-overview" class="view">
+        <div class="welcome">
+          <div>
+            <p class="eyebrow">INFORMAȚIE. CONTEXT. DISCIPLINĂ.</p>
+            <h1>Înainte de decizie,<br /><span>caută dovezile.</span></h1>
+            <p>
+              Știri, proiecte și piețe crypto într-un singur loc.<br />Construiește-ți
+              ipotezele. Testează-le cu bani virtuali.
+            </p>
+            <div class="hero-actions">
+              <button class="primary" data-page="news">
+                Explorează informațiile <span>↗</span></button
+              ><button class="secondary" data-page="portfolio">
+                Portofoliul meu
+              </button>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-top">
+              <span class="eyebrow">LABORATORUL TĂU</span
+              ><span class="pill">FĂRĂ EXECUȚIE REALĂ</span>
+            </div>
+            <p>Capital disponibil</p>
+            <strong id="hero-cash">—</strong>
+            <div class="hero-card-bottom">
+              <span>Ordin manual implicit</span><b>$50 virtuali</b>
+            </div>
+            <div class="wave-decoration" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <div class="metrics">
+          <article>
+            <div class="metric-label">CASH VIRTUAL <span>▧</span></div>
+            <strong id="cash">—</strong
+            ><small>Sold după ordinele simulate</small>
+          </article>
+          <article>
+            <div class="metric-label">
+              VALOARE NETĂ ESTIMATĂ <span>↗</span>
+            </div>
+            <strong id="equity">—</strong
+            ><small>După costuri estimate de ieșire</small>
+          </article>
+          <article>
+            <div class="metric-label">REZULTAT REALIZAT <span>◎</span></div>
+            <strong id="realized">—</strong
+            ><small>Poziții închise, după costuri</small>
+          </article>
+          <article>
+            <div class="metric-label">INFORMAȚII COLECTATE <span>◷</span></div>
+            <strong id="news-count">0</strong
+            ><small id="news-count-caption">Cu sursă și timestamp</small>
+          </article>
+        </div>
+        <div class="overview-grid">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">DIN PIAȚĂ</p>
+                <h2>Ce merită citit acum</h2>
+              </div>
+              <button class="text-button" data-page="news">
+                Vezi feedul ↗
+              </button>
+            </div>
+            <div id="overview-news"></div>
+          </section>
+          <section class="panel market-glance">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">OBSERVAȚII API</p>
+                <h2>Pulsul pieței</h2>
+              </div>
+              <span class="pill">USD</span>
+            </div>
+            <div id="market-glance"></div>
+            <div class="panel-footer">
+              <button class="text-button" data-page="market">
+                Explorează piața crypto ↗
+              </button>
+            </div>
+          </section>
+        </div>
+        <div class="principle-strip">
+          <span class="principle-icon">◇</span>
+          <div>
+            <strong>O știre este începutul unei ipoteze.</strong>
+            <p>
+              Sursa, identitatea proiectului și locul de tranzacționare se
+              verifică separat. Un nume cunoscut nu confirmă susținerea unui
+              token.
+            </p>
+          </div>
+          <button class="text-button" data-page="sources">
+            Cum evaluăm ↗
+          </button>
+        </div>
+      </section>
+      <section id="view-news" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">INFORMAȚII NOI, CU CONTEXT</p>
+            <h1>Inteligență de piață</h1>
+            <p>
+              Sursa originală când este disponibilă. Necunoscutele rămân
+              vizibile.
+            </p>
+          </div>
+          <button class="primary" id="news-button">
+            Actualizează știrile ↻
+          </button>
+        </div>
+        <div class="filter-bar">
+          <div class="filter-tabs" id="news-filters">
+            <button class="filter active" data-filter="all">Toate</button
+            ><button class="filter" data-filter="launches">
+              Lansări & proiecte</button
+            ><button class="filter" data-filter="listings">Listări</button
+            ><button class="filter" data-filter="public_figures">
+              Persoane publice</button
+            ><button class="filter" data-filter="primary">Surse primare</button>
+          </div>
+          <input
+            id="news-search"
+            type="search"
+            placeholder="Caută o știre sau un subiect…"
+            aria-label="Caută știre"
+          />
+        </div>
+        <label class="archive-control"
+          ><input type="checkbox" id="news-archive" /> Include arhiva · articole
+          vechi marcate separat</label
+        >
+        <div class="status-line" id="news-status"></div>
+        <div id="stories" class="news-grid"></div>
+      </section>
+      <section id="view-market" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">CRYPTO GENERAL · DATE DE REFERINȚĂ</p>
+            <h1>Piața crypto</h1>
+            <p>
+              Active observate, nu o listă de recomandări sau de lansări de azi.
+            </p>
+          </div>
+          <button class="primary" id="market-button">
+            Actualizează piața ↻
+          </button>
+        </div>
+        <div class="filter-bar">
+          <input
+            id="asset-search"
+            type="search"
+            placeholder="Caută Bitcoin, Ethereum, Solana…"
+            aria-label="Caută activ crypto"
+          /><span class="source-caption" id="market-status"
+            >CoinGecko · încă neverificat</span
+          >
+        </div>
+        <form id="asset-discovery-form" class="filter-bar">
+          <input
+            id="asset-query"
+            minlength="2"
+            maxlength="80"
+            required
+            placeholder="Caută în catalogul crypto complet…"
+            aria-label="Caută alte active"
+          /><button class="secondary" type="submit">Caută active</button>
+        </form>
+        <div id="asset-search-results"></div>
+        <section class="panel">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>ACTIV</th>
+                  <th>PREȚ USD</th>
+                  <th>VARIAȚIE 24H</th>
+                  <th>VOLUM 24H</th>
+                  <th>CAPITALIZARE</th>
+                  <th>CERCETARE</th>
+                </tr>
+              </thead>
+              <tbody id="asset-rows"></tbody>
+            </table>
+          </div>
+          <div id="assets-empty" class="empty-state">
+            Se așteaptă prima observație de piață. Nu sunt folosite prețuri
+            fictive.
+          </div>
+        </section>
+      </section>
+      <section id="view-scanner" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">DESCOPERIRE SOLANA</p>
+            <h1>Tokenuri emergente</h1>
+            <p>
+              Profiluri și watchlist. Acoperire parțială; vârsta poolului nu
+              este vârsta tokenului.
+            </p>
+          </div>
+          <button class="primary" id="scan-button">Scanează acum ↻</button>
+        </div>
+        <div class="filter-bar">
+          <input
+            id="search"
+            type="search"
+            placeholder="Caută simbol sau adresă…"
+            aria-label="Caută token"
+          />
+          <form id="add-form">
+            <input
+              id="address"
+              placeholder="Mint Solana pentru watchlist"
+              required
+              maxlength="44"
+              aria-label="Adresă mint Solana"
+            /><button class="secondary" type="submit">+ Urmărește</button>
+          </form>
+        </div>
+        <section class="panel">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>TOKEN</th>
+                  <th>PRIORITATE RESEARCH</th>
+                  <th>LICHIDITATE</th>
+                  <th>VOLUM 5M</th>
+                  <th>DECIZIE</th>
+                  <th>DATE</th>
+                </tr>
+              </thead>
+              <tbody id="tokens"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty">
+            Nicio observație de token încă. Adaugă un mint sau pornește
+            scanarea.
+          </div>
+        </section>
+        <p class="footnote">
+          O listă de profiluri nu acoperă toate lansările. Numele poate fi
+          imitat, iar atenția poate fi cumpărată.
+        </p>
+      </section>
+      <section id="view-portfolio" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">TU ALEGI. NOI MĂSURĂM.</p>
+            <h1>Portofoliu virtual</h1>
+            <p>
+              Ordine manuale, ipoteze păstrate și rezultate după costuri
+              simulate.
+            </p>
+          </div>
+          <select id="paper-account" aria-label="Cont virtual">
+            <option value="news">Research · $500 inițial</option>
+            <option value="scanner">Scanner · cont anterior</option>
+          </select>
+        </div>
+        <div class="portfolio-summary">
+          <div>
+            <small>Cash disponibil</small><strong id="portfolio-cash">—</strong>
+          </div>
+          <div>
+            <small>Valoare netă estimată</small
+            ><strong id="portfolio-equity">—</strong>
+          </div>
+          <div>
+            <small>Rezultat realizat</small
+            ><strong id="portfolio-realized">—</strong>
+          </div>
+          <div>
+            <small>Poziții deschise</small><strong id="open-count">0</strong>
+          </div>
+        </div>
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Pozițiile mele</h2>
+            <button class="text-button" data-page="journal">
+              Raport & jurnal ↗</button
+            ><button class="text-button" data-page="market">
+              Cercetează un activ ↗
+            </button>
+          </div>
+          <div id="positions"></div>
+        </section>
+        <p class="footnote">
+          Valoarea netă este o estimare de ieșire. Când lipsesc datele necesare,
+          rezultatul estimat rămâne necunoscut. Nu există wallet conectat.
+        </p>
+      </section>
+      <section id="view-journal" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">DOVEZI, NU IMPRESII</p>
+            <h1>Jurnal & rezultate</h1>
+            <p>Ce informație ai avut, de ce ai intrat și ce s-a întâmplat.</p>
+          </div>
+          <span class="pill">ORDINE SIMULATE</span>
+        </div>
+        <section class="panel padded">
+          <div class="panel-header">
+            <h2>Experimentul meu</h2>
+            <div class="panel-actions">
+              <button id="export-button" class="secondary">
+                Export complet JSON</button
+              ><button id="backup-button" class="secondary">
+                Backup ambele conturi
+              </button>
+            </div>
+          </div>
+          <div id="performance"></div>
+        </section>
+        <section class="panel"><div id="orders"></div></section>
+      </section>
+      <section id="view-sources" class="view" hidden>
+        <div class="view-heading">
+          <div>
+            <p class="eyebrow">TRANSPARENȚĂ ÎNAINTE DE SCOR</p>
+            <h1>Surse & metodologie</h1>
+            <p>Știm ce măsurăm și păstrăm separat ce nu putem confirma.</p>
+          </div>
+        </div>
+        <div class="method-grid">
+          <section class="panel padded">
+            <h2>Starea surselor</h2>
+            <div id="provider-status"></div>
+            <p class="footnote">
+              HTTP OK arată o cerere reușită, nu adevărul tuturor afirmațiilor
+              unei surse.
+            </p>
+          </section>
+          <section class="panel padded">
+            <h2>Reguli de portofoliu</h2>
+            <p id="rules"></p>
+            <p class="footnote">
+              DEX: model de pool aproximativ. Crypto generale: order book
+              observat dacă este disponibil; altfel preț de referință și
+              slippage presupus. Fee-ul nu provine din contul unui exchange.
+            </p>
+          </section>
+          <section class="panel padded">
+            <h2>Ce înseamnă „solid”?</h2>
+            <p>
+              Produs, emitent, tokenomics, vesting, audit, contract și surse
+              verificabile. Capitalizarea sau asocierea cu Trump, Musk ori
+              Zelenski nu înlocuiesc aceste dovezi.
+            </p>
+            <p class="footnote">
+              Evaluarea completă a fundamentelor și verificarea susținerilor
+              oficiale nu sunt automatizate încă.
+            </p>
+          </section>
+          <section class="panel padded">
+            <h2>Înainte de ce listare?</h2>
+            <p>
+              Un token poate fi deja pe un DEX înainte de un CEX. Arătăm piața
+              raportată, adresa și timestamp-ul. Pentru un presale fără piață
+              sau preț verificabil, nu inventăm un fill.
+            </p>
+            <p class="footnote">
+              Nu afișăm predicții „100x” sau probabilități nevalidate. AI-ul nu
+              este conectat la execuție.
+            </p>
+          </section>
+        </div>
+      </section>
+      <section id="view-detail" class="view" hidden>
+        <button class="text-button back-button" id="detail-back">
+          ← Înapoi la cercetare
+        </button>
+        <div id="detail"></div>
+      </section>
+      <footer>
+        <span
+          ><span class="live-dot"></span> PULSE RESEARCH / PAPER TRADING</span
+        ><span
+          >Date externe · explicații deterministe · execuție reală
+          dezactivată</span
+        >
+      </footer>
+    </main>
+  </body>
 </html>

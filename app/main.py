@@ -5,16 +5,29 @@ from pathlib import Path
 from typing import Literal
 from urllib.parse import urlsplit
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+from app import __version__, instance_id
 from app.assets import Assets, research_case
 from app.config import Settings
-from app.models import AddToken, AssetBuy, PaperBuy, SignalRequest, solana_address
+from app.maintenance import backup, export
+from app.models import (
+    AddToken,
+    AssetBuy,
+    AssetWatch,
+    PaperBuy,
+    SignalRequest,
+    solana_address,
+    utcnow,
+)
 from app.news import News
 from app.paper import Rejected
 from app.providers import ProviderError, Providers
+from app.research import EvidenceInput, SourceInput
 from app.service import Service
 from app.store import Store
 
@@ -22,7 +35,12 @@ STATIC = Path(__file__).parent / "static"
 
 
 def create_app(
-    settings=None, providers=None, run_scanner=True, news_factory=None, assets_factory=None
+    settings=None,
+    providers=None,
+    run_scanner=True,
+    news_factory=None,
+    assets_factory=None,
+    trusted_hosts=None,
 ):
     settings = settings or Settings.from_environment()
 
@@ -41,29 +59,59 @@ def create_app(
         news = (news_factory or News)(store, sources)
         news.assets = assets
         app.state.service.news = news
-        task = asyncio.create_task(app.state.service.run()) if run_scanner else None
-        news_task = asyncio.create_task(news.run()) if run_scanner else None
-        assets_task = asyncio.create_task(assets.run()) if run_scanner else None
+        app.state.workers = {}
+
+        async def supervised(name, fn):
+            app.state.workers[name] = {
+                "state": "running",
+                "started_at": utcnow(),
+                "restarts": 0,
+                "error": None,
+            }
+            while True:
+                try:
+                    await fn()
+                    raise RuntimeError("Worker returned unexpectedly")
+                except asyncio.CancelledError:
+                    raise
+                except Exception as exc:
+                    record = app.state.workers[name]
+                    record.update(state="error", error=type(exc).__name__)
+                    record["restarts"] += 1
+                    await asyncio.sleep(5)
+                    record.update(state="running", error=None)
+
+        tasks = (
+            [
+                asyncio.create_task(supervised(name, fn))
+                for name, fn in [
+                    ("scanner", app.state.service.run),
+                    ("news", news.run),
+                    ("assets", assets.run),
+                    ("performance", app.state.service.performance.run),
+                ]
+            ]
+            if run_scanner
+            else []
+        )
         try:
             yield
         finally:
-            if task:
+            for task in tasks:
                 task.cancel()
+            for task in tasks:
                 with suppress(asyncio.CancelledError):
                     await task
-            if news_task:
-                news_task.cancel()
-                with suppress(asyncio.CancelledError):
-                    await news_task
-            if assets_task:
-                assets_task.cancel()
-                with suppress(asyncio.CancelledError):
-                    await assets_task
+            await app.state.service.research.close()
             await assets.close()
             await news.close()
             await sources.close()
 
     app = FastAPI(title="PULSE Crypto Research · Paper only", lifespan=lifespan)
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=trusted_hosts or ["127.0.0.1", "localhost", "testserver"],
+    )
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
     @app.middleware("http")
@@ -117,7 +165,11 @@ def create_app(
             "news": service.news.status,
             "news_paper_initial_balance": str(service.news_paper.initial_balance),
             "crypto_market": service.assets.status,
-            "version": "0.2.0",
+            "version": __version__,
+            "instance_id": instance_id(settings.data_dir),
+            "workers": request.app.state.workers,
+            "market_sources": service.assets.source_status,
+            "performance": service.performance.status,
             "app_id": "pulse_crypto_research",
         }
 
@@ -128,6 +180,19 @@ def create_app(
     @app.get("/api/assets")
     def asset_listing(request: Request):
         return request.app.state.service.assets.listing()
+
+    @app.get("/api/assets/search")
+    async def asset_search(request: Request, q: str = Query(min_length=2, max_length=80)):
+        return await request.app.state.service.assets.search(q)
+
+    @app.post("/api/assets/watch")
+    async def asset_watch(body: AssetWatch, request: Request):
+        return await request.app.state.service.assets.watch(body.asset_id)
+
+    @app.post("/api/assets/{asset_id}/unwatch")
+    def asset_unwatch(asset_id: str, request: Request):
+        request.app.state.service.assets.unwatch(asset_id)
+        return {"watch": False}
 
     @app.post("/api/assets/refresh")
     async def asset_refresh(request: Request):
@@ -143,6 +208,7 @@ def create_app(
             "asset": asset,
             "history": assets.history(asset_id),
             "research": research_case(asset),
+            "case": request.app.state.service.research.case(asset["address"]),
         }
 
     @app.get("/api/assets/{asset_id}/venues")
@@ -185,8 +251,17 @@ def create_app(
     @app.get("/api/tokens/{address}")
     def details(address: str, request: Request):
         service = request.app.state.service
-        token = next((t for t in service.listing() if t["address"] == address), None)
-        latest = token["snapshot"] if token else None
+        token = service.store.token(address)
+        latest = service.store.latest(address) if token else None
+        if latest:
+            import time
+
+            from app.analysis import analyze
+            from app.models import Market
+
+            latest["analysis"] = analyze(
+                Market(**latest["market"]), latest["security"], settings, time.time()
+            )
         if not latest:
             raise HTTPException(404, "Token fără observații; adaugă adresa sau verifică API-urile.")
         return {
@@ -212,14 +287,17 @@ def create_app(
         return await service.refresh(address)
 
     @app.post("/api/tokens/{address}/signal")
-    def signal(address: str, request: Request, body: SignalRequest | None = None):
+    async def signal(address: str, request: Request, body: SignalRequest | None = None):
         service = request.app.state.service
         body = body or SignalRequest()
+        if not service.store.token(address):
+            raise HTTPException(404, "Adaugă tokenul înainte de semnal.")
+        await service.refresh(address)
         return service.signal(address, body.account, body.news_id, body.thesis)
 
     @app.get("/api/news")
-    def news_listing(request: Request):
-        return request.app.state.service.news.listing()
+    def news_listing(request: Request, archive: bool = False):
+        return request.app.state.service.news.listing(archive=archive)
 
     @app.post("/api/news/refresh")
     async def news_refresh(request: Request):
@@ -227,7 +305,8 @@ def create_app(
 
     @app.post("/api/news/{news_id}/seen")
     def news_seen(news_id: int, request: Request):
-        request.app.state.service.news.mark_seen(news_id)
+        if not request.app.state.service.news.mark_seen(news_id):
+            raise HTTPException(404, "Știre necunoscută")
         return {"seen": True}
 
     @app.post("/api/scan")
@@ -237,6 +316,54 @@ def create_app(
     @app.get("/api/portfolio")
     def portfolio(request: Request, account: Literal["scanner", "news"] = "scanner"):
         return request.app.state.service.portfolio(account)
+
+    @app.get("/api/performance")
+    def performance(request: Request, account: Literal["scanner", "news"] = "news"):
+        return request.app.state.service.performance.report(account)
+
+    @app.get("/api/export")
+    def export_data(request: Request, account: Literal["scanner", "news"] = "news"):
+        return JSONResponse(
+            export(request.app.state.service, account),
+            headers={"Content-Disposition": f'attachment; filename="pulse-{account}.json"'},
+        )
+
+    @app.post("/api/backup")
+    async def backup_data(request: Request):
+        path = await run_in_threadpool(backup, request.app.state.service)
+        return FileResponse(path, filename=path.name, media_type="application/zip")
+
+    def known_subject(service, address):
+        if address.startswith("asset:"):
+            known = service.assets.get(address[6:])
+        else:
+            known = service.store.token(address)
+        if not known:
+            raise HTTPException(404, "Adaugă activul în piață/watchlist înainte de dosar.")
+
+    @app.post("/api/research/source")
+    async def research_source(body: SourceInput, request: Request):
+        return await request.app.state.service.research.source(body)
+
+    @app.get("/api/research/{address}")
+    def research(address: str, request: Request):
+        service = request.app.state.service
+        known_subject(service, address)
+        return service.research.case(address)
+
+    @app.post("/api/research/{address}/evidence")
+    def research_evidence(address: str, body: EvidenceInput, request: Request):
+        service = request.app.state.service
+        known_subject(service, address)
+        service.research.add(address, body)
+        return service.research.case(address)
+
+    @app.post("/api/research/{address}/evidence/{evidence_id}/revoke")
+    def revoke_evidence(address: str, evidence_id: int, request: Request):
+        service = request.app.state.service
+        if not service.research.revoke(address, evidence_id):
+            raise HTTPException(404, "Dovadă activă inexistentă")
+        return service.research.case(address)
 
     @app.post("/api/paper/buy")
     async def paper_buy(body: PaperBuy, request: Request):
@@ -255,4 +382,4 @@ def create_app(
     return app
 
 
-app = create_app()
+app = create_app(trusted_hosts=["127.0.0.1", "localhost"])

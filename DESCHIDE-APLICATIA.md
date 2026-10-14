@@ -58,3 +58,9 @@ vezi `README.md`. Pachetul nu reprezintă un site public; interfața se serveșt
 Închide fereastra de comandă a aplicației. Fă o copie de siguranță a directorului `data`, apoi
 copiază fișierele noii versiuni peste folderul anterior, păstrând `data`. Pornește din nou
 `start-windows.cmd`. Nu porni două versiuni pe același director de date.
+
+În v0.3, dacă launcherul găsește o versiune veche încă pornită, cere închiderea acelei ferestre
+înainte de a continua. Nu reseta contul. După actualizare, în bara laterală trebuie să apară **v0.3**.
+Din **Jurnal & rezultate** poți descărca un backup consistent al ambelor conturi și un export JSON
+al experimentului selectat. Soldurile de pe PC sunt cele din propriul director `data`; arhiva
+GitHub nu include conturile instanței cloud.

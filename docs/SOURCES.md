@@ -1,5 +1,10 @@
 # Surse și verificare — 13 octombrie 2026
 
+Actualizare 14 octombrie: [v0.3](V0.3.md) adaugă căutare CoinGecko și citate din documente
+Ethereum Foundation/Kraken/CoinDesk. Citirea documentului verifică prezența textului, fără
+verificare automată a afirmației. Nu sunt necesare chei sau domenii noi. Deduplicarea știrilor
+curente este după URL normalizat, cu păstrarea subiectelor și ID-urilor istorice.
+
 Extinderea crypto generală v0.2, sursele actuale CoinGecko/Coinbase/RSS și limitele lor sunt
 documentate în [V0.2.md](V0.2.md). Secțiunile de mai jos păstrează cercetarea primului milestone.
 

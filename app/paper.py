@@ -97,7 +97,7 @@ def reference_fill(side, size, market, settings):
         else:
             raise Rejected("Sens necunoscut.")
         model = "observed_level1_book_assumed_fee"
-        impact = spread
+        impact = None
     else:
         slip = settings.reference_slippage
         if slip > settings.max_price_impact:
@@ -118,7 +118,9 @@ def reference_fill(side, size, market, settings):
         "cash_change": str(cash),
         "swap_fee_usd": str(fee),
         "network_fee_usd": "0",
-        "price_impact": str(impact),
+        "price_impact": str(impact) if impact is not None else None,
+        "spread_fraction": str(spread) if book else None,
+        "slippage_assumption_fraction": str(settings.reference_slippage) if not book else None,
         "model": model,
         "execution_verified": False,
         "source": market["source"],
@@ -132,9 +134,17 @@ def break_even(quote, market, settings):
             1 - settings.reference_slippage if not market.get("book") else 1
         )
         target = -D(quote["cash_change"]) / (amount(quote["quantity"]) * sell_factor)
+        book = market.get("book")
+        midpoint_target = (
+            target * amount(market["price_usd"]) / amount(book["bid"]) if book else target
+        )
         return {
-            "break_even_price_estimate": str(target),
-            "break_even_rise_pct": str((target / amount(market["price_usd"]) - 1) * 100),
+            "break_even_price_estimate": str(midpoint_target),
+            "break_even_bid_required": str(target) if book else None,
+            "break_even_assumption": "constant_relative_spread"
+            if book
+            else "unchanged_reference_costs",
+            "break_even_rise_pct": str((midpoint_target / amount(market["price_usd"]) - 1) * 100),
         }
     reserve = amount(market["liquidity_usd"]) / 2
     net_tokens = amount(quote["quantity"]) * (1 - settings.swap_fee)

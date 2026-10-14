@@ -2,6 +2,7 @@
 
 Run: UV_CACHE_DIR=/workspace/.cache/uv uv run --with playwright python docs/audit/reproduce_browser.py
 Requires /usr/bin/chromium, like tests/browser_smoke.py. No production data or real trades.
+Historical v0.2 probe: run on commit 307376d. Use tests/browser_regressions.py for v0.3.
 """
 
 import json

@@ -11,9 +11,11 @@ class Store:
         settings.data_dir.mkdir(parents=True, exist_ok=True)
         self.path = settings.data_dir / "research.sqlite3"
         self.initial_balance = settings.initial_balance
+        self.max_snapshot_age = settings.max_snapshot_age
         with self.connect() as db:
             db.executescript("""
                 PRAGMA journal_mode=WAL;
+                CREATE TABLE IF NOT EXISTS schema_migrations(name TEXT PRIMARY KEY,at TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS tokens (
                     address TEXT PRIMARY KEY, source TEXT NOT NULL, added_at TEXT NOT NULL,
                     watch INTEGER NOT NULL DEFAULT 0, error TEXT);
@@ -81,6 +83,11 @@ class Store:
     def set_error(self, address, error):
         with self.connect() as db:
             db.execute("UPDATE tokens SET error=? WHERE address=?", (error, address))
+
+    def token(self, address):
+        with self.connect() as db:
+            row = db.execute("SELECT * FROM tokens WHERE address=?", (address,)).fetchone()
+            return dict(row) if row else None
 
     def unwatch(self, address):
         with self.connect() as db:

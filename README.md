@@ -1,7 +1,10 @@
-# PULSE — Crypto Research v0.2
+# PULSE — Crypto Research v0.3
 
 Terminal personal pentru știri crypto, cercetare de proiecte și un portofoliu virtual. Interfață
 în română, navigare desktop/mobil și ordine manuale de $50. Nicio tranzacție reală.
+
+Versiunea 0.3 remediază constatările auditului și adaugă dosare cu dovezi, căutare/watchlist crypto,
+raport paper trading, export JSON și backup ZIP. Vezi [schimbările și limitele](docs/V0.3.md).
 
 ![PULSE desktop](docs/screenshots/pulse-desktop.png)
 
@@ -33,6 +36,12 @@ va fi nou. Nu șterge istoricul pentru a rezolva o problemă de instalare.
    informația/ipoteza, aștepți minimum 3 secunde, apoi apeși manual **Simulează intrarea**.
 5. **Portofoliu / jurnal**: cantitate, cost, estimare netă de ieșire, rezultat realizat și motivele
    inițiale. Articolul și ipoteza capturate la intrare nu sunt rescrise de feedul ulterior.
+6. **Dosar cu dovezi**: sursă, citat, emitent, data publicării, chain/contract și motivul evaluării
+   pentru identitate, anunț, produs, echipă, tokenomics, audit și lichiditate. Evaluările sunt
+   manuale; un citat găsit într-un document nu confirmă adevărul sau afilierea tokenului.
+7. **Măsurarea experimentului**: rezultat realizat, randament/equity estimat, win rate numai din
+   poziții închise, încercări respinse, drawdown observat și comparație BTC pe perioade aliniate.
+   Exportul JSON păstrează întregul experiment; backupul ZIP include ambele baze SQLite.
 
 Sursa primară și o redacție cunoscută primesc prioritate de afișare. Aceasta nu verifică afirmația,
 nu confirmă susținerea unui token și nu măsoară probabilitatea de profit. Numele este uneori doar
@@ -47,9 +56,10 @@ Când book-ul nu este disponibil, un **nou** experiment poate folosi preț CoinG
 și slippage de scenariu (0,5%). Modelul și lipsa verificării execuției sunt salvate în fiecare ordin.
 
 O poziție intrată pe modelul cu order book necesită un book nou pentru ieșire; nu înlocuim
-lichiditatea lipsă cu un fill la preț de referință. În fundal se actualizează până la 5 poziții crypto
-cu prioritate pentru cele recente, pe lângă catalogul de 25 de active, la aproximativ 2 minute.
-Restul pot necesita refresh la ieșire; o estimare nevalidabilă rămâne necunoscută.
+lichiditatea lipsă cu un fill la preț de referință. În fundal se actualizează până la 7 active deținute
+sau urmărite, prin rotație, pe ciclu; după ciclu se așteaptă 60s. Catalogul de 25 de active se cere
+la aproximativ 2 minute. Căutarea permite adăugarea a maximum 20 de active în watchlist crypto.
+Prețurile expirate sunt marcate; la ordin se cer date noi. O estimare nevalidabilă rămâne necunoscută.
 
 Prețurile și book-urile sunt observații, nu ordine garantate. Nu avem latență zero, fee real per cont,
 minimum-order validation complet sau model pentru eșecuri on-chain. DEX rămâne simularea aproximativă
@@ -91,6 +101,10 @@ fișierul `.env` nu se încarcă automat. Exportă numai variabilele necesare î
 Nu se resetează la restart. `PAPER_START_USD=50` stabilește capitalul numai pentru o bază nouă;
 pentru un experiment separat, folosește un alt `DATA_DIR`, fără ștergerea istoricului existent.
 Oprește serverul înainte de backup și păstrează întregul director `data`, inclusiv fișierele WAL.
+Butonul **Backup complet** din jurnal poate crea un backup consistent și cu aplicația pornită.
+Pentru restaurare, oprește aplicația, păstrează o copie a datelor curente și extrage cele două baze
+din ZIP în `data`, respectând subdirectorul `news_paper`. Restaurarea se face într-un director gol
+de date, fără fișiere WAL/SHM vechi. Exportul JSON este pentru analiză, nu pentru restaurare.
 
 ## Ce funcționează
 
@@ -158,7 +172,9 @@ Impactul estimat nu este o limită garantată de slippage. Toate fill-urile au `
 
 Eșecurile înregistrate acum sunt respingeri înainte de execuția ipotetică, fără debit de fee.
 Nu inventăm probabilități de eșec. O ieșire nevalidabilă nu închide poziția și nu creditează soldul;
-pozițiile neieșite nu sunt prezentate ca pierderi realizate. Equity-ul estimat rămâne necunoscut dacă o ieșire nu poate fi evaluată; drawdown-ul istoric nu este implementat.
+pozițiile neieșite nu sunt prezentate ca pierderi realizate. Equity-ul estimat rămâne necunoscut
+dacă o ieșire nu poate fi evaluată. Drawdown-ul folosește numai observațiile colectate din v0.3,
+cu golurile raportate; nu reconstruiește un istoric anterior și poate rata mișcări între observații.
 Pragul break-even este valabil numai în același model, cu lichiditate constantă și fee-urile presupuse.
 
 Nu sunt încă verificate concentrarea pe proprietari, istoricul deployerului, LP locks/withdrawals,
@@ -174,6 +190,11 @@ cd /workspace/chatgpt
 node --check app/static/app.js
 .venv/bin/python -m app.smoke
 ```
+
+Verificări UI izolate: `UV_CACHE_DIR=/workspace/.cache/uv uv run --with playwright python tests/browser_smoke.py`
+și aceeași comandă cu `tests/browser_regressions.py`; necesită Chromium la `/usr/bin/chromium`.
+Nu rulează nativ launcherul Windows. [Validarea](docs/VALIDATION.md) separă testele simulate de
+probele cu surse reale.
 
 `pytest` folosește răspunsuri simulate și baze temporare. `app.smoke` contactează API-urile reale;
 folosește wrapped SOL pentru infrastructura Solana, BTC pentru preț/order book și CoinDesk pentru

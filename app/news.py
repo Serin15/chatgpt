@@ -8,11 +8,12 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import UTC
 from email.utils import parsedate_to_datetime
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import httpx
 
-from app.models import epoch, utcnow
+from app.assets import safe_link
+from app.models import epoch, number, utcnow
 from app.providers import ProviderError
 
 TOPICS = {
@@ -143,9 +144,16 @@ def mentioned_assets(title, definition, assets):
     return result[:4]
 
 
-def safe_link(value):
+def canonical_url(value):
+    if not safe_link(value):
+        return value
     url = urlsplit(value)
-    return url.scheme == "https" and bool(url.hostname) and not url.username and not url.password
+    query = [
+        (k, v)
+        for k, v in parse_qsl(url.query, keep_blank_values=True)
+        if not k.lower().startswith("utm_") and k.lower() not in {"fbclid", "gclid"}
+    ]
+    return urlunsplit((url.scheme, url.netloc.lower(), url.path, urlencode(query), ""))
 
 
 def parse_rss(content, topic, now=None):
@@ -226,7 +234,35 @@ class News:
                     first_matched_at TEXT NOT NULL, updated_at TEXT NOT NULL,
                     PRIMARY KEY(news_id,address));
                 CREATE TABLE IF NOT EXISTS news_read(news_id INTEGER PRIMARY KEY,at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS news_topics(news_id INTEGER NOT NULL,topic TEXT NOT NULL,PRIMARY KEY(news_id,topic));
             """)
+            if "canonical_url" not in {r[1] for r in db.execute("PRAGMA table_info(news)")}:
+                db.execute("ALTER TABLE news ADD COLUMN canonical_url TEXT")
+            migrated = db.execute(
+                "SELECT 1 FROM schema_migrations WHERE name='news-canonical-v1'"
+            ).fetchone()
+            if not migrated:
+                groups = {}
+                for row in db.execute("SELECT * FROM news ORDER BY id").fetchall():
+                    key = canonical_url(row["url"])
+                    canonical = groups.setdefault(key, row["id"])
+                    db.execute("UPDATE news SET canonical_url=? WHERE id=?", (key, row["id"]))
+                    db.execute(
+                        "INSERT OR IGNORE INTO news_topics VALUES(?,?)", (canonical, row["topic"])
+                    )
+                    if canonical != row["id"]:
+                        db.execute(
+                            "INSERT OR IGNORE INTO news_read SELECT ?,at FROM news_read WHERE news_id=?",
+                            (canonical, row["id"]),
+                        )
+                        db.execute(
+                            "INSERT OR IGNORE INTO news_matches SELECT ?,address,market,first_matched_at,updated_at FROM news_matches WHERE news_id=?",
+                            (canonical, row["id"]),
+                        )
+                db.execute(
+                    "INSERT INTO schema_migrations VALUES(?,?)", ("news-canonical-v1", utcnow())
+                )
+            db.execute("CREATE INDEX IF NOT EXISTS news_canonical_url ON news(canonical_url)")
 
     async def close(self):
         await self.client.aclose()
@@ -257,9 +293,18 @@ class News:
 
     def save(self, item):
         with self.store.connect() as db:
+            key = canonical_url(item["url"])
+            existing = db.execute(
+                "SELECT MIN(id) FROM news WHERE canonical_url=?", (key,)
+            ).fetchone()[0]
+            if existing is not None:
+                db.execute(
+                    "INSERT OR IGNORE INTO news_topics VALUES(?,?)", (existing, item["topic"])
+                )
+                return existing
             db.execute(
                 """INSERT OR IGNORE INTO news
-                (fingerprint,topic,title,url,publisher,published_at,first_seen_at) VALUES(?,?,?,?,?,?,?)""",
+                (fingerprint,topic,title,url,publisher,published_at,first_seen_at,canonical_url) VALUES(?,?,?,?,?,?,?,?)""",
                 (
                     item["fingerprint"],
                     item["topic"],
@@ -268,11 +313,25 @@ class News:
                     item["publisher"],
                     item["published_at"],
                     utcnow(),
+                    key,
                 ),
             )
-            return db.execute(
+            news_id = db.execute(
                 "SELECT id FROM news WHERE fingerprint=?", (item["fingerprint"],)
             ).fetchone()[0]
+            db.execute("INSERT OR IGNORE INTO news_topics VALUES(?,?)", (news_id, item["topic"]))
+            return news_id
+
+    def resolve_id(self, news_id):
+        with self.store.connect() as db:
+            row = db.execute("SELECT canonical_url FROM news WHERE id=?", (news_id,)).fetchone()
+            return (
+                db.execute("SELECT MIN(id) FROM news WHERE canonical_url=?", (row[0],)).fetchone()[
+                    0
+                ]
+                if row
+                else None
+            )
 
     def save_matches(self, news_id, candidates):
         with self.store.connect() as db:
@@ -283,7 +342,7 @@ class News:
                     (news_id, candidate["address"], json.dumps(candidate), utcnow(), utcnow()),
                 )
 
-    def replace_matches(self, news_id, candidates):
+    def replace_matches(self, news_id, candidates, topic=None):
         """Replace current hypotheses atomically, retaining their first observation."""
         now = utcnow()
         with self.store.connect() as db:
@@ -292,6 +351,19 @@ class News:
                 row["address"]: row["first_matched_at"]
                 for row in db.execute("SELECT * FROM news_matches WHERE news_id=?", (news_id,))
             }
+            if topic:
+                merged = {}
+                for row in db.execute("SELECT * FROM news_matches WHERE news_id=?", (news_id,)):
+                    previous = json.loads(row["market"])
+                    origins = set(previous.get("origin_topics", [topic])) - {topic}
+                    if origins:
+                        merged[row["address"]] = previous | {"origin_topics": sorted(origins)}
+                for candidate in candidates:
+                    origins = set(merged.get(candidate["address"], {}).get("origin_topics", [])) | {
+                        topic
+                    }
+                    merged[candidate["address"]] = candidate | {"origin_topics": sorted(origins)}
+                candidates = list(merged.values())
             db.execute("DELETE FROM news_matches WHERE news_id=?", (news_id,))
             for candidate in candidates:
                 db.execute(
@@ -322,7 +394,10 @@ class News:
                         candidates = [
                             c
                             for c in candidates
-                            if matches_name(c["name"] + " " + c["symbol"], definition["aliases"])
+                            if matches_name(
+                                str(c.get("name", "")) + " " + str(c.get("symbol", "")),
+                                definition["aliases"],
+                            )
                         ]
                         for news_id, item in zip(ids, items):
                             assets = getattr(self, "assets", None)
@@ -331,7 +406,7 @@ class News:
                                 linked = mentioned_assets(
                                     item["title"], definition, assets.listing()
                                 )
-                            self.replace_matches(news_id, candidates[:4] + linked[:4])
+                            self.replace_matches(news_id, candidates[:4] + linked[:4], topic)
                         self.status["topics"][topic] = {
                             "state": "ok",
                             "at": utcnow(),
@@ -360,33 +435,64 @@ class News:
                 self.status["error"] = "Date de știri incompatibile; verifică furnizorul."
             await asyncio.sleep(300)
 
-    def listing(self):
+    def listing(self, archive=False, news_id=None):
         with self.store.connect() as db:
             result = []
             read_ids = {r[0] for r in db.execute("SELECT news_id FROM news_read")}
-            for row in db.execute(
-                "SELECT * FROM news ORDER BY COALESCE(published_at,first_seen_at) DESC LIMIT 100"
-            ):
+            query = (
+                "SELECT * FROM news WHERE id IN (SELECT MIN(id) FROM news GROUP BY canonical_url)"
+            )
+            parameters = []
+            if news_id is not None:
+                query += " AND id=?"
+                parameters.append(self.resolve_id(news_id))
+            if not archive:
+                from datetime import datetime
+
+                query += " AND COALESCE(published_at,first_seen_at)>=?"
+                parameters.append(datetime.fromtimestamp(time.time() - 86400 * 2, UTC).isoformat())
+            query += " ORDER BY COALESCE(published_at,first_seen_at) DESC LIMIT 100"
+            for row in db.execute(query, parameters):
                 if not event_headline(row["title"]):
                     continue
                 if not relevant_headline(row["title"], row["topic"]):
                     continue
                 article = dict(row)
+                topics = [
+                    r[0]
+                    for r in db.execute(
+                        "SELECT topic FROM news_topics WHERE news_id=?", (row["id"],)
+                    )
+                ]
                 article |= {
                     "article_verified": False,
                     "association": "lexical_hypothesis",
                     "topic_label": TOPICS.get(article["topic"], {}).get("label", article["topic"]),
                     "matches": [],
+                    "topics": topics,
+                    "is_recent": 0
+                    <= time.time() - epoch(article["published_at"] or article["first_seen_at"])
+                    <= 86400 * 2,
                 }
-                definition = TOPICS.get(article["topic"], {})
+                definition = next(
+                    (
+                        TOPICS[t]
+                        for t in topics
+                        if TOPICS.get(t, {}).get("source_kind") == "primary"
+                        and TOPICS[t].get("source_host") == urlsplit(article["url"]).hostname
+                    ),
+                    TOPICS.get(article["topic"], {}),
+                )
                 title = article["title"].lower()
                 category = (
                     "listings"
                     if re.search(r"\blist(?:ing|ings|ed|s)\b", title)
                     else "launches"
-                    if re.search(r"\b(?:launch|mainnet|funding|raises|token sale)\b", title)
+                    if re.search(
+                        r"\b(?:launch(?:es|ed|ing)?|mainnet|funding|raises|token sale)\b", title
+                    )
                     else "public_figures"
-                    if article["topic"] in {"trump", "elon", "zelensky"}
+                    if set(topics) & {"trump", "elon", "zelensky"}
                     else "ecosystem"
                 )
                 briefs = {
@@ -413,9 +519,12 @@ class News:
                 }
                 for match in db.execute("SELECT * FROM news_matches WHERE news_id=?", (row["id"],)):
                     market = json.loads(match["market"])
-                    created, published = market.get("pool_created_at"), article["published_at"]
+                    created, published = (
+                        number(market.get("pool_created_at"), None),
+                        article["published_at"],
+                    )
                     chronology = "unknown"
-                    if created and published:
+                    if created and created > 0 and published:
                         chronology = (
                             "pool_before_article"
                             if created / 1000 < epoch(published)
@@ -442,7 +551,7 @@ class News:
         )
 
     def context(self, news_id, address):
-        article = next((n for n in self.listing() if n["id"] == news_id), None)
+        article = next(iter(self.listing(archive=True, news_id=news_id)), None)
         if not article:
             raise ValueError("Știre inexistentă în lista curentă.")
         matched = next((m for m in article["matches"] if m["market"]["address"] == address), None)
@@ -460,8 +569,12 @@ class News:
             )
 
     def mark_seen(self, news_id):
+        news_id = self.resolve_id(news_id)
+        if news_id is None:
+            return False
         with self.store.connect() as db:
             db.execute(
                 "CREATE TABLE IF NOT EXISTS news_read(news_id INTEGER PRIMARY KEY,at TEXT NOT NULL)"
             )
             db.execute("INSERT OR IGNORE INTO news_read VALUES(?,?)", (news_id, utcnow()))
+        return True

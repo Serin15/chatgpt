@@ -156,7 +156,7 @@ class Providers:
                 "symbol": token.get("symbol", "?"),
                 "name": token.get("name", "?"),
                 "pair_address": pair.get("pairAddress"),
-                "pool_created_at": pair.get("pairCreatedAt"),
+                "pool_created_at": number(pair.get("pairCreatedAt"), None),
                 "price_usd": number(pair.get("priceUsd"), None),
                 "liquidity_usd": liquidity,
                 "observed_at": utcnow(),

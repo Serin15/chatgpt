@@ -9,13 +9,26 @@ import webbrowser
 
 import httpx
 
+from app import __version__, instance_id
+from app.config import Settings
 
-def our_app(url):
+
+def running_app(url):
     try:
         response = httpx.get(url + "/api/status", timeout=1, trust_env=False)
-        return response.is_success and response.json().get("app_id") == "pulse_crypto_research"
+        payload = response.json() if response.is_success else None
+        return payload if isinstance(payload, dict) else {}
     except (httpx.HTTPError, ValueError):
-        return False
+        return {}
+
+
+def our_app(url, payload=None):
+    payload = running_app(url) if payload is None else payload
+    return (
+        payload.get("app_id") == "pulse_crypto_research"
+        and payload.get("version") == __version__
+        and payload.get("instance_id") == instance_id(Settings.from_environment().data_dir)
+    )
 
 
 def main():
@@ -27,11 +40,21 @@ def main():
         parser.error("Port must be between 1024 and 65525")
     for port in range(args.port, args.port + 10):
         url = f"http://127.0.0.1:{port}"
-        if our_app(url):
+        payload = running_app(url)
+        if our_app(url, payload):
             print(f"Application already running on local port {port}.", flush=True)
             if not args.no_browser:
                 webbrowser.open(url)
             return 0
+        if payload.get("app_id") == "pulse_crypto_research" and payload.get("instance_id") in (
+            None,
+            instance_id(Settings.from_environment().data_dir),
+        ):
+            print(
+                "An older PULSE instance is running. Close its command window, then start this version again.",
+                flush=True,
+            )
+            return 1
         with socket.socket() as probe:
             try:
                 probe.bind(("127.0.0.1", port))

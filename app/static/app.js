@@ -1,105 +1,1597 @@
-const $ = id => document.getElementById(id);
-const state = {page:'overview', account:'news', assets:[], tokens:[], news:[], portfolio:null, status:null, loading:false, filter:'all', selection:null, back:'news'};
-const pageNames = {overview:'Privire de ansamblu',news:'Inteligență de piață',market:'Piața crypto',scanner:'Tokenuri emergente',portfolio:'Portofoliu virtual',journal:'Jurnal & rezultate',sources:'Surse & metodologie',detail:'Dosar de cercetare'};
-const categories = {launches:'LANSARE / PROIECT',listings:'LISTARE',public_figures:'PERSOANĂ PUBLICĂ',ecosystem:'ECOSISTEM'};
-const decisions = {reject:'Respinge',monitor:'Monitorizează',investigate:'Investighează'};
-const cash = value => value === null || value === undefined ? '—' : new Intl.NumberFormat('ro-RO',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(Number(value));
-const compact = value => value === null || value === undefined ? '—' : '$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(Number(value));
-const number = value => value === null || value === undefined ? '—' : Number(value).toLocaleString('en-US',{maximumSignificantDigits:7});
-const percent = value => value === null || value === undefined ? '—' : `${Number(value)>0?'+':''}${Number(value).toFixed(2)}%`;
-const date = value => value ? new Date(value).toLocaleString('ro-RO',{timeZone:'Europe/Bucharest'}) : 'dată neraportată';
-const short = value => value.startsWith('asset:') ? value.slice(6) : value.slice(0,6)+'…'+value.slice(-5);
-function node(tag,text,className){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(className)n.className=className;return n;}
-function icon(type='arrow'){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.classList.add('svg-icon');const path=document.createElementNS(svg.namespaceURI,'path');const paths={arrow:'M5 19L19 5M5 5h14v14',refresh:'M20 11a8 8 0 1 0-2 6M20 4v7h-7',overview:'M12 3l9 9-9 9-9-9zM12 8l4 4-4 4-4-4z',news:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v5l4 2',market:'M3 17l6-6 4 3 8-10M15 4h6v6',scanner:'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14M15 15l6 6',portfolio:'M3 5h18v15H3zM3 9h18M14 13h4',journal:'M4 5h16M4 12h16M4 19h16'};path.setAttribute('d',paths[type]||paths.arrow);path.setAttribute('fill','none');path.setAttribute('stroke','currentColor');path.setAttribute('stroke-width','1.5');path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');svg.append(path);return svg;}
-function decorate(n,text){n.textContent=text.replace(/[↗↻]/g,'').trim();if(/[↗↻]/.test(text))n.append(icon(text.includes('↻')?'refresh':'arrow'));}
-function button(text,className,fn){const b=node('button',undefined,className);decorate(b,text);b.onclick=fn;return b;}
-function link(text,url,className){const a=node('a',text,className);if(typeof url==='string'&&url.startsWith('https://'))a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
-function coin(asset){const box=node('div',undefined,'coin-name');const logo=node('span',(asset.symbol||'?').slice(0,1),'coin-logo '+(['bitcoin','ethereum','solana'].includes(asset.asset_id)?asset.asset_id:''));const name=node('div');name.append(node('strong',asset.name||asset.symbol||'Token'),node('small',asset.symbol||'Solana'));box.append(logo,name);return box;}
+const $ = (id) => document.getElementById(id);
+const state = {
+  page: "overview",
+  account: "news",
+  assets: [],
+  tokens: [],
+  news: [],
+  portfolio: null,
+  status: null,
+  loading: false,
+  filter: "all",
+  selection: null,
+  back: "news",
+  sectionErrors: {},
+  updated: {},
+  performance: null,
+  newsArchive: false,
+  pendingLoad: false,
+};
+const pageNames = {
+  overview: "Privire de ansamblu",
+  news: "Inteligență de piață",
+  market: "Piața crypto",
+  scanner: "Tokenuri emergente",
+  portfolio: "Portofoliu virtual",
+  journal: "Jurnal & rezultate",
+  sources: "Surse & metodologie",
+  detail: "Dosar de cercetare",
+};
+const categories = {
+  launches: "LANSARE / PROIECT",
+  listings: "LISTARE",
+  public_figures: "PERSOANĂ PUBLICĂ",
+  ecosystem: "ECOSISTEM",
+};
+const decisions = {
+  reject: "Respinge",
+  monitor: "Monitorizează",
+  investigate: "Investighează",
+};
+const cash = (value) =>
+  value === null || value === undefined
+    ? "—"
+    : new Intl.NumberFormat("ro-RO", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 2,
+      }).format(Number(value));
+const price = (value) =>
+  value === null || value === undefined || !Number.isFinite(Number(value))
+    ? "—"
+    : new Intl.NumberFormat("ro-RO", { maximumSignificantDigits: 8 }).format(
+        Number(value),
+      ) + " USD";
+const compact = (value) =>
+  value === null || value === undefined
+    ? "—"
+    : "$" +
+      new Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(Number(value));
+const number = (value) =>
+  value === null || value === undefined
+    ? "—"
+    : Number(value).toLocaleString("en-US", { maximumSignificantDigits: 7 });
+const percent = (value) =>
+  value === null || value === undefined
+    ? "—"
+    : `${Number(value) > 0 ? "+" : ""}${Number(value).toFixed(2)}%`;
+const date = (value) =>
+  value
+    ? new Date(value).toLocaleString("ro-RO", { timeZone: "Europe/Bucharest" })
+    : "dată neraportată";
+const short = (value) =>
+  value.startsWith("asset:")
+    ? value.slice(6)
+    : value.slice(0, 6) + "…" + value.slice(-5);
+function node(tag, text, className) {
+  const n = document.createElement(tag);
+  if (text !== undefined) n.textContent = text;
+  if (className) n.className = className;
+  return n;
+}
+function icon(type = "arrow") {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("aria-hidden", "true");
+  svg.classList.add("svg-icon");
+  const path = document.createElementNS(svg.namespaceURI, "path");
+  const paths = {
+    arrow: "M5 19L19 5M5 5h14v14",
+    refresh: "M20 11a8 8 0 1 0-2 6M20 4v7h-7",
+    overview: "M12 3l9 9-9 9-9-9zM12 8l4 4-4 4-4-4z",
+    news: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v5l4 2",
+    market: "M3 17l6-6 4 3 8-10M15 4h6v6",
+    scanner: "M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14M15 15l6 6",
+    portfolio: "M3 5h18v15H3zM3 9h18M14 13h4",
+    journal: "M4 5h16M4 12h16M4 19h16",
+  };
+  path.setAttribute("d", paths[type] || paths.arrow);
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "currentColor");
+  path.setAttribute("stroke-width", "1.5");
+  path.setAttribute("stroke-linecap", "round");
+  path.setAttribute("stroke-linejoin", "round");
+  svg.append(path);
+  return svg;
+}
+function decorate(n, text) {
+  n.textContent = text.replace(/[↗↻]/g, "").trim();
+  if (/[↗↻]/.test(text))
+    n.append(icon(text.includes("↻") ? "refresh" : "arrow"));
+}
+function button(text, className, fn) {
+  const b = node("button", undefined, className);
+  decorate(b, text);
+  b.onclick = fn;
+  return b;
+}
+function link(text, url, className) {
+  const a = node("a", text, className);
+  if (typeof url === "string" && url.startsWith("https://")) a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  return a;
+}
+function coin(asset) {
+  const box = node("div", undefined, "coin-name");
+  const logo = node(
+    "span",
+    (asset.symbol || "?").slice(0, 1),
+    "coin-logo " +
+      (["bitcoin", "ethereum", "solana"].includes(asset.asset_id)
+        ? asset.asset_id
+        : ""),
+  );
+  const name = node("div");
+  name.append(
+    node("strong", asset.name || asset.symbol || "Token"),
+    node("small", asset.symbol || "Solana"),
+  );
+  box.append(logo, name);
+  return box;
+}
 let messageTimeout;
-function message(text,success=false){clearTimeout(messageTimeout);$('message').textContent=text;$('message').hidden=!text;$('message').className='toast'+(success?' success':'');if(text)messageTimeout=setTimeout(()=>{$('message').hidden=true;},12000);}
-async function api(path,body){const response=await fetch(path,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});let data;try{data=await response.json();}catch{throw new Error('Serverul nu a returnat un răspuns valid.');}if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:'Cerere invalidă. Verifică datele introduse.');return data;}
-function navigate(page){if(!pageNames[page])return;state.page=page;for(const p of Object.keys(pageNames))$('view-'+p).hidden=p!==page;document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));$('page-name').textContent=pageNames[page];history.replaceState(null,'','#'+page);window.scrollTo({top:0,behavior:'instant'});}
-async function action(b,fn){b.disabled=true;message('');try{await fn();}catch(error){message(error.message);}finally{b.disabled=false;await load();}}
-function empty(target,text){target.append(node('div',text,'empty-state'));}
-function renderOverview(){
-  const target=$('overview-news');target.replaceChildren();
-  for(const article of state.news.slice(0,4)){const row=node('article',undefined,'mini-story');const symbol=node('span',article.source_kind==='primary'?'◇':'◷','story-symbol');const content=node('div');content.append(node('h3',article.title),node('p',`${article.publisher} · ${date(article.published_at)}`));row.append(symbol,content,icon());row.onclick=()=>{navigate('news');$('news-search').value='';state.filter='all';renderNews();document.querySelector(`[data-story-id="${article.id}"]`)?.scrollIntoView({block:'center'});};target.append(row);}
-  if(!state.news.length)empty(target,'Se colectează știri. Starea surselor rămâne vizibilă.');
-  $('market-glance').replaceChildren();
-  for(const asset of state.assets.filter(a=>['bitcoin','ethereum','solana','dogecoin'].includes(a.asset_id)).slice(0,4)){const row=node('div',undefined,'glance-row');const prices=node('div',undefined,'glance-prices');prices.append(node('div',cash(asset.price_usd)),node('small',percent(asset.change_24h),(asset.change_24h||0)>=0?'good':'bad'));row.append(coin(asset),prices);row.onclick=()=>openAsset(asset.asset_id).catch(e=>message(e.message));$('market-glance').append(row);}
-  if(!state.assets.length)empty($('market-glance'),'Nicio observație de piață încă.');
+function message(text, success = false) {
+  clearTimeout(messageTimeout);
+  $("message").textContent = text;
+  $("message").hidden = !text;
+  $("message").className = "toast" + (success ? " success" : "");
+  if (text)
+    messageTimeout = setTimeout(() => {
+      $("message").hidden = true;
+    }, 12000);
 }
-function renderNews(){
-  const query=$('news-search').value.toLowerCase();const stories=state.news.filter(a=>(state.filter==='all'||a.category===state.filter||(state.filter==='primary'&&a.source_kind==='primary'))&&(`${a.title} ${a.publisher} ${a.topic_label}`).toLowerCase().includes(query));
-  $('stories').replaceChildren();
-  for(const article of stories.slice(0,30)){
-    const card=node('article',undefined,'story');card.dataset.storyId=article.id;
-    const top=node('div',undefined,'story-top');top.append(node('span',article.source_kind==='primary'?'SURSĂ PRIMARĂ':categories[article.category]||'ȘTIRE','category-pill'+(article.source_kind==='primary'?' primary-source':'')),node('span',article.seen?'CITIT':'NOU ÎN FEED','new-label'));card.append(top);
-    const title=link(article.title,article.url,'story-title');title.onclick=()=>{api(`/api/news/${article.id}/seen`,{}).then(load).catch(e=>message(e.message));};card.append(title,node('p',`${article.publisher} · ${date(article.published_at)} · ${article.source_priority==='review_needed'?'sursă de verificat':article.source_priority==='primary'?'sursă primară':'redacție cunoscută'}`,'story-meta'),node('div',article.brief||'Titlu raportat de sursă; articolul integral nu a fost validat.','story-brief'));
-    const matches=article.matches||[];
-    function appendMatch(match,parent){const asset=match.market, general=asset.kind==='market_asset';const row=node('div',undefined,'story-token');const desc=node('div');desc.append(node('strong',`${asset.symbol} · ${asset.name}`));desc.append(node('small',general?'Activ menționat / context de ecosistem':'Asociere ipotetică după nume'));if(!general)desc.append(node('small',match.chronology==='pool_before_article'?'Pool anterior articolului · tokenul nu este confirmat nou':match.chronology==='pool_after_article'?'Pool după articol · data mintului neconfirmată':'Cronologie necunoscută'));const b=button('Analizează pentru paper','secondary',()=>action(b,async()=>{if(general)await openAsset(asset.asset_id,article);else await openToken(asset.address,article,true);}));row.append(desc,b);parent.append(row);}
-    matches.slice(0,2).forEach(m=>appendMatch(m,card));
-    if(matches.length>2){const details=node('details');details.append(node('summary',`Alte ${matches.length-2} potriviri`));matches.slice(2).forEach(m=>appendMatch(m,details));card.append(details);}
-    if(!matches.length)card.append(node('p','Încă fără activ asociat în datele colectate. Nu presupunem că există un token cumpărabil.','story-warning'));
-    card.append(node('p',article.source_kind==='primary'?'Publicație a sursei primare. Afirmațiile și fundamentele tokenului necesită verificare separată.':'Articol nevalidat integral. Afilierea sau susținerea oficială a unui token nu sunt confirmate.','story-warning'));$('stories').append(card);
+async function api(path, body) {
+  const controller = body === undefined ? new AbortController() : null;
+  const timer = controller ? setTimeout(() => controller.abort(), 20000) : null;
+  try {
+    const response = await fetch(
+      path,
+      body === undefined
+        ? { signal: controller.signal }
+        : {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          },
+    );
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error("Serverul nu a returnat un răspuns valid.");
+    }
+    if (!response.ok)
+      throw new Error(
+        typeof data.detail === "string"
+          ? data.detail
+          : "Cerere invalidă. Verifică datele introduse.",
+      );
+    return data;
+  } finally {
+    clearTimeout(timer);
   }
-  if(!stories.length)empty($('stories'),'Nicio știre în filtrul selectat. Nu înlocuim datele lipsă cu exemple.');
-  const statuses=Object.values(state.status?.news?.topics||{}),errors=statuses.filter(s=>s.state==='error');$('news-status').textContent=`Actualizare periodică: 5 minute · ${state.status?.news?.running?'căutare în curs':`${statuses.length-errors.length} surse/subiecte cu răspuns valid`} · ${errors.length?`${errors.length} surse cu eroare; vezi metodologia`:'metadata și timestamp-uri păstrate'}`;
-  $('unread-badge').textContent=state.news.filter(n=>!n.seen).length;
 }
-function renderAssets(){
-  $('asset-rows').replaceChildren();const query=$('asset-search').value.toLowerCase();
-  for(const asset of state.assets.filter(a=>(a.name+' '+a.symbol+' '+a.asset_id).toLowerCase().includes(query))){const row=node('tr');const first=node('td');const b=button('','token-button',()=>openAsset(asset.asset_id).catch(e=>message(e.message)));b.append(coin(asset));first.append(b);row.append(first,node('td',cash(asset.price_usd)),node('td',percent(asset.change_24h),(asset.change_24h||0)>=0?'good':'bad'),node('td',compact(asset.volume_24h)),node('td',compact(asset.market_cap)));const research=node('td');research.append(button('Deschide dosarul ↗','text-button',()=>openAsset(asset.asset_id).catch(e=>message(e.message))));row.append(research);$('asset-rows').append(row);}
-  $('assets-empty').hidden=state.assets.length>0;const status=state.status?.crypto_market;$('market-status').textContent=`CoinGecko · ${status?.state==='ok'?'observat '+date(status.at):status?.error||'încă neverificat'}`;
+function navigate(page) {
+  if (!pageNames[page]) return;
+  state.page = page;
+  for (const p of Object.keys(pageNames)) $("view-" + p).hidden = p !== page;
+  document
+    .querySelectorAll(".nav-item[data-page]")
+    .forEach((b) => b.classList.toggle("active", b.dataset.page === page));
+  $("page-name").textContent = pageNames[page];
+  if (location.hash !== "#" + page) history.pushState(null, "", "#" + page);
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
-function renderTokens(){
-  $('tokens').replaceChildren();const query=$('search').value.toLowerCase();
-  for(const token of state.tokens.filter(t=>(t.address+' '+(t.snapshot?.market.symbol||'')).toLowerCase().includes(query))){const m=token.snapshot?.market,a=token.snapshot?.analysis,row=node('tr'),first=node('td');const b=button('','token-button',()=>openToken(token.address).catch(e=>message(e.message)));b.append(node('strong',m?.symbol||'Fără observație'),node('small',short(token.address)+(token.watch?' · watchlist':'')));first.append(b);row.append(first,node('td',a?.scores.research_priority??'—'),node('td',cash(m?.liquidity_usd)),node('td',cash(m?.volume_5m)));const decision=node('td');decision.append(node('span',decisions[a?.action]||'Fără date','badge '+(a?.action||'monitor')));row.append(decision,node('td',token.error||(token.age_seconds!==null?`${token.age_seconds}s · observație`:'API nevalidat'),token.error?'warn':''));$('tokens').append(row);}
-  $('empty').hidden=state.tokens.length>0;
+async function action(b, fn) {
+  b.disabled = true;
+  message("");
+  try {
+    await fn();
+  } catch (error) {
+    message(error.message);
+  } finally {
+    b.disabled = false;
+    await load();
+  }
 }
-function renderPortfolio(){
-  const p=state.portfolio;if(!p)return;$('cash').textContent=cash(p.cash);$('hero-cash').textContent=cash(p.cash);$('portfolio-cash').textContent=cash(p.cash);$('equity').textContent=cash(p.estimated_equity_usd);$('portfolio-equity').textContent=cash(p.estimated_equity_usd);$('realized').textContent=cash(p.realized_pnl_usd);$('portfolio-realized').textContent=cash(p.realized_pnl_usd);$('open-count').textContent=p.positions.filter(x=>!x.closed_at).length;
-  $('positions').replaceChildren();$('orders').replaceChildren();
-  for(const position of p.positions){const row=node('div',undefined,'position'),desc=node('div');const asset=position.kind==='market_asset'?state.assets.find(a=>a.asset_id===position.address.slice(6)):state.tokens.find(t=>t.address===position.address)?.snapshot?.market;desc.append(coin(asset||{symbol:position.symbol||short(position.address),name:position.name||short(position.address)}),node('p',`${position.closed_at?'Închis':'Deschis'} · ${date(position.closed_at||position.entry_at)}`),node('code',position.address));const figures=node('div',undefined,'numbers');figures.append(node('div',`Cost intrare: ${cash(position.entry_cost)}`),node('div',`Cantitate: ${number(position.quantity)}`));if(position.closed_at)figures.append(node('div',`PnL net realizat: ${cash(position.pnl)}`,Number(position.pnl)>=0?'good':'bad'));else{const v=position.valuation;figures.append(node('div',`PnL net estimat: ${cash(v?.estimated_unrealized_pnl_usd)}`,v?.estimated_unrealized_pnl_usd===null?'warn':Number(v?.estimated_unrealized_pnl_usd)>=0?'good':'bad'));if(v)figures.append(node('div',`Observație: ${date(v.observed_at)}`));const b=button('Simulează ieșirea','secondary',()=>action(b,async()=>{await api(`/api/paper/positions/${position.id}/sell?account=${p.account}`,{});message('Ieșire virtuală înregistrată în jurnal.',true);}));figures.append(b);}row.append(desc,figures);$('positions').append(row);}
-  if(!p.positions.length)empty($('positions'),'Portofoliul este pregătit pentru prima ipoteză. Cercetează un activ și decide tu intrarea.');
-  for(const order of p.orders){const box=node('article',undefined,'order');const top=node('div',undefined,'order-top');top.append(node('strong',`${order.side.toUpperCase()} · ${short(order.address)}`),node('span',order.status==='filled'?'ORDIN SIMULAT':'RESPINS','badge '+(order.status==='filled'?'investigate':'monitor')));box.append(top,node('p',date(order.at)));const context=order.details.entry_context;if(context?.news_context)box.append(node('p',`Informația de la intrare: ${context.news_context.title} · ${context.news_context.publisher}`));if(context?.thesis)box.append(node('p',`Ipoteza mea: ${context.thesis}`));if(order.details.reason)box.append(node('p',order.details.reason,'warn'));if(order.details.pnl!==undefined)box.append(node('p',`Rezultat net realizat: ${cash(order.details.pnl)}`,Number(order.details.pnl)>=0?'good':'bad'));const details=node('details');details.append(node('summary','Dovezi, costuri și modelul simulării'),node('pre',JSON.stringify(order.details,null,2)));box.append(details);$('orders').append(box);}
-  if(!p.orders.length)empty($('orders'),'Nu există ordine încă. Jurnalul va păstra și încercările respinse.');
+function empty(target, text) {
+  target.append(node("div", text, "empty-state"));
 }
-function renderSources(){
-  $('provider-status').replaceChildren();const s=state.status;if(!s)return;const sources={...s.providers,coingecko:s.crypto_market};for(const [key,label]of Object.entries({dex:'DEX Screener',rpc:'Solana RPC',goplus:'GoPlus',coingecko:'CoinGecko'})){const item=sources[key];const row=node('div',undefined,'provider');row.append(node('span',label),node('span',item?.state==='ok'?`HTTP OK · ${date(item.at)}`:item?.error||'Neverificat',item?.state==='ok'?'good':'warn'));$('provider-status').append(row);}for(const [key,item]of Object.entries(s.news.topics||{})){const row=node('div',undefined,'provider');row.append(node('span',key),node('span',item.state==='ok'?`${item.headlines} titluri colectate`:item.error,item.state==='ok'?'good':'warn'));$('provider-status').append(row);}const r=s.rules;$('rules').textContent=`Capital inițial în cont: ${cash(state.portfolio?.initial_balance)}. Alocare per poziție ≤${Number(r.max_allocation)*100}%, expunere totală la cost ≤${Number(r.max_exposure)*100}%, pierderi realizate zilnice ≤${Number(r.daily_loss_limit)*100}% (UTC). DEX: fee presupus ${Number(r.swap_fee)*100}% + ${cash(r.network_fee_usd)} rețea; lichiditate minimă ${cash(r.min_liquidity)}. Crypto generale: fee presupus ${Number(r.reference_fee)*100}%, slippage de referință ${Number(r.reference_slippage)*100}%.`;
+function renderOverview() {
+  const target = $("overview-news");
+  target.replaceChildren();
+  for (const article of state.news.slice(0, 4)) {
+    const row = node("article", undefined, "mini-story");
+    const symbol = node(
+      "span",
+      article.source_kind === "primary" ? "◇" : "◷",
+      "story-symbol",
+    );
+    const content = node("div");
+    content.append(
+      node("h3", article.title),
+      node("p", `${article.publisher} · ${date(article.published_at)}`),
+    );
+    row.append(symbol, content, icon());
+    row.onclick = () => {
+      navigate("news");
+      $("news-search").value = "";
+      state.filter = "all";
+      renderNews();
+      document
+        .querySelector(`[data-story-id="${article.id}"]`)
+        ?.scrollIntoView({ block: "center" });
+    };
+    target.append(row);
+  }
+  if (!state.news.length)
+    empty(target, "Se colectează știri. Starea surselor rămâne vizibilă.");
+  $("market-glance").replaceChildren();
+  for (const asset of state.assets
+    .filter((a) =>
+      ["bitcoin", "ethereum", "solana", "dogecoin"].includes(a.asset_id),
+    )
+    .slice(0, 4)) {
+    const row = node("div", undefined, "glance-row");
+    const prices = node("div", undefined, "glance-prices");
+    prices.append(
+      node("div", price(asset.price_usd)),
+      node(
+        "small",
+        percent(asset.change_24h),
+        (asset.change_24h || 0) >= 0 ? "good" : "bad",
+      ),
+    );
+    row.append(coin(asset), prices);
+    row.onclick = () =>
+      openAsset(asset.asset_id).catch((e) => message(e.message));
+    $("market-glance").append(row);
+  }
+  if (!state.assets.length)
+    empty($("market-glance"), "Nicio observație de piață încă.");
 }
-async function load(){
-  if(state.loading)return;state.loading=true;const account=state.account;
-  try{const [status,tokens,articles,portfolio,assets]=await Promise.all([api('/api/status'),api('/api/tokens'),api('/api/news'),api(`/api/portfolio?account=${account}`),api('/api/assets')]);if(account!==state.account)return;Object.assign(state,{status,tokens,news:articles,portfolio,assets});$('news-count').textContent=articles.length;$('news-count-caption').textContent=articles.filter(a=>a.source_kind==='primary').length+' din surse primare';const errs=Object.values(status.news.topics||{}).filter(s=>s.state==='error').length+(status.crypto_market.state==='error'?1:0);$('connection').replaceChildren(node('span',undefined,'live-dot'),document.createTextNode(errs?`${errs} surse cu eroare`:'Surse monitorizate'));renderOverview();renderNews();renderAssets();renderTokens();renderPortfolio();renderSources();}catch(error){message(error.message);}finally{state.loading=false;if(account!==state.account)load();}
+function renderNews() {
+  const query = $("news-search").value.toLowerCase();
+  const stories = state.news.filter(
+    (a) =>
+      (state.filter === "all" ||
+        a.category === state.filter ||
+        (state.filter === "primary" && a.source_kind === "primary")) &&
+      `${a.title} ${a.publisher} ${a.topic_label}`
+        .toLowerCase()
+        .includes(query),
+  );
+  $("stories").replaceChildren();
+  for (const article of stories.slice(0, 30)) {
+    const card = node("article", undefined, "story");
+    card.dataset.storyId = article.id;
+    const top = node("div", undefined, "story-top");
+    top.append(
+      node(
+        "span",
+        article.source_kind === "primary"
+          ? "SURSĂ PRIMARĂ"
+          : categories[article.category] || "ȘTIRE",
+        "category-pill" +
+          (article.source_kind === "primary" ? " primary-source" : ""),
+      ),
+      node("span", article.seen ? "CITIT" : "NECITIT", "new-label"),
+    );
+    card.append(top);
+    const title = link(article.title, article.url, "story-title");
+    title.onclick = () => {
+      api(`/api/news/${article.id}/seen`, {})
+        .then(load)
+        .catch((e) => message(e.message));
+    };
+    card.append(
+      title,
+      node(
+        "p",
+        `${article.publisher} · ${date(article.published_at)} · ${article.source_priority === "review_needed" ? "sursă de verificat" : article.source_priority === "primary" ? "sursă primară" : "redacție cunoscută"}`,
+        "story-meta",
+      ),
+      node(
+        "div",
+        article.brief ||
+          "Titlu raportat de sursă; articolul integral nu a fost validat.",
+        "story-brief",
+      ),
+    );
+    const matches = article.matches || [];
+    function appendMatch(match, parent) {
+      const asset = match.market,
+        general = asset.kind === "market_asset";
+      const row = node("div", undefined, "story-token");
+      const desc = node("div");
+      desc.append(node("strong", `${asset.symbol} · ${asset.name}`));
+      desc.append(
+        node(
+          "small",
+          general
+            ? "Activ menționat / context de ecosistem"
+            : "Asociere ipotetică după nume",
+        ),
+      );
+      if (!general)
+        desc.append(
+          node(
+            "small",
+            match.chronology === "pool_before_article"
+              ? "Pool anterior articolului · tokenul nu este confirmat nou"
+              : match.chronology === "pool_after_article"
+                ? "Pool după articol · data mintului neconfirmată"
+                : "Cronologie necunoscută",
+          ),
+        );
+      const b = button("Analizează pentru paper", "secondary", () =>
+        action(b, async () => {
+          if (general) await openAsset(asset.asset_id, article);
+          else await openToken(asset.address, article, true);
+        }),
+      );
+      row.append(desc, b);
+      parent.append(row);
+    }
+    matches.slice(0, 2).forEach((m) => appendMatch(m, card));
+    if (matches.length > 2) {
+      const details = node("details");
+      details.append(node("summary", `Alte ${matches.length - 2} potriviri`));
+      matches.slice(2).forEach((m) => appendMatch(m, details));
+      card.append(details);
+    }
+    if (!matches.length)
+      card.append(
+        node(
+          "p",
+          "Încă fără activ asociat în datele colectate. Nu presupunem că există un token cumpărabil.",
+          "story-warning",
+        ),
+      );
+    card.append(
+      node(
+        "p",
+        article.source_kind === "primary"
+          ? "Publicație a sursei primare. Afirmațiile și fundamentele tokenului necesită verificare separată."
+          : "Articol nevalidat integral. Afilierea sau susținerea oficială a unui token nu sunt confirmate.",
+        "story-warning",
+      ),
+    );
+    $("stories").append(card);
+  }
+  if (!stories.length)
+    empty(
+      $("stories"),
+      "Nicio știre în filtrul selectat. Nu înlocuim datele lipsă cu exemple.",
+    );
+  const statuses = Object.values(state.status?.news?.topics || {}),
+    errors = statuses.filter((s) => s.state === "error");
+  $("news-status").textContent =
+    `Actualizare periodică: 5 minute · ${state.status?.news?.running ? "căutare în curs" : `${statuses.length - errors.length} surse/subiecte cu răspuns valid`} · ${errors.length ? `${errors.length} surse cu eroare; vezi metodologia` : "metadata și timestamp-uri păstrate"}`;
+  $("unread-badge").textContent = state.news.filter((n) => !n.seen).length;
 }
-function detailBase(asset){const target=$('detail');target.replaceChildren();const heading=node('div',undefined,'detail-heading');const title=node('div');title.append(coin(asset),node('h1',asset.name||asset.symbol),node('p',asset.kind==='market_asset'?`ID CoinGecko: ${asset.asset_id}`:`SOLANA · ${asset.address}`));heading.append(title,node('span','DOSAR DE CERCETARE','pill'));target.append(heading);const grid=node('div',undefined,'detail-grid'),left=node('div'),right=node('div');grid.append(left,right);target.append(grid);return{left,right};}
-function stat(label,value){const s=node('div',undefined,'detail-stat');s.append(node('small',label),node('strong',value));return s;}
-function drawHistory(container,history){const prices=history.map(h=>Number(h.price_usd)).filter(Number.isFinite);if(prices.length<2){container.append(node('p','Istoricul local se colectează de acum. Nu desenăm un grafic fictiv.','footnote'));return;}const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 400 100');svg.setAttribute('role','img');svg.setAttribute('aria-label','Istoric local de preț');svg.classList.add('chart');const low=Math.min(...prices),high=Math.max(...prices),range=high-low||1;const line=document.createElementNS(svg.namespaceURI,'polyline');line.setAttribute('points',prices.map((v,i)=>`${5+i*390/(prices.length-1)},${90-(v-low)/range*75}`).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke','currentColor');line.setAttribute('stroke-width','2');svg.append(line);container.append(svg,node('p','GRAFIC DIN OBSERVAȚII LOCALE · FĂRĂ DATE INVENTATE','chart-label'));}
-function paperForm(right,asset,allowed=true,article=null){
-  const general=asset.kind==='market_asset',orderAccount=general?'news':state.account;const box=node('section',undefined,'panel padded paper-box');box.append(node('p','DECIZIE MANUALĂ / PAPER','eyebrow'),node('h2','Testează ipoteza'),node('p',general?'Preț de referință sau bid/ask observat. Comisioanele sunt presupuse; nu este un ordin real.':'Simulare DEX aproximativă, cu veto-uri de risc și date noi la intrare.'));
-  box.append(node('label','SUMA ORDINULUI · USD'));const wrap=node('div',undefined,'order-amount'),amount=node('input');amount.type='number';amount.min='2';amount.step='.01';amount.value=orderAccount==='news'?'50':'5';amount.setAttribute('aria-label','Suma paper în USD');wrap.append(amount,node('span','USD'));box.append(wrap);box.append(node('label','DE CE CONSIDERI INTRAREA?'));const thesis=node('textarea');thesis.placeholder='Ce informație contează? Ce ar invalida ipoteza?';thesis.maxLength=1000;thesis.setAttribute('aria-label','Ipoteza de intrare');box.append(thesis);
-  let signalId=null;const signal=button('Salvează semnal','secondary',()=>action(signal,async()=>{const body={account:orderAccount,news_id:article?.id||null,thesis:thesis.value};const endpoint=general?`/api/assets/${asset.asset_id}/signal`:`/api/tokens/${asset.address}/signal`;const saved=await api(endpoint,body);signalId=saved.id;signal.textContent=`Semnal #${saved.id} salvat`;setTimeout(()=>{if(allowed)buy.disabled=false;},3000);}));const buy=button('Simulează intrarea','primary',async()=>{await action(buy,async()=>{if(!signalId)throw new Error('Salvează mai întâi semnalul.');const body=general?{asset_id:asset.asset_id,signal_id:signalId,amount_usd:amount.value}:{address:asset.address,signal_id:signalId,amount_usd:amount.value,account:orderAccount};await api(general?'/api/paper/assets/buy':'/api/paper/buy',body);signalId=null;message('Ordin virtual înregistrat. Urmărim rezultatul în portofoliu.',true);navigate('portfolio');});buy.disabled=true;});buy.disabled=true;box.append(signal,buy,node('p','Semnalul precedă intrarea cu minimum 3 secunde. Fill-ul folosește date noi și poate fi respins.','footnote'));if(!allowed)box.append(node('p','Intrare blocată de verificările actuale.','warn'));right.append(box);
+function renderAssets() {
+  $("asset-rows").replaceChildren();
+  const query = $("asset-search").value.toLowerCase();
+  for (const asset of state.assets.filter((a) =>
+    (a.name + " " + a.symbol + " " + a.asset_id).toLowerCase().includes(query),
+  )) {
+    const row = node("tr");
+    const first = node("td");
+    const b = button("", "token-button", () =>
+      openAsset(asset.asset_id).catch((e) => message(e.message)),
+    );
+    b.append(coin(asset));
+    first.append(b);
+    first.append(
+      node(
+        "small",
+        asset.freshness?.fresh
+          ? "Date recente"
+          : "DATE EXPIRATE / NEVERIFICATE",
+        asset.freshness?.fresh ? "footnote" : "warn",
+      ),
+    );
+    row.append(
+      first,
+      node("td", price(asset.price_usd)),
+      node(
+        "td",
+        percent(asset.change_24h),
+        (asset.change_24h || 0) >= 0 ? "good" : "bad",
+      ),
+      node("td", compact(asset.volume_24h)),
+      node("td", compact(asset.market_cap)),
+    );
+    const research = node("td");
+    research.append(
+      button("Deschide dosarul ↗", "text-button", () =>
+        openAsset(asset.asset_id).catch((e) => message(e.message)),
+      ),
+    );
+    row.append(research);
+    $("asset-rows").append(row);
+  }
+  $("assets-empty").hidden = state.assets.length > 0;
+  const status = state.status?.crypto_market;
+  $("market-status").textContent =
+    `CoinGecko · ${status?.state === "ok" ? "observat " + date(status.at) : status?.error || "încă neverificat"}`;
 }
-async function openAsset(id,article=null){
-  state.back=state.page==='detail'?state.back:state.page;state.selection={kind:'asset',id,article};state.account='news';$('paper-account').value='news';const data=await api(`/api/assets/${encodeURIComponent(id)}`);navigate('detail');const asset=data.asset;const {left,right}=detailBase(asset);const pricing=node('section',undefined,'panel padded');pricing.append(node('p','PIAȚĂ OBSERVATĂ','eyebrow'),node('h2','Date și prospețime'));const stats=node('div',undefined,'detail-stats');stats.append(stat('PREȚ USD',cash(asset.price_usd)),stat('VARIAȚIE 24H',percent(asset.change_24h)),stat('VOLUM 24H',compact(asset.volume_24h)),stat('CAPITALIZARE',compact(asset.market_cap)));pricing.append(stats,node('p',`${asset.book?'Preț mid din Coinbase L1; volum/capitalizare din CoinGecko':'Preț de referință CoinGecko'} · sursa de preț actualizată ${date(asset.source_updated_at)}. Acest activ nu este prezentat drept lansare nouă.`));drawHistory(pricing,data.history.filter(h=>!h.book));left.append(pricing);
-  if(article){const context=node('section',undefined,'panel padded');context.append(node('p','INFORMAȚIA CARE A GENERAT IPOTEZA','eyebrow'),link(article.title,article.url,'story-title'),node('p',`${article.publisher} · ${date(article.published_at)}`),node('p','Menționarea activului / contextul de ecosistem nu confirmă o recomandare sau o susținere oficială.'));left.append(context);}
-  const research=node('section',undefined,'panel padded');research.append(node('h2','Ce trebuie să demonstrăm despre proiect'));for(const check of data.research.checks){const row=node('div',undefined,'check-row');row.append(node('span',check.label),node('span','NEVERIFICAT'));research.append(row);}research.append(node('p','Nu clasificăm proiectul ca solid doar pentru că are preț, volum sau un nume cunoscut.','footnote'));const documents=node('div');const profileButton=button('Verifică documentele și identitatea','secondary',()=>action(profileButton,async()=>{const profile=await api(`/api/assets/${id}/profile`);documents.replaceChildren();for(const doc of profile.documents){const row=link('',doc.url,'venue');row.append(node('strong',doc.label),node('small',new URL(doc.url).hostname),icon());documents.append(row);}documents.append(node('p','Linkuri și contracte declarate în CoinGecko. Nu sunt validări independente de produs, echipă sau audit.','footnote'));if(Object.keys(profile.contracts).length)documents.append(node('pre',JSON.stringify(profile.contracts,null,2),'history-row'));}));research.append(profileButton,documents);left.append(research);
-  const venues=node('section',undefined,'panel padded');venues.append(node('h2','Unde există tranzacționare?'),node('p','Piețe raportate de furnizor. Nu confirmă accesul înainte de o listare viitoare.'));const list=node('div'),b=button('Verifică piețele raportate ↗','secondary',()=>action(b,async()=>{const result=await api(`/api/assets/${id}/venues`);list.replaceChildren();for(const v of result.venues){const row=link('',v.url,'venue');const desc=node('div');desc.append(node('strong',v.name),node('small',`${v.pair} · CoinGecko · ${date(v.observed_at)}`));row.append(desc,icon());list.append(row);}if(!result.venues.length)empty(list,'Nu am primit o piață validă. Nu inventăm un loc de cumpărare.');}));venues.append(b,list);left.append(venues);paperForm(right,asset,true,article);await load();
+function renderTokens() {
+  $("tokens").replaceChildren();
+  const query = $("search").value.toLowerCase();
+  for (const token of state.tokens.filter((t) =>
+    (t.address + " " + (t.snapshot?.market.symbol || ""))
+      .toLowerCase()
+      .includes(query),
+  )) {
+    const m = token.snapshot?.market,
+      a = token.snapshot?.analysis,
+      row = node("tr"),
+      first = node("td");
+    const b = button("", "token-button", () =>
+      openToken(token.address).catch((e) => message(e.message)),
+    );
+    b.append(
+      node("strong", m?.symbol || "Fără observație"),
+      node("small", short(token.address) + (token.watch ? " · watchlist" : "")),
+    );
+    first.append(b);
+    row.append(
+      first,
+      node("td", a?.scores.research_priority ?? "—"),
+      node("td", cash(m?.liquidity_usd)),
+      node("td", cash(m?.volume_5m)),
+    );
+    const decision = node("td");
+    decision.append(
+      node(
+        "span",
+        decisions[a?.action] || "Fără date",
+        "badge " + (a?.action || "monitor"),
+      ),
+    );
+    row.append(
+      decision,
+      node(
+        "td",
+        token.error ||
+          (token.age_seconds !== null
+            ? `${token.age_seconds}s · observație`
+            : "API nevalidat"),
+        token.error ? "warn" : "",
+      ),
+    );
+    $("tokens").append(row);
+  }
+  $("empty").hidden = state.tokens.length > 0;
 }
-async function openToken(address,article=null,refresh=false){
-  state.back=state.page==='detail'?state.back:state.page;state.selection={kind:'token',id:address,article};if(article){state.account='news';$('paper-account').value='news';}if(refresh)await api('/api/tokens',{address});const data=await api(`/api/tokens/${address}`);navigate('detail');const market=data.latest.market,analysis=data.latest.analysis;const {left,right}=detailBase(market);const panel=node('section',undefined,'panel padded');panel.append(node('h2','Piață și identitate'));const stats=node('div',undefined,'detail-stats');stats.append(stat('PREȚ OBSERVAT','$'+number(market.price_usd)),stat('LICHIDITATE RAPORTATĂ',cash(market.liquidity_usd)));panel.append(stats,node('p',`Pool ${market.dex} · creat ${date(market.pool_created_at)} · observație ${date(market.observed_at)}`),node('p','Data creării mintului și afilierea oficială sunt neconfirmate.'));const links=node('div',undefined,'detail-links');links.append(link('Piața raportată ↗',`https://dexscreener.com/solana/${encodeURIComponent(market.pair_address)}`),link('Explorer / contract ↗',`https://solscan.io/token/${encodeURIComponent(address)}`));panel.append(links);left.append(panel);
-  if(article){const context=node('section',undefined,'panel padded');context.append(node('h2','Știrea de la începutul ipotezei'),link(article.title,article.url,'story-title'),node('p','Asociere ipotetică după nume. Nu dovedește că evenimentul a creat tokenul.'));left.append(context);}
-  const risks=node('section',undefined,'panel padded');risks.append(node('h2','Dovezi și veto-uri'));for(const [name,items,cls]of [['Veto-uri',analysis.critical,'bad'],['Observații RPC',analysis.positive,'good'],['Necunoscute',analysis.unknown,'warn'],['Limite',analysis.warnings,'warn']]){if(!items.length)continue;risks.append(node('h3',name,cls));const list=node('ul');items.forEach(i=>list.append(node('li',i)));risks.append(list);}const refreshButton=button('Actualizează dovezile ↻','secondary',()=>action(refreshButton,async()=>{await api(`/api/tokens/${address}/refresh`,{});await openToken(address,article);}));risks.append(refreshButton);if(data.watch){const unwatch=button('Scoate din watchlist','text-button',()=>action(unwatch,async()=>{await api(`/api/tokens/${address}/unwatch`,{});await openToken(address,article);}));risks.append(unwatch);}left.append(risks);const scores=node('section',undefined,'panel padded');scores.append(node('h2','Scoruri de cercetare'));for(const [key,label]of Object.entries({security_risk:'Risc total de securitate',activity:'Activitate',momentum:'Momentum',liquidity_exit:'Lichiditate / ieșire',research_priority:'Prioritate research'})){const row=node('div',undefined,'score-row');row.append(node('span',label),node('strong',analysis.scores[key]===null?'necuantificat':analysis.scores[key]+'/100'));scores.append(row);}left.append(scores);paperForm(right,market,analysis.paper_allowed,article);await load();
+function renderPortfolio() {
+  const p = state.portfolio;
+  if (!p) return;
+  $("cash").textContent = cash(p.cash);
+  $("hero-cash").textContent = cash(p.cash);
+  $("portfolio-cash").textContent = cash(p.cash);
+  $("equity").textContent = cash(p.estimated_equity_usd);
+  $("portfolio-equity").textContent = cash(p.estimated_equity_usd);
+  $("realized").textContent = cash(p.realized_pnl_usd);
+  $("portfolio-realized").textContent = cash(p.realized_pnl_usd);
+  $("open-count").textContent = p.positions.filter((x) => !x.closed_at).length;
+  $("positions").replaceChildren();
+  $("orders").replaceChildren();
+  for (const position of p.positions) {
+    const row = node("div", undefined, "position"),
+      desc = node("div");
+    const asset =
+      position.kind === "market_asset"
+        ? state.assets.find((a) => a.asset_id === position.address.slice(6))
+        : state.tokens.find((t) => t.address === position.address)?.snapshot
+            ?.market;
+    desc.append(
+      coin(
+        asset || {
+          symbol: position.symbol || short(position.address),
+          name: position.name || short(position.address),
+        },
+      ),
+      node(
+        "p",
+        `${position.closed_at ? "Închis" : "Deschis"} · ${date(position.closed_at || position.entry_at)}`,
+      ),
+      node("code", position.address),
+    );
+    const figures = node("div", undefined, "numbers");
+    figures.append(
+      node("div", `Cost intrare: ${cash(position.entry_cost)}`),
+      node("div", `Cantitate: ${number(position.quantity)}`),
+    );
+    if (position.closed_at)
+      figures.append(
+        node(
+          "div",
+          `PnL net realizat: ${cash(position.pnl)}`,
+          Number(position.pnl) >= 0 ? "good" : "bad",
+        ),
+      );
+    else {
+      const v = position.valuation;
+      figures.append(
+        node(
+          "div",
+          `PnL net estimat: ${cash(v?.estimated_unrealized_pnl_usd)}`,
+          v?.estimated_unrealized_pnl_usd === null
+            ? "warn"
+            : Number(v?.estimated_unrealized_pnl_usd) >= 0
+              ? "good"
+              : "bad",
+        ),
+      );
+      if (v) figures.append(node("div", `Observație: ${date(v.observed_at)}`));
+      const b = button("Simulează ieșirea", "secondary", () =>
+        action(b, async () => {
+          await api(
+            `/api/paper/positions/${position.id}/sell?account=${p.account}`,
+            {},
+          );
+          message("Ieșire virtuală înregistrată în jurnal.", true);
+        }),
+      );
+      figures.append(b);
+    }
+    row.append(desc, figures);
+    $("positions").append(row);
+  }
+  if (!p.positions.length)
+    empty(
+      $("positions"),
+      "Portofoliul este pregătit pentru prima ipoteză. Cercetează un activ și decide tu intrarea.",
+    );
+  for (const order of p.orders) {
+    const box = node("article", undefined, "order");
+    const top = node("div", undefined, "order-top");
+    top.append(
+      node("strong", `${order.side.toUpperCase()} · ${short(order.address)}`),
+      node(
+        "span",
+        order.status === "filled" ? "ORDIN SIMULAT" : "RESPINS",
+        "badge " + (order.status === "filled" ? "investigate" : "monitor"),
+      ),
+    );
+    box.append(top, node("p", date(order.at)));
+    const context = order.details.entry_context;
+    if (context?.news_context)
+      box.append(
+        node(
+          "p",
+          `Informația de la intrare: ${context.news_context.title} · ${context.news_context.publisher}`,
+        ),
+      );
+    if (context?.thesis)
+      box.append(node("p", `Ipoteza mea: ${context.thesis}`));
+    if (order.details.reason)
+      box.append(node("p", order.details.reason, "warn"));
+    if (order.details.pnl !== undefined)
+      box.append(
+        node(
+          "p",
+          `Rezultat net realizat: ${cash(order.details.pnl)}`,
+          Number(order.details.pnl) >= 0 ? "good" : "bad",
+        ),
+      );
+    const details = node("details");
+    details.append(
+      node("summary", "Dovezi, costuri și modelul simulării"),
+      node("pre", JSON.stringify(order.details, null, 2)),
+    );
+    box.append(details);
+    $("orders").append(box);
+  }
+  if (!p.orders.length)
+    empty(
+      $("orders"),
+      "Nu există ordine încă. Jurnalul va păstra și încercările respinse.",
+    );
 }
-document.addEventListener('click',event=>{const b=event.target.closest('[data-page]');if(b)navigate(b.dataset.page);});
-$('news-filters').onclick=event=>{const b=event.target.closest('[data-filter]');if(!b)return;state.filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderNews();};
-$('news-search').oninput=renderNews;$('asset-search').oninput=renderAssets;$('search').oninput=renderTokens;
-$('news-button').onclick=()=>action($('news-button'),async()=>{await api('/api/news/refresh',{});});
-$('market-button').onclick=()=>action($('market-button'),async()=>{await api('/api/assets/refresh',{});});
-$('scan-button').onclick=()=>action($('scan-button'),async()=>{await api('/api/scan',{});});
-$('refresh-all').onclick=()=>action($('refresh-all'),async()=>{await api('/api/assets/refresh',{});await api('/api/news/refresh',{});});
-$('add-form').onsubmit=event=>{event.preventDefault();const b=event.currentTarget.querySelector('button');action(b,async()=>{const address=$('address').value.trim();await api('/api/tokens',{address});$('address').value='';await openToken(address);});};
-$('paper-account').onchange=async()=>{state.account=$('paper-account').value;await load();};
-$('detail-back').onclick=()=>navigate(state.back==='detail'?'news':state.back);
-document.querySelectorAll('.nav-item[data-page]').forEach(b=>{const span=b.querySelector('span');if(span)span.replaceChildren(icon(b.dataset.page));});document.querySelectorAll('button').forEach(b=>{if(/[↗↻]/.test(b.textContent))decorate(b,b.textContent);});
-navigate(pageNames[location.hash.slice(1)]&&location.hash!=='#detail'?location.hash.slice(1):'overview');load();setInterval(load,15000);
+function renderSources() {
+  $("provider-status").replaceChildren();
+  const s = state.status;
+  if (!s) return;
+  const sources = {
+    ...s.providers,
+    ...s.market_sources,
+    coingecko: s.crypto_market,
+  };
+  for (const [key, label] of Object.entries({
+    dex: "DEX Screener",
+    rpc: "Solana RPC",
+    goplus: "GoPlus",
+    coingecko: "CoinGecko",
+  })) {
+    const item = sources[key];
+    const row = node("div", undefined, "provider");
+    row.append(
+      node("span", label),
+      node(
+        "span",
+        item?.state === "ok"
+          ? `HTTP OK · ${date(item.at)}`
+          : item?.error || "Neverificat",
+        item?.state === "ok" ? "good" : "warn",
+      ),
+    );
+    $("provider-status").append(row);
+  }
+  for (const [key, item] of Object.entries(s.news.topics || {})) {
+    const row = node("div", undefined, "provider");
+    row.append(
+      node("span", key),
+      node(
+        "span",
+        item.state === "ok"
+          ? `${item.headlines} titluri colectate`
+          : item.error,
+        item.state === "ok" ? "good" : "warn",
+      ),
+    );
+    $("provider-status").append(row);
+  }
+  const r = s.rules;
+  $("rules").textContent =
+    `Capital inițial în cont: ${cash(state.portfolio?.initial_balance)}. Alocare per poziție ≤${Number(r.max_allocation) * 100}%, expunere totală la cost ≤${Number(r.max_exposure) * 100}%, pierderi realizate zilnice ≤${Number(r.daily_loss_limit) * 100}% (UTC). DEX: fee presupus ${Number(r.swap_fee) * 100}% + ${cash(r.network_fee_usd)} rețea; lichiditate minimă ${cash(r.min_liquidity)}. Crypto generale: fee presupus ${Number(r.reference_fee) * 100}%, slippage de referință ${Number(r.reference_slippage) * 100}%.`;
+}
+function renderHealth() {
+  const status = state.status || {},
+    errors = [];
+  let unknown = 0;
+  const sources = {
+    dex: status.providers?.dex,
+    rpc: status.providers?.rpc,
+    goplus: status.providers?.goplus,
+    ...(status.providers || {}),
+    ...(status.market_sources || {}),
+    coingecko_catalog: status.crypto_market,
+    performance: status.performance,
+  };
+  for (const [name, item] of Object.entries(sources)) {
+    if (item?.state === "error") errors.push(name);
+    else if (item?.state !== "ok" || !item.at) unknown++;
+    else if (Date.now() - new Date(item.at).getTime() > 300000)
+      errors.push(name + " · date vechi");
+  }
+  for (const [name, item] of Object.entries(status.news?.topics || {}))
+    if (
+      item.state === "error" ||
+      (item.at && Date.now() - new Date(item.at).getTime() > 660000)
+    )
+      errors.push(name);
+  for (const [name, item] of Object.entries(status.workers || {}))
+    if (item.state === "error") errors.push(name);
+  const count = errors.length + Object.keys(state.sectionErrors).length;
+  $("connection").replaceChildren(
+    node(
+      "span",
+      undefined,
+      count || unknown ? "live-dot degraded" : "live-dot",
+    ),
+    document.createTextNode(
+      count
+        ? `${count} componente cu eroare`
+        : unknown
+          ? `${unknown} componente neverificate`
+          : "Surse monitorizate",
+    ),
+  );
+  $("section-alerts").replaceChildren();
+  for (const [key, value] of Object.entries(state.sectionErrors))
+    $("section-alerts").append(
+      node(
+        "p",
+        `${pageNames[key] || key}: ${value}. Ultima actualizare reușită: ${date(state.updated[key])}. Datele afișate pot fi vechi.`,
+      ),
+    );
+  if (errors.length)
+    $("section-alerts").append(
+      node(
+        "p",
+        "Surse afectate: " +
+          errors.join(", ") +
+          ". Verifică Surse & metodologie.",
+      ),
+    );
+  $("section-alerts").hidden = !count;
+}
+async function load() {
+  if (state.loading) {
+    state.pendingLoad = true;
+    return;
+  }
+  state.loading = true;
+  const account = state.account,
+    archive = state.newsArchive;
+  const requests = {
+    status: "/api/status",
+    scanner: "/api/tokens",
+    news: `/api/news?archive=${archive}`,
+    portfolio: `/api/portfolio?account=${account}`,
+    market: "/api/assets",
+    performance: `/api/performance?account=${account}`,
+  };
+  const keys = Object.keys(requests),
+    results = await Promise.allSettled(keys.map((key) => api(requests[key])));
+  try {
+    results.forEach((result, index) => {
+      const key = keys[index];
+      if (
+        (key === "portfolio" || key === "performance") &&
+        account !== state.account
+      )
+        return;
+      if (key === "news" && archive !== state.newsArchive) return;
+      if (result.status === "rejected") {
+        state.sectionErrors[key] = result.reason.message;
+        return;
+      }
+      delete state.sectionErrors[key];
+      state.updated[key] = new Date().toISOString();
+      state[{ scanner: "tokens", news: "news", market: "assets" }[key] || key] =
+        result.value;
+    });
+    $("news-count").textContent = state.news.length;
+    $("news-count-caption").textContent =
+      state.news.filter((a) => a.source_kind === "primary").length +
+      " din surse primare";
+    renderOverview();
+    renderNews();
+    renderAssets();
+    renderTokens();
+    renderPortfolio();
+    renderSources();
+    renderPerformance();
+    delete state.sectionErrors.render;
+    renderHealth();
+  } catch (error) {
+    state.sectionErrors.render = error.message;
+    renderHealth();
+  } finally {
+    state.loading = false;
+    if (
+      state.pendingLoad ||
+      account !== state.account ||
+      archive !== state.newsArchive
+    ) {
+      state.pendingLoad = false;
+      load();
+    }
+  }
+}
+function renderPerformance() {
+  const target = $("performance");
+  target.replaceChildren();
+  const report = state.performance;
+  if (!report) {
+    empty(target, "Se așteaptă primele măsurători ale contului.");
+    return;
+  }
+  const stats = node("div", undefined, "detail-stats");
+  for (const [label, value] of [
+    ["REZULTAT REALIZAT", cash(report.realized_pnl_usd)],
+    ["RANDAMENT TOTAL ESTIMAT", percent(report.estimated_total_return_pct)],
+    [
+      "POZIȚII ÎNCHISE / DESCHISE",
+      report.closed_trades + " / " + report.open_trades,
+    ],
+    ["WIN RATE · DOAR ÎNCHISE", percent(report.win_rate_closed_only_pct)],
+    ["DRAWDOWN OBSERVAT", percent(report.max_observed_drawdown_pct)],
+    ["ÎNCERCĂRI RESPINSE", report.failed_attempts],
+  ])
+    stats.append(stat(label, value));
+  target.append(stats);
+  target.append(
+    node(
+      "p",
+      `${report.signals_total} semnale salvate · ${report.signals_without_trade} fără intrare · ${report.observations_total} observații equity · ${report.missing_valuations} evaluări lipsă în fereastra raportului.`,
+      "footnote",
+    ),
+  );
+  const c = report.comparison;
+  if (c)
+    target.append(
+      node(
+        "p",
+        `Perioadă comparabilă: ${date(c.from)} → ${date(c.to)}. Portofoliu ${percent(c.portfolio_return_pct)}; BTC în scenariul cu fee/slippage presupuse ${percent(c.btc_scenario_return_pct)}.`,
+        "footnote",
+      ),
+    );
+  else
+    target.append(
+      node(
+        "p",
+        "Comparația cu BTC cere cel puțin două observații aliniate și o evaluare curentă completă.",
+        "footnote",
+      ),
+    );
+  target.append(node("p", report.note, "footnote"));
+  if (report.history_truncated)
+    target.append(
+      node(
+        "p",
+        "Graficul și drawdown-ul acoperă fereastra păstrată în raport, nu întregul istoric.",
+        "warn",
+      ),
+    );
+}
+function detailBase(asset) {
+  const target = $("detail");
+  target.replaceChildren();
+  const heading = node("div", undefined, "detail-heading");
+  const title = node("div");
+  title.append(
+    coin(asset),
+    node("h1", asset.name || asset.symbol),
+    node(
+      "p",
+      asset.kind === "market_asset"
+        ? `ID CoinGecko: ${asset.asset_id}`
+        : `SOLANA · ${asset.address}`,
+    ),
+  );
+  heading.append(title, node("span", "DOSAR DE CERCETARE", "pill"));
+  target.append(heading);
+  const grid = node("div", undefined, "detail-grid"),
+    left = node("div"),
+    right = node("div");
+  grid.append(left, right);
+  target.append(grid);
+  return { left, right };
+}
+function stat(label, value) {
+  const s = node("div", undefined, "detail-stat");
+  s.append(node("small", label), node("strong", value));
+  return s;
+}
+function drawHistory(container, history) {
+  const prices = history
+    .map((h) => Number(h.price_usd))
+    .filter(Number.isFinite);
+  if (prices.length < 2) {
+    container.append(
+      node(
+        "p",
+        "Istoricul local se colectează de acum. Nu desenăm un grafic fictiv.",
+        "footnote",
+      ),
+    );
+    return;
+  }
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 400 100");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Istoric local de preț");
+  svg.classList.add("chart");
+  const low = Math.min(...prices),
+    high = Math.max(...prices),
+    range = high - low || 1;
+  const line = document.createElementNS(svg.namespaceURI, "polyline");
+  line.setAttribute(
+    "points",
+    prices
+      .map(
+        (v, i) =>
+          `${5 + (i * 390) / (prices.length - 1)},${90 - ((v - low) / range) * 75}`,
+      )
+      .join(" "),
+  );
+  line.setAttribute("fill", "none");
+  line.setAttribute("stroke", "currentColor");
+  line.setAttribute("stroke-width", "2");
+  svg.append(line);
+  container.append(
+    svg,
+    node(
+      "p",
+      "GRAFIC DIN OBSERVAȚII LOCALE · FĂRĂ DATE INVENTATE",
+      "chart-label",
+    ),
+  );
+}
+function paperForm(right, asset, allowed = true, article = null) {
+  const general = asset.kind === "market_asset",
+    orderAccount = general ? "news" : state.account;
+  const box = node("section", undefined, "panel padded paper-box");
+  box.append(
+    node("p", "DECIZIE MANUALĂ / PAPER", "eyebrow"),
+    node("h2", "Testează ipoteza"),
+    node(
+      "p",
+      general
+        ? "Preț de referință sau bid/ask observat. Comisioanele sunt presupuse; nu este un ordin real."
+        : "Simulare DEX aproximativă, cu veto-uri de risc și date noi la intrare.",
+    ),
+  );
+  box.append(node("label", "SUMA ORDINULUI · USD"));
+  const wrap = node("div", undefined, "order-amount"),
+    amount = node("input");
+  amount.type = "number";
+  amount.min = "2";
+  amount.step = ".01";
+  amount.value = orderAccount === "news" ? "50" : "5";
+  amount.setAttribute("aria-label", "Suma paper în USD");
+  wrap.append(amount, node("span", "USD"));
+  box.append(wrap);
+  box.append(node("label", "DE CE CONSIDERI INTRAREA?"));
+  const thesis = node("textarea");
+  thesis.placeholder = "Ce informație contează? Ce ar invalida ipoteza?";
+  thesis.maxLength = 1000;
+  thesis.setAttribute("aria-label", "Ipoteza de intrare");
+  box.append(thesis);
+  let signalId = null;
+  const signal = button("Salvează semnal", "secondary", () =>
+    action(signal, async () => {
+      const body = {
+        account: orderAccount,
+        news_id: article?.id || null,
+        thesis: thesis.value,
+      };
+      const endpoint = general
+        ? `/api/assets/${asset.asset_id}/signal`
+        : `/api/tokens/${asset.address}/signal`;
+      buy.disabled = true;
+      signalId = null;
+      const saved = await api(endpoint, body);
+      signalId = saved.id;
+      allowed = saved.snapshot?.analysis?.paper_allowed === true;
+      signal.textContent = `Semnal #${saved.id} salvat`;
+      if (saved.snapshot)
+        message(
+          `Semnal salvat la prețul ${price(saved.snapshot.market.price_usd)}. ${allowed ? "Datele permit simularea; așteaptă 3 secunde." : "Intrare blocată de dovezile actuale."}`,
+          allowed,
+        );
+      setTimeout(() => {
+        if (allowed && signalId === saved.id) buy.disabled = false;
+      }, 3000);
+    }),
+  );
+  const buy = button("Simulează intrarea", "primary", async () => {
+    await action(buy, async () => {
+      if (!signalId) throw new Error("Salvează mai întâi semnalul.");
+      const body = general
+        ? {
+            asset_id: asset.asset_id,
+            signal_id: signalId,
+            amount_usd: amount.value,
+          }
+        : {
+            address: asset.address,
+            signal_id: signalId,
+            amount_usd: amount.value,
+            account: orderAccount,
+          };
+      await api(general ? "/api/paper/assets/buy" : "/api/paper/buy", body);
+      signalId = null;
+      message(
+        "Ordin virtual înregistrat. Urmărim rezultatul în portofoliu.",
+        true,
+      );
+      navigate("portfolio");
+    });
+    buy.disabled = true;
+  });
+  buy.disabled = true;
+  thesis.addEventListener("input", () => {
+    signalId = null;
+    buy.disabled = true;
+    signal.textContent = "Salvează semnal";
+  });
+  box.append(
+    signal,
+    buy,
+    node(
+      "p",
+      "Semnalul precedă intrarea cu minimum 3 secunde. Fill-ul folosește date noi și poate fi respins.",
+      "footnote",
+    ),
+  );
+  if (!allowed)
+    box.append(node("p", "Intrare blocată de verificările actuale.", "warn"));
+  right.append(box);
+}
+async function openAsset(id, article = null) {
+  state.back = state.page === "detail" ? state.back : state.page;
+  state.selection = { kind: "asset", id, article };
+  state.account = "news";
+  $("paper-account").value = "news";
+  const data = await api(`/api/assets/${encodeURIComponent(id)}`);
+  navigate("detail");
+  const asset = data.asset;
+  const { left, right } = detailBase(asset);
+  const pricing = node("section", undefined, "panel padded");
+  pricing.append(
+    node("p", "PIAȚĂ OBSERVATĂ", "eyebrow"),
+    node("h2", "Date și prospețime"),
+  );
+  pricing.append(
+    node(
+      "p",
+      `Volume și capitalizare: ${date(asset.market_source_updated_at || asset.source_updated_at)}.`,
+      "footnote",
+    ),
+  );
+  if (asset.metadata_error)
+    pricing.append(
+      node("p", `Metadata păstrate din cache: ${asset.metadata_error}`, "warn"),
+    );
+  const stats = node("div", undefined, "detail-stats");
+  stats.append(
+    stat("PREȚ USD", price(asset.price_usd)),
+    stat("VARIAȚIE 24H", percent(asset.change_24h)),
+    stat("VOLUM 24H", compact(asset.volume_24h)),
+    stat("CAPITALIZARE", compact(asset.market_cap)),
+  );
+  pricing.append(
+    stats,
+    node(
+      "p",
+      `${asset.book ? "Preț mid Coinbase L1; volume/capitalizare CoinGecko" : "Preț de referință CoinGecko"} · sursa de preț actualizată ${date(asset.source_updated_at)}. Acest activ nu este prezentat drept lansare nouă.`,
+    ),
+  );
+  drawHistory(
+    pricing,
+    data.history.filter((h) => !h.book),
+  );
+  left.append(pricing);
+  if (article) {
+    const context = node("section", undefined, "panel padded");
+    context.append(
+      node("p", "INFORMAȚIA CARE A GENERAT IPOTEZA", "eyebrow"),
+      link(article.title, article.url, "story-title"),
+      node("p", `${article.publisher} · ${date(article.published_at)}`),
+      node(
+        "p",
+        "Menționarea activului / contextul de ecosistem nu confirmă o recomandare sau o susținere oficială.",
+      ),
+    );
+    left.append(context);
+  }
+  const research = node("section", undefined, "panel padded");
+  research.append(node("h2", "Documente și identitate raportate"));
+  research.append(
+    node(
+      "p",
+      "Nu clasificăm proiectul ca solid doar pentru că are preț, volum sau un nume cunoscut.",
+      "footnote",
+    ),
+  );
+  const documents = node("div");
+  const profileButton = button(
+    "Verifică documentele și identitatea",
+    "secondary",
+    () =>
+      action(profileButton, async () => {
+        const profile = await api(`/api/assets/${id}/profile`);
+        documents.replaceChildren();
+        for (const doc of profile.documents) {
+          const row = link("", doc.url, "venue");
+          row.append(
+            node("strong", doc.label),
+            node("small", new URL(doc.url).hostname),
+            icon(),
+          );
+          documents.append(row);
+        }
+        documents.append(
+          node(
+            "p",
+            "Linkuri și contracte declarate în CoinGecko. Nu sunt validări independente de produs, echipă sau audit.",
+            "footnote",
+          ),
+        );
+        if (Object.keys(profile.contracts).length)
+          documents.append(
+            node(
+              "pre",
+              JSON.stringify(profile.contracts, null, 2),
+              "history-row",
+            ),
+          );
+      }),
+  );
+  research.append(profileButton, documents);
+  if (asset.watch) {
+    const unwatch = button("Scoate din watchlist crypto", "text-button", () =>
+      action(unwatch, async () => {
+        await api(`/api/assets/${id}/unwatch`, {});
+        await openAsset(id, article);
+      }),
+    );
+    research.append(unwatch);
+  }
+  left.append(research);
+  const venues = node("section", undefined, "panel padded");
+  venues.append(
+    node("h2", "Unde există tranzacționare?"),
+    node(
+      "p",
+      "Piețe raportate de furnizor. Nu confirmă accesul înainte de o listare viitoare.",
+    ),
+  );
+  const list = node("div"),
+    b = button("Verifică piețele raportate ↗", "secondary", () =>
+      action(b, async () => {
+        const result = await api(`/api/assets/${id}/venues`);
+        list.replaceChildren();
+        for (const v of result.venues) {
+          const row = link("", v.url, "venue");
+          const desc = node("div");
+          desc.append(
+            node("strong", v.name),
+            node("small", `${v.pair} · CoinGecko · ${date(v.observed_at)}`),
+          );
+          row.append(desc, icon());
+          list.append(row);
+        }
+        if (!result.venues.length)
+          empty(
+            list,
+            "Nu am primit o piață validă. Nu inventăm un loc de cumpărare.",
+          );
+      }),
+    );
+  venues.append(b, list);
+  left.append(venues);
+  await renderCase(left, asset.address, data.case);
+  paperForm(right, asset, asset.freshness?.fresh !== false, article);
+  await load();
+}
+async function openToken(address, article = null, refresh = false) {
+  state.back = state.page === "detail" ? state.back : state.page;
+  state.selection = { kind: "token", id: address, article };
+  if (article) {
+    state.account = "news";
+    $("paper-account").value = "news";
+  }
+  if (refresh) await api("/api/tokens", { address });
+  const data = await api(`/api/tokens/${address}`);
+  navigate("detail");
+  const market = data.latest.market,
+    analysis = data.latest.analysis;
+  const { left, right } = detailBase(market);
+  const panel = node("section", undefined, "panel padded");
+  panel.append(node("h2", "Piață și identitate"));
+  const stats = node("div", undefined, "detail-stats");
+  stats.append(
+    stat("PREȚ OBSERVAT", "$" + number(market.price_usd)),
+    stat("LICHIDITATE RAPORTATĂ", cash(market.liquidity_usd)),
+  );
+  panel.append(
+    stats,
+    node(
+      "p",
+      `Pool ${market.dex} · creat ${date(market.pool_created_at)} · observație ${date(market.observed_at)}`,
+    ),
+    node("p", "Data creării mintului și afilierea oficială sunt neconfirmate."),
+  );
+  const links = node("div", undefined, "detail-links");
+  links.append(
+    link(
+      "Piața raportată ↗",
+      `https://dexscreener.com/solana/${encodeURIComponent(market.pair_address)}`,
+    ),
+    link(
+      "Explorer / contract ↗",
+      `https://solscan.io/token/${encodeURIComponent(address)}`,
+    ),
+  );
+  panel.append(links);
+  left.append(panel);
+  if (article) {
+    const context = node("section", undefined, "panel padded");
+    context.append(
+      node("h2", "Știrea de la începutul ipotezei"),
+      link(article.title, article.url, "story-title"),
+      node(
+        "p",
+        "Asociere ipotetică după nume. Nu dovedește că evenimentul a creat tokenul.",
+      ),
+    );
+    left.append(context);
+  }
+  const risks = node("section", undefined, "panel padded");
+  risks.append(node("h2", "Dovezi și veto-uri"));
+  for (const [name, items, cls] of [
+    ["Veto-uri", analysis.critical, "bad"],
+    ["Observații RPC", analysis.positive, "good"],
+    ["Necunoscute", analysis.unknown, "warn"],
+    ["Limite", analysis.warnings, "warn"],
+  ]) {
+    if (!items.length) continue;
+    risks.append(node("h3", name, cls));
+    const list = node("ul");
+    items.forEach((i) => list.append(node("li", i)));
+    risks.append(list);
+  }
+  const refreshButton = button("Actualizează dovezile ↻", "secondary", () =>
+    action(refreshButton, async () => {
+      await api(`/api/tokens/${address}/refresh`, {});
+      await openToken(address, article);
+    }),
+  );
+  risks.append(refreshButton);
+  if (data.watch) {
+    const unwatch = button("Scoate din watchlist", "text-button", () =>
+      action(unwatch, async () => {
+        await api(`/api/tokens/${address}/unwatch`, {});
+        await openToken(address, article);
+      }),
+    );
+    risks.append(unwatch);
+  }
+  left.append(risks);
+  const scores = node("section", undefined, "panel padded");
+  scores.append(node("h2", "Scoruri de cercetare"));
+  for (const [key, label] of Object.entries({
+    security_risk: "Risc total de securitate",
+    activity: "Activitate",
+    momentum: "Momentum",
+    liquidity_exit: "Lichiditate / ieșire",
+    research_priority: "Prioritate research",
+  })) {
+    const row = node("div", undefined, "score-row");
+    row.append(
+      node("span", label),
+      node(
+        "strong",
+        analysis.scores[key] === null
+          ? "necuantificat"
+          : analysis.scores[key] + "/100",
+      ),
+    );
+    scores.append(row);
+  }
+  left.append(scores);
+  await renderCase(left, address);
+  paperForm(right, market, analysis.paper_allowed, article);
+  await load();
+}
+document.addEventListener("click", (event) => {
+  const b = event.target.closest("[data-page]");
+  if (b) {
+    event.preventDefault();
+    navigate(b.dataset.page);
+  }
+});
+$("news-filters").onclick = (event) => {
+  const b = event.target.closest("[data-filter]");
+  if (!b) return;
+  state.filter = b.dataset.filter;
+  document
+    .querySelectorAll("[data-filter]")
+    .forEach((x) => x.classList.toggle("active", x === b));
+  renderNews();
+};
+$("news-search").oninput = renderNews;
+$("asset-search").oninput = renderAssets;
+$("search").oninput = renderTokens;
+$("news-button").onclick = () =>
+  action($("news-button"), async () => {
+    await api("/api/news/refresh", {});
+  });
+$("market-button").onclick = () =>
+  action($("market-button"), async () => {
+    await api("/api/assets/refresh", {});
+  });
+$("scan-button").onclick = () =>
+  action($("scan-button"), async () => {
+    await api("/api/scan", {});
+  });
+$("refresh-all").onclick = () =>
+  action($("refresh-all"), async () => {
+    await api("/api/assets/refresh", {});
+    await api("/api/news/refresh", {});
+  });
+$("add-form").onsubmit = (event) => {
+  event.preventDefault();
+  const b = event.currentTarget.querySelector("button");
+  action(b, async () => {
+    const address = $("address").value.trim();
+    await api("/api/tokens", { address });
+    $("address").value = "";
+    await openToken(address);
+  });
+};
+$("paper-account").onchange = async () => {
+  state.account = $("paper-account").value;
+  state.portfolio = null;
+  state.performance = null;
+  for (const id of [
+    "cash",
+    "hero-cash",
+    "portfolio-cash",
+    "equity",
+    "portfolio-equity",
+    "realized",
+    "portfolio-realized",
+  ])
+    $(id).textContent = "—";
+  $("positions").replaceChildren();
+  await load();
+};
+$("detail-back").onclick = () =>
+  navigate(state.back === "detail" ? "news" : state.back);
+document.querySelectorAll(".nav-item[data-page]").forEach((b) => {
+  const span = b.querySelector("span");
+  if (span) span.replaceChildren(icon(b.dataset.page));
+});
+document.querySelectorAll("button").forEach((b) => {
+  if (/[↗↻]/.test(b.textContent)) decorate(b, b.textContent);
+});
+navigate(
+  pageNames[location.hash.slice(1)] && location.hash !== "#detail"
+    ? location.hash.slice(1)
+    : "overview",
+);
+load();
+setInterval(load, 15000);
+
+let fieldCounter = 0;
+function inputField(parent, label, type = "text") {
+  const id = "field-" + ++fieldCounter,
+    l = node("label", label),
+    input = type === "textarea" ? node("textarea") : node("input");
+  if (type !== "textarea") input.type = type;
+  input.id = id;
+  l.htmlFor = id;
+  input.setAttribute("aria-label", label);
+  parent.append(l, input);
+  return input;
+}
+async function renderCase(parent, address, provided) {
+  const box = node("section", undefined, "panel padded evidence-panel");
+  parent.append(box);
+  async function draw(data) {
+    box.replaceChildren();
+    box.append(node("h2", "Dosar cu dovezi"), node("p", data.note, "footnote"));
+    for (const check of data.checks) {
+      const row = node("div", undefined, "check-row");
+      row.append(
+        node("span", check.label),
+        node(
+          "span",
+          {
+            unknown: "NECUNOSCUT",
+            supported_manual: "SUSȚINUT · MANUAL",
+            disputed: "CONTESTAT",
+          }[check.status] || check.status,
+        ),
+      );
+      box.append(row);
+    }
+    for (const record of data.evidence) {
+      const e = record.payload,
+        row = node("article", undefined, "evidence-item");
+      row.append(
+        node("strong", e.claim),
+        node(
+          "p",
+          `${e.category} · ${record.revoked_at ? "RETRAS" : e.status + " · evaluare manuală"} · ${date(record.at)}`,
+        ),
+        node("p", e.reviewer_note),
+      );
+      if (e.source_url) row.append(link("Sursa citată ↗", e.source_url));
+      if (e.excerpt) row.append(node("blockquote", e.excerpt));
+      if (e.contract)
+        row.append(node("code", (e.chain || "") + " · " + e.contract));
+      if (!record.revoked_at) {
+        const revoke = button("Retrage evaluarea", "text-button", () =>
+          action(revoke, async () => {
+            const updated = await api(
+              `/api/research/${encodeURIComponent(address)}/evidence/${record.id}/revoke`,
+              {},
+            );
+            await draw(updated);
+          }),
+        );
+        row.append(revoke);
+      }
+      box.append(row);
+    }
+    const form = node("form", undefined, "evidence-form"),
+      category = node("select"),
+      status = node("select"),
+      chain = node("select");
+    for (const [key, label] of Object.entries({
+      identity: "Identitate / contract",
+      announcement: "Anunț original",
+      product: "Produs",
+      team: "Echipă",
+      tokenomics: "Tokenomics / vesting",
+      audit: "Audit",
+      liquidity: "Lichiditate",
+    })) {
+      const o = node("option", label);
+      o.value = key;
+      category.append(o);
+    }
+    category.setAttribute("aria-label", "Tipul dovezii");
+    for (const [key, label] of Object.entries({
+      unknown: "Necunoscut",
+      supported: "Susținut de dovezi · evaluare manuală",
+      disputed: "Contestat · evaluare manuală",
+    })) {
+      const o = node("option", label);
+      o.value = key;
+      status.append(o);
+    }
+    status.setAttribute("aria-label", "Starea evaluării");
+    form.append(category, status);
+    const claim = inputField(form, "Afirmația evaluată", "textarea");
+    claim.required = true;
+    claim.maxLength = 1000;
+    const url = inputField(form, "URL public al sursei", "url"),
+      excerpt = inputField(form, "Citat din document", "textarea"),
+      note = inputField(form, "Motivul evaluării manuale", "textarea"),
+      issuer = inputField(form, "Emitent / autor"),
+      published = inputField(
+        form,
+        "Data publicării · ora calculatorului",
+        "datetime-local",
+      );
+    for (const key of [
+      "",
+      "solana",
+      "ethereum",
+      "base",
+      "polygon",
+      "bsc",
+      "arbitrum",
+      "avalanche",
+      "bitcoin",
+      "other",
+    ]) {
+      const o = node("option", key || "Chain necunoscut");
+      o.value = key;
+      chain.append(o);
+    }
+    chain.setAttribute("aria-label", "Chain");
+    form.append(chain);
+    const contract = inputField(
+      form,
+      "Contract / mint · gol pentru monedă nativă",
+    );
+    const sourceResult = node("p", undefined, "footnote"),
+      sourceButton = button("Compară citatul în document", "secondary", () =>
+        action(sourceButton, async () => {
+          const result = await api("/api/research/source", {
+            url: url.value,
+            excerpt: excerpt.value,
+          });
+          sourceResult.textContent =
+            (result.excerpt_found ? "Citat găsit. " : "Citat negăsit. ") +
+            result.note +
+            " " +
+            date(result.observed_at);
+        }),
+      );
+    sourceButton.type = "button";
+    form.append(sourceButton, sourceResult);
+    const save = button("Salvează dovada", "primary", () => {});
+    save.type = "submit";
+    form.append(save);
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      action(save, async () => {
+        const body = {
+          category: category.value,
+          status: status.value,
+          claim: claim.value,
+          source_url: url.value || null,
+          excerpt: excerpt.value,
+          reviewer_note: note.value,
+          issuer: issuer.value,
+          chain: chain.value || null,
+          contract: contract.value,
+          published_at: published.value
+            ? new Date(published.value).toISOString()
+            : null,
+        };
+        const result = await api(
+          `/api/research/${encodeURIComponent(address)}/evidence`,
+          body,
+        );
+        await draw(result);
+        message(
+          "Dovadă și evaluare manuală salvate. Creează un semnal nou pentru a captura dosarul actualizat.",
+          true,
+        );
+      });
+    };
+    box.append(form);
+  }
+  try {
+    await draw(
+      provided || (await api(`/api/research/${encodeURIComponent(address)}`)),
+    );
+  } catch (error) {
+    box.append(node("p", error.message, "warn"));
+  }
+}
+window.addEventListener("hashchange", () => {
+  const page = location.hash.slice(1);
+  if (pageNames[page] && (page !== "detail" || state.selection)) navigate(page);
+});
+window.addEventListener("popstate", () => {
+  const page = location.hash.slice(1);
+  navigate(
+    pageNames[page] && (page !== "detail" || state.selection)
+      ? page
+      : "overview",
+  );
+});
+$("news-archive").onchange = () => {
+  state.newsArchive = $("news-archive").checked;
+  load();
+};
+$("asset-discovery-form").onsubmit = (event) => {
+  event.preventDefault();
+  const b = event.currentTarget.querySelector("button");
+  action(b, async () => {
+    const results = await api(
+      "/api/assets/search?q=" +
+        encodeURIComponent($("asset-query").value.trim()),
+    );
+    const target = $("asset-search-results");
+    target.replaceChildren();
+    for (const asset of results) {
+      const row = node("div", undefined, "venue");
+      row.append(coin(asset));
+      const watch = button("Urmărește și deschide", "secondary", () =>
+        action(watch, async () => {
+          await api("/api/assets/watch", { asset_id: asset.asset_id });
+          await openAsset(asset.asset_id);
+        }),
+      );
+      row.append(watch);
+      target.append(row);
+    }
+    if (!results.length) empty(target, "Niciun activ identificat.");
+  });
+};
+$("export-button").onclick = () => {
+  const a = node("a");
+  a.href = "/api/export?account=" + state.account;
+  a.download = "pulse-" + state.account + ".json";
+  a.click();
+};
+$("backup-button").onclick = () =>
+  action($("backup-button"), async () => {
+    const response = await fetch("/api/backup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: "{}",
+    });
+    if (!response.ok) throw new Error("Backupul nu a putut fi creat.");
+    const url = URL.createObjectURL(await response.blob()),
+      a = node("a");
+    a.href = url;
+    a.download =
+      "pulse-backup-" + new Date().toISOString().slice(0, 10) + ".zip";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    message(
+      "Backup complet pentru ambele conturi, fără resetarea datelor.",
+      true,
+    );
+  });

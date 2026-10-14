@@ -3,6 +3,7 @@
 Run from the repository: .venv/bin/python docs/audit/reproduce_backend.py
 The assertions reproduce the audited behavior, including known defects. They are
 diagnostic evidence, not acceptance tests proving the application bug-free.
+Historical v0.2 probe: run on commit 307376d. Current acceptance tests live in tests/.
 """
 
 import asyncio

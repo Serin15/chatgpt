@@ -7,8 +7,10 @@ from decimal import Decimal
 
 from app import paper
 from app.analysis import analyze
-from app.models import Market, epoch, utcnow
+from app.models import Market, epoch, freshness, utcnow
+from app.performance import Performance
 from app.providers import ProviderError
+from app.research import Research
 from app.store import Store
 
 log = logging.getLogger(__name__)
@@ -27,18 +29,16 @@ class Service:
         )
         self.news = None
         self.assets = None
+        self.research = Research(store)
+        self.performance = Performance(self)
 
     def reference_analysis(self, asset):
-        updated = asset.get("source_updated_at")
-        try:
-            fresh = (
-                updated is not None
-                and 0 <= time.time() - epoch(updated) <= self.settings.max_snapshot_age
-            )
-        except (ValueError, TypeError):
-            fresh = False
+        fresh = freshness(
+            asset.get("observed_at"), asset.get("source_updated_at"), self.settings.max_snapshot_age
+        )["fresh"]
         return {
-            "paper_allowed": fresh and (asset.get("volume_24h") or 0) > 0,
+            "paper_allowed": fresh
+            and (bool(asset.get("book")) or (asset.get("volume_24h") or 0) > 0),
             "scope": "reference_price_scenario_not_token_security",
             "fundamentals_verified": False,
             "critical": [],
@@ -55,25 +55,30 @@ class Service:
 
     async def asset_snapshot(self, asset_id):
         asset = await self.assets.quote(asset_id)
+        if not asset.get("book"):
+            self.assets.invalidate_book(asset_id)
         return self.news_paper.save_reference(asset, self.reference_analysis(asset))
 
     async def asset_signal(self, asset_id, news_id=None, thesis=""):
         snapshot = await self.asset_snapshot(asset_id)
         context = {"paper_account": "news", "thesis": thesis, "asset_kind": "market_asset"}
+        context["research_context"] = self.research.case(snapshot["address"])
         if news_id:
             try:
                 context["news_context"] = self.news.context(news_id, snapshot["address"])
             except ValueError as exc:
                 raise paper.Rejected(str(exc)) from None
-        return self.news_paper.signal(snapshot, context)
+        return self.news_paper.signal(snapshot, context) | {"snapshot": snapshot}
 
     async def asset_buy(self, body):
         address = "asset:" + body.asset_id
         try:
             snapshot = await self.asset_snapshot(body.asset_id)
-            return paper.buy(
+            order = paper.buy(
                 self.news_paper, snapshot, body.signal_id, body.amount_usd, self.settings
             )
+            self.performance.safe_observe("news")
+            return order
         except (ProviderError, paper.Rejected) as exc:
             self.news_paper.failed_order(address, "buy", str(exc))
             raise
@@ -93,12 +98,16 @@ class Service:
         if not snapshot:
             raise paper.Rejected("Token fără observații de piață.")
         context = {"paper_account": account, "thesis": thesis}
+        context["research_context"] = self.research.case(address)
         if news_id:
             try:
                 context["news_context"] = self.news.context(news_id, address)
             except ValueError as exc:
                 raise paper.Rejected(str(exc)) from None
-        return self.paper_store(account).signal(self.copy_for_paper(snapshot, account), context)
+        saved_snapshot = self.copy_for_paper(snapshot, account)
+        return self.paper_store(account).signal(saved_snapshot, context) | {
+            "snapshot": saved_snapshot
+        }
 
     def portfolio(self, account):
         portfolio = self.paper_store(account).portfolio() | {"account": account}
@@ -245,7 +254,17 @@ class Service:
     def listing(self):
         now = time.time()
         output = []
-        for token in self.store.tokens()[:100]:
+        held = {
+            p["address"]
+            for store in (self.store, self.news_paper)
+            for p in store.portfolio()["positions"]
+            if not p["closed_at"]
+        }
+        tokens = self.store.tokens()
+        chosen = [t for t in tokens if t["address"] in held or t["watch"]]
+        chosen_ids = {t["address"] for t in chosen}
+        chosen += [t for t in tokens if t["address"] not in chosen_ids][: max(0, 100 - len(chosen))]
+        for token in chosen:
             snapshot = self.store.latest(token["address"])
             if snapshot:
                 snapshot["analysis"] = analyze(
@@ -270,13 +289,15 @@ class Service:
         store = self.paper_store(request.account)
         try:
             current = await self.refresh(request.address)
-            return paper.buy(
+            order = paper.buy(
                 store,
                 self.copy_for_paper(current, request.account),
                 request.signal_id,
                 request.amount_usd,
                 self.settings,
             )
+            self.performance.safe_observe(request.account)
+            return order
         except (ProviderError, paper.Rejected) as exc:
             store.failed_order(request.address, "buy", str(exc))
             raise
@@ -296,11 +317,15 @@ class Service:
         try:
             if position["address"].startswith("asset:"):
                 current = await self.asset_snapshot(position["address"][6:])
-                return paper.sell(store, position_id, current, self.settings)
+                order = paper.sell(store, position_id, current, self.settings)
+                self.performance.safe_observe(account)
+                return order
             current = await self.refresh(position["address"])
-            return paper.sell(
+            order = paper.sell(
                 store, position_id, self.copy_for_paper(current, account), self.settings
             )
+            self.performance.safe_observe(account)
+            return order
         except (ProviderError, paper.Rejected) as exc:
             store.failed_order(position["address"], "sell", str(exc))
             raise
