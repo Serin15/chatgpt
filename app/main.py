@@ -12,6 +12,7 @@ from starlette.concurrency import run_in_threadpool
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app import __version__, instance_id
+from app.announcements import ApprovalInput, VerificationInput
 from app.assets import Assets, research_case
 from app.config import Settings
 from app.maintenance import backup, export
@@ -58,6 +59,7 @@ def create_app(
         ]
         news = (news_factory or News)(store, sources)
         news.assets = assets
+        news.announcements = app.state.service.research.announcements
         app.state.service.news = news
         app.state.workers = {}
 
@@ -170,6 +172,7 @@ def create_app(
             "workers": request.app.state.workers,
             "market_sources": service.assets.source_status,
             "performance": service.performance.status,
+            "announcement_analysis": service.research.announcements.status,
             "app_id": "pulse_crypto_research",
         }
 
@@ -349,6 +352,52 @@ def create_app(
     def research(address: str, request: Request):
         service = request.app.state.service
         known_subject(service, address)
+        return service.research.case(address)
+
+    async def contract_profile(service, address):
+        if not address.startswith("asset:"):
+            return None
+        try:
+            return await service.assets.profile(address[6:])
+        except ProviderError:
+            return None
+
+    def check_news_context(service, news_id, address):
+        if news_id is None:
+            return
+        try:
+            service.news.context(news_id, address)
+        except ValueError as exc:
+            raise HTTPException(409, str(exc)) from None
+
+    @app.post("/api/research/{address}/verify-announcement")
+    async def verify_announcement(address: str, body: VerificationInput, request: Request):
+        service = request.app.state.service
+        known_subject(service, address)
+        check_news_context(service, body.news_id, address)
+        if body.news_id:
+            body = body.model_copy(update={"news_id": service.news.resolve_id(body.news_id)})
+        return await service.research.announcements.verify(
+            address, body, await contract_profile(service, address)
+        )
+
+    @app.post("/api/research/{address}/source-approvals")
+    async def approve_source(address: str, body: ApprovalInput, request: Request):
+        service = request.app.state.service
+        known_subject(service, address)
+        check_news_context(service, body.news_id, address)
+        if body.news_id:
+            body = body.model_copy(update={"news_id": service.news.resolve_id(body.news_id)})
+        service.research.announcements.approve(
+            address, body, await contract_profile(service, address)
+        )
+        return service.research.case(address)
+
+    @app.post("/api/research/{address}/source-approvals/{approval_id}/revoke")
+    def revoke_source(address: str, approval_id: int, request: Request):
+        service = request.app.state.service
+        if not service.research.announcements.revoke(address, approval_id):
+            raise HTTPException(404, "Evaluare a sursei inexistentă sau retrasă.")
         return service.research.case(address)
 
     @app.post("/api/research/{address}/evidence")

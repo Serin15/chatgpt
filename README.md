@@ -1,10 +1,11 @@
-# PULSE — Crypto Research v0.3
+# PULSE — Crypto Research v0.4
 
 Terminal personal pentru știri crypto, cercetare de proiecte și un portofoliu virtual. Interfață
 în română, navigare desktop/mobil și ordine manuale de $50. Nicio tranzacție reală.
 
-Versiunea 0.3 remediază constatările auditului și adaugă dosare cu dovezi, căutare/watchlist crypto,
-raport paper trading, export JSON și backup ZIP. Vezi [schimbările și limitele](docs/V0.3.md).
+Versiunea 0.4 adaugă verificarea documentului original față de contract/chain, evaluări de sursă
+cu istoric și colectare limitată de documente primare. Vezi [schimbările și limitele](docs/V0.4.md).
+Funcțiile de dosare, watchlist, raport paper, export și backup din [v0.3](docs/V0.3.md) sunt păstrate.
 
 ![PULSE desktop](docs/screenshots/pulse-desktop.png)
 
@@ -42,6 +43,9 @@ va fi nou. Nu șterge istoricul pentru a rezolva o problemă de instalare.
 7. **Măsurarea experimentului**: rezultat realizat, randament/equity estimat, win rate numai din
    poziții închise, încercări respinse, drawdown observat și comparație BTC pe perioade aliniate.
    Exportul JSON păstrează întregul experiment; backupul ZIP include ambele baze SQLite.
+8. **Anunț și contract**: în dosar poți compara adresa exactă și chain-ul cu pagina originală.
+   Potrivirea tehnică este separată de evaluarea manuală a relației emitentului/pieței cu moneda.
+   O redacție nu poate fi aprobată ca emitent. Dovezile, data și amprenta documentului sunt păstrate.
 
 Sursa primară și o redacție cunoscută primesc prioritate de afișare. Aceasta nu verifică afirmația,
 nu confirmă susținerea unui token și nu măsoară probabilitatea de profit. Numele este uneori doar
@@ -76,6 +80,8 @@ Avantajul financiar rămâne de măsurat pe informații înregistrate înainte d
 întârzieri și ieșiri eșuate. Testele verifică funcționarea și calculele, nu profitabilitatea.
 AI-ul de verificare/sinteză, datele istorice de wallets, Base on-chain și alertele externe sunt etape
 ulterioare. Datele se actualizează automat cât timp serverul rulează; codul nu se modifică singur.
+Verificarea v0.4 folosește reguli pentru documente și adrese, fără model AI. Un contract găsit
+în pagină nu demonstrează singur afilierea, susținerea unei persoane sau legitimitatea proiectului.
 
 ## Pornire
 
@@ -193,6 +199,7 @@ node --check app/static/app.js
 
 Verificări UI izolate: `UV_CACHE_DIR=/workspace/.cache/uv uv run --with playwright python tests/browser_smoke.py`
 și aceeași comandă cu `tests/browser_regressions.py`; necesită Chromium la `/usr/bin/chromium`.
+Fluxul nou se verifică prin aceeași comandă cu `tests/browser_announcements.py`.
 Nu rulează nativ launcherul Windows. [Validarea](docs/VALIDATION.md) separă testele simulate de
 probele cu surse reale.
 

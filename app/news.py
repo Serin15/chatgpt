@@ -353,9 +353,13 @@ class News:
             }
             if topic:
                 merged = {}
+                prior_topics = [
+                    r[0]
+                    for r in db.execute("SELECT topic FROM news_topics WHERE news_id=?", (news_id,))
+                ] or ["legacy"]
                 for row in db.execute("SELECT * FROM news_matches WHERE news_id=?", (news_id,)):
                     previous = json.loads(row["market"])
-                    origins = set(previous.get("origin_topics", [topic])) - {topic}
+                    origins = set(previous.get("origin_topics", prior_topics)) - {topic}
                     if origins:
                         merged[row["address"]] = previous | {"origin_topics": sorted(origins)}
                 for candidate in candidates:
@@ -421,6 +425,16 @@ class News:
                             "error": str(exc),
                         }
                 self.status["last_completed_at"] = utcnow()
+                announcements = getattr(self, "announcements", None)
+                if announcements:
+                    try:
+                        await announcements.enrich_news(self, self.assets)
+                    except (ProviderError, ValueError, TypeError, KeyError):
+                        announcements.status = {
+                            "state": "error",
+                            "at": utcnow(),
+                            "error": "Analiza documentelor este incompletă; știrile rămân disponibile.",
+                        }
             finally:
                 self.status["running"] = False
         return self.status
@@ -451,7 +465,12 @@ class News:
 
                 query += " AND COALESCE(published_at,first_seen_at)>=?"
                 parameters.append(datetime.fromtimestamp(time.time() - 86400 * 2, UTC).isoformat())
-            query += " ORDER BY COALESCE(published_at,first_seen_at) DESC LIMIT 100"
+            primary_hosts = sorted(
+                {d["source_host"] for d in TOPICS.values() if d.get("source_kind") == "primary"}
+            )
+            priority = " OR ".join("url LIKE ?" for _ in primary_hosts)
+            query += f" ORDER BY CASE WHEN {priority} THEN 0 ELSE 1 END, COALESCE(published_at,first_seen_at) DESC LIMIT 100"
+            parameters.extend(f"https://{host}/%" for host in primary_hosts)
             for row in db.execute(query, parameters):
                 if not event_headline(row["title"]):
                     continue
@@ -517,6 +536,10 @@ class News:
                         else "review_needed"
                     ),
                 }
+                announcements = getattr(self, "announcements", None)
+                article["document_analysis"] = (
+                    announcements.news_document(article["id"]) if announcements else None
+                )
                 for match in db.execute("SELECT * FROM news_matches WHERE news_id=?", (row["id"],)):
                     market = json.loads(match["market"])
                     created, published = (
@@ -540,6 +563,12 @@ class News:
                             "updated_at": match["updated_at"],
                         }
                     )
+                    if announcements:
+                        checks = announcements.checks(market["address"], article["id"])
+                        article["matches"][-1]["announcement_check"] = checks[0] if checks else None
+                        article["matches"][-1]["official_affiliation"] = (
+                            checks[0]["official_affiliation"] if checks else "unverified"
+                        )
                 result.append(article)
         return sorted(
             result,

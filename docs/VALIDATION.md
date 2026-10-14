@@ -130,3 +130,46 @@ Python Launcher și UNC nu a fost testată aici. Nu s-au validat profitabilitate
 afilierea unui token sau un proiect concret ca „solid”. În v0.3, evaluarea dovezilor rămâne manuală.
 Scripturile istorice din `docs/audit` reproduc buguri pe commitul vechi și nu sunt acceptance tests
 pentru această versiune. Acoperirea, limitele și etapele următoare sunt în [V0.3.md](V0.3.md).
+
+## PULSE v0.4 — verificarea documentului și a contractului
+
+Verificare pe 14 octombrie 2026:
+
+- **144 teste pytest trecute**, Ruff, JavaScript și `uv sync --frozen`: exit 0. Nicio dependență
+  runtime nouă. Manifestul, lockfile-ul, API-ul și interfața indică 0.4.0 / v0.4.
+- Cazuri noi: adrese complete față de prefixe/nume, scripturi/headere/elemente ascunse, atribute
+  HTML fără valoare, chain greșit și rânduri de tabel separate, negații inclusiv în contextul unui
+  link de explorer, redacție care nu poate fi emitent, contract incompatibil cu activul selectat,
+  hosturi private/false, redirecturi, document prea mare, format nesuportat și indisponibilitate
+  după o citire reușită. O reverificare manuală nu folosește succesul anterior din cache.
+- Evaluări de sursă: confirmare explicită, justificare, înlocuire în același scope, expirare,
+  retragere și restart. Rezultatele sunt legate de activ și articol; două știri despre aceeași
+  monedă nu primesc automat aceeași afiliere. Semnalul și exportul păstrează copia inițială.
+- Colectarea automată este limitată și nu deschide URL-uri de agregator. Un mint Solana poate fi
+  descoperit din adresa citată într-o pagină primară, fără asemănări de nume; asocierea cere date
+  de piață pentru exact acel mint și rămâne neconfirmată ca afiliere. Sursele primare rămân în
+  lista procesată chiar după peste 100 de titluri de agregator mai noi.
+- Backupul a fost extras în test: tabelele noi, retragerea evaluării și dovezile originale ale
+  semnalului au supraviețuit; `integrity_check=ok` și zero ordine necerute.
+- Browser: smoke-ul pentru ambele round-trip-uri paper de $50 și regresiile v0.3 au trecut.
+  Noul test `tests/browser_announcements.py` verifică document → contract → evaluare manuală →
+  reverificare → semnal → retragere → context negativ. Exportul păstrează dovada veche, cash
+  rămâne $500 cu zero ordine. Layout 390px, fără erori JavaScript.
+- Probă live într-o bază temporară: pagina Solana Sync Native, HTTP 200, contract wrapped SOL
+  găsit, amprenta documentului salvată. Rezultat conservator `chain_unconfirmed`, afiliere
+  `unverified`, fără afirmație verificată sau ordin. Pagina nu a fost folosită ca recomandare.
+- În instanța cloud, colectarea automată a citit un articol Kraken eligibil: titlu, sursă,
+  timestamp, extras și SHA-256 persistate, `claim_verified=false`. Nu s-au inventat contracte.
+- Proba live de piață a trecut: 12 profiluri Solana, wrapped SOL/RPC/GoPlus, 25 de active
+  CoinGecko, book BTC Coinbase și 10 titluri CoinDesk. Nu au fost trimise ordine.
+- Backup SQLite consistent înainte de upgrade; Scanner $100 / Research $500, zero ordine,
+  istoricul existent păstrat. Interfața actualizată a trecut verificarea cu date reale.
+
+Circle Developers și Anthropic au fost testate cu răspunsuri simulate; accesul live din acest
+cloud a rămas blocat cu `ProxyError`, inclusiv după salvarea domeniilor în draft. Nu declarăm
+aceste integrări validate live sau configurația aplicată. Un timeout temporar Google News pentru
+Zelenski a fost vizibil ca eroare de sursă; ulterior sursa a răspuns din nou.
+
+Nu sunt validate semantic afirmațiile/afilierea, profitabilitatea sau execuția reală. Windows
+nativ, pagini care necesită JavaScript și restaurarea într-un task cloud nou rămân netestate.
+Limitele de interpretare și de acoperire sunt în [V0.4.md](V0.4.md).

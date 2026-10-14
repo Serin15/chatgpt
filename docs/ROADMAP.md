@@ -3,6 +3,11 @@
 Misiune: identificarea ipotezelor de trading care merită cercetate după risc, lichiditate și costuri.
 Nu dezvoltăm un predictor de profit sau copytrading automat.
 
+Stare curentă: [v0.4](V0.4.md) implementează verificarea document-contract, evaluări manuale de
+surse și capturarea dovezilor în semnale. Următoarea etapă de precizie este un set etichetat de
+anunțuri reale, validarea emitentului din surse independente și integrarea AI cu citări; simplele
+mențiuni de contract și regulile de negație nu rezolvă automat interpretarea unui anunț.
+
 ## 1. Scanner și laborator paper — implementat
 
 Date reale Solana, filtre cu veto-uri, necunoscute explicite, observații persistente, watchlist,

@@ -3,16 +3,14 @@
 import json
 import re
 import time
-from html.parser import HTMLParser
 from typing import Literal
-from urllib.parse import urlsplit
 
 import httpx
 from pydantic import AwareDatetime, BaseModel, Field, model_validator
 
+from app.announcements import Announcements, normalized
 from app.assets import safe_link
 from app.models import epoch, solana_address, utcnow
-from app.providers import ProviderError
 
 CHECKS = {
     "identity": "Identitate / contract",
@@ -22,11 +20,6 @@ CHECKS = {
     "tokenomics": "Tokenomics / vesting",
     "audit": "Audit / permisiuni",
     "liquidity": "Piață / lichiditate",
-}
-SOURCE_HOSTS = {
-    "blog.ethereum.org": "Ethereum Foundation",
-    "blog.kraken.com": "Kraken",
-    "www.coindesk.com": "CoinDesk · redacție",
 }
 
 
@@ -85,31 +78,13 @@ class SourceInput(BaseModel):
     excerpt: str = Field(min_length=20, max_length=2000)
 
 
-class TextReader(HTMLParser):
-    def __init__(self):
-        super().__init__(convert_charrefs=True)
-        self.parts = []
-        self.skip = 0
-
-    def handle_starttag(self, tag, attrs):
-        if tag in {"script", "style", "noscript"}:
-            self.skip += 1
-
-    def handle_endtag(self, tag):
-        if tag in {"script", "style", "noscript"}:
-            self.skip = max(0, self.skip - 1)
-
-    def handle_data(self, data):
-        if not self.skip:
-            self.parts.append(data)
-
-
 class Research:
     def __init__(self, store, client=None):
         self.store = store
         self.client = client or httpx.AsyncClient(
-            timeout=15, follow_redirects=False, headers={"User-Agent": "PulseResearch/0.3"}
+            timeout=15, follow_redirects=False, headers={"User-Agent": "PulseResearch/0.4"}
         )
+        self.announcements = Announcements(store, self.client)
         with store.connect() as db:
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS research_evidence(id INTEGER PRIMARY KEY,address TEXT NOT NULL,at TEXT NOT NULL,payload TEXT NOT NULL,revoked_at TEXT);
@@ -186,49 +161,19 @@ class Research:
             "verdict": verdict,
             "automatically_verified": False,
             "fundamentals_verified": False,
+            "announcements": self.announcements.summary(address),
             "note": "Confirmările manuale expiră după 30 de zile; disputele rămân până la retragere. Un citat găsit într-un document nu demonstrează adevărul afirmației, afilierea sau profitabilitatea.",
         }
 
     async def source(self, body):
-        if not safe_link(body.url):
-            raise ProviderError("URL de sursă invalid.")
-        url = urlsplit(body.url)
-        if url.hostname not in SOURCE_HOSTS or url.port not in (None, 443):
-            raise ProviderError(
-                "Citirea automată este limitată la Ethereum Foundation, Kraken și CoinDesk. Alte URL-uri pot fi evaluate și citate manual."
-            )
-        try:
-            async with self.client.stream("GET", body.url) as response:
-                response.raise_for_status()
-                if response.headers.get("content-type", "").split(";")[0] not in {
-                    "text/html",
-                    "text/plain",
-                    "application/xhtml+xml",
-                }:
-                    raise ProviderError(
-                        "Formatul documentului nu este interpretat automat; folosește o evaluare manuală."
-                    )
-                chunks, size = [], 0
-                async for chunk in response.aiter_bytes():
-                    size += len(chunk)
-                    if size > 2_000_000:
-                        raise ProviderError("Document prea mare pentru verificarea citatului.")
-                    chunks.append(chunk)
-                reader = TextReader()
-                reader.feed(b"".join(chunks).decode("utf-8", errors="replace"))
-
-                def normalize(value):
-                    return " ".join(value.split()).casefold()
-
-                found = normalize(body.excerpt) in normalize(" ".join(reader.parts))
-        except (httpx.HTTPError, ValueError):
-            raise ProviderError(
-                "Documentul nu a putut fi citit; păstrează verificarea ca necunoscută."
-            ) from None
+        document = await self.announcements.document(body.url, force=True)
+        found = normalized(body.excerpt).casefold() in document["text"].casefold()
         return {
             "url": body.url,
-            "publisher": SOURCE_HOSTS[url.hostname],
-            "observed_at": utcnow(),
+            "publisher": document["publisher"],
+            "observed_at": document["observed_at"],
+            "sha256": document["sha256"],
+            "text_truncated": document["text_truncated"],
             "excerpt_found": found,
             "claim_verified": False,
             "endorsement_verified": False,

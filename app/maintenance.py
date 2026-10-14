@@ -70,5 +70,9 @@ def export(service, account):
         "snapshots": snapshots,
         "equity_observations": observations,
         "performance": service.performance.report(account),
+        "research_cases": {
+            address: service.research.case(address)
+            for address in sorted({s["address"] for s in signals})
+        },
         "live_execution": False,
     }

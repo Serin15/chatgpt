@@ -17,6 +17,19 @@ const state = {
   newsArchive: false,
   pendingLoad: false,
 };
+const announcementLabels = {
+  identity_mismatch: "Contractul nu corespunde activului selectat",
+  identity_unconfirmed: "Identitatea contractului nu poate fi stabilită",
+  contract_not_found: "Contractul exact nu a fost găsit",
+  chain_mismatch: "Documentul indică un alt chain",
+  chain_unconfirmed: "Adresa apare, chain-ul rămâne neconfirmat",
+  negative_context: "Context de avertizare sau negare · necesită evaluare",
+  address_match_requires_review: "Adresă și chain găsite · emitent de evaluat",
+  manual_source_match: "Contract găsit în sursă evaluată manual",
+  source_unavailable: "Document necitit · rezultat necunoscut",
+  approval_inactive: "Evaluarea sursei a expirat sau a fost retrasă",
+  stale: "Rezultat vechi · cere o reverificare",
+};
 const pageNames = {
   overview: "Privire de ansamblu",
   news: "Inteligență de piață",
@@ -312,6 +325,28 @@ function renderNews() {
         "story-brief",
       ),
     );
+    const documentAnalysis = article.document_analysis;
+    if (documentAnalysis?.state === "read") {
+      card.append(
+        node(
+          "p",
+          `Pagina sursei a fost citită ${date(documentAnalysis.observed_at)}${documentAnalysis.stale ? " · observație veche" : ""}. Afirmația nu este validată integral.`,
+          "story-meta",
+        ),
+      );
+      if (documentAnalysis.excerpt)
+        card.append(
+          node("blockquote", documentAnalysis.excerpt, "source-excerpt"),
+        );
+    } else if (documentAnalysis?.error) {
+      card.append(
+        node(
+          "p",
+          "Documentul original nu a putut fi citit; titlul rămâne neverificat.",
+          "story-warning",
+        ),
+      );
+    }
     const matches = article.matches || [];
     function appendMatch(match, parent) {
       const asset = match.market,
@@ -324,9 +359,21 @@ function renderNews() {
           "small",
           general
             ? "Activ menționat / context de ecosistem"
-            : "Asociere ipotetică după nume",
+            : asset.news_relation === "primary_document_contract_mention" ||
+                asset.origin_topics?.some((t) => t.startsWith("document:"))
+              ? "Contract citat în pagina sursei · afiliere neconfirmată"
+              : "Asociere ipotetică după nume",
         ),
       );
+      if (match.announcement_check)
+        desc.append(
+          node(
+            "small",
+            announcementLabels[match.announcement_check.effective_status] ||
+              "Relație neconfirmată",
+            "warn",
+          ),
+        );
       if (!general)
         desc.append(
           node(
@@ -665,11 +712,15 @@ function renderHealth() {
     ...(status.market_sources || {}),
     coingecko_catalog: status.crypto_market,
     performance: status.performance,
+    announcements: status.announcement_analysis,
   };
   for (const [name, item] of Object.entries(sources)) {
     if (item?.state === "error") errors.push(name);
     else if (item?.state !== "ok" || !item.at) unknown++;
-    else if (Date.now() - new Date(item.at).getTime() > 300000)
+    else if (
+      Date.now() - new Date(item.at).getTime() >
+      (name === "announcements" ? 3900000 : 300000)
+    )
       errors.push(name + " · date vechi");
   }
   for (const [name, item] of Object.entries(status.news?.topics || {}))
@@ -1152,6 +1203,12 @@ async function openAsset(id, article = null) {
     );
   venues.append(b, list);
   left.append(venues);
+  await renderAnnouncements(
+    left,
+    asset.address,
+    data.case.announcements,
+    article,
+  );
   await renderCase(left, asset.address, data.case);
   paperForm(right, asset, asset.freshness?.fresh !== false, article);
   await load();
@@ -1262,6 +1319,7 @@ async function openToken(address, article = null, refresh = false) {
     scores.append(row);
   }
   left.append(scores);
+  await renderAnnouncements(left, address, null, article);
   await renderCase(left, address);
   paperForm(right, market, analysis.paper_allowed, article);
   await load();
@@ -1357,6 +1415,335 @@ function inputField(parent, label, type = "text") {
   input.setAttribute("aria-label", label);
   parent.append(l, input);
   return input;
+}
+async function renderAnnouncements(parent, address, provided, article) {
+  const box = node("section", undefined, "panel padded announcement-panel");
+  parent.append(box);
+  let retained = null;
+  async function draw(data) {
+    box.replaceChildren();
+    box.append(
+      node("p", "SURSĂ ORIGINALĂ / CONTRACT", "eyebrow"),
+      node("h2", "Ce legătură are anunțul cu moneda?"),
+      node("p", data.note, "footnote"),
+    );
+    if (article)
+      box.append(
+        node(
+          "p",
+          `Verificarea se leagă numai de știrea: ${article.title}`,
+          "footnote",
+        ),
+      );
+    const checks = article
+      ? data.checks.filter((c) => c.news_id === article.id)
+      : data.checks;
+    for (const check of checks.slice(0, 5)) {
+      const p = check.payload,
+        row = node("article", undefined, "evidence-item announcement-result");
+      row.append(
+        node(
+          "strong",
+          announcementLabels[check.effective_status] || check.effective_status,
+        ),
+        node(
+          "p",
+          `${date(check.at)} · ${p.chain} · ${p.relationship === "listing" ? "relație de listare" : p.relationship === "issuer" ? "relație cu emitentul, evaluată manual" : "relație neconfirmată"}`,
+        ),
+        node("code", p.contract),
+        link("Documentul verificat ↗", p.source_url),
+      );
+      if (p.document)
+        row.append(
+          node(
+            "p",
+            `${p.document.publisher} · ${p.document.title || "titlu neraportat"}`,
+          ),
+          node(
+            "p",
+            `Document observat: ${date(p.document.observed_at)}. Data publicării raportată de pagină: ${date(p.document.published_at_reported)}.`,
+            "footnote",
+          ),
+        );
+      if (p.observations?.excerpt)
+        row.append(node("blockquote", p.observations.excerpt));
+      if (p.observations)
+        row.append(
+          node(
+            "p",
+            `Contract exact: ${p.observations.exact_contract_found ? "găsit" : "negăsit"}. Chain-uri raportate în context: ${p.observations.networks_reported.join(", ") || "necunoscute"}.`,
+            "footnote",
+          ),
+        );
+      if (p.observations?.text_truncated)
+        row.append(
+          node(
+            "p",
+            "Text extras parțial; rezultatul poate fi incomplet.",
+            "warn",
+          ),
+        );
+      if (p.error) row.append(node("p", p.error, "warn"));
+      row.append(
+        node(
+          "p",
+          "Nu confirmă susținerea unei persoane, adevărul integral al anunțului sau calitatea investiției.",
+          "footnote",
+        ),
+      );
+      box.append(row);
+    }
+    if (!checks.length)
+      box.append(
+        node(
+          "p",
+          "Nu există încă o verificare a documentului pentru acest context. Potrivirea de nume rămâne o ipoteză.",
+          "footnote",
+        ),
+      );
+    for (const approval of data.approvals) {
+      const p = approval.payload,
+        row = node("article", undefined, "evidence-item");
+      row.append(
+        node("strong", `${p.publisher} · ${p.host}`),
+        node(
+          "p",
+          `${p.relation === "listing" ? "Listare" : "Emitent"} · ${p.chain} · ${approval.active ? "evaluare manuală activă" : approval.revoked_at ? "evaluare retrasă" : "evaluare expirată"}`,
+        ),
+        node("code", p.contract),
+        node("p", p.reviewer_note),
+        link("Justificarea evaluării ↗", p.proof_url),
+      );
+      if (approval.active) {
+        const revoke = button("Retrage evaluarea sursei", "text-button", () =>
+          action(revoke, async () => {
+            const result = await api(
+              `/api/research/${encodeURIComponent(address)}/source-approvals/${approval.id}/revoke`,
+              {},
+            );
+            await draw(result.announcements);
+          }),
+        );
+        row.append(revoke);
+      }
+      box.append(row);
+    }
+    const catalog = node("details");
+    catalog.append(
+      node("summary", "Surse acceptate pentru citirea documentelor"),
+    );
+    for (const source of data.sources)
+      catalog.append(
+        node(
+          "p",
+          `${source.publisher} · ${source.host} · ${source.kind === "editorial" ? "redacție; nu poate fi aprobată ca emitent" : "sursă primară; relația cu moneda cere evaluare"}. Acces: ${source.status?.state === "ok" ? "citire reușită la " + date(source.status.at) : source.status?.state === "error" ? "indisponibil la ultima cerere" : "încă neverificat"}.`,
+          "footnote",
+        ),
+      );
+    box.append(catalog);
+    const form = node("form", undefined, "evidence-form");
+    const url = inputField(form, "URL-ul anunțului original", "url");
+    url.required = true;
+    const chain = node("select");
+    chain.setAttribute("aria-label", "Chain pentru verificarea anunțului");
+    chain.required = true;
+    const chooseChain = node("option", "Alege chain-ul contractului");
+    chooseChain.value = "";
+    chooseChain.disabled = true;
+    chain.append(chooseChain);
+    for (const key of [
+      "solana",
+      "ethereum",
+      "base",
+      "polygon",
+      "bsc",
+      "arbitrum",
+      "avalanche",
+    ]) {
+      const option = node("option", key);
+      option.value = key;
+      chain.append(option);
+    }
+    form.append(chain);
+    const contract = inputField(form, "Contractul exact de verificat");
+    contract.required = true;
+    const general = address.startsWith("asset:");
+    if (!general) {
+      contract.value = address;
+      contract.readOnly = true;
+      chain.value = "solana";
+      chain.disabled = true;
+    }
+    if (retained) {
+      url.value = retained.source_url;
+      chain.value = retained.chain;
+      contract.value = retained.contract;
+    } else if (
+      article &&
+      data.sources.some((s) => new URL(article.url).hostname === s.host)
+    )
+      url.value = article.url;
+    const body = () => ({
+      source_url: url.value.trim(),
+      chain: chain.value,
+      contract: contract.value.trim(),
+      news_id: article?.id || null,
+    });
+    if (general) {
+      const loadContracts = button(
+        "Încarcă contractele raportate",
+        "secondary",
+        () =>
+          action(loadContracts, async () => {
+            const profile = await api(
+              `/api/assets/${address.slice(6)}/profile`,
+            );
+            const mapping = {
+              ethereum: "ethereum",
+              base: "base",
+              "polygon-pos": "polygon",
+              "binance-smart-chain": "bsc",
+              "arbitrum-one": "arbitrum",
+              avalanche: "avalanche",
+              solana: "solana",
+            };
+            const found = Object.entries(profile.contracts).filter(
+              ([k, v]) => mapping[k] && v,
+            );
+            choices.replaceChildren();
+            for (const [key, value] of found) {
+              const select = button(
+                `${mapping[key]} · ${short(value)}`,
+                "text-button",
+                () => {
+                  chain.value = mapping[key];
+                  contract.value = value;
+                },
+              );
+              select.type = "button";
+              choices.append(select);
+            }
+            if (!found.length)
+              choices.append(
+                node(
+                  "p",
+                  "Nu avem un contract raportat pentru acest activ. O monedă nativă, precum BTC, nu primește un contract inventat.",
+                  "footnote",
+                ),
+              );
+          }),
+      );
+      const choices = node("div", undefined, "panel-actions");
+      loadContracts.type = "button";
+      form.append(loadContracts, choices);
+    }
+    form.append(
+      node(
+        "p",
+        "Folosește pagina originală din catalog. Un link Google News sau un nume asemănător nu confirmă emitentul.",
+        "footnote",
+      ),
+    );
+    const verify = button(
+      "Verifică anunțul și contractul",
+      "primary",
+      () => {},
+    );
+    verify.type = "submit";
+    form.append(verify);
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      action(verify, async () => {
+        retained = body();
+        const result = await api(
+          `/api/research/${encodeURIComponent(address)}/verify-announcement`,
+          retained,
+        );
+        const dossier = await api(
+          `/api/research/${encodeURIComponent(address)}`,
+        );
+        await draw(dossier.announcements);
+        message(
+          announcementLabels[result.effective_status] ||
+            "Verificare înregistrată.",
+        );
+      });
+    };
+    const approvalDetails = node("details");
+    approvalDetails.append(
+      node("summary", "Evaluează manual relația sursei cu această monedă"),
+    );
+    const relation = node("select");
+    relation.setAttribute("aria-label", "Relația sursei");
+    for (const [value, label] of [
+      ["issuer", "Anunț al emitentului"],
+      ["listing", "Anunț de listare al pieței"],
+    ]) {
+      const option = node("option", label);
+      option.value = value;
+      relation.append(option);
+    }
+    approvalDetails.append(relation);
+    const proof = inputField(
+      approvalDetails,
+      "Link de justificare pentru identitatea sursei",
+      "url",
+    );
+    const note = inputField(
+      approvalDetails,
+      "Cum ai verificat relația cu emitentul sau piața?",
+      "textarea",
+    );
+    const ack = node("input");
+    ack.type = "checkbox";
+    ack.setAttribute("aria-label", "Am verificat manual identitatea sursei");
+    const ackLabel = node("label", undefined, "archive-control");
+    ackLabel.append(
+      ack,
+      document.createTextNode(
+        "Am verificat manual identitatea sursei și relația cu acest contract. Numele și prezența adresei în pagină nu sunt suficiente.",
+      ),
+    );
+    approvalDetails.append(ackLabel);
+    const approve = button("Salvează evaluarea sursei", "secondary", () =>
+      action(approve, async () => {
+        if (!form.reportValidity()) return;
+        if (!ack.checked)
+          throw new Error(
+            "Evaluarea sursei cere verificarea manuală a identității și relației.",
+          );
+        retained = body();
+        const result = await api(
+          `/api/research/${encodeURIComponent(address)}/source-approvals`,
+          {
+            ...retained,
+            relation: relation.value,
+            proof_url: proof.value.trim(),
+            reviewer_note: note.value,
+            reviewed: true,
+          },
+        );
+        await draw(result.announcements);
+        message(
+          "Evaluare manuală salvată. Reverifică documentul și creează un semnal nou pentru dosarul actualizat.",
+          true,
+        );
+      }),
+    );
+    approve.type = "button";
+    approvalDetails.append(approve);
+    form.append(approvalDetails);
+    box.append(form);
+  }
+  try {
+    await draw(
+      provided ||
+        (await api(`/api/research/${encodeURIComponent(address)}`))
+          .announcements,
+    );
+  } catch (error) {
+    box.append(node("p", error.message, "warn"));
+  }
 }
 async function renderCase(parent, address, provided) {
   const box = node("section", undefined, "panel padded evidence-panel");

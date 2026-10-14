@@ -149,7 +149,9 @@ def main():
                     "Compared manually in an isolated UI test."
                 )
                 page.get_by_role("button", name="Compară citatul în document").click()
-                expect(page.locator(".evidence-form")).to_contain_text("Citat găsit")
+                expect(page.locator(".evidence-panel .evidence-form")).to_contain_text(
+                    "Citat găsit"
+                )
                 page.get_by_role("button", name="Salvează dovada").click()
                 expect(page.locator(".evidence-panel")).to_contain_text("SUSȚINUT · MANUAL")
                 thesis = page.get_by_label("Ipoteza de intrare")

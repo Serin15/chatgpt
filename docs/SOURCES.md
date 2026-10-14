@@ -1,5 +1,12 @@
 # Surse și verificare — 13 octombrie 2026
 
+Extinderea [v0.4](V0.4.md) separă citirea documentului de verificarea relației cu emitentul.
+Catalogul include cele trei surse existente, `solana.com`, `www.anthropic.com` și
+`developers.circle.com`. Ultimele două au fost declarate în draftul de rețea, dar accesul cloud
+a rămas blocat cu `ProxyError` în probe; nu sunt declarate integrări live validate.
+Pagina Solana Sync Native a fost citită live și adresa wrapped SOL a fost găsită; verificarea
+a rămas neconfirmată pentru chain în contextul extras și nu a produs afiliere oficială.
+
 Actualizare 14 octombrie: [v0.3](V0.3.md) adaugă căutare CoinGecko și citate din documente
 Ethereum Foundation/Kraken/CoinDesk. Citirea documentului verifică prezența textului, fără
 verificare automată a afirmației. Nu sunt necesare chei sau domenii noi. Deduplicarea știrilor
