@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-14T05:29:11.464590+00:00",
+  "corpus_version": 1,
+  "cases_validated": 12,
+  "observed_excerpts": 2,
+  "synthetic_cases": 10,
+  "model_run": false,
+  "metrics": null,
+  "note": "Validarea offline verifică structura și proveniența declarată a setului. Precizia AI nu a fost măsurată."
+}

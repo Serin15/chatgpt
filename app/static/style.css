@@ -1791,3 +1791,27 @@ footer {
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
+/* Cited AI interpretation uses the same dossier layout on desktop and mobile. */
+.ai-panel {
+  min-width: 0;
+}
+.ai-panel input,
+.ai-panel select,
+.ai-panel blockquote {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.ai-citation {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-left: 2px solid var(--accent, #a7c8ff);
+  color: var(--muted, #9aa5b5);
+  font-size: 13px;
+}
+.ai-setup {
+  margin: 18px 0;
+}
+.ai-panel summary {
+  cursor: pointer;
+  margin: 12px 0;
+}

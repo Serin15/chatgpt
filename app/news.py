@@ -569,6 +569,11 @@ class News:
                         article["matches"][-1]["official_affiliation"] = (
                             checks[0]["official_affiliation"] if checks else "unverified"
                         )
+                    ai = getattr(self, "ai", None)
+                    if ai:
+                        article["matches"][-1]["ai_analysis"] = ai.news_summary(
+                            market["address"], article["id"]
+                        )
                 result.append(article)
         return sorted(
             result,

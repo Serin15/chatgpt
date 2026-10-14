@@ -8,6 +8,7 @@ from typing import Literal
 import httpx
 from pydantic import AwareDatetime, BaseModel, Field, model_validator
 
+from app.ai_research import AIResearch
 from app.announcements import Announcements, normalized
 from app.assets import safe_link
 from app.models import epoch, solana_address, utcnow
@@ -85,6 +86,7 @@ class Research:
             timeout=15, follow_redirects=False, headers={"User-Agent": "PulseResearch/0.4"}
         )
         self.announcements = Announcements(store, self.client)
+        self.ai = AIResearch(store, self.announcements)
         with store.connect() as db:
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS research_evidence(id INTEGER PRIMARY KEY,address TEXT NOT NULL,at TEXT NOT NULL,payload TEXT NOT NULL,revoked_at TEXT);
@@ -92,6 +94,7 @@ class Research:
             """)
 
     async def close(self):
+        await self.ai.close()
         await self.client.aclose()
 
     def add(self, address, evidence):
@@ -162,6 +165,7 @@ class Research:
             "automatically_verified": False,
             "fundamentals_verified": False,
             "announcements": self.announcements.summary(address),
+            "ai": self.ai.history(address),
             "note": "Confirmările manuale expiră după 30 de zile; disputele rămân până la retragere. Un citat găsit într-un document nu demonstrează adevărul afirmației, afilierea sau profitabilitatea.",
         }
 

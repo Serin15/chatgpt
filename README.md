@@ -1,10 +1,11 @@
-# PULSE — Crypto Research v0.4
+# PULSE — Crypto Research v0.5
 
 Terminal personal pentru știri crypto, cercetare de proiecte și un portofoliu virtual. Interfață
 în română, navigare desktop/mobil și ordine manuale de $50. Nicio tranzacție reală.
 
-Versiunea 0.4 adaugă verificarea documentului original față de contract/chain, evaluări de sursă
-cu istoric și colectare limitată de documente primare. Vezi [schimbările și limitele](docs/V0.4.md).
+Versiunea 0.5 adaugă interpretarea AI opțională cu citări, configurare Ollama/OpenAI, limite de
+cereri și un set inițial de evaluare. [Configurare și limite](docs/V0.5.md). AI pornește oprit;
+niciun model real nu a fost evaluat încă. Verificările document-contract din [v0.4](docs/V0.4.md) rămân.
 Funcțiile de dosare, watchlist, raport paper, export și backup din [v0.3](docs/V0.3.md) sunt păstrate.
 
 ![PULSE desktop](docs/screenshots/pulse-desktop.png)
@@ -46,6 +47,9 @@ va fi nou. Nu șterge istoricul pentru a rezolva o problemă de instalare.
 8. **Anunț și contract**: în dosar poți compara adresa exactă și chain-ul cu pagina originală.
    Potrivirea tehnică este separată de evaluarea manuală a relației emitentului/pieței cu moneda.
    O redacție nu poate fi aprobată ca emitent. Dovezile, data și amprenta documentului sunt păstrate.
+9. **Interpretare AI cu citări**: configurezi un motor, alegi documentul și pornești analiza manual.
+   Rezumat, relație ipotetică, întrebări și riscuri în română. Citatele trebuie să existe în text;
+   aceasta nu verifică adevărul sau sensul lor. Analiza intră în copia semnalului paper.
 
 Sursa primară și o redacție cunoscută primesc prioritate de afișare. Aceasta nu verifică afirmația,
 nu confirmă susținerea unui token și nu măsoară probabilitatea de profit. Numele este uneori doar
@@ -78,9 +82,9 @@ un abonament plătit. Știrile de lansare și discovery-ul Solana sunt acoperire
 
 Avantajul financiar rămâne de măsurat pe informații înregistrate înainte de intrare, cu costuri,
 întârzieri și ieșiri eșuate. Testele verifică funcționarea și calculele, nu profitabilitatea.
-AI-ul de verificare/sinteză, datele istorice de wallets, Base on-chain și alertele externe sunt etape
-ulterioare. Datele se actualizează automat cât timp serverul rulează; codul nu se modifică singur.
-Verificarea v0.4 folosește reguli pentru documente și adrese, fără model AI. Un contract găsit
+Validarea semantică independentă, evaluarea unui model real, datele istorice de wallets, Base
+on-chain și alertele externe sunt etape ulterioare. Știrile/piața se actualizează automat cât timp
+serverul rulează; analiza AI pornește manual și codul nu se modifică singur. Un contract găsit
 în pagină nu demonstrează singur afilierea, susținerea unei persoane sau legitimitatea proiectului.
 
 ## Pornire
@@ -98,7 +102,8 @@ Serverul servește dashboardul la ruta `/` și API-ul la `/api/*`. Portul implic
 Este destinat rulării locale personale; păstrează bind-ul pe loopback. Expunerea publică necesită
 autentificare, HTTPS și alte controale într-o etapă separată.
 
-Nu sunt necesare chei API pentru operațiile read-only verificate în acest milestone.
+Nu sunt necesare chei API pentru sursele publice existente sau Ollama local. OpenAI API este opțional
+și necesită cheia și creditul propriu; nu a fost testat live în lipsa lor.
 Nu introduce private keys sau seed phrases. Variabilele opționale sunt în `.env.example`;
 fișierul `.env` nu se încarcă automat. Exportă numai variabilele necesare în shell.
 `SOLANA_RPC_URL` poate înlocui RPC-ul public cu un furnizor ales ulterior; folosește HTTPS.
@@ -199,7 +204,9 @@ node --check app/static/app.js
 
 Verificări UI izolate: `UV_CACHE_DIR=/workspace/.cache/uv uv run --with playwright python tests/browser_smoke.py`
 și aceeași comandă cu `tests/browser_regressions.py`; necesită Chromium la `/usr/bin/chromium`.
-Fluxul nou se verifică prin aceeași comandă cu `tests/browser_announcements.py`.
+Fluxurile noi se verifică prin aceeași comandă cu `tests/browser_announcements.py` și
+`tests/browser_ai.py` (documente și motor AI simulate). Setul de evaluare AI se validează offline
+cu `uv run python -m app.ai_evaluation`; aceasta nu măsoară precizia unui model.
 Nu rulează nativ launcherul Windows. [Validarea](docs/VALIDATION.md) separă testele simulate de
 probele cu surse reale.
 

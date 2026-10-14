@@ -173,3 +173,35 @@ Zelenski a fost vizibil ca eroare de sursă; ulterior sursa a răspuns din nou.
 Nu sunt validate semantic afirmațiile/afilierea, profitabilitatea sau execuția reală. Windows
 nativ, pagini care necesită JavaScript și restaurarea într-un task cloud nou rămân netestate.
 Limitele de interpretare și de acoperire sunt în [V0.4.md](V0.4.md).
+
+## PULSE v0.5 — AI opțional și evaluare cu proveniență
+
+Verificare pe 14 octombrie 2026:
+
+- **175 teste pytest trecute**, Ruff, JavaScript și instalare frozen: exit 0. Nicio dependență
+  runtime nouă. Rămâne vizibil warningul Starlette/httpx al TestClient.
+- Cele 31 de teste noi acoperă configurații invalide/secrete respinse, citări fabricate, schema
+  strictă, identitate/chain/rol de sursă incompatibil cu o ipoteză pozitivă, limite zilnice persistente,
+  timeout/429/JSON invalid/răspuns prea mare și eșec după succes fără rezultat vechi substituit.
+  Promptul de model nu include portofoliu; cheia apare numai în headerul cererii simulate.
+- API și persistență: context AI legat de activ și știre, refuzul unui context fără asociere,
+  same-origin, semnale/export cu copii originale și backup SQLite restaurat cu `integrity_check=ok`.
+- **Toate patru suitele browser au trecut**: `browser_smoke.py`, `browser_regressions.py`,
+  `browser_announcements.py`, `browser_ai.py`. Noua suită verifică setare motor, conexiune, citate,
+  semnal/export, respingere host arbitrar și layout desktop/390px, fără ordine automate.
+  Motorul AI din teste este simulat; suitele nu măsoară calitatea unui model real.
+- Set inițial: 12 cazuri, două extrase din pagini Solana/Kraken citite live și zece scenarii
+  sintetice marcate. Raportul offline validează structura, cu `model_run=false`, `metrics=null`.
+  Testul metricilor verifică includerea eșecurilor și a asocierilor fals pozitive în raport.
+- Local Ollama: conexiunea la serviciul local a eșuat cu `ConnectError`; niciun model instalat.
+  Nicio cheie API disponibilă. OpenAI/Ollama sunt adaptoare testate cu transport simulat,
+  **fără generare live validată și fără precizie măsurată**. Documentația externă a celor două
+  servicii nu a putut fi citită din cloud; compatibilitatea curentă trebuie verificată la activare.
+- Backup consistent înainte de upgrade în `/workspace/backups/pulse-v0.5-20261014T053448Z`.
+  Instanța 0.5.0 pornește cu patru workeri, AI oprit și zero generări, Scanner $100 / Research
+  $500, zero ordine. Datele anterioare sunt păstrate. Interfața cu date reale și capturile desktop,
+  dosar, panou AI oprit și mobil au trecut fără erori JavaScript sau overflow.
+
+Nu sunt validate semantic toate afirmațiile, afilierea, fundamentele, profitabilitatea sau
+execuția reală. Nici Windows nativ sau restaurarea într-un task cloud nou. Configurarea și
+evaluarea separată a modelului, limitele setului și pașii necesari sunt în [V0.5.md](V0.5.md).

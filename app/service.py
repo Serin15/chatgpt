@@ -68,6 +68,9 @@ class Service:
                 context["news_context"] = self.news.context(news_id, snapshot["address"])
             except ValueError as exc:
                 raise paper.Rejected(str(exc)) from None
+        context["ai_context"] = self.research.ai.history(
+            snapshot["address"], context.get("news_context", {}).get("id")
+        )
         return self.news_paper.signal(snapshot, context) | {"snapshot": snapshot}
 
     async def asset_buy(self, body):
@@ -104,6 +107,9 @@ class Service:
                 context["news_context"] = self.news.context(news_id, address)
             except ValueError as exc:
                 raise paper.Rejected(str(exc)) from None
+        context["ai_context"] = self.research.ai.history(
+            address, context.get("news_context", {}).get("id")
+        )
         saved_snapshot = self.copy_for_paper(snapshot, account)
         return self.paper_store(account).signal(saved_snapshot, context) | {
             "snapshot": saved_snapshot

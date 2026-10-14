@@ -3,10 +3,11 @@
 Misiune: identificarea ipotezelor de trading care merită cercetate după risc, lichiditate și costuri.
 Nu dezvoltăm un predictor de profit sau copytrading automat.
 
-Stare curentă: [v0.4](V0.4.md) implementează verificarea document-contract, evaluări manuale de
-surse și capturarea dovezilor în semnale. Următoarea etapă de precizie este un set etichetat de
-anunțuri reale, validarea emitentului din surse independente și integrarea AI cu citări; simplele
-mențiuni de contract și regulile de negație nu rezolvă automat interpretarea unui anunț.
+Stare curentă: [v0.5](V0.5.md) implementează analiza AI opțională cu citări, configurare
+Ollama/OpenAI și un set inițial cu două extrase observate și zece scenarii sintetice. Motorul AI
+nu a fost încă rulat live; precizia nu este măsurată. [v0.4](V0.4.md) păstrează verificările de
+document-contract și evaluările manuale de sursă. Prioritatea este configurarea unui model real,
+un set mai mare de anunțuri autentice/false revizuit independent și măsurarea asocierilor false.
 
 ## 1. Scanner și laborator paper — implementat
 
@@ -50,9 +51,10 @@ Comparație early discovery / momentum / wallets / combined cu baseline, date ou
 tokenuri eșuate. Nu optimizăm pe setul de evaluare. Raportăm numărul de observații, perioadele și
 incertitudinea; nu afirmăm profitabilitate din scoruri sau câteva trade-uri.
 
-AI sumarizează dovezi structurate și identifică întrebări de cercetare. Nu calculează limitele
-financiare, nu produce probabilități neverificate și nu declanșează tranzacții. Abia atunci alegem
-furnizorul AI și costul; cheia se furnizează securizat, niciodată în chat sau fișiere tracked.
+AI asistiv cu citări este implementat opțional, fără limite financiare sau tranzacții calculate
+de model. Urmează validarea unui motor real, a costurilor și a calității pe un set separat de test;
+cheia se furnizează securizat, niciodată în chat sau fișiere tracked. Interpretarea automată în
+fundal se activează ulterior, după măsurarea calității și bugetului.
 
 ## 5. Base și alerte
 

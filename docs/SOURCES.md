@@ -1,5 +1,13 @@
 # Surse și verificare — 13 octombrie 2026
 
+Actualizare v0.5: adaptoare HTTP pentru Ollama local (`/api/chat`, JSON schema, fără streaming)
+și OpenAI (`/v1/responses`, Structured Outputs, `store=false`). Ambele sunt testate cu transport
+simulat; niciun model local instalat și nicio cheie API disponibile aici, deci fără validare live
+sau preț curent confirmat. Încercările de citire a documentației OpenAI/Ollama din acest cloud
+au eșuat; nu pretindem verificarea documentației actuale. Vezi [limitele](V0.5.md).
+Două pagini Solana/Kraken au fost citite live pentru extrasele setului de evaluare. Restul de zece
+cazuri sunt sintetice; nu reprezintă anunțuri reale ale companiilor folosite ca surse de fixture.
+
 Extinderea [v0.4](V0.4.md) separă citirea documentului de verificarea relației cu emitentul.
 Catalogul include cele trei surse existente, `solana.com`, `www.anthropic.com` și
 `developers.circle.com`. Ultimele două au fost declarate în draftul de rețea, dar accesul cloud

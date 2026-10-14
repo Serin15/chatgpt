@@ -6,6 +6,7 @@ from pathlib import Path
 
 import httpx
 
+from app.ai_research import AIResearch
 from app.config import Settings
 from app.main import create_app
 from app.research import Research
@@ -21,7 +22,7 @@ app = create_app(
     assets_factory=FixtureAssets,
 )
 
-if os.environ.get("ANNOUNCEMENT_FIXTURE") == "1":
+if os.environ.get("ANNOUNCEMENT_FIXTURE") == "1" or os.environ.get("AI_FIXTURE") == "1":
     original_lifespan = app.router.lifespan_context
 
     def document_response(request):
@@ -43,6 +44,28 @@ if os.environ.get("ANNOUNCEMENT_FIXTURE") == "1":
                 service.store, httpx.AsyncClient(transport=httpx.MockTransport(document_response))
             )
             service.news.announcements = service.research.announcements
+            service.news.ai = service.research.ai
+            if os.environ.get("AI_FIXTURE") == "1":
+                from tests.test_ai_research import answer, transport_result
+
+                def model_response(request):
+                    if request.method == "GET":
+                        return transport_result(request)
+                    import json
+
+                    body = json.loads(request.content)
+                    bundle = json.loads(body["messages"][1]["content"])
+                    return transport_result(
+                        request, answer(quote=bundle["sources"][0]["content"][:300])
+                    )
+
+                await service.research.ai.close()
+                service.research.ai = AIResearch(
+                    service.store,
+                    service.research.announcements,
+                    httpx.AsyncClient(transport=httpx.MockTransport(model_response)),
+                )
+                service.news.ai = service.research.ai
             yield
 
     app.router.lifespan_context = fixture_lifespan

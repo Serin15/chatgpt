@@ -60,7 +60,13 @@ copiază fișierele noii versiuni peste folderul anterior, păstrând `data`. Po
 `start-windows.cmd`. Nu porni două versiuni pe același director de date.
 
 Din v0.3, dacă launcherul găsește o versiune veche încă pornită, cere închiderea acelei ferestre
-înainte de a continua. Nu reseta contul. După actualizarea curentă, în bara laterală apare **v0.4**.
+înainte de a continua. Nu reseta contul. După actualizarea curentă, în bara laterală apare **v0.5**.
+
+Analiza AI se configurează în dosarul unei monede, la **Ce spune știrea, de fapt?**.
+Alege Ollama local și numele exact din `ollama list`, apoi salvează și testează conexiunea.
+Ollama și modelul se instalează separat; aplicația nu le descarcă automat.
+Alternativa OpenAI API cere credit API și `PULSE_AI_API_KEY` în mediul procesului pornit de launcher.
+Nu trimite cheia în chat. Instrucțiuni și limite: [v0.5](docs/V0.5.md).
 Din **Jurnal & rezultate** poți descărca un backup consistent al ambelor conturi și un export JSON
 al experimentului selectat. Soldurile de pe PC sunt cele din propriul director `data`; arhiva
 GitHub nu include conturile instanței cloud.

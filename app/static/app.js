@@ -374,6 +374,18 @@ function renderNews() {
             "warn",
           ),
         );
+      if (match.ai_analysis) {
+        const a = match.ai_analysis;
+        desc.append(
+          node(
+            "small",
+            a.state === "completed"
+              ? `AI · ${aiRelations[a.relationship.effective]}${a.stale ? " · analiză veche" : ""}`
+              : "AI · analiză nereușită / incompletă",
+            "warn",
+          ),
+        );
+      }
       if (!general)
         desc.append(
           node(
@@ -1209,6 +1221,7 @@ async function openAsset(id, article = null) {
     data.case.announcements,
     article,
   );
+  await renderAI(left, asset.address, article);
   await renderCase(left, asset.address, data.case);
   paperForm(right, asset, asset.freshness?.fresh !== false, article);
   await load();
@@ -1320,6 +1333,7 @@ async function openToken(address, article = null, refresh = false) {
   }
   left.append(scores);
   await renderAnnouncements(left, address, null, article);
+  await renderAI(left, address, article);
   await renderCase(left, address);
   paperForm(right, market, analysis.paper_allowed, article);
   await load();
@@ -1415,6 +1429,269 @@ function inputField(parent, label, type = "text") {
   input.setAttribute("aria-label", label);
   parent.append(l, input);
   return input;
+}
+const aiRelations = {
+  issuer_announcement: "Ipoteză: anunț de emitere a tokenului",
+  listing_announcement: "Ipoteză: anunț de listare",
+  unrelated_or_namesake: "Eveniment separat sau nume asemănător",
+  contradicted: "Afiliere negată sau avertizare în document",
+  insufficient_evidence: "Dovezi insuficiente pentru asociere",
+};
+async function renderAI(parent, address, article) {
+  const box = node("section", undefined, "panel padded ai-panel");
+  parent.append(box);
+  const endpoint = `/api/research/${encodeURIComponent(address)}/ai`;
+  try {
+    const data = await api(
+      endpoint + (article ? `?news_id=${article.id}` : ""),
+    );
+    box.append(
+      node("p", "INTERPRETARE CU SURSE", "eyebrow"),
+      node("h2", "Ce spune știrea, de fapt?"),
+    );
+    box.append(
+      node(
+        "p",
+        "AI explică documentul în română și propune întrebări de cercetare. Citările sunt controlate ca text; sensul și adevărul afirmațiilor cer evaluare. Ordinele paper rămân decizia ta.",
+        "footnote",
+      ),
+    );
+    const stateText = node("p", undefined, "footnote");
+    const showStatus = (s) => {
+      stateText.textContent = `${s.provider === "disabled" ? "AI oprit" : `${s.provider} · ${s.model}`} · ${s.requests_today}/${s.daily_request_limit} încercări azi (UTC). ${s.error || (s.state === "ok" ? "Conexiune testată; vezi rezultatul fiecărei analize." : "Disponibilitatea motorului nu este testată.")}`;
+      if (s.configuration_error) stateText.textContent += " " + s.configuration_error;
+    };
+    showStatus(data.status);
+    box.append(stateText);
+    const setup = node("details", undefined, "ai-setup");
+    setup.open = !data.status.configured;
+    setup.append(node("summary", "Configurează motorul AI"));
+    const configForm = node("form", undefined, "evidence-form");
+    const provider = node("select");
+    provider.setAttribute("aria-label", "Motor AI");
+    for (const [value, title] of Object.entries({
+      disabled: "Oprit",
+      ollama: "Ollama pe acest PC",
+      openai: "OpenAI API",
+    })) {
+      const o = node("option", title);
+      o.value = value;
+      provider.append(o);
+    }
+    provider.value = data.status.provider;
+    const model = inputField(configForm, "Numele exact al modelului AI");
+    model.value = data.status.model;
+    model.placeholder = "Numele din ollama list sau din contul API";
+    configForm.prepend(provider);
+    const limit = inputField(
+      configForm,
+      "Limită de încercări AI pe zi (UTC)",
+      "number",
+    );
+    limit.min = "1";
+    limit.max = "1000";
+    limit.value = data.status.daily_request_limit;
+    const save = button("Salvează configurația AI", "secondary", () => {});
+    save.type = "submit";
+    configForm.onsubmit = (e) => {
+      e.preventDefault();
+      action(save, async () => {
+        const s = await api("/api/ai/config", {
+          provider: provider.value,
+          model: model.value.trim(),
+          daily_request_limit: Number(limit.value),
+        });
+        showStatus(s);
+        message(
+          "Configurație salvată. Testează conexiunea înainte de analiză.",
+          true,
+        );
+      });
+    };
+    const connect = button("Testează conexiunea AI", "secondary", () =>
+      action(connect, async () => {
+        const s = await api("/api/ai/connection", {});
+        showStatus(s);
+        message(
+          "Motorul și modelul răspund. Generarea și calitatea se verifică separat prin analize.",
+          true,
+        );
+      }),
+    );
+    configForm.append(save, connect);
+    if (data.status.environment_override) {
+      for (const el of [provider, model, limit, save]) el.disabled = true;
+      configForm.append(
+        node(
+          "p",
+          "Configurația este stabilită prin variabilele de mediu.",
+          "footnote",
+        ),
+      );
+    }
+    setup.append(
+      configForm,
+      node(
+        "p",
+        "Ollama trebuie instalat separat, cu un model disponibil, la portul local 11434. OpenAI cere PULSE_AI_API_KEY în mediul procesului și credit API separat; cheia nu se introduce aici sau în chat. API-ul primește documentul public și identitatea activului, fără portofoliu sau notițele tale. Limita de cereri nu reprezintă un plafon monetar.",
+        "footnote",
+      ),
+    );
+    box.append(setup);
+    const form = node("form", undefined, "evidence-form ai-form");
+    const url = inputField(
+      form,
+      "Document pentru analiza AI (URL HTTPS)",
+      "url",
+    );
+    url.required = true;
+    url.value =
+      article?.url || data.history[0]?.payload?.bundle?.sources?.[0]?.url || "";
+    const chain = node("select");
+    chain.setAttribute("aria-label", "Chain pentru analiza AI");
+    for (const value of [
+      "",
+      "solana",
+      "ethereum",
+      "base",
+      "polygon",
+      "bsc",
+      "arbitrum",
+      "avalanche",
+    ]) {
+      const o = node("option", value || "Fără contract ales / monedă nativă");
+      o.value = value;
+      chain.append(o);
+    }
+    form.append(chain);
+    const contract = inputField(form, "Contract pentru analiza AI (opțional)");
+    if (!address.startsWith("asset:")) {
+      chain.value = "solana";
+      chain.disabled = true;
+      contract.value = address;
+      contract.readOnly = true;
+    }
+    const run = button("Analizează documentul cu AI", "primary", () => {});
+    run.type = "submit";
+    const results = node("div", undefined, "ai-results");
+    const draw = (history) => {
+      results.replaceChildren();
+      if (!history.length) {
+        empty(
+          results,
+          "Nicio analiză AI pentru acest context. Nu afișăm o interpretare simulată.",
+        );
+        return;
+      }
+      for (const r of history.slice(0, 3)) {
+        const p = r.payload,
+          row = node("article", undefined, "evidence-item ai-result");
+        row.append(
+          node(
+            "p",
+            `${date(r.at)} · ${p.config.provider} / ${p.config.model}${r.stale ? " · mai veche de 24h; cere o analiză nouă" : ""}`,
+            "footnote",
+          ),
+        );
+        if (r.state !== "completed") {
+          row.append(
+            node(
+              "p",
+              p.error || "Analiză nefinalizată; rezultatul este necunoscut.",
+              "warn",
+            ),
+          );
+          results.append(row);
+          continue;
+        }
+        row.append(
+          node(
+            "strong",
+            aiRelations[p.relationship.effective] || p.relationship.effective,
+          ),
+        );
+        const statement = (s) => {
+          row.append(node("p", s.text_ro));
+          for (const c of s.citations) {
+            const source = p.bundle.sources.find((s) => s.id === c.source_id);
+            row.append(node("blockquote", c.quote, "ai-citation"));
+            if (source)
+              row.append(
+                link(
+                  `${source.publisher || source.id} · sursa citatului ↗`,
+                  source.url,
+                  "text-button",
+                ),
+              );
+          }
+        };
+        statement(p.interpretation.event_summary);
+        statement(p.interpretation.relationship_reason);
+        for (const reason of p.relationship.limitations)
+          row.append(node("p", reason, "warn"));
+        const facts = node("details");
+        facts.append(node("summary", "Afirmații relatate și citările lor"));
+        const factsBody = node("div");
+        for (const fact of p.interpretation.facts) {
+          factsBody.append(node("p", fact.text_ro));
+          for (const c of fact.citations)
+            factsBody.append(node("blockquote", c.quote, "ai-citation"));
+        }
+        facts.append(factsBody);
+        row.append(facts);
+        for (const [label, values] of [
+          ["Ce trebuie cercetat", p.interpretation.research_questions],
+          ["Riscuri și limite", p.interpretation.risks],
+        ]) {
+          row.append(node("h3", label));
+          const list = node("ul");
+          for (const value of values) list.append(node("li", value));
+          row.append(list);
+        }
+        const source = p.bundle.sources[0];
+        row.append(
+          node(
+            "p",
+            `Document observat ${date(source.observed_at)} · publicare declarată ${date(source.published_at_reported)}${source.truncated ? " · text parțial trimis modelului" : ""}. Afilierea, fundamentele și randamentul nu sunt validate de această analiză.`,
+            "footnote",
+          ),
+        );
+        results.append(row);
+      }
+    };
+    draw(data.history);
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      action(run, async () => {
+        run.textContent = "AI citește documentul…";
+        try {
+          const r = await api(endpoint, {
+            source_url: url.value.trim(),
+            news_id: article?.id || null,
+            chain: chain.value || null,
+            contract: contract.value.trim() || null,
+          });
+          const fresh = await api(
+            endpoint + (article ? `?news_id=${article.id}` : ""),
+          );
+          draw(fresh.history);
+          showStatus(fresh.status);
+          if (r.state !== "completed")
+            throw new Error(r.payload.error || "Analiza nu s-a finalizat.");
+          message(
+            "Analiză salvată cu sursele folosite. Un semnal nou va captura această interpretare.",
+            true,
+          );
+        } finally {
+          run.textContent = "Analizează documentul cu AI";
+        }
+      });
+    };
+    form.append(run);
+    box.append(form, results);
+  } catch (error) {
+    box.append(node("p", error.message, "warn"));
+  }
 }
 async function renderAnnouncements(parent, address, provided, article) {
   const box = node("section", undefined, "panel padded announcement-panel");

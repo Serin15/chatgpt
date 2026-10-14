@@ -12,6 +12,7 @@ from starlette.concurrency import run_in_threadpool
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app import __version__, instance_id
+from app.ai_research import AIConfig, AIInput
 from app.announcements import ApprovalInput, VerificationInput
 from app.assets import Assets, research_case
 from app.config import Settings
@@ -60,6 +61,7 @@ def create_app(
         news = (news_factory or News)(store, sources)
         news.assets = assets
         news.announcements = app.state.service.research.announcements
+        news.ai = app.state.service.research.ai
         app.state.service.news = news
         app.state.workers = {}
 
@@ -163,7 +165,7 @@ def create_app(
             "rules": rules,
             "discovery": "Latest token profiles: eșantion neexhaustiv și părtinitor",
             "wallet_analytics": "not_implemented",
-            "ai_summaries": "not_implemented",
+            "ai_summaries": service.research.ai.status(),
             "news": service.news.status,
             "news_paper_initial_balance": str(service.news_paper.initial_balance),
             "crypto_market": service.assets.status,
@@ -347,6 +349,42 @@ def create_app(
     @app.post("/api/research/source")
     async def research_source(body: SourceInput, request: Request):
         return await request.app.state.service.research.source(body)
+
+    @app.get("/api/ai/status")
+    def ai_status(request: Request):
+        return request.app.state.service.research.ai.status()
+
+    @app.post("/api/ai/config")
+    def ai_config(body: AIConfig, request: Request):
+        return request.app.state.service.research.ai.configure(body)
+
+    @app.post("/api/ai/connection")
+    async def ai_connection(request: Request):
+        return await request.app.state.service.research.ai.connection()
+
+    @app.get("/api/research/{address}/ai")
+    def ai_history(address: str, request: Request, news_id: int | None = None):
+        service = request.app.state.service
+        known_subject(service, address)
+        check_news_context(service, news_id, address)
+        canonical_id = service.news.resolve_id(news_id) if news_id else None
+        return {
+            "status": service.research.ai.status(),
+            "history": service.research.ai.history(address, canonical_id),
+        }
+
+    @app.post("/api/research/{address}/ai")
+    async def ai_analysis(address: str, body: AIInput, request: Request):
+        service = request.app.state.service
+        known_subject(service, address)
+        check_news_context(service, body.news_id, address)
+        context = None
+        if body.news_id:
+            body = body.model_copy(update={"news_id": service.news.resolve_id(body.news_id)})
+            context = service.news.context(body.news_id, address)
+        return await service.research.ai.analyze(
+            address, body, await contract_profile(service, address), context
+        )
 
     @app.get("/api/research/{address}")
     def research(address: str, request: Request):
