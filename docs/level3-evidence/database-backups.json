@@ -1,0 +1,21 @@
+{
+  "note": "Isolated real-data databases retained outside Git, no real orders. More observations may exist than the frozen acceptance report.",
+  "backups": [
+    {
+      "label": "continued",
+      "path": "/workspace/backups/memescope-level3/continued-final.sqlite3",
+      "integrity": "ok",
+      "candidates": 846,
+      "orders": 0,
+      "sha256": "6485c24b7bda722774d90db28ef94c76bc1510a32f4e2c0163aa748559610fc9"
+    },
+    {
+      "label": "fresh",
+      "path": "/workspace/backups/memescope-level3/fresh-final.sqlite3",
+      "integrity": "ok",
+      "candidates": 205,
+      "orders": 0,
+      "sha256": "b62c031eea3ec092d8a01b65980c64cf7ce35de4386794a61e0df4555e7a0e19"
+    }
+  ]
+}

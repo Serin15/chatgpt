@@ -5,72 +5,72 @@
   "workers": {
     "scanner": {
       "state": "running",
-      "started_at": "2026-10-14T17:34:09.454881+00:00",
+      "started_at": "2026-10-14T17:42:32.611693+00:00",
       "restarts": 0,
       "error": null
     },
     "news": {
       "state": "running",
-      "started_at": "2026-10-14T17:34:09.476741+00:00",
+      "started_at": "2026-10-14T17:42:32.614034+00:00",
       "restarts": 0,
       "error": null
     },
     "assets": {
       "state": "running",
-      "started_at": "2026-10-14T17:34:09.476822+00:00",
+      "started_at": "2026-10-14T17:42:32.614106+00:00",
       "restarts": 0,
       "error": null
     },
     "performance": {
       "state": "running",
-      "started_at": "2026-10-14T17:34:09.484251+00:00",
+      "started_at": "2026-10-14T17:42:32.620378+00:00",
       "restarts": 0,
       "error": null
     },
     "intelligence": {
       "state": "running",
-      "started_at": "2026-10-14T17:34:09.543632+00:00",
+      "started_at": "2026-10-14T17:42:32.624482+00:00",
       "restarts": 0,
       "error": null
     }
   },
   "opportunity_engine": {
     "state": "ok",
-    "at": "2026-10-14T17:36:13.966376+00:00",
-    "started_at": "2026-10-14T17:36:09.699592+00:00",
-    "cycles": 3,
-    "new_candidates": 19,
+    "at": "2026-10-14T17:44:34.434689+00:00",
+    "started_at": "2026-10-14T17:44:32.697004+00:00",
+    "cycles": 12,
+    "new_candidates": 18,
     "observed": 30,
     "errors": [],
     "discovery_sources": {
       "solana": {
         "state": "ok",
-        "at": "2026-10-14T17:36:10.282674+00:00",
-        "page": 1,
+        "at": "2026-10-14T17:44:32.798564+00:00",
+        "page": 2,
         "count": 20,
         "rejected": 0,
-        "next_page": 2
+        "next_page": 3
       },
       "profiles": {
         "state": "ok",
-        "at": "2026-10-14T17:36:10.282698+00:00",
+        "at": "2026-10-14T17:44:32.798571+00:00",
         "counts": {
-          "solana": 19,
+          "solana": 20,
           "base": 0
         }
       },
       "boosts": {
         "state": "ok",
-        "at": "2026-10-14T17:36:12.123640+00:00",
+        "at": "2026-10-14T17:44:33.215445+00:00",
         "reported_tokens": 28,
         "pools": 28,
         "sampling_bias": "paid exposure"
       }
     },
     "queue": {
-      "due": 412,
-      "not_enriched": 411,
-      "oldest_due_delay_seconds": 121,
+      "due": 424,
+      "not_enriched": 249,
+      "oldest_due_delay_seconds": 621,
       "capacity_note": "Bounded API budget; queue delays can invalidate forward entry/exit windows. Missing observations remain unknown."
     }
   },

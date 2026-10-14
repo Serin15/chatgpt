@@ -96,10 +96,19 @@ UID 10001, filesystem read-only cu directoare temporare/data separate, TLS verif
 locală generată, autentificare, cookie Secure/HttpOnly, CSRF și logout. Zero ordine.
 Acesta nu este un deployment pe un domeniu public.
 
+[Arhiva GitHub](package-startup.json): descărcare HTTP 200, extragere și pornire cu dependențe/date
+noi dintr-un director cu spații, diacritice și `&`, pornind din alt working directory; v0.7.0,
+cinci workeri și zero ordine. Această verificare a arhivei a rulat pe Linux; CI verifică Windows nativ.
+
 [Pornire pe baza existentă](production-startup.json): v0.7.0, cinci workeri supravegheați,
 Research $500 / Scanner $100, zero ordine, migrare fără resetarea datelor. AI rămâne oprit în
 instanța principală până este configurat de utilizator; proba Ollama a rulat izolat.
 Instrucțiuni exacte de instalare/configurare/costuri: [README](../../README.md), [LEVEL3](../LEVEL3.md).
+
+[CI GitHub](ci-windows-ubuntu.json), run [38609060734](https://github.com/Serin15/chatgpt/actions/runs/38609060734),
+pentru commitul de cod `7ed22fa73621325c8526794649e878dc2d5cce8b`: **Ubuntu și Windows — success**.
+Include instalare frozen, Ruff, pytest, sintaxa celor trei fișiere JS și, pe Windows, pornirea
+nativă a launcherului dintr-o cale cu spații. Aceasta nu este o rulare a browserelor pe Windows.
 
 ## Stare pe funcție și blocaje rămase
 
@@ -115,13 +124,13 @@ Instrucțiuni exacte de instalare/configurare/costuri: [README](../../README.md)
 | OpenAI | Implementat, neverificat live | Cheie proprie, model disponibil, credit API. |
 | Asociere narativă cu tokenul | Implementat conservator; teste de evidență | Nu există probă de afiliere pentru tokenul demo; rămâne neconfirmată. |
 | Social growth / comunități / holder growth | Parțial: câmpuri explicite necunoscute | Lipsesc surse timestamped autorizate și acoperire la nivel de proprietar. |
-| Activitate suspectă / distribuție | Euristici și eșantionare implementate | Acoperirea RPC și clasificarea globală nu sunt demonstrate; vezi proba on-chain separată. |
+| Activitate suspectă / distribuție | Euristici și eșantionare implementate | Proba reală `onchain-sample.json`: mint/supply citite; concentrarea indisponibilă (HTTP 429), tranzacțiile poolului fără rezultat utilizabil. Testele de euristici sunt simulate. |
 | Wallet intelligence | Parțial | Citire/refresh Solana implementate; fără wallet real configurat, scor/calitate/istoric complet nevalidate. |
 | Base | Parțial | Adaptoare de discovery/citire existente; exclus din rankingul automat până la validare suficientă. |
 | Telegram automat | Implementat, testat cu mock, neverificat live | Lipsesc bot token și chat ID; nu s-au trimis mesaje reale. |
 | Jupiter | Fluxul manual existent; Level 3 nu îl folosește | Cheie API și verificare reală a rutelor/costurilor înainte de integrare în evaluarea automată. |
 | Dashboard și mobile | Implementat; browser real cu date live și fixture-uri | Istoricul este păstrat, cu limită de 1000 observații în graficul unui dosar. |
-| Windows launcher | Logică existentă păstrată; verificare CI separată | Starea CI și testul arhivei sunt în artefactele dedicate când sunt disponibile. |
+| Windows launcher | Logică existentă păstrată; verificare CI separată | CI Windows nativ și Ubuntu trecute; inclusiv launcherul Windows dintr-o cale cu spații. |
 | Hosted/auth | Test local HTTPS real trecut | Domeniu/DNS/ACME public încă neconfigurate. |
 
 Prioritatea 1: surse stabile și acoperire forward echilibrată inclusiv pentru un control stabilit
