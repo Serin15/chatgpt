@@ -1,0 +1,6 @@
+Live discovery: 12 valid Solana profile addresses
+Wrapped SOL infrastructure check: price=104.69, liquidity=27759237.97
+RPC available: True; GoPlus available: True
+General crypto: 27 cached assets; BTC public book available: True
+Publisher RSS: 10 recent CoinDesk headlines; article contents remain unverified.
+PASS: market references, news metadata and basic Solana security. No orders or transactions executed.

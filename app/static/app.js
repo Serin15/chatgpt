@@ -39,6 +39,7 @@ const pageNames = {
   journal: "Jurnal & rezultate",
   sources: "Surse & metodologie",
   detail: "Dosar de cercetare",
+  advanced: "Cercetare avansată",
 };
 const categories = {
   launches: "LANSARE / PROIECT",
@@ -177,7 +178,10 @@ async function api(path, body) {
         ? { signal: controller.signal }
         : {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              ...(state.csrf ? { "X-Pulse-CSRF": state.csrf } : {}),
+            },
             body: JSON.stringify(body),
           },
     );
@@ -187,6 +191,11 @@ async function api(path, body) {
     } catch {
       throw new Error("Serverul nu a returnat un răspuns valid.");
     }
+    if (!response.ok)
+      if (response.status === 401 && data.authentication_required) {
+        showLogin();
+        throw new Error("Autentificare necesară.");
+      }
     if (!response.ok)
       throw new Error(
         typeof data.detail === "string"
@@ -208,6 +217,7 @@ function navigate(page) {
   $("page-name").textContent = pageNames[page];
   if (location.hash !== "#" + page) history.pushState(null, "", "#" + page);
   window.scrollTo({ top: 0, behavior: "instant" });
+  if (page === "advanced") renderAdvanced();
 }
 async function action(b, fn) {
   b.disabled = true;
@@ -438,7 +448,7 @@ function renderNews() {
       "Nicio știre în filtrul selectat. Nu înlocuim datele lipsă cu exemple.",
     );
   const statuses = Object.values(state.status?.news?.topics || {}),
-    errors = statuses.filter((s) => s.state === "error");
+    errors = statuses.filter((s) => s.state !== "ok");
   $("news-status").textContent =
     `Actualizare periodică: 5 minute · ${state.status?.news?.running ? "căutare în curs" : `${statuses.length - errors.length} surse/subiecte cu răspuns valid`} · ${errors.length ? `${errors.length} surse cu eroare; vezi metodologia` : "metadata și timestamp-uri păstrate"}`;
   $("unread-badge").textContent = state.news.filter((n) => !n.seen).length;
@@ -725,19 +735,40 @@ function renderHealth() {
     coingecko_catalog: status.crypto_market,
     performance: status.performance,
     announcements: status.announcement_analysis,
+    ...Object.fromEntries(
+      Object.entries(status.discovery_sources || {}).map(([k, v]) => [
+        "discovery_" + k,
+        v,
+      ]),
+    ),
+    ...Object.fromEntries(
+      Object.entries(status.onchain_sources || {}).map(([k, v]) => [
+        "onchain_" + k,
+        v,
+      ]),
+    ),
   };
+  if (status.ai_summaries?.configured) sources.ai = status.ai_summaries;
+  if (status.jupiter?.mode === "jupiter")
+    sources.jupiter = status.jupiter.status;
+  if (status.notifications?.telegram_bot_configured)
+    sources.telegram = status.notifications.status;
   for (const [name, item] of Object.entries(sources)) {
-    if (item?.state === "error") errors.push(name);
+    if (["error", "partial"].includes(item?.state)) errors.push(name);
     else if (item?.state !== "ok" || !item.at) unknown++;
     else if (
       Date.now() - new Date(item.at).getTime() >
-      (name === "announcements" ? 3900000 : 300000)
+      (name === "announcements"
+        ? 3900000
+        : name.startsWith("discovery_")
+          ? 1320000
+          : 300000)
     )
       errors.push(name + " · date vechi");
   }
   for (const [name, item] of Object.entries(status.news?.topics || {}))
     if (
-      item.state === "error" ||
+      ["error", "partial"].includes(item.state) ||
       (item.at && Date.now() - new Date(item.at).getTime() > 660000)
     )
       errors.push(name);
@@ -1222,6 +1253,7 @@ async function openAsset(id, article = null) {
     article,
   );
   await renderAI(left, asset.address, article);
+  await renderFundamentals(left, asset.address);
   await renderCase(left, asset.address, data.case);
   paperForm(right, asset, asset.freshness?.fresh !== false, article);
   await load();
@@ -1334,6 +1366,7 @@ async function openToken(address, article = null, refresh = false) {
   left.append(scores);
   await renderAnnouncements(left, address, null, article);
   await renderAI(left, address, article);
+  await renderFundamentals(left, address);
   await renderCase(left, address);
   paperForm(right, market, analysis.paper_allowed, article);
   await load();
@@ -1415,7 +1448,7 @@ navigate(
     ? location.hash.slice(1)
     : "overview",
 );
-load();
+startApplication();
 setInterval(load, 15000);
 
 let fieldCounter = 0;
@@ -1459,7 +1492,8 @@ async function renderAI(parent, address, article) {
     const stateText = node("p", undefined, "footnote");
     const showStatus = (s) => {
       stateText.textContent = `${s.provider === "disabled" ? "AI oprit" : `${s.provider} · ${s.model}`} · ${s.requests_today}/${s.daily_request_limit} încercări azi (UTC). ${s.error || (s.state === "ok" ? "Conexiune testată; vezi rezultatul fiecărei analize." : "Disponibilitatea motorului nu este testată.")}`;
-      if (s.configuration_error) stateText.textContent += " " + s.configuration_error;
+      if (s.configuration_error)
+        stateText.textContent += " " + s.configuration_error;
     };
     showStatus(data.status);
     box.append(stateText);
@@ -2084,6 +2118,9 @@ async function renderCase(parent, address, provided) {
       tokenomics: "Tokenomics / vesting",
       audit: "Audit",
       liquidity: "Lichiditate",
+      distribution: "Distribuție / concentrare",
+      unlocks: "Deblocări / vesting",
+      contract_risk: "Riscuri on-chain",
     })) {
       const o = node("option", label);
       o.value = key;
@@ -2243,7 +2280,10 @@ $("backup-button").onclick = () =>
   action($("backup-button"), async () => {
     const response = await fetch("/api/backup", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(state.csrf ? { "X-Pulse-CSRF": state.csrf } : {}),
+      },
       body: "{}",
     });
     if (!response.ok) throw new Error("Backupul nu a putut fi creat.");

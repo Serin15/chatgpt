@@ -1,0 +1,28 @@
+{
+  "runtime": {
+    "name": "Ollama",
+    "version": "0.40.4",
+    "source": "https://github.com/ollama/ollama/releases/download/v0.40.4/ollama-linux-amd64.tar.zst",
+    "sha256": "15f31e9576d15a481e099b4145dba6e9f8c1f295927d6b8895300ae30ed3740a",
+    "verification": "matched published release checksum before extraction"
+  },
+  "models": [
+    {
+      "name": "pulse-qwen-audit:latest",
+      "origin": "Docker AI ai/qwen2.5:3B-Q4_K_M",
+      "gguf_sha256": "48f4925de3417c3e259c5b460024ec9907458c52c9a7aab81269a4befd473e5e",
+      "bytes": 1929903008,
+      "license_metadata": "qwen-research; consult Qwen2.5-3B-Instruct upstream license, not a generic Apache assumption"
+    },
+    {
+      "name": "pulse-qwen7b-audit:latest",
+      "origin": "Docker AI ai/qwen2.5:7B-Q4_K_M",
+      "manifest_digest": "sha256:d23f1d398f07505076f12ed79161f3b70ff07f020a93513e39cf1ad8ecee7113",
+      "gguf_sha256": "7848e617403f9c800ec80c974126803ec949388869dcd3d6ff6e886de0576b9b",
+      "bytes": 4683073952,
+      "license_metadata": "apache-2.0"
+    }
+  ],
+  "weights_in_repository": false,
+  "model_selection_policy": "comparative development checks; this is not an independently held-out selection experiment"
+}

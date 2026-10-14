@@ -2,11 +2,12 @@
 
 import argparse
 import asyncio
+import hashlib
 import json
 import tempfile
 from pathlib import Path
 
-from app.ai_research import AIConfig, AIResearch, relationship_gate
+from app.ai_research import PROMPT_VERSION, AIConfig, AIResearch, relationship_gate
 from app.announcements import Announcements
 from app.config import Settings
 from app.models import utcnow
@@ -21,10 +22,17 @@ def load_cases(path=CORPUS):
     corpus = json.loads(Path(path).read_text(encoding="utf-8"))
     cases = corpus["cases"]
     ids = set()
+    groups = {}
     for case in cases:
         if case["id"] in ids or case["origin"] not in {"observed_excerpt", "synthetic"}:
             raise ValueError("ID duplicat sau proveniență invalidă.")
         ids.add(case["id"])
+        partition, group = case.get("partition"), case.get("group")
+        if partition not in {"development", "test"} or not group:
+            raise ValueError("Lipsește partiția sau grupul documentului.")
+        if group in groups and groups[group] != partition:
+            raise ValueError("Data leakage: document comun între dezvoltare și test.")
+        groups[group] = partition
         if not case["expected"] or not set(case["expected"]) <= POSITIVE | {
             "contradicted",
             "insufficient_evidence",
@@ -132,14 +140,20 @@ def main():
     parser.add_argument("--provider", choices=["ollama", "openai"])
     parser.add_argument("--model")
     parser.add_argument("--limit", type=int, default=12)
+    parser.add_argument("--partition", choices=["all", "development", "test"], default="all")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if not 1 <= args.limit <= 20:
         parser.error("--limit trebuie să fie între 1 și 20")
-    cases = load_cases()[: args.limit]
+    cases = [
+        c for c in load_cases() if args.partition == "all" or c["partition"] == args.partition
+    ][: args.limit]
     report = {
         "at": utcnow(),
-        "corpus_version": 1,
+        "corpus_version": 2,
+        "corpus_sha256": hashlib.sha256(CORPUS.read_bytes()).hexdigest(),
+        "prompt_version": PROMPT_VERSION,
+        "partition": args.partition,
         "cases_validated": len(cases),
         "observed_excerpts": sum(c["origin"] == "observed_excerpt" for c in cases),
         "synthetic_cases": sum(c["origin"] == "synthetic" for c in cases),
@@ -160,6 +174,19 @@ def main():
             model=config.model,
             results=results,
             metrics=metrics(cases, results),
+            partition_metrics={
+                p: metrics([c for c in cases if c["partition"] == p], results)
+                for p in ("development", "test")
+            },
+            raw_model_metrics=metrics(
+                cases,
+                [
+                    r | {"relationship": {"effective": r["relationship"]["model_proposed"]}}
+                    if r.get("state") == "completed"
+                    else r
+                    for r in results
+                ],
+            ),
             note="Rulare pe extrase înghețate. Etichetele nu sunt validate independent; raportează separat erorile, asocierile false și baseline-ul.",
         )
     output = json.dumps(report, ensure_ascii=False, indent=2) + "\n"

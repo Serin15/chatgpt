@@ -21,12 +21,24 @@ CHECKS = {
     "tokenomics": "Tokenomics / vesting",
     "audit": "Audit / permisiuni",
     "liquidity": "Piață / lichiditate",
+    "distribution": "Distribuție / concentrare",
+    "unlocks": "Deblocări / vesting",
+    "contract_risk": "Riscuri on-chain",
 }
 
 
 class EvidenceInput(BaseModel):
     category: Literal[
-        "identity", "announcement", "product", "team", "tokenomics", "audit", "liquidity"
+        "identity",
+        "announcement",
+        "product",
+        "team",
+        "tokenomics",
+        "audit",
+        "liquidity",
+        "distribution",
+        "unlocks",
+        "contract_risk",
     ]
     claim: str = Field(min_length=3, max_length=1000)
     status: Literal["unknown", "supported", "disputed"] = "unknown"

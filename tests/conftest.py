@@ -12,6 +12,33 @@ ADDRESS = "So11111111111111111111111111111111111111112"
 OTHER = "11111111111111111111111111111111"
 
 
+@pytest.fixture(autouse=True)
+def isolate_external_configuration(monkeypatch):
+    """Unit fixtures must never inherit production credentials or hosted settings."""
+    keys = (
+        "PULSE_AI_API_KEY",
+        "OPENAI_API_KEY",
+        "JUPITER_API_KEY",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "PULSE_AUTH_PASSWORD",
+        "GOPLUS_ACCESS_TOKEN",
+    )
+    for key in keys:
+        monkeypatch.delenv(key, raising=False)
+        monkeypatch.delenv(key + "_FILE", raising=False)
+    for key in (
+        "PULSE_HOSTED",
+        "PULSE_PUBLIC_ORIGIN",
+        "PULSE_AI_PROVIDER",
+        "PULSE_AI_MODEL",
+        "PULSE_OLLAMA_URL",
+        "PAPER_SOLANA_EXECUTION",
+        "BASE_RPC_URL",
+    ):
+        monkeypatch.delenv(key, raising=False)
+
+
 @pytest.fixture
 def settings(tmp_path):
     return Settings(data_dir=tmp_path)

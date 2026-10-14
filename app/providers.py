@@ -7,11 +7,8 @@ from urllib.parse import urlsplit
 
 import httpx
 
+from app.errors import ProviderError
 from app.models import Market, number, solana_address, utcnow
-
-
-class ProviderError(Exception):
-    pass
 
 
 def schema_checked(source):
@@ -41,6 +38,17 @@ class Providers:
 
     async def close(self):
         await self.client.aclose()
+
+    def records(self, data, source):
+        if not isinstance(data, list):
+            raise ValueError("Expected record list")
+        records = [item for item in data if isinstance(item, dict)]
+        rejected = len(data) - len(records)
+        if rejected and not records:
+            raise ValueError("No structurally valid records")
+        if rejected:
+            self.status.setdefault(source, {})["rejected_records"] = rejected
+        return records
 
     async def request(self, source, method, url, **kwargs):
         # Per-provider pacing remains below the anticipated free-tier limits.
@@ -85,7 +93,7 @@ class Providers:
         if not isinstance(data, list):
             raise ProviderError("dex: format de discovery necunoscut")
         addresses = []
-        for item in data:
+        for item in self.records(data, "dex"):
             if item.get("chainId") == "solana":
                 try:
                     address = solana_address(item.get("tokenAddress", ""))
@@ -105,15 +113,29 @@ class Providers:
         # Pricing a quote token with the base token's price would be incorrect.
         pairs = [
             p
-            for p in data
+            for p in self.records(data, "dex")
             if p.get("chainId") == "solana"
+            and isinstance(p.get("baseToken"), dict)
+            and isinstance(p.get("liquidity"), dict)
             and p.get("baseToken", {}).get("address") == address
             and number(p.get("priceUsd")) > 0
             and number((p.get("liquidity") or {}).get("usd")) > 0
         ]
         if not pairs:
             raise ProviderError("dex: nicio pereche cu preț și lichiditate pentru tokenul de bază")
-        pair = max(pairs, key=lambda p: number(p.get("liquidity", {}).get("usd")))
+        for pair in sorted(
+            pairs, key=lambda p: number(p.get("liquidity", {}).get("usd")), reverse=True
+        ):
+            try:
+                return self.parse_market(pair, address)
+            except (ValueError, TypeError, KeyError, AttributeError):
+                self.status.setdefault("dex", {})["rejected_records"] = (
+                    self.status.get("dex", {}).get("rejected_records", 0) + 1
+                )
+        raise ProviderError("dex: nicio pereche cu schemă de piață validă")
+
+    @staticmethod
+    def parse_market(pair, address):
         token = pair["baseToken"]
         tx = (pair.get("txns") or {}).get("m5") or {}
         return Market(
@@ -141,7 +163,7 @@ class Providers:
         )
         pairs = data.get("pairs") or []
         candidates = {}
-        for pair in pairs:
+        for pair in self.records(pairs, "dex"):
             if pair.get("chainId") != "solana":
                 continue
             token = pair.get("baseToken") or {}

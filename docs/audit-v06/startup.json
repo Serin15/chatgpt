@@ -1,0 +1,73 @@
+{
+  "version": "0.6.0",
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-14T14:21:25.463497+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-14T14:21:25.469741+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-14T14:21:25.469815+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-14T14:21:25.470163+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-14T14:21:25.474717+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "live_execution": false,
+  "new_routes": "PASS",
+  "source_states": {
+    "solana": {
+      "state": "ok",
+      "at": "2026-10-14T14:21:26.271744+00:00",
+      "page": 1,
+      "count": 20,
+      "rejected": 0,
+      "next_page": 2
+    },
+    "base": {
+      "state": "ok",
+      "at": "2026-10-14T14:21:26.546980+00:00",
+      "page": 1,
+      "count": 20,
+      "rejected": 0,
+      "next_page": 2
+    },
+    "profiles": {
+      "state": "ok",
+      "at": "2026-10-14T14:21:26.546988+00:00",
+      "counts": {
+        "solana": 22,
+        "base": 0
+      }
+    }
+  }
+}

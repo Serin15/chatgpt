@@ -1,0 +1,54 @@
+services:
+  pulse:
+    build: .
+    restart: unless-stopped
+    environment:
+      PULSE_HOSTED: "1"
+      PULSE_PUBLIC_ORIGIN: "https://${PULSE_DOMAIN:?Set PULSE_DOMAIN}"
+      PULSE_AUTH_PASSWORD_FILE: /run/secrets/pulse_password
+      DATA_DIR: /data
+      PULSE_OLLAMA_URL: http://ollama:11434
+    volumes:
+      - pulse_data:/data
+    secrets:
+      - pulse_password
+    expose:
+      - "8000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      PULSE_DOMAIN: "${PULSE_DOMAIN:?Set PULSE_DOMAIN}"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      pulse:
+        condition: service_healthy
+  ollama:
+    image: ollama/ollama:0.40.4
+    profiles: [local-ai]
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    expose:
+      - "11434"
+secrets:
+  pulse_password:
+    file: "${PULSE_PASSWORD_FILE:?Set path to a secret file outside the repository}"
+volumes:
+  pulse_data:
+  caddy_data:
+  caddy_config:
+  ollama_models:

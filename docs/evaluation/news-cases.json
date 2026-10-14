@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "purpose_ro": "Set mic de regresie, etichetat de autor. Nu este benchmark independent și nu demonstrează profitabilitate. 2 extrase observate și 10 scenarii sintetice marcate explicit.",
   "cases": [
     {
@@ -54,7 +54,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "development",
+      "group": "1cb783efdf4de6e1b26d91ef1c409905a915700e75965ccc89e100536c1d8881"
     },
     {
       "id": "observed-kraken",
@@ -106,7 +108,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "test",
+      "group": "99b3c10f7b9432f69cc3c27b88c817c5480a22325b533fd3b1fed3ab63941cd2"
     },
     {
       "id": "synthetic-issuer",
@@ -152,7 +156,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "development",
+      "group": "synthetic-issuer"
     },
     {
       "id": "synthetic-listing",
@@ -198,7 +204,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "development",
+      "group": "synthetic-listing"
     },
     {
       "id": "synthetic-namesake",
@@ -243,7 +251,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "test",
+      "group": "synthetic-namesake"
     },
     {
       "id": "synthetic-denial",
@@ -289,7 +299,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "development",
+      "group": "synthetic-denial"
     },
     {
       "id": "synthetic-wrong-contract",
@@ -334,7 +346,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "test",
+      "group": "synthetic-wrong-contract"
     },
     {
       "id": "synthetic-wrong-chain",
@@ -381,7 +395,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "development",
+      "group": "synthetic-wrong-chain"
     },
     {
       "id": "synthetic-public-figure",
@@ -424,7 +440,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "test",
+      "group": "synthetic-public-figure"
     },
     {
       "id": "synthetic-injection",
@@ -472,7 +490,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "development",
+      "group": "synthetic-injection"
     },
     {
       "id": "synthetic-editorial-claim",
@@ -516,7 +536,9 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "test",
+      "group": "synthetic-editorial-claim"
     },
     {
       "id": "synthetic-unknown-native",
@@ -561,7 +583,10 @@
             "text_truncated": false
           }
         }
-      }
+      },
+      "partition": "test",
+      "group": "synthetic-unknown-native"
     }
-  ]
+  ],
+  "partition_policy": "Frozen author-defined document groups before the v0.6 model evaluation; not an independent benchmark. No training occurs."
 }

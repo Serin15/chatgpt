@@ -136,6 +136,8 @@ class DocumentReader(HTMLParser):
         self.title, self.published_at = [], None
         self.open_blocks = []
         self.hidden_depths = []
+        self.sections = {}
+        self.heading = None
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -159,6 +161,8 @@ class DocumentReader(HTMLParser):
                 self.hidden_depths.append(len(self.stack))
         if self.hidden_depths or any(t in self.SKIP for t in self.stack):
             return
+        if tag in {"h1", "h2", "h3", "h4", "h5", "h6"}:
+            self.heading = (tag, [])
         if tag == "a" and len(self.links) < 1000:
             target = urljoin(self.url, attrs.get("href", ""))
             if safe_link(target):
@@ -175,6 +179,7 @@ class DocumentReader(HTMLParser):
                     "depth": len(self.stack),
                     "parts": [],
                     "main": any(t in {"main", "article"} for t in self.stack),
+                    "section": " / ".join(self.sections.values()),
                 }
             )
 
@@ -184,13 +189,22 @@ class DocumentReader(HTMLParser):
             self.handle_endtag(tag)
 
     def handle_endtag(self, tag):
+        if self.heading and self.heading[0] == tag:
+            level = int(tag[1])
+            self.sections = {k: v for k, v in self.sections.items() if k < level}
+            self.sections[level] = normalized(" ".join(self.heading[1]))
+            self.heading = None
         if tag not in self.stack:
             return
         index = len(self.stack) - 1 - self.stack[::-1].index(tag)
         for block in list(self.open_blocks):
             if block["depth"] > index:
                 self.blocks.append(
-                    {"text": normalized(" ".join(block["parts"])), "main": block["main"]}
+                    {
+                        "text": normalized(" ".join(block["parts"])),
+                        "main": block["main"],
+                        "section": block.get("section", ""),
+                    }
                 )
                 self.open_blocks.remove(block)
         self.stack = self.stack[:index]
@@ -201,6 +215,8 @@ class DocumentReader(HTMLParser):
             self.title.append(data)
         if "head" in self.stack or self.hidden_depths or any(t in self.SKIP for t in self.stack):
             return
+        if self.heading:
+            self.heading[1].append(data)
         main = any(t in {"main", "article"} for t in self.stack)
         self.parts.append({"text": data, "main": main})
         for block in self.open_blocks:
@@ -222,6 +238,11 @@ class DocumentReader(HTMLParser):
             "text": text[:200_000],
             "text_truncated": len(text) > 200_000,
             "blocks": blocks[:2000],
+            "block_sections": [
+                {"text": b["text"], "section": b.get("section", "")}
+                for b in self.blocks
+                if not has_main or b["main"]
+            ][:2000],
             "links": [p["url"] for p in self.links if not has_main or p["main"]],
             "link_contexts": [
                 {
@@ -243,6 +264,15 @@ def inspect_contract(document, chain, contract):
     found = bool(exact.search(document["text"]))
     networks, links, link_contexts = set(), [], []
     for block in blocks:
+        section = " ".join(
+            b["section"] for b in document.get("block_sections", []) if b["text"] == block
+        )
+        if re.search(
+            r"\b(?:testnet|devnet|sepolia|holesky|goerli|fuji|amoy|mumbai)\b",
+            section + " " + block,
+            re.I,
+        ):
+            continue
         # Multiple networks in a paragraph/table row are deliberately ambiguous.
         mentioned = {key for key, pattern in NETWORKS.items() if re.search(pattern, block, re.I)}
         if len(mentioned) == 1:

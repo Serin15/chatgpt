@@ -1,0 +1,26 @@
+{
+  "state": "error",
+  "error": "Analiza AI are o schemă sau citări invalide și nu este afișată ca rezultat.",
+  "model": {
+    "provider": "ollama",
+    "model": "pulse-qwen-audit:latest",
+    "daily_request_limit": 20
+  },
+  "source": {
+    "url": "https://www.anthropic.com/news/claude-3-family",
+    "title": "Introducing the next generation of Claude \\ Anthropic",
+    "publisher": "Anthropic",
+    "kind": "primary",
+    "observed_at": "2026-10-14T14:07:28.283719+00:00",
+    "sha256": "af16dc548dc63534ef08f0d31a0a11f9e5416144b6447f5ce0d9e484e1ebb37c",
+    "published_at_reported": "2024-03-04T08:00:00.000Z",
+    "id": "D1",
+    "allowed_relations": [
+      "issuer"
+    ],
+    "truncated": false
+  },
+  "citations_checked": false,
+  "interpretation_displayed": false,
+  "real_generation": true
+}

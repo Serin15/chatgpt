@@ -493,3 +493,16 @@ def test_api_signal_backup_and_news_keep_scoped_immutable_ai(settings):
         finally:
             asyncio.run(old_ai.close())
             asyncio.run(research.close())
+
+
+def test_evaluation_rejects_document_overlap_between_partitions(tmp_path):
+    from app.ai_evaluation import CORPUS
+
+    corpus = json.loads(CORPUS.read_text())
+    development = next(c for c in corpus["cases"] if c["partition"] == "development")
+    heldout = next(c for c in corpus["cases"] if c["partition"] == "test")
+    heldout["group"] = development["group"]
+    path = tmp_path / "overlap.json"
+    path.write_text(json.dumps(corpus))
+    with pytest.raises(ValueError, match="Data leakage"):
+        load_cases(path)

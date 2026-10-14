@@ -1,12 +1,14 @@
-# PULSE — Crypto Research v0.5
+# PULSE — Crypto Research v0.6
 
 Terminal personal pentru știri crypto, cercetare de proiecte și un portofoliu virtual. Interfață
 în română, navigare desktop/mobil și ordine manuale de $50. Nicio tranzacție reală.
 
-Versiunea 0.5 adaugă interpretarea AI opțională cu citări, configurare Ollama/OpenAI, limite de
-cereri și un set inițial de evaluare. [Configurare și limite](docs/V0.5.md). AI pornește oprit;
-niciun model real nu a fost evaluat încă. Verificările document-contract din [v0.4](docs/V0.4.md) rămân.
-Funcțiile de dosare, watchlist, raport paper, export și backup din [v0.3](docs/V0.3.md) sunt păstrate.
+Versiunea 0.6 repară sursele și deduplicarea, adaugă discovery Solana/Base, observații on-chain,
+wallet activity, alerte în aplicație, cotații Jupiter pentru paper și autentificare pentru găzduire.
+[Auditul complet și starea fiecărei funcții](docs/V0.6-AUDIT.md) separă verificările reale de mock-uri
+și precizează ce necesită chei sau date suplimentare. Modelul local testat a produs și erori;
+nu considerăm semnalele validate sau profitabile. AI rămâne opțional, oprit implicit.
+Funcțiile anterioare de dosare, watchlist, portofoliu, export și backup sunt păstrate.
 
 ![PULSE desktop](docs/screenshots/pulse-desktop.png)
 

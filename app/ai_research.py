@@ -7,15 +7,17 @@ import os
 import re
 import time
 from typing import Literal
+from urllib.parse import urlsplit
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.announcements import VerificationInput, inspect_contract, normalized
+from app.credentials import secret
 from app.models import epoch, utcnow
 from app.providers import ProviderError
 
-PROMPT_VERSION = 1
+PROMPT_VERSION = 2
 OLLAMA = "http://127.0.0.1:11434"
 OPENAI = "https://api.openai.com/v1"
 RELATIONS = Literal[
@@ -41,6 +43,12 @@ of at least 12 characters from that source's content. Do not invent URLs, addres
 Keep event_summary and relationship_reason concise. facts are reported claims, not independently
 verified truth. research_questions and risks are questions/limitations, not new factual claims.
 Always disclose that a text match does not validate a claim, endorsement, fundamentals or returns.
+Summarize what the source actually announces. Do not turn positive statements into claims that
+something was not mentioned. Use one or two short facts. For citations, copy a short contiguous
+substring exactly as written in D1, including conjunctions; never translate or rewrite quotes.
+Use ordinary Romanian for text_ro. Avoid repeating the same sentence in every field.
+Return exactly these keys: event_summary, relationship, relationship_reason, facts,
+research_questions, risks. Each statement has text_ro and citations [{source_id, quote}].
 """
 
 
@@ -83,7 +91,11 @@ class Citation(StrictModel):
 
 
 class Statement(StrictModel):
-    text_ro: str = Field(min_length=5, max_length=1200)
+    text_ro: str = Field(
+        min_length=5,
+        max_length=1200,
+        description="A concise Romanian statement supported by the cited source text.",
+    )
     citations: list[Citation] = Field(min_length=1, max_length=4)
 
 
@@ -215,7 +227,7 @@ class AIResearch:
             **self.last_status,
             "configuration_error": self.config_error,
             "configured": config.provider != "disabled" and bool(config.model),
-            "api_key_present": bool(os.getenv("PULSE_AI_API_KEY") or os.getenv("OPENAI_API_KEY"))
+            "api_key_present": bool(secret("PULSE_AI_API_KEY") or secret("OPENAI_API_KEY"))
             if config.provider == "openai"
             else None,
             "requests_today": used,
@@ -229,8 +241,14 @@ class AIResearch:
         try:
             async with client.stream(method, url, follow_redirects=False, **kwargs) as response:
                 if not response.is_success:
+                    hints = {
+                        401: "Cheie API absentă sau invalidă.",
+                        403: "Acces refuzat pentru acest cont/model.",
+                        404: "Model sau endpoint indisponibil.",
+                        429: "Limită de cereri sau credit API epuizat.",
+                    }
                     raise ProviderError(
-                        f"Motorul AI a răspuns HTTP {response.status_code}; verifică modelul, serviciul și accesul API."
+                        f"Motorul AI a răspuns HTTP {response.status_code}. {hints.get(response.status_code, 'Verifică serviciul și accesul API.')}"
                     )
                 chunks, size = [], 0
                 async for chunk in response.aiter_bytes():
@@ -247,18 +265,38 @@ class AIResearch:
             raise ProviderError("Motorul AI a returnat JSON invalid.") from None
 
     def headers(self):
-        key = os.getenv("PULSE_AI_API_KEY") or os.getenv("OPENAI_API_KEY")
+        key = secret("PULSE_AI_API_KEY") or secret("OPENAI_API_KEY")
         if not key:
             raise ProviderError(
                 "Cheia API lipsește. Configurează PULSE_AI_API_KEY în mediul procesului, niciodată în chat."
             )
         return {"Authorization": "Bearer " + key}
 
+    @staticmethod
+    def ollama_url():
+        value = os.getenv("PULSE_OLLAMA_URL", OLLAMA).rstrip("/")
+        parsed = urlsplit(value)
+        if (
+            parsed.scheme not in {"http", "https"}
+            or parsed.hostname not in {"127.0.0.1", "localhost", "::1", "ollama"}
+            or parsed.username
+            or parsed.password
+            or parsed.path
+            or parsed.query
+            or parsed.fragment
+        ):
+            raise ProviderError(
+                "Ollama necesită un endpoint local sau serviciul intern Docker 'ollama', fără credențiale în URL."
+            )
+        return value
+
     async def connection(self):
         config = self.config()
         try:
             if config.provider == "ollama":
-                response = await self.json_request(self.client, "GET", OLLAMA + "/api/tags")
+                response = await self.json_request(
+                    self.client, "GET", self.ollama_url() + "/api/tags"
+                )
                 names = [
                     r["name"]
                     for r in response.get("models", [])
@@ -353,7 +391,7 @@ class AIResearch:
             response = await self.json_request(
                 self.client,
                 "POST",
-                OLLAMA + "/api/chat",
+                self.ollama_url() + "/api/chat",
                 json={
                     "model": config.model,
                     "stream": False,
@@ -362,7 +400,7 @@ class AIResearch:
                     "options": {"temperature": 0, "num_ctx": 16384, "num_predict": 2200},
                 },
             )
-            if response.get("done") is not True:
+            if response.get("done") is not True or response.get("done_reason") == "length":
                 raise ProviderError("Generarea locală este incompletă.")
             raw = json.loads(response["message"]["content"])
             usage = {

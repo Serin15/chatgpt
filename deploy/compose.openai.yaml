@@ -1,0 +1,9 @@
+services:
+  pulse:
+    environment:
+      PULSE_AI_API_KEY_FILE: /run/secrets/pulse_ai_key
+    secrets:
+      - pulse_ai_key
+secrets:
+  pulse_ai_key:
+    file: "${PULSE_AI_KEY_FILE:?Set path to a secret file outside the repository}"

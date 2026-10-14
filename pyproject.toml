@@ -1,6 +1,6 @@
 [project]
 name = "memecoin-research"
-version = "0.5.0"
+version = "0.6.0"
 description = "Crypto news, market research, Solana discovery and manual paper portfolio"
 requires-python = ">=3.12"
 dependencies = [

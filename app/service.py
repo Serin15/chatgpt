@@ -7,11 +7,20 @@ from decimal import Decimal
 
 from app import paper
 from app.analysis import analyze
+from app.auth import Auth
+from app.discovery import Discovery
+from app.forward import Forward
+from app.fundamentals import Fundamentals
+from app.jupiter import Jupiter
+from app.listings import Listings
 from app.models import Market, epoch, freshness, utcnow
+from app.notifications import Notifications
+from app.onchain import Onchain
 from app.performance import Performance
 from app.providers import ProviderError
 from app.research import Research
 from app.store import Store
+from app.wallets import Wallets
 
 log = logging.getLogger(__name__)
 
@@ -31,6 +40,41 @@ class Service:
         self.assets = None
         self.research = Research(store)
         self.performance = Performance(self)
+        self.auth = Auth(store)
+        self.onchain = Onchain(settings)
+        self.discovery = Discovery(store)
+        self.fundamentals = Fundamentals(self, self.onchain)
+        self.wallets = Wallets(store, self.onchain)
+        self.jupiter = Jupiter(settings, self.onchain)
+        self.listings = Listings(self)
+        self.notifications = Notifications(self)
+        self.forward = Forward(self)
+
+    def frozen_rules(self):
+        return {
+            key: str(getattr(self.settings, key))
+            for key in (
+                "swap_fee",
+                "network_fee_usd",
+                "reference_fee",
+                "reference_slippage",
+                "max_price_impact",
+                "min_liquidity",
+            )
+        }
+
+    async def run_intelligence(self):
+        while True:
+            try:
+                await self.discovery.refresh()
+                self.notifications.collect()
+            except Exception as exc:
+                log.error("Intelligence collection failure: %s", type(exc).__name__)
+            await asyncio.sleep(600)
+
+    async def close_intelligence(self):
+        for source in (self.onchain, self.discovery, self.jupiter, self.notifications):
+            await source.close()
 
     def reference_analysis(self, asset):
         fresh = freshness(
@@ -62,6 +106,8 @@ class Service:
     async def asset_signal(self, asset_id, news_id=None, thesis=""):
         snapshot = await self.asset_snapshot(asset_id)
         context = {"paper_account": "news", "thesis": thesis, "asset_kind": "market_asset"}
+        context["rules_at_signal"] = self.frozen_rules()
+        context["paper_execution_mode"] = "reference"
         context["research_context"] = self.research.case(snapshot["address"])
         if news_id:
             try:
@@ -101,6 +147,8 @@ class Service:
         if not snapshot:
             raise paper.Rejected("Token fără observații de piață.")
         context = {"paper_account": account, "thesis": thesis}
+        context["rules_at_signal"] = self.frozen_rules()
+        context["paper_execution_mode"] = "jupiter" if self.jupiter.enabled else "estimated_pool"
         context["research_context"] = self.research.case(address)
         if news_id:
             try:
@@ -160,6 +208,19 @@ class Service:
                 "estimated_unrealized_pnl_usd": None,
                 "exit_simulation_available": False,
             }
+            with self.paper_store(account).connect() as db:
+                entry_order = db.execute(
+                    "SELECT details FROM orders WHERE side='buy' AND json_extract(details,'$.position_id')=?",
+                    (position["id"],),
+                ).fetchone()
+            if (
+                entry_order
+                and json.loads(entry_order[0]).get("model") == "jupiter_quote_conservative_min_out"
+            ):
+                current["paper_allowed"] = False
+                valuation["note"] = (
+                    "Necesită un quote Jupiter nou; nu înlocuim ruta cu o estimare de pool."
+                )
             if current["paper_allowed"]:
                 try:
                     quote = paper.fill(
@@ -295,12 +356,18 @@ class Service:
         store = self.paper_store(request.account)
         try:
             current = await self.refresh(request.address)
+            execution = (
+                await self.jupiter.fill("buy", request.amount_usd, request.address)
+                if self.jupiter.enabled
+                else None
+            )
             order = paper.buy(
                 store,
                 self.copy_for_paper(current, request.account),
                 request.signal_id,
                 request.amount_usd,
                 self.settings,
+                execution=execution,
             )
             self.performance.safe_observe(request.account)
             return order
@@ -327,8 +394,17 @@ class Service:
                 self.performance.safe_observe(account)
                 return order
             current = await self.refresh(position["address"])
+            execution = (
+                await self.jupiter.fill("sell", position["quantity"], position["address"])
+                if self.jupiter.enabled
+                else None
+            )
             order = paper.sell(
-                store, position_id, self.copy_for_paper(current, account), self.settings
+                store,
+                position_id,
+                self.copy_for_paper(current, account),
+                self.settings,
+                execution=execution,
             )
             self.performance.safe_observe(account)
             return order

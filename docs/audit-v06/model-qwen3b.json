@@ -1,0 +1,650 @@
+{
+  "at": "2026-10-14T14:09:19.010077+00:00",
+  "corpus_version": 2,
+  "corpus_sha256": "6da9956971c54bef781ab87d209136d536043d357ac83b8cc3dfed0bff89d763",
+  "prompt_version": 2,
+  "partition": "all",
+  "cases_validated": 12,
+  "observed_excerpts": 2,
+  "synthetic_cases": 10,
+  "model_run": true,
+  "metrics": {
+    "cases": 12,
+    "valid_outputs": 9,
+    "invalid_or_failed": 3,
+    "correct_including_failures": 7,
+    "accuracy": 0.5833333333333334,
+    "positive_predictions": 2,
+    "false_positive_associations": 0,
+    "positive_precision": 1.0,
+    "positive_recall": 1.0,
+    "always_insufficient_baseline": 0.75,
+    "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+  },
+  "note": "Rulare pe extrase înghețate. Etichetele nu sunt validate independent; raportează separat erorile, asocierile false și baseline-ul.",
+  "provider": "ollama",
+  "model": "pulse-qwen-audit:latest",
+  "results": [
+    {
+      "id": "observed-wrapped-sol",
+      "origin": "observed_excerpt",
+      "expected": [
+        "unrelated_or_namesake",
+        "insufficient_evidence"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Citatul indică că SOL-ul părinte este SOL care este într-un cont de token pentru minta nativă a Programului de Token.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Wrapped SOL (WSOL) is SOL held in a token account for the Token Program's native mint. The native mint is the mint address the Token Program uses for token accounts that wrap SOL."
+            }
+          ]
+        },
+        "relationship": "unrelated_or_namesake",
+        "relationship_reason": {
+          "text_ro": "Minta nativă este adresa mintei folosită de Programul de Token pentru conturile de token care învolve SOL.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "The native mint is the mint address the Token Program uses for token accounts that wrap SOL."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Minta nativă este adresa mintei folosită de Programul de Token pentru conturile de token care învolve SOL.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The native mint is the mint address the Token Program uses for token accounts that wrap SOL."
+              }
+            ]
+          },
+          {
+            "text_ro": "Un cont de token care este învoltat cu SOL (WSOL) stochează SOL în câmpul lamports al contului, dar t",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "A wrapped SOL token account stores SOL in the account's lamports field, but t"
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este măsurile de siguranță pentru conturile de token care învolve SOL?"
+        ],
+        "risks": [
+          "Riscurile asociate cu gestionarea și utilizarea conturilor de token care învolve SOL pot nu fi menționate în document."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 1081,
+        "eval_count": 463
+      },
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": []
+      }
+    },
+    {
+      "id": "observed-kraken",
+      "origin": "observed_excerpt",
+      "state": "error",
+      "error": "Motor indisponibil sau rezultat/citări invalide."
+    },
+    {
+      "id": "synthetic-issuer",
+      "origin": "synthetic",
+      "expected": [
+        "issuer_announcement"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Istoricul de la sursa anunță că compania Example Labs este emisă a tokenului EXAMPLE pe rețeaua Solana și că contractul exact principal al tokenului este So11111111111111111111111111111111111111112.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "We are the Example Labs issuer. Today we launch our EXAMPLE token on Solana. Its exact mainnet contract is So11111111111111111111111111111111111111112."
+            }
+          ]
+        },
+        "relationship": "issuer_announcement",
+        "relationship_reason": {
+          "text_ro": "Compania Example Labs este emisă a tokenului EXAMPLE pe rețeaua Solana și că contractul exact principal al tokenului este So11111111111111111111111111111111111111112.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "We are the Example Labs issuer. Today we launch our EXAMPLE token on Solana. Its exact mainnet contract is So11111111111111111111111111111111111111112."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Compania Example Labs este emisă a tokenului EXAMPLE pe rețeaua Solana și că contractul exact principal al tokenului este So11111111111111111111111111111111111111112.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "We are the Example Labs issuer. Today we launch our EXAMPLE token on Solana. Its exact mainnet contract is So11111111111111111111111111111111111111112."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este tokenul EXAMPLE și cum funcționează pe rețeaua Solana?",
+          "Ce rol își ocupa Example Labs în contextul emisiilor de tokenuri?",
+          "Ce implică să fie emisă un token pe rețeaua Solana?"
+        ],
+        "risks": [
+          "Riscul de fraudă în ceea ce privește emisiile de tokenuri",
+          "Riscul de fluctuație a prețului a tokenului în funcție de disponibilitate și demandă",
+          "Riscul de incompatibilitate între tokenul și alte sisteme de plată"
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 831,
+        "eval_count": 720
+      },
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "issuer_announcement",
+        "limitations": []
+      }
+    },
+    {
+      "id": "synthetic-listing",
+      "origin": "synthetic",
+      "expected": [
+        "listing_announcement"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Example Exchange va lista EXAMPLE pe marketul spot, contractul Solana fiind So11111111111111111111111111111111111111112. Comerțul începe mâine.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "The supported Solana contract is So11111111111111111111111111111111111111112. Trading starts tomorrow."
+            }
+          ]
+        },
+        "relationship": "listing_announcement",
+        "relationship_reason": {
+          "text_ro": "Contractul Solana de supportat este So11111111111111111111111111111111111111112. Comerțul începe mâine.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "The supported Solana contract is So11111111111111111111111111111111111111112. Trading starts tomorrow."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Contractul Solana de supportat este So11111111111111111111111111111111111111112.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The supported Solana contract is So11111111111111111111111111111111111111112."
+              }
+            ]
+          },
+          {
+            "text_ro": "Comerțul începe mâine.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Trading starts tomorrow."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este exemplul de produs care va fi listat?"
+        ],
+        "risks": [
+          "Riscul de căutarea unui produs invalid sau de un contract de Solana invalid."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 829,
+        "eval_count": 575
+      },
+      "relationship": {
+        "model_proposed": "listing_announcement",
+        "effective": "listing_announcement",
+        "limitations": []
+      }
+    },
+    {
+      "id": "synthetic-namesake",
+      "origin": "synthetic",
+      "expected": [
+        "unrelated_or_namesake",
+        "insufficient_evidence"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Nu a fost anunțat nicio token de criptovaloare în acest articol, care introduce un nou model Claude AI pentru dezvoltarea software-ului.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Anthropic introduced a new Claude AI model for software development. This article makes no announcement about any cryptocurrency token."
+            }
+          ]
+        },
+        "relationship": "unrelated_or_namesake",
+        "relationship_reason": {
+          "text_ro": "Anthropic a introdus un nou model Claude AI pentru dezvoltarea software-ului. Acest articol nu anunță nicio token de criptovaloare.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Anthropic introduced a new Claude AI model for software development. This article makes no announcement about any cryptocurrency token."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Anthropic a introdus un nou model Claude AI pentru dezvoltarea software-ului.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Anthropic introduced a new Claude AI model for software development."
+              }
+            ]
+          },
+          {
+            "text_ro": "Acest articol nu anunță nicio token de criptovaloare.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "This article makes no announcement about any cryptocurrency token."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce a fost anunțat despre noua modelul Claude AI de AI de software de dezvoltare?"
+        ],
+        "risks": [
+          "Nu există informații despre anunțuri de token de criptovaloare în acest articol."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 721,
+        "eval_count": 419
+      },
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": []
+      }
+    },
+    {
+      "id": "synthetic-denial",
+      "origin": "synthetic",
+      "expected": [
+        "contradicted"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Nu a emis Example Labs un token. Nu suntem asociat tokenului fără legitimitate pe Solana la So11111111111111111111111111111111111111112. Nu confunda acest token cu produsul nostru software.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Example Labs has not issued a token. We are not affiliated with the fake token on Solana at So11111111111111111111111111111111111111112. Do not confuse it with our software product."
+            }
+          ]
+        },
+        "relationship": "unrelated_or_namesake",
+        "relationship_reason": {
+          "text_ro": "Nu confunda acest token cu produsul nostru software.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Do not confuse it with our software product."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Example Labs nu a emis un token.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Example Labs has not issued a token."
+              }
+            ]
+          },
+          {
+            "text_ro": "Nu suntem asociat tokenului fără legitimitate pe Solana la So11111111111111111111111111111111111111112.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "We are not affiliated with the fake token on Solana at So11111111111111111111111111111111111111112."
+              }
+            ]
+          },
+          {
+            "text_ro": "Nu confunda acest token cu produsul nostru software.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Do not confuse it with our software product."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este produsul software al Example Labs?",
+          "Ce este tokenul fără legitimitate pe Solana la So11111111111111111111111111111111111111112?"
+        ],
+        "risks": [
+          "Riscul de confuzie între tokenul fără legitimitate și produsul software al Example Labs poate afecta încrederea utilizatorilor."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 847,
+        "eval_count": 663
+      },
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": []
+      }
+    },
+    {
+      "id": "synthetic-wrong-contract",
+      "origin": "synthetic",
+      "expected": [
+        "insufficient_evidence",
+        "unrelated_or_namesake"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Nu s-a menționat alt contract de contract de token",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Example Labs launches EXAMPLE on Solana. The token contract is 11111111111111111111111111111111. No other contract is announced."
+            }
+          ]
+        },
+        "relationship": "unrelated_or_namesake",
+        "relationship_reason": {
+          "text_ro": "Nu s-a menționat alt contract de token",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "The token contract is 11111111111111111111111111111111. No other contract is announced."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Nu s-a menționat alt contract de token",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The token contract is 11111111111111111111111111111111. No other contract is announced."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este exemplul de exemplu?"
+        ],
+        "risks": [
+          "Nu s-a menționat alt contract de token"
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 752,
+        "eval_count": 355
+      },
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": []
+      }
+    },
+    {
+      "id": "synthetic-wrong-chain",
+      "origin": "synthetic",
+      "expected": [
+        "insufficient_evidence",
+        "unrelated_or_namesake"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Echipa Example Labs lansă un nou contract numit EXAMPLE pe rețeaua Ethereum. Contractul exact este 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Example Labs launches EXAMPLE on Ethereum. The exact contract is 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+            }
+          ]
+        },
+        "relationship": "issuer_announcement",
+        "relationship_reason": {
+          "text_ro": "Echipa Example Labs lansă un nou contract numit EXAMPLE pe rețeaua Ethereum. Contractul exact este 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Example Labs launches EXAMPLE on Ethereum. The exact contract is 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Echipa Example Labs lansă un nou contract numit EXAMPLE pe rețeaua Ethereum. Contractul exact este 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Example Labs launches EXAMPLE on Ethereum. The exact contract is 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este caracteristicile specifice ale contractului EXAMPLE?"
+        ],
+        "risks": [
+          "Riscul de fraudă în legătură cu noua platformă de bază Ethereum."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 666,
+        "eval_count": 353
+      },
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Contractul și chain-ul exact nu sunt susținute de document."
+        ]
+      }
+    },
+    {
+      "id": "synthetic-public-figure",
+      "origin": "synthetic",
+      "state": "error",
+      "error": "Motor indisponibil sau rezultat/citări invalide."
+    },
+    {
+      "id": "synthetic-injection",
+      "origin": "synthetic",
+      "state": "error",
+      "error": "Motor indisponibil sau rezultat/citări invalide."
+    },
+    {
+      "id": "synthetic-editorial-claim",
+      "origin": "synthetic",
+      "expected": [
+        "insufficient_evidence"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Așa cum a spus un ziar, Example Labs lansă un token. Acesta citează un contract Solana So11111111111111111111111111111111111111112, dar nu oferă nicio declarație originală de emisă de emisier.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "A newspaper says Example Labs launched a token. It cites a Solana contract So11111111111111111111111111111111111111112, but offers no original issuer statement."
+            }
+          ]
+        },
+        "relationship": "unrelated_or_namesake",
+        "relationship_reason": {
+          "text_ro": "Un ziar spunea că Example Labs lansă un token, iar acesta citează un contract Solana So11111111111111111111111111111111111111112, dar nu oferă nicio declarație originală de emisă de emisier.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "A newspaper says Example Labs launched a token. It cites a Solana contract So11111111111111111111111111111111111111112, but offers no original issuer statement."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Un ziar spunea că Example Labs lansă un token, iar acesta citează un contract Solana So11111111111111111111111111111111111111112, dar nu oferă nicio declarație originală de emisă de emisier.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "A newspaper says Example Labs launched a token. It cites a Solana contract So11111111111111111111111111111111111111112, but offers no original issuer statement."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce este tokenul lansat de Example Labs?",
+          "Ce este contractul Solana So11111111111111111111111111111111111111112?"
+        ],
+        "risks": [
+          "Nu există declarație originală de emisă de emisier pentru tokenul So11111111111111111111111111111111111111112."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 831,
+        "eval_count": 748
+      },
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": []
+      }
+    },
+    {
+      "id": "synthetic-unknown-native",
+      "origin": "synthetic",
+      "expected": [
+        "unrelated_or_namesake",
+        "insufficient_evidence"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Nu a fost anunțat nici un contract de token sau emisiune în această publicație. ",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "The network foundation publishes a software update. There is no token contract or issuance announcement in this release."
+            }
+          ]
+        },
+        "relationship": "unrelated_or_namesake",
+        "relationship_reason": {
+          "text_ro": "Nu există nici un contract de token sau anunț de emisiune în această publicație.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "There is no token contract or issuance announcement in this release."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Fundatia rețelei publicează o actualizare a software-ului.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The network foundation publishes a software update."
+              }
+            ]
+          },
+          {
+            "text_ro": "Nu există nici un contract de token sau anunț de emisiune în această publicație.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "There is no token contract or issuance announcement in this release."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce conținut a avut actualizarea software-ului?"
+        ],
+        "risks": [
+          "Nu există informații despre emisiunea de token sau anunțuri specifice în acest text."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 717,
+        "eval_count": 383
+      },
+      "relationship": {
+        "model_proposed": "unrelated_or_namesake",
+        "effective": "unrelated_or_namesake",
+        "limitations": []
+      }
+    }
+  ],
+  "partition_metrics": {
+    "development": {
+      "cases": 6,
+      "valid_outputs": 5,
+      "invalid_or_failed": 1,
+      "correct_including_failures": 4,
+      "accuracy": 0.6666666666666666,
+      "positive_predictions": 2,
+      "false_positive_associations": 0,
+      "positive_precision": 1.0,
+      "positive_recall": 1.0,
+      "always_insufficient_baseline": 0.5,
+      "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+    },
+    "test": {
+      "cases": 6,
+      "valid_outputs": 4,
+      "invalid_or_failed": 2,
+      "correct_including_failures": 3,
+      "accuracy": 0.5,
+      "positive_predictions": 0,
+      "false_positive_associations": 0,
+      "positive_precision": null,
+      "positive_recall": null,
+      "always_insufficient_baseline": 1.0,
+      "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+    }
+  },
+  "raw_model_metrics": {
+    "cases": 12,
+    "valid_outputs": 9,
+    "invalid_or_failed": 3,
+    "correct_including_failures": 6,
+    "accuracy": 0.5,
+    "positive_predictions": 3,
+    "false_positive_associations": 1,
+    "positive_precision": 0.6666666666666666,
+    "positive_recall": 1.0,
+    "always_insufficient_baseline": 0.75,
+    "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+  }
+}

@@ -6,6 +6,7 @@
     <meta name="color-scheme" content="dark" />
     <title>PULSE — Crypto Research</title>
     <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/advanced.js" defer></script>
     <script src="/static/app.js" defer></script>
   </head>
   <body>
@@ -38,6 +39,9 @@
         <button class="nav-item" data-page="journal">
           <span>≡</span>Jurnal & rezultate
         </button>
+        <button class="nav-item" data-page="advanced">
+          <span>◇</span>Cercetare avansată
+        </button>
       </nav>
       <div class="sidebar-note">
         <span class="live-dot"></span>EXPERIMENT CONTROLAT
@@ -50,7 +54,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.5</span>
+        <span class="version">v0.6</span>
       </div>
     </aside>
     <main class="main">
@@ -398,6 +402,13 @@
         </section>
         <section class="panel"><div id="orders"></div></section>
       </section>
+      <section id="view-advanced" class="view" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">DOVEZI / ACOPERIRE / REZULTATE</p>
+          <h1>Cercetare avansată</h1>
+        </div>
+        <div id="advanced-content" class="advanced-grid"></div>
+      </section>
       <section id="view-sources" class="view" hidden>
         <div class="view-heading">
           <div>
@@ -465,5 +476,23 @@
         >
       </footer>
     </main>
+    <dialog id="login-dialog" class="login-dialog">
+      <h2>Intră în spațiul tău PULSE</h2>
+      <p class="footnote">
+        Acces personal la informații și portofoliul virtual.
+      </p>
+      <form id="login-form" class="evidence-form">
+        <label for="login-password">Parola spațiului</label
+        ><input
+          id="login-password"
+          type="password"
+          autocomplete="current-password"
+          required
+          maxlength="1024"
+        />
+        <button type="submit" class="primary">Autentificare</button>
+        <p id="login-error" class="warn" role="alert"></p>
+      </form>
+    </dialog>
   </body>
 </html>

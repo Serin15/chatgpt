@@ -1,0 +1,657 @@
+{
+  "account": "news",
+  "split_at": "2026-10-14T14:20:22.666169+00:00",
+  "horizon_seconds": 300,
+  "signals_total": 1,
+  "history_truncated": false,
+  "cohorts": {
+    "development": {
+      "signals": 0,
+      "evaluated": 0,
+      "unresolved": 0,
+      "net_pnl_independent_experiments_usd": "0",
+      "loss_signal_rate": null,
+      "sample_sufficient_for_profitability_claim": false
+    },
+    "test": {
+      "signals": 1,
+      "evaluated": 1,
+      "unresolved": 0,
+      "net_pnl_independent_experiments_usd": "-0.55424867157671027078524056",
+      "loss_signal_rate": 1.0,
+      "sample_sufficient_for_profitability_claim": false
+    },
+    "unassigned": {
+      "signals": 0,
+      "evaluated": 0,
+      "unresolved": 0,
+      "net_pnl_independent_experiments_usd": "0",
+      "loss_signal_rate": null,
+      "sample_sufficient_for_profitability_claim": false
+    }
+  },
+  "results": [
+    {
+      "id": 1,
+      "address": "asset:bitcoin",
+      "at": "2026-10-14T14:20:25.137872+00:00",
+      "cohort": "test",
+      "state": "evaluated",
+      "pnl_usd": "-0.55424867157671027078524056",
+      "entry_observed_at": "2026-10-14T14:20:29.300711+00:00",
+      "exit_observed_at": "2026-10-14T14:25:34.502141+00:00",
+      "entry_snapshot_id": 2,
+      "exit_snapshot_id": 12,
+      "entry_cost": "50",
+      "execution_models": [
+        "observed_level1_book_assumed_fee",
+        "observed_level1_book_assumed_fee"
+      ],
+      "execution_verified": false
+    }
+  ],
+  "manual_portfolio_drawdown_pct": null,
+  "false_signal_definition": "Independent $50 experiment with net PnL <= 0 at the selected horizon; not a labeled false news association",
+  "point_in_time_policy": "First stored receipt after signal+3s, then first receipt after entry+horizon, each within 120s. No downloaded historical prices or favorable observation selection.",
+  "note": "Experimente independente, nu equity al unei strategii cu poziții suprapuse. Erorile, disparițiile și lipsa datelor rămân în numărătoare. Cohorta test se alege înaintea reglajelor; sistemul nu antrenează un model și nu demonstrează profitabilitate.",
+  "real_market_data": true,
+  "case": "one BTC infrastructure scenario, not a news-selected signal or strategy benchmark",
+  "orders_executed": 0,
+  "receipts": [
+    {
+      "id": 2,
+      "at": "2026-10-14T14:20:29.300711+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81871.595,
+        "market_cap": 1649044274996.0,
+        "volume_24h": 30074177969.0,
+        "change_24h": -1.89938,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:20:29.300711+00:00",
+        "source_updated_at": "2026-10-14T14:20:28.680094976Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81870.19",
+          "bid_size": "0.00916086",
+          "ask": "81873",
+          "ask_size": "0.0255",
+          "product": "BTC-USD",
+          "sequence": 137705357818,
+          "observed_at": "2026-10-14T14:20:29.300707+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:18:52.000Z",
+        "reference_price_usd": 82026.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 1
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 3,
+      "at": "2026-10-14T14:20:59.885971+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81876.565,
+        "market_cap": 1648013769908.0,
+        "volume_24h": 30090569139.0,
+        "change_24h": -1.84822,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:20:59.885971+00:00",
+        "source_updated_at": "2026-10-14T14:20:57.574560462Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81876.56",
+          "bid_size": "0.00000069",
+          "ask": "81876.57",
+          "ask_size": "0.23240622",
+          "product": "BTC-USD",
+          "sequence": 137705416689,
+          "observed_at": "2026-10-14T14:20:59.885967+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:19:51.000Z",
+        "reference_price_usd": 81999.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 2
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 4,
+      "at": "2026-10-14T14:21:30.132051+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81927.045,
+        "market_cap": 1648013769908.0,
+        "volume_24h": 30090569139.0,
+        "change_24h": -1.84822,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:21:30.132051+00:00",
+        "source_updated_at": "2026-10-14T14:21:29.230773748Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81927.04",
+          "bid_size": "0.00079338",
+          "ask": "81927.05",
+          "ask_size": "0.08428789",
+          "product": "BTC-USD",
+          "sequence": 137705484866,
+          "observed_at": "2026-10-14T14:21:30.132047+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:19:51.000Z",
+        "reference_price_usd": 81999.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 1
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 5,
+      "at": "2026-10-14T14:22:00.926042+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81928.6,
+        "market_cap": 1647261419008.0,
+        "volume_24h": 30108420065.0,
+        "change_24h": -1.88059,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:22:00.926042+00:00",
+        "source_updated_at": "2026-10-14T14:22:00.231825238Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81927.95",
+          "bid_size": "0.01830795",
+          "ask": "81929.25",
+          "ask_size": "0.02135974",
+          "product": "BTC-USD",
+          "sequence": 137705542066,
+          "observed_at": "2026-10-14T14:22:00.926038+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:20:54.000Z",
+        "reference_price_usd": 81967.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 1
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 6,
+      "at": "2026-10-14T14:22:31.154649+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81905.28,
+        "market_cap": 1647261419008.0,
+        "volume_24h": 30108420065.0,
+        "change_24h": -1.88059,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:22:31.154649+00:00",
+        "source_updated_at": "2026-10-14T14:22:30.162134526Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81902.45",
+          "bid_size": "0.0002",
+          "ask": "81908.11",
+          "ask_size": "0.0255",
+          "product": "BTC-USD",
+          "sequence": 137705592242,
+          "observed_at": "2026-10-14T14:22:31.154625+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:20:54.000Z",
+        "reference_price_usd": 81967.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 1
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 7,
+      "at": "2026-10-14T14:23:01.794400+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81926.35500000001,
+        "market_cap": 1646211453525.0,
+        "volume_24h": 30154909311.0,
+        "change_24h": -1.91328,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:23:01.794400+00:00",
+        "source_updated_at": "2026-10-14T14:22:59.583430262Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81926.35",
+          "bid_size": "0.00007592",
+          "ask": "81926.36",
+          "ask_size": "0.08186024",
+          "product": "BTC-USD",
+          "sequence": 137705635459,
+          "observed_at": "2026-10-14T14:23:01.794395+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:21:57.000Z",
+        "reference_price_usd": 81911.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 2
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 8,
+      "at": "2026-10-14T14:23:32.261522+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81890.16500000001,
+        "market_cap": 1646211453525.0,
+        "volume_24h": 30154909311.0,
+        "change_24h": -1.91328,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:23:32.261522+00:00",
+        "source_updated_at": "2026-10-14T14:23:30.671272868Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81890.16",
+          "bid_size": "0.12516701",
+          "ask": "81890.17",
+          "ask_size": "0.00488477",
+          "product": "BTC-USD",
+          "sequence": 137705690380,
+          "observed_at": "2026-10-14T14:23:32.261517+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:21:57.000Z",
+        "reference_price_usd": 81911.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 2
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 9,
+      "at": "2026-10-14T14:24:02.867370+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81936.935,
+        "market_cap": 1646360475712.0,
+        "volume_24h": 30202480331.0,
+        "change_24h": -1.89871,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:24:02.867370+00:00",
+        "source_updated_at": "2026-10-14T14:24:00.472273462Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81936.38",
+          "bid_size": "0.09763672",
+          "ask": "81937.49",
+          "ask_size": "0.0255",
+          "product": "BTC-USD",
+          "sequence": 137705739189,
+          "observed_at": "2026-10-14T14:24:02.867366+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:22:52.000Z",
+        "reference_price_usd": 81932.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 2
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 10,
+      "at": "2026-10-14T14:24:33.113088+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81991.67499999999,
+        "market_cap": 1646360475712.0,
+        "volume_24h": 30202480331.0,
+        "change_24h": -1.89871,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:24:33.113088+00:00",
+        "source_updated_at": "2026-10-14T14:24:31.870477474Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81990.65",
+          "bid_size": "0.0000122",
+          "ask": "81992.7",
+          "ask_size": "0.00487854",
+          "product": "BTC-USD",
+          "sequence": 137705788186,
+          "observed_at": "2026-10-14T14:24:33.113084+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:22:52.000Z",
+        "reference_price_usd": 81932.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 1
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 11,
+      "at": "2026-10-14T14:25:04.678046+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81966.35500000001,
+        "market_cap": 1646979930766.0,
+        "volume_24h": 30226283928.0,
+        "change_24h": -1.93036,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:25:04.678046+00:00",
+        "source_updated_at": "2026-10-14T14:25:03.242644877Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81966.35",
+          "bid_size": "0.01941183",
+          "ask": "81966.36",
+          "ask_size": "0.09326295",
+          "product": "BTC-USD",
+          "sequence": 137705841010,
+          "observed_at": "2026-10-14T14:25:04.678022+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:23:58.000Z",
+        "reference_price_usd": 81951.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 1
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    },
+    {
+      "id": 12,
+      "at": "2026-10-14T14:25:34.502141+00:00",
+      "market": {
+        "asset_id": "bitcoin",
+        "kind": "market_asset",
+        "address": "asset:bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price_usd": 81945.845,
+        "market_cap": 1646979930766.0,
+        "volume_24h": 30226283928.0,
+        "change_24h": -1.93036,
+        "rank": 1,
+        "observed_at": "2026-10-14T14:25:34.502141+00:00",
+        "source_updated_at": "2026-10-14T14:25:32.352148102Z",
+        "source": "Coinbase Exchange public order book",
+        "book": {
+          "bid": "81945.84",
+          "bid_size": "0.00611426",
+          "ask": "81945.85",
+          "ask_size": "0.14038646",
+          "product": "BTC-USD",
+          "sequence": 137705883991,
+          "observed_at": "2026-10-14T14:25:34.502137+00:00",
+          "source": "Coinbase Exchange public order book"
+        },
+        "price_source": "Coinbase Exchange public order book",
+        "volume_source": "CoinGecko",
+        "market_source_updated_at": "2026-10-14T14:23:58.000Z",
+        "reference_price_usd": 81951.0,
+        "freshness": {
+          "fresh": true,
+          "age_seconds": 0,
+          "source_age_seconds": 2
+        },
+        "watch": false
+      },
+      "analysis": {
+        "paper_allowed": true,
+        "scope": "reference_price_scenario_not_token_security",
+        "fundamentals_verified": false,
+        "critical": [],
+        "unknown": [
+          "Fundamentele proiectului nu au fost evaluate",
+          "Prețul nu garantează execuția unui ordin"
+        ],
+        "warnings": [
+          "Comisionul este o presupunere configurabilă",
+          "Fără order book, slippage este estimat"
+        ],
+        "action": "investigate"
+      }
+    }
+  ],
+  "collection_errors": []
+}

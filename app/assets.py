@@ -11,7 +11,7 @@ from urllib.parse import urlsplit
 import httpx
 from pydantic import BaseModel, Field
 
-from app.models import freshness, number, utcnow
+from app.models import freshness, utcnow
 from app.providers import ProviderError
 
 PRODUCTS = {
@@ -241,12 +241,23 @@ class Assets:
                 )
                 if not isinstance(data, list) or not data:
                     raise ValueError
-                parsed = [parse_asset(a) for a in data if number(a.get("current_price")) > 0]
+                parsed, rejected = [], 0
+                for item in data:
+                    try:
+                        parsed.append(parse_asset(item))
+                    except (ValueError, TypeError, KeyError, AttributeError):
+                        rejected += 1
                 if not parsed:
                     raise ValueError
                 for asset in parsed:
                     self.save(asset)
-                self.status = {"state": "ok", "at": utcnow(), "error": None, "assets": len(parsed)}
+                self.status = {
+                    "state": "ok",
+                    "at": utcnow(),
+                    "error": None,
+                    "assets": len(parsed),
+                    "rejected_records": rejected,
+                }
             except (ProviderError, ValueError, KeyError, TypeError, AttributeError) as exc:
                 self.status = {
                     "state": "error",

@@ -13,6 +13,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 import httpx
 
 from app.assets import safe_link
+from app.http_client import read_response
 from app.models import epoch, number, utcnow
 from app.providers import ProviderError
 
@@ -153,7 +154,9 @@ def canonical_url(value):
         for k, v in parse_qsl(url.query, keep_blank_values=True)
         if not k.lower().startswith("utm_") and k.lower() not in {"fbclid", "gclid"}
     ]
-    return urlunsplit((url.scheme, url.netloc.lower(), url.path, urlencode(query), ""))
+    return urlunsplit(
+        (url.scheme, url.netloc.lower(), url.path, urlencode(sorted(query, key=lambda p: p[0])), "")
+    )
 
 
 def parse_rss(content, topic, now=None):
@@ -239,7 +242,7 @@ class News:
             if "canonical_url" not in {r[1] for r in db.execute("PRAGMA table_info(news)")}:
                 db.execute("ALTER TABLE news ADD COLUMN canonical_url TEXT")
             migrated = db.execute(
-                "SELECT 1 FROM schema_migrations WHERE name='news-canonical-v1'"
+                "SELECT 1 FROM schema_migrations WHERE name='news-canonical-v2'"
             ).fetchone()
             if not migrated:
                 groups = {}
@@ -252,6 +255,24 @@ class News:
                     )
                     if canonical != row["id"]:
                         db.execute(
+                            "INSERT OR IGNORE INTO news_topics SELECT ?,topic FROM news_topics WHERE news_id=?",
+                            (canonical, row["id"]),
+                        )
+                        existing_tables = {
+                            r[0]
+                            for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")
+                        }
+                        for table in (
+                            "announcement_checks",
+                            "announcement_documents",
+                            "ai_attempts",
+                        ):
+                            if table in existing_tables:
+                                db.execute(
+                                    f"UPDATE {table} SET news_id=? WHERE news_id=?",
+                                    (canonical, row["id"]),
+                                )
+                        db.execute(
                             "INSERT OR IGNORE INTO news_read SELECT ?,at FROM news_read WHERE news_id=?",
                             (canonical, row["id"]),
                         )
@@ -260,7 +281,7 @@ class News:
                             (canonical, row["id"]),
                         )
                 db.execute(
-                    "INSERT INTO schema_migrations VALUES(?,?)", ("news-canonical-v1", utcnow())
+                    "INSERT INTO schema_migrations VALUES(?,?)", ("news-canonical-v2", utcnow())
                 )
             db.execute("CREATE INDEX IF NOT EXISTS news_canonical_url ON news(canonical_url)")
 
@@ -270,7 +291,9 @@ class News:
     async def feed(self, topic):
         try:
             definition = TOPICS[topic]
-            response = await self.client.get(
+            raw, _ = await read_response(
+                self.client,
+                "GET",
                 definition.get("feed", "https://news.google.com/rss/search"),
                 params=None
                 if definition.get("feed")
@@ -281,12 +304,13 @@ class News:
                     "ceid": "US:en",
                 },
             )
-            response.raise_for_status()
-            return parse_rss(response.content, topic)
-        except (httpx.HTTPError, ValueError, ET.ParseError) as exc:
+            return parse_rss(raw, topic)
+        except (ProviderError, httpx.HTTPError, ValueError, ET.ParseError) as exc:
             reason = (
                 f"HTTP {exc.response.status_code}"
                 if isinstance(exc, httpx.HTTPStatusError)
+                else str(exc)
+                if isinstance(exc, ProviderError)
                 else type(exc).__name__
             )
             raise ProviderError(f"Știri {topic}: {reason}") from None
@@ -386,15 +410,51 @@ class News:
             return self.status
         async with self.lock:
             self.status["running"] = True
-            try:
-                for topic, definition in TOPICS.items():
+            semaphore = asyncio.Semaphore(4)
+
+            async def fetch_topic(topic):
+                async with semaphore:
                     try:
                         items = await self.feed(topic)
-                        ids = [self.save(item) for item in items]
+                        if not isinstance(items, list):
+                            raise ProviderError("Lista de știri are format invalid.")
+                        return topic, items, None
+                    except ProviderError as exc:
+                        return topic, [], str(exc)
+                    except (ValueError, TypeError, KeyError, AttributeError):
+                        return topic, [], "Sursa de știri este indisponibilă sau incompatibilă."
+
+            tasks = [asyncio.create_task(fetch_topic(topic)) for topic in TOPICS]
+            try:
+                for task in asyncio.as_completed(tasks):
+                    topic, items, feed_error = await task
+                    definition = TOPICS[topic]
+                    try:
+                        if feed_error:
+                            raise ProviderError(feed_error)
+                        valid, ids, rejected = [], [], 0
+                        for item in items[:100]:
+                            try:
+                                if (
+                                    not isinstance(item, dict)
+                                    or not safe_link(item.get("url"))
+                                    or not isinstance(item.get("title"), str)
+                                ):
+                                    raise ValueError
+                                ids.append(self.save(item))
+                                valid.append(item)
+                            except (ValueError, TypeError, KeyError, AttributeError):
+                                rejected += 1
+                        items = valid
                         query = definition.get(
                             "search", definition["aliases"][0] if definition["aliases"] else None
                         )
-                        candidates = await self.providers.search(query) if ids and query else []
+                        search_error = None
+                        try:
+                            candidates = await self.providers.search(query) if ids and query else []
+                        except (ProviderError, ValueError, TypeError, KeyError, AttributeError):
+                            candidates = []
+                            search_error = "Asocierea DEX este indisponibilă; articolele și activele generale rămân disponibile."
                         candidates = [
                             c
                             for c in candidates
@@ -410,13 +470,17 @@ class News:
                                 linked = mentioned_assets(
                                     item["title"], definition, assets.listing()
                                 )
-                            self.replace_matches(news_id, candidates[:4] + linked[:4], topic)
+                            if search_error:
+                                self.save_matches(news_id, linked[:4])
+                            else:
+                                self.replace_matches(news_id, candidates[:4] + linked[:4], topic)
                         self.status["topics"][topic] = {
-                            "state": "ok",
+                            "state": "partial" if search_error or rejected else "ok",
                             "at": utcnow(),
                             "headlines": len(items),
                             "candidates": len(candidates[:4]),
-                            "error": None,
+                            "error": search_error
+                            or (f"{rejected} înregistrări invalide omise." if rejected else None),
                         }
                     except ProviderError as exc:
                         self.status["topics"][topic] = {
@@ -425,6 +489,9 @@ class News:
                             "error": str(exc),
                         }
                 self.status["last_completed_at"] = utcnow()
+                notifications = getattr(self, "notifications", None)
+                if notifications:
+                    notifications.collect()
                 announcements = getattr(self, "announcements", None)
                 if announcements:
                     try:
@@ -436,6 +503,10 @@ class News:
                             "error": "Analiza documentelor este incompletă; știrile rămân disponibile.",
                         }
             finally:
+                for task in tasks:
+                    if not task.done():
+                        task.cancel()
+                await asyncio.gather(*tasks, return_exceptions=True)
                 self.status["running"] = False
         return self.status
 

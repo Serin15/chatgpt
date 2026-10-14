@@ -1,0 +1,143 @@
+{
+  "scope": "installed Python runtime and development packages; PyPI published advisories, not a proof of absence of vulnerabilities",
+  "results": [
+    {
+      "name": "annotated-doc",
+      "version": "0.0.5",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "click",
+      "version": "8.5.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "fastapi",
+      "version": "0.143.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "idna",
+      "version": "3.20",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.3.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "opentelemetry-api",
+      "version": "1.45.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "pluggy",
+      "version": "1.6.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "pydantic_core",
+      "version": "2.50.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "pytest",
+      "version": "9.1.1",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "ruff",
+      "version": "0.17.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "starlette",
+      "version": "1.8.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.4",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "state": "checked",
+      "advisories": []
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.54.0",
+      "state": "checked",
+      "advisories": []
+    }
+  ]
+}

@@ -175,7 +175,7 @@ def require_fresh(snapshot, settings, now):
             raise Rejected("Timestamp-ul sursei de preț este lipsă sau expirat.")
 
 
-def buy(store, snapshot, signal_id, usd, settings, now=None):
+def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):
     now = now if now is not None else datetime.now(UTC).timestamp()
     require_fresh(snapshot, settings, now)
     if not snapshot["analysis"]["paper_allowed"]:
@@ -185,8 +185,20 @@ def buy(store, snapshot, signal_id, usd, settings, now=None):
         raise Rejected("Suma depășește capitalul de referință al contului.")
     if usd < settings.min_position:
         raise Rejected("Poziție sub dimensiunea minimă.")
-    quote = fill("buy", usd, snapshot["market"], settings)
-    quote |= break_even(quote, snapshot["market"], settings)
+    quote = (
+        validate_execution(execution, "buy", usd, snapshot, now)
+        if execution
+        else fill("buy", usd, snapshot["market"], settings)
+    )
+    quote |= (
+        {
+            "break_even_price_estimate": None,
+            "break_even_rise_pct": None,
+            "break_even_assumption": "requires_new_routed_exit_quote",
+        }
+        if execution
+        else break_even(quote, snapshot["market"], settings)
+    )
     cost = -D(quote["cash_change"])
     with store.connect() as db:
         db.execute("BEGIN IMMEDIATE")
@@ -251,7 +263,7 @@ def buy(store, snapshot, signal_id, usd, settings, now=None):
     return quote
 
 
-def sell(store, position_id, snapshot, settings, now=None):
+def sell(store, position_id, snapshot, settings, now=None, execution=None):
     now = now if now is not None else datetime.now(UTC).timestamp()
     require_fresh(snapshot, settings, now)
     # Fail closed: a price/liquidity snapshot alone cannot establish sellability.
@@ -274,7 +286,21 @@ def sell(store, position_id, snapshot, settings, now=None):
                 raise Rejected(
                     "Ieșirea dintr-o poziție simulată cu order book necesită un bid/ask nou."
                 )
-        quote = fill("sell", position["quantity"], snapshot["market"], settings)
+        entry_order = db.execute(
+            "SELECT details FROM orders WHERE side='buy' AND json_extract(details,'$.position_id')=?",
+            (position_id,),
+        ).fetchone()
+        if (
+            entry_order
+            and json.loads(entry_order[0]).get("model") == "jupiter_quote_conservative_min_out"
+            and execution is None
+        ):
+            raise Rejected("Această poziție necesită un quote Jupiter nou pentru ieșire.")
+        quote = (
+            validate_execution(execution, "sell", position["quantity"], snapshot, now)
+            if execution
+            else fill("sell", position["quantity"], snapshot["market"], settings)
+        )
         proceeds = D(quote["cash_change"])
         pnl = proceeds - D(position["entry_cost"])
         cash = D(db.execute("SELECT balance FROM account WHERE id=1").fetchone()[0])
@@ -294,3 +320,20 @@ def sell(store, position_id, snapshot, settings, now=None):
             (snapshot["address"], "sell", utcnow(), "filled", json.dumps(quote)),
         )
     return quote
+
+
+def validate_execution(execution, side, size, snapshot, now):
+    if (
+        execution.get("model") != "jupiter_quote_conservative_min_out"
+        or execution.get("address") != snapshot["address"]
+        or execution.get("side") != side
+        or amount(execution.get("requested_size")) != amount(size)
+    ):
+        raise Rejected("Quote-ul nu corespunde ordinului paper.")
+    if not 0 <= now - epoch(execution["quote_observed_at"]) <= 15:
+        raise Rejected("Quote-ul Jupiter este expirat sau din viitor.")
+    amount(execution.get("quantity"))
+    cash = D(execution["cash_change"])
+    if not cash.is_finite() or (side == "buy" and cash >= 0) or (side == "sell" and cash <= 0):
+        raise Rejected("Cash flow invalid în quote.")
+    return dict(execution)

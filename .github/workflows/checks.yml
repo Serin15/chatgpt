@@ -1,0 +1,46 @@
+name: PULSE checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install uv==0.12.23
+      - run: uv sync --frozen
+      - run: uv run ruff check app tests
+      - run: uv run pytest -q
+      - run: node --check app/static/app.js
+      - run: node --check app/static/advanced.js
+      - name: Native Windows launcher from a path with spaces
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $project = Join-Path $env:RUNNER_TEMP 'PULSE test path'
+          New-Item -ItemType Directory -Force $project | Out-Null
+          $archive = Join-Path $env:RUNNER_TEMP 'pulse-check.zip'
+          git archive --format=zip --output=$archive HEAD
+          Expand-Archive -Path $archive -DestinationPath $project -Force
+          $env:PULSE_NO_BROWSER = '1'
+          $env:DATA_DIR = Join-Path $env:RUNNER_TEMP 'PULSE temporary data'
+          $process = Start-Process cmd -ArgumentList '/c start-windows.cmd' -WorkingDirectory $project -PassThru
+          try {
+            $ready = $false
+            for ($i=0; $i -lt 120; $i++) {
+              try {
+                $status = Invoke-RestMethod 'http://127.0.0.1:8000/healthz'
+                if ($status.app_id -eq 'pulse_crypto_research') { $ready = $true; break }
+              } catch {}
+              Start-Sleep -Seconds 1
+            }
+            if (-not $ready) { throw 'Native Windows launcher did not become ready' }
+          } finally {
+            taskkill /PID $process.Id /T /F 2>$null
+          }

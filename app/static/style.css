@@ -1815,3 +1815,53 @@ footer {
   cursor: pointer;
   margin: 12px 0;
 }
+.advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.advanced-grid > *,
+.fundamentals-panel,
+.advanced-grid pre {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.advanced-grid pre,
+.fundamentals-panel pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 500px;
+  overflow: auto;
+}
+.advanced-grid input,
+.advanced-grid select,
+.login-dialog input {
+  width: 100%;
+  min-width: 0;
+  margin: 8px 0;
+}
+.login-dialog {
+  background: #101722;
+  color: #e4e8ee;
+  border: 1px solid #34465c;
+  border-radius: 18px;
+  padding: 28px;
+  width: min(460px, calc(100% - 32px));
+}
+.login-dialog::backdrop {
+  background: rgba(4, 8, 16, 0.88);
+}
+@media (max-width: 850px) {
+  .advanced-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.locked > main,
+.locked > aside {
+  visibility: hidden;
+}
+
+.research-json {
+  font: 10px/1.8 var(--mono);
+  color: #9bb3d1;
+}

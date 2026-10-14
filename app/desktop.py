@@ -1,6 +1,7 @@
 """Start the local application and open its browser tab. No external deployment."""
 
 import argparse
+import os
 import socket
 import subprocess
 import sys
@@ -16,6 +17,8 @@ from app.config import Settings
 def running_app(url):
     try:
         response = httpx.get(url + "/api/status", timeout=1, trust_env=False)
+        if response.status_code == 401:
+            response = httpx.get(url + "/healthz", timeout=1, trust_env=False)
         payload = response.json() if response.is_success else None
         return payload if isinstance(payload, dict) else {}
     except (httpx.HTTPError, ValueError):
@@ -34,7 +37,9 @@ def our_app(url, payload=None):
 def main():
     parser = argparse.ArgumentParser(description="Start PULSE Crypto Research on this computer")
     parser.add_argument("--port", type=int, default=8000)
-    parser.add_argument("--no-browser", action="store_true")
+    parser.add_argument(
+        "--no-browser", action="store_true", default=os.getenv("PULSE_NO_BROWSER") == "1"
+    )
     args = parser.parse_args()
     if not 1024 <= args.port <= 65525:
         parser.error("Port must be between 1024 and 65525")
