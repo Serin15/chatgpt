@@ -58,10 +58,16 @@ async def check(base):
             await page.evaluate("""() => {
                 state.status.routed_quotes = {state:'partial', at:new Date().toISOString(),
                                               errors:['Fixture Jupiter unavailable']};
+                state.status.announcement_analysis = {state:'error', at:new Date().toISOString(),
+                    error:{'developers.circle.com':'Fixture document HTTP 404'}};
                 renderHealth();
             }""")
             await expect(page.locator("#connection")).to_contain_text("eroare", timeout=1000)
             await expect(page.locator("#section-alerts")).to_contain_text("routed", timeout=1000)
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-details")).to_contain_text(
+                "Fixture document HTTP 404", timeout=1000
+            )
 
         async def isolation(page):
             gate = asyncio.Event()

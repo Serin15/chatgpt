@@ -1,0 +1,163 @@
+﻿2026-10-15T08:18:18.1555005Z ##[group]Run import os
+2026-10-15T08:18:18.1555543Z [36;1mimport os[0m
+2026-10-15T08:18:18.1555906Z [36;1mimport subprocess[0m
+2026-10-15T08:18:18.1556301Z [36;1mimport sys[0m
+2026-10-15T08:18:18.1556627Z [36;1m[0m
+2026-10-15T08:18:18.1557263Z [36;1m# Windows redirects stdout using cp1252 by default. Preserve Romanian diagnostics.[0m
+2026-10-15T08:18:18.1558221Z [36;1msys.stdout.reconfigure(encoding="utf-8", errors="replace")[0m
+2026-10-15T08:18:18.1559000Z [36;1msys.stderr.reconfigure(encoding="utf-8", errors="replace")[0m
+2026-10-15T08:18:18.1559658Z [36;1mresult = subprocess.run([0m
+2026-10-15T08:18:18.1560119Z [36;1m    ["uv", "run", "pytest", "-q"],[0m
+2026-10-15T08:18:18.1560591Z [36;1m    stdout=subprocess.PIPE,[0m
+2026-10-15T08:18:18.1561052Z [36;1m    stderr=subprocess.STDOUT,[0m
+2026-10-15T08:18:18.1561500Z [36;1m    encoding="utf-8",[0m
+2026-10-15T08:18:18.1562196Z [36;1m    errors="replace",[0m
+2026-10-15T08:18:18.1562729Z [36;1m    env=os.environ | {"PYTHONIOENCODING": "utf-8"},[0m
+2026-10-15T08:18:18.1563331Z [36;1m)[0m
+2026-10-15T08:18:18.1563672Z [36;1mprint(result.stdout, flush=True)[0m
+2026-10-15T08:18:18.1564152Z [36;1mif result.returncode:[0m
+2026-10-15T08:18:18.1564900Z [36;1m    detail = result.stdout[-24000:].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")[0m
+2026-10-15T08:18:18.1565859Z [36;1m    print("::error title=Pytest failure::" + detail, flush=True)[0m
+2026-10-15T08:18:18.1566512Z [36;1msys.exit(result.returncode)[0m
+2026-10-15T08:18:18.1575223Z shell: C:\hostedtoolcache\windows\Python\3.12.10\x64\python.EXE {0}
+2026-10-15T08:18:18.1575835Z env:
+2026-10-15T08:18:18.1576281Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:18:18.1577116Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-15T08:18:18.1577985Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:18:18.1578735Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:18:18.1579510Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:18:18.1580082Z ##[endgroup]
+2026-10-15T08:24:50.4831794Z ........................................................................ [ 23%]
+2026-10-15T08:24:50.4833118Z ........................................................................ [ 47%]
+2026-10-15T08:24:50.4834159Z ........................................................................ [ 71%]
+2026-10-15T08:24:50.4835298Z ............................................FF.......................... [ 95%]
+2026-10-15T08:24:50.4835992Z ...............                                                          [100%]
+2026-10-15T08:24:50.4836635Z ================================== FAILURES ===================================
+2026-10-15T08:24:50.4837352Z __________________________ test_total_exposure_limit __________________________
+2026-10-15T08:24:50.4837845Z
+2026-10-15T08:24:50.4839180Z settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_total_expos...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+2026-10-15T08:24:50.4841879Z store = <app.store.Store object at 0x0000023588BD9C40>
+2026-10-15T08:24:50.4842311Z
+2026-10-15T08:24:50.4842587Z     def test_total_exposure_limit(settings, store):
+2026-10-15T08:24:50.4843329Z         for n, address in enumerate(["one", "two", "three", "four"]):
+2026-10-15T08:24:50.4844065Z             snap = snapshot(settings, address=address)
+2026-10-15T08:24:50.4844632Z             if n < 3:
+2026-10-15T08:24:50.4845173Z >               buy(store, snap, old_signal(store, snap), "15", settings)
+2026-10-15T08:24:50.4845627Z
+2026-10-15T08:24:50.4845781Z tests\test_paper.py:48:
+2026-10-15T08:24:50.4846345Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+2026-10-15T08:24:50.4846780Z
+2026-10-15T08:24:50.4847069Z store = <app.store.Store object at 0x0000023588BD9C40>
+2026-10-15T08:24:50.4851430Z snapshot = {'id': 1, 'address': 'one', 'at': '2026-10-15T08:23:59.770378+00:00', 'market': {'address': 'one', 'symbol': 'FIXTURE', 'name': 'Explicit test fixture', 'pair_address': '11111111111111111111111111111111', ...}, ...}
+2026-10-15T08:24:50.4852844Z signal_id = 1, usd = '15'
+2026-10-15T08:24:50.4854942Z settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_total_expos...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+2026-10-15T08:24:50.4856875Z now = 1792052639.821603, execution = None
+2026-10-15T08:24:50.4857249Z
+2026-10-15T08:24:50.4857661Z     def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):
+2026-10-15T08:24:50.4858552Z         now = now if now is not None else datetime.now(UTC).timestamp()
+2026-10-15T08:24:50.4859262Z         require_fresh(snapshot, settings, now)
+2026-10-15T08:24:50.4859899Z         if not snapshot["analysis"]["paper_allowed"]:
+2026-10-15T08:24:50.4862507Z >           raise Rejected("Intrare blocată: risc critic sau verificări incomplete.")
+2026-10-15T08:24:50.4863725Z E           app.paper.Rejected: Intrare blocată: risc critic sau verificări incomplete.
+2026-10-15T08:24:50.4864365Z
+2026-10-15T08:24:50.4864540Z app\paper.py:182: Rejected
+2026-10-15T08:24:50.4865173Z ____________________ test_duplicate_signal_is_not_reusable ____________________
+2026-10-15T08:24:50.4865771Z
+2026-10-15T08:24:50.4867331Z settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_duplicate_s...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+2026-10-15T08:24:50.4869295Z store = <app.store.Store object at 0x00000235876D5400>
+2026-10-15T08:24:50.4869760Z
+2026-10-15T08:24:50.4870046Z     def test_duplicate_signal_is_not_reusable(settings, store):
+2026-10-15T08:24:50.4919662Z         snap = snapshot(settings)
+2026-10-15T08:24:50.4920707Z         signal_id = old_signal(store, snap)
+2026-10-15T08:24:50.4921661Z >       order = buy(store, snap, signal_id, "5", settings)
+2026-10-15T08:24:50.4922194Z                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-15T08:24:50.4922442Z
+2026-10-15T08:24:50.4922559Z tests\test_paper.py:58:
+2026-10-15T08:24:50.4922912Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+2026-10-15T08:24:50.4923210Z
+2026-10-15T08:24:50.4923403Z store = <app.store.Store object at 0x00000235876D5400>
+2026-10-15T08:24:50.4924383Z snapshot = {'id': 1, 'address': 'So11111111111111111111111111111111111111112', 'at': '2026-10-15T08:24:00.086246+00:00', 'market'...', 'symbol': 'FIXTURE', 'name': 'Explicit test fixture', 'pair_address': '11111111111111111111111111111111', ...}, ...}
+2026-10-15T08:24:50.4925318Z signal_id = 1, usd = '5'
+2026-10-15T08:24:50.4926326Z settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_duplicate_s...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+2026-10-15T08:24:50.4928224Z now = 1792052640.135727, execution = None
+2026-10-15T08:24:50.4928459Z
+2026-10-15T08:24:50.4928721Z     def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):
+2026-10-15T08:24:50.4929233Z         now = now if now is not None else datetime.now(UTC).timestamp()
+2026-10-15T08:24:50.4929613Z         require_fresh(snapshot, settings, now)
+2026-10-15T08:24:50.4929943Z         if not snapshot["analysis"]["paper_allowed"]:
+2026-10-15T08:24:50.4930596Z >           raise Rejected("Intrare blocată: risc critic sau verificări incomplete.")
+2026-10-15T08:24:50.4931317Z E           app.paper.Rejected: Intrare blocată: risc critic sau verificări incomplete.
+2026-10-15T08:24:50.4931694Z
+2026-10-15T08:24:50.4932282Z app\paper.py:182: Rejected
+2026-10-15T08:24:50.4932646Z ============================== warnings summary ===============================
+2026-10-15T08:24:50.4933098Z .venv\Lib\site-packages\fastapi\testclient.py:1
+2026-10-15T08:24:50.4934251Z   D:\a\chatgpt\chatgpt\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+2026-10-15T08:24:50.4935431Z     from starlette.testclient import TestClient as TestClient  # noqa
+2026-10-15T08:24:50.4935734Z
+2026-10-15T08:24:50.4936038Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-10-15T08:24:50.4936525Z =========================== short test summary info ===========================
+2026-10-15T08:24:50.4937427Z FAILED tests/test_paper.py::test_total_exposure_limit - app.paper.Rejected: Intrare blocată: risc critic sau verificări incomplete.
+2026-10-15T08:24:50.4938500Z FAILED tests/test_paper.py::test_duplicate_signal_is_not_reusable - app.paper.Rejected: Intrare blocată: risc critic sau verificări incomplete.
+2026-10-15T08:24:50.4939210Z 2 failed, 301 passed, 1 warning in 390.07s (0:06:30)
+2026-10-15T08:24:50.4939447Z
+2026-10-15T08:24:50.4989752Z ##[error]........................................................................ [ 23%]
+........................................................................ [ 47%]
+........................................................................ [ 71%]
+............................................FF.......................... [ 95%]
+...............                                                          [100%]
+================================== FAILURES ===================================
+__________________________ test_total_exposure_limit __________________________
+
+settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_total_expos...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+store = <app.store.Store object at 0x0000023588BD9C40>
+
+    def test_total_exposure_limit(settings, store):
+        for n, address in enumerate(["one", "two", "three", "four"]):
+            snap = snapshot(settings, address=address)
+            if n < 3:
+>               buy(store, snap, old_signal(store, snap), "15", settings)
+
+tests\test_paper.py:48:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+store = <app.store.Store object at 0x0000023588BD9C40>
+snapshot = {'id': 1, 'address': 'one', 'at': '2026-10-15T08:23:59.770378+00:00', 'market': {'address': 'one', 'symbol': 'FIXTURE', 'name': 'Explicit test fixture', 'pair_address': '11111111111111111111111111111111', ...}, ...}
+signal_id = 1, usd = '15'
+settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_total_expos...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+now = 1792052639.821603, execution = None
+
+    def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):
+        now = now if now is not None else datetime.now(UTC).timestamp()
+        require_fresh(snapshot, settings, now)
+        if not snapshot["analysis"]["paper_allowed"]:
+>           raise Rejected("Intrare blocată: risc critic sau verificări incomplete.")
+E           app.paper.Rejected: Intrare blocată: risc critic sau verificări incomplete.
+
+app\paper.py:182: Rejected
+____________________ test_duplicate_signal_is_not_reusable ____________________
+
+settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_duplicate_s...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+store = <app.store.Store object at 0x00000235876D5400>
+
+    def test_duplicate_signal_is_not_reusable(settings, store):
+        snap = snapshot(settings)
+        signal_id = old_signal(store, snap)
+>       order = buy(store, snap, signal_id, "5", settings)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_paper.py:58:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+store = <app.store.Store object at 0x00000235876D5400>
+snapshot = {'id': 1, 'address': 'So11111111111111111111111111111111111111112', 'at': '2026-10-15T08:24:00.086246+00:00', 'market'...', 'symbol': 'FIXTURE', 'name': 'Explicit test fixture', 'pair_address': '11111111111111111111111111111111', ...}, ...}
+signal_id = 1, usd = '5'
+settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_duplicate_s...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+now = 1792052640.135727, execution = None
+
+    def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):
+        now = now if now is not None else datetime.now(UTC).timestamp()
+        require_fresh(snapshot, settings, now)
+        if not snapshot["analysis"]["paper_allowed"]:
+>           raise Rejected("Intrare blocată: risc critic sau verificări incomplete.")
+E           app.paper.Rejected: Intrare blocată: risc critic sa
+2026-10-15T08:24:50.5015254Z ##[error]Process completed with exit code 1.

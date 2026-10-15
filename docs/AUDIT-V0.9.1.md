@@ -14,6 +14,7 @@ jos, fără o garanție că orice defect posibil ori indisponibilitate viitoare 
 | RPC cu HTTP 200 și eroare JSON-RPC rămânea „ok” | Starea furnizorului devine eroare și pentru refuzurile din validarea aplicației. |
 | Un răspuns on-chain fără mint valid lăsa starea „ok” | Validarea tokenului actualizează explicit starea adaptorului. |
 | Erorile scenariilor automate Jupiter lipseau din indicatorul general | `routed_quotes` intră în agregare; indicatorul poate fi deschis pentru a identifica fiecare componentă. |
+| Erorile documentelor grupate pe domenii apăreau ca `[object Object]` | Panoul de stare afișează conținutul erorilor structurate, inclusiv domeniul și motivul, cu regresie în browser. |
 | `1e999` și `-1e999` deveneau numere infinite în JSON | Citirea comună respinge și depășirile numerice, alături de NaN/Infinity; structurile excesiv de adânci devin erori de sursă. |
 | Sesiunile vechi rămâneau valide după schimbarea parolei | Sesiunile sunt legate prin HMAC de parola folosită la autentificare. Migrarea invalidează sesiunile vechi fără această legătură; nu stochează parola. |
 | Autentificările simultane puteau ocoli limita de încercări | Actualizarea limitei și verificarea autentificării sunt protejate de un lock între threaduri. Regresia pornește simultan opt cereri. |
@@ -77,6 +78,14 @@ uv run --with playwright python tests/browser_announcements.py
 Scripturile de browser existente cer Chromium la `/usr/bin/chromium`; noul script acceptă și
 `BROWSER_EXECUTABLE`. CI include acum și noul audit Chromium pe Linux. Rezultatul CI Windows/Linux
 și verificarea ZIP-ului publicat sunt înregistrate separat după publicarea codului.
+
+Verificarea nativă Windows a expus și două probleme de testare. Mai întâi, wrapperul CI încerca
+să afișeze mesajele românești prin cp1252 și se oprea cu `UnicodeEncodeError`; fluxurile sunt acum
+UTF-8. După această corecție, s-au văzut două eșecuri paper din fixture-uri care eșantionau separat
+ceasul observației și ceasul analizei. O diferență mică putea produce un snapshot de test considerat
+din viitor. [Reproducerea controlată](audit-v091/windows-clock-reproduction.json) eșuează înainte
+și trece după folosirea unui singur moment în fixture. Regulile de prospețime, date viitoare,
+delay și calculele financiare din aplicație nu au fost relaxate. Logurile eșuate sunt păstrate.
 
 ## Servicii reale: ce s-a verificat
 

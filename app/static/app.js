@@ -807,7 +807,9 @@ function renderHealth() {
   const details = $("health-details");
   details.replaceChildren(node("h2", "Starea componentelor"));
   for (const [name, item] of Object.entries(sources)) {
-    const note = item?.error || (item?.errors || []).join("; ");
+    const rawNote = item?.error || (item?.errors || []).join("; ");
+    const note =
+      typeof rawNote === "string" ? rawNote : JSON.stringify(rawNote);
     details.append(
       node(
         "p",
