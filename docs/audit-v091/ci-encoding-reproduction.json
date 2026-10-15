@@ -1,0 +1,7 @@
+{
+  "reproduction": "Windows CI parent stream cp1252 with Romanian diagnostic; not a pytest result",
+  "before_returncode": 1,
+  "before_error_type": "UnicodeEncodeError",
+  "after_returncode": 0,
+  "after_utf8": "Diagnostic: eroare ă, ș, ț"
+}

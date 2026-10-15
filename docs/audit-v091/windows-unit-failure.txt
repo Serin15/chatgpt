@@ -1,0 +1,34 @@
+﻿2026-10-15T08:07:01.7883930Z ##[group]Run import os
+2026-10-15T08:07:01.7884296Z [36;1mimport os[0m
+2026-10-15T08:07:01.7884500Z [36;1mimport subprocess[0m
+2026-10-15T08:07:01.7884714Z [36;1mimport sys[0m
+2026-10-15T08:07:01.7884886Z [36;1m[0m
+2026-10-15T08:07:01.7885062Z [36;1mresult = subprocess.run([0m
+2026-10-15T08:07:01.7885321Z [36;1m    ["uv", "run", "pytest", "-q"],[0m
+2026-10-15T08:07:01.7885597Z [36;1m    stdout=subprocess.PIPE,[0m
+2026-10-15T08:07:01.7885853Z [36;1m    stderr=subprocess.STDOUT,[0m
+2026-10-15T08:07:01.7886101Z [36;1m    encoding="utf-8",[0m
+2026-10-15T08:07:01.7886323Z [36;1m    errors="replace",[0m
+2026-10-15T08:07:01.7886604Z [36;1m    env=os.environ | {"PYTHONIOENCODING": "utf-8"},[0m
+2026-10-15T08:07:01.7886892Z [36;1m)[0m
+2026-10-15T08:07:01.7887077Z [36;1mprint(result.stdout, flush=True)[0m
+2026-10-15T08:07:01.7887330Z [36;1mif result.returncode:[0m
+2026-10-15T08:07:01.7887743Z [36;1m    detail = result.stdout[-24000:].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")[0m
+2026-10-15T08:07:01.7888327Z [36;1m    print("::error title=Pytest failure::" + detail, flush=True)[0m
+2026-10-15T08:07:01.7888679Z [36;1msys.exit(result.returncode)[0m
+2026-10-15T08:07:01.7894323Z shell: C:\hostedtoolcache\windows\Python\3.12.10\x64\python.EXE {0}
+2026-10-15T08:07:01.7894647Z env:
+2026-10-15T08:07:01.7894885Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:07:01.7895824Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-15T08:07:01.7896485Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:07:01.7896894Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:07:01.7897293Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T08:07:01.7897601Z ##[endgroup]
+2026-10-15T08:12:44.2765469Z Traceback (most recent call last):
+2026-10-15T08:12:44.2774333Z   File "D:\a\_temp\90b9be38-a91f-4054-97f0-ea2fdd160d47.py", line 13, in <module>
+2026-10-15T08:12:44.2775071Z     print(result.stdout, flush=True)
+2026-10-15T08:12:44.2775671Z   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\encodings\cp1252.py", line 19, in encode
+2026-10-15T08:12:44.2845495Z     return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+2026-10-15T08:12:44.2846495Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-15T08:12:44.2847280Z UnicodeEncodeError: 'charmap' codec can't encode character '\u0103' in position 3662: character maps to <undefined>
+2026-10-15T08:12:44.2914588Z ##[error]Process completed with exit code 1.
