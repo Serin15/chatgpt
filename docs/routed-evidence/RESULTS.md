@@ -101,6 +101,22 @@ versiunea proiectului devine 0.9.0. Nu s-a dezactivat verificarea artefactelor.
 
 ## Stare și limite
 
+**Regresie Windows identificată și corectată în fixtură.**
+[Rularea nereușită](failed-windows-ci.json) avea 283 teste trecute și un eșec în
+`test_concurrent_same_signal_cannot_double_spend`: [log](windows-unit-failure.txt).
+O [rerulare înaintea corecției](diagnostic-rerun-ci.json) a trecut, confirmând intermitența.
+[Reproducerea cu I/O lent](concurrency-fixture-reproduction.json), cu date simulate, arată că
+o întârziere de 4,2s putea face semnalul mai nou decât snapshotul, astfel ambele cereri erau
+corect respinse de aplicație. Fixtura folosește acum un timp explicit și o barieră de pornire;
+verifică exact o debitare, o poziție, un ordin și respingerea duplicatului cu motivul corect.
+Filtrele și tranzacțiile aplicației nu au fost relaxate sau rescrise. Rularea finală Windows
+de mai jos a trecut cu această corecție.
+
+CI păstrează acum și detaliul unui eșec pytest în annotations, cu același cod de ieșire.
+Logul vechi a fost recuperat prin arhiva oficială GitHub Actions, după permiterea domeniului
+`results-receiver.actions.githubusercontent.com`; accesul direct la blobul jobului era blocat.
+Acesta este un domeniu de diagnostic, separat de `api.kraken.com`, necesar cotațiilor FX.
+
 La revizia finală s-a corectat și separarea dezvoltare/test: fără cutoff declarat datele sunt
 `unassigned`, iar ferestrele care pot traversa limita sunt `purged_boundary`. Prima probă brută
 rămâne păstrată cu etichetarea inițială; nu se modifică datele sau rezultatele ei. Cele două
@@ -109,9 +125,12 @@ regresii suplimentare verifică această clasificare și păstrarea orizonturilo
 de execuție sunt identice cu versiunea probei live. Numai acel hash auditat este acceptat ca
 versiune compatibilă; versiunile necunoscute continuă să fie blocate. Nu se refac politici sau
 rezultate istorice pentru a le înscrie artificial într-un holdout.
+[Raportul final pe istoricul păstrat](report-after-boundary-fix.json) arată setul fără cutoff
+ca `unassigned`, cu dezvoltare/test goale. [CI-ul primei probe](initial-ci.json) și
+[arhiva inițială](initial-package.json) rămân distincte de validarea finală de mai jos.
 
-Codul verificat este `e64772e9792c66418308b53863f9af5506342887`.
-[CI](https://github.com/Serin15/chatgpt/actions/runs/38690660632) a trecut pe **Ubuntu și Windows**,
+Codul final verificat este `9f9f5782032fe632935995534b785a3ecdb462c7`.
+[CI](https://github.com/Serin15/chatgpt/actions/runs/38694489440) a trecut pe **Ubuntu și Windows**,
 inclusiv pornirea Windows nativă prin `start-windows.cmd` dintr-un folder cu spații.
 [ci.json](ci.json) păstrează concluziile reale ale joburilor și pașilor.
 

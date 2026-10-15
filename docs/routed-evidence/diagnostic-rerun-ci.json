@@ -1,0 +1,163 @@
+{
+  "code_commit": "b164bc7638bb576a389c2b089eaee507b61d7dc2",
+  "run_id": 38693433709,
+  "url": "https://github.com/Serin15/chatgpt/actions/runs/38693433709",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "checks (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python -m pip install uv==0.12.23",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv sync --frozen",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv run ruff check app tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Unit and integration tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/app.js",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/advanced.js",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/opportunities.js",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Native Windows launcher from a path with spaces",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "checks (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python -m pip install uv==0.12.23",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv sync --frozen",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv run ruff check app tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Unit and integration tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/app.js",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/advanced.js",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/opportunities.js",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Native Windows launcher from a path with spaces",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
