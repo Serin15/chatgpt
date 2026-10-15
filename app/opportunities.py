@@ -14,6 +14,7 @@ from app.credentials import secret
 from app.errors import ProviderError
 from app.models import Market, epoch, solana_address, utcnow
 from app.narratives import Narratives
+from app.notifications import telegram_receipt
 from app.opportunity_routes import Routes
 from app.opportunity_rules import RULE_VERSION, EngineConfig, evaluate, features
 from app.opportunity_sampling import SAMPLING_VERSION, Sampling
@@ -880,18 +881,10 @@ class Opportunities:
                     ),
                     20,
                 )
-                if not isinstance(result.get("message_id"), int):
-                    raise ProviderError("Telegram did not acknowledge a message ID.")
-                chat = result.get("chat") or {}
-                target = secret("TELEGRAM_CHAT_ID")
-                if (
-                    str(chat.get("id")) != target
-                    and "@" + str(chat.get("username", "")).lower() != target.lower()
-                ):
-                    raise ProviderError("Telegram acknowledgment belongs to a different chat.")
+                message_id = telegram_receipt(result, secret("TELEGRAM_CHAT_ID"))
                 state = "acknowledged_by_api"
                 details = {
-                    "message_id": result["message_id"],
+                    "message_id": message_id,
                     "acknowledged_at": utcnow(),
                     "read_by_user": False,
                 }
@@ -916,33 +909,33 @@ class Opportunities:
 
         return report(self)
 
-    def listing(self, limit=50, before=None, ranked=False):
+    def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
+        now = time.time()
         with self.store.connect() as db:
+            db.create_function("casefold", 1, lambda value: str(value or "").casefold(), deterministic=True)
+            base = """
+                FROM opportunity_candidates c LEFT JOIN opportunity_observations o
+                ON o.id=(SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)
+                WHERE (:verdict='all' OR coalesce(json_extract(o.payload,'$.decision.verdict'),'PENDING')=:verdict)
+                AND (:q='' OR instr(casefold(c.contract || ' ' ||
+                    coalesce(json_extract(c.discovery,'$.name'),'') || ' ' ||
+                    coalesce(json_extract(o.payload,'$.market.name'),'') || ' ' ||
+                    coalesce(json_extract(o.payload,'$.market.symbol'),'')),:q)>0)
+            """
+            params = {
+                "q": query.strip().casefold(), "verdict": verdict, "before": before,
+                "limit": limit + 1, "now": datetime.fromtimestamp(now, UTC).isoformat(),
+                "fresh_from": datetime.fromtimestamp(now - self.service.settings.max_snapshot_age, UTC).isoformat(),
+            }
             order = (
-                "coalesce((SELECT CASE WHEN json_extract(payload,'$.market.observed_at')>=? AND json_extract(payload,'$.security.observed_at')>=? THEN json_extract(payload,'$.decision.rank_score') ELSE NULL END FROM opportunity_observations o WHERE o.candidate_id=opportunity_candidates.id ORDER BY id DESC LIMIT 1),-1) DESC,id DESC"
+                "coalesce(CASE WHEN julianday(json_extract(o.payload,'$.market.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) AND julianday(json_extract(o.payload,'$.security.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) THEN json_extract(o.payload,'$.decision.rank_score') END,-1) DESC,c.id DESC"
                 if ranked
-                else "id DESC"
+                else "c.id DESC"
             )
+            matching_total = db.execute("SELECT count(*) " + base, params).fetchone()[0]
             rows = db.execute(
-                "SELECT * FROM opportunity_candidates WHERE (? IS NULL OR id<?) ORDER BY "
-                + order
-                + " LIMIT ?",
-                (
-                    before,
-                    before,
-                    *(
-                        [
-                            datetime.fromtimestamp(
-                                time.time() - self.service.settings.max_snapshot_age,
-                                UTC,
-                            ).isoformat()
-                        ]
-                        * 2
-                        if ranked
-                        else []
-                    ),
-                    limit + 1,
-                ),
+                "SELECT c.* " + base + " AND (:before IS NULL OR c.id<:before) ORDER BY "
+                + order + " LIMIT :limit", params,
             ).fetchall()
             items = []
             for r in rows[:limit]:
@@ -969,17 +962,19 @@ class Opportunities:
                         "fresh": bool(
                             market
                             and 0
-                            <= time.time() - epoch(market["observed_at"])
+                            <= now - epoch(market["observed_at"])
                             <= self.service.settings.max_snapshot_age
                             and (last or {}).get("security")
                             and 0
-                            <= time.time() - epoch(last["security"]["observed_at"])
+                            <= now - epoch(last["security"]["observed_at"])
                             <= self.service.settings.max_snapshot_age
                         ),
                     }
                 )
         return {
             "items": items,
+            "matching_total": matching_total,
+            "ranking_limited": ranked and len(rows) > limit,
             "next_cursor": rows[limit - 1]["id"] if len(rows) > limit and not ranked else None,
             "status": self.status,
             "config": self.config().model_dump(mode="json"),

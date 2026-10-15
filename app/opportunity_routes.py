@@ -22,9 +22,14 @@ SOURCE_SHA256 = hashlib.sha256(
     )
 ).hexdigest()
 QUOTE_TIMEOUT = 20
-# Audited reporting-only upgrade: execution, costs and timing are unchanged.
+# Audited report/error-classification upgrades: successful fills, costs and timing are unchanged.
 # All other unknown component versions remain unavailable.
-COMPATIBLE_EXECUTION_SOURCES = {"560d51daa5b729eceb99c7d68c684318527083251276cb0298defe5ddf9eedc2"}
+COMPATIBLE_EXECUTION_SOURCES = {
+    "560d51daa5b729eceb99c7d68c684318527083251276cb0298defe5ddf9eedc2",
+    # v0.9.1 only preserves Rejected instead of misclassifying it as a schema error.
+    # Successful quote validation, fill math and all route execution methods are unchanged.
+    "ffaa54a7035d561267aa57f0634865ce5c7fa36ebbd89a95d7928ff75eda65d7",
+}
 log = logging.getLogger(__name__)
 
 

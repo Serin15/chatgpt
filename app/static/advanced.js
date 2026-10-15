@@ -9,13 +9,19 @@ async function startApplication() {
       showLogin();
       return;
     }
-    await load();
-    if (state.page === "opportunities") await renderOpportunities();
+    state.authReady = true;
+    await Promise.allSettled([
+      load(),
+      state.page === "opportunities"
+        ? renderOpportunities()
+        : Promise.resolve(),
+    ]);
   } catch (error) {
     message("Sesiunea nu poate fi verificată: " + error.message);
   }
 }
 function showLogin() {
+  state.authReady = false;
   const dialog = $("login-dialog");
   document.body.classList.add("locked");
   dialog.oncancel = (event) => event.preventDefault();
@@ -39,9 +45,14 @@ function showLogin() {
       $("login-error").textContent = "";
       dialog.close();
       document.body.classList.remove("locked");
-      await load();
+      state.authReady = true;
+      await Promise.allSettled([
+        load(),
+        state.page === "opportunities"
+          ? renderOpportunities()
+          : Promise.resolve(),
+      ]);
       if (state.page === "advanced") await renderAdvanced();
-      if (state.page === "opportunities") await renderOpportunities();
     } catch (error) {
       $("login-error").textContent = error.message;
     } finally {

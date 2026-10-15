@@ -58,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.9 · L3</span>
+        <span class="version">v0.9.1 · L3</span>
       </div>
     </aside>
     <main class="main">
@@ -68,8 +68,14 @@
           <strong id="page-name">Privire de ansamblu</strong>
         </div>
         <div class="top-actions">
-          <span class="connection" id="connection"
-            ><span class="live-dot"></span>Verificare surse…</span
+          <button
+            class="connection"
+            id="connection"
+            type="button"
+            aria-controls="health-details"
+            aria-expanded="false"
+          >
+            <span class="live-dot"></span>Verificare surse…</button
           ><button
             class="icon-button"
             id="refresh-all"
@@ -86,6 +92,7 @@
         role="status"
         hidden
       ></div>
+      <div id="health-details" class="panel padded" hidden></div>
       <section id="view-overview" class="view">
         <div class="welcome">
           <div>
@@ -425,21 +432,24 @@
         <div id="engine-health" class="section-alerts" role="status">
           Se verifică motorul…
         </div>
+        <div
+          id="engine-errors"
+          class="section-alerts"
+          role="status"
+          hidden
+        ></div>
         <div id="engine-stats" class="engine-stats"></div>
-        <details class="panel padded">
-          <summary id="engine-coverage-summary">Calitatea colectării</summary>
-          <div id="engine-coverage"></div>
-        </details>
-        <details class="panel padded">
-          <summary id="engine-routes-summary">Paper cu cotații Jupiter</summary>
-          <div id="engine-routes"></div>
-        </details>
         <section class="panel padded">
+          <h2>Candidați de cercetat</h2>
+          <p id="engine-list-note" class="footnote" role="status">
+            Se încarcă lista…
+          </p>
           <div class="engine-controls">
             <input
               id="engine-search"
               type="search"
               aria-label="Caută candidat"
+              maxlength="120"
               placeholder="Nume, simbol sau contract"
             />
             <select id="engine-verdict" aria-label="Filtru verdict">
@@ -480,6 +490,14 @@
           </button>
         </section>
         <section id="engine-detail" class="panel padded" hidden></section>
+        <details class="panel padded">
+          <summary id="engine-routes-summary">Paper cu cotații Jupiter</summary>
+          <div id="engine-routes"></div>
+        </details>
+        <details class="panel padded">
+          <summary id="engine-coverage-summary">Calitatea colectării</summary>
+          <div id="engine-coverage"></div>
+        </details>
         <div class="engine-grid">
           <section class="panel padded">
             <h2>Alerte de cercetare</h2>

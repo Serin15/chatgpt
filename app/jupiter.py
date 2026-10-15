@@ -102,9 +102,6 @@ class Jupiter:
             response["request_started_at"] = requested_at
             self.status = {"state": "ok", "at": utcnow(), "error": None}
             return response
-        except (KeyError, ValueError, TypeError, ArithmeticError):
-            self.status = {"state": "error", "at": utcnow(), "error": "Quote incompatibil."}
-            raise ProviderError("Quote Jupiter incompatibil cu schema așteptată.") from None
         except (ProviderError, Rejected) as exc:
             if isinstance(exc, ProviderError) and any(
                 s in str(exc) for s in ["HTTP 401", "HTTP 403"]
@@ -114,6 +111,9 @@ class Jupiter:
                 )
             self.status = {"state": "error", "at": utcnow(), "error": str(exc)}
             raise exc
+        except (KeyError, ValueError, TypeError, ArithmeticError):
+            self.status = {"state": "error", "at": utcnow(), "error": "Quote incompatibil."}
+            raise ProviderError("Quote Jupiter incompatibil cu schema așteptată.") from None
 
     async def stable_book(self):
         try:

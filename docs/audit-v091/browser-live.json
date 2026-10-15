@@ -1,0 +1,12 @@
+{
+  "real_browser": true,
+  "data": "stored live provider observations",
+  "checks": [
+    "production candidate list",
+    "technical panel follows candidates",
+    "per-component health",
+    "mobile390px",
+    "stored later routed outcome displayed"
+  ],
+  "js_errors": []
+}

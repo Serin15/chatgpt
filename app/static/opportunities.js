@@ -1,6 +1,12 @@
 /* Level 3: persistent discovery, immutable evidence and independent paper outcomes. */
 const opportunityView = {
   loading: false,
+  pendingRefresh: false,
+  errors: {},
+  pages: 1,
+  queryKey: null,
+  candidateRequest: 0,
+  detailRequest: 0,
   config: null,
   items: [],
   cursor: null,
@@ -39,16 +45,7 @@ function engineStat(label, value, note) {
 function renderCandidateRows() {
   const root = $("engine-rows");
   root.replaceChildren();
-  const query = $("engine-search").value.toLowerCase(),
-    filter = $("engine-verdict").value;
-  const items = opportunityView.items.filter((c) => {
-    const m = c.latest?.market || {},
-      d = c.latest?.decision;
-    return (
-      (filter === "all" || (d?.verdict || "PENDING") === filter) &&
-      [m.name, m.symbol, c.contract].join(" ").toLowerCase().includes(query)
-    );
-  });
+  const items = opportunityView.items;
   for (const c of items) {
     const m = c.latest?.market || {},
       d = c.latest?.decision,
@@ -105,150 +102,215 @@ function renderCandidateRows() {
 function engineJson(parent, label, value) {
   jsonDetails(parent, label, value);
 }
-async function renderOpportunities() {
-  if (opportunityView.loading || document.body.classList.contains("locked"))
-    return;
-  opportunityView.loading = true;
+function candidateQuery() {
+  return new URLSearchParams({
+    sort: $("engine-sort").value,
+    q: $("engine-search").value.trim(),
+    verdict: $("engine-verdict").value,
+  });
+}
+function opportunityError(key, error) {
+  if (error) opportunityView.errors[key] = error.message;
+  else delete opportunityView.errors[key];
+  const root = $("engine-errors");
+  root.replaceChildren();
+  for (const [name, text] of Object.entries(opportunityView.errors))
+    root.append(node("p", `${name}: ${text}. Datele păstrate pot fi vechi.`));
+  root.hidden = !Object.keys(opportunityView.errors).length;
+  if (Object.keys(opportunityView.errors).length)
+    state.sectionErrors.opportunities = Object.keys(
+      opportunityView.errors,
+    ).join(", ");
+  else delete state.sectionErrors.opportunities;
+  renderHealth();
+}
+async function loadOpportunityCandidates(mode = "refresh") {
+  const params = candidateQuery(),
+    key = params.toString();
+  if (key !== opportunityView.queryKey) {
+    opportunityView.pages = 1;
+    opportunityView.queryKey = key;
+    opportunityView.cursor = null;
+  }
+  if (mode === "more" && !opportunityView.cursor) return;
+  const serial = ++opportunityView.candidateRequest;
   try {
-    const paths = [
-      `/api/opportunities?sort=${$("engine-sort").value}`,
-      "/api/opportunities/alerts",
-      "/api/opportunities/performance",
-      "/api/opportunities/narratives",
-      "/api/wallets",
-      "/api/opportunities/coverage",
-      "/api/opportunities/routes",
-    ];
-    const results = await Promise.allSettled(paths.map((p) => api(p)));
-    if (results[0].status === "fulfilled") {
-      const data = results[0].value;
-      opportunityView.items = data.items;
-      opportunityView.cursor = data.next_cursor;
-      opportunityView.config = data.config;
-      $("engine-health").textContent =
-        `Motor: ${data.status.state} · ultim ciclu ${date(data.status.at)} · ${data.status.observed ?? 0} observații în ciclu. ${data.coverage}`;
-      if (data.status.errors?.length)
-        $("engine-health").textContent +=
-          ` Probleme: ${data.status.errors.join(", ")}.`;
-      if (data.status.queue)
-        $("engine-health").textContent +=
-          ` În așteptare: ${data.status.queue.due}; întârziere maximă ${data.status.queue.oldest_due_delay_seconds}s.`;
-      renderCandidateRows();
-      if (!$("engine-config").dataset.loaded) {
-        const c = data.config;
-        $("engine-enabled").checked = c.enabled;
-        $("engine-budget").value = c.observation_budget;
-        $("engine-position").value = c.position_usd;
-        $("engine-min-tx").value = c.min_transactions_5m;
-        $("engine-cooldown").value = c.cooldown_seconds;
-        $("engine-ai").checked = c.ai_narratives;
-        $("engine-routed").checked = c.routed_quotes_enabled;
-        $("engine-route-budget").value = c.routed_quote_budget;
-        $("engine-route-slippage").value = c.routed_slippage_bps;
-        $("engine-telegram").checked = c.telegram_enabled;
-        if (c.test_from) {
-          const d = new Date(c.test_from);
-          $("engine-test-from").value = new Date(
-            d.getTime() - d.getTimezoneOffset() * 60000,
-          )
-            .toISOString()
-            .slice(0, 16);
-        }
-        $("engine-config").dataset.loaded = "1";
-      }
-    } else
-      $("engine-health").textContent =
-        "Motorul nu poate fi citit: " + results[0].reason.message;
-    if (results[2].status === "fulfilled") {
-      const report = results[2].value,
-        t = report.totals,
-        root = $("engine-stats");
-      root.replaceChildren();
-      root.append(
-        engineStat(
-          "CANDIDAȚI",
-          t.discovered,
-          `${t.eligible} eligibili în universul observat`,
-        ),
-        engineStat(
-          "FILTRU DE SECURITATE",
-          report.current_security_pass,
-          "Verificări limitate, fără garanție de siguranță",
-        ),
-        engineStat(
-          "ALERTE",
-          t.alerts,
-          `${t.delivered_in_app} afișate în aplicație`,
-        ),
-        engineStat(
-          "OBSERVAȚII",
-          t.observations,
-          "Inclusiv încercările fără date",
-        ),
-      );
-      renderEnginePerformance(report);
+    if (mode === "more") params.set("before", opportunityView.cursor);
+    let data = await api("/api/opportunities?" + params);
+    const first = data;
+    let items =
+      mode === "more" ? [...opportunityView.items, ...data.items] : data.items;
+    let pages = mode === "more" ? opportunityView.pages + 1 : 1;
+    while (
+      mode !== "more" &&
+      pages < opportunityView.pages &&
+      data.next_cursor
+    ) {
+      params.set("before", data.next_cursor);
+      data = await api("/api/opportunities?" + params);
+      items.push(...data.items);
+      pages++;
     }
-    if (results[5].status === "fulfilled")
-      renderEngineCoverage(results[5].value);
-    if (results[6].status === "fulfilled") renderEngineRoutes(results[6].value);
-    else
-      $("engine-routes").textContent =
-        "Raportul cotațiilor Jupiter este indisponibil.";
-    if (results[1].status === "fulfilled") {
-      const current = results[1].value;
-      const merged = new Map(opportunityView.alerts.map((a) => [a.id, a]));
-      current.items.forEach((a) => merged.set(a.id, a));
-      opportunityView.alerts = [...merged.values()].sort((a, b) => b.id - a.id);
-      if (!opportunityView.alertArchiveLoaded)
-        opportunityView.alertCursor = current.next_cursor;
-      await renderEngineAlerts(opportunityView.alerts);
-    }
-    if (results[3].status === "fulfilled")
-      renderEngineNarratives(results[3].value);
-    if (results[4].status === "fulfilled") {
-      const root = $("engine-wallets");
-      root.replaceChildren();
-      const wallets = results[4].value;
-      if (!wallets.length)
-        root.append(
-          node(
-            "p",
-            "Niciun wallet urmărit. Scorul wallet rămâne necunoscut.",
-            "footnote",
-          ),
-        );
-      for (const w of wallets) {
-        const box = node("article", undefined, "evidence-item");
-        box.append(
-          node("strong", w.label || short(w.address)),
-          node(
-            "p",
-            `${w.chain} · ${w.events_total} evenimente · ${w.status.state}`,
-            "footnote",
-          ),
-        );
-        engineJson(box, "Activitate raportată", w.activity.slice(0, 5));
-        root.append(box);
-      }
-    }
-    const failed = results
-      .map((r, i) =>
-        r.status === "rejected" ? paths[i] + ": " + r.reason.message : null,
-      )
-      .filter(Boolean);
-    if (failed.length)
+    if (
+      serial !== opportunityView.candidateRequest ||
+      key !== candidateQuery().toString()
+    )
+      return;
+    opportunityView.items = [...new Map(items.map((c) => [c.id, c])).values()];
+    opportunityView.pages = pages;
+    opportunityView.cursor = data.next_cursor;
+    opportunityView.config = first.config;
+    $("engine-list-note").textContent =
+      `${opportunityView.items.length} afișați din ${first.matching_total ?? opportunityView.items.length} potriviri` +
+      (first.ranking_limited
+        ? " · clasament limitat; caută sau folosește Descoperiri recente pentru întregul istoric."
+        : ". Căutarea include întregul istoric.");
+    $("engine-health").textContent =
+      `Motor: ${first.status.state} · ultim ciclu ${date(first.status.at)} · ${first.status.observed ?? 0} observații în ciclu.`;
+    if (first.status.errors?.length)
       $("engine-health").textContent +=
-        " Componente indisponibile: " + failed.join("; ");
-    if (opportunityView.selection !== null)
-      await openOpportunity(opportunityView.selection, false);
+        ` Probleme: ${first.status.errors.join(", ")}.`;
+    if (first.status.queue?.due)
+      $("engine-health").textContent +=
+        ` În așteptare: ${first.status.queue.due}; întârziere maximă ${first.status.queue.oldest_due_delay_seconds}s.`;
+    renderCandidateRows();
+    if (!$("engine-config").dataset.loaded) {
+      const c = first.config;
+      for (const [id, value] of Object.entries({
+        enabled: c.enabled,
+        ai: c.ai_narratives,
+        routed: c.routed_quotes_enabled,
+        telegram: c.telegram_enabled,
+      }))
+        $("engine-" + id).checked = value;
+      for (const [id, value] of Object.entries({
+        budget: c.observation_budget,
+        position: c.position_usd,
+        "min-tx": c.min_transactions_5m,
+        cooldown: c.cooldown_seconds,
+        "route-budget": c.routed_quote_budget,
+        "route-slippage": c.routed_slippage_bps,
+      }))
+        $("engine-" + id).value = value;
+      if (c.test_from) {
+        const d = new Date(c.test_from);
+        $("engine-test-from").value = new Date(
+          d.getTime() - d.getTimezoneOffset() * 60000,
+        )
+          .toISOString()
+          .slice(0, 16);
+      }
+      $("engine-config").dataset.loaded = "1";
+    }
+    opportunityError("Candidați", null);
   } catch (error) {
-    $("engine-health").textContent = error.message;
+    if (serial === opportunityView.candidateRequest)
+      opportunityError("Candidați", error);
+  }
+}
+function renderOpportunityStats(report) {
+  const t = report.totals,
+    root = $("engine-stats");
+  root.replaceChildren();
+  root.append(
+    engineStat(
+      "CANDIDAȚI",
+      t.discovered,
+      `${t.eligible} eligibili în universul observat`,
+    ),
+    engineStat(
+      "FILTRU DE SECURITATE",
+      report.current_security_pass,
+      "Verificări limitate, fără garanție de siguranță",
+    ),
+    engineStat(
+      "ALERTE",
+      t.alerts,
+      `${t.delivered_in_app} afișate în aplicație`,
+    ),
+    engineStat("OBSERVAȚII", t.observations, "Inclusiv încercările fără date"),
+  );
+  renderEnginePerformance(report);
+}
+function renderOpportunityWallets(wallets) {
+  const root = $("engine-wallets");
+  root.replaceChildren();
+  if (!wallets.length)
+    root.append(
+      node(
+        "p",
+        "Niciun wallet urmărit. Scorul wallet rămâne necunoscut.",
+        "footnote",
+      ),
+    );
+  for (const w of wallets) {
+    const box = node("article", undefined, "evidence-item");
+    box.append(
+      node("strong", w.label || short(w.address)),
+      node(
+        "p",
+        `${w.chain} · ${w.events_total} evenimente · ${w.status.state}`,
+        "footnote",
+      ),
+    );
+    engineJson(box, "Activitate raportată", w.activity.slice(0, 5));
+    root.append(box);
+  }
+}
+async function renderOpportunities() {
+  if (!state.authReady || document.body.classList.contains("locked")) return;
+  if (opportunityView.loading) {
+    opportunityView.pendingRefresh = true;
+    return;
+  }
+  opportunityView.loading = true;
+  const sections = [
+    [
+      "Alerte",
+      "/api/opportunities/alerts",
+      async (current) => {
+        const merged = new Map(opportunityView.alerts.map((a) => [a.id, a]));
+        current.items.forEach((a) => merged.set(a.id, a));
+        opportunityView.alerts = [...merged.values()].sort(
+          (a, b) => b.id - a.id,
+        );
+        if (!opportunityView.alertArchiveLoaded)
+          opportunityView.alertCursor = current.next_cursor;
+        await renderEngineAlerts(opportunityView.alerts);
+      },
+    ],
+    ["Performanță", "/api/opportunities/performance", renderOpportunityStats],
+    ["Narațiuni", "/api/opportunities/narratives", renderEngineNarratives],
+    ["Walleturi", "/api/wallets", renderOpportunityWallets],
+    ["Colectare", "/api/opportunities/coverage", renderEngineCoverage],
+    ["Jupiter", "/api/opportunities/routes", renderEngineRoutes],
+  ];
+  try {
+    await Promise.allSettled([
+      loadOpportunityCandidates(),
+      ...sections.map(async ([name, path, render]) => {
+        try {
+          await render(await api(path));
+          opportunityError(name, null);
+        } catch (error) {
+          opportunityError(name, error);
+        }
+      }),
+      opportunityView.selection !== null
+        ? openOpportunity(opportunityView.selection, false)
+        : Promise.resolve(),
+    ]);
   } finally {
     opportunityView.loading = false;
+    if (opportunityView.pendingRefresh) {
+      opportunityView.pendingRefresh = false;
+      renderOpportunities();
+    }
   }
 }
 async function renderEngineAlerts(items) {
   const root = $("engine-alerts");
+  const receipts = [];
   root.replaceChildren();
   if (!items.length) {
     root.append(
@@ -326,9 +388,23 @@ async function renderEngineAlerts(items) {
       state.page === "opportunities" &&
       !document.hidden
     )
-      Object.assign(
-        a,
-        await api(`/api/opportunities/alerts/${a.id}/receipt`, {}),
+      receipts.push(
+        (async () => {
+          try {
+            Object.assign(
+              a,
+              await api(`/api/opportunities/alerts/${a.id}/receipt`, {}),
+            );
+          } catch (error) {
+            box.append(
+              node(
+                "p",
+                "Confirmarea afișării a eșuat: " + error.message,
+                "warn footnote",
+              ),
+            );
+          }
+        })(),
       );
   }
   if (
@@ -358,6 +434,7 @@ async function renderEngineAlerts(items) {
     );
     root.append(more);
   }
+  await Promise.allSettled(receipts);
 }
 function renderEnginePerformance(report) {
   const root = $("engine-performance");
@@ -659,9 +736,24 @@ function engineChart(observations, parent) {
 }
 async function openOpportunity(id, scroll = true) {
   opportunityView.selection = id;
+  const serial = ++opportunityView.detailRequest;
   try {
-    const c = await api("/api/opportunities/" + id),
-      root = $("engine-detail");
+    const c = await api("/api/opportunities/" + id);
+    if (
+      serial !== opportunityView.detailRequest ||
+      opportunityView.selection !== id
+    )
+      return;
+    const root = $("engine-detail");
+    const expanded =
+      root.dataset.candidateId === String(id)
+        ? new Set(
+            [...root.querySelectorAll("details[open]")].map(
+              (d) => d.querySelector("summary")?.textContent,
+            ),
+          )
+        : new Set();
+    root.dataset.candidateId = id;
     root.hidden = false;
     root.replaceChildren();
     const latest = c.observations.at(-1),
@@ -747,28 +839,42 @@ async function openOpportunity(id, scroll = true) {
     engineJson(root, "Semnale originale și politici înghețate", c.signals);
     engineJson(root, "Observații, narațiuni și walleturi", c.observations);
     engineJson(root, "Captura inițială", c.discovery);
+    for (const details of root.querySelectorAll("details"))
+      details.open = expanded.has(
+        details.querySelector("summary")?.textContent,
+      );
     if (scroll) root.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
-    message(error.message);
+    if (
+      serial !== opportunityView.detailRequest ||
+      opportunityView.selection !== id
+    )
+      return;
+    const root = $("engine-detail");
+    root.hidden = false;
+    if (root.dataset.candidateId !== String(id)) root.replaceChildren();
+    let warning = root.querySelector(".engine-detail-error");
+    if (!warning) {
+      warning = node("p", undefined, "engine-detail-error warn");
+      root.prepend(warning);
+    }
+    warning.textContent =
+      "Dosarul nu poate fi actualizat: " +
+      error.message +
+      ". Datele păstrate pot fi vechi.";
   }
 }
 function setupOpportunityControls() {
-  $("engine-search").oninput = renderCandidateRows;
-  $("engine-verdict").onchange = renderCandidateRows;
-  $("engine-sort").onchange = renderOpportunities;
-  $("engine-refresh").onclick = renderOpportunities;
-  $("engine-more").onclick = async () => {
-    try {
-      const d = await api(
-        `/api/opportunities?before=${opportunityView.cursor}`,
-      );
-      opportunityView.items.push(...d.items);
-      opportunityView.cursor = d.next_cursor;
-      renderCandidateRows();
-    } catch (e) {
-      message(e.message);
-    }
+  let searchTimer;
+  $("engine-search").oninput = () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => loadOpportunityCandidates(), 250);
   };
+  $("engine-verdict").onchange = () => loadOpportunityCandidates();
+  $("engine-sort").onchange = () => loadOpportunityCandidates();
+  $("engine-refresh").onclick = renderOpportunities;
+  $("engine-more").onclick = () =>
+    action($("engine-more"), () => loadOpportunityCandidates("more"));
   $("engine-config").onsubmit = async (event) => {
     event.preventDefault();
     if (!opportunityView.config) return;

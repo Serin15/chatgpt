@@ -406,8 +406,10 @@ def create_app(
         limit: int = Query(50, ge=1, le=200),
         before: int | None = Query(None, gt=0),
         sort: Literal["rank", "recent"] = "recent",
+        q: str = Query("", max_length=120),
+        verdict: Literal["all", "PENDING", "REJECT", "MONITOR", "INVESTIGATE", "CONSIDER"] = "all",
     ):
-        return request.app.state.service.opportunities.listing(limit, before, sort == "rank")
+        return request.app.state.service.opportunities.listing(limit, before, sort == "rank", q, verdict)
 
     @app.get("/api/opportunities/performance")
     def opportunity_performance(request: Request):

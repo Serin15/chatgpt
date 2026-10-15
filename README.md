@@ -1,4 +1,4 @@
-# MemeScope v0.9 — Early Opportunity Engine
+# MemeScope v0.9.1 — Early Opportunity Engine
 
 Cercetare automată pentru tokenuri Solana observate devreme în feedurile publice: descoperire →
 date de piață și securitate → filtre → scoruri separate → verdict explicat → alertă → rezultate
@@ -9,6 +9,7 @@ observațiile eșuate. Nu prezice randamente, nu confirmă automat afilierea unu
 tranzacții reale. Un pool recent nu dovedește că tokenul a fost lansat recent.
 
 [Cotații Jupiter v0.9 și verificări](docs/ROUTED-PAPER.md) ·
+[Audit și corecții v0.9.1](docs/AUDIT-V0.9.1.md) ·
 [Colectare echilibrată v0.8](docs/COLLECTION.md) ·
 [Implementare, verificare live, limite și următorul milestone](docs/LEVEL3.md) ·
 [Dovezi executabile](docs/level3-evidence/) · [Deschidere pe Windows](DESCHIDE-APLICATIA.md)
@@ -41,7 +42,7 @@ uv run --frozen python -m app.desktop --no-browser
 ```
 
 Dashboardul local este la `http://127.0.0.1:8000`; launcherul poate alege un port liber ulterior.
-În mediul cloud, proiectul este în `/workspace/chatgpt`; folosește previzualizarea oferită de mediu.
+În mediul cloud, proiectul este în `/workspace/chatgpt`; verificările locale nu reprezintă găzduire publică.
 
 ## Ce face Level 3
 

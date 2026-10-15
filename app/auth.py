@@ -4,6 +4,7 @@ import hashlib
 import hmac
 import os
 import secrets
+import threading
 import time
 from urllib.parse import urlsplit
 
@@ -44,10 +45,18 @@ class Auth:
                 "PULSE_PUBLIC_ORIGIN trebuie să fie o origine fără path/autentificare."
             )
         self.attempts = {}
+        self.login_lock = threading.Lock()
         with store.connect() as db:
             db.execute(
                 "CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,csrf TEXT NOT NULL,expires_at REAL NOT NULL)"
             )
+            if "credential_tag" not in {r[1] for r in db.execute("PRAGMA table_info(auth_sessions)")}:
+                db.execute("ALTER TABLE auth_sessions ADD COLUMN credential_tag TEXT")
+
+    def credential_tag(self, token_hash):
+        return hmac.new(
+            self.password.encode(), ("memescope-session-v1:" + token_hash).encode(), hashlib.sha256
+        ).hexdigest()
 
     @property
     def enabled(self):
@@ -59,14 +68,22 @@ class Auth:
         token = request.cookies.get(COOKIE, "")
         if not token or len(token) > 200:
             return {"authenticated": False, "required": True, "csrf": None}
+        token_hash = hashlib.sha256(token.encode()).hexdigest()
         with self.store.connect() as db:
             row = db.execute(
-                "SELECT csrf FROM auth_sessions WHERE token_hash=? AND expires_at>?",
-                (hashlib.sha256(token.encode()).hexdigest(), time.time()),
+                "SELECT csrf,credential_tag FROM auth_sessions WHERE token_hash=? AND expires_at>?",
+                (token_hash, time.time()),
             ).fetchone()
+        if row and not hmac.compare_digest(row[1] or "", self.credential_tag(token_hash)):
+            row = None
         return {"authenticated": bool(row), "required": True, "csrf": row[0] if row else None}
 
     def login(self, request, body):
+        # FastAPI dispatches synchronous handlers in multiple threads.
+        with self.login_lock:
+            return self._login(request, body)
+
+    def _login(self, request, body):
         if not self.enabled:
             return JSONResponse({"authenticated": True, "required": False, "csrf": None})
         peer = request.client.host if request.client else "unknown"
@@ -90,11 +107,12 @@ class Auth:
             return JSONResponse({"detail": "Autentificare invalidă."}, status_code=401)
         self.attempts.pop(peer, None)
         token, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
+        token_hash = hashlib.sha256(token.encode()).hexdigest()
         with self.store.connect() as db:
             db.execute("DELETE FROM auth_sessions WHERE expires_at<=?", (now,))
             db.execute(
-                "INSERT INTO auth_sessions VALUES(?,?,?)",
-                (hashlib.sha256(token.encode()).hexdigest(), csrf, now + 86400),
+                "INSERT INTO auth_sessions(token_hash,csrf,expires_at,credential_tag) VALUES(?,?,?,?)",
+                (token_hash, csrf, now + 86400, self.credential_tag(token_hash)),
             )
         response = JSONResponse({"authenticated": True, "required": True, "csrf": csrf})
         response.set_cookie(

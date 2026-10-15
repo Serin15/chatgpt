@@ -1,0 +1,16 @@
+{
+  "baseline_commit": "f92be2208b0d678884712d21a9d2daec7f9d3194",
+  "baseline_source_sha256": "ffaa54a7035d561267aa57f0634865ce5c7fa36ebbd89a95d7928ff75eda65d7",
+  "installed_source_sha256": "7f7dae89b7e9f79ff350b046112243f379a2025f5941b4bf75b6c62677becb42",
+  "checks": {
+    "unchanged_fill": true,
+    "unchanged_kraken_book": true,
+    "unchanged_coinbase_book": true,
+    "unchanged_stable_book": true,
+    "unchanged_quote_success_path": true,
+    "same_exception_handlers_reordered": true,
+    "unchanged_Routes_class": true
+  },
+  "all_checks_pass": true,
+  "change": "Rejected inherits ValueError; preserve the risk exception before the generic schema handler. No successful fill or timing calculation changed."
+}

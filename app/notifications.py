@@ -13,6 +13,24 @@ from app.http_client import read_json
 from app.models import epoch, utcnow
 
 
+def telegram_receipt(result, target):
+    """An API receipt must identify the requested chat and a positive message ID."""
+    if (
+        not isinstance(result, dict)
+        or type(result.get("message_id")) is not int
+        or result["message_id"] <= 0
+        or not isinstance(result.get("chat"), dict)
+    ):
+        raise ProviderError("Telegram nu a confirmat un mesaj și un destinatar valid.")
+    chat = result["chat"]
+    if not target or (
+        str(chat.get("id")) != target
+        and (not target.startswith("@") or "@" + str(chat.get("username", "")).lower() != target.lower())
+    ):
+        raise ProviderError("Confirmarea Telegram aparține altui destinatar.")
+    return result["message_id"]
+
+
 class Notifications:
     def __init__(self, service, client=None):
         self.service, self.store = service, service.store
@@ -152,9 +170,8 @@ class Notifications:
                         "link_preview_options": {"is_disabled": True},
                     },
                 )
-                if not isinstance(result, dict) or not isinstance(result.get("message_id"), int):
-                    raise ProviderError("Telegram nu a confirmat ID-ul mesajului.")
-                state, details = "sent", {"message_id": result["message_id"]}
+                message_id = telegram_receipt(result, secret("TELEGRAM_CHAT_ID", required=True))
+                state, details = "sent", {"message_id": message_id, "read_by_user": False}
             except ProviderError as exc:
                 details = {
                     "error": str(exc),

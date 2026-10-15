@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-15T08:01:33.362297+00:00",
+  "real_sources": true,
+  "documents_only_not_paid_APIs": true,
+  "results": [
+    {
+      "url": "https://www.anthropic.com/news/claude-sonnet-4-5",
+      "state": "read",
+      "title": "Introducing Claude Sonnet 4.5 \\ Anthropic",
+      "sha256": "ce6c9e992a46eb265b379207e0b9598781a5735f5c748727ac239e25593cdc74",
+      "text_length": 13744
+    },
+    {
+      "url": "https://developers.circle.com/stablecoins/usdc-on-main-networks",
+      "state": "unavailable",
+      "reason": "ProviderError: Sursa nu poate fi citită acum; nu confirmăm anunțul sau afilierea."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "real_database_copy": true,
+  "providers_live": false,
+  "checks": {
+    "/api/status": 200,
+    "/api/opportunities?sort=rank": 200,
+    "/api/opportunities?sort=recent&q=dog": 200,
+    "/api/opportunities/coverage": 200,
+    "/api/opportunities/routes": 200,
+    "/api/opportunities/performance": 200
+  },
+  "before": {
+    "opportunity_candidates": {
+      "rows": 13078,
+      "sha256": "f551a98b27e5438af86737a8b0c6eabf2e907fb34c39d681331ca04545b1b598"
+    },
+    "opportunity_signals": {
+      "rows": 26706,
+      "sha256": "a3b11e4069aecd4c0d0d0966cafeaad0ade0e89b9019895bcdbb5befda3629ff"
+    },
+    "opportunity_observations": {
+      "rows": 31500,
+      "sha256": "6bf10091c6ff27ea3821355ee8d70047138c70c32af666d4e6c64cf50985ac05"
+    },
+    "opportunity_outcomes": {
+      "rows": 40884,
+      "sha256": "481a6a38e6394c616b908efb8cd6a4c13837ab6e0866f3e05ddc6e442cc10f7f"
+    },
+    "routed_experiments": {
+      "rows": 2825,
+      "sha256": "85b329af6294ba10f33d77850d092d512c777a932816ea37ac3928936097e71a"
+    },
+    "routed_outcomes": {
+      "rows": 8475,
+      "sha256": "339c76de01092933f59606fb90c53dcc50ee846448671b905144fd72237615da"
+    },
+    "orders": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "positions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "account": {
+      "rows": 1,
+      "sha256": "ac3b8ec3ffa7610c5d7f605464875475f2d96ec86e1e961ab116ad8346e7eabc"
+    }
+  },
+  "after": {
+    "opportunity_candidates": {
+      "rows": 13078,
+      "sha256": "f551a98b27e5438af86737a8b0c6eabf2e907fb34c39d681331ca04545b1b598"
+    },
+    "opportunity_signals": {
+      "rows": 26706,
+      "sha256": "a3b11e4069aecd4c0d0d0966cafeaad0ade0e89b9019895bcdbb5befda3629ff"
+    },
+    "opportunity_observations": {
+      "rows": 31500,
+      "sha256": "6bf10091c6ff27ea3821355ee8d70047138c70c32af666d4e6c64cf50985ac05"
+    },
+    "opportunity_outcomes": {
+      "rows": 40884,
+      "sha256": "481a6a38e6394c616b908efb8cd6a4c13837ab6e0866f3e05ddc6e442cc10f7f"
+    },
+    "routed_experiments": {
+      "rows": 2825,
+      "sha256": "85b329af6294ba10f33d77850d092d512c777a932816ea37ac3928936097e71a"
+    },
+    "routed_outcomes": {
+      "rows": 8475,
+      "sha256": "339c76de01092933f59606fb90c53dcc50ee846448671b905144fd72237615da"
+    },
+    "orders": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "positions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "account": {
+      "rows": 1,
+      "sha256": "ac3b8ec3ffa7610c5d7f605464875475f2d96ec86e1e961ab116ad8346e7eabc"
+    }
+  },
+  "unchanged": true,
+  "integrity": "ok"
+}

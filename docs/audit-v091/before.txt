@@ -1,0 +1,662 @@
+FFFF..FFFFFFF.FFFF.                                                      [100%]
+=================================== FAILURES ===================================
+___________ test_rpc_application_error_is_visible_in_provider_health ___________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-133/test_rpc_application_error_is_0'), scan_interval_seconds=...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+
+    def test_rpc_application_error_is_visible_in_provider_health(settings):
+        async def run():
+            p = Providers(
+                settings,
+                httpx.AsyncClient(
+                    transport=httpx.MockTransport(
+                        lambda _: httpx.Response(200, json={"error": {"code": -32602}})
+                    )
+                ),
+            )
+            try:
+                with pytest.raises(ProviderError):
+                    await p.mint_info(ADDRESS)
+                assert p.status["rpc"]["state"] == "error"
+            finally:
+                await p.close()
+
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:52:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        p = Providers(
+            settings,
+            httpx.AsyncClient(
+                transport=httpx.MockTransport(
+                    lambda _: httpx.Response(200, json={"error": {"code": -32602}})
+                )
+            ),
+        )
+        try:
+            with pytest.raises(ProviderError):
+                await p.mint_info(ADDRESS)
+>           assert p.status["rpc"]["state"] == "error"
+E           AssertionError: assert 'ok' == 'error'
+E
+E             - error
+E             + ok
+
+tests/test_audit_v091.py:48: AssertionError
+_______________ test_invalid_token_is_visible_in_onchain_health ________________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-133/test_invalid_token_is_visible_0'), scan_interval_seconds=...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+
+    def test_invalid_token_is_visible_in_onchain_health(settings):
+        async def run():
+            rpc = Onchain(
+                settings,
+                httpx.AsyncClient(
+                    transport=httpx.MockTransport(
+                        lambda _: httpx.Response(200, json={"result": {"value": None}})
+                    )
+                ),
+            )
+            try:
+                with pytest.raises(ProviderError):
+                    await rpc.token("solana", ADDRESS)
+                assert rpc.status["solana"]["state"] == "error"
+            finally:
+                await rpc.close()
+
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:72:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        rpc = Onchain(
+            settings,
+            httpx.AsyncClient(
+                transport=httpx.MockTransport(
+                    lambda _: httpx.Response(200, json={"result": {"value": None}})
+                )
+            ),
+        )
+        try:
+            with pytest.raises(ProviderError):
+                await rpc.token("solana", ADDRESS)
+>           assert rpc.status["solana"]["state"] == "error"
+E           AssertionError: assert 'ok' == 'error'
+E
+E             - error
+E             + ok
+
+tests/test_audit_v091.py:68: AssertionError
+_____________ test_nonfinite_provider_numbers_are_rejected[1e999] ______________
+
+value = '1e999'
+
+    @pytest.mark.parametrize("value", ["1e999", "-1e999", "NaN", "Infinity"])
+    def test_nonfinite_provider_numbers_are_rejected(value):
+        async def run():
+            async with httpx.AsyncClient(
+                transport=httpx.MockTransport(
+                    lambda _: httpx.Response(200, content='{"price":' + value + "}")
+                )
+            ) as client:
+                with pytest.raises(ProviderError, match="JSON invalid"):
+                    await read_json(client, "GET", "https://example.com/data")
+
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:86:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(
+                lambda _: httpx.Response(200, content='{"price":' + value + "}")
+            )
+        ) as client:
+>           with pytest.raises(ProviderError, match="JSON invalid"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ProviderError
+
+tests/test_audit_v091.py:83: Failed
+_____________ test_nonfinite_provider_numbers_are_rejected[-1e999] _____________
+
+value = '-1e999'
+
+    @pytest.mark.parametrize("value", ["1e999", "-1e999", "NaN", "Infinity"])
+    def test_nonfinite_provider_numbers_are_rejected(value):
+        async def run():
+            async with httpx.AsyncClient(
+                transport=httpx.MockTransport(
+                    lambda _: httpx.Response(200, content='{"price":' + value + "}")
+                )
+            ) as client:
+                with pytest.raises(ProviderError, match="JSON invalid"):
+                    await read_json(client, "GET", "https://example.com/data")
+
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:86:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(
+                lambda _: httpx.Response(200, content='{"price":' + value + "}")
+            )
+        ) as client:
+>           with pytest.raises(ProviderError, match="JSON invalid"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ProviderError
+
+tests/test_audit_v091.py:83: Failed
+_____________ test_jupiter_impact_rejection_keeps_the_risk_reason ______________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-133/test_jupiter_impact_rejection_0'), scan_interval_seconds=...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+
+    def test_jupiter_impact_rejection_keeps_the_risk_reason(settings):
+        async def run():
+            response = {
+                "inputMint": USDC,
+                "outputMint": ADDRESS,
+                "inAmount": "1000",
+                "outAmount": "1000",
+                "otherAmountThreshold": "995",
+                "swapMode": "ExactIn",
+                "slippageBps": 50,
+                "priceImpactPct": "1",
+                "contextSlot": 42,
+                "routePlan": [{"swapInfo": {}}],
+            }
+            j = Jupiter(
+                settings,
+                None,
+                httpx.AsyncClient(
+                    transport=httpx.MockTransport(lambda _: httpx.Response(200, json=response))
+                ),
+            )
+            try:
+                with pytest.raises(Rejected, match="impact"):
+                    await j.quote(USDC, ADDRESS, 1000)
+                assert "impact" in j.status["error"]
+            finally:
+                await j.close()
+
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:117:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_audit_v091.py:112: in run
+    await j.quote(USDC, ADDRESS, 1000)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <app.jupiter.Jupiter object at 0x7f204f412720>
+input_mint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+output_mint = 'So11111111111111111111111111111111111111112', raw_amount = 1000
+slippage_bps = 50
+
+    async def quote(self, input_mint, output_mint, raw_amount, slippage_bps=50):
+        solana_address(input_mint)
+        solana_address(output_mint)
+        if (
+            type(raw_amount) is not int
+            or not 0 < raw_amount < 2**64
+            or type(slippage_bps) is not int
+            or not 0 <= slippage_bps <= 200
+        ):
+            raise Rejected("Cantitate sau slippage invalid pentru quote.")
+        key = secret("JUPITER_API_KEY")
+        try:
+            requested_at = utcnow()
+            response = await read_json(
+                self.client,
+                "GET",
+                "https://api.jup.ag/swap/v1/quote",
+                headers={"Cache-Control": "no-cache"} | ({"x-api-key": key} if key else {}),
+                params={
+                    "inputMint": input_mint,
+                    "outputMint": output_mint,
+                    "amount": str(raw_amount),
+                    "slippageBps": slippage_bps,
+                    "swapMode": "ExactIn",
+                    "restrictIntermediateTokens": "true",
+                },
+            )
+            if (
+                not isinstance(response, dict)
+                or response.get("inputMint") != input_mint
+                or response.get("outputMint") != output_mint
+                or int(response.get("inAmount", 0)) != raw_amount
+                or response.get("swapMode") != "ExactIn"
+                or response.get("slippageBps") != slippage_bps
+            ):
+                raise ProviderError("Quote-ul nu corespunde cererii exacte.")
+            out, minimum = int(response["outAmount"]), int(response["otherAmountThreshold"])
+            impact = D(str(response["priceImpactPct"]))
+            if (
+                not 0 < minimum <= out < 2**64
+                or not impact.is_finite()
+                or not 0 <= impact <= self.settings.max_price_impact
+            ):
+                raise Rejected("Quote cu ieșire/impact neacceptabil.")
+            if minimum < int(
+                (D(out) * (1 - D(slippage_bps) / 10000)).to_integral_value(rounding=ROUND_DOWN)
+            ):
+                raise Rejected("Pragul de ieșire nu respectă slippage-ul solicitat.")
+            if (
+                not isinstance(response.get("routePlan"), list)
+                or not response["routePlan"]
+                or type(response.get("contextSlot")) is not int
+                or response["contextSlot"] <= 0
+                or len(response["routePlan"]) > 100
+                or any(
+                    not isinstance(leg, dict) or not isinstance(leg.get("swapInfo"), dict)
+                    for leg in response["routePlan"]
+                )
+            ):
+                raise ProviderError("Ruta sau slotul quote-ului lipsesc.")
+            response["observed_at"] = utcnow()
+            response["request_started_at"] = requested_at
+            self.status = {"state": "ok", "at": utcnow(), "error": None}
+            return response
+        except (KeyError, ValueError, TypeError, ArithmeticError):
+            self.status = {"state": "error", "at": utcnow(), "error": "Quote incompatibil."}
+>           raise ProviderError("Quote Jupiter incompatibil cu schema așteptată.") from None
+E           app.errors.ProviderError: Quote Jupiter incompatibil cu schema așteptată.
+
+app/jupiter.py:107: ProviderError
+_____________ test_password_rotation_invalidates_existing_sessions _____________
+
+store = <app.store.Store object at 0x7f204f412a20>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f204f412ab0>
+
+    def test_password_rotation_invalidates_existing_sessions(store, monkeypatch):
+        monkeypatch.setenv("PULSE_AUTH_PASSWORD", "first-fixture-password-123")
+        auth = Auth(store)
+        request = SimpleNamespace(cookies={}, client=SimpleNamespace(host="127.0.0.1"))
+        response = auth.login(request, LoginInput(password="first-fixture-password-123"))
+        cookie = SimpleCookie(response.headers["set-cookie"])[COOKIE].value
+        request.cookies[COOKIE] = cookie
+        assert auth.session(request)["authenticated"]
+        monkeypatch.setenv("PULSE_AUTH_PASSWORD", "rotated-fixture-password-456")
+        restarted = Auth(store)
+>       assert not restarted.session(request)["authenticated"]
+E       assert not True
+
+tests/test_audit_v091.py:130: AssertionError
+____________ test_backup_supports_hash_percent_and_non_ascii_paths _____________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-133/test_backup_supports_hash_perc0'), scan_interval_seconds=...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+
+    def test_backup_supports_hash_percent_and_non_ascii_paths(settings):
+        config = replace(settings, data_dir=settings.data_dir / "Date #1 % & România")
+        with TestClient(
+            create_app(config, NewsFixtureProviders(), False, FixtureNews, FixtureAssets)
+        ) as client:
+            response = client.post("/api/backup")
+            assert response.status_code == 200
+            with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+                for name, initial in [
+                    ("research.sqlite3", "100"),
+                    ("news_paper/research.sqlite3", "500"),
+                ]:
+                    restored = settings.data_dir / "restored.sqlite3"
+                    restored.write_bytes(archive.read(name))
+                    with sqlite3.connect(restored) as db:
+                        assert db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+>                       assert db.execute("SELECT balance FROM account").fetchone()[0] == initial
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                       sqlite3.OperationalError: no such table: account
+
+tests/test_audit_v091.py:150: OperationalError
+__________ test_candidate_search_and_verdict_apply_before_pagination ___________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f204f326930>, <app.opportunities.Opportunities object at 0x7f204f063f20>)
+
+    def test_candidate_search_and_verdict_apply_before_pagination(client_engine):
+        client, engine = client_engine
+        now = time.time()
+        target = candidate(engine, 701, now)
+        policy, cfg = engine.policy(engine.config()), engine.config()
+        value = payload(engine, target, now)
+        value["market"].update(name="Hidden audit candidate", symbol="HIDDEN")
+        engine.save_observation(target, value, policy, cfg, stamp(now))
+        for i in range(702, 757):
+            candidate(engine, i, now)
+        result = client.get("/api/opportunities", params={"q": "HIDDEN", "limit": 5}).json()
+>       assert [c["id"] for c in result["items"]] == [target["id"]]
+E       assert [56, 55, 54, 53, 52] == [1]
+E
+E         At index 0 diff: 56 != 1
+E         Left contains 4 more items, first extra item: 55
+E         Use -v to get more diff
+
+tests/test_audit_v091.py:164: AssertionError
+_____________ test_future_observation_cannot_displace_current_rank _____________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f204f043350>, <app.opportunities.Opportunities object at 0x7f204f20e6f0>)
+
+    def test_future_observation_cannot_displace_current_rank(client_engine):
+        client, engine = client_engine
+        now = time.time()
+        policy, cfg = engine.policy(engine.config()), engine.config()
+        current, future = candidate(engine, 800, now), candidate(engine, 801, now)
+        for c, at, rank in [(current, now, 1), (future, now + 3600, 99)]:
+            value = payload(engine, c, at)
+            value["decision"]["rank_score"] = rank
+            engine.save_observation(c, value, policy, cfg, stamp(at))
+        result = client.get("/api/opportunities?sort=rank&limit=1").json()
+>       assert result["items"][0]["id"] == current["id"]
+E       assert 2 == 1
+
+tests/test_audit_v091.py:182: AssertionError
+________ test_forward_report_does_not_call_missing_results_zero_profit _________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f204f2060f0>, <app.opportunities.Opportunities object at 0x7f204f0b21e0>)
+
+    def test_forward_report_does_not_call_missing_results_zero_profit(client_engine):
+        client, _ = client_engine
+        report = client.get("/api/evaluation/forward").json()
+>       assert all(g["net_pnl_independent_experiments_usd"] is None for g in report["cohorts"].values())
+E       assert False
+E        +  where False = all(<generator object test_forward_report_does_not_call_missing_results_zero_profit.<locals>.<genexpr> at 0x7f204f11d8a0>)
+
+tests/test_audit_v091.py:188: AssertionError
+__ test_routed_live_verifier_preserves_partial_evidence_on_service_disconnect __
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f204f221910>
+
+    def test_routed_live_verifier_preserves_partial_evidence_on_service_disconnect(monkeypatch):
+        from app.routes_verify import verify
+        original = httpx.Client
+        def response(request):
+            if request.url.path == "/api/status":
+                return httpx.Response(200, json={"app_id":"pulse_crypto_research", "live_execution":False})
+            raise httpx.ConnectError("isolated service disconnected")
+        monkeypatch.setattr("app.routes_verify.httpx.Client", lambda **kwargs: original(
+            **kwargs, transport=httpx.MockTransport(response)))
+>       proof = verify("http://127.0.0.1:8767", 30)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_audit_v091.py:200:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app/routes_verify.py:38: in verify
+    response = c.get("/api/opportunities/routes")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_transports/mock.py:24: in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+request = <Request('GET', 'http://127.0.0.1:8767/api/opportunities/routes')>
+
+    def response(request):
+        if request.url.path == "/api/status":
+            return httpx.Response(200, json={"app_id":"pulse_crypto_research", "live_execution":False})
+>       raise httpx.ConnectError("isolated service disconnected")
+E       httpx.ConnectError: isolated service disconnected
+
+tests/test_audit_v091.py:197: ConnectError
+_____________ test_concurrent_bad_logins_cannot_bypass_rate_limit ______________
+
+store = <app.store.Store object at 0x7f204f0af530>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f204f0ad670>
+
+    def test_concurrent_bad_logins_cannot_bypass_rate_limit(store, monkeypatch):
+        monkeypatch.setenv("PULSE_AUTH_PASSWORD", "unchanged-fixture-password-123")
+        auth = Auth(store)
+        request = SimpleNamespace(cookies={}, client=SimpleNamespace(host="127.0.0.1"))
+        gate = Barrier(8)
+        import hmac
+
+        original = hmac.compare_digest
+
+        def slow_compare(a, b):
+            time.sleep(0.01)  # reproduce overlapping requests before their failed-attempt update
+            return original(a, b)
+
+        monkeypatch.setattr("app.auth.hmac.compare_digest", slow_compare)
+
+        def login(_):
+            gate.wait(timeout=10)
+            return auth.login(request, LoginInput(password="incorrect fixture password")).status_code
+
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            codes = list(pool.map(login, range(8)))
+>       assert codes.count(401) == 5 and codes.count(429) == 3, codes
+E       AssertionError: [401, 401, 401, 401, 401, 401, ...]
+E       assert (8 == 5)
+E        +  where 8 = <built-in method count of list object at 0x7f204decee00>(401)
+E        +    where <built-in method count of list object at 0x7f204decee00> = [401, 401, 401, 401, 401, 401, ...].count
+
+tests/test_audit_v091.py:235: AssertionError
+_ test_manual_telegram_requires_valid_acknowledgment_from_requested_chat[result0] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f204f0acdd0>, <app.opportunities.Opportunities object at 0x7f204defea80>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f204f0a51f0>
+result = {'message_id': 123, 'chat': {'id': 999}}
+
+    @pytest.mark.parametrize(
+        "result",
+        [
+            {"message_id": 123, "chat": {"id": 999}},
+            {"message_id": True, "chat": {"id": 12345}},
+            {"message_id": 0, "chat": {"id": 12345}},
+            None,
+        ],
+    )
+    def test_manual_telegram_requires_valid_acknowledgment_from_requested_chat(
+        client_engine, monkeypatch, result
+    ):
+        _, engine = client_engine
+        monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "isolated-fixture-token")
+        monkeypatch.setenv("TELEGRAM_CHAT_ID", "12345")
+        with engine.store.connect() as db:
+            row = db.execute(
+                "INSERT INTO alerts(news_id,at,payload) VALUES(1,?,?)",
+                (
+                    stamp(time.time()),
+                    json.dumps(
+                        {"title": "Fixture", "publisher": "Fixture", "url": "https://example.com"}
+                    ),
+                ),
+            )
+            aid = row.lastrowid
+        calls = []
+
+        async def send(method, body):
+            calls.append(method)
+            return result
+
+        monkeypatch.setattr(engine.service.notifications, "telegram", send)
+        response = asyncio.run(engine.service.notifications.deliver(aid))
+>       assert response["delivery_state"] == "delivery_unknown"
+E       AssertionError: assert 'sent' == 'delivery_unknown'
+E
+E         - delivery_unknown
+E         + sent
+
+tests/test_audit_v091.py:272: AssertionError
+_ test_manual_telegram_requires_valid_acknowledgment_from_requested_chat[result1] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f204f1226c0>, <app.opportunities.Opportunities object at 0x7f204f26c230>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f204f0acef0>
+result = {'message_id': True, 'chat': {'id': 12345}}
+
+    @pytest.mark.parametrize(
+        "result",
+        [
+            {"message_id": 123, "chat": {"id": 999}},
+            {"message_id": True, "chat": {"id": 12345}},
+            {"message_id": 0, "chat": {"id": 12345}},
+            None,
+        ],
+    )
+    def test_manual_telegram_requires_valid_acknowledgment_from_requested_chat(
+        client_engine, monkeypatch, result
+    ):
+        _, engine = client_engine
+        monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "isolated-fixture-token")
+        monkeypatch.setenv("TELEGRAM_CHAT_ID", "12345")
+        with engine.store.connect() as db:
+            row = db.execute(
+                "INSERT INTO alerts(news_id,at,payload) VALUES(1,?,?)",
+                (
+                    stamp(time.time()),
+                    json.dumps(
+                        {"title": "Fixture", "publisher": "Fixture", "url": "https://example.com"}
+                    ),
+                ),
+            )
+            aid = row.lastrowid
+        calls = []
+
+        async def send(method, body):
+            calls.append(method)
+            return result
+
+        monkeypatch.setattr(engine.service.notifications, "telegram", send)
+        response = asyncio.run(engine.service.notifications.deliver(aid))
+>       assert response["delivery_state"] == "delivery_unknown"
+E       AssertionError: assert 'sent' == 'delivery_unknown'
+E
+E         - delivery_unknown
+E         + sent
+
+tests/test_audit_v091.py:272: AssertionError
+_ test_manual_telegram_requires_valid_acknowledgment_from_requested_chat[result2] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f204f250590>, <app.opportunities.Opportunities object at 0x7f204efbc530>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f204f26f530>
+result = {'message_id': 0, 'chat': {'id': 12345}}
+
+    @pytest.mark.parametrize(
+        "result",
+        [
+            {"message_id": 123, "chat": {"id": 999}},
+            {"message_id": True, "chat": {"id": 12345}},
+            {"message_id": 0, "chat": {"id": 12345}},
+            None,
+        ],
+    )
+    def test_manual_telegram_requires_valid_acknowledgment_from_requested_chat(
+        client_engine, monkeypatch, result
+    ):
+        _, engine = client_engine
+        monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "isolated-fixture-token")
+        monkeypatch.setenv("TELEGRAM_CHAT_ID", "12345")
+        with engine.store.connect() as db:
+            row = db.execute(
+                "INSERT INTO alerts(news_id,at,payload) VALUES(1,?,?)",
+                (
+                    stamp(time.time()),
+                    json.dumps(
+                        {"title": "Fixture", "publisher": "Fixture", "url": "https://example.com"}
+                    ),
+                ),
+            )
+            aid = row.lastrowid
+        calls = []
+
+        async def send(method, body):
+            calls.append(method)
+            return result
+
+        monkeypatch.setattr(engine.service.notifications, "telegram", send)
+        response = asyncio.run(engine.service.notifications.deliver(aid))
+>       assert response["delivery_state"] == "delivery_unknown"
+E       AssertionError: assert 'sent' == 'delivery_unknown'
+E
+E         - delivery_unknown
+E         + sent
+
+tests/test_audit_v091.py:272: AssertionError
+=============================== warnings summary ===============================
+../../workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_audit_v091.py::test_rpc_application_error_is_visible_in_provider_health
+FAILED tests/test_audit_v091.py::test_invalid_token_is_visible_in_onchain_health
+FAILED tests/test_audit_v091.py::test_nonfinite_provider_numbers_are_rejected[1e999]
+FAILED tests/test_audit_v091.py::test_nonfinite_provider_numbers_are_rejected[-1e999]
+FAILED tests/test_audit_v091.py::test_jupiter_impact_rejection_keeps_the_risk_reason
+FAILED tests/test_audit_v091.py::test_password_rotation_invalidates_existing_sessions
+FAILED tests/test_audit_v091.py::test_backup_supports_hash_percent_and_non_ascii_paths
+FAILED tests/test_audit_v091.py::test_candidate_search_and_verdict_apply_before_pagination
+FAILED tests/test_audit_v091.py::test_future_observation_cannot_displace_current_rank
+FAILED tests/test_audit_v091.py::test_forward_report_does_not_call_missing_results_zero_profit
+FAILED tests/test_audit_v091.py::test_routed_live_verifier_preserves_partial_evidence_on_service_disconnect
+FAILED tests/test_audit_v091.py::test_concurrent_bad_logins_cannot_bypass_rate_limit
+FAILED tests/test_audit_v091.py::test_manual_telegram_requires_valid_acknowledgment_from_requested_chat[result0]
+FAILED tests/test_audit_v091.py::test_manual_telegram_requires_valid_acknowledgment_from_requested_chat[result1]
+FAILED tests/test_audit_v091.py::test_manual_telegram_requires_valid_acknowledgment_from_requested_chat[result2]
+15 failed, 4 passed, 1 warning in 1.57s

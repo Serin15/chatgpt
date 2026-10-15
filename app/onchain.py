@@ -98,7 +98,14 @@ class Onchain:
         address = chain_address(chain, address)
         try:
             return await self._token(chain, address, include_distribution)
+        except ProviderError as exc:
+            self.status[chain] = {"state": "error", "at": utcnow(), "error": str(exc)}
+            raise
         except (ValueError, TypeError, KeyError, AttributeError, ArithmeticError):
+            self.status[chain] = {
+                "state": "error", "at": utcnow(),
+                "error": "Răspuns RPC incompatibil cu schema unui token.",
+            }
             raise ProviderError("Răspuns RPC incompatibil cu schema unui token.") from None
 
     async def _token(self, chain, address, include_distribution):

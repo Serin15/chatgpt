@@ -1,0 +1,79 @@
+{"elapsed_seconds": 0, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "ok", "at": "2026-10-15T07:49:58.912295+00:00", "cycles": 1, "attempted": 0, "ready": 0, "errors": []}, "entry_states": {"collecting": 1, "entry_pending": 3, "entry_rejected": 73, "entry_unavailable": 1, "filled": 2}}
+{"elapsed_seconds": 30, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "partial", "at": "2026-10-15T07:50:53.974172+00:00", "cycles": 2, "attempted": 4, "ready": 4, "errors": ["Rejected: Quote cu ie\u0219ire/impact neacceptabil."]}, "entry_states": {"entry_pending": 3, "entry_rejected": 73, "entry_unavailable": 1, "filled": 3}}
+{"elapsed_seconds": 60, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "partial", "at": "2026-10-15T07:51:53.205496+00:00", "cycles": 3, "attempted": 3, "ready": 3, "errors": ["Rejected: Quote cu ie\u0219ire/impact neacceptabil."]}, "entry_states": {"entry_pending": 2, "entry_rejected": 91, "entry_unavailable": 2, "filled": 5}}
+{"elapsed_seconds": 91, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "partial", "at": "2026-10-15T07:51:53.205496+00:00", "cycles": 3, "attempted": 3, "ready": 3, "errors": ["Rejected: Quote cu ie\u0219ire/impact neacceptabil."]}, "entry_states": {"entry_pending": 2, "entry_rejected": 91, "entry_unavailable": 2, "filled": 5}}
+{"elapsed_seconds": 122, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "partial", "at": "2026-10-15T07:51:53.205496+00:00", "cycles": 3, "attempted": 3, "ready": 3, "errors": ["Rejected: Quote cu ie\u0219ire/impact neacceptabil."]}, "entry_states": {"collecting": 1, "entry_pending": 1, "entry_rejected": 94, "entry_unavailable": 2, "filled": 5}}
+{"elapsed_seconds": 153, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "partial", "at": "2026-10-15T07:52:59.796569+00:00", "cycles": 4, "attempted": 2, "ready": 2, "errors": ["Rejected: Quote cu ie\u0219ire/impact neacceptabil."]}, "entry_states": {"entry_rejected": 94, "entry_unavailable": 4, "filled": 5}}
+{"elapsed_seconds": 186, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "ok", "at": "2026-10-15T07:53:56.887511+00:00", "cycles": 5, "attempted": 0, "ready": 0, "errors": []}, "entry_states": {"entry_pending": 2, "entry_rejected": 113, "entry_unavailable": 4, "filled": 5}}
+{"elapsed_seconds": 216, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "ok", "at": "2026-10-15T07:53:56.887511+00:00", "cycles": 5, "attempted": 0, "ready": 0, "errors": []}, "entry_states": {"entry_pending": 2, "entry_rejected": 113, "entry_unavailable": 4, "filled": 5}}
+{"elapsed_seconds": 246, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "ok", "at": "2026-10-15T07:53:56.887511+00:00", "cycles": 5, "attempted": 0, "ready": 0, "errors": []}, "entry_states": {"collecting": 1, "entry_pending": 1, "entry_rejected": 129, "entry_unavailable": 4, "filled": 5}}
+{"elapsed_seconds": 277, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "partial", "at": "2026-10-15T07:55:04.136736+00:00", "cycles": 6, "attempted": 2, "ready": 2, "errors": ["Rejected: Quote cu ie\u0219ire/impact neacceptabil."]}, "entry_states": {"entry_rejected": 129, "entry_unavailable": 5, "filled": 6}}
+{"elapsed_seconds": 307, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "ok", "at": "2026-10-15T07:55:47.410366+00:00", "cycles": 7, "attempted": 0, "ready": 0, "errors": []}, "entry_states": {"entry_pending": 2, "entry_rejected": 145, "entry_unavailable": 5, "filled": 6}}
+{"elapsed_seconds": 338, "criteria": {"real_money_disabled": true, "real_candidate_and_market_observations": true, "routed_buy_quote_stored": true, "later_routed_sell_and_net_outcome": false, "frozen_policy_and_attempt_history": true}, "routing_status": {"state": "ok", "at": "2026-10-15T07:55:47.410366+00:00", "cycles": 7, "attempted": 0, "ready": 0, "errors": []}, "entry_states": {"entry_pending": 2, "entry_rejected": 145, "entry_unavailable": 5, "filled": 6}}
+Traceback (most recent call last):
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    raise exc
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/chatgpt/app/routes_verify.py", line 147, in <module>
+    main()
+  File "/workspace/chatgpt/app/routes_verify.py", line 136, in main
+    proof = verify(args.url, args.duration)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/app/routes_verify.py", line 38, in verify
+    response = c.get("/api/opportunities/routes")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+           ^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/workspace/chatgpt/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 111] Connection refused

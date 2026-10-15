@@ -1,0 +1,192 @@
+{
+  "at": "2026-10-15T07:52:09.854529+00:00",
+  "corpus_version": 2,
+  "corpus_sha256": "6da9956971c54bef781ab87d209136d536043d357ac83b8cc3dfed0bff89d763",
+  "prompt_version": 2,
+  "relation_gate_version": 2,
+  "partition": "development",
+  "cases_validated": 2,
+  "observed_excerpts": 1,
+  "synthetic_cases": 1,
+  "model_run": true,
+  "metrics": {
+    "cases": 2,
+    "valid_outputs": 2,
+    "invalid_or_failed": 0,
+    "correct_including_failures": 1,
+    "accuracy": 0.5,
+    "positive_predictions": 0,
+    "false_positive_associations": 0,
+    "positive_precision": null,
+    "positive_recall": 0.0,
+    "always_insufficient_baseline": 0.5,
+    "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+  },
+  "note": "Rulare pe extrase înghețate. Etichetele nu sunt validate independent; raportează separat erorile, asocierile false și baseline-ul.",
+  "provider": "ollama",
+  "model": "pulse-qwen7b-audit:latest",
+  "results": [
+    {
+      "id": "observed-wrapped-sol",
+      "origin": "observed_excerpt",
+      "expected": [
+        "unrelated_or_namesake",
+        "insufficient_evidence"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Documentul explică faptul că WSOL este SOL păstrat într-o contetă de token pentru mint-ul nativ al Programului Token.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Wrapped SOL (WSOL) is SOL held in a token account for the Token Program's native mint."
+            }
+          ]
+        },
+        "relationship": "issuer_announcement",
+        "relationship_reason": {
+          "text_ro": "Mint-ul nativ permite utilizarea SOL prin instrucțiunile Programului Token, sugerezând o relație de emisie.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "The native mint enables SOL to be used through the Token Program's instructions."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Mint-ul nativ este adresa mint-ului utilizată de Programul Token pentru contete de token care închilidesc SOL.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "The native mint is the mint address the Token Program uses for token accounts that wrap SOL."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce sunt exact instrucțiunile Programului Token care permit utilizarea SOL?",
+          "Cum funcționează contetele de token care închilidesc SOL în cadrul Programului Token?"
+        ],
+        "risks": [
+          "Riscul asociat cu schimbările în instrucțiunile Programului Token care pot afecta utilizarea SOL.",
+          "Riscul asociat cu potențiale modificări ale mint-ului nativ care pot afecta funcționarea WSOL."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 1081,
+        "eval_count": 386
+      },
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        ],
+        "gate_version": 2
+      }
+    },
+    {
+      "id": "synthetic-issuer",
+      "origin": "synthetic",
+      "expected": [
+        "issuer_announcement"
+      ],
+      "state": "completed",
+      "interpretation": {
+        "event_summary": {
+          "text_ro": "Astăzi lanțam tokenul nostru EXAMPLE pe Solana.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "Today we launch our EXAMPLE token on Solana."
+            }
+          ]
+        },
+        "relationship": "issuer_announcement",
+        "relationship_reason": {
+          "text_ro": "Suntem emisarii Example Labs.",
+          "citations": [
+            {
+              "source_id": "D1",
+              "quote": "We are the Example Labs issuer."
+            }
+          ]
+        },
+        "facts": [
+          {
+            "text_ro": "Contractul exact este So11111111111111111111111111111111111111112.",
+            "citations": [
+              {
+                "source_id": "D1",
+                "quote": "Its exact mainnet contract is So11111111111111111111111111111111111111112."
+              }
+            ]
+          }
+        ],
+        "research_questions": [
+          "Ce sunt fundamentele și valorile tokenului EXAMPLE?",
+          "Ce este Example Labs și cum funcționează?"
+        ],
+        "risks": [
+          "Riscul asociat cu lansarea unui token nou pe o platformă blockchain poate fi ridicat.",
+          "Riscul de a fi supus la fluctuațiile pieței și a riscului de investiții."
+        ]
+      },
+      "usage": {
+        "prompt_eval_count": 831,
+        "eval_count": 346
+      },
+      "relationship": {
+        "model_proposed": "issuer_announcement",
+        "effective": "insufficient_evidence",
+        "limitations": [
+          "Propunerea AI nu confirmă emiterea sau listarea. Verifică separat anunțul și relația sursei cu acest contract."
+        ],
+        "gate_version": 2
+      }
+    }
+  ],
+  "partition_metrics": {
+    "development": {
+      "cases": 2,
+      "valid_outputs": 2,
+      "invalid_or_failed": 0,
+      "correct_including_failures": 1,
+      "accuracy": 0.5,
+      "positive_predictions": 0,
+      "false_positive_associations": 0,
+      "positive_precision": null,
+      "positive_recall": 0.0,
+      "always_insufficient_baseline": 0.5,
+      "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+    },
+    "test": {
+      "cases": 0,
+      "valid_outputs": 0,
+      "invalid_or_failed": 0,
+      "correct_including_failures": 0,
+      "accuracy": null,
+      "positive_predictions": 0,
+      "false_positive_associations": 0,
+      "positive_precision": null,
+      "positive_recall": null,
+      "always_insufficient_baseline": null,
+      "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+    }
+  },
+  "raw_model_metrics": {
+    "cases": 2,
+    "valid_outputs": 2,
+    "invalid_or_failed": 0,
+    "correct_including_failures": 1,
+    "accuracy": 0.5,
+    "positive_predictions": 2,
+    "false_positive_associations": 1,
+    "positive_precision": 0.5,
+    "positive_recall": 1.0,
+    "always_insufficient_baseline": 0.5,
+    "note": "Eșantion mic, etichete ale autorului și scenarii sintetice. Nu este o estimare a preciziei în piață sau a randamentului."
+  }
+}

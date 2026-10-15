@@ -54,6 +54,12 @@ async def read_json(client, method, url, **kwargs):
         def invalid_constant(value):
             raise ValueError("Non-finite JSON number")
 
-        return json.loads(raw, parse_constant=invalid_constant)
-    except (ValueError, TypeError):
+        def finite_float(value):
+            result = float(value)
+            if not math.isfinite(result):
+                raise ValueError("Non-finite JSON number")
+            return result
+
+        return json.loads(raw, parse_constant=invalid_constant, parse_float=finite_float)
+    except (ValueError, TypeError, RecursionError):
         raise ProviderError("Sursa a returnat JSON invalid.") from None

@@ -16,6 +16,7 @@ const state = {
   performance: null,
   newsArchive: false,
   pendingLoad: false,
+  authReady: false,
 };
 const announcementLabels = {
   identity_mismatch: "Contractul nu corespunde activului selectat",
@@ -729,7 +730,7 @@ function renderSources() {
 function renderHealth() {
   const status = state.status || {},
     errors = [];
-  let unknown = 0;
+  const unknown = [];
   const sources = {
     dex: status.providers?.dex,
     rpc: status.providers?.rpc,
@@ -740,6 +741,7 @@ function renderHealth() {
     performance: status.performance,
     announcements: status.announcement_analysis,
     opportunity_engine: status.opportunity_engine,
+    routed_quotes: status.routed_quotes,
     ...Object.fromEntries(
       Object.entries(status.discovery_sources || {}).map(([k, v]) => [
         "discovery_" + k,
@@ -759,8 +761,15 @@ function renderHealth() {
   if (status.notifications?.telegram_bot_configured)
     sources.telegram = status.notifications.status;
   for (const [name, item] of Object.entries(sources)) {
+    if (item?.state === "disabled") continue;
     if (["error", "partial"].includes(item?.state)) errors.push(name);
-    else if (item?.state !== "ok" || !item.at) unknown++;
+    else if (
+      !["ok", "running"].includes(item?.state) ||
+      !item.at ||
+      !Number.isFinite(new Date(item.at).getTime()) ||
+      new Date(item.at).getTime() > Date.now()
+    )
+      unknown.push(name);
     else if (
       Date.now() - new Date(item.at).getTime() >
       (name === "announcements"
@@ -784,16 +793,29 @@ function renderHealth() {
     node(
       "span",
       undefined,
-      count || unknown ? "live-dot degraded" : "live-dot",
+      count || unknown.length ? "live-dot degraded" : "live-dot",
     ),
     document.createTextNode(
       count
         ? `${count} componente cu eroare`
-        : unknown
-          ? `${unknown} componente neverificate`
+        : unknown.length
+          ? `${unknown.length} componente neverificate`
           : "Surse monitorizate",
     ),
   );
+  $("connection").title = "Apasă pentru starea fiecărei componente";
+  const details = $("health-details");
+  details.replaceChildren(node("h2", "Starea componentelor"));
+  for (const [name, item] of Object.entries(sources)) {
+    const note = item?.error || (item?.errors || []).join("; ");
+    details.append(
+      node(
+        "p",
+        `${name}: ${errors.includes(name) ? "eroare / date vechi" : unknown.includes(name) ? "neverificat" : item?.state || "neverificat"} · ${date(item?.at)}${note ? " · " + note : ""}`,
+        "footnote",
+      ),
+    );
+  }
   $("section-alerts").replaceChildren();
   for (const [key, value] of Object.entries(state.sectionErrors))
     $("section-alerts").append(
@@ -1421,6 +1443,11 @@ $("refresh-all").onclick = () =>
     await api("/api/assets/refresh", {});
     await api("/api/news/refresh", {});
   });
+$("connection").onclick = () => {
+  const details = $("health-details");
+  details.hidden = !details.hidden;
+  $("connection").setAttribute("aria-expanded", String(!details.hidden));
+};
 $("add-form").onsubmit = (event) => {
   event.preventDefault();
   const b = event.currentTarget.querySelector("button");

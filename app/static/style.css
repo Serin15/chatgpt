@@ -1871,6 +1871,17 @@ footer {
   font-size: 12px;
   line-height: 1.8;
 }
+.connection {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--muted);
+}
+#health-details {
+  overflow-wrap: anywhere;
+  margin-bottom: 20px;
+}
 .engine-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

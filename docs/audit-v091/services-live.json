@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-15T07:50:52.276573+00:00",
+  "real_services": true,
+  "transactions_submitted": 0,
+  "checks": [
+    {
+      "contract": "So11111111111111111111111111111111111111112",
+      "result": "quote",
+      "observed_at": "2026-10-15T07:50:56.079982+00:00",
+      "context_slot": 457160334,
+      "inAmount": "49700000",
+      "outAmount": "484310024",
+      "impact": "0"
+    },
+    {
+      "contract": "GMLE2BZKp8UF7g82Y1qAkUFHKBDp2h6vZq1tBNwwjVfy",
+      "result": "Rejected",
+      "reason": "Quote cu ieșire/impact neacceptabil."
+    }
+  ],
+  "ollama": {
+    "http": 200,
+    "available": true
+  }
+}

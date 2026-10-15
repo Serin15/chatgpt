@@ -17,6 +17,9 @@ def schema_checked(source):
         async def wrapped(self, *args, **kwargs):
             try:
                 return await fn(self, *args, **kwargs)
+            except ProviderError as exc:
+                self.status[source] = {"state": "error", "at": utcnow(), "error": str(exc)}
+                raise
             except (ValueError, TypeError, KeyError, AttributeError):
                 self.status[source] = {"state": "error", "at": utcnow(), "error": "SchemaError"}
                 raise ProviderError(f"{source}: răspuns incompatibil cu schema așteptată") from None

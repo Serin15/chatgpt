@@ -1,0 +1,128 @@
+{
+  "version": "0.9.1",
+  "live_execution": false,
+  "providers": {
+    "dex": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:41.871144+00:00",
+      "error": null
+    },
+    "rpc": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:47.632037+00:00",
+      "error": null
+    },
+    "goplus": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:47.860339+00:00",
+      "error": null
+    }
+  },
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-15T07:49:39.643917+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-15T07:49:39.645103+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-15T07:49:39.645265+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-15T07:49:39.652089+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-15T07:49:39.655127+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "market_sources": {
+    "coingecko": {
+      "state": "ok",
+      "at": "2026-10-15T07:55:41.611674+00:00",
+      "error": null
+    }
+  },
+  "discovery_sources": {
+    "solana": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:40.113819+00:00",
+      "page": 2,
+      "count": 20,
+      "rejected": 0,
+      "next_page": 3
+    },
+    "profiles": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:40.113828+00:00",
+      "counts": {
+        "solana": 26,
+        "base": 0
+      }
+    },
+    "boosts": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:40.506133+00:00",
+      "reported_tokens": 24,
+      "pools": 24,
+      "sampling_bias": "paid exposure"
+    }
+  },
+  "onchain_sources": {
+    "solana": {
+      "state": "ok",
+      "at": "2026-10-15T07:56:52.309070+00:00",
+      "error": null
+    }
+  },
+  "routed_quotes": {
+    "state": "ok",
+    "at": "2026-10-15T07:55:47.410366+00:00",
+    "cycles": 7,
+    "attempted": 0,
+    "ready": 0,
+    "errors": []
+  },
+  "ai_summaries": {
+    "provider": "disabled",
+    "model": "",
+    "daily_request_limit": 20,
+    "state": "unverified",
+    "at": null,
+    "error": null,
+    "configuration_error": null,
+    "configured": false,
+    "api_key_present": null,
+    "requests_today": 0,
+    "environment_override": false,
+    "automatic_analysis": false,
+    "automatic_analysis_scope": "token_dossier",
+    "automatic_narratives_configurable": true,
+    "live_execution": false,
+    "note": "Citările sunt verificate ca text, nu ca adevăr. Analizele de dosar sunt manuale; clasificarea narativă poate fi activată separat în Level 3. Limita zilnică include încercările eșuate, fără a garanta un plafon de cost API."
+  },
+  "notifications": {
+    "telegram_bot_configured": false,
+    "telegram_destination_configured": false,
+    "automatic_delivery": false,
+    "status": {
+      "state": "unverified",
+      "at": null
+    },
+    "note": "Alerte în aplicație; Telegram trimite numai la cererea explicită din interfață. Nicio comandă de tranzacționare."
+  }
+}

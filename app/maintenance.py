@@ -25,7 +25,7 @@ def backup(service):
                 copied = Path(scratch) / Path(relative).name
                 with (
                     closing(
-                        sqlite3.connect(f"file:{store.path.resolve()}?mode=ro", uri=True)
+                        sqlite3.connect(store.path.resolve().as_uri() + "?mode=ro", uri=True)
                     ) as source,
                     closing(sqlite3.connect(copied)) as destination,
                 ):

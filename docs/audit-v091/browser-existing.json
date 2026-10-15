@@ -1,0 +1,33 @@
+{
+  "data": "isolated fixture providers; real Chromium",
+  "passed": [
+    {
+      "command": "uv run --with playwright python tests/browser_opportunities.py",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --with playwright python tests/browser_regressions.py",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --with playwright python tests/browser_slow_news.py",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --with playwright python tests/browser_smoke.py",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --with playwright python tests/browser_advanced.py",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --with playwright python tests/browser_ai.py",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --with playwright python tests/browser_announcements.py",
+      "exit_code": 0
+    }
+  ]
+}

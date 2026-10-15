@@ -39,6 +39,24 @@ jobs:
       - run: node --check app/static/app.js
       - run: node --check app/static/advanced.js
       - run: node --check app/static/opportunities.js
+      - name: Chromium audit regressions with isolated providers
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          uv run --with playwright playwright install --with-deps chromium
+          uv run --with playwright python - <<'PY'
+          import os
+          import subprocess
+          import sys
+          from playwright.sync_api import sync_playwright
+
+          with sync_playwright() as browser:
+              subprocess.run(
+                  [sys.executable, "tests/browser_audit.py"],
+                  env=os.environ | {"BROWSER_EXECUTABLE": browser.chromium.executable_path},
+                  check=True,
+              )
+          PY
       - name: Native Windows launcher from a path with spaces
         if: runner.os == 'Windows'
         shell: pwsh

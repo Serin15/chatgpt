@@ -147,7 +147,7 @@ class Forward:
                 "unresolved": len(group) - len(evaluated),
                 "net_pnl_independent_experiments_usd": str(
                     sum((D(r["pnl_usd"]) for r in evaluated), D(0))
-                ),
+                ) if evaluated else None,
                 "loss_signal_rate": losses / len(evaluated) if evaluated else None,
                 "sample_sufficient_for_profitability_claim": False,
             }

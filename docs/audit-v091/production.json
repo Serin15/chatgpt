@@ -1,0 +1,48 @@
+{
+  "version": "0.9.1",
+  "live_execution": false,
+  "instance_id": "8d14ec2aa3dc43af006e08dc",
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-15T08:00:18.627273+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-15T08:00:18.643684+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-15T08:00:18.643799+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-15T08:00:18.650520+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-15T08:00:18.655341+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "actual_port": 8000,
+  "accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  }
+}
