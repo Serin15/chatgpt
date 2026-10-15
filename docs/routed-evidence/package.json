@@ -1,0 +1,12 @@
+{
+  "package": "memescope-routed-source.zip",
+  "version": "0.9.0",
+  "startup": "PASS from foreign cwd, path with spaces/diacritics/& and fresh dependencies/data",
+  "accounts": "Research $500, Scanner $100, zero orders",
+  "windows_native_tested": false,
+  "code_commit": "e64772e9792c66418308b53863f9af5506342887",
+  "download_url": "https://codeload.github.com/Serin15/chatgpt/zip/e64772e9792c66418308b53863f9af5506342887",
+  "sha256": "999116b2992530c7c2b3e29d96475d6a016c36f89dbb4a93cc9f44e818136428",
+  "bytes": 2984930,
+  "platform": "Linux; native Windows validation is recorded separately in CI"
+}

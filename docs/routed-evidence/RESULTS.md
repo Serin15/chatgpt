@@ -100,6 +100,21 @@ versiunea proiectului devine 0.9.0. Nu s-a dezactivat verificarea artefactelor.
 
 ## Stare și limite
 
+Codul verificat este `e64772e9792c66418308b53863f9af5506342887`.
+[CI](https://github.com/Serin15/chatgpt/actions/runs/38690660632) a trecut pe **Ubuntu și Windows**,
+inclusiv pornirea Windows nativă prin `start-windows.cmd` dintr-un folder cu spații.
+[ci.json](ci.json) păstrează concluziile reale ale joburilor și pașilor.
+
+[package.json](package.json) păstrează URL-ul, dimensiunea și SHA-256 ale arhivei efectiv
+descărcate din GitHub. Pe Linux, a pornit v0.9.0 cu dependențe și date noi, dintr-un alt director
+curent, cu o cale care conține spații, diacritice și `&`. AI a rămas oprit, cei cinci workeri au
+pornit, iar conturile noi au avut $500/$100 și zero ordine. Aceasta este o probă separată de CI Windows.
+
+Instanța principală rulează v0.9 cu datele păstrate: [production.json](production.json).
+Instanța izolată a fost oprită după salvarea dovezilor și a unui backup SQLite consistent,
+verificat prin `integrity_check`. Oprirea ei nu transformă observațiile viitoare lipsă în rezultate
+favorabile. Instanța principală continuă colectarea cât timp mediul este pornit.
+
 Implementat și verificat: orchestrare rutată, persistență, buy/sell cu servicii reale, FX Kraken,
 interfață, costuri înghețate, eșecuri păstrate, migrare și regresii. Neverificat: rezultate live
 1h/24h pentru acest cohort, profitabilitate, livrare Telegram și execuție on-chain. Ultima rămâne
