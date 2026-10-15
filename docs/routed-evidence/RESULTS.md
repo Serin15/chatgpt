@@ -69,11 +69,12 @@ ale ambelor baze sunt păstrate în afara Git.
 
 ## Teste cu furnizori simulați
 
-[pytest.txt](pytest.txt): **282 passed**, un avertisment de deprecare Starlette/httpx.
+[pytest.txt](pytest.txt): **284 passed**, un avertisment de deprecare Starlette/httpx.
 [lint.txt](lint.txt): Ruff a trecut. Node a verificat toate cele trei fișiere JS.
-Cele **19 teste noi** verifică fluxul complet cu transport HTTP/RPC explicit simulat: cantitatea
+Cele **21 teste noi** verifică fluxul complet cu transport HTTP/RPC explicit simulat: cantitatea
 exactă la ieșire, costuri/slippage înghețate, autentificare, erori, lipsa unui book, deadline-uri,
-claim atomic, restart, răspuns întârziat, versiune schimbată și protejarea controlului.
+claim atomic, restart, răspuns întârziat, versiune schimbată, protejarea controlului, ferestre
+excluse la limita dezvoltare/test și păstrarea execuției după o corecție exclusiv de raportare.
 
 [browser-tests.json](browser-tests.json): Chromium real cu date simulate, inclusiv setările
 rutate salvate, panou separat, navigare, export, backup și mobil. Nu sunt probe de livrare API.
@@ -99,6 +100,15 @@ Instalarea a fost rerulată după corectarea unei modificări accidentale a vers
 versiunea proiectului devine 0.9.0. Nu s-a dezactivat verificarea artefactelor.
 
 ## Stare și limite
+
+La revizia finală s-a corectat și separarea dezvoltare/test: fără cutoff declarat datele sunt
+`unassigned`, iar ferestrele care pot traversa limita sunt `purged_boundary`. Prima probă brută
+rămâne păstrată cu etichetarea inițială; nu se modifică datele sau rezultatele ei. Cele două
+regresii suplimentare verifică această clasificare și păstrarea orizonturilor promise.
+[Auditul compatibilității](report-compatibility.json) confirmă că adaptorul de cost și metodele
+de execuție sunt identice cu versiunea probei live. Numai acel hash auditat este acceptat ca
+versiune compatibilă; versiunile necunoscute continuă să fie blocate. Nu se refac politici sau
+rezultate istorice pentru a le înscrie artificial într-un holdout.
 
 Codul verificat este `e64772e9792c66418308b53863f9af5506342887`.
 [CI](https://github.com/Serin15/chatgpt/actions/runs/38690660632) a trecut pe **Ubuntu și Windows**,

@@ -1,6 +1,7 @@
 """Synthetic RPC/HTTP providers, real routing orchestration and SQLite. No external requests."""
 
 import asyncio
+import json
 import time
 from dataclasses import replace
 from decimal import Decimal
@@ -369,3 +370,55 @@ def test_invalid_forex_books_do_not_create_parity_or_a_fill(routed):
     assert d["entries"][0]["entry_state"] == "entry_unavailable"
     assert "USDC/USD" in d["entries"][0]["reason"]
     assert not d["entries"][0]["entry_payload"]
+
+
+def test_split_excludes_overlapping_windows_and_undeclared_policies(routed):
+    r = routed
+
+    def set_policy(cutoff, declared):
+        with r.engine.store.connect() as db:
+            p = json.loads(
+                db.execute(
+                    "SELECT policy FROM routed_experiments WHERE signal_id=?", (r.signal_id,)
+                ).fetchone()[0]
+            )
+            p.update(
+                test_from=stamp(cutoff) if cutoff is not None else None, declared_at=stamp(declared)
+            )
+            db.execute(
+                "UPDATE routed_experiments SET policy=? WHERE signal_id=?",
+                (json.dumps(p), r.signal_id),
+            )
+        return r.engine.routes.report()["horizons"]["300"]["by_split"]
+
+    signal_at = r.clock[0] - 6
+    assert set_policy(None, signal_at - 100)["unassigned"]["experiments"] == 1
+    assert set_policy(signal_at + 600, signal_at - 100)["purged_boundary"]["experiments"] == 1
+    assert set_policy(signal_at + 700, signal_at - 100)["development"]["experiments"] == 1
+    assert set_policy(signal_at - 1, signal_at - 100)["test"]["experiments"] == 1
+    assert set_policy(signal_at - 1, signal_at + 1)["unassigned"]["experiments"] == 1
+
+
+def test_audited_reporting_upgrade_preserves_promised_execution(routed):
+    from app.opportunity_routes import COMPATIBLE_EXECUTION_SOURCES
+
+    r = routed
+    with r.engine.store.connect() as db:
+        p = json.loads(
+            db.execute(
+                "SELECT policy FROM routed_experiments WHERE signal_id=?", (r.signal_id,)
+            ).fetchone()[0]
+        )
+        p["source_sha256"] = next(iter(COMPATIBLE_EXECUTION_SOURCES))
+        db.execute(
+            "UPDATE routed_experiments SET policy=? WHERE signal_id=?", (json.dumps(p), r.signal_id)
+        )
+    execute(r)
+    later(r)
+    execute(r)
+    outcome = next(
+        o
+        for o in r.engine.routes.detail(r.candidate["id"])["outcomes"]
+        if o["signal_id"] == r.signal_id and o["horizon_seconds"] == 300
+    )
+    assert outcome["state"] == "evaluated"

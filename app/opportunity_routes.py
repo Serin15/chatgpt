@@ -22,6 +22,9 @@ SOURCE_SHA256 = hashlib.sha256(
     )
 ).hexdigest()
 QUOTE_TIMEOUT = 20
+# Audited reporting-only upgrade: execution, costs and timing are unchanged.
+# All other unknown component versions remain unavailable.
+COMPATIBLE_EXECUTION_SOURCES = {"560d51daa5b729eceb99c7d68c684318527083251276cb0298defe5ddf9eedc2"}
 log = logging.getLogger(__name__)
 
 
@@ -71,6 +74,7 @@ class Routes:
     def enroll(self, db, candidate_id, signal_id, at, kind, decision, policy):
         p = dict(policy["payload"]["routed_policy"]) | {
             "opportunity_policy_id": policy["id"],
+            "declared_at": policy["at"],
             "test_from": policy["payload"]["config"]["test_from"],
         }
         e = db.execute(
@@ -82,7 +86,13 @@ class Routes:
             or not decision.get("screening", {}).get("paper_allowed")
         ):
             state = "entry_rejected"
-        reason = "original_risk_gate" if state == "entry_rejected" else state if state == "disabled_at_signal" else None
+        reason = (
+            "original_risk_gate"
+            if state == "entry_rejected"
+            else state
+            if state == "disabled_at_signal"
+            else None
+        )
         db.execute(
             "INSERT INTO routed_experiments(signal_id,candidate_id,at,policy,control_member,entry_state,reason) VALUES(?,?,?,?,?,?,?)",
             (
@@ -102,7 +112,14 @@ class Routes:
                     signal_id,
                     h,
                     "pending" if state == "entry_pending" else state,
-                    encoded({"pnl_usd": None, "execution_verified": False, "model": p["model"], "reason": reason}),
+                    encoded(
+                        {
+                            "pnl_usd": None,
+                            "execution_verified": False,
+                            "model": p["model"],
+                            "reason": reason,
+                        }
+                    ),
                     utcnow(),
                 ),
             )
@@ -164,7 +181,7 @@ class Routes:
                     else epoch(r["at"]) + p["entry_window_seconds"]
                 )
                 reason = None
-                if p["source_sha256"] != SOURCE_SHA256:
+                if p["source_sha256"] not in {SOURCE_SHA256, *COMPATIBLE_EXECUTION_SOURCES}:
                     reason = "cost_model_unavailable"
                 elif now > deadline:
                     reason = "quote_deadline_missed"
@@ -509,8 +526,23 @@ class Routes:
             policy = json.loads(row.pop("policy"))
             row["policy_id"] = policy["opportunity_policy_id"]
             cutoff = policy.get("test_from")
+            signal_at = epoch(row["signal_at"])
+            latest_end = (
+                signal_at
+                + policy["entry_window_seconds"]
+                + row["horizon_seconds"]
+                + policy["exit_window_seconds"]
+            )
             row["split"] = (
-                "test" if cutoff and epoch(row["signal_at"]) >= epoch(cutoff) else "development"
+                "unassigned"
+                if not cutoff
+                or not policy.get("declared_at")
+                or epoch(cutoff) < epoch(policy["declared_at"])
+                else "test"
+                if signal_at >= epoch(cutoff)
+                else "purged_boundary"
+                if latest_end >= epoch(cutoff)
+                else "development"
             )
         horizons = {}
         for h in sorted({r["horizon_seconds"] for r in rows}):
@@ -529,7 +561,7 @@ class Routes:
                 },
                 "by_split": {
                     s: summary([r for r in same if r["kind"] == "baseline" and r["split"] == s])
-                    for s in ["development", "test"]
+                    for s in ["development", "test", "purged_boundary", "unassigned"]
                 },
             }
         return {

@@ -60,6 +60,9 @@ termene; API-ul arată și termene expirate încă neprocesate. Nu există laten
 
 Rapoartele separă scenariile pe orizont, politica originală și dezvoltare/test. Controlul fix
 include respingeri; poate include și alerte. Pragurile nu au fost optimizate pe proba live.
+Fără o separare declarată înainte de cutoff, datele rămân `unassigned`. Ferestrele de dezvoltare
+care pot traversa cutoff-ul devin `purged_boundary`, folosind ferestrele maxime înghețate,
+fără selecție în funcție de rezultatul ulterior. O politică declarată prea târziu nu intră în test.
 PnL al experimentelor independente nu este randamentul unui portofoliu cu capital limitat.
 
 ## Configurare și pornire

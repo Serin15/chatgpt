@@ -1,0 +1,22 @@
+{
+  "original_code_commit": "e64772e9792c66418308b53863f9af5506342887",
+  "compatible_execution_source": "560d51daa5b729eceb99c7d68c684318527083251276cb0298defe5ddf9eedc2",
+  "jupiter_cost_code_identical": true,
+  "unchanged_methods": {
+    "__init__": true,
+    "policy": true,
+    "fail_entry": true,
+    "recover": true,
+    "choose": true,
+    "claim": true,
+    "finish": true,
+    "collect": true,
+    "cycle": true,
+    "detail": true
+  },
+  "changes": [
+    "enroll adds original policy declaration time metadata",
+    "report purges overlapping development windows and leaves undeclared sets unassigned",
+    "ready accepts only this audited compatible source hash in addition to the installed hash; unknown versions still stop"
+  ]
+}
