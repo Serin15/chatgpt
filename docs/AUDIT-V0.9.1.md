@@ -107,9 +107,16 @@ impact la un token real, acum etichetat corect `Rejected`. Accesul Jupiter făr�
 [Ollama real](audit-v091/ai-live.json): două generări locale finalizate cu citări pe un set înghețat
 de **dezvoltare**, un extras observat și un caz sintetic. Nu sunt transporturi simulate. Verificarea
 semantică a ieșit cu **cod 1**, cu o etichetă finală corectă din două; modelul a propus o asociere
-falsă, blocată de gate, și nu a confirmat corect cazul pozitiv. Nu declarăm modelul precis și nu
+falsă, blocată de gate. Regula conservatoare a lăsat ambele asocieri insuficient dovedite, inclusiv
+cazul pozitiv. Predicțiile brute au avut o etichetă corectă din două. Nu declarăm modelul precis și nu
 relaxăm verificarea dovezilor pentru a îmbunătăți artificial scorul. Setul de test nu a fost folosit
 pentru ajustări. AI rămâne opțional și dezactivat pe instanța cu datele utilizatorului.
+
+Citirea live a paginii Anthropic a reușit. URL-ul Circle vechi
+`/stablecoins/usdc-on-main-networks` a răspuns **HTTP 404**; pagina canonică actuală
+[`/stablecoins/usdc-contract-addresses`](https://developers.circle.com/stablecoins/usdc-contract-addresses)
+a fost citită și verificată prin hash. Nu au fost ocolite regulile de citire sau urmate redirecturi
+către domenii neacceptate. Un URL dispărut rămâne indisponibil și nu confirmă o afirmație.
 
 Comenzi pentru o nouă verificare live:
 

@@ -830,7 +830,7 @@ function renderHealth() {
         "p",
         "Surse afectate: " +
           errors.join(", ") +
-          ". Verifică Surse & metodologie.",
+          ". Apasă indicatorul de stare pentru detalii.",
       ),
     );
   $("section-alerts").hidden = !count;

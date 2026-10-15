@@ -13,7 +13,15 @@
     {
       "url": "https://developers.circle.com/stablecoins/usdc-on-main-networks",
       "state": "unavailable",
-      "reason": "ProviderError: Sursa nu poate fi citită acum; nu confirmăm anunțul sau afilierea."
+      "reason": "ProviderError: Sursa nu poate fi citită acum; nu confirmăm anunțul sau afilierea.",
+      "http_status_confirmed": 404
+    },
+    {
+      "url": "https://developers.circle.com/stablecoins/usdc-contract-addresses",
+      "state": "read",
+      "title": "USDC contract addresses - Circle Docs",
+      "sha256": "9604208b50a69cf391d83d4e2c8b07b8192e8af35b2d0384ed06cf8af51333c6",
+      "text_length": 5403
     }
   ]
 }

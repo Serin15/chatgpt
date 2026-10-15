@@ -1,0 +1,20 @@
+{
+  "url": "https://codeload.github.com/Serin15/chatgpt/zip/ddd5f2a92a7455cd37efa8629c7c7099be12d4d0",
+  "commit": "ddd5f2a92a7455cd37efa8629c7c7099be12d4d0",
+  "archive_bytes": 3407146,
+  "sha256": "93e93dd1abaaa136e43c94855deee6b0bc63e6eea7d9c2ff317329bb1c36d0e0",
+  "source": "downloaded GitHub ZIP",
+  "foreign_working_directory": true,
+  "special_characters_in_path": true,
+  "version": "0.9.1",
+  "live_execution": false,
+  "workers": [
+    "scanner",
+    "news",
+    "assets",
+    "performance",
+    "intelligence"
+  ],
+  "passed": true,
+  "platform": "Linux; Windows verified separately by CI"
+}
