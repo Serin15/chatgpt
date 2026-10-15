@@ -76,6 +76,28 @@ dosare, știri defecte, export și backup. Acestea sunt distincte de probele cu 
 Comenzi: `uv run --with playwright python tests/browser_opportunities.py`,
 `uv run --with playwright python tests/browser_regressions.py` (Chromium instalat în mediu).
 
+## Pachet descărcat și Windows nativ
+
+Codul verificat este commitul `1391fb1b0375e00d12f5aae90d2c7b169e73c786`.
+[GitHub Actions](https://github.com/Serin15/chatgpt/actions/runs/38680775088) a trecut pe
+**Ubuntu și Windows**, inclusiv pasul Windows nativ `start-windows.cmd` dintr-o cale cu spații.
+[ci.json](ci.json) păstrează concluziile reale ale joburilor și pașilor; nu este o simulare Windows.
+
+[package.json](package.json) păstrează URL-ul, dimensiunea și SHA-256 al ZIP-ului efectiv
+descărcat din GitHub. Pe Linux a fost extras într-o cale cu spații, diacritice și `&`, cu
+dependențe/date noi, și a pornit din alt director curent. `/api/status` a confirmat v0.8.0,
+cei cinci workeri, AI oprit, tranzacții reale dezactivate și conturi noi $500/$100 fără ordine.
+Această probă Linux este separată de proba Windows din CI.
+
+Pe Windows: descarcă arhiva, **Extrage tot**, apoi pornește `start-windows.cmd`. Dintr-un
+terminal în proiect, comenzile comune sunt `uv sync --frozen` și
+`uv run --frozen python -m app.desktop`. Necesită Python 3.12+ sau uv; nu este un executabil
+care include Python. [Instrucțiuni](../../DESCHIDE-APLICATIA.md).
+
+Instanța principală continuă colectarea pe datele existente. Instanța separată folosită pentru
+probe a fost oprită după salvarea dovezilor și a unui backup SQLite consistent; lipsa observațiilor
+după oprirea ei nu reprezintă un rezultat favorabil și nu intră în proba de mai sus.
+
 ## Limite
 
 Comparația înainte/după demonstrează defectul de programare și funcționarea noului colector în

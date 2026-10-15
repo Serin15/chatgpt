@@ -1,0 +1,12 @@
+{
+  "package": "memescope-observation-source.zip",
+  "version": "0.8.0",
+  "startup": "PASS from foreign cwd, path with spaces/diacritics/& and fresh dependencies/data",
+  "accounts": "Research $500, Scanner $100, zero orders",
+  "windows_native_tested": false,
+  "code_commit": "1391fb1b0375e00d12f5aae90d2c7b169e73c786",
+  "download_url": "https://codeload.github.com/Serin15/chatgpt/zip/1391fb1b0375e00d12f5aae90d2c7b169e73c786",
+  "sha256": "9d0c419034f71ee5008d3c02363c1c66d404a34c770c96cb2340bfae393944e6",
+  "bytes": 2809906,
+  "platform": "Linux; native Windows evidence is recorded separately in CI"
+}
