@@ -1,0 +1,17 @@
+{
+  "before": {
+    "scenario": "Observation timestamps use datetime.now; analysis clock sampled 1ms earlier, reproducing Windows near-future fixture rejection",
+    "paper_allowed": false,
+    "critical": [],
+    "unknown": [
+      "Datele de piață sunt expirate.",
+      "Verificările de securitate sunt expirate."
+    ]
+  },
+  "after": {
+    "paper_allowed": true,
+    "critical": [],
+    "unknown": []
+  },
+  "change": "Only the isolated snapshot helper now freezes observation and analysis time; production time, freshness, look-ahead and money rules unchanged."
+}

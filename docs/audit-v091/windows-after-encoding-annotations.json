@@ -1,0 +1,38 @@
+[
+  {
+    "path": ".github",
+    "blob_href": "https://github.com/Serin15/chatgpt/blob/9b6f252e0473309d1572684b40038f92f4935b3b/.github",
+    "start_line": 2,
+    "start_column": null,
+    "end_line": 2,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "",
+    "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+    "raw_details": ""
+  },
+  {
+    "path": ".github",
+    "blob_href": "https://github.com/Serin15/chatgpt/blob/9b6f252e0473309d1572684b40038f92f4935b3b/.github",
+    "start_line": 163,
+    "start_column": null,
+    "end_line": 163,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "Process completed with exit code 1.",
+    "raw_details": ""
+  },
+  {
+    "path": ".github",
+    "blob_href": "https://github.com/Serin15/chatgpt/blob/9b6f252e0473309d1572684b40038f92f4935b3b/.github",
+    "start_line": 103,
+    "start_column": null,
+    "end_line": 103,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Pytest failure",
+    "message": "........................................................................ [ 23%]\n........................................................................ [ 47%]\n........................................................................ [ 71%]\n............................................FF.......................... [ 95%]\n...............                                                          [100%]\n================================== FAILURES ===================================\n__________________________ test_total_exposure_limit __________________________\n\nsettings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_total_expos...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))\nstore = <app.store.Store object at 0x0000023588BD9C40>\n\n    def test_total_exposure_limit(settings, store):\n        for n, address in enumerate([\"one\", \"two\", \"three\", \"four\"]):\n            snap = snapshot(settings, address=address)\n            if n < 3:\n>               buy(store, snap, old_signal(store, snap), \"15\", settings)\n\ntests\\test_paper.py:48: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nstore = <app.store.Store object at 0x0000023588BD9C40>\nsnapshot = {'id': 1, 'address': 'one', 'at': '2026-10-15T08:23:59.770378+00:00', 'market': {'address': 'one', 'symbol': 'FIXTURE', 'name': 'Explicit test fixture', 'pair_address': '11111111111111111111111111111111', ...}, ...}\nsignal_id = 1, usd = '15'\nsettings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_total_expos...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))\nnow = 1792052639.821603, execution = None\n\n    def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):\n        now = now if now is not None else datetime.now(UTC).timestamp()\n        require_fresh(snapshot, settings, now)\n        if not snapshot[\"analysis\"][\"paper_allowed\"]:\n>           raise Rejected(\"Intrare blocat\u0103: risc critic sau verific\u0103ri incomplete.\")\nE           app.paper.Rejected: Intrare blocat\u0103: risc critic sau verific\u0103ri incomplete.\n\napp\\paper.py:182: Rejected\n____________________ test_duplicate_signal_is_not_reusable ____________________\n\nsettings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_duplicate_s...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))\nstore = <app.store.Store object at 0x00000235876D5400>\n\n    def test_duplicate_signal_is_not_reusable(settings, store):\n        snap = snapshot(settings)\n        signal_id = old_signal(store, snap)\n>       order = buy(store, snap, signal_id, \"5\", settings)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests\\test_paper.py:58: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nstore = <app.store.Store object at 0x00000235876D5400>\nsnapshot = {'id': 1, 'address': 'So11111111111111111111111111111111111111112', 'at': '2026-10-15T08:24:00.086246+00:00', 'market'...', 'symbol': 'FIXTURE', 'name': 'Explicit test fixture', 'pair_address': '11111111111111111111111111111111', ...}, ...}\nsignal_id = 1, usd = '5'\nsettings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_duplicate_s...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))\nnow = 1792052640.135727, execution = None\n\n    def buy(store, snapshot, signal_id, usd, settings, now=None, execution=None):\n        now = now if now is not None else datetime.now(UTC).timestamp()\n        require_fresh(snapshot, settings, now)\n        if not snapshot[\"analysis\"][\"paper_allowed\"]:\n>           raise Rejected(\"Intrare blocat\u0103: risc critic sau verific\u0103ri incomplete.\")\nE           app.paper.Rejected: Intrare blocat\u0103: risc cr",
+    "raw_details": ""
+  }
+]

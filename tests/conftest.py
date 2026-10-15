@@ -5,7 +5,7 @@ import pytest
 
 from app.analysis import LEGACY_TOKEN_PROGRAM, analyze
 from app.config import Settings
-from app.models import Market
+from app.models import Market, epoch
 from app.store import Store
 
 ADDRESS = "So11111111111111111111111111111111111111112"
@@ -91,13 +91,16 @@ def market(address=ADDRESS, **overrides):
 
 def snapshot(settings, address=ADDRESS, **overrides):
     m, s = market(address, **overrides), security()
+    # A coherent fixture capture must use one clock. Windows can round the two
+    # independently sampled clocks across a microsecond boundary.
+    s["observed_at"] = m.observed_at
     return {
         "id": 1,
         "address": address,
         "at": m.observed_at,
         "market": m.model_dump(),
         "security": s,
-        "analysis": analyze(m, s, settings, time.time()),
+        "analysis": analyze(m, s, settings, epoch(m.observed_at)),
     }
 
 
