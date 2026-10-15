@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 import httpx
 
 from app.errors import ProviderError
+from app.http_client import decode_json
 from app.models import Market, number, solana_address, utcnow
 
 
@@ -73,9 +74,12 @@ class Providers:
                             await asyncio.sleep(min(max(retry, 0), 30))
                             continue
                     response.raise_for_status()
-                    data = response.json()
+                    data = decode_json(response.content)
                     self.status[source] = {"state": "ok", "at": utcnow(), "error": None}
                     return data
+                except ProviderError as exc:
+                    self.status[source] = {"state": "error", "at": utcnow(), "error": str(exc)}
+                    raise
                 except (httpx.HTTPError, ValueError) as exc:
                     if isinstance(exc, httpx.HTTPStatusError):
                         reason = f"HTTP {exc.response.status_code}"

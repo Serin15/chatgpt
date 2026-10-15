@@ -49,6 +49,11 @@ async def read_response(client, method, url, *, attempts=3, max_bytes=2_000_000,
 
 async def read_json(client, method, url, **kwargs):
     raw, _ = await read_response(client, method, url, **kwargs)
+    return decode_json(raw)
+
+
+def decode_json(raw):
+    """Apply identical numeric/schema validation to streamed and legacy providers."""
     try:
 
         def invalid_constant(value):

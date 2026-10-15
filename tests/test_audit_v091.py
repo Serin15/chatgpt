@@ -86,6 +86,25 @@ def test_nonfinite_provider_numbers_are_rejected(value):
     asyncio.run(run())
 
 
+@pytest.mark.parametrize("body", ['{"price":1e999}', '{"price":NaN}'], ids=["overflow", "nan"])
+def test_legacy_provider_rejects_nonfinite_json(settings, body):
+    async def run():
+        provider = Providers(
+            settings,
+            httpx.AsyncClient(
+                transport=httpx.MockTransport(lambda _: httpx.Response(200, content=body))
+            ),
+        )
+        try:
+            with pytest.raises(ProviderError, match="JSON invalid"):
+                await provider.request("dex", "GET", "https://example.com/data")
+            assert provider.status["dex"]["state"] == "error"
+        finally:
+            await provider.close()
+
+    asyncio.run(run())
+
+
 def test_jupiter_impact_rejection_keeps_the_risk_reason(settings):
     async def run():
         response = {

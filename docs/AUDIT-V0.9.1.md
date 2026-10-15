@@ -16,6 +16,7 @@ jos, fără o garanție că orice defect posibil ori indisponibilitate viitoare 
 | Erorile scenariilor automate Jupiter lipseau din indicatorul general | `routed_quotes` intră în agregare; indicatorul poate fi deschis pentru a identifica fiecare componentă. |
 | Erorile documentelor grupate pe domenii apăreau ca `[object Object]` | Panoul de stare afișează conținutul erorilor structurate, inclusiv domeniul și motivul, cu regresie în browser. |
 | `1e999` și `-1e999` deveneau numere infinite în JSON | Citirea comună respinge și depășirile numerice, alături de NaN/Infinity; structurile excesiv de adânci devin erori de sursă. |
+| Adaptorul mai vechi folosea încă un parser JSON permisiv | RPC/DEX/GoPlus folosesc acum aceeași decodare strictă; două regresii suplimentare reproduc overflow/NaN și verifică starea de eroare. |
 | Sesiunile vechi rămâneau valide după schimbarea parolei | Sesiunile sunt legate prin HMAC de parola folosită la autentificare. Migrarea invalidează sesiunile vechi fără această legătură; nu stochează parola. |
 | Autentificările simultane puteau ocoli limita de încercări | Actualizarea limitei și verificarea autentificării sunt protejate de un lock între threaduri. Regresia pornește simultan opt cereri. |
 | Backupul dintr-un folder cu `#` putea produce o arhivă cu baze goale | Căile SQLite folosesc URI escapate corect. Testul restaurează efectiv ambele baze și verifică soldurile și integritatea, inclusiv într-o cale cu `%`, `&` și diacritice. |
@@ -39,10 +40,12 @@ ale rezultatelor, resetări ale termenelor sau completări istorice cu prețuri 
 
 ## Testare efectivă
 
-- **303 teste unitare/de integrare trecute**, inclusiv 19 verificări noi de audit.
+- **305 teste unitare/de integrare trecute**, inclusiv 21 verificări noi de audit.
   Un avertisment de deprecări Starlette/httpx rămâne; nu a fost ascuns.
-- Pe o copie extrasă din commitul inițial, aceleași regresii noi au produs
+- Pe o copie extrasă din commitul inițial, primele 19 regresii noi au produs
   **15 eșecuri și 4 treceri**. [Reproduceri](audit-v091/before.txt).
+  Cele două cazuri suplimentare ale adaptorului vechi au eșuat înaintea corecției:
+  [reproducere separată](audit-v091/legacy-json-before.txt).
 - **10 scenarii noi de browser trecute** cu furnizori izolați:
   [înainte](audit-v091/browser-before.json), [după](audit-v091/browser-after.json).
 - Au trecut și cele șapte scripturi de browser existente: oportunități, regresii generale,

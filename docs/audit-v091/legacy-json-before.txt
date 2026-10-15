@@ -1,0 +1,96 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____________ test_legacy_provider_rejects_nonfinite_json[overflow] _____________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-139/test_legacy_provider_rejects_n0'), scan_interval_seconds=...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+body = '{"price":1e999}'
+
+    @pytest.mark.parametrize("body", ['{"price":1e999}', '{"price":NaN}'], ids=["overflow", "nan"])
+    def test_legacy_provider_rejects_nonfinite_json(settings, body):
+        async def run():
+            provider = Providers(settings, httpx.AsyncClient(transport=httpx.MockTransport(
+                lambda _: httpx.Response(200, content=body)
+            )))
+            try:
+                with pytest.raises(ProviderError, match="JSON invalid"):
+                    await provider.request("dex", "GET", "https://example.com/data")
+                assert provider.status["dex"]["state"] == "error"
+            finally:
+                await provider.close()
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:101:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        provider = Providers(settings, httpx.AsyncClient(transport=httpx.MockTransport(
+            lambda _: httpx.Response(200, content=body)
+        )))
+        try:
+>           with pytest.raises(ProviderError, match="JSON invalid"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ProviderError
+
+tests/test_audit_v091.py:96: Failed
+_______________ test_legacy_provider_rejects_nonfinite_json[nan] _______________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-139/test_legacy_provider_rejects_n1'), scan_interval_seconds=...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+body = '{"price":NaN}'
+
+    @pytest.mark.parametrize("body", ['{"price":1e999}', '{"price":NaN}'], ids=["overflow", "nan"])
+    def test_legacy_provider_rejects_nonfinite_json(settings, body):
+        async def run():
+            provider = Providers(settings, httpx.AsyncClient(transport=httpx.MockTransport(
+                lambda _: httpx.Response(200, content=body)
+            )))
+            try:
+                with pytest.raises(ProviderError, match="JSON invalid"):
+                    await provider.request("dex", "GET", "https://example.com/data")
+                assert provider.status["dex"]["state"] == "error"
+            finally:
+                await provider.close()
+>       asyncio.run(run())
+
+tests/test_audit_v091.py:101:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        provider = Providers(settings, httpx.AsyncClient(transport=httpx.MockTransport(
+            lambda _: httpx.Response(200, content=body)
+        )))
+        try:
+>           with pytest.raises(ProviderError, match="JSON invalid"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ProviderError
+
+tests/test_audit_v091.py:96: Failed
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_audit_v091.py::test_legacy_provider_rejects_nonfinite_json[overflow]
+FAILED tests/test_audit_v091.py::test_legacy_provider_rejects_nonfinite_json[nan]
+2 failed, 19 deselected, 1 warning in 0.27s
