@@ -58,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.7 · L3</span>
+        <span class="version">v0.8 · L3</span>
       </div>
     </aside>
     <main class="main">
@@ -422,6 +422,10 @@
           Se verifică motorul…
         </div>
         <div id="engine-stats" class="engine-stats"></div>
+        <details class="panel padded">
+          <summary id="engine-coverage-summary">Calitatea colectării</summary>
+          <div id="engine-coverage"></div>
+        </details>
         <section class="panel padded">
           <div class="engine-controls">
             <input
@@ -502,6 +506,14 @@
           <form id="engine-config" class="engine-config">
             <label
               >Motor activ<input id="engine-enabled" type="checkbox"
+            /></label>
+            <label
+              >Observații pe ciclu<input
+                id="engine-budget"
+                type="number"
+                min="1"
+                max="100"
+                step="1"
             /></label>
             <label
               >Poziție virtuală USD<input

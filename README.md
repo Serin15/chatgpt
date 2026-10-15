@@ -1,4 +1,4 @@
-# MemeScope v0.7 — Early Opportunity Engine
+# MemeScope v0.8 — Early Opportunity Engine
 
 Cercetare automată pentru tokenuri Solana observate devreme în feedurile publice: descoperire →
 date de piață și securitate → filtre → scoruri separate → verdict explicat → alertă → rezultate
@@ -8,6 +8,7 @@ Motorul rulează cât timp aplicația este pornită. Păstrează și candidații
 observațiile eșuate. Nu prezice randamente, nu confirmă automat afilierea unui token și nu execută
 tranzacții reale. Un pool recent nu dovedește că tokenul a fost lansat recent.
 
+[Colectare echilibrată v0.8 și verificări](docs/COLLECTION.md) ·
 [Implementare, verificare live, limite și următorul milestone](docs/LEVEL3.md) ·
 [Dovezi executabile](docs/level3-evidence/) · [Deschidere pe Windows](DESCHIDE-APLICATIA.md)
 
@@ -56,8 +57,9 @@ Dashboardul local este la `http://127.0.0.1:8000`; launcherul poate alege un por
   critică dacă un candidat alertat este ulterior respins pentru lichiditate/securitate.
 - Înregistrează experimente independente de $50, separat de conturile manuale, pe observații
   ulterioare semnalului. Include fee și impact estimat. Lipsa datelor nu devine profit zero.
-- Raportează rezultatele la 5m/1h/24h, acoperirea, pierderile, cazurile incomplete, un baseline
-  determinist de 20% și cohorte de test declarate înaintea datelor viitoare.
+- Raportează rezultatele la 5m/1h/24h și observațiile lipsă. Grupul fix de comparație este stabilit
+  înaintea evaluării și primește capacitate protejată împreună cu alertele. Datele istorice rămân
+  separate de cohorta prospectivă; lipsa unei observații nu devine profit zero.
 - Clasifică opțional povești din documente permise cu OpenAI/Ollama. O poveste sau un nume
   asemănător nu reprezintă dovadă că persoana/compania a lansat ori susține moneda.
 

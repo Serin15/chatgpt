@@ -1,6 +1,6 @@
 # MemeScope Level 3 — implementare și limite
 
-v0.7.0, 14 octombrie 2026. Obiectiv: un flux automat, explicabil și măsurabil, cu tranzacții reale
+v0.8.0, 15 octombrie 2026. [Actualizarea colectării prospective](COLLECTION.md). Obiectiv: un flux automat, explicabil și măsurabil, cu tranzacții reale
 dezactivate. Nu atribuim un procent arbitrar de „precizie” sau finalizare.
 
 ## Arhitectură și persistență
@@ -22,9 +22,10 @@ rămâne necunoscut. `first_seen_at`, crearea raportată a poolului și lansarea
 diferite. Ultima rămâne necunoscută când lipsește o dovadă. Feedurile sunt parțiale și părtinitoare;
 boosturile sunt expunere plătită, nu cerere organică demonstrată.
 
-Ciclul țintește 60s între începuturi. Bugetele implicite sunt 30 de observații și 8 verificări de
-securitate/ciclu. Jumătate din capacitatea de observație este rezervată urmăririi alertelor;
-o treime poate îmbogăți capturi noi înaintea arhivei migrate, iar capacitatea rămasă urmărește ordinea scadenței. Candidații respinși sunt reobservați mai rar; cei indisponibili
+Ciclul țintește 60s între începuturi. Bugetele implicite sunt 60 de observații și 8 verificări de
+securitate/ciclu. Jumătate din capacitate protejează în mod egal termenele alertelor și controlului,
+cu împrumutarea locurilor nefolosite. O treime îmbogățește capturi noi; restul urmărește alte
+termene și verificări periodice. Candidații respinși sunt reobservați mai rar; cei indisponibili
 au backoff limitat. Dashboardul arată coada și întârzierile. Un timeout nu oprește API-ul web.
 Nu există capacitate sau latență garantată pe RPC/API-uri publice.
 
@@ -158,7 +159,7 @@ din directorul de dovezi. O demonstrație de conectivitate nu demonstrează prof
 | Social / holders / istoric complet | Furnizori autorizați, chei și eventual planuri plătite încă neconfigurate. Nu sunt simulate. |
 | Găzduire | PC local sau instanță proprie, stocare și, dacă public, domeniu/HTTPS. Niciun abonament cloud nu este cumpărat automat. |
 
-La 60s, un buget plin de 30 observații/ciclu înseamnă teoretic până la 43.200 observații/zi;
+La 60s, un buget plin de 60 observații/ciclu înseamnă teoretic până la 86.400 observații/zi;
 cererile sunt grupate, nu un HTTP call per observație. Bugetul nu garantează această capacitate.
 Păstrarea întregului univers crește baza și backupurile; dimensionează discul și verifică coada.
 Nu ștergem automat tokenurile pierzătoare pentru a reduce spațiul sau îmbunătăți statisticile.
@@ -169,22 +170,24 @@ Nu ștergem automat tokenurile pierzătoare pentru a reduce spațiul sau îmbun�
 - `app/opportunity_sources.py`: cotații pe poolul ancorat, participare eșantionată, walleturi.
 - `app/opportunity_rules.py`: configurație, features, costuri și decizii explicabile.
 - `app/opportunity_outcomes.py`: observații viitoare, scenarii înghețate, cohorte și rapoarte.
+- `app/opportunity_sampling.py`: înscriere prospectivă, grup fix, termene, repere de preț și acoperire.
 - `app/narratives.py`, `app/ai_research.py`: surse/contracte, clasificare cu citări și erori reale.
 - `app/discovery.py`: prima captură păstrată, surse suplimentare etichetate.
 - `app/analysis.py`, `app/models.py`: filtre separate și buyers/sellers raportate opționale.
 - `app/service.py`, `app/main.py`: workerul existent și API-uri autentificate/CSRF existente.
 - `app/static/opportunities.js`, `app.js`, `advanced.js`, `index.html`, `style.css`: dashboard,
   paginare, detalii, alerte și afișare rezilientă.
-- `app/level3_verify.py`, `tests/test_opportunities.py`, `tests/browser_opportunities.py`:
+- `app/level3_verify.py`, `app/collection_verify.py`, `tests/test_opportunities.py`,
+  `tests/test_observation_sampling.py`, `tests/browser_opportunities.py`:
   verificare live separată de testele simulate; fixture-ul și regresiile vechi sunt păstrate.
 - `.env.example`, `pyproject.toml`, `uv.lock`, workflow CI și documentație: configurare/versionare.
 
 ## Următorul milestone recomandat
 
 **Un experiment prospectiv cu acoperire și costuri mai bine măsurate**, înainte de Base sau noi
-integrări. Prioritatea 1: colectare echilibrată între alerte și un control prestabilit, RPC stabil,
-observații suficiente la orizonturile declarate și cotații entry/exit de rutare pentru tokenurile
-compatibile. Prioritatea 2: holdout declarat în avans, mai multe săptămâni de observații, costuri
+integrări. Colectarea echilibrată și controlul prestabilit sunt implementate în v0.8; acoperirea
+trebuie măsurată în continuare. Prioritatea 1: RPC stabil și cotații entry/exit de rutare pentru
+tokenurile compatibile. Prioritatea 2: holdout declarat în avans, mai multe săptămâni de observații, costuri
 și eșecuri incluse, estimarea incertitudinii fără selecția retrospectivă a pragurilor. Prioritatea 3:
 metrici de holders/walleturi și surse sociale autorizate, apoi validare Base pe aceleași criterii.
 Niciun calendar sau eșantion mic nu garantează un avantaj. Nu există dovadă pentru 10x/100x.

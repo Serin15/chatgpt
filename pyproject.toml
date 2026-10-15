@@ -1,6 +1,6 @@
 [project]
 name = "memecoin-research"
-version = "0.7.0"
+version = "0.8.0"
 description = "MemeScope: automated Solana opportunity research, alerts and measured paper outcomes"
 requires-python = ">=3.12"
 dependencies = [

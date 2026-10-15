@@ -412,6 +412,10 @@ def create_app(
     def opportunity_performance(request: Request):
         return request.app.state.service.opportunities.report()
 
+    @app.get("/api/opportunities/coverage")
+    def opportunity_coverage(request: Request):
+        return request.app.state.service.opportunities.sampling.coverage()
+
     @app.get("/api/opportunities/narratives")
     def opportunity_narratives(request: Request):
         return request.app.state.service.opportunities.narratives.trends()

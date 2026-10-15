@@ -70,8 +70,8 @@ def seed(engine):
 
 
 def payload(engine, candidate, at, price=1, liquidity=50000, history=None, unsafe=False):
-    m = market(TOKEN, price_usd=price, liquidity_usd=liquidity).model_dump() | {
-        "pair_address": POOL,
+    m = market(candidate["contract"], price_usd=price, liquidity_usd=liquidity).model_dump() | {
+        "pair_address": candidate["pool"],
         "observed_at": stamp(at),
     }
     s = security()
@@ -290,7 +290,8 @@ def test_suspicion_is_not_a_manipulation_verdict():
 def test_followup_reserves_capacity_without_dropping_other_candidates(client_engine):
     _, engine = client_engine
     c, policy, cfg = seed(engine)
-    now = time.time()
+    # Follow-up is urgent only once the frozen minimum observation delay elapsed.
+    now = time.time() - 5
     engine.save_observation(c, payload(engine, c, now), policy, cfg, stamp(now))
     with engine.store.connect() as db:
         db.execute("UPDATE opportunity_candidates SET next_due=?", (now - 1,))

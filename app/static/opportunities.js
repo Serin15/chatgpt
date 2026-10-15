@@ -116,6 +116,7 @@ async function renderOpportunities() {
       "/api/opportunities/performance",
       "/api/opportunities/narratives",
       "/api/wallets",
+      "/api/opportunities/coverage",
     ];
     const results = await Promise.allSettled(paths.map((p) => api(p)));
     if (results[0].status === "fulfilled") {
@@ -135,6 +136,7 @@ async function renderOpportunities() {
       if (!$("engine-config").dataset.loaded) {
         const c = data.config;
         $("engine-enabled").checked = c.enabled;
+        $("engine-budget").value = c.observation_budget;
         $("engine-position").value = c.position_usd;
         $("engine-min-tx").value = c.min_transactions_5m;
         $("engine-cooldown").value = c.cooldown_seconds;
@@ -182,6 +184,8 @@ async function renderOpportunities() {
       );
       renderEnginePerformance(report);
     }
+    if (results[5].status === "fulfilled")
+      renderEngineCoverage(results[5].value);
     if (results[1].status === "fulfilled") {
       const current = results[1].value;
       const merged = new Map(opportunityView.alerts.map((a) => [a.id, a]));
@@ -314,7 +318,10 @@ async function renderEngineAlerts(items) {
       state.page === "opportunities" &&
       !document.hidden
     )
-      Object.assign(a,await api(`/api/opportunities/alerts/${a.id}/receipt`, {}));
+      Object.assign(
+        a,
+        await api(`/api/opportunities/alerts/${a.id}/receipt`, {}),
+      );
   }
   if (
     items.length > opportunityView.alertsShown ||
@@ -369,6 +376,16 @@ function renderEnginePerformance(report) {
         "footnote",
       ),
     );
+    if (cohorts.prospective_comparison) {
+      const p = cohorts.prospective_comparison;
+      box.append(
+        node(
+          "p",
+          `Grup fix de comparație: ${p.fixed_control.experiments} experimente noi, ${p.fixed_control.evaluated} evaluate, ${p.fixed_control.unresolved_or_unavailable} incomplete. PnL ${cash(p.fixed_control.net_pnl_independent_experiments_usd)}`,
+          "footnote",
+        ),
+      );
+    }
     engineJson(box, "Baseline, cohorte și incertitudine", cohorts);
     root.append(box);
   }
@@ -388,6 +405,70 @@ function renderEnginePerformance(report) {
     ),
   );
   engineJson(root, "Raport complet și diagnostice exploratorii", report);
+}
+function renderEngineCoverage(data) {
+  const root = $("engine-coverage");
+  root.replaceChildren();
+  const scope = data.prospective_groups || data.groups;
+  $("engine-coverage-summary").textContent =
+    `Calitatea colectării · intrări observate: ${scope.alerts.entry.attempted} alerte / ${scope.control.entry.attempted} control · termene ratate: ${scope.alerts.entry.missed + scope.control.entry.missed}`;
+  const members = (data.enrollment || []).filter(
+    (r) => r.provenance === "prospective",
+  );
+  const total = members.reduce((s, r) => s + r.n, 0),
+    control = members
+      .filter((r) => r.control_member)
+      .reduce((s, r) => s + r.n, 0);
+  root.append(
+    node(
+      "p",
+      `Urmărire echilibrată din ${date(data.activated_at)}. ${total} candidați noi; ${control} în grupul fix de comparație.`,
+      "footnote",
+    ),
+  );
+  for (const [key, label] of [
+    ["alerts", "Alerte"],
+    ["control", "Grup de comparație"],
+  ]) {
+    const g = (data.prospective_groups || data.groups)[key];
+    root.append(node("h3", label));
+    for (const [phase, name] of [
+      ["entry", "Intrare"],
+      ["exit", "Ieșire"],
+      ["checkpoint", "Repere de preț, inclusiv tokenuri respinse"],
+    ]) {
+      const p = g[phase] || { attempted: 0, missed: 0, pending: 0 };
+      root.append(
+        node(
+          "p",
+          `${name}: ${p.attempted} încercări observate la timp · ${p.missed} termene ratate · ${p.pending} în așteptare.`,
+          "footnote",
+        ),
+      );
+    }
+  }
+  const labels = {
+    capacity_or_worker_gap: "Nepreluate la timp (capacitate sau pauză)",
+    collection_finished_after_deadline: "Colectare încheiată după termen",
+    provider_quote_unavailable: "Preț indisponibil la furnizor",
+    security_evidence_unavailable: "Securitate insuficient verificată",
+    risk_or_liquidity_gate: "Filtru de risc sau lichiditate",
+    quote_before_window: "Cotație preluată prea devreme",
+    quote_received: "Cotație primită",
+    cost_model_unavailable: "Model de cost incompatibil",
+  };
+  for (const [reason, n] of Object.entries(
+    data.prospective_reasons || data.reasons,
+  ))
+    root.append(node("p", `${labels[reason] || reason}: ${n}`, "footnote"));
+  root.append(
+    node(
+      "p",
+      "Grupul se stabilește înaintea evaluării și poate include tokenuri alertate. Datele vechi rămân separate. Completitudinea observațiilor și rezultatele paper se măsoară separat.",
+      "footnote",
+    ),
+  );
+  engineJson(root, "Acoperire și reguli de colectare", data);
 }
 function renderEngineNarratives(data) {
   const root = $("engine-narratives");
@@ -597,6 +678,7 @@ function setupOpportunityControls() {
       const c = {
         ...opportunityView.config,
         enabled: $("engine-enabled").checked,
+        observation_budget: Number($("engine-budget").value),
         position_usd: Number($("engine-position").value),
         min_transactions_5m: Number($("engine-min-tx").value),
         cooldown_seconds: Number($("engine-cooldown").value),

@@ -1,0 +1,44 @@
+{
+  "real_provider_data": true,
+  "checkpoint": {
+    "id": 791,
+    "candidate_id": 383,
+    "contract": "8AZWMnvA4EM4o9HRB5Br1exFQ9K2HcPuNDMzLqgCpump",
+    "chain": "solana",
+    "provenance": "prospective",
+    "signal_id": 1032,
+    "phase": "checkpoint",
+    "horizon_seconds": 300,
+    "due_at": 1792037843.411013,
+    "deadline_at": 1792038023.411013,
+    "reason": "risk_or_liquidity_gate",
+    "observed_at": "2026-10-15T04:17:27.152967+00:00",
+    "quote_observed_at": "2026-10-15T04:17:26.521342+00:00",
+    "source_kind": "live_provider_observation"
+  },
+  "enrollment": {
+    "candidate_id": 383,
+    "at": "2026-10-15T04:12:23.837022+00:00",
+    "control_member": 1,
+    "provenance": "prospective",
+    "version": "balanced-deadlines-v1"
+  },
+  "outcome_states": [
+    {
+      "signal_id": 1041,
+      "horizon_seconds": 300,
+      "state": "entry_unavailable"
+    },
+    {
+      "signal_id": 1041,
+      "horizon_seconds": 3600,
+      "state": "entry_unavailable"
+    },
+    {
+      "signal_id": 1041,
+      "horizon_seconds": 86400,
+      "state": "entry_unavailable"
+    }
+  ],
+  "note": "A later price checkpoint does not imply a paper entry or exit succeeded."
+}

@@ -1,0 +1,71 @@
+{
+  "baseline_commit": "81186cee42568093c11e2faadaf17d3dd586e672",
+  "cohort_results": [
+    {
+      "cohort": "alerted_at_baseline",
+      "state": "evaluated",
+      "n": 10
+    },
+    {
+      "cohort": "alerted_at_baseline",
+      "state": "exit_unavailable",
+      "n": 3
+    },
+    {
+      "cohort": "alerted_at_baseline",
+      "state": "pending",
+      "n": 1
+    },
+    {
+      "cohort": "not_alerted_at_baseline",
+      "state": "missing_forward_entry",
+      "n": 6402
+    },
+    {
+      "cohort": "not_alerted_at_baseline",
+      "state": "pending",
+      "n": 29
+    }
+  ],
+  "runtime": {
+    "at": "2026-10-15T03:42:58.408746+00:00",
+    "cycles": 610,
+    "discovery_sources": {
+      "boosts": {
+        "at": "2026-10-15T03:42:38.097385+00:00",
+        "pools": 25,
+        "reported_tokens": 25,
+        "sampling_bias": "paid exposure",
+        "state": "ok"
+      },
+      "profiles": {
+        "at": "2026-10-15T03:42:37.375423+00:00",
+        "counts": {
+          "base": 1,
+          "solana": 26
+        },
+        "state": "ok"
+      },
+      "solana": {
+        "at": "2026-10-15T03:42:37.375413+00:00",
+        "count": 20,
+        "next_page": 3,
+        "page": 2,
+        "rejected": 0,
+        "state": "ok"
+      }
+    },
+    "errors": [],
+    "new_candidates": 6,
+    "observed": 30,
+    "queue": {
+      "capacity_note": "Bounded API budget; queue delays can invalidate forward entry/exit windows. Missing observations remain unknown.",
+      "due": 9962,
+      "not_enriched": 3639,
+      "oldest_due_delay_seconds": 16097
+    },
+    "started_at": "2026-10-15T03:42:37.050306+00:00",
+    "state": "ok"
+  },
+  "eligible": 10104
+}

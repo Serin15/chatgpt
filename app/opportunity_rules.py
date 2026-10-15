@@ -17,7 +17,9 @@ class EngineConfig(BaseModel):
     enabled: bool = True
     interval_seconds: int = Field(default=60, ge=30, le=3600)
     discovery_pages: int = Field(default=2, ge=1, le=10)
-    observation_budget: int = Field(default=30, ge=1, le=100)
+    observation_budget: int = Field(default=60, ge=1, le=100)
+    active_watch_seconds: int = Field(default=900, ge=300, le=3600)
+    background_interval_seconds: int = Field(default=86400, ge=3600, le=604800)
     security_budget: int = Field(default=8, ge=1, le=30)
     activity_samples: int = Field(default=0, ge=0, le=10)
     cooldown_seconds: int = Field(default=3600, ge=60, le=86400)

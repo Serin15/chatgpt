@@ -39,11 +39,13 @@ def observation(db, candidate_id, start, end):
     return decode(row)
 
 
-def available(row, settings):
+def available(row, settings, not_before=None):
     if not row or not row.get("market") or not row.get("security") or not row.get("decision"):
         raise Rejected("Observation incomplete")
     snap = {"at": row["at"], "market": row["market"], "security": row["security"]}
     require_fresh(snap, settings, epoch(row["at"]))
+    if not_before is not None and epoch(row["market"]["observed_at"]) < not_before:
+        raise Rejected("Quote was fetched before the observation window.")
     if not row["decision"]["screening"]["paper_allowed"]:
         raise Rejected("Security/liquidity screening unavailable or rejected")
 
@@ -52,6 +54,7 @@ def update_outcomes(engine, now=None):
     now = time.time() if now is None else now
     updated = 0
     with engine.store.connect() as db:
+        engine.sampling.expire(db, now)
         rows = db.execute(
             "SELECT o.*,s.candidate_id,s.at AS signal_at,s.payload AS signal_payload,s.observation_id FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id WHERE o.state='pending' ORDER BY o.updated_at,s.id,o.horizon_seconds LIMIT 2000"
         ).fetchall()
@@ -78,6 +81,10 @@ def update_outcomes(engine, now=None):
                     "Frozen cost implementation differs from the installed version; no result calculated."
                 )
                 db.execute(
+                    "UPDATE observation_jobs SET status='cancelled',reason='cost_model_unavailable' WHERE signal_id=? AND status='pending'",
+                    (row["signal_id"],),
+                )
+                db.execute(
                     "UPDATE opportunity_outcomes SET state='cost_model_unavailable',payload=?,updated_at=? WHERE signal_id=? AND horizon_seconds=?",
                     (json.dumps(payload), utcnow(), row["signal_id"], row["horizon_seconds"]),
                 )
@@ -94,11 +101,22 @@ def update_outcomes(engine, now=None):
                     entry_delay_seconds=round(epoch(entry["at"]) - signal_at),
                 )
                 try:
-                    available(entry, settings)
+                    available(
+                        entry,
+                        settings,
+                        signal_at + settings.min_signal_delay
+                        if policy.get("sampling_version")
+                        else None,
+                    )
                     buy = fill("buy", str(config["position_usd"]), entry["market"], settings)
                     payload["entry_quote"] = buy
                 except (Rejected, ValueError, TypeError, KeyError, ArithmeticError):
                     state = "entry_unavailable"
+                    payload["unavailable_reason"] = (
+                        "provider_quote_missing"
+                        if not entry.get("market")
+                        else "security_liquidity_cost_or_timestamp_gate"
+                    )
                 if state == "pending":
                     target = epoch(entry["at"]) + row["horizon_seconds"]
                     payload["target_at_epoch"] = target
@@ -118,7 +136,11 @@ def update_outcomes(engine, now=None):
                             actual_hold_seconds=round(epoch(exit_row["at"]) - epoch(entry["at"])),
                         )
                         try:
-                            available(exit_row, settings)
+                            available(
+                                exit_row,
+                                settings,
+                                target if policy.get("sampling_version") else None,
+                            )
                             sale = fill("sell", buy["quantity"], exit_row["market"], settings)
                             payload.update(
                                 exit_quote=sale,
@@ -134,14 +156,22 @@ def update_outcomes(engine, now=None):
                             state = "evaluated"
                         except (Rejected, ValueError, TypeError, KeyError, ArithmeticError):
                             state = "exit_unavailable"
+                            payload["unavailable_reason"] = (
+                                "provider_quote_missing"
+                                if not exit_row.get("market")
+                                else "security_liquidity_cost_or_timestamp_gate"
+                            )
                             payload["economically_possible_in_model"] = None
                     samples = [
                         decode(r)
                         for r in db.execute(
-                            "SELECT * FROM opportunity_observations WHERE candidate_id=? ORDER BY id",
-                            (row["candidate_id"],),
+                            "SELECT * FROM opportunity_observations WHERE candidate_id=? AND at>=? AND at<=? ORDER BY at,id",
+                            (
+                                row["candidate_id"],
+                                entry["at"],
+                                datetime.fromtimestamp(min(now, target), UTC).isoformat(),
+                            ),
                         )
-                        if epoch(entry["at"]) <= epoch(r["at"]) <= min(now, target)
                     ]
                     priced = [r for r in samples if r.get("market")]
                     if priced:
@@ -161,6 +191,7 @@ def update_outcomes(engine, now=None):
                             unobserved_tail_seconds=max(0, min(now, target) - max(stamps)),
                             extrema_scope="Sampled prices through the horizon; true intra-interval extrema are unknown.",
                         )
+            engine.sampling.sync_outcome(db, row, payload, state, config)
             db.execute(
                 "UPDATE opportunity_outcomes SET state=?,payload=?,updated_at=? WHERE signal_id=? AND horizon_seconds=?",
                 (
@@ -236,13 +267,17 @@ def report(engine):
             "SELECT c.id,c.discovery,o.at,o.payload FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"
         ).fetchall()
         rows = db.execute(
-            "SELECT o.*,s.kind,s.at AS signal_at,s.payload AS signal_payload,s.observation_id,a.id AS alert_id,c.contract FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id JOIN opportunity_candidates c ON c.id=s.candidate_id LEFT JOIN opportunity_alerts a ON a.signal_id=s.id AND a.severity!='critical' ORDER BY s.id,o.horizon_seconds"
+            "SELECT o.*,s.kind,s.at AS signal_at,s.payload AS signal_payload,s.observation_id,a.id AS alert_id,c.contract,e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id JOIN opportunity_candidates c ON c.id=s.candidate_id LEFT JOIN opportunity_alerts a ON a.signal_id=s.id AND a.severity!='critical' LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id ORDER BY s.id,o.horizon_seconds"
         ).fetchall()
         parsed = []
+        signal_cache = {}
         for r in rows:
             row = dict(r)
             row["payload"] = json.loads(r["payload"])
-            s = json.loads(r["signal_payload"])
+            if r["signal_id"] not in signal_cache:
+                signal_cache[r["signal_id"]] = json.loads(r["signal_payload"])
+            s = signal_cache[r["signal_id"]]
+            row.pop("signal_payload", None)
             policy = s["policy"]
             row["policy_id"] = policy["id"]
             split = policy["payload"]["config"].get("test_from")
@@ -279,6 +314,12 @@ def report(engine):
                     "initial_price": discovery.get("price_usd"),
                     "price": m.get("price_usd") if m else None,
                     "decision": d,
+                    "security_fresh": bool(
+                        p.get("security")
+                        and 0
+                        <= time.time() - epoch(p["security"]["observed_at"])
+                        <= engine.service.settings.max_snapshot_age
+                    ),
                     "fresh": bool(
                         m
                         and 0
@@ -325,6 +366,34 @@ def report(engine):
                 str(p): summary([r for r in baseline if r["policy_id"] == p])
                 for p in sorted({r["policy_id"] for r in baseline})
             },
+            "prospective_comparison": {
+                "selected_at_first_evaluation": summary(
+                    [
+                        r
+                        for r in baseline
+                        if r["enrollment_provenance"] == "prospective"
+                        and epoch(r["enrolled_at"]) <= epoch(r["signal_at"])
+                        and r["alert_id"] is not None
+                    ]
+                ),
+                "fixed_control": summary(
+                    [
+                        r
+                        for r in baseline
+                        if r["enrollment_provenance"] == "prospective"
+                        and epoch(r["enrolled_at"]) <= epoch(r["signal_at"])
+                        and r["control_member"]
+                    ]
+                ),
+                "overlapping_experiments": sum(
+                    r["enrollment_provenance"] == "prospective"
+                    and epoch(r["enrolled_at"]) <= epoch(r["signal_at"])
+                    and bool(r["control_member"])
+                    and r["alert_id"] is not None
+                    for r in baseline
+                ),
+                "note": "Control assigned before screening, including rejected tokens and any overlapping alerts. Legacy history is excluded. Observation coverage and executable paper results are separate.",
+            },
         }
     diagnostics = {}
     for name, predicate in [
@@ -345,6 +414,7 @@ def report(engine):
     return {
         "rule_version": "memescope-3.0",
         "totals": totals,
+        "sampling": engine.sampling.coverage(),
         "first_evaluation_security_pass": sum(
             bool(p["decision"]["security_filter_passed"]) for s, p in initial
         ),
@@ -353,7 +423,8 @@ def report(engine):
         ),
         "first_evaluation_verdicts": dict(Counter(p["decision"]["verdict"] for s, p in initial)),
         "current_security_pass": sum(
-            bool(r["fresh"] and r["decision"].get("security_filter_passed")) for r in latest
+            bool(r["fresh"] and r["security_fresh"] and r["decision"].get("security_filter_passed"))
+            for r in latest
         ),
         "current_liquidity_pass": sum(
             bool(r["fresh"] and r["decision"].get("liquidity_filter_passed")) for r in latest

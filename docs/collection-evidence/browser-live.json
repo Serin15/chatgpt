@@ -1,0 +1,1 @@
+{"pass": true, "source": "normal live provider instance", "checks": ["prospective collection panel renders live data", "rejected-token checkpoint counts visible", "mobile width 390px", "no JavaScript errors"], "screenshots": ["memescope-collection-desktop.png", "memescope-collection-mobile.png"]}

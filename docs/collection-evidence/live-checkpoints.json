@@ -1,0 +1,586 @@
+{
+  "at": "2026-10-15T04:17:31.541884+00:00",
+  "complete": true,
+  "criteria": {
+    "real_money_disabled": true,
+    "prospective_collection_policy": true,
+    "control_market_observations_in_window": true,
+    "alert_market_observations_in_window": true,
+    "later_exit_observed": true,
+    "control_price_checkpoint_observed": true
+  },
+  "duration_seconds": 306,
+  "source": "normal worker with public providers; no candidate injection or threshold changes",
+  "requests": "read-only API requests",
+  "coverage": {
+    "version": "balanced-deadlines-v1",
+    "activated_at": "2026-10-15T03:51:49.602230+00:00",
+    "generated_at": "2026-10-15T04:17:31.537318+00:00",
+    "policy": {
+      "version": "balanced-deadlines-v1",
+      "old_default_budget_upgraded": false,
+      "legacy_outcomes_recovered": true
+    },
+    "enrollment": [
+      {
+        "provenance": "prospective",
+        "control_member": 0,
+        "n": 359,
+        "never_observed": 0
+      },
+      {
+        "provenance": "prospective",
+        "control_member": 1,
+        "n": 92,
+        "never_observed": 0
+      }
+    ],
+    "groups": {
+      "alerts": {
+        "entry": {
+          "scheduled": 23,
+          "attempted": 23,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "exit": {
+          "scheduled": 57,
+          "attempted": 16,
+          "missed": 0,
+          "pending": 41,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "checkpoint": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        }
+      },
+      "control": {
+        "entry": {
+          "scheduled": 92,
+          "attempted": 88,
+          "missed": 0,
+          "pending": 4,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "exit": {
+          "scheduled": 9,
+          "attempted": 3,
+          "missed": 0,
+          "pending": 6,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "checkpoint": {
+          "scheduled": 57,
+          "attempted": 1,
+          "missed": 0,
+          "pending": 56,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        }
+      }
+    },
+    "prospective_groups": {
+      "alerts": {
+        "entry": {
+          "scheduled": 23,
+          "attempted": 23,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "exit": {
+          "scheduled": 57,
+          "attempted": 16,
+          "missed": 0,
+          "pending": 41,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "checkpoint": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        }
+      },
+      "control": {
+        "entry": {
+          "scheduled": 92,
+          "attempted": 88,
+          "missed": 0,
+          "pending": 4,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "exit": {
+          "scheduled": 9,
+          "attempted": 3,
+          "missed": 0,
+          "pending": 6,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        },
+        "checkpoint": {
+          "scheduled": 57,
+          "attempted": 1,
+          "missed": 0,
+          "pending": 56,
+          "cancelled": 0,
+          "observed_attempt_rate": 1.0
+        }
+      }
+    },
+    "legacy_groups": {
+      "alerts": {
+        "entry": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        },
+        "exit": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        },
+        "checkpoint": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        }
+      },
+      "control": {
+        "entry": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        },
+        "exit": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        },
+        "checkpoint": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "cancelled": 0,
+          "observed_attempt_rate": null
+        }
+      }
+    },
+    "reasons": {
+      "risk_or_liquidity_gate": 769,
+      "quote_received": 97,
+      "quote_before_window": 1
+    },
+    "prospective_reasons": {
+      "risk_or_liquidity_gate": 769,
+      "quote_received": 97,
+      "quote_before_window": 1
+    },
+    "due": {
+      "jobs": 12,
+      "candidates": 11,
+      "earliest": 1792038010.654074
+    },
+    "recent_attempts": {
+      "alerts": [
+        {
+          "id": 963,
+          "candidate_id": 413,
+          "contract": "F4dfnxRpH4ZDqXqfPcHm4Dqyk8s8TfqNuT8V95xpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1192,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037733.809487,
+          "deadline_at": 1792037910.809487,
+          "reason": "quote_received",
+          "observed_at": "2026-10-15T04:16:26.231335+00:00",
+          "quote_observed_at": "2026-10-15T04:16:25.676208+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 712,
+          "candidate_id": 225,
+          "contract": "FbBd4uxUKQ7FwkyJmrQpkn5HznvnHioScqq4onLyJ2Re",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 880,
+          "phase": "exit",
+          "horizon_seconds": 300,
+          "due_at": 1792037702.246174,
+          "deadline_at": 1792037882.246174,
+          "reason": "quote_received",
+          "observed_at": "2026-10-15T04:15:28.721582+00:00",
+          "quote_observed_at": "2026-10-15T04:15:26.528390+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 904,
+          "candidate_id": 403,
+          "contract": "CWutqF68a6KbZKDgD4iiXKisCE7q7j7fz8G5MJZ3VijZ",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1137,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037675.489039,
+          "deadline_at": 1792037852.489039,
+          "reason": "quote_received",
+          "observed_at": "2026-10-15T04:15:27.111092+00:00",
+          "quote_observed_at": "2026-10-15T04:15:26.528374+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 895,
+          "candidate_id": 394,
+          "contract": "9XLFXZ4ReSiP9WRzxXxCU6rUZG7t5TjPmuZCRNCBpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1128,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037673.553189,
+          "deadline_at": 1792037850.553189,
+          "reason": "quote_received",
+          "observed_at": "2026-10-15T04:15:27.099262+00:00",
+          "quote_observed_at": "2026-10-15T04:15:26.528338+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 685,
+          "candidate_id": 330,
+          "contract": "8JCtocXFgDi4g1DQkcuSgjifiCzorCfgnF2sHmSLWmVN",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 851,
+          "phase": "exit",
+          "horizon_seconds": 300,
+          "due_at": 1792037644.550252,
+          "deadline_at": 1792037824.550252,
+          "reason": "quote_received",
+          "observed_at": "2026-10-15T04:14:28.614952+00:00",
+          "quote_observed_at": "2026-10-15T04:14:26.025050+00:00",
+          "source_kind": "live_provider_observation"
+        }
+      ],
+      "control": [
+        {
+          "id": 791,
+          "candidate_id": 383,
+          "contract": "8AZWMnvA4EM4o9HRB5Br1exFQ9K2HcPuNDMzLqgCpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1032,
+          "phase": "checkpoint",
+          "horizon_seconds": 300,
+          "due_at": 1792037843.411013,
+          "deadline_at": 1792038023.411013,
+          "reason": "risk_or_liquidity_gate",
+          "observed_at": "2026-10-15T04:17:27.152967+00:00",
+          "quote_observed_at": "2026-10-15T04:17:26.521342+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 1017,
+          "candidate_id": 440,
+          "contract": "AeqMhbg5FWGBXoLv9BWEf5W6XtN8SR3EyZrG4xdGpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1238,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037789.346717,
+          "deadline_at": 1792037966.346717,
+          "reason": "risk_or_liquidity_gate",
+          "observed_at": "2026-10-15T04:17:27.147916+00:00",
+          "quote_observed_at": "2026-10-15T04:17:26.521336+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 1015,
+          "candidate_id": 438,
+          "contract": "HCyhEzctZsbH1S7neswXPUeMe7P5ddoao82UCWunpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1236,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037789.335327,
+          "deadline_at": 1792037966.335327,
+          "reason": "risk_or_liquidity_gate",
+          "observed_at": "2026-10-15T04:17:27.142778+00:00",
+          "quote_observed_at": "2026-10-15T04:17:26.521329+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 1014,
+          "candidate_id": 437,
+          "contract": "EVjC271rZrrJpjRohf5JC7pRxireFxicbb3vnMLBpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1235,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037789.329488,
+          "deadline_at": 1792037966.329488,
+          "reason": "risk_or_liquidity_gate",
+          "observed_at": "2026-10-15T04:17:27.137451+00:00",
+          "quote_observed_at": "2026-10-15T04:17:26.521322+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 1007,
+          "candidate_id": 430,
+          "contract": "5yh1ugKo4HadJMUhPmJFRBsHPYrnbnKAT6tqCEGMpump",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 1228,
+          "phase": "entry",
+          "horizon_seconds": 0,
+          "due_at": 1792037789.287649,
+          "deadline_at": 1792037966.287649,
+          "reason": "risk_or_liquidity_gate",
+          "observed_at": "2026-10-15T04:17:27.130756+00:00",
+          "quote_observed_at": "2026-10-15T04:17:26.521313+00:00",
+          "source_kind": "live_provider_observation"
+        },
+        {
+          "id": 685,
+          "candidate_id": 330,
+          "contract": "8JCtocXFgDi4g1DQkcuSgjifiCzorCfgnF2sHmSLWmVN",
+          "chain": "solana",
+          "provenance": "prospective",
+          "signal_id": 851,
+          "phase": "exit",
+          "horizon_seconds": 300,
+          "due_at": 1792037644.550252,
+          "deadline_at": 1792037824.550252,
+          "reason": "quote_received",
+          "observed_at": "2026-10-15T04:14:28.614952+00:00",
+          "quote_observed_at": "2026-10-15T04:14:26.025050+00:00",
+          "source_kind": "live_provider_observation"
+        }
+      ]
+    },
+    "note": "Control membership fixed at discovery by contract hash, independent of score/return. Legacy data are not prospectively balanced. Groups may overlap. An observation attempt is not a successful fill; capacity and provider gaps remain explicit."
+  },
+  "examples": {
+    "alerts": [
+      {
+        "id": 963,
+        "candidate_id": 413,
+        "contract": "F4dfnxRpH4ZDqXqfPcHm4Dqyk8s8TfqNuT8V95xpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1192,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037733.809487,
+        "deadline_at": 1792037910.809487,
+        "reason": "quote_received",
+        "observed_at": "2026-10-15T04:16:26.231335+00:00",
+        "quote_observed_at": "2026-10-15T04:16:25.676208+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 712,
+        "candidate_id": 225,
+        "contract": "FbBd4uxUKQ7FwkyJmrQpkn5HznvnHioScqq4onLyJ2Re",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 880,
+        "phase": "exit",
+        "horizon_seconds": 300,
+        "due_at": 1792037702.246174,
+        "deadline_at": 1792037882.246174,
+        "reason": "quote_received",
+        "observed_at": "2026-10-15T04:15:28.721582+00:00",
+        "quote_observed_at": "2026-10-15T04:15:26.528390+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 904,
+        "candidate_id": 403,
+        "contract": "CWutqF68a6KbZKDgD4iiXKisCE7q7j7fz8G5MJZ3VijZ",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1137,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037675.489039,
+        "deadline_at": 1792037852.489039,
+        "reason": "quote_received",
+        "observed_at": "2026-10-15T04:15:27.111092+00:00",
+        "quote_observed_at": "2026-10-15T04:15:26.528374+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 895,
+        "candidate_id": 394,
+        "contract": "9XLFXZ4ReSiP9WRzxXxCU6rUZG7t5TjPmuZCRNCBpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1128,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037673.553189,
+        "deadline_at": 1792037850.553189,
+        "reason": "quote_received",
+        "observed_at": "2026-10-15T04:15:27.099262+00:00",
+        "quote_observed_at": "2026-10-15T04:15:26.528338+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 685,
+        "candidate_id": 330,
+        "contract": "8JCtocXFgDi4g1DQkcuSgjifiCzorCfgnF2sHmSLWmVN",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 851,
+        "phase": "exit",
+        "horizon_seconds": 300,
+        "due_at": 1792037644.550252,
+        "deadline_at": 1792037824.550252,
+        "reason": "quote_received",
+        "observed_at": "2026-10-15T04:14:28.614952+00:00",
+        "quote_observed_at": "2026-10-15T04:14:26.025050+00:00",
+        "source_kind": "live_provider_observation"
+      }
+    ],
+    "control": [
+      {
+        "id": 791,
+        "candidate_id": 383,
+        "contract": "8AZWMnvA4EM4o9HRB5Br1exFQ9K2HcPuNDMzLqgCpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1032,
+        "phase": "checkpoint",
+        "horizon_seconds": 300,
+        "due_at": 1792037843.411013,
+        "deadline_at": 1792038023.411013,
+        "reason": "risk_or_liquidity_gate",
+        "observed_at": "2026-10-15T04:17:27.152967+00:00",
+        "quote_observed_at": "2026-10-15T04:17:26.521342+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 1017,
+        "candidate_id": 440,
+        "contract": "AeqMhbg5FWGBXoLv9BWEf5W6XtN8SR3EyZrG4xdGpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1238,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037789.346717,
+        "deadline_at": 1792037966.346717,
+        "reason": "risk_or_liquidity_gate",
+        "observed_at": "2026-10-15T04:17:27.147916+00:00",
+        "quote_observed_at": "2026-10-15T04:17:26.521336+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 1015,
+        "candidate_id": 438,
+        "contract": "HCyhEzctZsbH1S7neswXPUeMe7P5ddoao82UCWunpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1236,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037789.335327,
+        "deadline_at": 1792037966.335327,
+        "reason": "risk_or_liquidity_gate",
+        "observed_at": "2026-10-15T04:17:27.142778+00:00",
+        "quote_observed_at": "2026-10-15T04:17:26.521329+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 1014,
+        "candidate_id": 437,
+        "contract": "EVjC271rZrrJpjRohf5JC7pRxireFxicbb3vnMLBpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1235,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037789.329488,
+        "deadline_at": 1792037966.329488,
+        "reason": "risk_or_liquidity_gate",
+        "observed_at": "2026-10-15T04:17:27.137451+00:00",
+        "quote_observed_at": "2026-10-15T04:17:26.521322+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 1007,
+        "candidate_id": 430,
+        "contract": "5yh1ugKo4HadJMUhPmJFRBsHPYrnbnKAT6tqCEGMpump",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 1228,
+        "phase": "entry",
+        "horizon_seconds": 0,
+        "due_at": 1792037789.287649,
+        "deadline_at": 1792037966.287649,
+        "reason": "risk_or_liquidity_gate",
+        "observed_at": "2026-10-15T04:17:27.130756+00:00",
+        "quote_observed_at": "2026-10-15T04:17:26.521313+00:00",
+        "source_kind": "live_provider_observation"
+      },
+      {
+        "id": 685,
+        "candidate_id": 330,
+        "contract": "8JCtocXFgDi4g1DQkcuSgjifiCzorCfgnF2sHmSLWmVN",
+        "chain": "solana",
+        "provenance": "prospective",
+        "signal_id": 851,
+        "phase": "exit",
+        "horizon_seconds": 300,
+        "due_at": 1792037644.550252,
+        "deadline_at": 1792037824.550252,
+        "reason": "quote_received",
+        "observed_at": "2026-10-15T04:14:28.614952+00:00",
+        "quote_observed_at": "2026-10-15T04:14:26.025050+00:00",
+        "source_kind": "live_provider_observation"
+      }
+    ]
+  },
+  "manual_account_orders": {
+    "news": 0,
+    "scanner": 0
+  },
+  "note": "This verifies observed windows, not predictive quality, fair coverage under every future load, or real execution. Pending/failed observations remain in the report."
+}

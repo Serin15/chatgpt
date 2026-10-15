@@ -56,6 +56,10 @@ def main():
                 expect(page.locator("#view-opportunities")).to_be_visible()
                 expect(page.locator("#engine-rows tr")).to_have_count(1)
                 expect(page.locator("#engine-alerts")).to_contain_text("INVESTIGATE")
+                page.locator("#engine-coverage-summary").click()
+                expect(page.locator("#engine-coverage")).to_be_visible()
+                expect(page.locator("#engine-coverage")).to_contain_text("Grup de comparație")
+                expect(page.locator("#engine-coverage")).to_contain_text("termene ratate")
                 page.locator("#engine-rows button").click()
                 expect(page.locator("#engine-detail")).to_contain_text("Necunoscut")
                 expect(page.locator("#engine-detail")).to_contain_text("evaluated")
@@ -74,11 +78,18 @@ def main():
                 expect(page.locator("#engine-rows tr")).to_have_count(1)
                 page.locator("details:has(#engine-config) > summary").click()
                 page.locator("#engine-position").fill("25")
+                page.locator("#engine-budget").fill("40")
                 page.locator("#engine-config button").click()
                 expect(page.locator("#message")).to_contain_text("Praguri salvate")
                 assert (
                     page.request.get(url + "/api/opportunities").json()["config"]["position_usd"]
                     == 25
+                )
+                assert (
+                    page.request.get(url + "/api/opportunities").json()["config"][
+                        "observation_budget"
+                    ]
+                    == 40
                 )
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth") == 390
@@ -101,6 +112,7 @@ def main():
                                 "paper outcomes",
                                 "sample chart",
                                 "config",
+                                "collection panel and saved budget",
                                 "mobile 390px",
                                 "zero ledger orders",
                             ],

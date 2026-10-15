@@ -1,0 +1,86 @@
+{
+  "real_database_copy": true,
+  "migration_seconds": 0.475,
+  "before_digests": {
+    "opportunity_signals": "79c926ea30ce4fd370c7de6f14e520fd4dddda4d20357fd5d2d1f00eb9a5a3c1",
+    "opportunity_outcomes": "ac3c30e8919128ba7f8c4aadeea70544fe0e66564b725b1a247e8db7e2c90427",
+    "orders": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "after_digests": {
+    "opportunity_signals": "79c926ea30ce4fd370c7de6f14e520fd4dddda4d20357fd5d2d1f00eb9a5a3c1",
+    "opportunity_outcomes": "ac3c30e8919128ba7f8c4aadeea70544fe0e66564b725b1a247e8db7e2c90427",
+    "orders": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "historical_tables_unchanged": true,
+  "queue_after_migration": {
+    "due": 3658,
+    "not_enriched": 3658,
+    "oldest_due_delay_seconds": 14794,
+    "capacity_note": "Bounded API budget; queue delays can invalidate forward entry/exit windows. Missing observations remain unknown."
+  },
+  "coverage": {
+    "version": "balanced-deadlines-v1",
+    "activated_at": "2026-10-15T03:53:10.061183+00:00",
+    "policy": {
+      "version": "balanced-deadlines-v1",
+      "old_default_budget_upgraded": true,
+      "legacy_outcomes_recovered": true
+    },
+    "enrollment": [
+      {
+        "provenance": "legacy",
+        "control_member": 0,
+        "n": 8060,
+        "never_observed": 2925
+      },
+      {
+        "provenance": "legacy",
+        "control_member": 1,
+        "n": 2044,
+        "never_observed": 733
+      }
+    ],
+    "groups": {
+      "alerts": {
+        "entry": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "observed_attempt_rate": null
+        },
+        "exit": {
+          "scheduled": 28,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 28,
+          "observed_attempt_rate": null
+        }
+      },
+      "control": {
+        "entry": {
+          "scheduled": 0,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 0,
+          "observed_attempt_rate": null
+        },
+        "exit": {
+          "scheduled": 59,
+          "attempted": 0,
+          "missed": 0,
+          "pending": 59,
+          "observed_attempt_rate": null
+        }
+      }
+    },
+    "reasons": {},
+    "due": {
+      "jobs": 2,
+      "candidates": 2,
+      "earliest": 1792036488.994413
+    },
+    "note": "Control membership fixed at discovery by contract hash, independent of score/return. Legacy data are not prospectively balanced. Groups may overlap. An observation attempt is not a successful fill; capacity and provider gaps remain explicit."
+  },
+  "budget": 60
+}

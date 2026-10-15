@@ -1,0 +1,20 @@
+{
+  "data": "Explicit isolated fixture providers, real Chromium",
+  "opportunities": {
+    "pass": true,
+    "data": "isolated fixtures",
+    "checks": [
+      "discovery list",
+      "filter/search",
+      "alert receipt and seen",
+      "unknown scores",
+      "paper outcomes",
+      "sample chart",
+      "config",
+      "collection panel and saved budget",
+      "mobile 390px",
+      "zero ledger orders"
+    ]
+  },
+  "regressions": "PASS: partial failures, health, tiny prices, navigation, search/watch, manual evidence, signal invalidation, mobile contracts/journal, JSON export and ZIP backup"
+}

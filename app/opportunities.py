@@ -15,6 +15,7 @@ from app.errors import ProviderError
 from app.models import Market, epoch, solana_address, utcnow
 from app.narratives import Narratives
 from app.opportunity_rules import RULE_VERSION, EngineConfig, evaluate, features
+from app.opportunity_sampling import SAMPLING_VERSION, Sampling
 from app.opportunity_sources import (
     fallback_pool,
     gecko_markets,
@@ -33,6 +34,7 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "opportunity_sources.py",
             "narratives.py",
             "opportunity_outcomes.py",
+            "opportunity_sampling.py",
             "analysis.py",
             "paper.py",
             "models.py",
@@ -93,6 +95,7 @@ class Opportunities:
                     "INSERT INTO opportunity_config VALUES(1,?,?)",
                     (utcnow(), config.model_dump_json()),
                 )
+        self.sampling = Sampling(self)
 
     def config(self):
         with self.store.connect() as db:
@@ -124,6 +127,7 @@ class Opportunities:
             "paper_rules": self.service.frozen_rules(),
             "source_sha256": ENGINE_SOURCE_SHA256,
             "paper_source_sha256": PAPER_SOURCE_SHA256,
+            "sampling_version": SAMPLING_VERSION,
             "observation_rules": {
                 k: getattr(self.service.settings, k)
                 for k in ("min_signal_delay", "max_snapshot_age")
@@ -200,6 +204,7 @@ class Opportunities:
                 if not result.rowcount:
                     continue
                 candidate_id = result.lastrowid
+                self.sampling.enroll(db, candidate_id, row["contract"], now)
                 added += 1
                 payload = {
                     "verdict": "REJECT" if reason else "MONITOR",
@@ -211,7 +216,7 @@ class Opportunities:
                     "decision_at": now,
                     "no_future_data": True,
                 }
-                db.execute(
+                discovery_signal = db.execute(
                     "INSERT INTO opportunity_signals(candidate_id,at,kind,verdict,policy_id,payload) VALUES(?,?,?,?,?,?)",
                     (
                         candidate_id,
@@ -222,6 +227,19 @@ class Opportunities:
                         encode(payload),
                     ),
                 )
+                if reason is None and self.sampling.enrolled_control(db, candidate_id):
+                    for h in policy["payload"]["config"]["horizons_seconds"]:
+                        target = epoch(row["first_seen_at"]) + h
+                        self.sampling.job(
+                            db,
+                            candidate_id,
+                            discovery_signal.lastrowid,
+                            "checkpoint",
+                            h,
+                            target,
+                            target + policy["payload"]["config"]["exit_window_seconds"],
+                            control=True,
+                        )
         return added
 
     def history(self, candidate_id, before=None, limit=1000):
@@ -237,29 +255,7 @@ class Opportunities:
         ]
 
     def due(self, config):
-        with self.store.connect() as db:
-            # Reserve half the budget for follow-up on alerted candidates. The rest
-            # remains oldest-due first, so rejected/unselected candidates are retained.
-            urgent = db.execute(
-                "SELECT c.* FROM opportunity_candidates c WHERE eligible=1 AND next_due<=? AND EXISTS(SELECT 1 FROM opportunity_alerts a JOIN opportunity_outcomes o ON o.signal_id=a.signal_id WHERE a.candidate_id=c.id AND o.state='pending') ORDER BY next_due,id LIMIT ?",
-                (time.time(), max(1, config.observation_budget // 2)),
-            ).fetchall()
-            ids = {r["id"] for r in urgent}
-            # Keep a lane for new captures while an older archive is enriched.
-            fresh = db.execute(
-                "SELECT * FROM opportunity_candidates WHERE eligible=1 AND last_attempt_at IS NULL AND next_due<=? AND json_extract(discovery,'$.imported_from_cache')=0 ORDER BY discovered_at,id LIMIT ?",
-                (time.time(), max(1, config.observation_budget // 3)),
-            ).fetchall()
-            fresh = [r for r in fresh if r["id"] not in ids]
-            ids.update(r["id"] for r in fresh)
-            others = db.execute(
-                "SELECT * FROM opportunity_candidates WHERE eligible=1 AND next_due<=? ORDER BY next_due,id LIMIT ?",
-                (time.time(), config.observation_budget + len(ids)),
-            ).fetchall()
-            rows = [*urgent, *fresh, *(r for r in others if r["id"] not in ids)][
-                : config.observation_budget
-            ]
-            return [dict(r) | {"discovery": json.loads(r["discovery"])} for r in rows]
+        return self.sampling.choose(config)
 
     def save_observation(self, candidate, payload, policy, config, at=None):
         at = at or utcnow()
@@ -272,16 +268,14 @@ class Opportunities:
                 (candidate["id"], at, state, encode(payload)),
             )
             observation_id = row.lastrowid
+            self.sampling.record(db, candidate["id"], observation_id, payload, at)
             delay = config.interval_seconds
             if state != "ok":
                 delay = min(900, delay * 2 ** min(candidate.get("failures", 0) + 1, 4))
             elif decision["verdict"] == "REJECT":
-                tracked_alert = db.execute(
-                    "SELECT 1 FROM opportunity_alerts a JOIN opportunity_outcomes o ON o.signal_id=a.signal_id WHERE a.candidate_id=? AND o.state='pending' LIMIT 1",
-                    (candidate["id"],),
-                ).fetchone()
-                if not tracked_alert:
-                    delay = max(delay, 300)
+                delay = max(delay, 300)
+            if epoch(at) - epoch(candidate["ingested_at"]) >= config.active_watch_seconds:
+                delay = max(delay, config.background_interval_seconds)
             db.execute(
                 "UPDATE opportunity_candidates SET last_attempt_at=?,next_due=?,failures=? WHERE id=?",
                 (
@@ -367,6 +361,10 @@ class Opportunities:
                         encode(alert),
                     ),
                 )
+                if not risk_update:
+                    db.execute(
+                        "UPDATE observation_jobs SET selected=1 WHERE signal_id=?", (signal_id,)
+                    )
         return observation_id, signal_id
 
     def _signal(self, db, candidate_id, observation_id, at, kind, decision, policy, config):
@@ -394,6 +392,19 @@ class Opportunities:
                     utcnow(),
                 ),
             )
+        e = db.execute(
+            "SELECT control_member FROM sampling_enrollment WHERE candidate_id=?", (candidate_id,)
+        ).fetchone()
+        self.sampling.job(
+            db,
+            candidate_id,
+            row.lastrowid,
+            "entry",
+            0,
+            epoch(at) + self.service.settings.min_signal_delay,
+            epoch(at) + config.entry_window_seconds,
+            control=bool(e and e[0] and kind == "baseline"),
+        )
         return row.lastrowid
 
     @staticmethod
@@ -471,6 +482,7 @@ class Opportunities:
                         errors.append("discovery_source_incomplete")
                 added = self.ingest(policy)
                 due = self.due(config)
+                self.sampling.dispatch(due)
                 markets = {}
                 for i in range(0, len(due), 30):
                     try:
@@ -637,6 +649,7 @@ class Opportunities:
                             "policy_id": policy["id"],
                             "source_kind": "live_provider_observation",
                             "execution_verified": False,
+                            "collection_lane": candidate.get("collection_lane"),
                         }
                         self.save_observation(candidate, payload, policy, config, at)
                         observed += 1
@@ -693,6 +706,7 @@ class Opportunities:
                     "errors": sorted(set(errors)),
                     "discovery_sources": self.service.discovery.status,
                     "queue": self.queue_health(),
+                    "collection": self.sampling.coverage(),
                 }
                 with self.store.connect() as db:
                     db.execute(
@@ -987,4 +1001,5 @@ class Opportunities:
             "history_truncated": count > 1000,
             "outcomes": outcomes,
             "live_execution": False,
+            "sampling_enrollment": self.sampling.enrollment(candidate_id),
         }
