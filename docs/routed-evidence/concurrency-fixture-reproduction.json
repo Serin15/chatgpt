@@ -1,0 +1,30 @@
+{
+  "providers": "isolated synthetic snapshots",
+  "injected_setup_delay_seconds": 4.2,
+  "product_code_changed": false,
+  "old_fixture": {
+    "results": [
+      {
+        "status": "rejected",
+        "reason": "Intrarea necesită un snapshot colectat după semnal."
+      },
+      {
+        "status": "rejected",
+        "reason": "Intrarea necesită un snapshot colectat după semnal."
+      }
+    ],
+    "cash": "100"
+  },
+  "fixed_fixture": {
+    "results": [
+      {
+        "status": "filled"
+      },
+      {
+        "status": "rejected",
+        "reason": "Semnal deja utilizat."
+      }
+    ],
+    "cash": "94.99"
+  }
+}

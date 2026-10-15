@@ -1,0 +1,66 @@
+﻿2026-10-15T06:22:05.0350795Z ##[group]Run uv run pytest -q
+2026-10-15T06:22:05.0351327Z [36;1muv run pytest -q[0m
+2026-10-15T06:22:05.0422616Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-15T06:22:05.0423074Z env:
+2026-10-15T06:22:05.0423430Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T06:22:05.0423984Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-15T06:22:05.0424502Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T06:22:05.0425028Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T06:22:05.0425554Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-15T06:22:05.0425960Z ##[endgroup]
+2026-10-15T06:22:25.8882577Z ........................................................................ [ 25%]
+2026-10-15T06:23:38.8564869Z ........................................................................ [ 50%]
+2026-10-15T06:26:23.9545191Z ........................................................................ [ 76%]
+2026-10-15T06:27:54.5188713Z .....................................F..............................     [100%]
+2026-10-15T06:27:54.5189566Z ================================== FAILURES ===================================
+2026-10-15T06:27:54.5190263Z _______________ test_concurrent_same_signal_cannot_double_spend _______________
+2026-10-15T06:27:54.5190704Z 
+2026-10-15T06:27:54.5191522Z settings = Settings(data_dir=WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_concurrent_...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+2026-10-15T06:27:54.5192953Z store = <app.store.Store object at 0x000001E35F2FDD00>
+2026-10-15T06:27:54.5193187Z 
+2026-10-15T06:27:54.5193482Z     def test_concurrent_same_signal_cannot_double_spend(settings, store):
+2026-10-15T06:27:54.5194008Z         from concurrent.futures import ThreadPoolExecutor
+2026-10-15T06:27:54.5194448Z     
+2026-10-15T06:27:54.5194777Z         snap = snapshot(settings)
+2026-10-15T06:27:54.5195151Z         signal_id = old_signal(store, snap)
+2026-10-15T06:27:54.5195565Z     
+2026-10-15T06:27:54.5195850Z         def submit():
+2026-10-15T06:27:54.5196158Z             try:
+2026-10-15T06:27:54.5196535Z                 buy(store, snap, signal_id, "5", settings)
+2026-10-15T06:27:54.5196937Z                 return "filled"
+2026-10-15T06:27:54.5197276Z             except Rejected:
+2026-10-15T06:27:54.5197641Z                 return "rejected"
+2026-10-15T06:27:54.5197972Z     
+2026-10-15T06:27:54.5198314Z         with ThreadPoolExecutor(max_workers=2) as pool:
+2026-10-15T06:27:54.5198843Z >           assert sorted(pool.map(lambda _: submit(), range(2))) == ["filled", "rejected"]
+2026-10-15T06:27:54.5199758Z E           AssertionError: assert ['rejected', 'rejected'] == ['filled', 'rejected']
+2026-10-15T06:27:54.5200247Z E             
+2026-10-15T06:27:54.5200588Z E             At index 0 diff: 'rejected' != 'filled'
+2026-10-15T06:27:54.5201343Z E             
+2026-10-15T06:27:54.5201628Z E             Full diff:
+2026-10-15T06:27:54.5201906Z E               [
+2026-10-15T06:27:54.5202243Z E             -     'filled',
+2026-10-15T06:27:54.5202573Z E             +     'rejected',
+2026-10-15T06:27:54.5202935Z E                   'rejected',
+2026-10-15T06:27:54.5203223Z E               ]
+2026-10-15T06:27:54.5203357Z 
+2026-10-15T06:27:54.5203541Z tests\test_paper.py:150: AssertionError
+2026-10-15T06:27:54.5203957Z ============================== warnings summary ===============================
+2026-10-15T06:27:54.5204390Z .venv\Lib\site-packages\fastapi\testclient.py:1
+2026-10-15T06:27:54.5205312Z   D:\a\chatgpt\chatgpt\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+2026-10-15T06:27:54.5206299Z     from starlette.testclient import TestClient as TestClient  # noqa
+2026-10-15T06:27:54.5208942Z 
+2026-10-15T06:27:54.5209247Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-10-15T06:27:54.5209783Z =========================== short test summary info ===========================
+2026-10-15T06:27:54.5210614Z FAILED tests/test_paper.py::test_concurrent_same_signal_cannot_double_spend - AssertionError: assert ['rejected', 'rejected'] == ['filled', 'rejected']
+2026-10-15T06:27:54.5211294Z   
+2026-10-15T06:27:54.5211596Z   At index 0 diff: 'rejected' != 'filled'
+2026-10-15T06:27:54.5211937Z   
+2026-10-15T06:27:54.5212252Z   Full diff:
+2026-10-15T06:27:54.5212524Z     [
+2026-10-15T06:27:54.5212774Z   -     'filled',
+2026-10-15T06:27:54.5213076Z   +     'rejected',
+2026-10-15T06:27:54.5213360Z         'rejected',
+2026-10-15T06:27:54.5213643Z     ]
+2026-10-15T06:27:54.5213948Z 1 failed, 283 passed, 1 warning in 347.27s (0:05:47)
+2026-10-15T06:27:54.8292595Z ##[error]Process completed with exit code 1.

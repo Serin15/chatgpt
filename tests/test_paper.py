@@ -135,18 +135,37 @@ def test_restart_preserves_original_paper_capital(settings, store):
 
 def test_concurrent_same_signal_cannot_double_spend(settings, store):
     from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+
+    from app.models import epoch
 
     snap = snapshot(settings)
-    signal_id = old_signal(store, snap)
+    # Eligibility is fixed independently of slow disk I/O and thread scheduling.
+    # Freshness/delay are covered separately; this test exercises the SQL claim.
+    now = epoch(snap["security"]["observed_at"]) + 1
+    signal_id = store.signal(snap)["id"]
+    with store.connect() as db:
+        db.execute(
+            "UPDATE signals SET at=? WHERE id=?",
+            (
+                datetime.fromtimestamp(now - settings.min_signal_delay - 1, UTC).isoformat(),
+                signal_id,
+            ),
+        )
+    ready = Barrier(2)
 
     def submit():
+        ready.wait(timeout=10)
         try:
-            buy(store, snap, signal_id, "5", settings)
-            return "filled"
-        except Rejected:
-            return "rejected"
+            buy(store, snap, signal_id, "5", settings, now=now)
+            return ("filled", None)
+        except Rejected as exc:
+            return ("rejected", str(exc))
 
     with ThreadPoolExecutor(max_workers=2) as pool:
-        assert sorted(pool.map(lambda _: submit(), range(2))) == ["filled", "rejected"]
+        results = list(pool.map(lambda _: submit(), range(2)))
+    assert sorted(r[0] for r in results) == ["filled", "rejected"], results
+    assert next(r[1] for r in results if r[0] == "rejected") == "Semnal deja utilizat."
     assert store.portfolio()["cash"] == "94.99"
     assert len(store.portfolio()["positions"]) == 1
+    assert len(store.portfolio()["orders"]) == 1
