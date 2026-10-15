@@ -65,7 +65,7 @@ copiază fișierele noii versiuni peste folderul anterior, păstrând `data`. Po
 `start-windows.cmd`. Nu porni două versiuni pe același director de date.
 
 Din v0.3, dacă launcherul găsește o versiune veche încă pornită, cere închiderea acelei ferestre
-înainte de a continua. Nu reseta contul. După actualizarea curentă, în bara laterală apare **v0.8 · L3**.
+înainte de a continua. Nu reseta contul. După actualizarea curentă, în bara laterală apare **v0.9 · L3**.
 
 Analiza AI se configurează în dosarul unei monede, la **Ce spune știrea, de fapt?**.
 Alege Ollama local și numele exact din `ollama list`, apoi salvează și testează conexiunea.

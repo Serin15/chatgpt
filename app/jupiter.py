@@ -35,25 +35,27 @@ class Jupiter:
             "api_key_present": bool(secret("JUPITER_API_KEY")),
             "status": self.status,
             "live_execution": False,
-            "note": "Quotes neexecutate; costul de rețea este o presupunere și USDC/USD folosește un book observat. Lipsa unui quote blochează modul Jupiter, fără revenire automată la pool.",
+            "note": "Cotații neexecutate. Accesul fără cheie depinde de furnizor; 401/403 cer acces valid. Rețeaua și conversia au costuri presupuse. Lipsa unei rute nu produce un fill de pool.",
         }
 
     async def quote(self, input_mint, output_mint, raw_amount, slippage_bps=50):
         solana_address(input_mint)
         solana_address(output_mint)
-        if not isinstance(raw_amount, int) or raw_amount <= 0 or not 0 <= slippage_bps <= 200:
+        if (
+            type(raw_amount) is not int
+            or not 0 < raw_amount < 2**64
+            or type(slippage_bps) is not int
+            or not 0 <= slippage_bps <= 200
+        ):
             raise Rejected("Cantitate sau slippage invalid pentru quote.")
         key = secret("JUPITER_API_KEY")
-        if not key:
-            raise ProviderError(
-                "JUPITER_API_KEY lipsește; API-ul configurat necesită acces propriu."
-            )
         try:
+            requested_at = utcnow()
             response = await read_json(
                 self.client,
                 "GET",
                 "https://api.jup.ag/swap/v1/quote",
-                headers={"x-api-key": key},
+                headers={"Cache-Control": "no-cache"} | ({"x-api-key": key} if key else {}),
                 params={
                     "inputMint": input_mint,
                     "outputMint": output_mint,
@@ -69,12 +71,13 @@ class Jupiter:
                 or response.get("outputMint") != output_mint
                 or int(response.get("inAmount", 0)) != raw_amount
                 or response.get("swapMode") != "ExactIn"
+                or response.get("slippageBps") != slippage_bps
             ):
                 raise ProviderError("Quote-ul nu corespunde cererii exacte.")
             out, minimum = int(response["outAmount"]), int(response["otherAmountThreshold"])
             impact = D(str(response["priceImpactPct"]))
             if (
-                not 0 < minimum <= out
+                not 0 < minimum <= out < 2**64
                 or not impact.is_finite()
                 or not 0 <= impact <= self.settings.max_price_impact
             ):
@@ -86,20 +89,73 @@ class Jupiter:
             if (
                 not isinstance(response.get("routePlan"), list)
                 or not response["routePlan"]
-                or not isinstance(response.get("contextSlot"), int)
+                or type(response.get("contextSlot")) is not int
+                or response["contextSlot"] <= 0
+                or len(response["routePlan"]) > 100
+                or any(
+                    not isinstance(leg, dict) or not isinstance(leg.get("swapInfo"), dict)
+                    for leg in response["routePlan"]
+                )
             ):
                 raise ProviderError("Ruta sau slotul quote-ului lipsesc.")
             response["observed_at"] = utcnow()
+            response["request_started_at"] = requested_at
             self.status = {"state": "ok", "at": utcnow(), "error": None}
             return response
         except (KeyError, ValueError, TypeError, ArithmeticError):
             self.status = {"state": "error", "at": utcnow(), "error": "Quote incompatibil."}
             raise ProviderError("Quote Jupiter incompatibil cu schema așteptată.") from None
         except (ProviderError, Rejected) as exc:
+            if isinstance(exc, ProviderError) and any(
+                s in str(exc) for s in ["HTTP 401", "HTTP 403"]
+            ):
+                exc = ProviderError(
+                    "Jupiter HTTP 401/403: configurează JUPITER_API_KEY cu acces valid."
+                )
             self.status = {"state": "error", "at": utcnow(), "error": str(exc)}
-            raise
+            raise exc
 
     async def stable_book(self):
+        try:
+            return await self.kraken_book()
+        except ProviderError as kraken_error:
+            try:
+                return await self.coinbase_book()
+            except ProviderError as coinbase_error:
+                raise ProviderError(
+                    f"USDC/USD book indisponibil: Kraken ({kraken_error}); Coinbase ({coinbase_error}). Fără paritate presupusă."
+                ) from None
+
+    async def kraken_book(self):
+        data = await read_json(
+            self.client,
+            "GET",
+            "https://api.kraken.com/0/public/Depth",
+            params={"pair": "USDCUSD", "count": 1},
+        )
+        try:
+            if not isinstance(data, dict) or data.get("error") or len(data["result"]) != 1:
+                raise ValueError
+            pair = next(iter(data["result"]))
+            if pair not in {"USDCUSD", "USDCZUSD"}:
+                raise ValueError
+            book = data["result"][pair]
+            bid, ask = amount(book["bids"][0][0]), amount(book["asks"][0][0])
+            bid_size, ask_size = amount(book["bids"][0][1]), amount(book["asks"][0][1])
+            if bid > ask or 1 - bid / ask > self.settings.max_price_impact:
+                raise ValueError
+            return {
+                "bid": bid,
+                "ask": ask,
+                "bid_size": bid_size,
+                "ask_size": ask_size,
+                "observed_at": utcnow(),
+                "source": "Kraken public USDC/USD L1",
+            }
+        except (ValueError, TypeError, KeyError, IndexError, Rejected):
+            raise ProviderError("Order book Kraken USDC/USD invalid sau indisponibil.") from None
+
+    async def coinbase_book(self):
         data = await read_json(
             self.client,
             "GET",
@@ -124,7 +180,7 @@ class Jupiter:
                 "USDC/USD book indisponibil sau invalid; nu presupunem paritate USD."
             ) from None
 
-    async def fill(self, side, size, address):
+    async def fill(self, side, size, address, slippage_bps=50):
         solana_address(address)
         info = await self.onchain.token("solana", address, include_distribution=False)
         decimals = info["decimals"]
@@ -143,7 +199,7 @@ class Jupiter:
             stable = D(raw) / 10**6
             if stable > book["ask_size"]:
                 raise Rejected("Bugetul depășește USDC ask size observat.")
-            quoted = await self.quote(USDC, address, raw)
+            quoted = await self.quote(USDC, address, raw, slippage_bps)
             quantity = D(quoted["otherAmountThreshold"]) / 10**decimals
             conversion_fee = stable * book["ask"] * conversion_rate / (1 - conversion_rate)
             cash = -(stable * book["ask"] + conversion_fee + network)
@@ -151,7 +207,7 @@ class Jupiter:
             raw = int((size * 10**decimals).to_integral_value(rounding=ROUND_DOWN))
             if D(raw) / 10**decimals != size:
                 raise Rejected("Cantitatea de ieșire depășește precizia mintului.")
-            quoted = await self.quote(address, USDC, raw)
+            quoted = await self.quote(address, USDC, raw, slippage_bps)
             stable = D(quoted["otherAmountThreshold"]) / 10**6
             if stable > book["bid_size"]:
                 raise Rejected("Ieșirea depășește USDC bid size observat.")
@@ -162,12 +218,13 @@ class Jupiter:
                 raise Rejected("Costurile depășesc ieșirea quote-ului.")
         else:
             raise Rejected("Sens necunoscut.")
-        if time.time() - epoch(book["observed_at"]) > 15:
+        if not 0 <= time.time() - epoch(book["observed_at"]) <= 15:
             raise Rejected("Book-ul USDC/USD a expirat în timpul cererii.")
         return {
             "address": address,
             "side": side,
             "requested_size": str(size),
+            "token_decimals": decimals,
             "quantity": str(quantity),
             "cash_change": str(cash),
             "quote_observed_at": quoted["observed_at"],

@@ -58,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.8 · L3</span>
+        <span class="version">v0.9 · L3</span>
       </div>
     </aside>
     <main class="main">
@@ -125,7 +125,9 @@
             ><small>Sold după ordinele simulate</small>
           </article>
           <article>
-            <div class="metric-label">VALOARE NETĂ ESTIMATĂ <span>↗</span></div>
+            <div class="metric-label">
+              VALOARE NETĂ ESTIMATĂ <span>↗</span>
+            </div>
             <strong id="equity">—</strong
             ><small>După costuri estimate de ieșire</small>
           </article>
@@ -179,7 +181,9 @@
               token.
             </p>
           </div>
-          <button class="text-button" data-page="sources">Cum evaluăm ↗</button>
+          <button class="text-button" data-page="sources">
+            Cum evaluăm ↗
+          </button>
         </div>
       </section>
       <section id="view-news" class="view" hidden>
@@ -426,6 +430,10 @@
           <summary id="engine-coverage-summary">Calitatea colectării</summary>
           <div id="engine-coverage"></div>
         </details>
+        <details class="panel padded">
+          <summary id="engine-routes-summary">Paper cu cotații Jupiter</summary>
+          <div id="engine-routes"></div>
+        </details>
         <section class="panel padded">
           <div class="engine-controls">
             <input
@@ -482,7 +490,7 @@
             <div id="engine-alerts"></div>
           </section>
           <section class="panel padded">
-            <h2>Rezultatele descoperirii</h2>
+            <h2>Rezultate estimate din pool</h2>
             <p class="footnote">
               Experimente independente de $50, cu costuri estimate; observațiile
               lipsă rămân necunoscute.
@@ -541,6 +549,25 @@
               >Clasificare AI a narațiunilor<input
                 id="engine-ai"
                 type="checkbox"
+            /></label>
+            <label
+              >Cotații Jupiter automate, numai paper<input
+                id="engine-routed"
+                type="checkbox"
+            /></label>
+            <label
+              >Încercări de cotare / ciclu<input
+                id="engine-route-budget"
+                type="number"
+                min="1"
+                max="10"
+            /></label>
+            <label
+              >Slippage Jupiter (bps; 50 = 0,5%)<input
+                id="engine-route-slippage"
+                type="number"
+                min="0"
+                max="200"
             /></label>
             <label
               >Telegram automat, dacă este configurat<input

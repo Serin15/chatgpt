@@ -38,6 +38,9 @@ class EngineConfig(BaseModel):
     alert_verdicts: list[str] = Field(default_factory=lambda: ["INVESTIGATE", "CONSIDER"])
     telegram_enabled: bool = False
     ai_narratives: bool = False
+    routed_quotes_enabled: bool = True
+    routed_quote_budget: int = Field(default=4, ge=1, le=10)
+    routed_slippage_bps: int = Field(default=50, ge=0, le=200)
     test_from: AwareDatetime | None = None
 
     def validated(self):

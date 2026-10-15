@@ -1,0 +1,26 @@
+{
+  "real_database_copy": true,
+  "migration_seconds": 0.202,
+  "historical_tables_unchanged": true,
+  "before_digests": {
+    "opportunity_signals": "49fd3d1c7ed99a7ff3af591e76ffdde3f94af51f06478690446e44d9fc3b2020",
+    "opportunity_outcomes": "fb2479acf4bd834d85b22947ff7e6d9515a6e9308e67345081cb1f12751d4556",
+    "orders": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "after_digests": {
+    "opportunity_signals": "49fd3d1c7ed99a7ff3af591e76ffdde3f94af51f06478690446e44d9fc3b2020",
+    "opportunity_outcomes": "fb2479acf4bd834d85b22947ff7e6d9515a6e9308e67345081cb1f12751d4556",
+    "orders": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "routed_entries_after_migration": {},
+  "manual_accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  }
+}

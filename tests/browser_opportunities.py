@@ -60,6 +60,8 @@ def main():
                 expect(page.locator("#engine-coverage")).to_be_visible()
                 expect(page.locator("#engine-coverage")).to_contain_text("Grup de comparație")
                 expect(page.locator("#engine-coverage")).to_contain_text("termene ratate")
+                page.locator("#engine-routes-summary").click()
+                expect(page.locator("#engine-routes")).to_contain_text("Execuția rămâne simulată")
                 page.locator("#engine-rows button").click()
                 expect(page.locator("#engine-detail")).to_contain_text("Necunoscut")
                 expect(page.locator("#engine-detail")).to_contain_text("evaluated")
@@ -79,6 +81,9 @@ def main():
                 page.locator("details:has(#engine-config) > summary").click()
                 page.locator("#engine-position").fill("25")
                 page.locator("#engine-budget").fill("40")
+                page.locator("#engine-route-budget").fill("3")
+                page.locator("#engine-route-slippage").fill("75")
+                page.locator("#engine-routed").uncheck()
                 page.locator("#engine-config button").click()
                 expect(page.locator("#message")).to_contain_text("Praguri salvate")
                 assert (
@@ -91,6 +96,9 @@ def main():
                     ]
                     == 40
                 )
+                config = page.request.get(url + "/api/opportunities").json()["config"]
+                assert config["routed_quote_budget"] == 3 and config["routed_slippage_bps"] == 75
+                assert config["routed_quotes_enabled"] is False
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth") == 390
                 for account in ["news", "scanner"]:
@@ -113,6 +121,7 @@ def main():
                                 "sample chart",
                                 "config",
                                 "collection panel and saved budget",
+                                "separate Jupiter panel and saved routing policy",
                                 "mobile 390px",
                                 "zero ledger orders",
                             ],

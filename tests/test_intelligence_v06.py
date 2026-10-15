@@ -313,6 +313,10 @@ def test_auth_rate_limits_failed_passwords(settings, monkeypatch):
 def test_jupiter_missing_key_and_exact_route_validation(settings, monkeypatch):
     async def run():
         def handler(request):
+            if not request.headers.get("x-api-key"):
+                return httpx.Response(
+                    401, json={"error": "explicit fixture requires authentication"}
+                )
             return httpx.Response(
                 200,
                 json={
@@ -446,7 +450,7 @@ def test_jupiter_fill_counts_usdc_conversion_fee(settings):
                 "observed_at": utcnow(),
             }
 
-        async def quote(input_mint, output_mint, raw_amount):
+        async def quote(input_mint, output_mint, raw_amount, slippage_bps=50):
             return {
                 "otherAmountThreshold": str(raw_amount),
                 "priceImpactPct": "0",

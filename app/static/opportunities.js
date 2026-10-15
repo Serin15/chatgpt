@@ -117,6 +117,7 @@ async function renderOpportunities() {
       "/api/opportunities/narratives",
       "/api/wallets",
       "/api/opportunities/coverage",
+      "/api/opportunities/routes",
     ];
     const results = await Promise.allSettled(paths.map((p) => api(p)));
     if (results[0].status === "fulfilled") {
@@ -141,6 +142,9 @@ async function renderOpportunities() {
         $("engine-min-tx").value = c.min_transactions_5m;
         $("engine-cooldown").value = c.cooldown_seconds;
         $("engine-ai").checked = c.ai_narratives;
+        $("engine-routed").checked = c.routed_quotes_enabled;
+        $("engine-route-budget").value = c.routed_quote_budget;
+        $("engine-route-slippage").value = c.routed_slippage_bps;
         $("engine-telegram").checked = c.telegram_enabled;
         if (c.test_from) {
           const d = new Date(c.test_from);
@@ -186,6 +190,10 @@ async function renderOpportunities() {
     }
     if (results[5].status === "fulfilled")
       renderEngineCoverage(results[5].value);
+    if (results[6].status === "fulfilled") renderEngineRoutes(results[6].value);
+    else
+      $("engine-routes").textContent =
+        "Raportul cotațiilor Jupiter este indisponibil.";
     if (results[1].status === "fulfilled") {
       const current = results[1].value;
       const merged = new Map(opportunityView.alerts.map((a) => [a.id, a]));
@@ -436,6 +444,7 @@ function renderEngineCoverage(data) {
       ["entry", "Intrare"],
       ["exit", "Ieșire"],
       ["checkpoint", "Repere de preț, inclusiv tokenuri respinse"],
+      ["routed_exit", "Observații pentru ieșirile rutate"],
     ]) {
       const p = g[phase] || { attempted: 0, missed: 0, pending: 0 };
       root.append(
@@ -469,6 +478,79 @@ function renderEngineCoverage(data) {
     ),
   );
   engineJson(root, "Acoperire și reguli de colectare", data);
+}
+function renderEngineRoutes(data) {
+  const root = $("engine-routes");
+  root.replaceChildren();
+  $("engine-routes-summary").textContent =
+    `Paper cu cotații Jupiter · ${data.status.state} · ${data.entry_states.filled || 0} intrări virtuale cotate`;
+  root.append(
+    node(
+      "p",
+      "Cotații observate de swap, cu minimum de ieșire la slippage-ul ales. Execuția rămâne simulată. Comisioanele de rețea și conversie sunt presupuneri. Aceste rezultate sunt separate de estimările de pool.",
+      "footnote",
+    ),
+  );
+  root.append(
+    node(
+      "p",
+      `Ultima colectare: ${date(data.status.at)}. Istoric fără măsurare Jupiter: ${data.legacy_baselines_not_measured} prime evaluări.`,
+      "footnote",
+    ),
+  );
+  if (data.overdue_unprocessed?.entries || data.overdue_unprocessed?.exits)
+    root.append(
+      node(
+        "p",
+        `Termene expirate, încă neprocesate: ${data.overdue_unprocessed.entries} intrări / ${data.overdue_unprocessed.exits} ieșiri.`,
+        "warn footnote",
+      ),
+    );
+  const states = {
+    entry_pending: "Intrări în așteptare",
+    collecting: "Cotare în curs",
+    filled: "Intrări virtuale cu cotație",
+    entry_rejected: "Respinse de filtre",
+    entry_unavailable: "Intrări indisponibile",
+    disabled_at_signal: "Cotare dezactivată la semnal",
+  };
+  for (const [state, n] of Object.entries(data.entry_states))
+    root.append(node("p", `${states[state] || state}: ${n}`, "footnote"));
+  for (const [reason, n] of Object.entries(data.entry_failure_reasons))
+    root.append(
+      node(
+        "p",
+        `${reason
+          .replace(/^ProviderError:/, "Sursă:")
+          .replace(/^Rejected:/, "Filtru:")
+          .replace(
+            /^original_risk_gate$/,
+            "Filtrul inițial de risc sau lichiditate",
+          )}: ${n}`,
+        "warn footnote",
+      ),
+    );
+  for (const [h, groups] of Object.entries(data.horizons)) {
+    const g = groups.all_first_evaluations;
+    root.append(
+      node(
+        "p",
+        `${Number(h) / 60}m · ${g.evaluated}/${g.experiments} prime evaluări cu ambele cotații · ${g.unresolved_or_unavailable} incomplete · PnL virtual ${cash(g.net_pnl_independent_experiments_usd)}`,
+        "footnote",
+      ),
+    );
+  }
+  for (const a of data.recent_attempts.slice(0, 5)) {
+    const button = node(
+      "button",
+      `${a.phase === "entry" ? "Intrare" : "Ieșire"} · ${a.status} · ${a.contract.slice(0, 8)}…`,
+      "text-button",
+    );
+    button.type = "button";
+    button.onclick = () => openOpportunity(a.candidate_id);
+    root.append(button);
+  }
+  engineJson(root, "Cotații, costuri, eșecuri și grupuri de comparație", data);
 }
 function renderEngineNarratives(data) {
   const root = $("engine-narratives");
@@ -646,6 +728,22 @@ async function openOpportunity(id, scroll = true) {
       );
     }
     root.append(outcomes);
+    if (c.routed) {
+      const routed = node("div");
+      routed.append(
+        node("h3", "Paper Jupiter · separat de estimările de pool"),
+      );
+      for (const o of c.routed.outcomes.slice(-15))
+        routed.append(
+          node(
+            "p",
+            `Semnal ${o.signal_id} · ${o.horizon_seconds / 60}m · ${o.state} · PnL virtual ${cash(o.payload.pnl_usd)}${o.payload.reason ? ` · ${o.payload.reason}` : ""}`,
+            "footnote",
+          ),
+        );
+      engineJson(routed, "Cotații originale și politica de cost", c.routed);
+      root.append(routed);
+    }
     engineJson(root, "Semnale originale și politici înghețate", c.signals);
     engineJson(root, "Observații, narațiuni și walleturi", c.observations);
     engineJson(root, "Captura inițială", c.discovery);
@@ -683,6 +781,9 @@ function setupOpportunityControls() {
         min_transactions_5m: Number($("engine-min-tx").value),
         cooldown_seconds: Number($("engine-cooldown").value),
         ai_narratives: $("engine-ai").checked,
+        routed_quotes_enabled: $("engine-routed").checked,
+        routed_quote_budget: Number($("engine-route-budget").value),
+        routed_slippage_bps: Number($("engine-route-slippage").value),
         telegram_enabled: $("engine-telegram").checked,
       };
       const split = $("engine-test-from").value;

@@ -328,7 +328,7 @@ class Sampling:
                 recent[name] = [
                     dict(r) for r in db.execute(query + "ORDER BY o.id DESC,j.id DESC LIMIT 5")
                 ]
-                for phase in ["exit", "checkpoint"]:
+                for phase in ["exit", "checkpoint", "routed_exit"]:
                     if not any(r["phase"] == phase for r in recent[name]):
                         latest = db.execute(
                             query + "AND j.phase=? ORDER BY o.id DESC,j.id DESC LIMIT 1", (phase,)
@@ -345,7 +345,7 @@ class Sampling:
             for name, key in [("alerts", "selected"), ("control", "control_member")]:
                 rows = [r for r in subjects if r[key]]
                 by_phase = {}
-                for phase in ["entry", "exit", "checkpoint"]:
+                for phase in ["entry", "exit", "checkpoint", "routed_exit"]:
                     counts = Counter()
                     for r in rows:
                         if r["phase"] == phase:

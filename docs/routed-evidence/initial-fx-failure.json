@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-15T05:51:12.723724+00:00",
+  "purpose": "real read-only adapter quotes; liquid WSOL reference, not an early-token acceptance run",
+  "live_execution": false,
+  "credential_present": false,
+  "complete": false,
+  "error": "ProviderError",
+  "reason": "Sursa a r\u0103spuns HTTP 404."
+}

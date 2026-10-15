@@ -222,6 +222,7 @@ def create_app(
             "discovery_sources": service.discovery.status,
             "onchain_sources": service.onchain.status,
             "jupiter": service.jupiter.config(),
+            "routed_quotes": service.opportunities.routes.status,
             "notifications": service.notifications.config(),
             "authentication_enabled": service.auth.enabled,
             "opportunity_engine": service.opportunities.status,
@@ -415,6 +416,10 @@ def create_app(
     @app.get("/api/opportunities/coverage")
     def opportunity_coverage(request: Request):
         return request.app.state.service.opportunities.sampling.coverage()
+
+    @app.get("/api/opportunities/routes")
+    def opportunity_routes(request: Request):
+        return request.app.state.service.opportunities.routes.report()
 
     @app.get("/api/opportunities/narratives")
     def opportunity_narratives(request: Request):

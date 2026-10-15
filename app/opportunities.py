@@ -14,6 +14,7 @@ from app.credentials import secret
 from app.errors import ProviderError
 from app.models import Market, epoch, solana_address, utcnow
 from app.narratives import Narratives
+from app.opportunity_routes import Routes
 from app.opportunity_rules import RULE_VERSION, EngineConfig, evaluate, features
 from app.opportunity_sampling import SAMPLING_VERSION, Sampling
 from app.opportunity_sources import (
@@ -35,6 +36,7 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "narratives.py",
             "opportunity_outcomes.py",
             "opportunity_sampling.py",
+            "opportunity_routes.py",
             "analysis.py",
             "paper.py",
             "models.py",
@@ -62,6 +64,7 @@ class Opportunities:
         self.narratives = Narratives(service)
         self.ai_task = None
         self.wallet_task = None
+        self.route_task = None
         with self.store.connect() as db:
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS opportunity_config(id INTEGER PRIMARY KEY CHECK(id=1),at TEXT NOT NULL,payload TEXT NOT NULL);
@@ -89,6 +92,7 @@ class Opportunities:
                     activity_samples=int(os.getenv("OPPORTUNITY_ACTIVITY_SAMPLES", "0")),
                     ai_narratives=os.getenv("OPPORTUNITY_AI_NARRATIVES") == "1",
                     telegram_enabled=os.getenv("OPPORTUNITY_TELEGRAM_ENABLED") == "1",
+                    routed_quotes_enabled=os.getenv("OPPORTUNITY_ROUTED_QUOTES", "1") != "0",
                     test_from=os.getenv("OPPORTUNITY_TEST_FROM") or None,
                 ).validated()
                 db.execute(
@@ -96,6 +100,7 @@ class Opportunities:
                     (utcnow(), config.model_dump_json()),
                 )
         self.sampling = Sampling(self)
+        self.routes = Routes(self)
 
     def config(self):
         with self.store.connect() as db:
@@ -128,6 +133,7 @@ class Opportunities:
             "source_sha256": ENGINE_SOURCE_SHA256,
             "paper_source_sha256": PAPER_SOURCE_SHA256,
             "sampling_version": SAMPLING_VERSION,
+            "routed_policy": self.routes.policy(config),
             "observation_rules": {
                 k: getattr(self.service.settings, k)
                 for k in ("min_signal_delay", "max_snapshot_age")
@@ -365,6 +371,9 @@ class Opportunities:
                     db.execute(
                         "UPDATE observation_jobs SET selected=1 WHERE signal_id=?", (signal_id,)
                     )
+                    db.execute(
+                        "UPDATE routed_experiments SET selected=1 WHERE signal_id=?", (signal_id,)
+                    )
         return observation_id, signal_id
 
     def _signal(self, db, candidate_id, observation_id, at, kind, decision, policy, config):
@@ -405,6 +414,7 @@ class Opportunities:
             epoch(at) + config.entry_window_seconds,
             control=bool(e and e[0] and kind == "baseline"),
         )
+        self.routes.enroll(db, candidate_id, row.lastrowid, at, kind, decision, policy)
         return row.lastrowid
 
     @staticmethod
@@ -690,6 +700,8 @@ class Opportunities:
                         )
                         errors.append("candidate_evidence_error")
                 self.update_outcomes()
+                if self.route_task is None or self.route_task.done():
+                    self.route_task = asyncio.create_task(self.routes.cycle())
                 self.service.notifications.collect()
                 if self.wallet_task is None or self.wallet_task.done():
                     self.wallet_task = asyncio.create_task(self.refresh_wallet())
@@ -707,6 +719,7 @@ class Opportunities:
                     "discovery_sources": self.service.discovery.status,
                     "queue": self.queue_health(),
                     "collection": self.sampling.coverage(),
+                    "routed_quotes": self.routes.status,
                 }
                 with self.store.connect() as db:
                     db.execute(
@@ -756,6 +769,12 @@ class Opportunities:
         }
 
     async def close(self):
+        if self.route_task and not self.route_task.done():
+            self.route_task.cancel()
+            try:
+                await self.route_task
+            except asyncio.CancelledError:
+                pass
         if self.wallet_task and not self.wallet_task.done():
             self.wallet_task.cancel()
             try:
@@ -1002,4 +1021,5 @@ class Opportunities:
             "outcomes": outcomes,
             "live_execution": False,
             "sampling_enrollment": self.sampling.enrollment(candidate_id),
+            "routed": self.routes.detail(candidate_id),
         }

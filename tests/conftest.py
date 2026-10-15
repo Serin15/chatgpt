@@ -15,6 +15,7 @@ OTHER = "11111111111111111111111111111111"
 @pytest.fixture(autouse=True)
 def isolate_external_configuration(monkeypatch):
     """Unit fixtures must never inherit production credentials or hosted settings."""
+    monkeypatch.setenv("OPPORTUNITY_ROUTED_QUOTES", "0")
     keys = (
         "PULSE_AI_API_KEY",
         "OPENAI_API_KEY",

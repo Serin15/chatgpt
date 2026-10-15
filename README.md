@@ -1,4 +1,4 @@
-# MemeScope v0.8 — Early Opportunity Engine
+# MemeScope v0.9 — Early Opportunity Engine
 
 Cercetare automată pentru tokenuri Solana observate devreme în feedurile publice: descoperire →
 date de piață și securitate → filtre → scoruri separate → verdict explicat → alertă → rezultate
@@ -8,7 +8,8 @@ Motorul rulează cât timp aplicația este pornită. Păstrează și candidații
 observațiile eșuate. Nu prezice randamente, nu confirmă automat afilierea unui token și nu execută
 tranzacții reale. Un pool recent nu dovedește că tokenul a fost lansat recent.
 
-[Colectare echilibrată v0.8 și verificări](docs/COLLECTION.md) ·
+[Cotații Jupiter v0.9 și verificări](docs/ROUTED-PAPER.md) ·
+[Colectare echilibrată v0.8](docs/COLLECTION.md) ·
 [Implementare, verificare live, limite și următorul milestone](docs/LEVEL3.md) ·
 [Dovezi executabile](docs/level3-evidence/) · [Deschidere pe Windows](DESCHIDE-APLICATIA.md)
 
@@ -60,6 +61,9 @@ Dashboardul local este la `http://127.0.0.1:8000`; launcherul poate alege un por
 - Raportează rezultatele la 5m/1h/24h și observațiile lipsă. Grupul fix de comparație este stabilit
   înaintea evaluării și primește capacitate protejată împreună cu alertele. Datele istorice rămân
   separate de cohorta prospectivă; lipsa unei observații nu devine profit zero.
+- Colectează separat cotații Jupiter pentru intrarea virtuală și ieșirea ulterioară, cu cantitatea
+  exactă primită, conversie USDC/USD observată și costuri înghețate. Eșecurile păstrează PnL
+  necunoscut. Cotațiile sunt scenarii paper și nu garantează executarea unor tranzacții.
 - Clasifică opțional povești din documente permise cu OpenAI/Ollama. O poveste sau un nume
   asemănător nu reprezintă dovadă că persoana/compania a lansat ori susține moneda.
 
@@ -110,8 +114,8 @@ din jurnal include ambele baze și toate tabelele Level 3. Restaurează numai cu
 
 Știri crypto și persoane publice, catalog/căutare crypto, dosare cu surse și citate, verificarea
 contractului în document, watchlist, listări raportate, wallet activity, paper manual, jurnal,
-export și backup. Cotațiile Jupiter rămân disponibile în fluxul manual cu cheia proprie; Level 3
-folosește un model aproximativ de pool, fără a pretinde că ieșirea este executabilă on-chain.
+export și backup. Cotațiile Jupiter sunt disponibile și în scenariile automate separate;
+modelul aproximativ de pool este păstrat distinct. Niciunul nu garantează execuția on-chain.
 [Descrierea funcțiilor anterioare și auditul v0.6](docs/V0.6-AUDIT.md).
 
 Găzduirea cu autentificare single-owner/HTTPS este păstrată: `compose.yaml`, `Caddyfile` și fișier

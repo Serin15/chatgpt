@@ -1,6 +1,6 @@
 # MemeScope Level 3 — implementare și limite
 
-v0.8.0, 15 octombrie 2026. [Actualizarea colectării prospective](COLLECTION.md). Obiectiv: un flux automat, explicabil și măsurabil, cu tranzacții reale
+v0.9.0, 15 octombrie 2026. [Cotații rutate](ROUTED-PAPER.md) · [Colectare prospectivă](COLLECTION.md). Obiectiv: un flux automat, explicabil și măsurabil, cu tranzacții reale
 dezactivate. Nu atribuim un procent arbitrar de „precizie” sau finalizare.
 
 ## Arhitectură și persistență
@@ -102,6 +102,9 @@ confirmată de vânzare sunt stări diferite.
 
 Fee-ul presupus este 0,3%/sens, costul rețelei $0,01/sens, impactul este aproximat printr-un pool
 constant-product echilibrat; nu este un swap Jupiter sau o verificare on-chain a vânzării.
+v0.9 adaugă un scenariu independent cu cotații Jupiter la intrare și la ieșirea ulterioară,
+fără modificarea modelului de pool sau a rezultatelor lui. Conversia USDC/USD folosește L1
+observat Kraken/Coinbase, iar fee-urile de conversie și rețea rămân presupuneri înghețate.
 Prețuri și lichidități reale, execuție simulată: `execution_verified=false`. Politica păstrează
 pragurile, costurile, ferestrele și hashurile codului. Dacă implementarea costurilor se schimbă,
 un rezultat vechi neevaluat nu este recalculat tacit cu noua formulă.
@@ -155,7 +158,7 @@ din directorul de dovezi. O demonstrație de conectivitate nu demonstrează prof
 | Ollama | Serviciu și model instalat local, fără taxă API per cerere. Consumă RAM/CPU/GPU, energie sau timpul instanței cloud. Modelul ales și calitatea lui contează. |
 | OpenAI | Opțional, cheie proprie și credit API separat de ChatGPT. Cost = input tokens × tarif input + output tokens × tarif output, la tarifele modelului ales. Implicit maximum 20 cereri/zi când AI este configurat; limita nu garantează un plafon monetar. Fără cheie nu pretindem verificare live. |
 | Telegram | Bot token și chat ID proprii, plus activare explicită. Fără abonament nou introdus de cod; condițiile și limitele Telegram se aplică. Livrare live neverificată fără aceste date. |
-| Jupiter | Opțional numai pentru fluxul manual; `JUPITER_API_KEY_FILE`. Level 3 nu cere această cheie și nu prezintă modelul de pool ca rută Jupiter verificată. |
+| Jupiter | Cotații automate paper separate, implicit maximum 4 încercări/ciclu, și modul manual opțional. Acces fără cheie observat în acest mediu, fără garanție; 401/403 cere `JUPITER_API_KEY_FILE` sau binding securizat. FX necesită acces la `api.kraken.com`; nu se presupune paritate USD. |
 | Social / holders / istoric complet | Furnizori autorizați, chei și eventual planuri plătite încă neconfigurate. Nu sunt simulate. |
 | Găzduire | PC local sau instanță proprie, stocare și, dacă public, domeniu/HTTPS. Niciun abonament cloud nu este cumpărat automat. |
 
@@ -171,13 +174,14 @@ Nu ștergem automat tokenurile pierzătoare pentru a reduce spațiul sau îmbun�
 - `app/opportunity_rules.py`: configurație, features, costuri și decizii explicabile.
 - `app/opportunity_outcomes.py`: observații viitoare, scenarii înghețate, cohorte și rapoarte.
 - `app/opportunity_sampling.py`: înscriere prospectivă, grup fix, termene, repere de preț și acoperire.
+- `app/opportunity_routes.py`, `app/jupiter.py`: cotații forward, costuri înghețate, FX și eșecuri fără fallback la pool.
 - `app/narratives.py`, `app/ai_research.py`: surse/contracte, clasificare cu citări și erori reale.
 - `app/discovery.py`: prima captură păstrată, surse suplimentare etichetate.
 - `app/analysis.py`, `app/models.py`: filtre separate și buyers/sellers raportate opționale.
 - `app/service.py`, `app/main.py`: workerul existent și API-uri autentificate/CSRF existente.
 - `app/static/opportunities.js`, `app.js`, `advanced.js`, `index.html`, `style.css`: dashboard,
   paginare, detalii, alerte și afișare rezilientă.
-- `app/level3_verify.py`, `app/collection_verify.py`, `tests/test_opportunities.py`,
+- `app/level3_verify.py`, `app/collection_verify.py`, `app/routes_verify.py`, `tests/test_opportunities.py`,
   `tests/test_observation_sampling.py`, `tests/browser_opportunities.py`:
   verificare live separată de testele simulate; fixture-ul și regresiile vechi sunt păstrate.
 - `.env.example`, `pyproject.toml`, `uv.lock`, workflow CI și documentație: configurare/versionare.
@@ -186,8 +190,9 @@ Nu ștergem automat tokenurile pierzătoare pentru a reduce spațiul sau îmbun�
 
 **Un experiment prospectiv cu acoperire și costuri mai bine măsurate**, înainte de Base sau noi
 integrări. Colectarea echilibrată și controlul prestabilit sunt implementate în v0.8; acoperirea
-trebuie măsurată în continuare. Prioritatea 1: RPC stabil și cotații entry/exit de rutare pentru
-tokenurile compatibile. Prioritatea 2: holdout declarat în avans, mai multe săptămâni de observații, costuri
+trebuie măsurată în continuare. Cotațiile entry/exit sunt adăugate în v0.9, cu limitele din
+documentația lor. Prioritatea 1: RPC stabil și dimensionarea capacității. Prioritatea 2:
+holdout declarat în avans, mai multe săptămâni de observații, costuri
 și eșecuri incluse, estimarea incertitudinii fără selecția retrospectivă a pragurilor. Prioritatea 3:
 metrici de holders/walleturi și surse sociale autorizate, apoi validare Base pe aceleași criterii.
 Niciun calendar sau eșantion mic nu garantează un avantaj. Nu există dovadă pentru 10x/100x.

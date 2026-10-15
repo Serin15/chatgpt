@@ -1,0 +1,151 @@
+{
+  "at": "2026-10-15T05:59:16.648507+00:00",
+  "purpose": "real read-only adapter quotes; WSOL reference, separate from early-token acceptance",
+  "live_execution": false,
+  "credential_present": false,
+  "buy": {
+    "address": "So11111111111111111111111111111111111111112",
+    "side": "buy",
+    "requested_size": "50",
+    "token_decimals": 9,
+    "quantity": "0.487824016",
+    "cash_change": "-50.0099995000000",
+    "quote_observed_at": "2026-10-15T05:59:19.668228+00:00",
+    "jupiter_quote": {
+      "inputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "inAmount": "49704970",
+      "outputMint": "So11111111111111111111111111111111111111112",
+      "outAmount": "490275392",
+      "otherAmountThreshold": "487824016",
+      "swapMode": "ExactIn",
+      "slippageBps": 50,
+      "platformFee": null,
+      "priceImpactPct": "0.0000001430194018625294795895",
+      "routePlan": [
+        {
+          "swapInfo": {
+            "ammKey": "7yD7gfXv49SFxhx9uTc11dEd7Nj98rGWeYMdZJgheZbG",
+            "label": "Kipseli",
+            "inputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "outputMint": "So11111111111111111111111111111111111111112",
+            "inAmount": "49704970",
+            "outAmount": "490275392",
+            "updateContextSlot": "457129384"
+          },
+          "percent": 100,
+          "bps": null
+        }
+      ],
+      "contextSlot": 457129384,
+      "timeTaken": 0.001582061,
+      "swapUsdValue": "49.6880685232309473477184",
+      "mostReliableAmmsQuoteReport": {
+        "info": {
+          "Czfq3xZZDmsdGdUyrNLtRhGc47cXcZtLG4crryfu44zE": "490158613",
+          "BZtgQEyS6eXUXicYPHecYQ7PybqodXQMvkjUbP4R8mUU": "49758932"
+        }
+      },
+      "longtailMarketQuoteReport": null,
+      "useIncurredSlippageForQuoting": null,
+      "useRewards": null,
+      "otherRoutePlans": null,
+      "loadedLongtailToken": false,
+      "instructionVersion": null,
+      "transactionVersion": 0,
+      "observed_at": "2026-10-15T05:59:19.668228+00:00",
+      "request_started_at": "2026-10-15T05:59:18.341331+00:00"
+    },
+    "usdc_usd_book": {
+      "bid": "0.99980000",
+      "ask": "0.99990000",
+      "bid_size": "2775545.584",
+      "ask_size": "8258848.632",
+      "observed_at": "2026-10-15T05:59:18.341263+00:00",
+      "source": "Kraken public USDC/USD L1"
+    },
+    "network_fee_usd": "0.01",
+    "network_fee_origin": "configured_assumption",
+    "conversion_fee_usd": "0.2999999970000",
+    "conversion_fee_origin": "configured_assumption",
+    "swap_fee_usd": null,
+    "swap_fee_origin": "included_in_route_outAmount; fees retained per feeMint in routePlan, not counted again",
+    "price_impact": "0.0000001430194018625294795895",
+    "slippage_bps": 50,
+    "fill_assumption": "conservative_otherAmountThreshold",
+    "model": "jupiter_quote_conservative_min_out",
+    "execution_verified": false
+  },
+  "sell": {
+    "address": "So11111111111111111111111111111111111111112",
+    "side": "sell",
+    "requested_size": "0.487824016",
+    "token_decimals": 9,
+    "quantity": "0.487824016",
+    "cash_change": "48.88874877590360000",
+    "quote_observed_at": "2026-10-15T05:59:21.842671+00:00",
+    "jupiter_quote": {
+      "inputMint": "So11111111111111111111111111111111111111112",
+      "inAmount": "487824016",
+      "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "outAmount": "49451008",
+      "otherAmountThreshold": "49203753",
+      "swapMode": "ExactIn",
+      "slippageBps": 50,
+      "platformFee": null,
+      "priceImpactPct": "0",
+      "routePlan": [
+        {
+          "swapInfo": {
+            "ammKey": "7yD7gfXv49SFxhx9uTc11dEd7Nj98rGWeYMdZJgheZbG",
+            "label": "Kipseli",
+            "inputMint": "So11111111111111111111111111111111111111112",
+            "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "inAmount": "487824016",
+            "outAmount": "49451008",
+            "updateContextSlot": "457129393"
+          },
+          "percent": 100,
+          "bps": null
+        }
+      ],
+      "contextSlot": 457129393,
+      "timeTaken": 0.001580251,
+      "swapUsdValue": "49.4320918722949817001472",
+      "mostReliableAmmsQuoteReport": {
+        "info": {
+          "BZtgQEyS6eXUXicYPHecYQ7PybqodXQMvkjUbP4R8mUU": "49304314",
+          "Czfq3xZZDmsdGdUyrNLtRhGc47cXcZtLG4crryfu44zE": "49428617"
+        }
+      },
+      "longtailMarketQuoteReport": null,
+      "useIncurredSlippageForQuoting": null,
+      "useRewards": null,
+      "otherRoutePlans": null,
+      "loadedLongtailToken": false,
+      "instructionVersion": null,
+      "transactionVersion": 0,
+      "observed_at": "2026-10-15T05:59:21.842671+00:00",
+      "request_started_at": "2026-10-15T05:59:20.464113+00:00"
+    },
+    "usdc_usd_book": {
+      "bid": "0.99980000",
+      "ask": "0.99990000",
+      "bid_size": "2775538.324",
+      "ask_size": "8258848.632",
+      "observed_at": "2026-10-15T05:59:20.464055+00:00",
+      "source": "Kraken public USDC/USD L1"
+    },
+    "network_fee_usd": "0.01",
+    "network_fee_origin": "configured_assumption",
+    "conversion_fee_usd": "0.29516347349640000",
+    "conversion_fee_origin": "configured_assumption",
+    "swap_fee_usd": null,
+    "swap_fee_origin": "included_in_route_outAmount; fees retained per feeMint in routePlan, not counted again",
+    "price_impact": "0",
+    "slippage_bps": 50,
+    "fill_assumption": "conservative_otherAmountThreshold",
+    "model": "jupiter_quote_conservative_min_out",
+    "execution_verified": false
+  },
+  "complete": true
+}
