@@ -16,7 +16,26 @@ jobs:
       - run: python -m pip install uv==0.12.23
       - run: uv sync --frozen
       - run: uv run ruff check app tests
-      - run: uv run pytest -q
+      - name: Unit and integration tests
+        shell: python
+        run: |
+          import os
+          import subprocess
+          import sys
+
+          result = subprocess.run(
+              ["uv", "run", "pytest", "-q"],
+              stdout=subprocess.PIPE,
+              stderr=subprocess.STDOUT,
+              encoding="utf-8",
+              errors="replace",
+              env=os.environ | {"PYTHONIOENCODING": "utf-8"},
+          )
+          print(result.stdout, flush=True)
+          if result.returncode:
+              detail = result.stdout[-24000:].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+              print("::error title=Pytest failure::" + detail, flush=True)
+          sys.exit(result.returncode)
       - run: node --check app/static/app.js
       - run: node --check app/static/advanced.js
       - run: node --check app/static/opportunities.js
