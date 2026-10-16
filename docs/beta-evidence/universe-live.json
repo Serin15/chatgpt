@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-16T09:33:13.509570+00:00",
+  "scope": "isolated actual-provider beta run; no manual candidate/story injection, no threshold changes",
+  "counts": {
+    "opportunity_candidates": 215,
+    "opportunity_signals": 431,
+    "opportunity_observations": 534,
+    "opportunity_alerts": 11,
+    "routed_experiments": 216,
+    "routed_attempts": 28
+  },
+  "routed_5m_states": {
+    "entry_rejected": 190,
+    "entry_unavailable": 13,
+    "evaluated": 3,
+    "exit_unavailable": 2,
+    "pending": 8
+  },
+  "evaluated_routed_5m": [
+    {
+      "signal_id": 99,
+      "pnl_usd": "57.05799495406558993963782696"
+    },
+    {
+      "signal_id": 146,
+      "pnl_usd": "-3.60251652140741006036217304"
+    },
+    {
+      "signal_id": 118,
+      "pnl_usd": "-3.06231736778601006036217304"
+    }
+  ],
+  "denominator": "Independent signal experiments; not unique tokens or one capital-limited portfolio. Missing outcomes remain unknown.",
+  "test_server_stopped": true,
+  "full_history_retained": true,
+  "backups": [
+    {
+      "file": "research.sqlite3",
+      "bytes": 8626176,
+      "sha256": "143d01dd155d1eed9373ba779824be11bc9121aa726beb8d2f8fb8d022ac224d"
+    },
+    {
+      "file": "news_paper/research.sqlite3",
+      "bytes": 53248,
+      "sha256": "04f743957c34b81790925b06b486189730c20060db50e4daebb5977c1f85fb12"
+    }
+  ],
+  "live_execution": false,
+  "manual_orders": {
+    "news": 0,
+    "scanner": 0
+  },
+  "new_1h_24h_outcomes_verified": false
+}

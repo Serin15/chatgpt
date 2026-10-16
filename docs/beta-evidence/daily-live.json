@@ -1,0 +1,1027 @@
+{
+  "version": "daily-discovery-v1",
+  "day_utc": "2026-10-16",
+  "generated_at": "2026-10-16T09:32:18.852414+00:00",
+  "cohort_start": "2026-10-16T00:00:00+00:00",
+  "cohort_end_exclusive": "2026-10-17T00:00:00+00:00",
+  "outcome_scope": "Discovery cohort for this UTC day; outcomes known at generated_at. Not a historical as-of snapshot.",
+  "totals": {
+    "discovered": 838,
+    "eligible": 838,
+    "excluded": 0,
+    "first_evaluations": 838,
+    "eligible_without_first_evaluation": 0,
+    "security_pass_at_first_evaluation": 45,
+    "liquidity_pass_at_first_evaluation": 47,
+    "selected_at_first_evaluation": 24,
+    "opportunity_alerts": 33,
+    "risk_alerts": 10,
+    "alerts_displayed_in_app": 20
+  },
+  "first_verdicts": {
+    "REJECT": 793,
+    "MONITOR": 21,
+    "INVESTIGATE": 24
+  },
+  "models": {
+    "estimated_pool": {
+      "300": {
+        "all_first_evaluations": {
+          "experiments": 838,
+          "evaluated": 33,
+          "unresolved_or_unavailable": 805,
+          "states": {
+            "entry_unavailable": 777,
+            "evaluated": 33,
+            "pending": 21,
+            "exit_unavailable": 7
+          },
+          "profitable_after_costs": 23,
+          "net_pnl_independent_experiments_usd": "198.5345211940539835824155642",
+          "mean_net_pnl_usd": "6.016197611941029805527744370",
+          "worst_net_pnl_usd": "-2.99214647484527939962575495",
+          "best_net_pnl_usd": "36.95883147233990260759635203",
+          "win_rate_95pct_wilson_approx": [
+            0.5266154602526555,
+            0.8262465218545277
+          ]
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 24,
+          "evaluated": 17,
+          "unresolved_or_unavailable": 7,
+          "states": {
+            "evaluated": 17,
+            "entry_unavailable": 2,
+            "exit_unavailable": 4,
+            "pending": 1
+          },
+          "profitable_after_costs": 14,
+          "net_pnl_independent_experiments_usd": "65.63827995969504571339717562",
+          "mean_net_pnl_usd": "3.861075291746767394905716213",
+          "worst_net_pnl_usd": "-2.64256479326279063478699759",
+          "best_net_pnl_usd": "9.96446463097721349193073759",
+          "win_rate_95pct_wilson_approx": [
+            0.5897007098262422,
+            0.9380898628745101
+          ]
+        },
+        "prospective_fixed_control": {
+          "experiments": 172,
+          "evaluated": 12,
+          "unresolved_or_unavailable": 160,
+          "states": {
+            "entry_unavailable": 154,
+            "evaluated": 12,
+            "pending": 5,
+            "exit_unavailable": 1
+          },
+          "profitable_after_costs": 8,
+          "net_pnl_independent_experiments_usd": "67.21611685163755662035402785",
+          "mean_net_pnl_usd": "5.601343070969796385029502321",
+          "worst_net_pnl_usd": "-0.64375092283635498330654714",
+          "best_net_pnl_usd": "36.95883147233990260759635203",
+          "win_rate_95pct_wilson_approx": [
+            0.3906175873976139,
+            0.8618821601026385
+          ]
+        },
+        "selected_control_overlap": 7,
+        "first_evaluations_without_model_rows": 0,
+        "cohorts": {
+          "development": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_unavailable": 16,
+              "pending": 20
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "unassigned": {
+            "experiments": 802,
+            "evaluated": 33,
+            "unresolved_or_unavailable": 769,
+            "states": {
+              "entry_unavailable": 761,
+              "evaluated": 33,
+              "exit_unavailable": 7,
+              "pending": 1
+            },
+            "profitable_after_costs": 23,
+            "net_pnl_independent_experiments_usd": "198.5345211940539835824155642",
+            "mean_net_pnl_usd": "6.016197611941029805527744370",
+            "worst_net_pnl_usd": "-2.99214647484527939962575495",
+            "best_net_pnl_usd": "36.95883147233990260759635203",
+            "win_rate_95pct_wilson_approx": [
+              0.5266154602526555,
+              0.8262465218545277
+            ]
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 32,
+            "unresolved_or_unavailable": 637,
+            "states": {
+              "entry_unavailable": 631,
+              "evaluated": 32,
+              "exit_unavailable": 6
+            },
+            "profitable_after_costs": 22,
+            "net_pnl_independent_experiments_usd": "196.6915901588598466501502652",
+            "mean_net_pnl_usd": "6.146612192464370207817195788",
+            "worst_net_pnl_usd": "-2.99214647484527939962575495",
+            "best_net_pnl_usd": "36.95883147233990260759635203",
+            "win_rate_95pct_wilson_approx": [
+              0.514330003019676,
+              0.8204764788338126
+            ]
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 132,
+            "states": {
+              "entry_unavailable": 130,
+              "exit_unavailable": 1,
+              "evaluated": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 1,
+            "net_pnl_independent_experiments_usd": "1.84293103519413693226529895",
+            "mean_net_pnl_usd": "1.84293103519413693226529895",
+            "worst_net_pnl_usd": "1.84293103519413693226529895",
+            "best_net_pnl_usd": "1.84293103519413693226529895",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ]
+          },
+          "3": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_unavailable": 16,
+              "pending": 20
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        }
+      },
+      "3600": {
+        "all_first_evaluations": {
+          "experiments": 838,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 838,
+          "states": {
+            "entry_unavailable": 777,
+            "pending": 61
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 24,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 24,
+          "states": {
+            "pending": 22,
+            "entry_unavailable": 2
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "prospective_fixed_control": {
+          "experiments": 172,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 172,
+          "states": {
+            "entry_unavailable": 154,
+            "pending": 18
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_control_overlap": 7,
+        "first_evaluations_without_model_rows": 0,
+        "cohorts": {
+          "development": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_unavailable": 16,
+              "pending": 20
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "unassigned": {
+            "experiments": 802,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 802,
+            "states": {
+              "entry_unavailable": 761,
+              "pending": 41
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 669,
+            "states": {
+              "entry_unavailable": 631,
+              "pending": 38
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_unavailable": 130,
+              "pending": 3
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "3": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_unavailable": 16,
+              "pending": 20
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        }
+      },
+      "86400": {
+        "all_first_evaluations": {
+          "experiments": 838,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 838,
+          "states": {
+            "entry_unavailable": 777,
+            "pending": 61
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 24,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 24,
+          "states": {
+            "pending": 22,
+            "entry_unavailable": 2
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "prospective_fixed_control": {
+          "experiments": 172,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 172,
+          "states": {
+            "entry_unavailable": 154,
+            "pending": 18
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_control_overlap": 7,
+        "first_evaluations_without_model_rows": 0,
+        "cohorts": {
+          "development": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_unavailable": 16,
+              "pending": 20
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "unassigned": {
+            "experiments": 802,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 802,
+            "states": {
+              "entry_unavailable": 761,
+              "pending": 41
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 669,
+            "states": {
+              "entry_unavailable": 631,
+              "pending": 38
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_unavailable": 130,
+              "pending": 3
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "3": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_unavailable": 16,
+              "pending": 20
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        }
+      }
+    },
+    "jupiter_quotes": {
+      "300": {
+        "all_first_evaluations": {
+          "experiments": 838,
+          "evaluated": 11,
+          "unresolved_or_unavailable": 827,
+          "states": {
+            "entry_rejected": 793,
+            "exit_unavailable": 15,
+            "entry_unavailable": 18,
+            "evaluated": 11,
+            "pending": 1
+          },
+          "profitable_after_costs": 8,
+          "net_pnl_independent_experiments_usd": "33.39377957222248933601609656",
+          "mean_net_pnl_usd": "3.035798142929317212365099687",
+          "worst_net_pnl_usd": "-2.49845916800841006036217304",
+          "best_net_pnl_usd": "10.33642282590738993963782696",
+          "win_rate_95pct_wilson_approx": [
+            0.4343497069897537,
+            0.9025411942607853
+          ]
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 24,
+          "evaluated": 9,
+          "unresolved_or_unavailable": 15,
+          "states": {
+            "evaluated": 9,
+            "entry_unavailable": 8,
+            "exit_unavailable": 7
+          },
+          "profitable_after_costs": 8,
+          "net_pnl_independent_experiments_usd": "37.79313533080930945674044264",
+          "mean_net_pnl_usd": "4.199237258978812161860049182",
+          "worst_net_pnl_usd": "-0.89252178979961006036217304",
+          "best_net_pnl_usd": "10.33642282590738993963782696",
+          "win_rate_95pct_wilson_approx": [
+            0.5649937852319399,
+            0.9801096286728695
+          ]
+        },
+        "prospective_fixed_control": {
+          "experiments": 172,
+          "evaluated": 3,
+          "unresolved_or_unavailable": 169,
+          "states": {
+            "entry_rejected": 158,
+            "entry_unavailable": 4,
+            "exit_unavailable": 6,
+            "evaluated": 3,
+            "pending": 1
+          },
+          "profitable_after_costs": 1,
+          "net_pnl_independent_experiments_usd": "1.99162276180876981891348088",
+          "mean_net_pnl_usd": "0.6638742539362566063044936267",
+          "worst_net_pnl_usd": "-2.49845916800841006036217304",
+          "best_net_pnl_usd": "5.38260371961678993963782696",
+          "win_rate_95pct_wilson_approx": [
+            0.0614903152761605,
+            0.7923450448735121
+          ]
+        },
+        "selected_control_overlap": 7,
+        "first_evaluations_without_model_rows": 0,
+        "cohorts": {
+          "development": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_rejected": 34,
+              "entry_unavailable": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "unassigned": {
+            "experiments": 802,
+            "evaluated": 11,
+            "unresolved_or_unavailable": 791,
+            "states": {
+              "entry_rejected": 759,
+              "exit_unavailable": 15,
+              "entry_unavailable": 17,
+              "evaluated": 11
+            },
+            "profitable_after_costs": 8,
+            "net_pnl_independent_experiments_usd": "33.39377957222248933601609656",
+            "mean_net_pnl_usd": "3.035798142929317212365099687",
+            "worst_net_pnl_usd": "-2.49845916800841006036217304",
+            "best_net_pnl_usd": "10.33642282590738993963782696",
+            "win_rate_95pct_wilson_approx": [
+              0.4343497069897537,
+              0.9025411942607853
+            ]
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 11,
+            "unresolved_or_unavailable": 658,
+            "states": {
+              "entry_rejected": 630,
+              "exit_unavailable": 14,
+              "entry_unavailable": 14,
+              "evaluated": 11
+            },
+            "profitable_after_costs": 8,
+            "net_pnl_independent_experiments_usd": "33.39377957222248933601609656",
+            "mean_net_pnl_usd": "3.035798142929317212365099687",
+            "worst_net_pnl_usd": "-2.49845916800841006036217304",
+            "best_net_pnl_usd": "10.33642282590738993963782696",
+            "win_rate_95pct_wilson_approx": [
+              0.4343497069897537,
+              0.9025411942607853
+            ]
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_rejected": 129,
+              "exit_unavailable": 1,
+              "entry_unavailable": 3
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "3": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_rejected": 34,
+              "entry_unavailable": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        }
+      },
+      "3600": {
+        "all_first_evaluations": {
+          "experiments": 838,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 838,
+          "states": {
+            "entry_rejected": 793,
+            "pending": 27,
+            "entry_unavailable": 18
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 24,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 24,
+          "states": {
+            "pending": 16,
+            "entry_unavailable": 8
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "prospective_fixed_control": {
+          "experiments": 172,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 172,
+          "states": {
+            "entry_rejected": 158,
+            "entry_unavailable": 4,
+            "pending": 10
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_control_overlap": 7,
+        "first_evaluations_without_model_rows": 0,
+        "cohorts": {
+          "development": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_rejected": 34,
+              "entry_unavailable": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "unassigned": {
+            "experiments": 802,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 802,
+            "states": {
+              "entry_rejected": 759,
+              "pending": 26,
+              "entry_unavailable": 17
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 669,
+            "states": {
+              "entry_rejected": 630,
+              "pending": 25,
+              "entry_unavailable": 14
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_rejected": 129,
+              "pending": 1,
+              "entry_unavailable": 3
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "3": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_rejected": 34,
+              "entry_unavailable": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        }
+      },
+      "86400": {
+        "all_first_evaluations": {
+          "experiments": 838,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 838,
+          "states": {
+            "entry_rejected": 793,
+            "pending": 27,
+            "entry_unavailable": 18
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 24,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 24,
+          "states": {
+            "pending": 16,
+            "entry_unavailable": 8
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "prospective_fixed_control": {
+          "experiments": 172,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 172,
+          "states": {
+            "entry_rejected": 158,
+            "entry_unavailable": 4,
+            "pending": 10
+          },
+          "profitable_after_costs": 0,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "worst_net_pnl_usd": null,
+          "best_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null
+        },
+        "selected_control_overlap": 7,
+        "first_evaluations_without_model_rows": 0,
+        "cohorts": {
+          "development": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_rejected": 34,
+              "entry_unavailable": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "test": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "unassigned": {
+            "experiments": 802,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 802,
+            "states": {
+              "entry_rejected": 759,
+              "pending": 26,
+              "entry_unavailable": 17
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "purged_boundary": {
+            "experiments": 0,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 0,
+            "states": {},
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 669,
+            "states": {
+              "entry_rejected": 630,
+              "pending": 25,
+              "entry_unavailable": 14
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_rejected": 129,
+              "pending": 1,
+              "entry_unavailable": 3
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          },
+          "3": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "entry_rejected": 34,
+              "entry_unavailable": 1,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "worst_net_pnl_usd": null,
+            "best_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null
+          }
+        }
+      }
+    }
+  },
+  "live_execution": false,
+  "profitability_demonstrated": false,
+  "limitations": [
+    "Partial discovery feeds; global missed opportunities cannot be measured.",
+    "Missing, rejected and unavailable results stay in their denominator; PnL is unknown.",
+    "Candidates without first evaluations remain counted, without invented experiments.",
+    "Later alerts do not retrospectively select a first evaluation. Selected and control groups can overlap.",
+    "Independent simulations are not one capital-constrained portfolio; no portfolio drawdown is inferred.",
+    "Wilson intervals assume independent outcomes; correlated tokens and unequal coverage limit comparisons.",
+    "Thresholds are not optimized on this report; unassigned data are not a holdout."
+  ]
+}

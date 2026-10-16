@@ -58,8 +58,54 @@ un drawdown de portofoliu din suma lor.
   a zilei, export JSON, izolarea unei erori de raport și mobil de 390 px. Date simulate.
 - [Migrare pe copia bazei reale](beta-evidence/migration.json): **664 candidați**, integritate OK,
   API-uri HTTP 200 și hashuri neschimbate pentru tabelele comparate de istoric și cont.
-- Verificările cu servicii reale și CI pentru acest cod se consemnează separat după terminarea lor;
-  rezultatele simulate de mai sus nu le înlocuiesc.
+- [CI nativ Windows/Ubuntu](beta-evidence/ci.json),
+  [rularea oficială](https://github.com/Serin15/chatgpt/actions/runs/38880600504): **327 teste pe
+  fiecare sistem**, launcher Windows pornit dintr-o cale cu spații și Chromium pe Linux.
+  Prima rulare Windows a avut un [eșec de fixture](beta-evidence/windows-fixture-before.txt):
+  două citiri apropiate ale ceasului puteau fi egale, dar testul presupunea o diferență strictă.
+  Testul folosește acum un moment de indexare explicit; codul aplicației și filtrele temporale
+  nu au fost relaxate. Commitul final de cod/teste este `296bda0cfbac45a9548c81f1f9d98c66cf0f1253`.
+
+## Date și servicii reale
+
+[Fluxul principal](beta-evidence/pipeline-live.json) a trecut **8/8 criterii în 365s**, iar
+[Jupiter](beta-evidence/routes-live.json) **5/5 în 410s**, pe o instanță normală izolată, cu
+surse reale și fără injectarea unui token, schimbarea pragurilor sau ordine manuale/reale.
+Același candidat 32, `acajNA5meGJMkLq4E8cVepGkm88RqTSxWyqFBvUpump`, a fost descoperit la
+09:21:42 UTC pe 16 octombrie. Semnalul 99 are cotație de intrare la 09:23:04 UTC și o nouă
+cotație de ieșire la 09:28:46 UTC, cu aceeași cantitate și durată de 342,27s. Scenariul de $50
+are **PnL virtual net +$57,0579949540656**, fără swap executat sau garanția executării sale.
+
+[Întreg universul probei](beta-evidence/universe-live.json) păstrează **215 candidați**, 534
+observații și 216 experimente Jupiter pe semnale. Pentru 5m: 190 intrări respinse, 13
+indisponibile, trei rezultate evaluate, două ieșiri indisponibile și opt încă în așteptare.
+Cele trei rezultate sunt **+$57,06, −$3,60 și −$3,06**; eșecurile și lipsurile nu au fost eliminate.
+Acesta este un eșantion tehnic mic și incomplet, fără dovadă de profitabilitate ori independență
+statistică. Descoperirea în feed nu este dovada unei lansări noi. Ambele baze sunt păstrate
+în backupuri consistente, iar instanța de probă a fost oprită după salvarea dovezilor.
+
+[Browser pe istoricul cloud existent](beta-evidence/browser-live.json): **838 candidați** la
+captură, bilanț zilnic actualizat, șase documente citite, afișare mobilă fără overflow și fără
+erori JavaScript. AI era oprit. Conturile Research/Scanner au rămas **$500/$100 și zero ordine**.
+Rapoarte API: [zilnic](beta-evidence/daily-live.json), [știri](beta-evidence/narratives-live.json).
+Capturi: [bilanț](screenshots/memescope-beta-daily.png), [știri](screenshots/memescope-beta-stories.png),
+[mobil](screenshots/memescope-beta-mobile.png). Acest istoric este separat de proba izolată de mai sus.
+
+**Asocierea pozitivă automată cu o știre recentă despre un memecoin rămâne neverificată live**:
+documentele observate nu conțineau adresa exactă necesară. Legătura, contradicțiile și refuzul
+asocierilor prin nume au fost verificate cu fixture-uri; nu le declarăm demonstrate pe o știre
+reală doar pentru că citirea documentelor a reușit.
+
+În cloud a fost [declarată prospectiv](beta-evidence/prospective-declaration.json) perioada de
+test de la **18 octombrie 2026, 00:00 UTC**, prin politica 3, declarată pe 16 octombrie la
+09:30:38 UTC. Celelalte setări au fost păstrate. Datele anterioare fără cutoff nu sunt relabelate
+ca test. Acest lucru nu modifică datele locale Windows și nu înseamnă că holdout-ul a fost deja
+colectat sau evaluat. Noile orizonturi 1h/24h ale probei rămân neverificate.
+
+[Arhiva verificată](beta-evidence/package.json) a fost descărcată din GitHub, verificată prin CRC,
+SHA-256 și compararea tuturor fișierelor cu obiectele Git. Pornirea din alt director și dintr-o
+cale cu spații, `#` și diacritice a trecut, inclusiv noile două API-uri. Nu au fost schimbate
+versiunile dependențelor și nici implementarea financiară sau sursele de execuție Jupiter.
 
 ```bash
 uv sync --frozen
@@ -68,6 +114,25 @@ uv run --frozen pytest -q
 node --check app/static/opportunities.js
 uv run --with playwright python tests/browser_audit.py
 ```
+
+## Starea funcțiilor acestei etape
+
+| Funcție | Stare |
+| --- | --- |
+| Colectare Solana, scoruri, alerte în aplicație, observație și rezultat ulterior | Implementate și verificate live în proba izolată. |
+| Știri și citire de documente cu AI oprit | Implementate și verificate pe feeduri/documente reale. |
+| Legătură automată document–contract, chain ambiguu, contradicții și eliminarea unei mențiuni | Implementate și verificate cu fixture-uri; asocierea pozitivă cu un memecoin rămâne neverificată live. |
+| Bilanț zilnic și păstrarea numitorilor/necunoscutelor | Implementate și verificate pe istoricul real și în teste. Exportul JSON și schimbările rapide de zi sunt verificate în browser cu fixture-uri. |
+| Holdout prospectiv | Declarație persistentă verificată în cloud; colectarea și evaluarea viitoare sunt în așteptare. |
+| Funcționare fără browser | Verificată cât timp procesul/mașina rulează; găzduirea publică 24/7 este blocată de infrastructura externă neconfigurată. |
+
+Fișiere principale: `app/story_evidence.py` (index și proveniență), `app/narratives.py`
+(agregare și feed), `app/announcements.py` (citire din catalog și documente invalide),
+`app/daily_research.py` (cohorte și raportare), `app/opportunities.py`/`opportunity_rules.py`
+(conectare și politica nouă), `app/main.py` (API), `app/opportunity_outcomes.py` (versiunea
+regulilor raportată), `app/static/index.html`/`opportunities.js` (interfață), cele două fișiere
+noi de teste și `tests/browser_audit.py`. Versiunea proiectului este actualizată în
+`app/__init__.py`, `pyproject.toml` și `uv.lock`; dependențele sunt aceleași.
 
 ## Instalare și utilizare
 

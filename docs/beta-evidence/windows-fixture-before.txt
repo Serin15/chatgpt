@@ -1,0 +1,20 @@
+================================== FAILURES ===================================
+_________ test_indexing_does_not_backdate_evidence_or_duplicate_links _________
+
+client_engine = (<starlette.testclient.TestClient object at 0x0000024C4952E720>, <app.opportunities.Opportunities object at 0x0000024C4A807BF0>)
+
+    def test_indexing_does_not_backdate_evidence_or_duplicate_links(client_engine):
+        _, engine = client_engine
+        seed(engine)
+        save_document(engine)
+        before_index = utcnow()
+        assert engine.narratives.stories.index_documents() == 1
+        assert engine.narratives.stories.index_documents() == 0
+>       assert not engine.narratives.evidence(TOKEN, before_index)["supported"]
+E       AssertionError: assert not [{'news_id': 1, 'url': 'https://solana.com/fixture/Original-research-fixture', 'title': 'Original research fixture', 'publisher_reported': 'Test fixture publication', ...}]
+
+tests\test_story_evidence.py:82: AssertionError
+FAILED tests/test_story_evidence.py::test_indexing_does_not_backdate_evidence_or_duplicate_links - AssertionError: assert not [{'news_id': 1, 'url': 'https://solana.com/fixture/Original-research-fixture', 'title': 'Original research fixture', 'publisher_reported': 'Test fixture publication', ...}]
+1 failed, 326 passed, 1 warning in 385.46s (0:06:25)
+FAILED tests/test_story_evidence.py::test_indexing_does_not_backdate_evidence_or_duplicate_links - AssertionError: assert not [{'news_id': 1, 'url': 'https://solana.com/fixture/Original-research-fixture', 'title': 'Original research fixture', 'publisher_reported': 'Test fixture publication', ...}]
+1 failed, 326 passed, 1 warning in 385.46s (0:06:25)

@@ -1,0 +1,70 @@
+{
+  "scope": "existing cloud history, actual RSS/documents and simulated outcomes; no injected stories/tokens",
+  "application_commit": "570aa9113d11c7217beb6f315441af217b6eaf39",
+  "regression_fixture_commit": "296bda0cfbac45a9548c81f1f9d98c66cf0f1253",
+  "version": "0.10.0",
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-16T09:21:38.355090+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-16T09:21:38.364621+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-16T09:21:38.364890+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-16T09:21:38.387504+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-16T09:21:38.414404+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "daily_totals": {
+    "discovered": 838,
+    "eligible": 838,
+    "excluded": 0,
+    "first_evaluations": 838,
+    "eligible_without_first_evaluation": 0,
+    "security_pass_at_first_evaluation": 45,
+    "liquidity_pass_at_first_evaluation": 47,
+    "selected_at_first_evaluation": 24,
+    "opportunity_alerts": 33,
+    "risk_alerts": 10,
+    "alerts_displayed_in_app": 20
+  },
+  "read_documents_on_page": 6,
+  "exact_contract_mentions_on_page": 0,
+  "ai_enabled": false,
+  "javascript_errors": [],
+  "mobile_width": 390,
+  "no_horizontal_overflow": true,
+  "live_execution": false,
+  "accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "live_memecoin_document_association_verified": false,
+  "unverified_reason": "No permitted recent story with an exact memecoin contract was observed; a positive automatic narrative association remains unverified live."
+}

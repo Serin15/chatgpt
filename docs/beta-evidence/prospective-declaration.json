@@ -1,0 +1,13 @@
+{
+  "scope": "cloud research data only; Windows data not changed",
+  "test_from": "2026-10-18T00:00:00Z",
+  "configuration_declared_at": "2026-10-16T09:30:08.502897+00:00",
+  "all_other_settings_preserved": true,
+  "prior_test_from": null,
+  "real_execution": false,
+  "note": "Future cutoff declared without threshold tuning. Original policies remain unchanged; crossing development windows are purged. A sufficiently large future holdout is not yet collected.",
+  "frozen_policy_id": 3,
+  "frozen_policy_declared_at": "2026-10-16T09:30:38.903797+00:00",
+  "rule_version": "memescope-3.1-evidence",
+  "source_sha256": "85e83f1e60d5d152524ae9c417c84c45ab77dd094c551bd0188f2274675cc583"
+}
