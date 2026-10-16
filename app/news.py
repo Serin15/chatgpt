@@ -18,6 +18,12 @@ from app.models import epoch, number, utcnow
 from app.providers import ProviderError
 
 TOPICS = {
+    "memecoins": {
+        "label": "Memecoinuri · știri și lansări raportate",
+        "query": '(memecoin OR "meme coin" OR "pump.fun") (launch OR announcement OR community OR token OR scam)',
+        "aliases": [],
+        "search": None,
+    },
     "claude": {
         "label": "Claude / Anthropic",
         "query": "Claude Anthropic",
@@ -77,6 +83,30 @@ TOPICS = {
         "source_kind": "publisher",
         "source_host": "www.coindesk.com",
     },
+    "solana_official": {
+        "label": "Solana · sursă primară",
+        "aliases": [],
+        "feed": "https://solana.com/news/rss.xml",
+        "publisher": "Solana",
+        "source_kind": "primary",
+        "source_host": "solana.com",
+    },
+    "decrypt": {
+        "label": "Decrypt",
+        "aliases": [],
+        "feed": "https://decrypt.co/feed",
+        "publisher": "Decrypt",
+        "source_kind": "publisher",
+        "source_host": "decrypt.co",
+    },
+    "cointelegraph": {
+        "label": "Cointelegraph",
+        "aliases": [],
+        "feed": "https://cointelegraph.com/rss",
+        "publisher": "Cointelegraph",
+        "source_kind": "publisher",
+        "source_host": "cointelegraph.com",
+    },
 }
 
 HYPE = re.compile(
@@ -107,6 +137,12 @@ def event_headline(title):
 
 
 def relevant_headline(title, topic):
+    if topic == "memecoins":
+        return bool(
+            re.search(
+                r"\b(?:meme\w*|meme coins?|pump\.fun|dogecoin|shiba|bonk|pepe)\b", title, re.I
+            )
+        )
     if topic in {"trump", "elon", "zelensky"}:
         return bool(
             re.search(
@@ -415,12 +451,12 @@ class News:
             async def fetch_topic(topic):
                 async with semaphore:
                     try:
-                        items = await self.feed(topic)
+                        items = await asyncio.wait_for(self.feed(topic), timeout=25)
                         if not isinstance(items, list):
                             raise ProviderError("Lista de știri are format invalid.")
                         return topic, items, None
-                    except ProviderError as exc:
-                        return topic, [], str(exc)
+                    except (ProviderError, TimeoutError) as exc:
+                        return topic, [], str(exc) or "Timpul de răspuns al sursei a fost depășit."
                     except (ValueError, TypeError, KeyError, AttributeError):
                         return topic, [], "Sursa de știri este indisponibilă sau incompatibilă."
 
@@ -478,6 +514,9 @@ class News:
                             "state": "partial" if search_error or rejected else "ok",
                             "at": utcnow(),
                             "headlines": len(items),
+                            "latest_published_at": max(
+                                (i.get("published_at") or "" for i in items), default=None
+                            ),
                             "candidates": len(candidates[:4]),
                             "error": search_error
                             or (f"{rejected} înregistrări invalide omise." if rejected else None),

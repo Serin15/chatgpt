@@ -31,6 +31,12 @@ SOURCES = {
     "www.anthropic.com": {"publisher": "Anthropic", "kind": "primary", "relations": ["issuer"]},
     "developers.circle.com": {"publisher": "Circle", "kind": "primary", "relations": ["issuer"]},
     "solana.com": {"publisher": "Solana", "kind": "primary", "relations": ["issuer"]},
+    "decrypt.co": {"publisher": "Decrypt · redacție", "kind": "editorial", "relations": []},
+    "cointelegraph.com": {
+        "publisher": "Cointelegraph · redacție",
+        "kind": "editorial",
+        "relations": [],
+    },
 }
 Chain = Literal["solana", "ethereum", "base", "polygon", "bsc", "arbitrum", "avalanche"]
 PLATFORMS = {
@@ -257,6 +263,25 @@ class DocumentReader(HTMLParser):
         }
 
 
+def contract_reference(link):
+    """Only explicit mint/explorer paths; DEX pair URLs are not mint addresses."""
+    url = urlsplit(link)
+    if not safe_link(link):
+        return None
+    network = EXPLORERS.get(url.hostname)
+    pattern = r"/(?:token|address)/([^/]+)/?"
+    if url.hostname == "pump.fun":
+        network, pattern = "solana", r"/coin/([^/]+)/?"
+    match = re.fullmatch(pattern, url.path)
+    if not network or not match:
+        return None
+    if network == "solana" and parse_qs(url.query).get("cluster", ["mainnet-beta"]) != [
+        "mainnet-beta"
+    ]:
+        return None
+    return network, match[1]
+
+
 def inspect_contract(document, chain, contract):
     flags = 0 if chain == "solana" else re.I
     exact = re.compile(r"(?<![A-Za-z0-9])" + re.escape(contract) + r"(?![A-Za-z0-9])", flags)
@@ -278,18 +303,10 @@ def inspect_contract(document, chain, contract):
         if len(mentioned) == 1:
             networks |= mentioned
     for link in document["links"]:
-        url = urlsplit(link)
-        match = re.fullmatch(r"/(?:token|address)/([^/]+)/?", url.path)
-        network = EXPLORERS.get(url.hostname)
-        cluster = parse_qs(url.query).get("cluster", ["mainnet-beta"])
-        if (
-            network
-            and match
-            and contract_equal(match[1], contract, chain)
-            and (network != "solana" or cluster == ["mainnet-beta"])
-        ):
+        reference = contract_reference(link)
+        if reference and contract_equal(reference[1], contract, chain):
             found = True
-            networks.add(network)
+            networks.add(reference[0])
             links.append(link)
             link_contexts.extend(
                 p["text"]
@@ -317,12 +334,9 @@ def contract_candidates(document):
     candidates = [("evm", m.group()) for m in EVM.finditer(document["text"])]
     candidates += [("solana", m.group()) for m in SOL.finditer(document["text"])]
     for link in document["links"]:
-        url = urlsplit(link)
-        match = re.fullmatch(r"/(?:token|address)/([^/]+)/?", url.path)
-        if match and url.hostname in EXPLORERS:
-            candidates.append(
-                ("solana" if EXPLORERS[url.hostname] == "solana" else "evm", match[1])
-            )
+        reference = contract_reference(link)
+        if reference:
+            candidates.append(("solana" if reference[0] == "solana" else "evm", reference[1]))
     result, seen = [], set()
     for kind, contract in candidates[:80]:
         if (kind, contract) in seen:
@@ -663,8 +677,11 @@ class Announcements:
                     raise ValueError
                 stale = not 0 <= time.time() - epoch(row[0]) <= 86400
             except (ValueError, TypeError, OverflowError):
-                payload = {"state": "invalid", "claim_verified": False,
-                           "error": "Document stocat incompatibil; necesită o nouă citire."}
+                payload = {
+                    "state": "invalid",
+                    "claim_verified": False,
+                    "error": "Document stocat incompatibil; necesită o nouă citire.",
+                }
                 stale = True
         return (
             {
@@ -679,14 +696,32 @@ class Announcements:
     async def enrich_news(self, news, assets, limit=3):
         """Inspect bounded catalog documents, never arbitrary links from RSS."""
         done = 0
+        # New permitted documents precede hourly rereads. Meme-related stories
+        # get attention within that group; titles still cannot establish identity.
+        pending = []
         for article in news.listing():
             source = SOURCES.get(urlsplit(article["url"]).hostname)
             previous = self.news_document(article["id"])
             if (
                 not source
+                or not article.get("published_at")
+                or not 0 <= time.time() - epoch(article["published_at"]) <= 86400
                 or (previous and time.time() - epoch(previous["at"]) < 3600)
             ):
                 continue
+            pending.append((article, source, previous))
+        pending.sort(
+            key=lambda row: (
+                row[2] is not None,
+                not bool(
+                    re.search(
+                        r"\b(?:meme\w*|dogecoin|shiba|pump\.fun|bonk|pepe)\b", row[0]["title"], re.I
+                    )
+                ),
+                -epoch(row[0]["published_at"]),
+            )
+        )
+        for article, source, previous in pending:
             if done >= limit:
                 break
             done += 1
@@ -710,7 +745,9 @@ class Announcements:
                 )
                 candidates = contract_candidates(document)
                 for candidate in candidates:
-                    if len(candidate["contract"]) <= 44 and not candidate["contract"].startswith("0x"):
+                    if len(candidate["contract"]) <= 44 and not candidate["contract"].startswith(
+                        "0x"
+                    ):
                         candidate["excerpt"] = inspect_contract(
                             document, "solana", candidate["contract"]
                         )["excerpt"]
@@ -731,8 +768,11 @@ class Announcements:
                         self.store.add_token(market.address, "source_document")
                         linked.append(
                             market.model_dump()
-                            | {"news_relation": "primary_document_contract_mention"
-                               if source["kind"] == "primary" else "editorial_document_contract_mention"}
+                            | {
+                                "news_relation": "primary_document_contract_mention"
+                                if source["kind"] == "primary"
+                                else "editorial_document_contract_mention"
+                            }
                         )
                 news.replace_matches(
                     article["id"], linked, topic="document:" + urlsplit(article["url"]).hostname

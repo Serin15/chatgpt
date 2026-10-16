@@ -25,6 +25,7 @@ from app.opportunity_sources import (
     pool_activity,
     pool_markets,
 )
+from app.story_discovery import StoryDiscovery
 
 log = logging.getLogger(__name__)
 ENGINE_SOURCE_SHA256 = hashlib.sha256(
@@ -36,6 +37,9 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "opportunity_sources.py",
             "narratives.py",
             "story_evidence.py",
+            "story_discovery.py",
+            "announcements.py",
+            "news.py",
             "opportunity_outcomes.py",
             "opportunity_sampling.py",
             "opportunity_routes.py",
@@ -64,6 +68,7 @@ class Opportunities:
         self.owner = uuid.uuid4().hex
         self.lock = asyncio.Lock()
         self.narratives = Narratives(service)
+        self.story_discovery = StoryDiscovery(service, self.narratives.stories)
         self.ai_task = None
         self.wallet_task = None
         self.route_task = None
@@ -472,6 +477,7 @@ class Opportunities:
                     return self.status
                 policy = self.policy(config)
                 self.narratives.stories.index_documents()
+                await self.story_discovery.cycle()
                 self.status = {**self.status, "state": "running", "started_at": started}
                 page = (self.status.get("cycles", 0) % config.discovery_pages) + 1
                 if refresh_discovery:

@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-16T12:09:37.862758+00:00",
+  "requests_through_inherited_proxy": true,
+  "tls_verification": true,
+  "sources": {
+    "decrypt.co": {
+      "state": "blocked",
+      "observed_error": "ProxyError 403 Forbidden",
+      "feed_verified_live": false
+    },
+    "cointelegraph.com": {
+      "state": "blocked",
+      "observed_error": "ProxyError",
+      "feed_verified_live": false
+    }
+  },
+  "runtime_policy_snapshot": "restricted; these two hosts absent",
+  "draft_publication": "not applied"
+}

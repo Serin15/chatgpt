@@ -741,6 +741,7 @@ function renderHealth() {
     performance: status.performance,
     announcements: status.announcement_analysis,
     opportunity_engine: status.opportunity_engine,
+    story_discovery: status.story_discovery,
     routed_quotes: status.routed_quotes,
     ...Object.fromEntries(
       Object.entries(status.discovery_sources || {}).map(([k, v]) => [

@@ -222,6 +222,7 @@ def create_app(
             "announcement_analysis": service.research.announcements.status,
             "app_id": "pulse_crypto_research",
             "discovery_sources": service.discovery.status,
+            "story_discovery": service.opportunities.story_discovery.status,
             "onchain_sources": service.onchain.status,
             "jupiter": service.jupiter.config(),
             "routed_quotes": service.opportunities.routes.status,
@@ -434,7 +435,8 @@ def create_app(
 
     @app.get("/api/opportunities/narratives")
     def opportunity_narratives(request: Request):
-        return request.app.state.service.opportunities.narratives.trends()
+        engine = request.app.state.service.opportunities
+        return engine.narratives.trends() | {"story_discovery": engine.story_discovery.summary() | {"recent_lookups": engine.story_discovery.recent()}}
 
     @app.get("/api/opportunities/alerts")
     def opportunity_alerts(

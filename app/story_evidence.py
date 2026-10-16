@@ -108,7 +108,7 @@ class StoryEvidence:
     def for_contract(self, contract, at):
         with self.store.connect() as db:
             rows = db.execute(
-                """SELECT n.*,s.indexed_at,s.payload AS document,c.association,c.payload AS mention
+                """SELECT n.*,s.document_id,s.indexed_at,s.payload AS document,c.association,c.payload AS mention
                 FROM story_contracts c JOIN story_documents s ON s.document_id=c.document_id
                 JOIN news n ON n.id=s.news_id
                 WHERE c.contract=? AND s.document_id=(
@@ -133,6 +133,7 @@ class StoryEvidence:
             result.append(
                 {
                     "news_id": row["id"],
+                    "document_id": row["document_id"],
                     "url": row["url"],
                     "title": row["title"],
                     "publisher_reported": row["publisher"],
@@ -197,7 +198,7 @@ class StoryEvidence:
                 "SELECT count(*) FROM announcement_documents d LEFT JOIN story_documents s ON s.document_id=d.id WHERE s.document_id IS NULL"
             ).fetchone()[0]
         stories.sort(
-            key=lambda s: (s["source_kind"] != "headline_only", s["published_at"]), reverse=True
+            key=lambda s: (bool(s["contracts"]), s["source_kind"] != "headline_only", s["published_at"]), reverse=True
         )
         return {
             "at": at,

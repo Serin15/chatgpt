@@ -1,0 +1,250 @@
+{
+  "http": {
+    "/api/status": 200,
+    "/api/opportunities/narratives": 200,
+    "/api/opportunities/daily": 200,
+    "/api/opportunities": 200,
+    "/api/portfolio?account=news": 200,
+    "/api/portfolio?account=scanner": 200
+  },
+  "all_existing_table_hashes_preserved": true,
+  "before": {
+    "scanner": {
+      "account": {
+        "rows": 1,
+        "sha256": "ac3b8ec3ffa7610c5d7f605464875475f2d96ec86e1e961ab116ad8346e7eabc"
+      },
+      "ai_attempts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ai_configuration": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "alerts": {
+        "rows": 39,
+        "sha256": "48a96d8a3ee0a36d607a174822d970662f639f93f20c436d441270a2a24ff395"
+      },
+      "announcement_checks": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "announcement_documents": {
+        "rows": 51,
+        "sha256": "de44b624014da099593588145d069dfc0aa8315e580c32f1c65303c2162912b1"
+      },
+      "asset_books": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "asset_observations": {
+        "rows": 2575,
+        "sha256": "520ab37a6a71f38ad19fa179abaf090a5f507c3a3e31c3f2fae3878980e8c1a9"
+      },
+      "asset_watch": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "assets": {
+        "rows": 26,
+        "sha256": "eee9c76b716a61b940e05fb0af6ae06672c92f1b3e541cbcd4d5cf1893b6eddb"
+      },
+      "auth_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "discovered_pools": {
+        "rows": 3164,
+        "sha256": "90d4eb1ba7b4b372a95393bfcd63ae9a7421089ba691ea0732f05e11954750c0"
+      },
+      "discovery_runs": {
+        "rows": 207,
+        "sha256": "245452ae04497ae8ffc376340ae9e922aab5f85bdc8fa4aee6e680582b1bee83"
+      },
+      "equity_observations": {
+        "rows": 207,
+        "sha256": "84d8983337fd7f3482788ade690afab02c1e48dad5dbb274ae314e6647c7ae6e"
+      },
+      "fundamental_observations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "listing_schedules": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "narrative_research_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "news": {
+        "rows": 98,
+        "sha256": "a1004b80c3263f8cd8e9bcc36a2cb6051d882cb609c264eb27674df5cd754929"
+      },
+      "news_matches": {
+        "rows": 200,
+        "sha256": "9c455f00d893afc9e9eec0509bcd22b753fac51c07f6d2ae4d9e93286fafce98"
+      },
+      "news_read": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "news_topics": {
+        "rows": 99,
+        "sha256": "01281de6dfe57d804067b20f2efa06d8a6717a4110f53f0427dd47b92742c574"
+      },
+      "observation_jobs": {
+        "rows": 7497,
+        "sha256": "0b069deceb8d53d69b680754a055771f24ee71ae21025484d18aa2d28e14f051"
+      },
+      "opportunity_alerts": {
+        "rows": 205,
+        "sha256": "b36480470f595d1fefce2b90422c4f8624f3e21aad7188794effd134d46860c0"
+      },
+      "opportunity_candidates": {
+        "rows": 2998,
+        "sha256": "fa45fd46f454965513aaeaaa6c8ba64e57e4bf1c9498fbcee3842a9ff20c71ff"
+      },
+      "opportunity_config": {
+        "rows": 1,
+        "sha256": "82f6f1b797da7af34eab38d348daa6a81b8fcb6d798a02002c961b475375d0b4"
+      },
+      "opportunity_lease": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "opportunity_observations": {
+        "rows": 12299,
+        "sha256": "14125c353818f493467e7a86f73bce964b05b8abc2b98e3f85f449aaeaff20ec"
+      },
+      "opportunity_outcomes": {
+        "rows": 12006,
+        "sha256": "154b7303df48d3fdc304074ed2f470d3fb362b67144c7f86a57530adc9ee6201"
+      },
+      "opportunity_policies": {
+        "rows": 3,
+        "sha256": "d2707f621c42a357dc40e65d1afe8cc25e62ec52628c19c4629241841bea6636"
+      },
+      "opportunity_runtime": {
+        "rows": 1,
+        "sha256": "a3e1cfdc4f7ebe26fd71af3bec0f6fc4d6e4053c6e8b4287cc2628164a7174a7"
+      },
+      "opportunity_signals": {
+        "rows": 7000,
+        "sha256": "aa82b7dfd4c6e6a59ea2320fc779c0aaf2a57b4e4d7a0a90c0037100feedaab5"
+      },
+      "orders": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "positions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "research_evidence": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "routed_attempts": {
+        "rows": 667,
+        "sha256": "8d0556fddca882ef4721409fe02249588f13e873363fb6440211a933b192f2d9"
+      },
+      "routed_experiments": {
+        "rows": 4002,
+        "sha256": "026f1abcce633abef4d02deb7c088f5a0de8f26a6447c674831371b783018662"
+      },
+      "routed_outcomes": {
+        "rows": 12006,
+        "sha256": "9fefed59dfacbdc78690a3ea816226527a398704c0264d691310478fd21a22cb"
+      },
+      "routed_runtime": {
+        "rows": 1,
+        "sha256": "3078494fea2ec32147e7d6f4e6c6fcf80597bea21a7592e7f687d7ac6eb83830"
+      },
+      "sampling_enrollment": {
+        "rows": 2998,
+        "sha256": "b81808b7fb4a1c07aa8d68a2341e6cd8f4f1fa9894c88472e0bb0273f4ea36c2"
+      },
+      "sampling_metadata": {
+        "rows": 1,
+        "sha256": "f8e00ea8a6877a9a94b240639bab4cef17b72c1d0a20a7c19720dcd87df0c431"
+      },
+      "schema_migrations": {
+        "rows": 1,
+        "sha256": "fabd92dcc9a0f24180b5dd04e080ca6a745b0d27d535cb49709c0f1981aaac4a"
+      },
+      "signals": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "snapshots": {
+        "rows": 12182,
+        "sha256": "791ed0be6994ac1e3d57e02804cf7b3403fdbbd17cb9edb458a1798518818497"
+      },
+      "source_approvals": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_contracts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_documents": {
+        "rows": 51,
+        "sha256": "112e1fb32905b87a24002ba78bac5c4066a1fd9af3e92618cbcfa0068866147a"
+      },
+      "tokens": {
+        "rows": 2997,
+        "sha256": "91ad5f83f1f65062ef2fc161c5e39bba597b8e60b716a0adf67fb44b38250680"
+      },
+      "tracked_wallets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "wallet_activity": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "news": {
+      "account": {
+        "rows": 1,
+        "sha256": "8b3034cc2de9297d7490c7d673e70146474ca89b6e7a49b4eb6b0044098cc3c6"
+      },
+      "equity_observations": {
+        "rows": 207,
+        "sha256": "bec3ea0e58b30bf373e3ccaeddc05c21146085c791c141e1e4a2b4dcdad52e04"
+      },
+      "orders": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "positions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "schema_migrations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "signals": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "snapshots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "tokens": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "new_tables": [
+    "story_pool_lookups"
+  ],
+  "worker_enabled": false,
+  "network_requests": 0
+}

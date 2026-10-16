@@ -189,6 +189,7 @@ async def check(base):
             original = await (await page.request.get(base + "/api/opportunities/narratives")).json()
             candidate = (await (await page.request.get(base + "/api/opportunities")).json())["items"][0]
             original.update(enabled=False, ai_configured=False)
+            original["story_discovery"] = {"tracked_contracts": 2, "states": {"resolved_pool": 1, "market_unavailable": 1}}
             original["stories"]["items"] = [{
                 "title": "Explicit document fixture without AI", "url": "https://solana.com/fixture",
                 "publisher_reported": "Isolated fixture", "published_at": candidate["discovered_at"],
@@ -199,6 +200,7 @@ async def check(base):
             await ready(page)
             await expect(page.locator("#engine-narratives")).to_contain_text("Explicit document fixture without AI")
             await expect(page.locator("#engine-narratives")).to_contain_text("emitent neconfirmat")
+            await expect(page.locator("#engine-narratives")).to_contain_text("piață indisponibilă 1")
             await page.locator("#engine-narratives").get_by_role("button", name="Cercetează tokenul").click()
             await expect(page.locator("#engine-detail")).to_contain_text(candidate["contract"])
 

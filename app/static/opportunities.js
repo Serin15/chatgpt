@@ -636,6 +636,11 @@ function renderEngineRoutes(data) {
 function renderEngineNarratives(data) {
   const root = $("engine-narratives");
   root.replaceChildren();
+  if (data.story_discovery) {
+    const s = data.story_discovery;
+    const states = s.states || {};
+    root.append(node("p", `Contracte găsite în documente: ${s.tracked_contracts} · pool găsit ${states.resolved_pool || 0} · candidați existenți ${states.existing_candidate || 0} · piață indisponibilă ${states.market_unavailable || 0} · dovezi indisponibile ${states.evidence_unavailable || 0} · expirate ${states.evidence_expired || 0} · în așteptare ${(states.pending || 0) + (states.lookup_in_progress || 0)}. Mențiunile nu confirmă emitentul.`, "footnote"));
+  }
   for (const story of (data.stories?.items || []).slice(0, 6)) {
     const box = node("article", undefined, "evidence-item");
     box.append(link(story.title, story.url, "text-button"));
