@@ -8,7 +8,7 @@ import pytest
 
 from app.models import utcnow
 from tests.test_news import article
-from tests.test_opportunities import TOKEN, payload, seed
+from tests.test_opportunities import TOKEN, payload, seed, stamp
 from tests.test_opportunities import client_engine as client_engine
 
 
@@ -72,15 +72,17 @@ def test_exact_address_requires_unambiguous_chain_and_context(
     assert result["ranking_supported"] is False
 
 
-def test_indexing_does_not_backdate_evidence_or_duplicate_links(client_engine):
+def test_indexing_does_not_backdate_evidence_or_duplicate_links(client_engine, monkeypatch):
     _, engine = client_engine
     seed(engine)
     save_document(engine)
     before_index = utcnow()
+    after_index = stamp(time.time() + 1)
+    monkeypatch.setattr("app.story_evidence.utcnow", lambda: after_index)
     assert engine.narratives.stories.index_documents() == 1
     assert engine.narratives.stories.index_documents() == 0
     assert not engine.narratives.evidence(TOKEN, before_index)["supported"]
-    assert len(engine.narratives.evidence(TOKEN, utcnow())["supported"]) == 1
+    assert len(engine.narratives.evidence(TOKEN, after_index)["supported"]) == 1
 
 
 @pytest.mark.parametrize(
