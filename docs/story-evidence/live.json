@@ -1,0 +1,554 @@
+{
+  "at": "2026-10-16T12:13:06.123476+00:00",
+  "complete": false,
+  "criteria": {
+    "real_document_contract_reference": false,
+    "candidate_discovered_from_document": false,
+    "market_and_security_observed": false,
+    "stored_signal_with_narrative_and_verdict": false,
+    "eligible_alert_generated": false,
+    "in_app_delivery_receipt": false,
+    "later_outcome_evaluated": false
+  },
+  "errors": [],
+  "duration_seconds": 95,
+  "source_status": {
+    "memecoins": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:31.510905+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T10:16:06+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "trump": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:31.761706+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T07:17:38+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "claude": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:33.019879+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T09:41:00+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "crypto": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:33.083175+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T12:07:04+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "ethereum_official": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:33.083211+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "zelensky": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:33.288860+00:00",
+      "headlines": 1,
+      "latest_published_at": "2026-10-15T13:00:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "elon": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:36.106705+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T11:06:21+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "launches": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:36.376186+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T10:12:22+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "kraken_official": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:36.385120+00:00",
+      "headlines": 1,
+      "latest_published_at": "2026-10-16T10:30:11+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "solana_official": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:36.394393+00:00",
+      "headlines": 1,
+      "latest_published_at": "2026-10-14T15:05:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "coindesk": {
+      "state": "ok",
+      "at": "2026-10-16T12:11:36.556533+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T11:15:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "decrypt": {
+      "state": "error",
+      "at": "2026-10-16T12:11:37.071171+00:00",
+      "error": "Știri decrypt: Sursă indisponibilă: ProxyError."
+    },
+    "cointelegraph": {
+      "state": "error",
+      "at": "2026-10-16T12:11:37.071445+00:00",
+      "error": "Știri cointelegraph: Sursă indisponibilă: ProxyError."
+    }
+  },
+  "stories": {
+    "items": [],
+    "stories": {
+      "at": "2026-10-16T12:13:01.673567+00:00",
+      "items": [
+        {
+          "news_id": 92,
+          "title": "Traders will soon be able to bet on whether Coinbase, Robinhood and Marathon will hit their targets",
+          "url": "https://www.coindesk.com/daybook-us/2026/10/16/traders-will-soon-be-able-to-bet-on-whether-coinbase-robinhood-and-marathon-will-hit-their-targets",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T11:15:00+00:00",
+          "first_seen_at": "2026-10-16T11:19:27.302434+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/daybook-us/2026/10/16/traders-will-soon-be-able-to-bet-on-whether-coinbase-robinhood-and-marathon-will-hit-their-targets",
+            "source_sha256": "5400f49994d8827bae8167512b957cb8b5f7b32091c948ee60aab4c808e58b29",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:19:28.581027+00:00",
+            "document_recorded_at": "2026-10-16T11:19:28.587698+00:00",
+            "excerpt": "Crypto Daybook Americas Traders will soon be able to bet on whether Coinbase, Robinhood and Marathon will hit their targets Your day-ahead look for Oct. 16, 2026 By Omkar Godbole | Edited by Sheldon Reback Oct 16, 2026, 7:15 a.m. EDT 3 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on U.S. investors will soon have access to binary options on some publicly traded companies. (geralt/Pixabay)"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 88,
+          "title": "Circle targets 40 new markets as stablecoin demand grows globally",
+          "url": "https://www.coindesk.com/business/2026/10/16/circle-targets-40-new-markets-as-stablecoin-demand-grows-globally",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T10:54:35+00:00",
+          "first_seen_at": "2026-10-16T10:59:02.821760+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/business/2026/10/16/circle-targets-40-new-markets-as-stablecoin-demand-grows-globally",
+            "source_sha256": "686872ff8593e24856fd27f14516d7a68e663198a55dd2ae0397abb192bcb30c",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T12:00:40.143553+00:00",
+            "document_recorded_at": "2026-10-16T12:00:40.149679+00:00",
+            "excerpt": "Finance Circle targets 40 new markets as stablecoin demand grows globally The stablecoin issuer’s CEO Jerermy Allaire told Reuters demand for digital dollars is growing across Asia, Africa and Latin America as banks and payment firms. By Olivier Acuna | Edited by Oliver Knight Oct 16, 2026, 6:54 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Circle CEO Jeremy Allaire said demand for stablecoins is growing sign"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 86,
+          "title": "Quantum Alliance forms amid warnings 6.4 million bitcoin face future quantum threat",
+          "url": "https://www.coindesk.com/tech/2026/10/16/experts-agree-quantum-computers-could-put-satoshi-s-bitcoin-at-risk-but-not-on-what-s-next",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T10:52:26+00:00",
+          "first_seen_at": "2026-10-16T10:53:58.262588+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/tech/2026/10/16/experts-agree-quantum-computers-could-put-satoshi-s-bitcoin-at-risk-but-not-on-what-s-next",
+            "source_sha256": "958df456ed9f4b9ade967643a1bd03dc6336d437a32a8d66bca98aa713755b88",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:55:34.541491+00:00",
+            "document_recorded_at": "2026-10-16T11:55:34.555207+00:00",
+            "excerpt": "Tech Quantum Alliance forms amid warnings 6.4 million bitcoin face future quantum threat Nine crypto companies launched the Quantum Alliance to jointly prepare for quantum attacks, but they disagree on when the threat will arrive and whether vulnerable BTC should be frozen. By Olivier Acuna | Edited by Jamie Crawley Oct 16, 2026, 6:52 a.m. EDT 3 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Experts have not been able to"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 87,
+          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
+          "url": "https://www.coindesk.com/business/2026/10/16/elon-musk-s-flying-roadster-reveal-sent-tesla-crypto-trading-into-overdrive-while-stock-markets-were-closed",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T10:48:49+00:00",
+          "first_seen_at": "2026-10-16T10:53:58.265583+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/business/2026/10/16/elon-musk-s-flying-roadster-reveal-sent-tesla-crypto-trading-into-overdrive-while-stock-markets-were-closed",
+            "source_sha256": "5343e4fa42e027b1281f28abe6ea7f5f37e3a3d058907bd065f93311bd24bb26",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:55:35.163865+00:00",
+            "document_recorded_at": "2026-10-16T11:55:35.181101+00:00",
+            "excerpt": "Finance Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype Volume in Hyperliquid’s Tesla contract hit $47 million in one hour after Elon Musk’s flying Roadster demo, up from $2.8 million, with U.S. stocks closed. By Oliver Knight | Edited by Jamie Crawley Oct 16, 2026, 6:48 a.m. EDT 1 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on SpaceX and Tesla CEO Elon Musk (Getty Images)"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 81,
+          "title": "Altcoins outpace bitcoin as celestia jumps 16%, Warsh silent on interest-rate plans",
+          "url": "https://www.coindesk.com/markets/2026/10/16/altcoins-outpace-bitcoin-as-celestia-jumps-16-warsh-silent-on-interest-rate-plans",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T10:41:03+00:00",
+          "first_seen_at": "2026-10-16T10:43:46.882931+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/16/altcoins-outpace-bitcoin-as-celestia-jumps-16-warsh-silent-on-interest-rate-plans",
+            "source_sha256": "52a532dbd9c9739b13589d4446a617029c77af69be6db458dfb1aa3c56f95356",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:45:22.671120+00:00",
+            "document_recorded_at": "2026-10-16T11:45:22.694711+00:00",
+            "excerpt": "Markets Altcoins outpace bitcoin as celestia jumps 16%, Warsh silent on interest-rate plans Celestia jumped 16%, injective rose 7.7% and layerzero added 7.3% while bitcoin held little changed near $82,100 and Fed Chair Warsh gave no sign on interest rates. By Oliver Knight , Omkar Godbole | Edited by Sheldon Reback Oct 16, 2026, 6:41 a.m. EDT 4 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Celestia leads gains (CoinDesk"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 77,
+          "title": "Trade futures without the wallet-hopping: Unified Wallet is now available in the EEA",
+          "url": "https://blog.kraken.com/product/unified-wallet/now-available-in-the-eea",
+          "publisher_reported": "Kraken Blog",
+          "published_at": "2026-10-16T10:30:11+00:00",
+          "first_seen_at": "2026-10-16T10:33:33.989207+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://blog.kraken.com/product/unified-wallet/now-available-in-the-eea",
+            "source_sha256": "03bafbfb655123690a793ff21f760297b0754ecb1c7de63714719aaee487180e",
+            "source_kind": "primary",
+            "document_observed_at": "2026-10-16T11:35:04.777756+00:00",
+            "document_recorded_at": "2026-10-16T11:35:04.782606+00:00",
+            "excerpt": "TL;DR Unified Wallet is now available to EEA clients on Kraken Pro It combines your spot, margin, and futures balances into one shared source of collateral , so you can trade futures without moving funds between wallets Eligible holdings, including gold ( XAU ), count toward your futures margin automatically, with no idle collateral Enabling it is a self-serve switch in your account settings, and you can do it anytime If you already hold spot, margin, or Earn balances with us but haven’t traded "
+          },
+          "source_kind": "primary",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 85,
+          "title": "Trade futures without the wallet-hopping: Unified Wallet is now available in the EEA",
+          "url": "https://blog.kraken.com/product/kraken-derivatives/unified-wallet-now-available-in-the-eea",
+          "publisher_reported": "Kraken Blog",
+          "published_at": "2026-10-16T10:30:11+00:00",
+          "first_seen_at": "2026-10-16T10:53:57.222117+00:00",
+          "document_state": "unavailable",
+          "document": {
+            "url": "https://blog.kraken.com/product/kraken-derivatives/unified-wallet-now-available-in-the-eea",
+            "source_sha256": null,
+            "source_kind": "primary",
+            "document_observed_at": "2026-10-16T11:55:33.809933+00:00",
+            "document_recorded_at": "2026-10-16T11:55:33.809933+00:00",
+            "excerpt": ""
+          },
+          "source_kind": "primary",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 74,
+          "title": "Scammer gets scammed in Ledger spy-chip exploit, loses almost $5 million in bitcoin",
+          "url": "https://www.coindesk.com/business/2026/10/16/scammer-gets-scammed-in-ledger-spy-chip-exploit-loses-almost-usd5-million-in-bitcoin",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T10:24:30+00:00",
+          "first_seen_at": "2026-10-16T10:28:27.922397+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/business/2026/10/16/scammer-gets-scammed-in-ledger-spy-chip-exploit-loses-almost-usd5-million-in-bitcoin",
+            "source_sha256": "6e848eecd1f3de750d04b194465008e87ef802e3ab0cea3f209e65721f066e6b",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:29:58.982663+00:00",
+            "document_recorded_at": "2026-10-16T11:29:59.007847+00:00",
+            "excerpt": "Finance Scammer gets scammed in Ledger spy-chip exploit, loses almost $5 million in bitcoin Chainalysis says a fraudster who tricked people through fake online jobs became one of the biggest victims of the compromised hardware wallets. By Olivier Acuna | Edited by Sheldon Reback Oct 16, 2026, 6:24 a.m. EDT 1 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Scammer loses 60 bitcoin in Ledger hardware exploit. (Arian Darvish"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 66,
+          "title": "Live updates: Bitcoin back above $82,000, ZEC jumps 11% as ETF outflows continue",
+          "url": "https://www.coindesk.com/markets/2026/10/16/live-updates-bitcoin-back-above-usd82-000-zec-jumps-11-as-etf-outflows-continue",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T09:48:14+00:00",
+          "first_seen_at": "2026-10-16T09:52:43.371405+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/16/live-updates-bitcoin-back-above-usd82-000-zec-jumps-11-as-etf-outflows-continue",
+            "source_sha256": "7669ca15cf3fa695f029465d1c746972337ff4e00a0722dc163288227e28162b",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T12:00:41.033815+00:00",
+            "document_recorded_at": "2026-10-16T12:00:41.044835+00:00",
+            "excerpt": "Crypto prices bounced, but ETF money kept leaving. (Shaurya Malwa/CoinDesk) 11 minutes ago · 7:49 a.m. EDT Stephen Alpher Share Share this post Copy link X icon X (Twitter) LinkedIn Facebook Email Warsh isn't ruling out October rate hike, but markets mostly have “I don’t prejudge meetings,” said Fed Chair Kevin Warsh, speaking at a fireside chat overnight at an IMF event. “I don’t believe in saying now what I might do at the meetings we have.\" “It’s a new chapter at the Fed, and we’re not in tha"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 65,
+          "title": "U.S. judge rejects Gemini’s appeal to void $5 million settlement despite CFTC backing",
+          "url": "https://www.coindesk.com/policy/2026/10/16/u-s-judge-rejects-gemini-s-appeal-to-void-usd5-million-settlement-despite-cftc-backing",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T09:36:21+00:00",
+          "first_seen_at": "2026-10-16T09:37:14.928155+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/policy/2026/10/16/u-s-judge-rejects-gemini-s-appeal-to-void-usd5-million-settlement-despite-cftc-backing",
+            "source_sha256": "da29db8e4c272f5d898ea1169687534b729db709cdd5328d73f18578f3a34b7d",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:40:11.926403+00:00",
+            "document_recorded_at": "2026-10-16T11:40:11.932958+00:00",
+            "excerpt": "Policy U.S. judge rejects Gemini’s appeal to void $5 million settlement despite CFTC backing The crypto exchange already paid up, but a court order and restrictions from its 2025 settlement will not be lifted even though the CFTC said the case should have never been presented. By Olivier Acuna | Edited by Sheldon Reback Oct 16, 2026, 5:36 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on A judge denied the Winkel"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 49,
+          "title": "MSCI approves rules that could eject Strategy, Metaplanet from equity indexes",
+          "url": "https://www.coindesk.com/markets/2026/10/16/msci-approves-rules-that-could-eject-strategy-metaplanet-from-equity-indexes",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T08:34:48+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.546029+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/16/msci-approves-rules-that-could-eject-strategy-metaplanet-from-equity-indexes",
+            "source_sha256": "e37371089fbe6b824360baf1dd8d610da8ca20072a48980ae46599f80b5ee2b3",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:24:48.592448+00:00",
+            "document_recorded_at": "2026-10-16T11:24:48.608758+00:00",
+            "excerpt": "Markets MSCI approves rules that could eject Strategy, Metaplanet from equity indexes The rules proposed in August would see companies that exist mainly to hold investments as no longer eligible for index inclusion. By Omkar Godbole | Edited by Sheldon Reback Oct 16, 2026, 4:34 a.m. EDT 3 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on MSCI's new rules raises index exclusion risk for Strategy and Metaplanet. (Shutterstock"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 50,
+          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
+          "url": "https://www.coindesk.com/markets/2026/10/16/xrp-has-failed-to-make-holders-rich-like-bitcoin-and-ether-here-s-why",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T05:53:58+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.552917+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/16/xrp-has-failed-to-make-holders-rich-like-bitcoin-and-ether-here-s-why",
+            "source_sha256": "c1165ddd8e34679c7269d61c5c5287693ecb0c239d6cfb3ebf069c3a13005b0e",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:24:49.475285+00:00",
+            "document_recorded_at": "2026-10-16T11:24:51.781523+00:00",
+            "excerpt": "Markets XRP has failed to make holders rich like bitcoin and ether. Here’s why XRP remains below its 2017-cycle high while bitcoin, ether and other major tokens have surged, enriching their holders. By Omkar Godbole Updated Oct 16, 2026, 1:56 a.m. EDT Published Oct 16, 2026, 1:53 a.m. EDT 4 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on XRP is trading well below its January 2018 peak. (TradingView/CoinDesk) Summary Show "
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 51,
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "url": "https://www.coindesk.com/tech/2026/10/16/an-openai-agent-ran-out-of-ethereum-funds-and-took-from-a-wallet-it-did-not-own",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T04:29:19+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.560336+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/tech/2026/10/16/an-openai-agent-ran-out-of-ethereum-funds-and-took-from-a-wallet-it-did-not-own",
+            "source_sha256": "03cede428f0a9d608901a9894d8cb2ec01b7617853ee578139f09156b1780bba",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:24:52.499668+00:00",
+            "document_recorded_at": "2026-10-16T11:24:53.928704+00:00",
+            "excerpt": "Tech An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own The research model derived funded Sepolia addresses from public seed phrases, questioned whether using the money was ethical, then called the funds “effectively abandoned” and used them anyway. By Shaurya Malwa | Edited by Omkar Godbole Updated Oct 16, 2026, 12:41 a.m. EDT Published Oct 16, 2026, 12:29 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook "
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 52,
+          "title": "Bitcoin buyers snap up a brief drop below $80,000 as Asian stocks rebound",
+          "url": "https://www.coindesk.com/markets/2026/10/16/bitcoin-buyers-snap-up-a-brief-drop-below-usd80-000-as-asian-stocks-rebound",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-16T04:14:22+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.571021+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/16/bitcoin-buyers-snap-up-a-brief-drop-below-usd80-000-as-asian-stocks-rebound",
+            "source_sha256": "c41487e4de70e42c9873ba513f68fbf27272a5f21ba004d98b0a6648e02fbe81",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:29:59.702690+00:00",
+            "document_recorded_at": "2026-10-16T11:29:59.717131+00:00",
+            "excerpt": "Markets Bitcoin buyers snap up a brief drop below $80,000 as Asian stocks rebound Bitcoin tore back to $82,500 within two hours of dipping under $80,000, and chipmakers in Seoul recovered from their worst close since April. By Shaurya Malwa Oct 16, 2026, 12:14 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Bitcoin buyers snap up a brief drop below $80,000 as Asian stocks rebound Summary Show Bitcoin rebounded "
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 53,
+          "title": "At the White House, crypto policy vacancy looms large",
+          "url": "https://www.coindesk.com/news-analysis/2026/10/15/at-the-white-house-crypto-policy-vacancy-looms-large",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-15T18:48:02+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.577302+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/news-analysis/2026/10/15/at-the-white-house-crypto-policy-vacancy-looms-large",
+            "source_sha256": "68ee17a81fbf620b592b47cc2cfab300e9f44b170d98761a3fb159003d9027d1",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:30:00.458369+00:00",
+            "document_recorded_at": "2026-10-16T11:30:00.478945+00:00",
+            "excerpt": "News Analysis At the White House, crypto policy vacancy looms large The departure of President Donald Trump's crypto adviser, Patrick Witt, leaves the digital assets office vacant and its policy aims uncertain. By Jesse Hamilton | Edited by Nikhilesh De Oct 15, 2026, 2:48 p.m. EDT 4 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Patrick Witt's exit leaves President Donald Trump's White House without a named crypto advise"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 54,
+          "title": "Crypto for Advisors: Wall Street is done waiting on Congress for crypto rules",
+          "url": "https://www.coindesk.com/coindesk-indices/2026/10/15/crypto-for-advisors-wall-street-is-done-waiting-on-congress-for-crypto-rules",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-15T15:00:00+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.592435+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/coindesk-indices/2026/10/15/crypto-for-advisors-wall-street-is-done-waiting-on-congress-for-crypto-rules",
+            "source_sha256": "1cc306698093cd3dbf8991195f07406727d78314ddca9e68cd877ae64ec3d98a",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:35:05.539159+00:00",
+            "document_recorded_at": "2026-10-16T11:35:05.543303+00:00",
+            "excerpt": "CoinDesk Indices Crypto for Advisors: Wall Street is done waiting on Congress for crypto rules By Eric Soufer | Edited by Sarah Morton Oct 15, 2026, 11:00 a.m. EDT 4 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 55,
+          "title": "How Brooklyn prosecutors and the FBI took down a massive crypto fraud network targeting Russian speakers",
+          "url": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-15T12:35:24+00:00",
+          "first_seen_at": "2026-10-16T08:41:32.610172+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
+            "source_sha256": "2c7a089d142702fd2bcdfe82d4f58122d17e935d883387d15baa141135999575",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-16T11:35:07.056490+00:00",
+            "document_recorded_at": "2026-10-16T11:35:07.061785+00:00",
+            "excerpt": "Finance How Brooklyn prosecutors and the FBI took down a massive crypto fraud network targeting Russian speakers The scheme allegedly stole tens of millions through Russian-language Facebook ads and fake advisers, then went after victims again with fake recovery offers. By Francisco Rodrigues , AI Boost | Edited by Oliver Knight Oct 15, 2026, 8:35 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Brooklyn took ou"
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 99,
+          "title": "Current price of Ethereum for Oct. 16, 2026 - Fortune",
+          "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9HYWpER1o5Rm02aHc1SGt4MEp0WlJXZFl1QVF6OU9WLTEySmRadlRIUy1pcWxWU1R3NkFSckRGMmo3cDI3WFZSRDZpYm8zODdmYXM4dmVGcEtRMlZQR0QyLVdhOW53X25N?oc=5",
+          "publisher_reported": "Fortune",
+          "published_at": "2026-10-16T12:07:04+00:00",
+          "first_seen_at": "2026-10-16T12:10:47.158188+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 98,
+          "title": "Nine Crypto Companies Form Quantum Alliance To Prepare For Quantum Attacks On Bitcoin: 9 outlets compared - NewsCord",
+          "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQRm12UGZ1ZUt5cC1nblFVM2NIX0xfdXR6Tm1XSC1EV2pkcEhLX2JhbG5TQ1pyZHNsMGpqa0d0VFF6bzZZdDU3akZxQzlYaDVrdFhIZUxYZHp4Q0NRZ2lkUEJiWEhZLTJpWWZZRDBPdGZsTnFEbFRtWnliejBvaDY5NXdJMDVpdk1ld18zUElEcmpmTXpXeFd0aFo3bGo1Z0FHODltODMzb095dlpJckV5OW5leEFnZEl5VDhTMXdGMkwySkpUTWpYSklCdy16RWtheHVLYmU5V1NWVWF6M3BoWDlUSHVtS0Faa1E?oc=5",
+          "publisher_reported": "NewsCord",
+          "published_at": "2026-10-16T11:41:06+00:00",
+          "first_seen_at": "2026-10-16T12:00:37.264459+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        },
+        {
+          "news_id": 95,
+          "title": "You Can Now Stake Ethereum Through Interactive Brokers. Does That Give ETH an Edge Over Bitcoin? - Yahoo Finance",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOSDIzVzgzV1J5UnR0NVJrSXlJZVYxZ1E0aF9RSmFqSVpvWnJEZkNiVUctSUhxRUpnSnZEdkJlYndpMVB5YVFtZnlPNHBCZkhzZ2s2Tk9wSzFsZ20xYzlOVHNqNDFVSjY4LU0tR0Y2cmdodzNibUFCOG5YVDJuYzJNSlRFWmx3Njh0N3ZTMXBia0tFVGtjVVdKaVk2bFJMLUpITUZFNUhn?oc=5",
+          "publisher_reported": "Yahoo Finance",
+          "published_at": "2026-10-16T11:30:38+00:00",
+          "first_seen_at": "2026-10-16T11:45:19.492293+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false
+        }
+      ],
+      "indexed_documents": 51,
+      "pending_index": 0,
+      "index_budget_per_cycle": 250,
+      "note": "Headlines are reported claims; exact contract mentions are not issuer/endorsement verification. No global social growth measurements."
+    },
+    "document_requests": [],
+    "ai_configured": false,
+    "enabled": false,
+    "social_api": "not_configured",
+    "community_metrics": "not_available",
+    "story_discovery": {
+      "states": {},
+      "tracked_contracts": 0,
+      "lookup_budget_per_cycle": 3,
+      "timeout_seconds": 8,
+      "note": "Exact document references only. Unknown pools and failed lookups remain recorded; they are not zero-loss trades or verified launches.",
+      "recent_lookups": []
+    }
+  },
+  "candidate": null,
+  "universe_totals": {
+    "discovered": 3079,
+    "signals": 7232,
+    "alerts": 208,
+    "observations": 12613,
+    "eligible": 3079,
+    "eligible_without_first_evaluation": 1,
+    "risk_update_alerts": 77,
+    "delivered_in_app": 20,
+    "telegram_acknowledged": 0
+  },
+  "operations": "GET only; no injected stories/tokens, thresholds changed, receipt POSTs, messages sent or trades placed",
+  "coverage": "Most recent 20 document lookup jobs; once selected, one candidate is followed throughout the run. Absence is unverified, not proof no opportunity exists.",
+  "note": "Paper outcomes are simulated. Delivery receipts do not prove a human read the alert. This command does not verify browser rendering or profitability."
+}

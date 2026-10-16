@@ -144,3 +144,15 @@ def test_stories_are_visible_without_ai_and_reads_do_not_index(client_engine):
     mention = p["stories"]["items"][0]["contracts"][0]
     assert mention["contract"] == TOKEN and mention["candidate_id"] is not None
     assert p["stories"]["items"][0]["endorsement_verified"] is False
+
+
+def test_memecoin_headlines_are_visible_before_unrelated_catalog_news(client_engine):
+    _, engine = client_engine
+    for i in range(8):
+        save_document(engine, candidates=[], title=f"Unrelated general fixture story {i}")
+    news_id = engine.service.news.save(article(topic="memecoins", title="Memecoin community announces launch fixture"))
+    result = engine.narratives.stories.listing()["items"]
+    assert result[0]["news_id"] == news_id
+    assert result[0]["memecoin_headline"] is True
+    assert result[0]["document_state"] == "headline_only_unpermitted_document"
+    assert result[0]["contracts"] == [] and result[0]["claim_verified"] is False

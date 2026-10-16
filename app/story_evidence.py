@@ -11,7 +11,7 @@ from urllib.parse import urlsplit
 from app.announcements import SOURCES
 from app.assets import safe_link
 from app.models import epoch, solana_address, utcnow
-from app.news import canonical_url
+from app.news import canonical_url, relevant_headline
 
 
 class StoryEvidence:
@@ -177,6 +177,7 @@ class StoryEvidence:
                     {
                         "news_id": row["id"],
                         "title": row["title"],
+                        "memecoin_headline": relevant_headline(row["title"], "memecoins"),
                         "url": row["url"],
                         "publisher_reported": row["publisher"],
                         "published_at": row["published_at"],
@@ -198,7 +199,7 @@ class StoryEvidence:
                 "SELECT count(*) FROM announcement_documents d LEFT JOIN story_documents s ON s.document_id=d.id WHERE s.document_id IS NULL"
             ).fetchone()[0]
         stories.sort(
-            key=lambda s: (bool(s["contracts"]), s["source_kind"] != "headline_only", s["published_at"]), reverse=True
+            key=lambda s: (bool(s["contracts"]), s["memecoin_headline"], s["source_kind"] != "headline_only", s["published_at"]), reverse=True
         )
         return {
             "at": at,

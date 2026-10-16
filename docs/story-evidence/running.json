@@ -1,0 +1,60 @@
+{
+  "version": "0.11.0",
+  "instance_id": "8d14ec2aa3dc43af006e08dc",
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-16T12:11:30.092371+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-16T12:11:30.116829+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-16T12:11:30.117217+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-16T12:11:30.138880+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-16T12:11:30.153641+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "news": {
+    "cash": "500",
+    "orders": 0
+  },
+  "story_discovery": {
+    "state": "ok",
+    "at": "2026-10-16T12:12:30.185587+00:00",
+    "attempted_jobs": 0,
+    "states": {},
+    "tracked_contracts": 0,
+    "lookup_budget_per_cycle": 3,
+    "timeout_seconds": 8,
+    "note": "Exact document references only. Unknown pools and failed lookups remain recorded; they are not zero-loss trades or verified launches.",
+    "error": null
+  },
+  "live_execution": false,
+  "config_preserved": true,
+  "scanner": {
+    "cash": "100",
+    "orders": 0
+  },
+  "candidates": 3079,
+  "indexed_documents": 51,
+  "policy_count": 4
+}

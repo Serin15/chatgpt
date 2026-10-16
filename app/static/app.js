@@ -744,6 +744,12 @@ function renderHealth() {
     story_discovery: status.story_discovery,
     routed_quotes: status.routed_quotes,
     ...Object.fromEntries(
+      Object.entries(status.news?.topics || {}).map(([k, v]) => [
+        "news_" + k,
+        v,
+      ]),
+    ),
+    ...Object.fromEntries(
       Object.entries(status.discovery_sources || {}).map(([k, v]) => [
         "discovery_" + k,
         v,
@@ -775,18 +781,14 @@ function renderHealth() {
       Date.now() - new Date(item.at).getTime() >
       (name === "announcements"
         ? 3900000
-        : name.startsWith("discovery_")
+        : name.startsWith("news_")
+          ? 660000
+          : name.startsWith("discovery_")
           ? 1320000
           : 300000)
     )
       errors.push(name + " · date vechi");
   }
-  for (const [name, item] of Object.entries(status.news?.topics || {}))
-    if (
-      ["error", "partial"].includes(item.state) ||
-      (item.at && Date.now() - new Date(item.at).getTime() > 660000)
-    )
-      errors.push(name);
   for (const [name, item] of Object.entries(status.workers || {}))
     if (item.state === "error") errors.push(name);
   const count = errors.length + Object.keys(state.sectionErrors).length;

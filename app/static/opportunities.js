@@ -644,6 +644,8 @@ function renderEngineNarratives(data) {
   for (const story of (data.stories?.items || []).slice(0, 6)) {
     const box = node("article", undefined, "evidence-item");
     box.append(link(story.title, story.url, "text-button"));
+    if (story.memecoin_headline)
+      box.append(node("p", "Știre despre memecoinuri · selecție după titlu", "footnote"));
     box.append(node("p", `${story.publisher_reported} · publicat ${date(story.published_at)} · observat ${date(story.first_seen_at)}`, "footnote"));
     const labels = {
       read: "Document citit; afirmațiile nu sunt confirmate automat.",

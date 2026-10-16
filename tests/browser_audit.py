@@ -69,6 +69,16 @@ async def check(base):
                 "Fixture document HTTP 404", timeout=1000
             )
 
+        async def news_health_details(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                state.status.news.topics.decrypt = {state:'error', at:new Date().toISOString(), error:'Fixture news proxy blocked'};
+                renderHealth();
+            }""")
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-details")).to_contain_text("news_decrypt", timeout=1000)
+            await expect(page.locator("#health-details")).to_contain_text("Fixture news proxy blocked", timeout=1000)
+
         async def isolation(page):
             gate = asyncio.Event()
 
@@ -258,6 +268,7 @@ async def check(base):
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
+            ("news source health details", news_health_details),
             ("independent candidate loading", isolation),
             ("detail response race", detail_race),
             ("expanded evidence survives refresh", details_preserved),

@@ -41,9 +41,17 @@ unui feed este explicit și nu împiedică salvarea știrilor celorlalte surse.
 
 Panoul „Știri, contracte și dovezi” afișează numărul adreselor, pool-urile găsite,
 candidații existenți, erorile, expirările și așteptările. Știrile cu adrese sunt
-afișate înaintea celor fără legături. Starea acestei componente apare și în
+afișate înaintea celor fără legături; apoi sunt prioritizate titlurile despre
+memecoinuri, inclusiv cele al căror document rămâne necitit, cu eticheta explicită
+de selecție după titlu. Starea acestei componente apare și în
 indicatorul general de sănătate. API-ul narativ include ultimele 20 de căutări,
 cu proveniență și candidat dacă există; GET-urile nu modifică această coadă.
+
+Verificarea în browser pe date reale a mai reprodus o eroare: feedurile defecte
+măreau contorul de probleme, dar lipseau din detaliile de sănătate. Acum fiecare
+feed apare ca `news_<sursă>`, cu eroare și moment, fără dublarea contorului;
+fereastra de prospețime rămâne de 11 minute pentru știri. Regresia este inclusă
+în cele 15 scenarii Chromium.
 
 ## Instalare și pornire
 
