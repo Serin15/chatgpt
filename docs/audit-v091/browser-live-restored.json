@@ -1,0 +1,12 @@
+{
+  "source_commit": "1d7fca258aedb39235a9722be17eb505b48f1906",
+  "scope": "restored cloud isolated live experiment 2026-10-16",
+  "candidate_id": 44,
+  "contract": "DkKywKToJSbMFzWDU79Lga9CjMhX6NWfMgkQurQZpump",
+  "routed_candidate_id": 44,
+  "candidate_details_and_observed_outcome_visible": true,
+  "mobile_width": 390,
+  "no_horizontal_overflow": true,
+  "javascript_errors": [],
+  "live_execution": false
+}

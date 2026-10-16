@@ -1,0 +1,17 @@
+{
+  "scope": "restored cloud environment 2026-10-16; presence only, no secret values inspected",
+  "variables_present": {
+    "PULSE_AI_API_KEY": false,
+    "PULSE_AI_API_KEY_FILE": false,
+    "OPENAI_API_KEY": false,
+    "OPENAI_API_KEY_FILE": false,
+    "JUPITER_API_KEY": false,
+    "JUPITER_API_KEY_FILE": false,
+    "TELEGRAM_BOT_TOKEN": false,
+    "TELEGRAM_BOT_TOKEN_FILE": false,
+    "TELEGRAM_CHAT_ID": false
+  },
+  "ollama_executable_present": false,
+  "user_database_restored": false,
+  "note": "Historical live model and database evidence remains timestamped; current environment did not restore ignored data or running services."
+}

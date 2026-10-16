@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-16T08:41:22.361160+00:00",
+  "source_commit": "1d7fca258aedb39235a9722be17eb505b48f1906",
+  "isolated_data_dir": "/workspace/memescope-audit-v091-restored-live",
+  "test_process_stopped": true,
+  "full_history_retained": true,
+  "counts": {
+    "opportunity_candidates": 166,
+    "opportunity_observations": 377,
+    "opportunity_signals": 341,
+    "opportunity_alerts": 10,
+    "routed_experiments": 175,
+    "routed_attempts": 21
+  },
+  "routed_5m_states": {
+    "entry_rejected": 154,
+    "entry_unavailable": 14,
+    "evaluated": 1,
+    "pending": 6
+  },
+  "routed_horizon_states": {
+    "300": {
+      "entry_rejected": 154,
+      "entry_unavailable": 14,
+      "evaluated": 1,
+      "pending": 6
+    },
+    "3600": {
+      "entry_rejected": 154,
+      "entry_unavailable": 14,
+      "pending": 7
+    },
+    "86400": {
+      "entry_rejected": 154,
+      "entry_unavailable": 14,
+      "pending": 7
+    }
+  },
+  "denominator_note": "Outcome states count independent signal experiments, not distinct tokens. Missing/pending/rejected outcomes are not successful exits or zero loss.",
+  "backups": [
+    {
+      "relative_path": "research.sqlite3",
+      "backup": "/workspace/backups/memescope-audit-v091-restored/research.sqlite3",
+      "bytes": 6500352,
+      "sha256": "b0a57ca242c26fc46d0ba2db133dbd27c8869498c7da01f782dbb47bd53d3f29",
+      "integrity_check": "ok"
+    },
+    {
+      "relative_path": "news_paper/research.sqlite3",
+      "backup": "/workspace/backups/memescope-audit-v091-restored/news_paper/research.sqlite3",
+      "bytes": 53248,
+      "sha256": "e6bce394ffabfa83f5d3331ad809cc06192f63535e7f9704e9ac20e54d275dd8",
+      "integrity_check": "ok"
+    }
+  ],
+  "live_execution": false,
+  "manual_orders": {
+    "news": 0,
+    "scanner": 0
+  }
+}

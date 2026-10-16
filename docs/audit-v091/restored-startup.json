@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-16T08:41:58.947676+00:00",
+  "source_commit": "1d7fca258aedb39235a9722be17eb505b48f1906",
+  "version": "0.9.1",
+  "live_execution": false,
+  "instance_id": "8d14ec2aa3dc43af006e08dc",
+  "data_dir": "/workspace/chatgpt/data",
+  "history_restored": false,
+  "scope": "new default instance in restored cloud, separate from the isolated live experiment and historical production evidence",
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-16T08:41:24.728888+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-16T08:41:24.733337+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-16T08:41:24.733776+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-16T08:41:24.763638+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-16T08:41:24.774178+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "actual_port": 8000,
+  "accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  }
+}

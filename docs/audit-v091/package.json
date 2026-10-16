@@ -1,9 +1,13 @@
 {
-  "url": "https://codeload.github.com/Serin15/chatgpt/zip/ddd5f2a92a7455cd37efa8629c7c7099be12d4d0",
-  "commit": "ddd5f2a92a7455cd37efa8629c7c7099be12d4d0",
-  "archive_bytes": 3407146,
-  "sha256": "93e93dd1abaaa136e43c94855deee6b0bc63e6eea7d9c2ff317329bb1c36d0e0",
+  "url": "https://codeload.github.com/Serin15/chatgpt/zip/1d7fca258aedb39235a9722be17eb505b48f1906",
+  "commit": "1d7fca258aedb39235a9722be17eb505b48f1906",
+  "archive_bytes": 3418588,
+  "sha256": "942aa3f8b3408ea6f9108eea494f87049c7f0e2e0e1b8d4e85fcd2b89e262659",
+  "crc_verified": true,
   "source": "downloaded GitHub ZIP",
+  "extracted_project": "/tmp/MemeScope # % & România 1d7fca2/chatgpt-1d7fca258aedb39235a9722be17eb505b48f1906",
+  "startup_verified": true,
+  "passed": true,
   "foreign_working_directory": true,
   "special_characters_in_path": true,
   "version": "0.9.1",
@@ -15,6 +19,7 @@
     "performance",
     "intelligence"
   ],
-  "passed": true,
-  "platform": "Linux; Windows verified separately by CI"
+  "actual_port": 8123,
+  "platform": "Linux; native Windows launcher separately verified in CI run 38707372941",
+  "test_process_stopped": true
 }

@@ -1,6 +1,6 @@
 # MemeScope v0.9.1 — audit, corecții și dovezi
 
-Audit din 15 octombrie 2026, pornind de la commitul public
+Audit din 15–16 octombrie 2026, pornind de la commitul public
 `f92be2208b0d678884712d21a9d2daec7f9d3194`. Codul a fost modificat, problemele au
 regresii executabile, iar instanța cu istoricul existent a fost repornită fără resetarea conturilor.
 Tranzacțiile reale rămân dezactivate. Aceasta este o verificare a comportamentelor descrise mai
@@ -79,8 +79,19 @@ uv run --with playwright python tests/browser_announcements.py
 ```
 
 Scripturile de browser existente cer Chromium la `/usr/bin/chromium`; noul script acceptă și
-`BROWSER_EXECUTABLE`. CI include acum și noul audit Chromium pe Linux. Rezultatul CI Windows/Linux
-și verificarea ZIP-ului publicat sunt înregistrate separat după publicarea codului.
+`BROWSER_EXECUTABLE`. Pe codul final
+`1d7fca258aedb39235a9722be17eb505b48f1906`,
+[CI GitHub Actions](https://github.com/Serin15/chatgpt/actions/runs/38707372941)
+a trecut pe ambele sisteme: **305 teste pe Ubuntu și 305 pe Windows**, plus auditul Chromium
+pe Linux și pornirea nativă a launcherului Windows dintr-o cale cu spații. Rezultatele etapelor
+sunt în [ci.json](audit-v091/ci.json), iar numerele extrase din arhiva oficială de loguri sunt în
+[ci-test-counts.json](audit-v091/ci-test-counts.json). Testele folosesc fixture-uri și nu constituie
+verificarea serviciilor reale.
+
+[Arhiva ZIP verificată](https://codeload.github.com/Serin15/chatgpt/zip/1d7fca258aedb39235a9722be17eb505b48f1906)
+corespunde exact acestui cod. [Dovada de pachet](audit-v091/package.json) include dimensiunea,
+SHA-256, verificarea CRC și pornirea pe Linux dintr-un alt director, într-o cale cu spații,
+`#`, `%`, `&` și diacritice. Instanța temporară a fost oprită după verificare.
 
 Verificarea nativă Windows a expus și două probleme de testare. Mai întâi, wrapperul CI încerca
 să afișeze mesajele românești prin cp1252 și se oprea cu `UnicodeEncodeError`; fluxurile sunt acum
@@ -91,6 +102,46 @@ din viitor. [Reproducerea controlată](audit-v091/windows-clock-reproduction.jso
 delay și calculele financiare din aplicație nu au fost relaxate. Logurile eșuate sunt păstrate.
 
 ## Servicii reale: ce s-a verificat
+
+Dovezile din 15 octombrie de mai jos sunt păstrate ca rezultate istorice, cu timestampurile lor.
+La reluarea din 16 octombrie, mediul cloud a restaurat codul urmărit în Git, fără procesele,
+bazele ignorate și fișierele temporare ale instanței anterioare. Instalarea `uv sync --frozen`,
+cele 305 teste și cele 10 scenarii Chromium au fost refăcute cu succes în mediul nou.
+Acest lucru nu dovedește restaurarea istoricului aplicației: bazele utilizatorului trebuie
+păstrate separat și nu au fost înlocuite cu rezultatele testelor.
+
+[Revalidarea live din 16 octombrie](audit-v091/final-pipeline-live.json), pe codul final și o bază
+izolată nouă, a trecut **8/8 criterii în 344 secunde**. Candidatul 44, contract Solana
+`DkKywKToJSbMFzWDU79Lga9CjMhX6NWfMgkQurQZpump`, a fost descoperit automat la
+**08:32:51 UTC**. Alerta 3/semnalul 112 are confirmare de afișare în aplicație la **08:33:19 UTC**.
+Scenariul de pool de $50 are observație de intrare la **08:33:53 UTC**, observație de ieșire
+la **08:38:56 UTC**, durată observată **303 secunde** și rezultat virtual net **−$7,8705739908624**.
+Acesta este modelul estimat de pool, separat de cotațiile Jupiter; niciun swap nu a fost executat.
+O descoperire nouă în universul observat nu dovedește o lansare nouă a tokenului.
+
+[Verificarea Jupiter din aceeași rulare](audit-v091/final-routes-live.json) a trecut **5/5 criterii
+în 411 secunde**, pentru același candidat și semnal. Cotația reală de intrare este din
+**08:34:06 UTC**, iar o cotație nouă pentru ieșirea aceleiași cantități este din **08:40:03 UTC**:
+durată **357,66 secunde**, rezultat net virtual **−$10,7490867109662**. Include min-out și
+ipotezele de conversie/rețea din politica înghețată. Acest rezultat este separat de estimarea de
+pool de mai sus; cele două nu se adună. Ambele conturi manuale au **zero ordine**.
+Rezultatele negative nu au fost eliminate, iar pragurile, termenele și politicile nu au fost
+schimbate pentru a obține acceptarea. Livrarea verificată este în aplicație, fără trimitere Telegram.
+
+[Universul complet al experimentului](audit-v091/final-live-universe.json) păstrează **166 candidați**,
+377 observații, 341 semnale și 10 alerte. Cele 175 experimente Jupiter pe semnale au, pentru
+orizontul de 5m: **154 intrări respinse, 14 indisponibile, un rezultat evaluat și 6 în așteptare**.
+Numitorul este experimentul pe semnal, nu tokenul unic. Rezultatele lipsă nu sunt ieșiri reușite,
+profit zero sau pierderi zero. Ambele baze au backup consistent verificat prin integritate SQLite
+și SHA-256. Instanța izolată a fost oprită după salvarea dovezilor; noile orizonturi de 1h/24h
+rămân neverificate.
+
+[Browserul pe aceste date reale](audit-v091/browser-live-restored.json) verifică dosarul cu rezultatul
+ulterior, pagina de candidați și mobilul de 390 px, fără overflow orizontal sau erori JavaScript.
+Capturi: [desktop](screenshots/memescope-audit-v091-desktop.png),
+[dosar](screenshots/memescope-audit-v091-routed.png), [mobil](screenshots/memescope-audit-v091-mobile.png).
+[Pornirea mediului restaurat](audit-v091/restored-startup.json) este verificată separat, într-o bază
+nouă implicită; nu pretinde că a recuperat baza istorică absentă din snapshot.
 
 [Fluxul principal](audit-v091/pipeline-live.json) a trecut **8/8 criterii** în 433 secunde, pe o
 bază izolată nouă și furnizori reali. Exemplu descoperit automat: contract Solana
@@ -190,8 +241,22 @@ mașinii; infrastructura și energia nu sunt evaluate monetar aici. Costul OpenA
 numărul de cereri și tokeni, conform tarifului curent al furnizorului; nu presupunem un abonament
 ChatGPT ca acces API. Găzduirea și RPC-urile plătite necesită o ofertă separată.
 
-Fișierele schimbate: backend `auth.py`, `forward.py`, `http_client.py`, `jupiter.py`, `main.py`,
-`maintenance.py`, `notifications.py`, `onchain.py`, `opportunities.py`, `opportunity_routes.py`,
-`providers.py`, `routes_verify.py`; cele cinci fișiere UI din `app/static`; două scripturi noi de teste,
-workflow CI, versiunea proiectului/lockfile și documentația/dovezile. Versiunile dependențelor
-din lockfile au rămas neschimbate.
+## Fișiere schimbate
+
+| Fișiere | Rolul schimbării |
+| --- | --- |
+| `app/auth.py`, `app/main.py` | Sesiuni legate de credențiale, sincronizarea autentificării și expunerea rezultatelor filtrate în API. |
+| `app/maintenance.py` | URI SQLite escapate pentru backupuri din căi speciale. |
+| `app/http_client.py`, `app/providers.py`, `app/onchain.py` | JSON numeric strict și stări de eroare pentru validările HTTP/RPC/on-chain. |
+| `app/opportunities.py` | Căutare și verdict înaintea paginării, fără observații viitoare în clasament. |
+| `app/jupiter.py`, `app/opportunity_routes.py`, `app/forward.py` | Clasificarea refuzului de risc, compatibilitate numai pentru surse auditate și PnL necunoscut când lipsesc rezultate. |
+| `app/notifications.py`, `app/routes_verify.py` | Validarea receiptului Telegram și păstrarea dovezilor verificării întrerupte. |
+| `app/static/app.js`, `advanced.js`, `opportunities.js`, `index.html`, `style.css` | Încărcare independentă, erori explicate, păstrarea paginilor/dosarelor și prioritate vizuală pentru candidați. |
+| `tests/test_audit_v091.py`, `tests/browser_audit.py`, `tests/conftest.py` | Regresii noi, scenarii Chromium și un singur ceas coerent în fixture-uri. |
+| `.github/workflows/checks.yml` | Chromium în CI Linux și diagnostic UTF-8 fără mascarea codului de ieșire pytest pe Windows. |
+| `app/__init__.py`, `pyproject.toml`, `uv.lock` | Versiunea aplicației 0.9.1; versiunile dependențelor din lockfile au rămas neschimbate. |
+| `README.md`, `docs/AUDIT-V0.9.1.md`, `docs/audit-v091/*`, capturile `docs/screenshots/memescope-audit-v091-*` | Pornire, rezultate, reproduceri, dovezi reale și limitări. |
+
+[Comparația completă a codului față de începutul auditului](https://github.com/Serin15/chatgpt/compare/f92be2208b0d678884712d21a9d2daec7f9d3194...1d7fca258aedb39235a9722be17eb505b48f1906)
+permite verificarea modificărilor. Documentația publicată ulterior adaugă dovezile finale, fără
+alte schimbări în codul aplicației.
