@@ -1,45 +1,44 @@
 {
+  "at": "2026-10-16T12:25:28.792048+00:00",
+  "engine_source_sha256": "b100db6d2175253820c2d9e1cf5aed61732237152b141aa4ac41e1d945cb5fb9",
   "version": "0.11.0",
   "instance_id": "8d14ec2aa3dc43af006e08dc",
   "workers": {
     "scanner": {
       "state": "running",
-      "started_at": "2026-10-16T12:11:30.092371+00:00",
+      "started_at": "2026-10-16T12:20:29.073199+00:00",
       "restarts": 0,
       "error": null
     },
     "news": {
       "state": "running",
-      "started_at": "2026-10-16T12:11:30.116829+00:00",
+      "started_at": "2026-10-16T12:20:29.096829+00:00",
       "restarts": 0,
       "error": null
     },
     "assets": {
       "state": "running",
-      "started_at": "2026-10-16T12:11:30.117217+00:00",
+      "started_at": "2026-10-16T12:20:29.096990+00:00",
       "restarts": 0,
       "error": null
     },
     "performance": {
       "state": "running",
-      "started_at": "2026-10-16T12:11:30.138880+00:00",
+      "started_at": "2026-10-16T12:20:29.132516+00:00",
       "restarts": 0,
       "error": null
     },
     "intelligence": {
       "state": "running",
-      "started_at": "2026-10-16T12:11:30.153641+00:00",
+      "started_at": "2026-10-16T12:20:29.154269+00:00",
       "restarts": 0,
       "error": null
     }
   },
-  "news": {
-    "cash": "500",
-    "orders": 0
-  },
+  "live_execution": false,
   "story_discovery": {
     "state": "ok",
-    "at": "2026-10-16T12:12:30.185587+00:00",
+    "at": "2026-10-16T12:24:29.274087+00:00",
     "attempted_jobs": 0,
     "states": {},
     "tracked_contracts": 0,
@@ -48,13 +47,129 @@
     "note": "Exact document references only. Unknown pools and failed lookups remain recorded; they are not zero-loss trades or verified launches.",
     "error": null
   },
-  "live_execution": false,
-  "config_preserved": true,
-  "scanner": {
-    "cash": "100",
-    "orders": 0
+  "news_sources": {
+    "trump": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:30.705831+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T07:17:38+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "memecoins": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:30.806793+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T10:16:06+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "crypto": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:31.033409+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T12:07:04+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "claude": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:31.629185+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T09:41:00+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "zelensky": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:31.640485+00:00",
+      "headlines": 1,
+      "latest_published_at": "2026-10-15T13:00:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "launches": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:31.746413+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T10:12:22+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "elon": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:33.743800+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T12:16:47+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "kraken_official": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:33.764167+00:00",
+      "headlines": 1,
+      "latest_published_at": "2026-10-16T10:30:11+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "coindesk": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:33.846912+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-16T11:15:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "solana_official": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:33.851766+00:00",
+      "headlines": 1,
+      "latest_published_at": "2026-10-14T15:05:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "ethereum_official": {
+      "state": "ok",
+      "at": "2026-10-16T12:20:33.851798+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "cointelegraph": {
+      "state": "error",
+      "at": "2026-10-16T12:20:34.929373+00:00",
+      "error": "Știri cointelegraph: Sursă indisponibilă: ProxyError."
+    },
+    "decrypt": {
+      "state": "error",
+      "at": "2026-10-16T12:20:34.945506+00:00",
+      "error": "Știri decrypt: Sursă indisponibilă: ProxyError."
+    }
   },
-  "candidates": 3079,
-  "indexed_documents": 51,
-  "policy_count": 4
+  "configuration_preserved": true,
+  "portfolios": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "counts": {
+    "opportunity_candidates": 3242,
+    "opportunity_observations": 13333,
+    "opportunity_signals": 7758,
+    "opportunity_alerts": 218,
+    "story_documents": 52,
+    "story_contracts": 0,
+    "story_pool_lookups": 0
+  },
+  "latest_policy": {
+    "id": 5,
+    "at": "2026-10-16T12:20:29.173382+00:00",
+    "test_from": "2026-10-18T00:00:00Z"
+  }
 }

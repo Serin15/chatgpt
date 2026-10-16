@@ -105,7 +105,7 @@ Rezultatele pool și Jupiter rămân modele separate, cu costurile și lipsurile
 ## Dovezi și limite
 
 Rezultatele efective și blocajele ultimei rulări sunt păstrate în
-[`story-evidence/`](story-evidence/). Testele cu fixture-uri sunt distincte de
+[`raportul de verificare`](story-evidence/RESULTS.md). Testele cu fixture-uri sunt distincte de
 feedurile, baza existentă și browserul verificate pe date reale. Raportul beta
 anterior rămâne în [BETA-SOLANA.md](BETA-SOLANA.md); nu este o verificare live a
 noii legături document–descoperire.

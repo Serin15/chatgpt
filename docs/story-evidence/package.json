@@ -1,0 +1,22 @@
+{
+  "commit": "cc1b9940635c12d0b18dd46ffe094b9de970bbb0",
+  "url": "https://codeload.github.com/Serin15/chatgpt/zip/cc1b9940635c12d0b18dd46ffe094b9de970bbb0",
+  "size_bytes": 3970704,
+  "sha256": "2dc97f00f9d72da5eea66b7f12f3694aee4b4a98d49dea6790e8db83b15fb106",
+  "crc_ok": true,
+  "tracked_blobs_matched": 270,
+  "folder": "/tmp/MemeScope News Final # România/chatgpt-cc1b9940635c12d0b18dd46ffe094b9de970bbb0",
+  "startup": {
+    "foreign_cwd": "/tmp",
+    "special_project_path": true,
+    "version": "0.11.0",
+    "correct_data_identity": true,
+    "five_workers": true,
+    "new_apis_http_200": true,
+    "live_execution": false,
+    "test_data_isolated": true
+  },
+  "test_process_stopped": true,
+  "test_port_closed_verified": true,
+  "cleanup": "Stopped isolated backend explicitly after uv wrapper termination; production process unaffected."
+}

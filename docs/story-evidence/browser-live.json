@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-16T12:23:12.459226+00:00",
+  "kind": "real running data; no fixture routes or injections",
+  "version": "0.11.0",
+  "source_errors_visible": [
+    "news_decrypt",
+    "news_cointelegraph"
+  ],
+  "memecoin_news_visible_before_general_news": true,
+  "story_text": "Contracte găsite în documente: 0 · pool găsit 0 · candidați existenți 0 · piață indisponibilă 0 · dovezi indisponibile 0 · expirate 0 · în așteptare 0. Mențiunile nu confirmă emitentul.\n\nGTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900% - Decrypt\n\nȘtire despre memecoinuri · selecție după titlu\n\nDecrypt · publicat 16.10.2026, 13:16:06 · observat 16.10.2026, 15:11:31\n\nTitlu RSS; documentul nu este citit de aplicație.\n\nNicio legătură de contract demonstrată pentru această știre.\n\nGTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900% - Yahoo Finance\n\nȘtire despre memecoinuri · selecție după titlu\n\nYahoo Finance · publicat 16.10.2026, 13:16:06 · observat 16.10.2026, 15:11:31\n\nTitlu RSS; documentul nu este citit de aplicație.\n\nNicio legătură de contract demonstrată pentru această știre.\n\nMeme Coin Projects Peak an Average of 17.2 Days After Trading; 3% Reclaim Their Highs - www.tokenpost.com\n\nȘtire despre memecoinuri · selecție după titlu\n\nwww.tokenpost.com · publicat 16.10.2026, 12:29:03 · observat 16.10.2026, 15:11:31\n\nTitlu RSS; documentul nu este citit de aplicație.\n\nNicio legătură de contract demonstrată pentru această știre.\n\nTRUMP Meme Coin Slides 10% During Mar-a-Lago Holder Gala - CoinMarketCap\n\nȘtire despre memecoinuri · selecție după titlu\n\nCoinMarketCap · publicat 16.10.2026, 10:36:08 · observat 16.10.2026, 15:11:31\n\nTitlu RSS; documentul nu este citit de aplicație.\n\nNicio legătură de contract demonstrată pentru această știre.\n\nPEPE Coin vs Other Meme Coins: Which One Is Right for You? - OneBullEx\n\nȘtire despre memecoinuri · selecție după titlu\n\nOneBullEx · publicat 16.10.2026, 08:38:16 · observat 16.10.2026, 15:11:31\n\nTitlu RSS; documentul nu este citit de aplicație.\n\nNicio legătură de contract demonstrată pentru această știre.\n\nHow to Buy PEPE Coin: A Step-by-Step Guide for Beginners - OneBullEx\n\nȘtire despre memecoinuri · selecție după titlu\n\nOneBullEx · publicat 16.10.2026, 08:38:14 · observat 16.10.2026, 15:11:31\n\nTitlu RSS; documentul nu este citit de aplicație.\n\nNicio legătură de contract demonstrată pentru această știre.\n\nClasificarea AI nu este activată sau configurată. Dovezile de contract din dosare sunt păstrate separat.\n\nNu sunt măsurate automat comunitățile sau volumul social global. Numele asemănătoare sunt asocieri incerte.",
+  "js_errors": [],
+  "mobile_390_no_overflow": true,
+  "story_discovery": {
+    "states": {},
+    "tracked_contracts": 0,
+    "lookup_budget_per_cycle": 3,
+    "timeout_seconds": 8,
+    "note": "Exact document references only. Unknown pools and failed lookups remain recorded; they are not zero-loss trades or verified launches.",
+    "recent_lookups": []
+  },
+  "stories_shown": 20,
+  "in_app_receipts": "normal dashboard behavior; no human reading claim",
+  "screenshots": [
+    "docs/screenshots/memescope-story-discovery.png",
+    "docs/screenshots/memescope-story-mobile.png"
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "run_id": 38899739744,
+  "url": "https://github.com/Serin15/chatgpt/actions/runs/38899739744",
+  "commit": "cc1b9940635c12d0b18dd46ffe094b9de970bbb0",
+  "status": "completed",
+  "conclusion": "success",
+  "test_summaries": {
+    "checks (windows-latest)/7_Unit and integration tests.txt": "364 passed, 1 warning in 321.06s (0:05:21)",
+    "checks (ubuntu-latest)/7_Unit and integration tests.txt": "364 passed, 1 warning in 72.43s (0:01:12)"
+  },
+  "chromium_linux": {
+    "data": "isolated fixtures",
+    "checks": [
+      {
+        "check": "candidate priority",
+        "pass": true
+      },
+      {
+        "check": "routed health",
+        "pass": true
+      },
+      {
+        "check": "news source health details",
+        "pass": true
+      },
+      {
+        "check": "independent candidate loading",
+        "pass": true
+      },
+      {
+        "check": "detail response race",
+        "pass": true
+      },
+      {
+        "check": "expanded evidence survives refresh",
+        "pass": true
+      },
+      {
+        "check": "receipt failure isolation",
+        "pass": true
+      },
+      {
+        "check": "browser back",
+        "pass": true
+      },
+      {
+        "check": "loaded pages survive refresh",
+        "pass": true
+      },
+      {
+        "check": "component health details",
+        "pass": true
+      },
+      {
+        "check": "search response race",
+        "pass": true
+      },
+      {
+        "check": "document stories without AI",
+        "pass": true
+      },
+      {
+        "check": "daily report race and JSON export",
+        "pass": true
+      },
+      {
+        "check": "daily failure preserves candidates",
+        "pass": true
+      },
+      {
+        "check": "daily mobile layout",
+        "pass": true
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "name": "checks (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python -m pip install uv==0.12.23",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv sync --frozen",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv run ruff check app tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Unit and integration tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/app.js",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/advanced.js",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/opportunities.js",
+          "conclusion": "success"
+        },
+        {
+          "name": "Chromium audit regressions with isolated providers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Native Windows launcher from a path with spaces",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "checks (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python -m pip install uv==0.12.23",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv sync --frozen",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run uv run ruff check app tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Unit and integration tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/app.js",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/advanced.js",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node --check app/static/opportunities.js",
+          "conclusion": "success"
+        },
+        {
+          "name": "Chromium audit regressions with isolated providers",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Native Windows launcher from a path with spaces",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
