@@ -8,6 +8,7 @@ from app.ai_research import AIInput
 from app.announcements import SOURCES
 from app.errors import ProviderError
 from app.models import epoch, utcnow
+from app.story_evidence import StoryEvidence
 
 TOPIC_WORDS = {
     "AI": r"\bclaude\b|\banthropic\b|\bartificial intelligence\b|\bAI\b",
@@ -21,6 +22,7 @@ class Narratives:
     def __init__(self, service):
         self.service = service
         self.store = service.store
+        self.stories = StoryEvidence(self.store)
         with self.store.connect() as db:
             db.execute(
                 "CREATE TABLE IF NOT EXISTS narrative_research_requests(news_id INTEGER PRIMARY KEY,at TEXT NOT NULL,state TEXT NOT NULL,error TEXT)"
@@ -30,15 +32,32 @@ class Narratives:
         now = epoch(at)
         supported = []
         uncertain = []
+        contradictory = []
         hosts = set()
         counts = {}
         ai = []
+        indexed = self.stories.for_contract(contract, at)
+        indexed_ids = {item["news_id"] for item in indexed}
+        for item in indexed:
+            item["categories"] = [k for k, p in TOPIC_WORDS.items() if re.search(p, item["title"], re.I)]
+            age = now - epoch(item["first_seen_at"])
+            bucket = "0_1h" if age <= 3600 else "1_6h" if age <= 21600 else "6_24h"
+            counts[bucket] = counts.get(bucket, 0) + 1
+            if item["association"] == "exact_contract_document_mention":
+                supported.append(item)
+                hosts.add(urlsplit(item["url"]).hostname)
+            elif item["association"] == "contradictory_context":
+                contradictory.append(item)
+            else:
+                uncertain.append(item)
         with self.store.connect() as db:
             rows = db.execute(
                 "SELECT n.*,m.market AS matched_market,m.first_matched_at FROM news n JOIN news_matches m ON m.news_id=n.id WHERE m.address=? ORDER BY n.id DESC LIMIT 100",
                 (contract,),
             ).fetchall()
             for row in rows:
+                if row["id"] in indexed_ids:
+                    continue
                 if epoch(row["first_seen_at"]) > now or epoch(row["first_matched_at"]) > now:
                     continue
                 published = row["published_at"]
@@ -56,19 +75,26 @@ class Narratives:
                     ],
                 }
                 checks = db.execute(
-                    "SELECT at,payload FROM announcement_documents WHERE news_id=? ORDER BY id DESC LIMIT 5",
-                    (row["id"],),
+                    "SELECT at,payload FROM announcement_documents WHERE news_id=? AND julianday(at)<=julianday(?) ORDER BY id DESC LIMIT 1",
+                    (row["id"], at),
                 ).fetchall()
                 matched = False
                 for docrow in checks:
                     if epoch(docrow["at"]) > now or now - epoch(docrow["at"]) > 86400:
                         continue
-                    doc = json.loads(docrow["payload"])
+                    try:
+                        doc = json.loads(docrow["payload"])
+                    except (ValueError, TypeError):
+                        continue
+                    if not isinstance(doc, dict):
+                        continue
                     candidates = doc.get("contract_candidates", [])
+                    if not isinstance(candidates, list):
+                        continue
                     exact = [
                         c
                         for c in candidates
-                        if c.get("contract") == contract
+                        if isinstance(c, dict) and c.get("contract") == contract
                         and c.get("networks_reported") == ["solana"]
                         and not c.get("negative_context")
                     ]
@@ -114,11 +140,13 @@ class Narratives:
         return {
             "supported": supported,
             "uncertain": uncertain,
+            "contradictory": contradictory,
+            "ranking_supported": bool(supported) and not contradictory,
             "publication_hosts": sorted(h for h in hosts if h),
             "news_recurrence_counts": counts,
             "social_mentions_growth": None,
             "community_activity": None,
-            "score": min(100, 40 + 20 * len(hosts)) if supported else None,
+            "score": min(100, 40 + 20 * len(hosts)) if supported and not contradictory else None,
             "ai_interpretations": ai,
             "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
         }
@@ -254,6 +282,7 @@ class Narratives:
             )
         return {
             "items": result,
+            "stories": self.stories.listing(),
             "document_requests": requests,
             "ai_configured": self.service.research.ai.config().provider != "disabled",
             "enabled": self.service.opportunities.config().ai_narratives,

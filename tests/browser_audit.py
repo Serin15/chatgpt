@@ -185,6 +185,74 @@ async def check(base):
             await page.wait_for_timeout(500)
             await expect(page.locator("#engine-rows tr")).to_contain_text("second")
 
+        async def stories_without_ai(page):
+            original = await (await page.request.get(base + "/api/opportunities/narratives")).json()
+            candidate = (await (await page.request.get(base + "/api/opportunities")).json())["items"][0]
+            original.update(enabled=False, ai_configured=False)
+            original["stories"]["items"] = [{
+                "title": "Explicit document fixture without AI", "url": "https://solana.com/fixture",
+                "publisher_reported": "Isolated fixture", "published_at": candidate["discovered_at"],
+                "first_seen_at": candidate["discovered_at"], "document_state": "read",
+                "contracts": [{"association": "exact_contract_document_mention", "contract": candidate["contract"], "candidate_id": candidate["id"], "eligible": True}],
+            }]
+            await page.route("**/api/opportunities/narratives", lambda r: r.fulfill(json=original))
+            await ready(page)
+            await expect(page.locator("#engine-narratives")).to_contain_text("Explicit document fixture without AI")
+            await expect(page.locator("#engine-narratives")).to_contain_text("emitent neconfirmat")
+            await page.locator("#engine-narratives").get_by_role("button", name="Cercetează tokenul").click()
+            await expect(page.locator("#engine-detail")).to_contain_text(candidate["contract"])
+
+        async def daily_race_and_export(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            original = await page.evaluate("opportunityView.daily")
+            started = asyncio.Event()
+
+            async def reports(route):
+                day = parse_qs(urlsplit(route.request.url).query)["day"][0]
+                if day == "2026-01-01":
+                    started.set()
+                    await asyncio.sleep(.35)
+                value = json.loads(json.dumps(original))
+                value["day_utc"] = day
+                await route.fulfill(json=value)
+
+            await page.route("**/api/opportunities/daily?*", reports)
+            await page.locator("#engine-daily-panel > summary").click()
+            await page.locator("#engine-daily-day").fill("2026-01-01")
+            await page.locator("#engine-daily-day").dispatch_event("change")
+            await asyncio.wait_for(started.wait(), timeout=2)
+            await page.locator("#engine-daily-day").fill("2026-01-02")
+            await page.locator("#engine-daily-day").dispatch_event("change")
+            await expect(page.locator("#engine-daily h3").first).to_have_text("Descoperiri 2026-01-02 UTC")
+            await page.wait_for_timeout(500)
+            await expect(page.locator("#engine-daily h3").first).to_have_text("Descoperiri 2026-01-02 UTC")
+            async with page.expect_download() as info:
+                await page.locator("#engine-daily-export").click()
+            download = await info.value
+            content = json.loads(Path(await download.path()).read_text())
+            assert content["day_utc"] == "2026-01-02"
+
+        async def daily_failure_isolated(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            original_day = await page.evaluate("opportunityView.daily.day_utc")
+            await page.route("**/api/opportunities/daily?*", lambda r: r.fulfill(status=503, json={"detail": "Fixture report unavailable"}))
+            await page.locator("#engine-daily-panel > summary").click()
+            await page.locator("#engine-daily-day").fill("2026-01-01")
+            await page.locator("#engine-daily-day").dispatch_event("change")
+            await expect(page.locator("#engine-errors")).to_contain_text("Bilanț zilnic")
+            await expect(page.locator("#engine-daily h3").first).to_contain_text(original_day)
+            await expect(page.locator("#engine-daily-export")).to_be_disabled()
+            await expect(page.locator("#engine-rows tr")).to_have_count(1)
+
+        async def daily_mobile(page):
+            await page.set_viewport_size({"width": 390, "height": 844})
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            await page.locator("#engine-daily-panel > summary").click()
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -196,6 +264,10 @@ async def check(base):
             ("loaded pages survive refresh", pagination),
             ("component health details", health_details),
             ("search response race", query_race),
+            ("document stories without AI", stories_without_ai),
+            ("daily report race and JSON export", daily_race_and_export),
+            ("daily failure preserves candidates", daily_failure_isolated),
+            ("daily mobile layout", daily_mobile),
         ]:
             await scenario(name, fn)
         await browser.close()

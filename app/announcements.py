@@ -656,25 +656,34 @@ class Announcements:
                 "SELECT at,payload FROM announcement_documents WHERE news_id=? ORDER BY id DESC LIMIT 1",
                 (news_id,),
             ).fetchone()
+        if row:
+            try:
+                payload = json.loads(row[1])
+                if not isinstance(payload, dict):
+                    raise ValueError
+                stale = not 0 <= time.time() - epoch(row[0]) <= 86400
+            except (ValueError, TypeError, OverflowError):
+                payload = {"state": "invalid", "claim_verified": False,
+                           "error": "Document stocat incompatibil; necesită o nouă citire."}
+                stale = True
         return (
             {
                 "at": row[0],
-                **json.loads(row[1]),
-                "stale": not 0 <= time.time() - epoch(row[0]) <= 86400,
+                **payload,
+                "stale": stale,
             }
             if row
             else None
         )
 
     async def enrich_news(self, news, assets, limit=3):
-        """Inspect a bounded set of primary documents, never arbitrary links from RSS."""
+        """Inspect bounded catalog documents, never arbitrary links from RSS."""
         done = 0
         for article in news.listing():
             source = SOURCES.get(urlsplit(article["url"]).hostname)
             previous = self.news_document(article["id"])
             if (
                 not source
-                or source["kind"] != "primary"
                 or (previous and time.time() - epoch(previous["at"]) < 3600)
             ):
                 continue
@@ -700,6 +709,11 @@ class Announcements:
                     state="read", excerpt=document["text"][:500], claim_verified=False, error=None
                 )
                 candidates = contract_candidates(document)
+                for candidate in candidates:
+                    if len(candidate["contract"]) <= 44 and not candidate["contract"].startswith("0x"):
+                        candidate["excerpt"] = inspect_contract(
+                            document, "solana", candidate["contract"]
+                        )["excerpt"]
                 saved["contract_candidates"] = candidates
                 linked = []
                 for candidate in [
@@ -717,7 +731,8 @@ class Announcements:
                         self.store.add_token(market.address, "source_document")
                         linked.append(
                             market.model_dump()
-                            | {"news_relation": "primary_document_contract_mention"}
+                            | {"news_relation": "primary_document_contract_mention"
+                               if source["kind"] == "primary" else "editorial_document_contract_mention"}
                         )
                 news.replace_matches(
                     article["id"], linked, topic="document:" + urlsplit(article["url"]).hostname

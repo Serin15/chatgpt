@@ -9,7 +9,7 @@ from app.analysis import analyze
 from app.models import Market, epoch
 from app.paper import Rejected, break_even, fill
 
-RULE_VERSION = "memescope-3.0"
+RULE_VERSION = "memescope-3.1-evidence"
 
 
 class EngineConfig(BaseModel):
@@ -229,10 +229,13 @@ def evaluate(market, security, feature, narrative, wallet, settings, config, at)
         )
     if feature["holder_growth"] is None:
         unknown.append("Owner-level holder growth unavailable.")
-    if not narrative.get("supported"):
+    narrative_supported = narrative.get("ranking_supported", bool(narrative.get("supported")))
+    if not narrative_supported:
         unknown.append(
             "No corroborated contract-specific narrative; name matches remain uncertain."
         )
+    if narrative.get("contradictory"):
+        unknown.append("Contract-specific sources contain negative or contradictory context; issuer claims require independent review.")
     if wallet.get("score") is None:
         unknown.append("No reliable monitored-wallet accumulation evidence.")
     unknown.append(
@@ -266,7 +269,7 @@ def evaluate(market, security, feature, narrative, wallet, settings, config, at)
         + 20
         + min(15, feature["history_observations"] * 5)
         + (10 if activity.get("sample_size", 0) >= 3 else 0)
-        + (5 if narrative.get("supported") else 0)
+        + (5 if narrative_supported else 0)
     )
     liquidity = min(100, round(market["liquidity_usd"] / float(settings.min_liquidity) * 40))
     entry = (

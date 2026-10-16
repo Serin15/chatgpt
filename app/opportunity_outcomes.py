@@ -10,6 +10,7 @@ from datetime import UTC, datetime
 from decimal import Decimal
 
 from app.models import epoch, utcnow
+from app.opportunity_rules import RULE_VERSION
 from app.paper import Rejected, fill, require_fresh
 
 D = Decimal
@@ -412,7 +413,7 @@ def report(engine):
             for h in sorted({r["horizon_seconds"] for r in parsed})
         }
     return {
-        "rule_version": "memescope-3.0",
+        "rule_version": RULE_VERSION,
         "totals": totals,
         "sampling": engine.sampling.coverage(),
         "first_evaluation_security_pass": sum(

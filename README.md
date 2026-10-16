@@ -1,4 +1,4 @@
-# MemeScope v0.9.1 — Early Opportunity Engine
+# MemeScope v0.10.0 — beta privată Solana
 
 Cercetare automată pentru tokenuri Solana observate devreme în feedurile publice: descoperire →
 date de piață și securitate → filtre → scoruri separate → verdict explicat → alertă → rezultate
@@ -9,6 +9,7 @@ observațiile eșuate. Nu prezice randamente, nu confirmă automat afilierea unu
 tranzacții reale. Un pool recent nu dovedește că tokenul a fost lansat recent.
 
 [Cotații Jupiter v0.9 și verificări](docs/ROUTED-PAPER.md) ·
+[Beta Solana v0.10: știri, contracte și bilanț zilnic](docs/BETA-SOLANA.md) ·
 [Audit și corecții v0.9.1](docs/AUDIT-V0.9.1.md) ·
 [Colectare echilibrată v0.8](docs/COLLECTION.md) ·
 [Implementare, verificare live, limite și următorul milestone](docs/LEVEL3.md) ·

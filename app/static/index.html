@@ -58,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.9.1 · L3</span>
+        <span class="version">v0.10.0 · beta</span>
       </div>
     </aside>
     <main class="main">
@@ -490,6 +490,15 @@
           </button>
         </section>
         <section id="engine-detail" class="panel padded" hidden></section>
+        <details class="panel padded" id="engine-daily-panel">
+          <summary>Bilanț zilnic · cohortele descoperite și rezultatele lor</summary>
+          <div class="engine-controls">
+            <label>Ziua descoperirii (UTC)<input id="engine-daily-day" type="date" /></label>
+            <button type="button" id="engine-daily-today" class="secondary">Azi UTC</button>
+            <button type="button" id="engine-daily-export" class="secondary">Descarcă raportul JSON</button>
+          </div>
+          <div id="engine-daily" aria-live="polite">Se încarcă bilanțul…</div>
+        </details>
         <details class="panel padded">
           <summary id="engine-routes-summary">Paper cu cotații Jupiter</summary>
           <div id="engine-routes"></div>
@@ -516,7 +525,7 @@
             <div id="engine-performance"></div>
           </section>
           <section class="panel padded">
-            <h2>Narațiuni și dovezi</h2>
+            <h2>Știri, contracte și dovezi</h2>
             <div id="engine-narratives"></div>
           </section>
           <section class="panel padded">

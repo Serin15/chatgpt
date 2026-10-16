@@ -15,6 +15,9 @@ const opportunityView = {
   alertCursor: null,
   alertArchiveLoaded: false,
   alertsShown: 20,
+  dailyDay: null,
+  dailyRequest: 0,
+  daily: null,
 };
 const opportunityLabels = {
   security_risk: "Risc în verificările disponibile",
@@ -288,6 +291,7 @@ async function renderOpportunities() {
   try {
     await Promise.allSettled([
       loadOpportunityCandidates(),
+      loadDailyResearch(),
       ...sections.map(async ([name, path, render]) => {
         try {
           await render(await api(path));
@@ -632,6 +636,36 @@ function renderEngineRoutes(data) {
 function renderEngineNarratives(data) {
   const root = $("engine-narratives");
   root.replaceChildren();
+  for (const story of (data.stories?.items || []).slice(0, 6)) {
+    const box = node("article", undefined, "evidence-item");
+    box.append(link(story.title, story.url, "text-button"));
+    box.append(node("p", `${story.publisher_reported} · publicat ${date(story.published_at)} · observat ${date(story.first_seen_at)}`, "footnote"));
+    const labels = {
+      read: "Document citit; afirmațiile nu sunt confirmate automat.",
+      unavailable: "Document indisponibil; rămâne doar titlul raportat.",
+      invalid: "Dovezi incompatibile; asocierea rămâne necunoscută.",
+      pending_permitted_document: "Document în așteptarea citirii.",
+      headline_only_unpermitted_document: "Titlu RSS; documentul nu este citit de aplicație.",
+    };
+    box.append(node("p", labels[story.document_state] || story.document_state, "footnote"));
+    for (const mention of story.contracts) {
+      const label = mention.association === "exact_contract_document_mention"
+        ? "Adresă exactă și Solana menționate; emitent neconfirmat"
+        : mention.association === "contradictory_context"
+          ? "Context negativ/contradictoriu; necesită verificare"
+          : "Adresă observată; blockchain neclar";
+      box.append(node("p", `${label} · ${short(mention.contract)}`, "footnote"));
+      if (mention.candidate_id != null) {
+        const button = node("button", mention.eligible ? "Cercetează tokenul" : "Vezi candidatul exclus", "secondary");
+        button.type = "button";
+        button.onclick = () => openOpportunity(mention.candidate_id);
+        box.append(button);
+      }
+    }
+    if (!story.contracts.length)
+      box.append(node("p", "Nicio legătură de contract demonstrată pentru această știre.", "footnote"));
+    root.append(box);
+  }
   if (!data.items.length)
     root.append(
       node(
@@ -680,6 +714,52 @@ function renderEngineNarratives(data) {
       "footnote",
     ),
   );
+}
+async function loadDailyResearch() {
+  const day = opportunityView.dailyDay || new Date().toISOString().slice(0, 10);
+  const serial = ++opportunityView.dailyRequest;
+  $("engine-daily-export").disabled = true;
+  $("engine-daily-day").value = day;
+  $("engine-daily-day").max = new Date().toISOString().slice(0, 10);
+  try {
+    const data = await api("/api/opportunities/daily?day=" + encodeURIComponent(day));
+    if (serial !== opportunityView.dailyRequest) return;
+    opportunityView.daily = data;
+    $("engine-daily-export").disabled = false;
+    renderDailyResearch(data);
+    opportunityError("Bilanț zilnic", null);
+  } catch (error) {
+    if (serial === opportunityView.dailyRequest) opportunityError("Bilanț zilnic", error);
+  }
+}
+function renderDailyResearch(data) {
+  const root = $("engine-daily");
+  root.replaceChildren();
+  root.append(node("h3", `Descoperiri ${data.day_utc} UTC`));
+  root.append(node("p", `Rezultate cunoscute la ${date(data.generated_at)}; cohorta rămâne fixată după ziua descoperirii.`, "footnote"));
+  const t = data.totals;
+  root.append(node("p", `${t.discovered} candidați · ${t.first_evaluations} prime evaluări · ${t.eligible_without_first_evaluation} eligibili fără evaluare · ${t.excluded} excluși`, "footnote"));
+  root.append(node("p", `${t.opportunity_alerts} alerte de oportunitate, inclusiv cele ulterioare · ${t.selected_at_first_evaluation} selecții la prima evaluare · ${t.risk_alerts} avertizări de risc`, "footnote"));
+  for (const [model, title] of [["estimated_pool", "Estimări de pool"], ["jupiter_quotes", "Cotații Jupiter"]]) {
+    root.append(node("h3", title));
+    const wrapper = node("div", undefined, "table-scroll"), table = node("table");
+    const header = node("tr");
+    ["Orizont / grup", "Evaluate / total", "PnL virtual net", "Rezultate lipsă"].forEach(v => header.append(node("th", v)));
+    const head = node("thead"); head.append(header); table.append(head);
+    const body = node("tbody");
+    for (const [horizon, groups] of Object.entries(data.models[model])) {
+      for (const [key, label] of [["all_first_evaluations", "Toate"], ["selected_at_first_evaluation", "Selectate inițial"], ["prospective_fixed_control", "Control prospectiv"]]) {
+        const s = groups[key], row = node("tr");
+        [`${Number(horizon) / 60}m · ${label}`, `${s.evaluated} / ${s.experiments}`, cash(s.net_pnl_independent_experiments_usd), String(s.unresolved_or_unavailable)]
+          .forEach(v => row.append(node("td", v)));
+        body.append(row);
+      }
+    }
+    table.append(body); wrapper.append(table); root.append(wrapper);
+    if (!Object.keys(data.models[model]).length) root.append(node("p", "Nu există încă experimente pentru această cohortă.", "footnote"));
+  }
+  root.append(node("p", "Simulări independente, cu costuri modelate. Lipsurile nu sunt profit sau pierdere zero. Grupurile se pot suprapune și au acoperire diferită; profitabilitatea nu este demonstrată.", "footnote"));
+  engineJson(root, "Stări, politici, separare development/test și limite", data);
 }
 function engineChart(observations, parent) {
   const priced = observations.filter((o) => o.market);
@@ -808,6 +888,22 @@ async function openOpportunity(id, scroll = true) {
       engineJson(root, "Costuri de intrare / ieșire estimate", d.costs);
     }
     engineChart(c.observations, root);
+    if (c.current_narrative) {
+      root.append(node("h3", "Legături actuale cu știrile"));
+      root.append(node("p", "Dovezi disponibile acum; semnalele originale și scorurile lor rămân păstrate.", "footnote"));
+      const evidence = c.current_narrative;
+      for (const [key, label] of [["supported", "Mențiune de adresă și chain; emitent neconfirmat"], ["contradictory", "Context negativ sau contradictoriu"], ["uncertain", "Asociere incertă"]]) {
+        for (const item of (evidence[key] || []).slice(0, 5)) {
+          const box = node("article", undefined, "evidence-item");
+          box.append(node("strong", label), link(item.title, item.url, "text-button"));
+          box.append(node("p", `Publicat ${date(item.published_at)} · dovezi observate ${date(item.evidence_indexed_at || item.document_observed_at || item.first_seen_at)}`, "footnote"));
+          if (item.excerpt) box.append(node("p", item.excerpt, "footnote"));
+          root.append(box);
+        }
+      }
+      if (!["supported", "contradictory", "uncertain"].some(key => evidence[key]?.length))
+        root.append(node("p", "Nu există dovezi suficiente pentru a lega acest token de o știre.", "footnote"));
+    }
     const outcomes = node("div");
     outcomes.append(node("h3", "Rezultate păstrate"));
     for (const o of c.outcomes.slice(-15)) {
@@ -873,6 +969,24 @@ function setupOpportunityControls() {
   $("engine-verdict").onchange = () => loadOpportunityCandidates();
   $("engine-sort").onchange = () => loadOpportunityCandidates();
   $("engine-refresh").onclick = renderOpportunities;
+  $("engine-daily-day").onchange = () => {
+    opportunityView.dailyDay = $("engine-daily-day").value || null;
+    loadDailyResearch();
+  };
+  $("engine-daily-today").onclick = () => {
+    opportunityView.dailyDay = null;
+    loadDailyResearch();
+  };
+  $("engine-daily-export").onclick = () => {
+    if (!opportunityView.daily) return;
+    const data = opportunityView.daily;
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type: "application/json"}));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `memescope-${data.day_utc}-observat-${data.generated_at.replaceAll(":", "-")}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
   $("engine-more").onclick = () =>
     action($("engine-more"), () => loadOpportunityCandidates("more"));
   $("engine-config").onsubmit = async (event) => {

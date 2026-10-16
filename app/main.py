@@ -2,6 +2,7 @@ import asyncio
 import os
 from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict
+from datetime import date
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlsplit
@@ -18,6 +19,7 @@ from app.announcements import ApprovalInput, VerificationInput
 from app.assets import Assets, research_case
 from app.auth import LoginInput
 from app.config import Settings
+from app.daily_research import daily_report
 from app.listings import ListingInput
 from app.logging_config import install_redaction
 from app.maintenance import backup, export
@@ -418,6 +420,13 @@ def create_app(
     @app.get("/api/opportunities/coverage")
     def opportunity_coverage(request: Request):
         return request.app.state.service.opportunities.sampling.coverage()
+
+    @app.get("/api/opportunities/daily")
+    def opportunity_daily(request: Request, day: date | None = None):
+        try:
+            return daily_report(request.app.state.service.opportunities, day)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from None
 
     @app.get("/api/opportunities/routes")
     def opportunity_routes(request: Request):

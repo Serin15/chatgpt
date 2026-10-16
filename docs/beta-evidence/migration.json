@@ -1,0 +1,53 @@
+{
+  "data": "copy of actual running research history; network workers disabled on the copy",
+  "unchanged_tables": {
+    "opportunity_candidates": {
+      "rows": 664,
+      "sha256": "50967d0bdb9ea3643ede8c3dea76b62a58cbccddae1fa393253493f1c678ba5a"
+    },
+    "opportunity_policies": {
+      "rows": 1,
+      "sha256": "d2d742f35b30aca1164b025e06b6c8bd2be4552977f81ed9986de3513d3244e8"
+    },
+    "opportunity_signals": {
+      "rows": 1357,
+      "sha256": "52b9e59ccb4c1bbca4f5a202d7bc8c8dfeee73cc2d979a04da70a6042aeda24d"
+    },
+    "opportunity_observations": {
+      "rows": 2223,
+      "sha256": "fe3691d9c718fa56c26961047a590ac59e0af1f3bbb959e6832ffe840ee15185"
+    },
+    "opportunity_outcomes": {
+      "rows": 2079,
+      "sha256": "81dc81508666c3771e70164a8cf35573bf80cd74647ece399d3a64439f5bd777"
+    },
+    "routed_experiments": {
+      "rows": 693,
+      "sha256": "bd5399f62e3da503140127f52dd9f6a61bac4c686012655f20cbfc2890a01856"
+    },
+    "routed_outcomes": {
+      "rows": 2079,
+      "sha256": "c9b865b9d9ee72f975c143035333c205e54e92625510b8771b57bb74517b8526"
+    },
+    "routed_attempts": {
+      "rows": 98,
+      "sha256": "7e30af4ad00aabdea4ad172d3bc15a45d434d72c12cd472ce895c8a7737dc70f"
+    },
+    "orders": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "account": {
+      "rows": 1,
+      "sha256": "693b88a56f0d91c3e1fcb467fdc529fb76c5c49c4f036b3d0fadbdbfffe46105"
+    }
+  },
+  "http_codes": {
+    "/api/status": 200,
+    "/api/opportunities/daily": 200,
+    "/api/opportunities/narratives": 200,
+    "/api/opportunities?limit=1": 200
+  },
+  "integrity_check": "ok",
+  "real_execution": false
+}

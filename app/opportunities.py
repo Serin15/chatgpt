@@ -35,6 +35,7 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "opportunity_rules.py",
             "opportunity_sources.py",
             "narratives.py",
+            "story_evidence.py",
             "opportunity_outcomes.py",
             "opportunity_sampling.py",
             "opportunity_routes.py",
@@ -470,6 +471,7 @@ class Opportunities:
                     }
                     return self.status
                 policy = self.policy(config)
+                self.narratives.stories.index_documents()
                 self.status = {**self.status, "state": "running", "started_at": started}
                 page = (self.status.get("cycles", 0) % config.discovery_pages) + 1
                 if refresh_discovery:
@@ -1017,4 +1019,5 @@ class Opportunities:
             "live_execution": False,
             "sampling_enrollment": self.sampling.enrollment(candidate_id),
             "routed": self.routes.detail(candidate_id),
+            "current_narrative": self.narratives.evidence(row["contract"], utcnow()),
         }
