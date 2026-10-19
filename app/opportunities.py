@@ -7,8 +7,11 @@ import logging
 import os
 import time
 import uuid
+from concurrent.futures import Future
+from copy import deepcopy
 from datetime import UTC, datetime
 from pathlib import Path
+from threading import Lock
 
 from app.credentials import secret
 from app.errors import ProviderError
@@ -68,6 +71,8 @@ class Opportunities:
         self.store = service.store
         self.owner = uuid.uuid4().hex
         self.lock = asyncio.Lock()
+        self._report_lock = Lock()
+        self._report_future = None
         self.narratives = Narratives(service)
         self.story_discovery = StoryDiscovery(service, self.narratives.stories)
         self.ai_task = None
@@ -917,7 +922,25 @@ class Opportunities:
     def report(self):
         from app.opportunity_outcomes import report
 
-        return report(self)
+        # Concurrent browser refreshes share the same in-flight read. Once it
+        # finishes, the next request computes fresh data; no historical cache.
+        with self._report_lock:
+            pending = self._report_future
+            owner = pending is None
+            if owner:
+                pending = self._report_future = Future()
+        if not owner:
+            return deepcopy(pending.result())
+        try:
+            result = report(self)
+            pending.set_result(deepcopy(result))
+            return result
+        except BaseException as error:
+            pending.set_exception(error)
+            raise
+        finally:
+            with self._report_lock:
+                self._report_future = None
 
     def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
         now = time.time()

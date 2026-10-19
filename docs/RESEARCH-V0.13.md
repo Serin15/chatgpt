@@ -34,6 +34,10 @@ reale, nu modifică pragurile de selecție și nu demonstrează profitabilitate.
   fiecare câmp. Nu șterge date și nu schimbă rezultatele raportate.
   Raportul general folosește aceeași extracție JSON grupată pentru cotații,
   politici și diagnostice, reducând citirile repetitive ale istoricului complet.
+  Cererile simultane pentru acest raport împart calculul aflat în desfășurare.
+  Fiecare primește o copie independentă; următoarea cerere recalculează datele.
+  Nu se păstrează un raport vechi în cache. O eroare eliberează calculul pentru
+  o nouă încercare și se transmite cererilor care așteaptă.
 
 Codul principal este în `app/price_research.py`, `app/daily_research.py`,
 `app/opportunity_sampling.py`, `app/opportunity_outcomes.py`,
