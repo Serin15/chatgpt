@@ -83,7 +83,7 @@ def test_late_policy_and_impossible_declaration_do_not_create_holdout():
 
 def test_offline_store_is_read_only_and_handles_uri_characters(client_engine, tmp_path):
     _, engine = client_engine
-    path = tmp_path / "spaces # percent % ?.sqlite3"
+    path = tmp_path / "spaces # percent % & Ș.sqlite3"
     with engine.store.connect() as source, sqlite3.connect(path) as target:
         source.backup(target)
     before = hashlib.sha256(path.read_bytes()).hexdigest()
