@@ -655,13 +655,28 @@ function renderEngineNarratives(data) {
       headline_only_unpermitted_document: "Titlu RSS; documentul nu este citit de aplicație.",
     };
     box.append(node("p", labels[story.document_state] || story.document_state, "footnote"));
+    if ((story.related_reports || []).length > 1) {
+      const copies = node("details");
+      copies.append(node("summary", `${story.related_reports.length} relatări cu același titlu · independență neconfirmată`));
+      for (const report of story.related_reports)
+        copies.append(link(`${report.publisher_reported} · ${date(report.published_at)}`, report.url, "text-button"));
+      box.append(copies);
+    }
     for (const mention of story.contracts) {
       const label = mention.association === "exact_contract_document_mention"
         ? "Adresă exactă și Solana menționate; emitent neconfirmat"
         : mention.association === "contradictory_context"
           ? "Context negativ/contradictoriu; necesită verificare"
+          : mention.association === "resolved_market_pair_reference"
+            ? "Token identificat prin link de pool și API de piață; emitent neconfirmat"
           : "Adresă observată; blockchain neclar";
       box.append(node("p", `${label} · ${short(mention.contract)}`, "footnote"));
+      const reference = mention.payload?.market_reference;
+      if (reference) {
+        box.append(link("Pool citat în articol", reference.reference_url, "text-button"));
+        box.append(node("p", `Pool raportat creat ${reference.pool_created_at_reported ? date(reference.pool_created_at_reported) : "necunoscut"} · variație anterioară 24h raportată ${reference.price_change_24h_reported_pct ?? "—"}% · observat ${date(reference.observed_at)}`, "footnote"));
+        if (reference.warning) box.append(node("p", "Cotație în afara activelor suportate sau context negativ: referința nu inițiază descoperire automată.", "footnote"));
+      }
       if (mention.candidate_id != null) {
         const button = node("button", mention.eligible ? "Cercetează tokenul" : "Vezi candidatul exclus", "secondary");
         button.type = "button";
@@ -763,6 +778,26 @@ function renderDailyResearch(data) {
       }
     }
     table.append(body); wrapper.append(table); root.append(wrapper);
+    const comparisons = node("details", undefined, "daily-comparisons");
+    comparisons.append(node("summary", "Selecție versus control · politici și development/test separate"));
+    const comparisonScroll = node("div", undefined, "table-scroll"), comparisonTable = node("table");
+    const comparisonHead = node("thead"), comparisonHeader = node("tr"), comparisonBody = node("tbody");
+    ["Orizont / politică / cohortă", "Selectate evaluate / planificate", "Control fără suprapunere evaluate / planificate", "PnL mediu net selectate / control", "Lipsă selectate / control"].forEach(v => comparisonHeader.append(node("th", v)));
+    comparisonHead.append(comparisonHeader); comparisonTable.append(comparisonHead);
+    const partitions = {development: "Dezvoltare", test: "Test", unassigned: "Neatribuit", purged_boundary: "Exclus la graniță"};
+    for (const [horizon, groups] of Object.entries(data.models[model])) {
+      for (const [policy, cohorts] of Object.entries(groups.comparisons_by_policy_and_cohort || {})) {
+        for (const [cohort, comparison] of Object.entries(cohorts)) {
+          if (!comparison.all_first_evaluations.experiments) continue;
+          const selected = comparison.selected_at_first_evaluation, control = comparison.control_excluding_selected, row = node("tr");
+          [`${Number(horizon) / 60}m · P${policy} · ${partitions[cohort] || cohort}`, `${selected.evaluated} / ${selected.experiments}`, `${control.evaluated} / ${control.experiments}`, `${cash(selected.mean_net_pnl_usd)} / ${cash(control.mean_net_pnl_usd)}`, `${selected.unresolved_or_unavailable} / ${control.unresolved_or_unavailable}`].forEach(v => row.append(node("td", v)));
+          comparisonBody.append(row);
+        }
+      }
+    }
+    comparisonTable.append(comparisonBody); comparisonScroll.append(comparisonTable); comparisons.append(comparisonScroll);
+    comparisons.append(node("p", "Medii condiționate de rezultatele evaluate. Acoperirea diferă; lipsurile și selecția împiedică o concluzie cauzală sau de profitabilitate. Politicile declarate după vechea dată de test rămân neatribuite.", "footnote"));
+    root.append(comparisons);
     if (!Object.keys(data.models[model]).length) root.append(node("p", "Nu există încă experimente pentru această cohortă.", "footnote"));
   }
   root.append(node("p", "Simulări independente, cu costuri modelate. Lipsurile nu sunt profit sau pierdere zero. Grupurile se pot suprapune și au acoperire diferită; profitabilitatea nu este demonstrată.", "footnote"));
@@ -899,7 +934,7 @@ async function openOpportunity(id, scroll = true) {
       root.append(node("h3", "Legături actuale cu știrile"));
       root.append(node("p", "Dovezi disponibile acum; semnalele originale și scorurile lor rămân păstrate.", "footnote"));
       const evidence = c.current_narrative;
-      for (const [key, label] of [["supported", "Mențiune de adresă și chain; emitent neconfirmat"], ["contradictory", "Context negativ sau contradictoriu"], ["uncertain", "Asociere incertă"]]) {
+      for (const [key, label] of [["supported", "Mențiune de adresă și chain; emitent neconfirmat"], ["market_references", "Referință de pool rezolvată prin API; emitent neconfirmat"], ["contradictory", "Context negativ sau contradictoriu"], ["uncertain", "Asociere incertă"]]) {
         for (const item of (evidence[key] || []).slice(0, 5)) {
           const box = node("article", undefined, "evidence-item");
           box.append(node("strong", label), link(item.title, item.url, "text-button"));
@@ -908,7 +943,7 @@ async function openOpportunity(id, scroll = true) {
           root.append(box);
         }
       }
-      if (!["supported", "contradictory", "uncertain"].some(key => evidence[key]?.length))
+      if (!["supported", "market_references", "contradictory", "uncertain"].some(key => evidence[key]?.length))
         root.append(node("p", "Nu există dovezi suficiente pentru a lega acest token de o știre.", "footnote"));
     }
     const outcomes = node("div");

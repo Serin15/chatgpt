@@ -1,0 +1,150 @@
+FFFFFFFF.......F.                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_reference_rejects_invalid_or_future_data[changes0] ____________
+
+changes = {'price_usd': nan}
+
+    @pytest.mark.parametrize("changes", [
+        {"price_usd": float("nan")}, {"liquidity_usd": -1},
+        {"price_change_24h_reported_pct": float("inf")}, {"observed_at": "2026-10-16T00:00:00"},
+        {"pool_created_at_reported": int((time.time() + 3600) * 1000)},
+    ])
+    def test_reference_rejects_invalid_or_future_data(changes):
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_story_markets.py:37: Failed
+___________ test_reference_rejects_invalid_or_future_data[changes1] ____________
+
+changes = {'liquidity_usd': -1}
+
+    @pytest.mark.parametrize("changes", [
+        {"price_usd": float("nan")}, {"liquidity_usd": -1},
+        {"price_change_24h_reported_pct": float("inf")}, {"observed_at": "2026-10-16T00:00:00"},
+        {"pool_created_at_reported": int((time.time() + 3600) * 1000)},
+    ])
+    def test_reference_rejects_invalid_or_future_data(changes):
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_story_markets.py:37: Failed
+___________ test_reference_rejects_invalid_or_future_data[changes2] ____________
+
+changes = {'price_change_24h_reported_pct': inf}
+
+    @pytest.mark.parametrize("changes", [
+        {"price_usd": float("nan")}, {"liquidity_usd": -1},
+        {"price_change_24h_reported_pct": float("inf")}, {"observed_at": "2026-10-16T00:00:00"},
+        {"pool_created_at_reported": int((time.time() + 3600) * 1000)},
+    ])
+    def test_reference_rejects_invalid_or_future_data(changes):
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_story_markets.py:37: Failed
+___________ test_reference_rejects_invalid_or_future_data[changes3] ____________
+
+changes = {'observed_at': '2026-10-16T00:00:00'}
+
+    @pytest.mark.parametrize("changes", [
+        {"price_usd": float("nan")}, {"liquidity_usd": -1},
+        {"price_change_24h_reported_pct": float("inf")}, {"observed_at": "2026-10-16T00:00:00"},
+        {"pool_created_at_reported": int((time.time() + 3600) * 1000)},
+    ])
+    def test_reference_rejects_invalid_or_future_data(changes):
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_story_markets.py:37: Failed
+___________ test_reference_rejects_invalid_or_future_data[changes4] ____________
+
+changes = {'pool_created_at_reported': 1792394998881}
+
+    @pytest.mark.parametrize("changes", [
+        {"price_usd": float("nan")}, {"liquidity_usd": -1},
+        {"price_change_24h_reported_pct": float("inf")}, {"observed_at": "2026-10-16T00:00:00"},
+        {"pool_created_at_reported": int((time.time() + 3600) * 1000)},
+    ])
+    def test_reference_rejects_invalid_or_future_data(changes):
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_story_markets.py:37: Failed
+_ test_reference_does_not_infer_endorsement_or_arbitrary_quote[So11111111111111111111111111111111111111112-False-True] _
+
+quote = 'So11111111111111111111111111111111111111112', negative = False
+expected = True
+
+    @pytest.mark.parametrize("quote,negative,expected", [(SOL, False, True), (POOL, False, False), (SOL, True, False)])
+    def test_reference_does_not_infer_endorsement_or_arbitrary_quote(quote, negative, expected):
+        p = validated_reference(reference(quote_contract=quote, negative_context=negative,
+                                          qualifies_for_discovery=True, issuer_verified=True))
+        assert p["qualifies_for_discovery"] is expected
+>       assert p["issuer_verified"] is False and p["contract_printed_in_document"] is False
+E       assert (True is False)
+
+tests/test_story_markets.py:46: AssertionError
+_ test_reference_does_not_infer_endorsement_or_arbitrary_quote[G2UuRbmVDzDFP4qyoBJrSKBXSi7d6V4bPP9tHPs36y4b-False-False] _
+
+quote = 'G2UuRbmVDzDFP4qyoBJrSKBXSi7d6V4bPP9tHPs36y4b', negative = False
+expected = False
+
+    @pytest.mark.parametrize("quote,negative,expected", [(SOL, False, True), (POOL, False, False), (SOL, True, False)])
+    def test_reference_does_not_infer_endorsement_or_arbitrary_quote(quote, negative, expected):
+        p = validated_reference(reference(quote_contract=quote, negative_context=negative,
+                                          qualifies_for_discovery=True, issuer_verified=True))
+        assert p["qualifies_for_discovery"] is expected
+>       assert p["issuer_verified"] is False and p["contract_printed_in_document"] is False
+E       assert (True is False)
+
+tests/test_story_markets.py:46: AssertionError
+_ test_reference_does_not_infer_endorsement_or_arbitrary_quote[So11111111111111111111111111111111111111112-True-False] _
+
+quote = 'So11111111111111111111111111111111111111112', negative = True
+expected = False
+
+    @pytest.mark.parametrize("quote,negative,expected", [(SOL, False, True), (POOL, False, False), (SOL, True, False)])
+    def test_reference_does_not_infer_endorsement_or_arbitrary_quote(quote, negative, expected):
+        p = validated_reference(reference(quote_contract=quote, negative_context=negative,
+                                          qualifies_for_discovery=True, issuer_verified=True))
+        assert p["qualifies_for_discovery"] is expected
+>       assert p["issuer_verified"] is False and p["contract_printed_in_document"] is False
+E       assert (True is False)
+
+tests/test_story_markets.py:46: AssertionError
+______ test_late_policy_and_impossible_declaration_do_not_create_holdout _______
+
+    def test_late_policy_and_impossible_declaration_do_not_create_holdout():
+        s = subject(policy_at="2026-10-19T00:00:00Z")
+        assert partition(s, 300) == "unassigned"
+        assert protocol({1: s}, "2026-10-20T00:00:00Z")["policies"]["1"]["state"] == "unassigned"
+        s = subject(policy_at="2026-10-17T00:00:00Z", signal_at="2026-10-16T00:00:00Z")
+>       assert protocol({1: s}, "2026-10-20T00:00:00Z")["policies"]["1"]["state"] == "unassigned"
+E       AssertionError: assert 'test_window_started' == 'unassigned'
+E
+E         - unassigned
+E         + test_window_started
+
+tests/test_cohort_comparisons.py:58: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_story_markets.py::test_reference_rejects_invalid_or_future_data[changes0]
+FAILED tests/test_story_markets.py::test_reference_rejects_invalid_or_future_data[changes1]
+FAILED tests/test_story_markets.py::test_reference_rejects_invalid_or_future_data[changes2]
+FAILED tests/test_story_markets.py::test_reference_rejects_invalid_or_future_data[changes3]
+FAILED tests/test_story_markets.py::test_reference_rejects_invalid_or_future_data[changes4]
+FAILED tests/test_story_markets.py::test_reference_does_not_infer_endorsement_or_arbitrary_quote[So11111111111111111111111111111111111111112-False-True]
+FAILED tests/test_story_markets.py::test_reference_does_not_infer_endorsement_or_arbitrary_quote[G2UuRbmVDzDFP4qyoBJrSKBXSi7d6V4bPP9tHPs36y4b-False-False]
+FAILED tests/test_story_markets.py::test_reference_does_not_infer_endorsement_or_arbitrary_quote[So11111111111111111111111111111111111111112-True-False]
+FAILED tests/test_cohort_comparisons.py::test_late_policy_and_impossible_declaration_do_not_create_holdout
+9 failed, 8 passed, 1 warning in 1.09s

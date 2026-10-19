@@ -1,0 +1,101 @@
+[
+  {
+    "database": "research.sqlite3",
+    "table": "orders",
+    "original_rows_preserved": true,
+    "before": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "database": "research.sqlite3",
+    "table": "positions",
+    "original_rows_preserved": true,
+    "before": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "database": "research.sqlite3",
+    "table": "opportunity_policies",
+    "original_rows_preserved": true,
+    "before": {
+      "rows": 5,
+      "sha256": "e60c20bad7e11d5ae887495e67984fb88ccbc298e327ec0e97e8e603f8249e87"
+    },
+    "after": {
+      "rows": 5,
+      "sha256": "e60c20bad7e11d5ae887495e67984fb88ccbc298e327ec0e97e8e603f8249e87"
+    }
+  },
+  {
+    "database": "research.sqlite3",
+    "table": "opportunity_signals",
+    "original_rows_preserved": true,
+    "before": {
+      "rows": 81683,
+      "sha256": "97c8e1ff8a4f236678ccc4d418a89dbd716652bb220a4e499451e3cdd2cd4847"
+    },
+    "after": {
+      "rows": 81683,
+      "sha256": "97c8e1ff8a4f236678ccc4d418a89dbd716652bb220a4e499451e3cdd2cd4847"
+    }
+  },
+  {
+    "database": "news_paper/research.sqlite3",
+    "table": "orders",
+    "original_rows_preserved": true,
+    "before": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "database": "news_paper/research.sqlite3",
+    "table": "positions",
+    "original_rows_preserved": true,
+    "before": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "database": "research.sqlite3",
+    "table": "account",
+    "original_rows_preserved": true,
+    "before_sha256": "693b88a56f0d91c3e1fcb467fdc529fb76c5c49c4f036b3d0fadbdbfffe46105",
+    "after_sha256": "693b88a56f0d91c3e1fcb467fdc529fb76c5c49c4f036b3d0fadbdbfffe46105"
+  },
+  {
+    "database": "research.sqlite3",
+    "table": "opportunity_config",
+    "original_rows_preserved": true,
+    "before_sha256": "bc24652a77885f5a4087c5c5da150d1c6d912ded200dbf39d27cf14baa20c2da",
+    "after_sha256": "bc24652a77885f5a4087c5c5da150d1c6d912ded200dbf39d27cf14baa20c2da"
+  },
+  {
+    "database": "news_paper/research.sqlite3",
+    "table": "account",
+    "original_rows_preserved": true,
+    "before_sha256": "abdcf79d7ec9ae39d636263c7c659fb9f842477efd64a0e348c55a7d975086f8",
+    "after_sha256": "abdcf79d7ec9ae39d636263c7c659fb9f842477efd64a0e348c55a7d975086f8"
+  }
+]

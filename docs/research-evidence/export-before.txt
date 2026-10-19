@@ -1,0 +1,41 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_export_cannot_overwrite_database_through_hard_link ____________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2fdc0936e0>, <app.opportunities.Opportunities object at 0x7f2fdc0113a0>)
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-5/test_export_cannot_overwrite_d0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2fdc090590>
+
+    def test_export_cannot_overwrite_database_through_hard_link(client_engine, tmp_path, monkeypatch):
+        _, engine = client_engine
+        folder = tmp_path / "export data"
+        folder.mkdir()
+        database = folder / "research.sqlite3"
+        with engine.store.connect() as source, sqlite3.connect(database) as target:
+            source.backup(target)
+        output = folder / "report.json"
+        try:
+            os.link(database, output)
+        except OSError:
+            pytest.skip("Filesystem does not support hard links")
+        before = database.read_bytes()
+        monkeypatch.setattr("sys.argv", ["research_evaluate", "--data-dir", str(folder), "--output", str(output)])
+        export_main()
+>       assert database.read_bytes() == before
+E       assert b'{\n  "versi...s."\n  ]\n}\n' == b'SQLite form...0\x00\x00\x00'
+E
+E         At index 0 diff: b'{' != b'S'
+E         Use -v to get more diff
+
+tests/test_cohort_comparisons.py:117: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{"day_utc": "2026-10-19", "totals": {"discovered": 0, "eligible": 0, "excluded": 0, "first_evaluations": 0, "eligible_without_first_evaluation": 0, "security_pass_at_first_evaluation": 0, "liquidity_pass_at_first_evaluation": 0, "selected_at_first_evaluation": 0, "opportunity_alerts": 0, "risk_alerts": 0, "alerts_displayed_in_app": 0}, "evaluation_protocol": {"policies": {}, "original_declarations_preserved": true, "profitability_demonstrated": false, "note": "A test window having started is not a completed or successful experiment. New policies declared after an old cutoff remain unassigned."}, "profitability_demonstrated": false}
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_cohort_comparisons.py::test_export_cannot_overwrite_database_through_hard_link
+1 failed, 6 deselected, 1 warning in 0.58s

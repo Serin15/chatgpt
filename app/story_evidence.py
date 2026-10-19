@@ -10,8 +10,10 @@ from urllib.parse import urlsplit
 
 from app.announcements import SOURCES
 from app.assets import safe_link
+from app.headline_groups import group_headlines
 from app.models import epoch, solana_address, utcnow
 from app.news import canonical_url, relevant_headline
+from app.story_markets import validated_reference
 
 
 class StoryEvidence:
@@ -52,6 +54,7 @@ class StoryEvidence:
                         "document_observed_at": value.get("observed_at", row["at"]),
                         "document_recorded_at": row["at"],
                         "excerpt": str(value.get("excerpt", ""))[:500],
+                        "market_pair_references": [],
                     }
                     available_at = max(
                         available_at, epoch(row["at"]), epoch(payload["document_observed_at"])
@@ -88,6 +91,35 @@ class StoryEvidence:
                                     {
                                         "networks_reported": networks,
                                         "excerpt": str(candidate.get("excerpt", ""))[:1500],
+                                    },
+                                )
+                            )
+                        references = value.get("market_pair_references", [])
+                        if not isinstance(references, list):
+                            raise ValueError("Invalid market references")
+                        for ref in references[:2]:
+                            if not isinstance(ref, dict):
+                                continue
+                            if ref.get("state") != "resolved":
+                                payload["market_pair_references"].append(ref)
+                                continue
+                            try:
+                                ref = validated_reference(ref)
+                                if not 0 <= epoch(at) - epoch(ref["observed_at"]) <= 86400:
+                                    continue
+                            except (ValueError, TypeError, KeyError, AttributeError, OverflowError):
+                                continue
+                            payload["market_pair_references"].append(ref)
+                            mentions.append(
+                                (
+                                    ref["base_contract"],
+                                    "contradictory_context"
+                                    if ref["negative_context"]
+                                    else "resolved_market_pair_reference",
+                                    {
+                                        "networks_reported": ["solana"],
+                                        "excerpt": ref.get("excerpt", ""),
+                                        "market_reference": ref,
                                     },
                                 )
                             )
@@ -199,11 +231,20 @@ class StoryEvidence:
                 "SELECT count(*) FROM announcement_documents d LEFT JOIN story_documents s ON s.document_id=d.id WHERE s.document_id IS NULL"
             ).fetchone()[0]
         stories.sort(
-            key=lambda s: (bool(s["contracts"]), s["memecoin_headline"], s["source_kind"] != "headline_only", s["published_at"]), reverse=True
+            key=lambda s: (
+                bool(s["contracts"]),
+                s["memecoin_headline"],
+                s["source_kind"] != "headline_only",
+                s["published_at"],
+            ),
+            reverse=True,
         )
+        grouped = group_headlines(stories)
         return {
             "at": at,
-            "items": stories[:limit],
+            "items": grouped[:limit],
+            "raw_headlines_in_window": len(stories),
+            "display_groups_in_window": len(grouped),
             "indexed_documents": indexed,
             "pending_index": pending,
             "index_budget_per_cycle": 250,

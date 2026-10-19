@@ -36,7 +36,8 @@ class StoryDiscovery:
                 JOIN story_documents s ON s.document_id=c.document_id
                 JOIN news n ON n.id=s.news_id
                 LEFT JOIN story_pool_lookups l ON l.contract=c.contract
-                WHERE c.association='exact_contract_document_mention' AND s.available_at<=?
+                WHERE (c.association='exact_contract_document_mention' OR
+                    (c.association='resolved_market_pair_reference' AND json_extract(c.payload,'$.market_reference.qualifies_for_discovery')=1)) AND s.available_at<=?
                 AND julianday(n.published_at) BETWEEN julianday(?)-1 AND julianday(?)
                 AND (l.contract IS NULL OR s.document_id>coalesce(json_extract(l.payload,'$.last_enqueued_document_id'),0))
                 AND s.document_id=(SELECT s2.document_id FROM story_documents s2
@@ -73,7 +74,16 @@ class StoryDiscovery:
     def current(self, contract, at):
         evidence = self.stories.for_contract(contract, at)
         return next(
-            (e for e in evidence if e["association"] == "exact_contract_document_mention"), None
+            (
+                e
+                for e in evidence
+                if e["association"] == "exact_contract_document_mention"
+                or (
+                    e["association"] == "resolved_market_pair_reference"
+                    and e.get("market_reference", {}).get("qualifies_for_discovery")
+                )
+            ),
+            None,
         )
 
     def finish(self, contract, state, payload, *, attempts, delay=0):
@@ -161,7 +171,9 @@ class StoryDiscovery:
                     "pool_created_at_reported": created_at,
                     "token_launched_at": None,
                     "indexed_at": None,
-                    "discovery_basis": "exact_contract_news_mention_not_launch",
+                    "discovery_basis": "exact_contract_news_mention_not_launch"
+                    if evidence["association"] == "exact_contract_document_mention"
+                    else "news_market_pair_reference_not_launch",
                     "source": market["source"],
                     "official_affiliation": "unverified",
                     "story_evidence": evidence,

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-19T06:23:58.545959+00:00",
+  "sources": {
+    "decrypt": {
+      "status": 200,
+      "type": "application/xml",
+      "bytes": 76633
+    },
+    "cointelegraph": {
+      "status": 200,
+      "type": "application/xml; charset=utf-8",
+      "bytes": 52945
+    }
+  }
+}

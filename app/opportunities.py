@@ -38,6 +38,7 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "narratives.py",
             "story_evidence.py",
             "story_discovery.py",
+            "story_markets.py",
             "announcements.py",
             "news.py",
             "opportunity_outcomes.py",
@@ -920,7 +921,9 @@ class Opportunities:
     def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
         now = time.time()
         with self.store.connect() as db:
-            db.create_function("casefold", 1, lambda value: str(value or "").casefold(), deterministic=True)
+            db.create_function(
+                "casefold", 1, lambda value: str(value or "").casefold(), deterministic=True
+            )
             base = """
                 FROM opportunity_candidates c LEFT JOIN opportunity_observations o
                 ON o.id=(SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)
@@ -931,9 +934,14 @@ class Opportunities:
                     coalesce(json_extract(o.payload,'$.market.symbol'),'')),:q)>0)
             """
             params = {
-                "q": query.strip().casefold(), "verdict": verdict, "before": before,
-                "limit": limit + 1, "now": datetime.fromtimestamp(now, UTC).isoformat(),
-                "fresh_from": datetime.fromtimestamp(now - self.service.settings.max_snapshot_age, UTC).isoformat(),
+                "q": query.strip().casefold(),
+                "verdict": verdict,
+                "before": before,
+                "limit": limit + 1,
+                "now": datetime.fromtimestamp(now, UTC).isoformat(),
+                "fresh_from": datetime.fromtimestamp(
+                    now - self.service.settings.max_snapshot_age, UTC
+                ).isoformat(),
             }
             order = (
                 "coalesce(CASE WHEN julianday(json_extract(o.payload,'$.market.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) AND julianday(json_extract(o.payload,'$.security.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) THEN json_extract(o.payload,'$.decision.rank_score') END,-1) DESC,c.id DESC"
@@ -942,8 +950,12 @@ class Opportunities:
             )
             matching_total = db.execute("SELECT count(*) " + base, params).fetchone()[0]
             rows = db.execute(
-                "SELECT c.* " + base + " AND (:before IS NULL OR c.id<:before) ORDER BY "
-                + order + " LIMIT :limit", params,
+                "SELECT c.* "
+                + base
+                + " AND (:before IS NULL OR c.id<:before) ORDER BY "
+                + order
+                + " LIMIT :limit",
+                params,
             ).fetchall()
             items = []
             for r in rows[:limit]:

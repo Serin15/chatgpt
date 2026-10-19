@@ -466,6 +466,8 @@ def test_future_narrative_split_is_purged_for_overlapping_trade_windows(client_e
     cfg = cfg.model_copy(update={"test_from": datetime.fromtimestamp(now + 60, UTC)})
     engine.configure(cfg)
     p = engine.policy(cfg)
+    # A prospective signal must follow its policy declaration.
+    now = time.time()
     engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
     assert engine.report()["horizons"]["300"]["cohorts"]["purged_boundary"]["experiments"] == 1
     assert engine.report()["horizons"]["300"]["cohorts"]["test"]["experiments"] == 0

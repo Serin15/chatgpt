@@ -1,6 +1,6 @@
-# MemeScope v0.11.0 — beta privată Solana
+# MemeScope v0.12.0 — beta privată Solana
 
-**Știri → candidați:** [surse, coadă persistentă și verificare live](docs/STORY-DISCOVERY.md).
+**Știri → candidați și evaluare:** [noutăți v0.12, comenzi și limite reale](docs/RESEARCH-V0.12.md).
 
 Cercetare automată pentru tokenuri Solana observate devreme în feedurile publice: descoperire →
 date de piață și securitate → filtre → scoruri separate → verdict explicat → alertă → rezultate

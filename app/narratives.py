@@ -33,13 +33,16 @@ class Narratives:
         supported = []
         uncertain = []
         contradictory = []
+        market_references = []
         hosts = set()
         counts = {}
         ai = []
         indexed = self.stories.for_contract(contract, at)
         indexed_ids = {item["news_id"] for item in indexed}
         for item in indexed:
-            item["categories"] = [k for k, p in TOPIC_WORDS.items() if re.search(p, item["title"], re.I)]
+            item["categories"] = [
+                k for k, p in TOPIC_WORDS.items() if re.search(p, item["title"], re.I)
+            ]
             age = now - epoch(item["first_seen_at"])
             bucket = "0_1h" if age <= 3600 else "1_6h" if age <= 21600 else "6_24h"
             counts[bucket] = counts.get(bucket, 0) + 1
@@ -48,6 +51,8 @@ class Narratives:
                 hosts.add(urlsplit(item["url"]).hostname)
             elif item["association"] == "contradictory_context":
                 contradictory.append(item)
+            elif item["association"] == "resolved_market_pair_reference":
+                market_references.append(item)
             else:
                 uncertain.append(item)
         with self.store.connect() as db:
@@ -94,7 +99,8 @@ class Narratives:
                     exact = [
                         c
                         for c in candidates
-                        if isinstance(c, dict) and c.get("contract") == contract
+                        if isinstance(c, dict)
+                        and c.get("contract") == contract
                         and c.get("networks_reported") == ["solana"]
                         and not c.get("negative_context")
                     ]
@@ -141,6 +147,7 @@ class Narratives:
             "supported": supported,
             "uncertain": uncertain,
             "contradictory": contradictory,
+            "market_references": market_references,
             "ranking_supported": bool(supported) and not contradictory,
             "publication_hosts": sorted(h for h in hosts if h),
             "news_recurrence_counts": counts,

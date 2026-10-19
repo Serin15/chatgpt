@@ -1,0 +1,799 @@
+{
+  "at": "2026-10-19T06:40:39.423004+00:00",
+  "complete": false,
+  "evidence_kind": "direct_contract",
+  "criteria": {
+    "real_document_contract_reference": false,
+    "candidate_discovered_from_document": false,
+    "market_and_security_observed": false,
+    "stored_signal_with_narrative_and_verdict": false,
+    "eligible_alert_generated": false,
+    "in_app_delivery_receipt": false,
+    "later_outcome_evaluated": false
+  },
+  "errors": [],
+  "duration_seconds": 71,
+  "source_status": {
+    "trump": {
+      "state": "ok",
+      "at": "2026-10-19T06:37:59.553827+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T05:28:25+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "memecoins": {
+      "state": "ok",
+      "at": "2026-10-19T06:37:59.583240+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T03:46:45+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "claude": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:01.545606+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T05:47:45+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "crypto": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:01.575546+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T06:34:52+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "elon": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.810042+00:00",
+      "headlines": 3,
+      "latest_published_at": "2026-10-18T20:30:05+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "launches": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.829826+00:00",
+      "headlines": 6,
+      "latest_published_at": "2026-10-19T00:45:06+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "ethereum_official": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.829856+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "zelensky": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.829864+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "coindesk": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.892717+00:00",
+      "headlines": 20,
+      "latest_published_at": "2026-10-19T06:23:16+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "kraken_official": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.892740+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "decrypt": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.913152+00:00",
+      "headlines": 7,
+      "latest_published_at": "2026-10-18T16:31:03+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "cointelegraph": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.943740+00:00",
+      "headlines": 13,
+      "latest_published_at": "2026-10-19T05:55:44+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "solana_official": {
+      "state": "ok",
+      "at": "2026-10-19T06:38:03.943764+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    }
+  },
+  "stories": {
+    "items": [],
+    "stories": {
+      "at": "2026-10-19T06:40:28.739333+00:00",
+      "items": [
+        {
+          "news_id": 338,
+          "title": "GTA 6 Leaker's Latest Effort Appears To Flop As Group's Meme Coin Declines - PCMag Middle East",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPdGhzMjJJd0ttd0tGVjdDMmtPSWNyLWhMTVh0c2tCanZQcEFaQjFMTy0wanBYTkM3MFRFNlYyMEJ0ZHk4dFVsWnhuRDRjNklJV1hHUndSaU1jY3o5NEM4dW5mOENibWdzMHNZZkdub0I1V0lFRjVaamJZQWNxTHJta0NWajhyZ2ZoZExxcEJpRUloS1lSVDRIUUtUdGpYN1Yxd2FrVllVb2lvU2dYQllpUg?oc=5",
+          "publisher_reported": "PCMag Middle East",
+          "published_at": "2026-10-19T03:46:45+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.521635+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 338,
+              "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPdGhzMjJJd0ttd0tGVjdDMmtPSWNyLWhMTVh0c2tCanZQcEFaQjFMTy0wanBYTkM3MFRFNlYyMEJ0ZHk4dFVsWnhuRDRjNklJV1hHUndSaU1jY3o5NEM4dW5mOENibWdzMHNZZkdub0I1V0lFRjVaamJZQWNxTHJta0NWajhyZ2ZoZExxcEJpRUloS1lSVDRIUUtUdGpYN1Yxd2FrVllVb2lvU2dYQllpUg?oc=5",
+              "title": "GTA 6 Leaker's Latest Effort Appears To Flop As Group's Meme Coin Declines - PCMag Middle East",
+              "publisher_reported": "PCMag Middle East",
+              "published_at": "2026-10-19T03:46:45+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.521635+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 340,
+          "title": "Pump.fun (PUMP) token jumps 8.78% in four hours despite 24-hour decline - Pluang",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE01bGJlYkJHbzZ4QVNqWTVEcUFsZUp2OTBycjZLUkxNSUpWWTAybmsxRzMxUHdmSGtqWGdvcE81bEVSMjh5RDczaE1iX3ltY2Y2ZGNqR1BFTGY1TmVKZFBLdk1Ib2NaZ1oxX0dtTC04eHdaa2tyWFJiX193?oc=5",
+          "publisher_reported": "Pluang",
+          "published_at": "2026-10-19T01:53:46+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.529238+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 340,
+              "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE01bGJlYkJHbzZ4QVNqWTVEcUFsZUp2OTBycjZLUkxNSUpWWTAybmsxRzMxUHdmSGtqWGdvcE81bEVSMjh5RDczaE1iX3ltY2Y2ZGNqR1BFTGY1TmVKZFBLdk1Ib2NaZ1oxX0dtTC04eHdaa2tyWFJiX193?oc=5",
+              "title": "Pump.fun (PUMP) token jumps 8.78% in four hours despite 24-hour decline - Pluang",
+              "publisher_reported": "Pluang",
+              "published_at": "2026-10-19T01:53:46+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.529238+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 339,
+          "title": "Pump.fun Token Rises 8.78% Over Four Hours to $0.004286 - www.tokenpost.com",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xckF3cTZZQkZSMFZDRlBseUhkT3ZpUlR0dVlmVXhYTFhLN1lVdnJIS1d6RUc1ZVh5V3R5aFB5cXVhM3NCaWtJWGIxY1o2X2RFTjBHM0QtXy05UQ?oc=5",
+          "publisher_reported": "www.tokenpost.com",
+          "published_at": "2026-10-19T01:35:00+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.525538+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 339,
+              "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xckF3cTZZQkZSMFZDRlBseUhkT3ZpUlR0dVlmVXhYTFhLN1lVdnJIS1d6RUc1ZVh5V3R5aFB5cXVhM3NCaWtJWGIxY1o2X2RFTjBHM0QtXy05UQ?oc=5",
+              "title": "Pump.fun Token Rises 8.78% Over Four Hours to $0.004286 - www.tokenpost.com",
+              "publisher_reported": "www.tokenpost.com",
+              "published_at": "2026-10-19T01:35:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.525538+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 343,
+          "title": "Pump.fun (PUMP) token rises 4.08% in one hour d... - Pluang",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQODVBNzhQN29sbmlRbmZWTThFWFR0RGdrMlhBQzAwaXlYVUlSRE9IRzdSeGxxTGxwNGpxaFBlSjQwcC1vTWZRN0dUSmhkN2FRY192cGpMaEc3dmhtWjNSU0tyVm9xdkhmNkpuOXVOcUN4Y0pjdUs4cE1IZXpOcEszckNKdU9QSFh5?oc=5",
+          "publisher_reported": "Pluang",
+          "published_at": "2026-10-18T22:57:32+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.539640+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 343,
+              "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQODVBNzhQN29sbmlRbmZWTThFWFR0RGdrMlhBQzAwaXlYVUlSRE9IRzdSeGxxTGxwNGpxaFBlSjQwcC1vTWZRN0dUSmhkN2FRY192cGpMaEc3dmhtWjNSU0tyVm9xdkhmNkpuOXVOcUN4Y0pjdUs4cE1IZXpOcEszckNKdU9QSFh5?oc=5",
+              "title": "Pump.fun (PUMP) token rises 4.08% in one hour d... - Pluang",
+              "publisher_reported": "Pluang",
+              "published_at": "2026-10-18T22:57:32+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.539640+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 345,
+          "title": "Pump.fun token plunges 13.39% amid broad crypto market declines on Oct 18 - Pluang",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQWTJkdXdTVjVBc1RDYU0tbEhqWTY3UTg1RnV0NE1hdEczZUh1SXdoSkpBdUVUMWdVM0ZQcnRyZzd4M1lwOFgzZFdSQm5XVm5HaDQtRndRWmZuckhtSE5EUTd2Y0RfTGxwZENyWWwya3dRbXlqUG1DaHNBNmZ3R1RrX2Q2eEFFYzZDSGZMT3hINXJyZ0x3SER0Sll3?oc=5",
+          "publisher_reported": "Pluang",
+          "published_at": "2026-10-18T20:24:59+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.546669+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 345,
+              "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQWTJkdXdTVjVBc1RDYU0tbEhqWTY3UTg1RnV0NE1hdEczZUh1SXdoSkpBdUVUMWdVM0ZQcnRyZzd4M1lwOFgzZFdSQm5XVm5HaDQtRndRWmZuckhtSE5EUTd2Y0RfTGxwZENyWWwya3dRbXlqUG1DaHNBNmZ3R1RrX2Q2eEFFYzZDSGZMT3hINXJyZ0x3SER0Sll3?oc=5",
+              "title": "Pump.fun token plunges 13.39% amid broad crypto market declines on Oct 18 - Pluang",
+              "publisher_reported": "Pluang",
+              "published_at": "2026-10-18T20:24:59+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.546669+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 347,
+          "title": "Pump.fun (PUMP) token drops 5.36% in one hour, ... - Pluang",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9GbWs2YUs2Y0hMd0ppT0xuTlF0OWR2WE82alFncWlRVk9qYU1WanpPbWlnU3BHX1oyQmJOZTF1STc1SGZtSEtRc2RMZUpGU0I1NjAyOUUzeEh3a0ZybFl5Tkh0VVlIenI0OEdZUlMwREJkaEhaMVZzVw?oc=5",
+          "publisher_reported": "Pluang",
+          "published_at": "2026-10-18T19:54:52+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.553801+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 347,
+              "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9GbWs2YUs2Y0hMd0ppT0xuTlF0OWR2WE82alFncWlRVk9qYU1WanpPbWlnU3BHX1oyQmJOZTF1STc1SGZtSEtRc2RMZUpGU0I1NjAyOUUzeEh3a0ZybFl5Tkh0VVlIenI0OEdZUlMwREJkaEhaMVZzVw?oc=5",
+              "title": "Pump.fun (PUMP) token drops 5.36% in one hour, ... - Pluang",
+              "publisher_reported": "Pluang",
+              "published_at": "2026-10-18T19:54:52+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.553801+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 344,
+          "title": "Pump.fun (PUMP) Falls 5.36% in an Hour to $0.003905 as 24-Hour Loss Reaches 12.66% - TOKENPOST",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1aVU1SQ2ctbkpXUTI2ZS1IOUtXYlhIQUplelk1NjRTQnlwMnpGLTlOWW44dUV2UXh6eVRrUm4xUmNiZE0xZUFKYU9sM1hZbE1pSEFTNnVuXzdkQQ?oc=5",
+          "publisher_reported": "TOKENPOST",
+          "published_at": "2026-10-18T19:38:15+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.542553+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 344,
+              "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1aVU1SQ2ctbkpXUTI2ZS1IOUtXYlhIQUplelk1NjRTQnlwMnpGLTlOWW44dUV2UXh6eVRrUm4xUmNiZE0xZUFKYU9sM1hZbE1pSEFTNnVuXzdkQQ?oc=5",
+              "title": "Pump.fun (PUMP) Falls 5.36% in an Hour to $0.003905 as 24-Hour Loss Reaches 12.66% - TOKENPOST",
+              "publisher_reported": "TOKENPOST",
+              "published_at": "2026-10-18T19:38:15+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.542553+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 341,
+          "title": "Pump.fun (PUMP) Declines 4–5% Amid Ongoing Deleveraging - CoinMarketCap",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1iUUNtZ1VBMUxRaF9hZzlsRDBGV0gtUkdEbkhkZlowVVFaYk96TEhwWWhaaTBVXzlvYThacXYzZV9pLU9rc2JMMzkzVnUwdy1MMVhMRWl0eDVjc25wWWxMSll2enNnU0l5Qm5jWWlDT00?oc=5",
+          "publisher_reported": "CoinMarketCap",
+          "published_at": "2026-10-18T17:04:00+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.532865+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 341,
+              "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1iUUNtZ1VBMUxRaF9hZzlsRDBGV0gtUkdEbkhkZlowVVFaYk96TEhwWWhaaTBVXzlvYThacXYzZV9pLU9rc2JMMzkzVnUwdy1MMVhMRWl0eDVjc25wWWxMSll2enNnU0l5Qm5jWWlDT00?oc=5",
+              "title": "Pump.fun (PUMP) Declines 4–5% Amid Ongoing Deleveraging - CoinMarketCap",
+              "publisher_reported": "CoinMarketCap",
+              "published_at": "2026-10-18T17:04:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.532865+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 342,
+          "title": "Memecoin outlook for Q4 2026: Can the sector find lasting buyers? - Crypto News",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPelI1bmNpZkE5ZVZ1Y1VrWjFienJrMF9RajNFci1OX3otX09VN1hRb1Q4UWE4Rm5TdGJwVWZVdExtaW5ZelFSREoxem1zREZ5eHM0d0RsdmhzM3RjcG1OeDc5Y1I5Qm1KWFdtM1JTNFNhQ0JVQm5sazdYMHVZVTVGaTduSUY4emY1T3dUSg?oc=5",
+          "publisher_reported": "Crypto News",
+          "published_at": "2026-10-18T13:30:00+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.536390+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 342,
+              "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPelI1bmNpZkE5ZVZ1Y1VrWjFienJrMF9RajNFci1OX3otX09VN1hRb1Q4UWE4Rm5TdGJwVWZVdExtaW5ZelFSREoxem1zREZ5eHM0d0RsdmhzM3RjcG1OeDc5Y1I5Qm1KWFdtM1JTNFNhQ0JVQm5sazdYMHVZVTVGaTduSUY4emY1T3dUSg?oc=5",
+              "title": "Memecoin outlook for Q4 2026: Can the sector find lasting buyers? - Crypto News",
+              "publisher_reported": "Crypto News",
+              "published_at": "2026-10-18T13:30:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.536390+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 384,
+          "title": "Elon Musk accused of manipulating Dogecoin price in $258 billion lawsuit - Mashable",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBNNmRyQmFkVXNNTlVwblc4RnozMEhheXBOeWZ3SW5iRHRLZ3NLN3I5dnJ3VllVTjh6T3dUenR4YzlET3h0Y2lfbi1vVVJvdGIzT1JvZ1pJOXI2NEpZRkl5dGM0YWpvZw?oc=5",
+          "publisher_reported": "Mashable",
+          "published_at": "2026-10-18T09:00:00+00:00",
+          "first_seen_at": "2026-10-19T06:32:13.303116+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 384,
+              "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBNNmRyQmFkVXNNTlVwblc4RnozMEhheXBOeWZ3SW5iRHRLZ3NLN3I5dnJ3VllVTjh6T3dUenR4YzlET3h0Y2lfbi1vVVJvdGIzT1JvZ1pJOXI2NEpZRkl5dGM0YWpvZw?oc=5",
+              "title": "Elon Musk accused of manipulating Dogecoin price in $258 billion lawsuit - Mashable",
+              "publisher_reported": "Mashable",
+              "published_at": "2026-10-18T09:00:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:13.303116+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 346,
+          "title": "Pump.fun Reclaims 90% Market Share in Solana Launchpad War - CoinMarketCap",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNdk9UQ3hwNmpFbWFRTDdub2ttU09wcFY5WU5SOFJFZWh0NmhBMVVIcFdzUDN1Q2s3TzR0YThLeWdhNVFyc1pGVlV6c1VuV2MxS0RRUU1zNExmNHJoeU84VnlsV28zR2thUjRYc1d6RnJwa3B3S2NlOHQ3NTdUUGRWdGtzR0ZRd3prckVpNTREQ0pYbEowaFJ6eDBCU21VMTVVODB3NkIteFg?oc=5",
+          "publisher_reported": "CoinMarketCap",
+          "published_at": "2026-10-18T08:30:57+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.549331+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 346,
+              "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNdk9UQ3hwNmpFbWFRTDdub2ttU09wcFY5WU5SOFJFZWh0NmhBMVVIcFdzUDN1Q2s3TzR0YThLeWdhNVFyc1pGVlV6c1VuV2MxS0RRUU1zNExmNHJoeU84VnlsV28zR2thUjRYc1d6RnJwa3B3S2NlOHQ3NTdUUGRWdGtzR0ZRd3prckVpNTREQ0pYbEowaFJ6eDBCU21VMTVVODB3NkIteFg?oc=5",
+              "title": "Pump.fun Reclaims 90% Market Share in Solana Launchpad War - CoinMarketCap",
+              "publisher_reported": "CoinMarketCap",
+              "published_at": "2026-10-18T08:30:57+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.549331+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 390,
+          "title": "Bitcoin whale moves $34 million in BTC it got in 2013 when coins traded at $131",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-whale-moves-usd34-million-in-btc-it-got-in-2013-when-coins-traded-at-usd131",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T06:23:16+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.397890+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-whale-moves-usd34-million-in-btc-it-got-in-2013-when-coins-traded-at-usd131",
+            "source_sha256": "3eaef39723a960705c213d991c6908f7aadf4d56f6f7e91810abf5dd5857e4d4",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T06:32:18.964310+00:00",
+            "document_recorded_at": "2026-10-19T06:32:19.188037+00:00",
+            "excerpt": "Markets Bitcoin whale moves $34 million in BTC it got in 2013 when coins traded at $131 A bitcoin wallet dormant since 2013 moved 411 BTC, now worth about $34 million. It is one of several long-dormant wallets to wake up recently. By Omkar Godbole Oct 19, 2026, 2:23 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Long-dormant BTC whale wakes up. (Arkham) Summary Show A Bitcoin wallet dormant since 2013 transfer",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 390,
+              "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-whale-moves-usd34-million-in-btc-it-got-in-2013-when-coins-traded-at-usd131",
+              "title": "Bitcoin whale moves $34 million in BTC it got in 2013 when coins traded at $131",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T06:23:16+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.397890+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 404,
+          "title": "Zoom adds ‘proof of human’ badges to show you’re not a deepfake",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/zoom-proof-of-human-badges-world-id-ai-deepfakes?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T05:55:44+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.572165+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/news/zoom-proof-of-human-badges-world-id-ai-deepfakes?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "d9d6f26e8b0a9b97f072f21ccb9512aca3bd924b6c307b6080fcb7f86f68237f",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T06:32:19.395378+00:00",
+            "document_recorded_at": "2026-10-19T06:32:19.400646+00:00",
+            "excerpt": "Written by Ezra Reguerra staff writer Edited by Felix Ng staff editor Written by Ezra Reguerra staff writer Edited by Felix Ng staff editor Zoom adds ‘proof of human’ badges to show you’re not a deepfake Latest News Published Oct 19, 2026 Sam Altman-backed World has rolled out biometric verification badges for Zoom enterprise users, aiming to combat AI deepfake impersonation and fraud. Zoom enterprise customers will now be able to see “proof of human” badges to verify that people appearing on vi",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 404,
+              "url": "https://cointelegraph.com/news/zoom-proof-of-human-badges-world-id-ai-deepfakes?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "Zoom adds ‘proof of human’ badges to show you’re not a deepfake",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T05:55:44+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.572165+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 391,
+          "title": "Zcash developers plan a fix to keep ZEC swaps private from future quantum computers",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/tech/2026/10/19/zcash-developers-plan-a-fix-to-keep-zec-swaps-private-from-future-quantum-computers",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T05:23:02+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.401993+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/tech/2026/10/19/zcash-developers-plan-a-fix-to-keep-zec-swaps-private-from-future-quantum-computers",
+            "source_sha256": "70559681445ba5a58e6320dc76167a7eaeb0403b08d0e4323698f77e282d541b",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T06:32:20.500949+00:00",
+            "document_recorded_at": "2026-10-19T06:32:30.261471+00:00",
+            "excerpt": "Tech Zcash developers plan a fix to keep ZEC swaps private from future quantum computers The team behind Zakura wants every swap through NEAR Intents to get its own key, so a refund address left on NEAR’s public chain can’t expose a user’s wider payment history. By Shaurya Malwa Oct 19, 2026, 1:23 a.m. EDT 3 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Zcash developers plan a fix to keep ZEC swaps private from future q",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 391,
+              "url": "https://www.coindesk.com/tech/2026/10/19/zcash-developers-plan-a-fix-to-keep-zec-swaps-private-from-future-quantum-computers",
+              "title": "Zcash developers plan a fix to keep ZEC swaps private from future quantum computers",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T05:23:02+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.401993+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 405,
+          "title": "South Korea to meet crypto exchanges amid calls for tax delay",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/south-korea-to-meet-crypto-exchanges-amid-calls-for-tax-delay?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T05:14:06+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.577076+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/news/south-korea-to-meet-crypto-exchanges-amid-calls-for-tax-delay?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "bdb79c0c022e35579935bfd877f4add7dbef19c747bf2f81eda3285aa04f7441",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T06:38:04.359119+00:00",
+            "document_recorded_at": "2026-10-19T06:38:04.362880+00:00",
+            "excerpt": "Written by Felix Ng staff editor Edited by Yohan Yun staff editor Written by Felix Ng staff editor Edited by Yohan Yun staff editor South Korea to meet crypto exchanges amid calls for tax delay Latest News Published Oct 19, 2026 Finance officials are reportedly set to meet major crypto exchanges on Tuesday, days after a lawmaker introduced legislation that could push the tax’s start date back two years. South Korea’s senior finance officials are reportedly set to meet crypto exchanges on Tuesday",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 405,
+              "url": "https://cointelegraph.com/news/south-korea-to-meet-crypto-exchanges-amid-calls-for-tax-delay?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "South Korea to meet crypto exchanges amid calls for tax delay",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T05:14:06+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.577076+00:00",
+              "document_state": "read"
+            },
+            {
+              "news_id": 363,
+              "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA4UzBIMDVndVdFZHpsTGVqNk15UUFMTTB2b0twV3VYQVdyNXpRQ0ZjS2J1T2FKSEx2MnlSN0pCMXdWaTFPUEZKdFlVUVpxcFUxamJTUHJR?oc=5",
+              "title": "South Korea to meet crypto exchanges amid calls for tax delay - Cryptonews.net",
+              "publisher_reported": "Cryptonews.net",
+              "published_at": "2026-10-19T05:41:07+00:00",
+              "first_seen_at": "2026-10-19T06:32:11.756758+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            },
+            {
+              "news_id": 365,
+              "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxObS1kS3MySVM2WElhb1Z4NWRTanRodjZBZTB6U2JWYTdyaXpveGN2NTZ6Qk5IWlJvTkx2cGNvUU5LMFoxcnpWZlZGRFFPX1g2d2Y4ajZVTWdMTUpRRnF2VjE1eHQ5ZDlLdFBnUTdfcHFCMW5PV1VQV29TZzJUbk1MbnBLNjJmdm1GUElKeFNoS0g5YzJGUzZ1bmVUVEZmTi01UGI0ZHlPSURuQlpWSGtxS0FYOG5HcmZISDJKSXdVbF9vUXhs?oc=5",
+              "title": "South Korea to meet crypto exchanges amid calls for tax delay - TradingView",
+              "publisher_reported": "TradingView",
+              "published_at": "2026-10-19T05:22:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:11.774136+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 392,
+          "title": "XRP Ledger is set to fix its lending code before anyone can use it",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/tech/2026/10/19/xrp-ledger-is-set-to-fix-its-lending-code-before-anyone-can-use-it",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T04:54:31+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.405377+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/tech/2026/10/19/xrp-ledger-is-set-to-fix-its-lending-code-before-anyone-can-use-it",
+            "source_sha256": "e1d2ac779b25c955c0aef410673543b988d6a734f8f43f1cc11f9df98f8502c9",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T06:38:09.956318+00:00",
+            "document_recorded_at": "2026-10-19T06:38:10.271179+00:00",
+            "excerpt": "Tech XRP Ledger is set to fix its lending code before anyone can use it Validators have a bug-fix patch on course to go live Friday. The lending system it partly repairs is still 10 votes short of approval. By Shaurya Malwa Oct 19, 2026, 12:54 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on XRP Ledger is set to fix its lending code before anyone can use it. (Markus Spiske/Unsplash) Summary Show A package of XRP",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 392,
+              "url": "https://www.coindesk.com/tech/2026/10/19/xrp-ledger-is-set-to-fix-its-lending-code-before-anyone-can-use-it",
+              "title": "XRP Ledger is set to fix its lending code before anyone can use it",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T04:54:31+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.405377+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 393,
+          "title": "Bitcoin, Korea’s Kospi and Nasdaq futures rally as China GDP beats estimates",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-korea-s-kospi-and-nasdaq-futures-rally-as-china-gdp-beats-estimates",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T03:36:58+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.411768+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-korea-s-kospi-and-nasdaq-futures-rally-as-china-gdp-beats-estimates",
+            "source_sha256": "6f3c0d623ed3dde5f2a5996850d35ba4d64d97b8fa495525ee9d909c11c16599",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T06:38:11.135044+00:00",
+            "document_recorded_at": "2026-10-19T06:38:12.133813+00:00",
+            "excerpt": "Markets Bitcoin, Korea’s Kospi and Nasdaq futures rally as China GDP beats estimates Bitcoin, Nasdaq futures and Asian stocks rally as stronger-than-expected China GDP and falling oil prices lift risk appetite. By Omkar Godbole Updated Oct 18, 2026, 11:38 p.m. EDT Published Oct 18, 2026, 11:36 p.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Bitcoin's price. (CoinDesk) Summary Show Global markets rallied Monday ",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 393,
+              "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-korea-s-kospi-and-nasdaq-futures-rally-as-china-gdp-beats-estimates",
+              "title": "Bitcoin, Korea’s Kospi and Nasdaq futures rally as China GDP beats estimates",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T03:36:58+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.411768+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 394,
+          "title": "Deutsche Bank targets Asia crypto custody expansion in 2027 as German launch nears",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/business/2026/10/18/deutsche-bank-targets-asia-crypto-custody-expansion-in-2027-as-german-launch-nears",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T02:00:00+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.416099+00:00",
+          "document_state": "pending_permitted_document",
+          "document": null,
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 394,
+              "url": "https://www.coindesk.com/business/2026/10/18/deutsche-bank-targets-asia-crypto-custody-expansion-in-2027-as-german-launch-nears",
+              "title": "Deutsche Bank targets Asia crypto custody expansion in 2027 as German launch nears",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T02:00:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.416099+00:00",
+              "document_state": "pending_permitted_document"
+            },
+            {
+              "news_id": 359,
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPbG9lOUJZOHhUSF93dXA3a0d4UUx4My1ScTdkODQzTXd6SlRrSzlscG5HXzlBdnQ4TWFuajBZb1hQZnUwekVMT1JEU1N0SjVKdVl4M3Ftc2JrLVVOcEViYUhLTnlJMENPWUZVUFl5Y0NUM1NqZi11ZDRxWXlFeGQ2ZFBqLU1sQzN0UGlQbkt0VUFPMVFvRUIyVkVURVBDYlNDTmFLRTJxZlZwREdKSUtGRTQ4SS1rTzNfVlgxMlQxTllRRmR5WEE?oc=5",
+              "title": "Deutsche Bank targets Asia crypto custody expansion in 2027 as German launch nears - CoinDesk",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T02:00:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:11.714896+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 406,
+          "title": "Qubic freezes chain after attacker drains 1.4K wallets with weak seeds",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/qubic-freezes-chain-after-attacker-drains-14k-wallets-with-weak-seeds?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T01:03:27+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.579914+00:00",
+          "document_state": "pending_permitted_document",
+          "document": null,
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 406,
+              "url": "https://cointelegraph.com/news/qubic-freezes-chain-after-attacker-drains-14k-wallets-with-weak-seeds?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "Qubic freezes chain after attacker drains 1.4K wallets with weak seeds",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T01:03:27+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.579914+00:00",
+              "document_state": "pending_permitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 395,
+          "title": "SEC tokenized stock framework faces issuer pushback as Broadcom, Verizon object to OKX-ICE listing",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/business/2026/10/18/sec-tokenized-stock-framework-faces-issuer-pushback-as-broadcom-verizon-object-to-okx-ice-listing",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-18T23:28:06+00:00",
+          "first_seen_at": "2026-10-19T06:32:15.426381+00:00",
+          "document_state": "pending_permitted_document",
+          "document": null,
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 395,
+              "url": "https://www.coindesk.com/business/2026/10/18/sec-tokenized-stock-framework-faces-issuer-pushback-as-broadcom-verizon-object-to-okx-ice-listing",
+              "title": "SEC tokenized stock framework faces issuer pushback as Broadcom, Verizon object to OKX-ICE listing",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-18T23:28:06+00:00",
+              "first_seen_at": "2026-10-19T06:32:15.426381+00:00",
+              "document_state": "pending_permitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        }
+      ],
+      "raw_headlines_in_window": 76,
+      "display_groups_in_window": 71,
+      "indexed_documents": 905,
+      "pending_index": 0,
+      "index_budget_per_cycle": 250,
+      "note": "Headlines are reported claims; exact contract mentions are not issuer/endorsement verification. No global social growth measurements."
+    },
+    "document_requests": [],
+    "ai_configured": false,
+    "enabled": false,
+    "social_api": "not_configured",
+    "community_metrics": "not_available",
+    "story_discovery": {
+      "states": {},
+      "tracked_contracts": 0,
+      "lookup_budget_per_cycle": 3,
+      "timeout_seconds": 8,
+      "note": "Exact document references only. Unknown pools and failed lookups remain recorded; they are not zero-loss trades or verified launches.",
+      "recent_lookups": []
+    }
+  },
+  "candidate": null,
+  "universe_totals": {
+    "discovered": 37659,
+    "signals": 82149,
+    "alerts": 2216,
+    "observations": 148093,
+    "eligible": 37659,
+    "eligible_without_first_evaluation": 13,
+    "risk_update_alerts": 996,
+    "delivered_in_app": 66,
+    "telegram_acknowledged": 0
+  },
+  "operations": "GET only; no injected stories/tokens, thresholds changed, receipt POSTs, messages sent or trades placed",
+  "coverage": "Most recent 20 document lookup jobs; once selected, one candidate is followed throughout the run. Absence is unverified, not proof no opportunity exists.",
+  "note": "Paper outcomes are simulated. Delivery receipts do not prove a human read the alert. This command does not verify browser rendering or profitability."
+}

@@ -76,8 +76,12 @@ async def check(base):
                 renderHealth();
             }""")
             await page.locator("#connection").click()
-            await expect(page.locator("#health-details")).to_contain_text("news_decrypt", timeout=1000)
-            await expect(page.locator("#health-details")).to_contain_text("Fixture news proxy blocked", timeout=1000)
+            await expect(page.locator("#health-details")).to_contain_text(
+                "news_decrypt", timeout=1000
+            )
+            await expect(page.locator("#health-details")).to_contain_text(
+                "Fixture news proxy blocked", timeout=1000
+            )
 
         async def isolation(page):
             gate = asyncio.Event()
@@ -197,21 +201,46 @@ async def check(base):
 
         async def stories_without_ai(page):
             original = await (await page.request.get(base + "/api/opportunities/narratives")).json()
-            candidate = (await (await page.request.get(base + "/api/opportunities")).json())["items"][0]
+            candidate = (await (await page.request.get(base + "/api/opportunities")).json())[
+                "items"
+            ][0]
             original.update(enabled=False, ai_configured=False)
-            original["story_discovery"] = {"tracked_contracts": 2, "states": {"resolved_pool": 1, "market_unavailable": 1}}
-            original["stories"]["items"] = [{
-                "title": "Explicit document fixture without AI", "url": "https://solana.com/fixture",
-                "publisher_reported": "Isolated fixture", "published_at": candidate["discovered_at"],
-                "first_seen_at": candidate["discovered_at"], "document_state": "read",
-                "contracts": [{"association": "exact_contract_document_mention", "contract": candidate["contract"], "candidate_id": candidate["id"], "eligible": True}],
-            }]
+            original["story_discovery"] = {
+                "tracked_contracts": 2,
+                "states": {"resolved_pool": 1, "market_unavailable": 1},
+            }
+            original["stories"]["items"] = [
+                {
+                    "title": "Explicit document fixture without AI",
+                    "url": "https://solana.com/fixture",
+                    "publisher_reported": "Isolated fixture",
+                    "published_at": candidate["discovered_at"],
+                    "first_seen_at": candidate["discovered_at"],
+                    "document_state": "read",
+                    "contracts": [
+                        {
+                            "association": "exact_contract_document_mention",
+                            "contract": candidate["contract"],
+                            "candidate_id": candidate["id"],
+                            "eligible": True,
+                        }
+                    ],
+                }
+            ]
             await page.route("**/api/opportunities/narratives", lambda r: r.fulfill(json=original))
             await ready(page)
-            await expect(page.locator("#engine-narratives")).to_contain_text("Explicit document fixture without AI")
+            await expect(page.locator("#engine-narratives")).to_contain_text(
+                "Explicit document fixture without AI"
+            )
             await expect(page.locator("#engine-narratives")).to_contain_text("emitent neconfirmat")
-            await expect(page.locator("#engine-narratives")).to_contain_text("piață indisponibilă 1")
-            await page.locator("#engine-narratives").get_by_role("button", name="Cercetează tokenul").click()
+            await expect(page.locator("#engine-narratives")).to_contain_text(
+                "piață indisponibilă 1"
+            )
+            await (
+                page.locator("#engine-narratives")
+                .get_by_role("button", name="Cercetează tokenul")
+                .click()
+            )
             await expect(page.locator("#engine-detail")).to_contain_text(candidate["contract"])
 
         async def daily_race_and_export(page):
@@ -224,7 +253,7 @@ async def check(base):
                 day = parse_qs(urlsplit(route.request.url).query)["day"][0]
                 if day == "2026-01-01":
                     started.set()
-                    await asyncio.sleep(.35)
+                    await asyncio.sleep(0.35)
                 value = json.loads(json.dumps(original))
                 value["day_utc"] = day
                 await route.fulfill(json=value)
@@ -236,9 +265,13 @@ async def check(base):
             await asyncio.wait_for(started.wait(), timeout=2)
             await page.locator("#engine-daily-day").fill("2026-01-02")
             await page.locator("#engine-daily-day").dispatch_event("change")
-            await expect(page.locator("#engine-daily h3").first).to_have_text("Descoperiri 2026-01-02 UTC")
+            await expect(page.locator("#engine-daily h3").first).to_have_text(
+                "Descoperiri 2026-01-02 UTC"
+            )
             await page.wait_for_timeout(500)
-            await expect(page.locator("#engine-daily h3").first).to_have_text("Descoperiri 2026-01-02 UTC")
+            await expect(page.locator("#engine-daily h3").first).to_have_text(
+                "Descoperiri 2026-01-02 UTC"
+            )
             async with page.expect_download() as info:
                 await page.locator("#engine-daily-export").click()
             download = await info.value
@@ -249,7 +282,10 @@ async def check(base):
             await ready(page)
             await page.wait_for_function("() => opportunityView.daily !== null")
             original_day = await page.evaluate("opportunityView.daily.day_utc")
-            await page.route("**/api/opportunities/daily?*", lambda r: r.fulfill(status=503, json={"detail": "Fixture report unavailable"}))
+            await page.route(
+                "**/api/opportunities/daily?*",
+                lambda r: r.fulfill(status=503, json={"detail": "Fixture report unavailable"}),
+            )
             await page.locator("#engine-daily-panel > summary").click()
             await page.locator("#engine-daily-day").fill("2026-01-01")
             await page.locator("#engine-daily-day").dispatch_event("change")
@@ -263,6 +299,44 @@ async def check(base):
             await ready(page)
             await page.wait_for_function("() => opportunityView.daily !== null")
             await page.locator("#engine-daily-panel > summary").click()
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
+        async def market_reference_evidence(page):
+            await ready(page)
+            await page.evaluate("""() => renderEngineNarratives({items:[], enabled:false, stories:{items:[{
+                title:'Explicit pool evidence fixture', url:'https://decrypt.co/fixture',
+                publisher_reported:'Fixture', published_at:new Date().toISOString(),
+                first_seen_at:new Date().toISOString(), document_state:'read',
+                related_reports:[{publisher_reported:'Fixture A',url:'https://decrypt.co/fixture'},
+                                 {publisher_reported:'Fixture B',url:'https://cointelegraph.com/fixture'}],
+                contracts:[{association:'resolved_market_pair_reference', contract:'11111111111111111111111111111111',
+                  payload:{market_reference:{reference_url:'https://dexscreener.com/solana/G2UuRbmVDzDFP4qyoBJrSKBXSi7d6V4bPP9tHPs36y4b',price_change_24h_reported_pct:2900}}}]
+            }]}})""")
+            root = page.locator("#engine-narratives")
+            await expect(root).to_contain_text("Token identificat prin link de pool")
+            await expect(root).to_contain_text("2900%")
+            await expect(root).not_to_contain_text("blockchain neclar")
+            await root.locator("details summary").click()
+            await expect(root).to_contain_text("independență neconfirmată")
+            await expect(root.get_by_role("link", name="Fixture B")).to_have_count(1)
+
+        async def cohort_comparison_table(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            await page.locator("#engine-daily-panel > summary").click()
+            await page.evaluate("""() => {
+                const report = structuredClone(opportunityView.daily);
+                const s={experiments:2,evaluated:1,unresolved_or_unavailable:1,mean_net_pnl_usd:'-2.00'};
+                report.models.estimated_pool['300'].comparisons_by_policy_and_cohort={77:{test:{
+                    all_first_evaluations:s,selected_at_first_evaluation:s,control_excluding_selected:s}}};
+                renderDailyResearch(report);
+            }""")
+            panel = page.locator("#engine-daily .daily-comparisons").first
+            await panel.locator("summary").click()
+            await expect(panel).to_contain_text("5m · P77 · Test")
+            await expect(panel).to_contain_text("1 / 2")
+            await expect(panel).to_contain_text("-2,00")
+            await page.set_viewport_size({"width": 390, "height": 844})
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
         for name, fn in [
@@ -281,6 +355,8 @@ async def check(base):
             ("daily report race and JSON export", daily_race_and_export),
             ("daily failure preserves candidates", daily_failure_isolated),
             ("daily mobile layout", daily_mobile),
+            ("pool references and repeated report evidence", market_reference_evidence),
+            ("partitioned comparison and mobile layout", cohort_comparison_table),
         ]:
             await scenario(name, fn)
         await browser.close()

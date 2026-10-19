@@ -9,6 +9,7 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from decimal import Decimal
 
+from app.cohort_comparisons import partition
 from app.models import epoch, utcnow
 from app.opportunity_rules import RULE_VERSION
 from app.paper import Rejected, fill, require_fresh
@@ -265,76 +266,81 @@ def report(engine):
             "SELECT count(*) FROM opportunity_alerts WHERE telegram_state='acknowledged_by_api'"
         ).fetchone()[0]
         candidates = db.execute(
-            "SELECT c.id,c.discovery,o.at,o.payload FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"
+            """SELECT c.id,json_extract(c.discovery,'$.price_usd') AS initial_price,
+            json_extract(o.payload,'$.market.price_usd') AS price,
+            json_extract(o.payload,'$.market.observed_at') AS market_at,
+            json_extract(o.payload,'$.security.observed_at') AS security_at,
+            json_extract(o.payload,'$.decision.verdict') AS verdict,
+            json_extract(o.payload,'$.decision.security_filter_passed') AS security_pass,
+            json_extract(o.payload,'$.decision.liquidity_filter_passed') AS liquidity_pass
+            FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(
+                SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"""
         ).fetchall()
         rows = db.execute(
-            "SELECT o.*,s.kind,s.at AS signal_at,s.payload AS signal_payload,s.observation_id,a.id AS alert_id,c.contract,e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id JOIN opportunity_candidates c ON c.id=s.candidate_id LEFT JOIN opportunity_alerts a ON a.signal_id=s.id AND a.severity!='critical' LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id ORDER BY s.id,o.horizon_seconds"
+            """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(o.payload,'$.pnl_usd') AS pnl,
+            s.kind,s.at AS signal_at,s.observation_id,a.id AS alert_id,c.contract,
+            e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at,
+            json_extract(s.payload,'$.policy.id') AS policy_id,
+            json_extract(s.payload,'$.policy.at') AS policy_at,
+            json_extract(s.payload,'$.policy.payload.config.test_from') AS test_from,
+            json_extract(s.payload,'$.policy.payload.config.entry_window_seconds') AS entry_window,
+            json_extract(s.payload,'$.policy.payload.config.exit_window_seconds') AS exit_window
+            FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id
+            JOIN opportunity_candidates c ON c.id=s.candidate_id
+            LEFT JOIN opportunity_alerts a ON a.signal_id=s.id AND a.severity!='critical'
+            LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id ORDER BY s.id,o.horizon_seconds"""
         ).fetchall()
         parsed = []
-        signal_cache = {}
         for r in rows:
             row = dict(r)
-            row["payload"] = json.loads(r["payload"])
-            if r["signal_id"] not in signal_cache:
-                signal_cache[r["signal_id"]] = json.loads(r["signal_payload"])
-            s = signal_cache[r["signal_id"]]
-            row.pop("signal_payload", None)
-            policy = s["policy"]
-            row["policy_id"] = policy["id"]
-            split = policy["payload"]["config"].get("test_from")
-            declared = epoch(policy["at"])
-            when = epoch(r["signal_at"])
-            row["cohort"] = (
-                "unassigned"
-                if not split or epoch(split) < declared
-                else "development"
-                if when < epoch(split)
-                else "test"
-            )
-            # Do not allow development trade windows to overlap the future holdout boundary.
-            if (
-                split
-                and row["cohort"] == "development"
-                and when
-                + policy["payload"]["config"]["entry_window_seconds"]
-                + r["horizon_seconds"]
-                + policy["payload"]["config"]["exit_window_seconds"]
-                >= epoch(split)
-            ):
-                row["cohort"] = "purged_boundary"
+            row["payload"] = {"pnl_usd": row.pop("pnl")}
+            row["config_parsed"] = {
+                "test_from": row.pop("test_from"),
+                "entry_window_seconds": row.pop("entry_window"),
+                "exit_window_seconds": row.pop("exit_window"),
+            }
+            row["cohort"] = partition(row, r["horizon_seconds"])
+            row.pop("config_parsed")
             parsed.append(row)
         latest = []
         for r in candidates:
-            p = json.loads(r["payload"]) if r["payload"] else {}
-            discovery = json.loads(r["discovery"])
-            m = p.get("market")
-            d = p.get("decision") or {}
             latest.append(
                 {
                     "id": r["id"],
-                    "initial_price": discovery.get("price_usd"),
-                    "price": m.get("price_usd") if m else None,
-                    "decision": d,
+                    "initial_price": r["initial_price"],
+                    "price": r["price"],
+                    "decision": {
+                        "verdict": r["verdict"] or "PENDING",
+                        "security_filter_passed": r["security_pass"],
+                        "liquidity_filter_passed": r["liquidity_pass"],
+                    },
                     "security_fresh": bool(
-                        p.get("security")
+                        r["security_at"]
                         and 0
-                        <= time.time() - epoch(p["security"]["observed_at"])
+                        <= time.time() - epoch(r["security_at"])
                         <= engine.service.settings.max_snapshot_age
                     ),
                     "fresh": bool(
-                        m
+                        r["market_at"]
                         and 0
-                        <= time.time() - epoch(m["observed_at"])
+                        <= time.time() - epoch(r["market_at"])
                         <= engine.service.settings.max_snapshot_age
                     ),
                 }
             )
-        initial = []
-        alert_rows = db.execute("SELECT payload FROM opportunity_alerts").fetchall()
-        for r in db.execute(
-            "SELECT s.*,o.payload AS evidence FROM opportunity_signals s JOIN opportunity_observations o ON o.id=s.observation_id WHERE s.kind='baseline'"
-        ):
-            initial.append((dict(r), json.loads(r["evidence"])))
+        alert_rows = db.execute(
+            "SELECT json_extract(payload,'$.features.excessive_extension') AS extended FROM opportunity_alerts"
+        ).fetchall()
+        initial = db.execute(
+            """SELECT s.id,
+            json_extract(o.payload,'$.features.changes.5m.volume_5m_ratio') AS volume_ratio,
+            json_extract(o.payload,'$.features.excessive_extension') AS extended,
+            json_array_length(o.payload,'$.narrative.supported') AS narrative_count,
+            json_extract(o.payload,'$.decision.security_filter_passed') AS security_pass,
+            json_extract(o.payload,'$.decision.liquidity_filter_passed') AS liquidity_pass,
+            json_extract(o.payload,'$.decision.verdict') AS verdict
+            FROM opportunity_signals s JOIN opportunity_observations o ON o.id=s.observation_id WHERE s.kind='baseline'"""
+        ).fetchall()
     horizons = {}
     for h in sorted({r["horizon_seconds"] for r in parsed}):
         baseline = [r for r in parsed if r["horizon_seconds"] == h and r["kind"] == "baseline"]
@@ -400,12 +406,12 @@ def report(engine):
     for name, predicate in [
         (
             "volume_acceleration_ge_2",
-            lambda p: ((p["features"]["changes"].get("5m") or {}).get("volume_5m_ratio") or 0) >= 2,
+            lambda p: (p["volume_ratio"] or 0) >= 2,
         ),
-        ("excessive_extension", lambda p: p["features"]["excessive_extension"]),
-        ("contract_narrative", lambda p: bool(p["narrative"]["supported"])),
+        ("excessive_extension", lambda p: p["extended"]),
+        ("contract_narrative", lambda p: bool(p["narrative_count"])),
     ]:
-        ids = {s["id"] for s, p in initial if predicate(p)}
+        ids = {p["id"] for p in initial if predicate(p)}
         diagnostics[name] = {
             str(h): summary(
                 [r for r in parsed if r["horizon_seconds"] == h and r["signal_id"] in ids]
@@ -416,13 +422,9 @@ def report(engine):
         "rule_version": RULE_VERSION,
         "totals": totals,
         "sampling": engine.sampling.coverage(),
-        "first_evaluation_security_pass": sum(
-            bool(p["decision"]["security_filter_passed"]) for s, p in initial
-        ),
-        "first_evaluation_liquidity_pass": sum(
-            bool(p["decision"]["liquidity_filter_passed"]) for s, p in initial
-        ),
-        "first_evaluation_verdicts": dict(Counter(p["decision"]["verdict"] for s, p in initial)),
+        "first_evaluation_security_pass": sum(bool(p["security_pass"]) for p in initial),
+        "first_evaluation_liquidity_pass": sum(bool(p["liquidity_pass"]) for p in initial),
+        "first_evaluation_verdicts": dict(Counter(p["verdict"] for p in initial)),
         "current_security_pass": sum(
             bool(r["fresh"] and r["security_fresh"] and r["decision"].get("security_filter_passed"))
             for r in latest
@@ -443,9 +445,7 @@ def report(engine):
             and r["price"] / r["initial_price"] >= 2
             for r in latest
         ),
-        "alerts_already_extended_at_signal": sum(
-            bool(json.loads(r["payload"])["features"]["excessive_extension"]) for r in alert_rows
-        ),
+        "alerts_already_extended_at_signal": sum(bool(r["extended"]) for r in alert_rows),
         "confirmed_unsellable": None,
         "missed_opportunities": None,
         "horizons": horizons,

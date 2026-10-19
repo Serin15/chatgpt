@@ -246,6 +246,9 @@ def parse_rss(content, topic, now=None):
                 "fingerprint": hashlib.sha256((topic + link).encode()).hexdigest(),
             }
         )
+    if TOPICS[topic].get("feed"):
+        output.sort(key=lambda item: relevant_headline(item["title"], "memecoins"), reverse=True)
+        return output[:30]
     return output[:10]
 
 

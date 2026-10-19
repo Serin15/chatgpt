@@ -1,0 +1,39 @@
+{
+  "same_fixed_database": true,
+  "read_only": true,
+  "outputs_identical": true,
+  "results": [
+    {
+      "implementation": "before",
+      "seconds": 22.987,
+      "sha256": "e71660575b20e21caeddebee5f8d40f18a630afc37ceaeb1b89c101e16e238e2",
+      "totals": {
+        "discovered": 37485,
+        "signals": 81683,
+        "alerts": 2205,
+        "observations": 147553,
+        "eligible": 37485,
+        "eligible_without_first_evaluation": 15,
+        "risk_update_alerts": 996,
+        "delivered_in_app": 46,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "implementation": "after",
+      "seconds": 8.206,
+      "sha256": "e71660575b20e21caeddebee5f8d40f18a630afc37ceaeb1b89c101e16e238e2",
+      "totals": {
+        "discovered": 37485,
+        "signals": 81683,
+        "alerts": 2205,
+        "observations": 147553,
+        "eligible": 37485,
+        "eligible_without_first_evaluation": 15,
+        "risk_update_alerts": 996,
+        "delivered_in_app": 46,
+        "telegram_acknowledged": 0
+      }
+    }
+  ]
+}

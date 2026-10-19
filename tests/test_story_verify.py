@@ -84,3 +84,29 @@ def test_document_available_after_discovery_is_not_initial_discovery_evidence():
     detail, job, alerts = sample()
     detail["discovery"]["story_evidence"]["evidence_indexed_at"] = stamp(time.time())
     assert not assess(detail, job, alerts)["candidate_discovered_from_document"]
+
+
+def test_market_reference_verification_is_explicit_and_requires_same_api_evidence():
+    from tests.test_story_markets import reference
+
+    detail, job, alerts = sample()
+    at = detail["discovery"]["story_evidence"]["document_observed_at"]
+    ref = reference(observed_at=at, pool_created_at_reported=None)
+    detail["contract"] = ref["base_contract"]
+    detail["discovery"]["discovery_basis"] = "news_market_pair_reference_not_launch"
+    detail["discovery"]["story_evidence"]["market_reference"] = ref
+    detail["signals"][0]["payload"]["narrative"] = {
+        "market_references": [copy.deepcopy(detail["discovery"]["story_evidence"])]
+    }
+    assert not assess(detail, job, alerts)["candidate_discovered_from_document"]
+    assert all(assess(detail, job, alerts, "market_reference").values())
+    detail["signals"][0]["payload"]["narrative"]["market_references"][0]["market_reference"][
+        "response_sha256"
+    ] = "b" * 64
+    assert not assess(detail, job, alerts, "market_reference")["eligible_alert_generated"]
+
+
+def test_risk_alert_is_not_an_eligible_opportunity_alert():
+    detail, job, alerts = sample()
+    alerts[0]["severity"] = "critical"
+    assert not assess(detail, job, alerts)["eligible_alert_generated"]

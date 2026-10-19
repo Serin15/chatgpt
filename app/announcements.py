@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field, model_validator
 from app.assets import safe_link
 from app.models import epoch, solana_address, utcnow
 from app.providers import ProviderError
+from app.story_markets import resolve_references
 
 SOURCES = {
     "blog.ethereum.org": {
@@ -699,7 +700,16 @@ class Announcements:
         # New permitted documents precede hourly rereads. Meme-related stories
         # get attention within that group; titles still cannot establish identity.
         pending = []
-        for article in news.listing():
+        # Collection is independent of the dashboard's first 100 displayed rows.
+        with self.store.connect() as db:
+            articles = [
+                dict(r)
+                for r in db.execute(
+                    "SELECT * FROM news WHERE id IN (SELECT min(id) FROM news GROUP BY canonical_url) AND julianday(first_seen_at)<=julianday(?) AND julianday(published_at) BETWEEN julianday(?)-1 AND julianday(?) ORDER BY published_at DESC LIMIT 250",
+                    (utcnow(), utcnow(), utcnow()),
+                )
+            ]
+        for article in articles:
             source = SOURCES.get(urlsplit(article["url"]).hostname)
             previous = self.news_document(article["id"])
             if (
@@ -724,6 +734,10 @@ class Announcements:
         for article, source, previous in pending:
             if done >= limit:
                 break
+            full = news.listing(news_id=article["id"])
+            if not full:
+                continue
+            article = full[0]
             done += 1
             try:
                 document = await self.document(article["url"])
@@ -752,6 +766,7 @@ class Announcements:
                             document, "solana", candidate["contract"]
                         )["excerpt"]
                 saved["contract_candidates"] = candidates
+                saved["market_pair_references"] = await resolve_references(document, self.client)
                 linked = []
                 for candidate in [
                     c

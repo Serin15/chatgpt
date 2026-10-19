@@ -9,7 +9,7 @@ from app.analysis import analyze
 from app.models import Market, epoch
 from app.paper import Rejected, break_even, fill
 
-RULE_VERSION = "memescope-3.1-evidence"
+RULE_VERSION = "memescope-3.2-market-references"
 
 
 class EngineConfig(BaseModel):
@@ -101,8 +101,23 @@ def features(market, history, discovery, at, config, activity=None, distribution
     except (ValueError, TypeError):
         pool_age = None
     extension = pct(market["price_usd"], discovery.get("price_usd"))
-    late = (market.get("change_5m") or 0) > config.max_change_5m_pct or (
-        extension is not None and extension > config.max_extension_pct
+    reference = (discovery.get("story_evidence") or {}).get("market_reference") or {}
+    prior_move = None
+    try:
+        reported = reference.get("price_change_24h_reported_pct")
+        if (
+            0 <= now - epoch(reference["observed_at"]) <= 86400
+            and isinstance(reported, (int, float))
+            and not isinstance(reported, bool)
+            and math.isfinite(reported)
+        ):
+            prior_move = reported
+    except (ValueError, TypeError, KeyError, OverflowError):
+        pass
+    late = (
+        (market.get("change_5m") or 0) > config.max_change_5m_pct
+        or (extension is not None and extension > config.max_extension_pct)
+        or (prior_move is not None and prior_move > config.max_extension_pct)
     )
     suspicions = []
     if liquidity_change is not None and liquidity_change <= -config.max_liquidity_drop_pct:
@@ -157,6 +172,7 @@ def features(market, history, discovery, at, config, activity=None, distribution
         "pool_age_hours": pool_age,
         "token_launch_time_known": False,
         "price_change_since_first_capture_pct": extension,
+        "story_reference_prior_24h_move_reported_pct": prior_move,
         "excessive_extension": late,
         "changes": changes,
         "latest_liquidity_change_pct": liquidity_change,
@@ -235,7 +251,9 @@ def evaluate(market, security, feature, narrative, wallet, settings, config, at)
             "No corroborated contract-specific narrative; name matches remain uncertain."
         )
     if narrative.get("contradictory"):
-        unknown.append("Contract-specific sources contain negative or contradictory context; issuer claims require independent review.")
+        unknown.append(
+            "Contract-specific sources contain negative or contradictory context; issuer claims require independent review."
+        )
     if wallet.get("score") is None:
         unknown.append("No reliable monitored-wallet accumulation evidence.")
     unknown.append(

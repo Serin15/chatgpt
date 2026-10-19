@@ -5,6 +5,7 @@ from collections import Counter
 from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal, InvalidOperation
 
+from app.cohort_comparisons import comparisons, partition, protocol
 from app.models import epoch, utcnow
 from app.opportunity_outcomes import wilson
 
@@ -36,6 +37,17 @@ def summarize(rows):
         "unresolved_or_unavailable": len(rows) - len(values),
         "states": dict(states),
         "profitable_after_costs": sum(v > 0 for v in values),
+        "nonprofitable_after_costs": sum(v <= 0 for v in values),
+        "nonprofitable_rate_among_evaluated": sum(v <= 0 for v in values) / len(values)
+        if values
+        else None,
+        "evaluated_fraction": len(values) / len(rows) if rows else None,
+        "win_fraction_sensitivity_bounds_all_planned": [
+            sum(v > 0 for v in values) / len(rows),
+            (sum(v > 0 for v in values) + len(rows) - len(values)) / len(rows),
+        ]
+        if rows
+        else None,
         "net_pnl_independent_experiments_usd": str(sum(values, Decimal(0))) if values else None,
         "mean_net_pnl_usd": str(sum(values, Decimal(0)) / len(values)) if values else None,
         "worst_net_pnl_usd": str(min(values)) if values else None,
@@ -90,6 +102,8 @@ def daily_report(engine, day: date | None = None):
         ).fetchall()
         models = {}
         firsts = {r["signal_id"]: dict(r) for r in candidates if r["signal_id"] is not None}
+        for subject in firsts.values():
+            subject["config_parsed"] = json.loads(subject["config"])
         for name, table in [
             ("estimated_pool", "opportunity_outcomes"),
             ("jupiter_quotes", "routed_outcomes"),
@@ -109,16 +123,9 @@ def daily_report(engine, day: date | None = None):
                 subject = firsts.get(row["signal_id"])
                 if subject is None:
                     continue
-                cfg = json.loads(subject["config"])
+                cfg = subject["config_parsed"]
                 when = epoch(subject["signal_at"])
-                cutoff = cfg.get("test_from")
-                partition = "unassigned"
-                if cutoff and epoch(cutoff) >= epoch(subject["policy_at"]):
-                    partition = "test" if when >= epoch(cutoff) else "development"
-                    if partition == "development" and when + cfg["entry_window_seconds"] + row[
-                        "horizon_seconds"
-                    ] + cfg["exit_window_seconds"] >= epoch(cutoff):
-                        partition = "purged_boundary"
+                cohort_name = partition(subject, row["horizon_seconds"])
                 if epoch(row["updated_at"]) > now:
                     row.update(state="future_update_unavailable", pnl=None)
                 elif (
@@ -137,18 +144,29 @@ def daily_report(engine, day: date | None = None):
                     selected=bool(subject["selected"]),
                     control=bool(prospective and subject["control_member"]),
                     policy_id=subject["policy_id"],
-                    cohort=partition,
+                    cohort=cohort_name,
                 )
                 parsed.append(row)
             horizons = {}
-            for horizon in sorted({r["horizon_seconds"] for r in parsed}):
+            configured_horizons = {
+                h for s in firsts.values() for h in s["config_parsed"].get("horizons_seconds", [])
+            }
+            for horizon in sorted({r["horizon_seconds"] for r in parsed} | configured_horizons):
                 rows = [r for r in parsed if r["horizon_seconds"] == horizon]
+                observed_ids = {r["signal_id"] for r in rows}
                 horizons[str(horizon)] = {
                     "all_first_evaluations": summarize(rows),
                     "selected_at_first_evaluation": summarize([r for r in rows if r["selected"]]),
                     "prospective_fixed_control": summarize([r for r in rows if r["control"]]),
                     "selected_control_overlap": sum(r["selected"] and r["control"] for r in rows),
-                    "first_evaluations_without_model_rows": len(firsts) - len(rows),
+                    "comparisons_by_policy_and_cohort": comparisons(
+                        firsts, parsed, horizon, name, summarize
+                    ),
+                    "first_evaluations_without_model_rows": sum(
+                        horizon in s["config_parsed"].get("horizons_seconds", [])
+                        and signal_id not in observed_ids
+                        for signal_id, s in firsts.items()
+                    ),
                     "cohorts": {
                         c: summarize([r for r in rows if r["cohort"] == c])
                         for c in ["development", "test", "unassigned", "purged_boundary"]
@@ -185,6 +203,7 @@ def daily_report(engine, day: date | None = None):
         },
         "first_verdicts": dict(Counter(r["verdict"] or "PENDING" for r in candidates)),
         "models": models,
+        "evaluation_protocol": protocol(firsts, at),
         "live_execution": False,
         "profitability_demonstrated": False,
         "limitations": [
@@ -195,5 +214,6 @@ def daily_report(engine, day: date | None = None):
             "Independent simulations are not one capital-constrained portfolio; no portfolio drawdown is inferred.",
             "Wilson intervals assume independent outcomes; correlated tokens and unequal coverage limit comparisons.",
             "Thresholds are not optimized on this report; unassigned data are not a holdout.",
+            "Nonprofitable means net paper PnL <= 0 among evaluated results, not a verified false factual claim. Sensitivity bounds assume all unknown outcomes fail/succeed; they are not predictions.",
         ],
     }

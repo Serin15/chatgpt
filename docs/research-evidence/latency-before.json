@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/api/opportunities/performance",
+    "status": 200,
+    "seconds": 18.814,
+    "bytes": 51664
+  },
+  {
+    "path": "/api/opportunities/daily?day=2026-10-18",
+    "status": 200,
+    "seconds": 0.445,
+    "bytes": 131235
+  },
+  {
+    "path": "/api/opportunities",
+    "status": 200,
+    "seconds": 0.067,
+    "bytes": 319289
+  }
+]

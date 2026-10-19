@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-19T06:39:42Z",
+  "data": "normal running instance, real stored data; no routes/mocks or manual trades",
+  "checks": {
+    "candidate_rows": 50,
+    "daily_comparison_text": "Selecție versus control · politici și development/test separate\nOrizont / politică / cohortă\tSelectate evaluate / planificate\tControl fără suprapunere evaluate / planificate\tPnL mediu net selectate / control\tLipsă selectate / control\n5m · P5 · Test\t28 / 53\t1 / 297\t4,95 USD / -22,74 USD\t25 / 296\n5m · P6 · Neatribuit\t0 / 0\t0 / 0\t— / —\t0 / 0\n60m · P5 · Test\t3 / 53\t0 / 297\t113,00 USD / —\t50 / 297\n60m · P6 · Neatribuit\t0 / 0\t0 / 0\t— / —\t0 / 0\n1440m · P5 · Test\t0 / 53\t0 / 297\t— / —\t53 / 297\n1440m · P6 · Neatribuit\t0 / 0\t0 / 0\t— / —\t0 / 0\n\nMedii condiționate de rezultatele evaluate. Acoperirea diferă; lipsurile și selecția împiedică o concluzie cauzală sau de profitabilitate. Politicile declarate după vechea dată de test rămân neatribuite.",
+    "mobile_no_overflow": true,
+    "version": "0.12.0",
+    "live_execution": false,
+    "workers": {
+      "scanner": {
+        "state": "running",
+        "started_at": "2026-10-19T06:37:58.164858+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "news": {
+        "state": "running",
+        "started_at": "2026-10-19T06:37:58.235022+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "assets": {
+        "state": "running",
+        "started_at": "2026-10-19T06:37:58.235156+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "performance": {
+        "state": "running",
+        "started_at": "2026-10-19T06:37:58.249586+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "intelligence": {
+        "state": "running",
+        "started_at": "2026-10-19T06:37:58.260500+00:00",
+        "restarts": 0,
+        "error": null
+      }
+    }
+  },
+  "js_errors": [],
+  "api_errors": []
+}

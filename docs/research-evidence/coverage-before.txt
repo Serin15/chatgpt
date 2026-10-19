@@ -1,0 +1,161 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+___________ test_direct_feed_keeps_relevant_article_beyond_first_ten ___________
+
+    def test_direct_feed_keeps_relevant_article_beyond_first_ten():
+        root = ET.Element("rss")
+        channel = ET.SubElement(root, "channel")
+        for i in range(15):
+            title = "New memecoin community announcement" if i == 12 else f"Generic crypto story {i}"
+            channel.append(
+                ET.fromstring(rss(title, f"https://decrypt.co/fixture/{i}")).find("./channel/item")
+            )
+        result = parse_rss(ET.tostring(root), "decrypt")
+>       assert any(x["url"].endswith("/12") for x in result)
+E       assert False
+E        +  where False = any(<generator object test_direct_feed_keeps_relevant_article_beyond_first_ten.<locals>.<genexpr> at 0x7f6b8520cd40>)
+
+tests/test_research_priorities.py:25: AssertionError
+__________ test_document_collection_does_not_depend_on_display_limit ___________
+
+store = <app.store.Store object at 0x7f6b85507470>
+
+    def test_document_collection_does_not_depend_on_display_limit(store):
+        async def run():
+            calls = []
+            target = "https://decrypt.co/fixture/meme"
+            client = httpx.AsyncClient(
+                transport=httpx.MockTransport(
+                    lambda r: (
+                        calls.append(str(r.url))
+                        or httpx.Response(
+                            200,
+                            text="<article><p>Explicit fixture with no contract.</p></article>",
+                            headers={"content-type": "text/html"},
+                        )
+                    )
+                )
+            )
+            news, documents = News(store, None), Announcements(store, client)
+            try:
+                news.save(
+                    article(topic="crypto", title="Memecoin launch fixture")
+                    | {"url": target, "published_at": stamp(time.time() - 600)}
+                )
+                with store.connect() as db:
+                    db.executemany(
+                        "INSERT INTO news(fingerprint,topic,title,url,publisher,published_at,first_seen_at,canonical_url) VALUES(?,?,?,?,?,?,?,?)",
+                        [
+                            (
+                                str(i),
+                                "crypto",
+                                f"Generic fixture {i}",
+                                f"https://solana.com/fixture/{i}",
+                                "Explicit fixture",
+                                stamp(time.time() - 60),
+                                stamp(time.time() - 60),
+                                f"https://solana.com/fixture/{i}",
+                            )
+                            for i in range(100)
+                        ],
+                    )
+                assert target not in [x["url"] for x in news.listing()]
+                await documents.enrich_news(news, None, limit=1)
+                assert calls == [target]
+            finally:
+                await news.close()
+                await client.aclose()
+
+>       asyncio.run(run())
+
+tests/test_research_priorities.py:74:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        calls = []
+        target = "https://decrypt.co/fixture/meme"
+        client = httpx.AsyncClient(
+            transport=httpx.MockTransport(
+                lambda r: (
+                    calls.append(str(r.url))
+                    or httpx.Response(
+                        200,
+                        text="<article><p>Explicit fixture with no contract.</p></article>",
+                        headers={"content-type": "text/html"},
+                    )
+                )
+            )
+        )
+        news, documents = News(store, None), Announcements(store, client)
+        try:
+            news.save(
+                article(topic="crypto", title="Memecoin launch fixture")
+                | {"url": target, "published_at": stamp(time.time() - 600)}
+            )
+            with store.connect() as db:
+                db.executemany(
+                    "INSERT INTO news(fingerprint,topic,title,url,publisher,published_at,first_seen_at,canonical_url) VALUES(?,?,?,?,?,?,?,?)",
+                    [
+                        (
+                            str(i),
+                            "crypto",
+                            f"Generic fixture {i}",
+                            f"https://solana.com/fixture/{i}",
+                            "Explicit fixture",
+                            stamp(time.time() - 60),
+                            stamp(time.time() - 60),
+                            f"https://solana.com/fixture/{i}",
+                        )
+                        for i in range(100)
+                    ],
+                )
+            assert target not in [x["url"] for x in news.listing()]
+            await documents.enrich_news(news, None, limit=1)
+>           assert calls == [target]
+E           AssertionError: assert ['https://sol...m/fixture/99'] == ['https://dec...fixture/meme']
+E
+E             At index 0 diff: 'https://solana.com/fixture/99' != 'https://decrypt.co/fixture/meme'
+E             Use -v to get more diff
+
+tests/test_research_priorities.py:69: AssertionError
+____ test_repeated_headlines_share_one_display_group_but_preserve_raw_rows _____
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f6b8579d700>, <app.opportunities.Opportunities object at 0x7f6b8547d580>)
+
+    def test_repeated_headlines_share_one_display_group_but_preserve_raw_rows(client_engine):
+        _, engine = client_engine
+        for i, publisher in enumerate(["Decrypt", "Yahoo Finance"]):
+            engine.service.news.save(
+                article(topic="memecoins", title="New meme community launches - " + publisher)
+                | {
+                    "url": ["https://decrypt.co/fixture", "https://finance.yahoo.com/fixture"][i],
+                    "publisher": publisher,
+                }
+            )
+        result = engine.narratives.stories.listing()["items"]
+>       assert len(result) == 1
+E       AssertionError: assert 2 == 1
+E        +  where 2 = len([{'news_id': 1, 'title': 'New meme community launches - Decrypt', 'memecoin_headline': True, 'url': 'https://decrypt.c... meme community launches - Yahoo Finance', 'memecoin_headline': True, 'url': 'https://finance.yahoo.com/fixture', ...}])
+
+tests/test_research_priorities.py:88: AssertionError
+=============================== warnings summary ===============================
+../../chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_research_priorities.py::test_direct_feed_keeps_relevant_article_beyond_first_ten
+FAILED tests/test_research_priorities.py::test_document_collection_does_not_depend_on_display_limit
+FAILED tests/test_research_priorities.py::test_repeated_headlines_share_one_display_group_but_preserve_raw_rows
+3 failed, 1 deselected, 1 warning in 0.89s
