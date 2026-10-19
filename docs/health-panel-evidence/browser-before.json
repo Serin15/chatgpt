@@ -1,0 +1,100 @@
+{
+  "data": "isolated fixtures",
+  "checks": [
+    {
+      "check": "candidate priority",
+      "pass": true
+    },
+    {
+      "check": "routed health",
+      "pass": true
+    },
+    {
+      "check": "news source health details",
+      "pass": true
+    },
+    {
+      "check": "independent candidate loading",
+      "pass": true
+    },
+    {
+      "check": "detail response race",
+      "pass": true
+    },
+    {
+      "check": "expanded evidence survives refresh",
+      "pass": true
+    },
+    {
+      "check": "receipt failure isolation",
+      "pass": true
+    },
+    {
+      "check": "browser back",
+      "pass": true
+    },
+    {
+      "check": "loaded pages survive refresh",
+      "pass": true
+    },
+    {
+      "check": "component health details",
+      "pass": true
+    },
+    {
+      "check": "health panel closes on every navigation",
+      "pass": false,
+      "error": "Locator expected to be hidden\nActual value: visible \nCall log:\n  - Expect \"to_be_hidden\" locator(\"#health-details\") with timeout 1000ms\n  - waiting for locator(\"#health-details\")\n    11 × locator resolved to <div id=\"health-details\" class=\"panel padded\">…</div>\n       - unexpected value \"visible\"\n\nAria snapshot:\n- heading \"Starea componentelor\" [level=2]\n- paragraph: \"dex: neverificat · dată neraportată\"\n- paragraph: \"rpc: neverificat · dată neraportată\"\n- paragraph: \"goplus: neverificat · dată neraportată\"\n- paragraph: \"coingecko_catalog: neverificat · dată neraportată\"\n- paragraph: \"performa"
+    },
+    {
+      "check": "health panel has bounded desktop and mobile height",
+      "pass": false,
+      "error": "{'x': 262, 'y': 254.125, 'width': 1144, 'height': 2817.984375}"
+    },
+    {
+      "check": "health panel explicit close and refresh state",
+      "pass": false,
+      "error": "Locator.click: Timeout 1000ms exceeded.\nCall log:\n  - waiting for locator(\"#health-details\").get_by_role(\"button\", name=\"Închide\")\n"
+    },
+    {
+      "check": "search response race",
+      "pass": true
+    },
+    {
+      "check": "document stories without AI",
+      "pass": true
+    },
+    {
+      "check": "daily report race and JSON export",
+      "pass": true
+    },
+    {
+      "check": "daily failure preserves candidates",
+      "pass": true
+    },
+    {
+      "check": "daily mobile layout",
+      "pass": true
+    },
+    {
+      "check": "pool references and repeated report evidence",
+      "pass": true
+    },
+    {
+      "check": "partitioned comparison and mobile layout",
+      "pass": true
+    },
+    {
+      "check": "price references and mobile layout",
+      "pass": true
+    },
+    {
+      "check": "usable prices separate from attempts",
+      "pass": true
+    },
+    {
+      "check": "live candidates before sequential history reports",
+      "pass": true
+    }
+  ]
+}

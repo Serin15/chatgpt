@@ -1,0 +1,97 @@
+{
+  "data": "isolated fixtures",
+  "checks": [
+    {
+      "check": "candidate priority",
+      "pass": true
+    },
+    {
+      "check": "routed health",
+      "pass": true
+    },
+    {
+      "check": "news source health details",
+      "pass": true
+    },
+    {
+      "check": "independent candidate loading",
+      "pass": true
+    },
+    {
+      "check": "detail response race",
+      "pass": true
+    },
+    {
+      "check": "expanded evidence survives refresh",
+      "pass": true
+    },
+    {
+      "check": "receipt failure isolation",
+      "pass": true
+    },
+    {
+      "check": "browser back",
+      "pass": true
+    },
+    {
+      "check": "loaded pages survive refresh",
+      "pass": true
+    },
+    {
+      "check": "component health details",
+      "pass": true
+    },
+    {
+      "check": "health panel closes on every navigation",
+      "pass": true
+    },
+    {
+      "check": "health panel has bounded desktop and mobile height",
+      "pass": true
+    },
+    {
+      "check": "health panel explicit close and refresh state",
+      "pass": true
+    },
+    {
+      "check": "search response race",
+      "pass": true
+    },
+    {
+      "check": "document stories without AI",
+      "pass": true
+    },
+    {
+      "check": "daily report race and JSON export",
+      "pass": true
+    },
+    {
+      "check": "daily failure preserves candidates",
+      "pass": true
+    },
+    {
+      "check": "daily mobile layout",
+      "pass": true
+    },
+    {
+      "check": "pool references and repeated report evidence",
+      "pass": true
+    },
+    {
+      "check": "partitioned comparison and mobile layout",
+      "pass": true
+    },
+    {
+      "check": "price references and mobile layout",
+      "pass": true
+    },
+    {
+      "check": "usable prices separate from attempts",
+      "pass": true
+    },
+    {
+      "check": "live candidates before sequential history reports",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "data": "normal instance and real provider status; no intercepted requests or injected state",
+  "at_utc": "2026-10-19T13:41:36Z",
+  "js_errors": [],
+  "pages": [
+    "market",
+    "scanner",
+    "portfolio",
+    "journal",
+    "sources",
+    "advanced",
+    "overview",
+    "news",
+    "opportunities"
+  ],
+  "version": "0.13.1",
+  "routed_quotes": {
+    "state": "partial",
+    "at": "2026-10-19T13:41:21.101185+00:00",
+    "cycles": 2881,
+    "attempted": 4,
+    "ready": 4,
+    "errors": [
+      "Rejected: Quote cu ieșire/impact neacceptabil."
+    ]
+  },
+  "desktop_panel_height": 420,
+  "mobile_panel_height": 420,
+  "mobile_no_overflow": true,
+  "close_button_works": true,
+  "live_execution": false
+}

@@ -1,0 +1,23 @@
+{
+  "original_signals_policies_config_unchanged": true,
+  "details": {
+    "research.sqlite3": {
+      "opportunity_signals": {
+        "max_id": 88191,
+        "count": 88191,
+        "sha256": "de5718826f889a7f2ec6263858f3e8e205be1c04029d8740b9860d07fb96afed"
+      },
+      "opportunity_policies": {
+        "max_id": 9,
+        "count": 9,
+        "sha256": "1607963e7b5e4c8bd9f14318b8749450c1b741fa624bd30055b10d5ecb9bade9"
+      },
+      "opportunity_config": {
+        "max_id": 1,
+        "count": 1,
+        "sha256": "d7bc0954471d1830a181d3486ccac20ad808b7b30349d903086ff2f3b3c0fff4"
+      }
+    },
+    "news_paper/research.sqlite3": {}
+  }
+}

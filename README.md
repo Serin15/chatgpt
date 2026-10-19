@@ -1,5 +1,7 @@
 # MemeScope v0.13.1 — beta privată Solana
 
+**Corecție interfață v0.13.1:** [panou de stare, navigare și actualizare Windows](docs/UI-V0.13.1.md).
+
 **Observații și măsurare:** [noutăți v0.13, comenzi și limite reale](docs/RESEARCH-V0.13.md).
 
 Cercetare automată pentru tokenuri Solana observate devreme în feedurile publice: descoperire →
