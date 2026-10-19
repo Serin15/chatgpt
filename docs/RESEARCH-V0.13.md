@@ -16,6 +16,9 @@ reale, nu modifică pragurile de selecție și nu demonstrează profitabilitate.
   din interval devine prima observație. Un eșec real nu este înlocuit cu un
   rezultat ulterior favorabil. Termenele și costurile rămân neschimbate.
   Politicile vechi păstrează alegerea primului rând și rezultatele lor.
+  Această regulă nouă privește modelul de pool și reperele de preț; Jupiter
+  păstrează separat politica și selecția strictă existente. Alinierea ferestrei
+  Jupiter necesită propria politică nouă și validare, fără rescriere istorică.
 - Bilanțul zilnic include o comparație separată a prețurilor față de cotația
   cunoscută la primul semnal. Sunt păstrați candidații respinși, lipsurile și
   lichiditatea zero. Se arată observații/total, variația medie și numărul
@@ -26,6 +29,9 @@ reale, nu modifică pragurile de selecție și nu demonstrează profitabilitate.
   și stările individuale, inclusiv necunoscutele. Raportarea este numai în citire.
 - Verificatorul documentar nu mai acceptă dovezi de pool în modul implicit care
   cere contract direct și nu mai acceptă confirmări de afișare datate în viitor.
+- Interogarea acoperirii proiectează o singură dată câmpurile necesare fiecărei
+  observații pentru alerte/control, fără să recitească integral payloadul pentru
+  fiecare câmp. Nu șterge date și nu schimbă rezultatele raportate.
 
 Codul principal este în `app/price_research.py`, `app/daily_research.py`,
 `app/opportunity_sampling.py`, `app/opportunity_outcomes.py`,

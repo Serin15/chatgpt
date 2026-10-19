@@ -1,5 +1,6 @@
 """Read-only price references. Price changes are neither fills nor net returns."""
 
+import json
 from bisect import bisect_left
 from collections import Counter, defaultdict
 from datetime import datetime
@@ -54,17 +55,16 @@ def capture(row, *, start, end, now, max_age, contract, pool):
 
 
 def coverage_states(db, now):
-    def state(price, liquidity, at, quoted, source, address, pair, start, end, age, contract, pool):
+    def state(fields, at, start, end, age, contract, pool):
+        values = json.loads(fields) if fields else [None] * 6
         return capture(
-            {
-                "price_usd": price,
-                "liquidity_usd": liquidity,
-                "at": at,
-                "quote_at": quoted,
-                "source_kind": source,
-                "contract": address,
-                "pool": pair,
-            },
+            dict(
+                zip(
+                    ["price_usd", "liquidity_usd", "quote_at", "source_kind", "contract", "pool"],
+                    values,
+                )
+            )
+            | {"at": at},
             start=start,
             end=end,
             now=now,
@@ -73,23 +73,29 @@ def coverage_states(db, now):
             pool=pool,
         )["state"]
 
-    db.create_function("capture_price_state", 12, state, deterministic=True)
+    db.create_function("capture_price_state", 7, state, deterministic=True)
     return [
         dict(r)
         for r in db.execute("""
+        WITH quotes AS MATERIALIZED (
+          SELECT id,candidate_id,at,json_extract(payload,'$.market.price_usd',
+            '$.market.liquidity_usd','$.market.observed_at','$.source_kind',
+            '$.market.address','$.market.pair_address') AS fields
+          FROM opportunity_observations WHERE id IN (
+            SELECT observation_id FROM observation_jobs WHERE status='attempted'
+            AND (selected=1 OR control_member=1)
+          )
+        )
         SELECT j.phase,j.selected,j.control_member,e.provenance,
-        capture_price_state(json_extract(o.payload,'$.market.price_usd'),
-          json_extract(o.payload,'$.market.liquidity_usd'),o.at,
-          json_extract(o.payload,'$.market.observed_at'),json_extract(o.payload,'$.source_kind'),
-          json_extract(o.payload,'$.market.address'),json_extract(o.payload,'$.market.pair_address'),
+        capture_price_state(o.fields,o.at,
           j.due_at,j.deadline_at,json_extract(p.payload,'$.observation_rules.max_snapshot_age'),
           c.contract,c.pool) AS price_state,count(*) AS n
         FROM observation_jobs j JOIN opportunity_candidates c ON c.id=j.candidate_id
         LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id
-        LEFT JOIN opportunity_observations o ON o.id=j.observation_id AND o.candidate_id=c.id
+        LEFT JOIN quotes o ON o.id=j.observation_id AND o.candidate_id=c.id
         LEFT JOIN opportunity_signals s ON s.id=j.signal_id
         LEFT JOIN opportunity_policies p ON p.id=s.policy_id
-        WHERE j.status='attempted'
+        WHERE j.status='attempted' AND (j.selected=1 OR j.control_member=1)
         GROUP BY j.phase,j.selected,j.control_member,e.provenance,price_state
     """)
     ]
