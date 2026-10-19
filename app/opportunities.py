@@ -72,7 +72,7 @@ class Opportunities:
         self.owner = uuid.uuid4().hex
         self.lock = asyncio.Lock()
         self._report_lock = Lock()
-        self._report_future = None
+        self._report_futures = {}
         self.narratives = Narratives(service)
         self.story_discovery = StoryDiscovery(service, self.narratives.stories)
         self.ai_task = None
@@ -938,17 +938,20 @@ class Opportunities:
     def report(self):
         from app.opportunity_outcomes import report
 
+        return self.shared_report(("performance",), lambda: report(self))
+
+    def shared_report(self, key, compute):
         # Concurrent browser refreshes share the same in-flight read. Once it
         # finishes, the next request computes fresh data; no historical cache.
         with self._report_lock:
-            pending = self._report_future
+            pending = self._report_futures.get(key)
             owner = pending is None
             if owner:
-                pending = self._report_future = Future()
+                pending = self._report_futures[key] = Future()
         if not owner:
             return deepcopy(pending.result())
         try:
-            result = report(self)
+            result = compute()
             pending.set_result(deepcopy(result))
             return result
         except BaseException as error:
@@ -956,7 +959,7 @@ class Opportunities:
             raise
         finally:
             with self._report_lock:
-                self._report_future = None
+                self._report_futures.pop(key, None)
 
     def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
         now = time.time()

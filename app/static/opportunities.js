@@ -282,28 +282,32 @@ async function renderOpportunities() {
         await renderEngineAlerts(opportunityView.alerts);
       },
     ],
-    ["Performanță", "/api/opportunities/performance", renderOpportunityStats],
     ["Narațiuni", "/api/opportunities/narratives", renderEngineNarratives],
     ["Walleturi", "/api/wallets", renderOpportunityWallets],
     ["Colectare", "/api/opportunities/coverage", renderEngineCoverage],
-    ["Jupiter", "/api/opportunities/routes", renderEngineRoutes],
   ];
+  const loadSection = async ([name, path, render]) => {
+    try {
+      await render(await api(path));
+      opportunityError(name, null);
+    } catch (error) {
+      opportunityError(name, error);
+    }
+  };
   try {
     await Promise.allSettled([
       loadOpportunityCandidates(),
-      loadDailyResearch(),
-      ...sections.map(async ([name, path, render]) => {
-        try {
-          await render(await api(path));
-          opportunityError(name, null);
-        } catch (error) {
-          opportunityError(name, error);
-        }
-      }),
+      ...sections.map(loadSection),
       opportunityView.selection !== null
         ? openOpportunity(opportunityView.selection, false)
         : Promise.resolve(),
     ]);
+    // Keep live discovery responsive while full-history reports read the database.
+    await loadDailyResearch();
+    for (const section of [
+      ["Performanță", "/api/opportunities/performance", renderOpportunityStats],
+      ["Jupiter", "/api/opportunities/routes", renderEngineRoutes],
+    ]) await loadSection(section);
   } finally {
     opportunityView.loading = false;
     if (opportunityView.pendingRefresh) {

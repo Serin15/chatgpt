@@ -1,7 +1,7 @@
 """Concurrent report requests share work, never persist or reuse old reports."""
 
 from concurrent.futures import Future, ThreadPoolExecutor
-from threading import Event
+from threading import Barrier, Event
 
 import pytest
 
@@ -51,3 +51,54 @@ def test_concurrent_reports_share_one_computation_and_next_request_is_fresh(
             assert b["nested"] == []
     assert len(calls) == 1
     assert engine.report()["count"] == 2
+
+
+def test_daily_requests_share_work_only_for_the_same_day(client_engine, monkeypatch):
+    client, _ = client_engine
+    entered, waiting, release = Event(), Event(), Event()
+    calls = []
+
+    class TrackedFuture(Future):
+        def result(self, timeout=None):
+            waiting.set()
+            return super().result(timeout)
+
+    def compute(_, day):
+        calls.append(day.isoformat())
+        if len(calls) == 1:
+            entered.set()
+            assert release.wait(5)
+        return {"day_utc": day.isoformat(), "calculation": len(calls)}
+
+    monkeypatch.setattr("app.opportunities.Future", TrackedFuture)
+    monkeypatch.setattr("app.main.daily_report", compute)
+    path = "/api/opportunities/daily?day=2026-01-01"
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(client.get, path)
+        assert entered.wait(5)
+        second = pool.submit(client.get, path)
+        try:
+            assert waiting.wait(2), "Duplicate daily report was recomputed"
+        finally:
+            release.set()
+        a, b = first.result(5), second.result(5)
+    assert a.status_code == b.status_code == 200
+    assert a.json() == b.json() == {"day_utc": "2026-01-01", "calculation": 1}
+    assert client.get(path).json()["calculation"] == 2
+
+
+def test_different_daily_dates_are_not_combined(client_engine, monkeypatch):
+    client, _ = client_engine
+    ready = Barrier(2)
+
+    def compute(_, day):
+        ready.wait(5)
+        return {"day_utc": day.isoformat()}
+
+    monkeypatch.setattr("app.main.daily_report", compute)
+    days = ["2026-01-01", "2026-01-02"]
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(client.get, "/api/opportunities/daily?day=" + day) for day in days]
+        responses = [f.result(10) for f in futures]
+    assert [r.status_code for r in responses] == [200, 200]
+    assert [r.json()["day_utc"] for r in responses] == days

@@ -379,6 +379,35 @@ async def check(base):
                 "5 încercări fără preț utilizabil"
             )
 
+        async def history_requests_are_sequential(page):
+            gate, started = asyncio.Event(), asyncio.Event()
+            heavy = []
+
+            async def hold_day(route):
+                started.set()
+                await gate.wait()
+                await route.continue_()
+
+            page.on(
+                "request",
+                lambda r: (
+                    heavy.append(urlsplit(r.url).path)
+                    if urlsplit(r.url).path
+                    in {"/api/opportunities/performance", "/api/opportunities/routes"}
+                    else None
+                ),
+            )
+            await page.route("**/api/opportunities/daily?*", hold_day)
+            try:
+                await page.goto(base)
+                await expect(page.locator("#engine-rows tr")).to_have_count(1)
+                await asyncio.wait_for(started.wait(), 3)
+                assert not heavy, "History reports started concurrently: " + str(heavy)
+            finally:
+                gate.set()
+            await page.wait_for_function("() => !opportunityView.loading && !state.loading")
+            assert heavy == ["/api/opportunities/performance", "/api/opportunities/routes"]
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -399,6 +428,7 @@ async def check(base):
             ("partitioned comparison and mobile layout", cohort_comparison_table),
             ("price references and mobile layout", price_comparison_table),
             ("usable prices separate from attempts", usable_coverage),
+            ("live candidates before sequential history reports", history_requests_are_sequential),
         ]:
             await scenario(name, fn)
         await browser.close()

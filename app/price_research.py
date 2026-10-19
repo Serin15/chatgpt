@@ -126,19 +126,24 @@ def reference_report(db, cohort, params, firsts):
     query = (
         cohort
         + """SELECT o.id,o.candidate_id,o.at,
-        json_extract(o.payload,'$.market.observed_at') AS quote_at,
-        json_extract(o.payload,'$.market.price_usd') AS price_usd,
-        json_extract(o.payload,'$.market.liquidity_usd') AS liquidity_usd,
-        json_extract(o.payload,'$.market.address') AS contract,
-        json_extract(o.payload,'$.market.pair_address') AS pool,
-        json_extract(o.payload,'$.source_kind') AS source_kind
+        json_extract(o.payload,'$.market.observed_at','$.market.price_usd',
+        '$.market.liquidity_usd','$.market.address','$.market.pair_address',
+        '$.source_kind') AS capture_fields
         FROM opportunity_observations o JOIN cohort c ON c.id=o.candidate_id
         WHERE research_epoch(o.at)<=:at
         ORDER BY o.candidate_id,research_epoch(o.at),o.id"""
     )
     if firsts:
         for r in db.execute(query, params):
-            by_candidate[r["candidate_id"]].append((timestamp(r["at"]), dict(r)))
+            row = dict(r)
+            fields = json.loads(row.pop("capture_fields"))
+            row.update(
+                zip(
+                    ["quote_at", "price_usd", "liquidity_usd", "contract", "pool", "source_kind"],
+                    fields,
+                )
+            )
+            by_candidate[r["candidate_id"]].append((timestamp(r["at"]), row))
     timelines = {
         key: ([r[0] for r in rows], [r[1] for r in rows]) for key, rows in by_candidate.items()
     }

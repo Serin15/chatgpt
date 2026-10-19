@@ -425,13 +425,19 @@ def create_app(
     @app.get("/api/opportunities/daily")
     def opportunity_daily(request: Request, day: date | None = None):
         try:
-            return daily_report(request.app.state.service.opportunities, day)
+            engine = request.app.state.service.opportunities
+            chosen = day or date.fromisoformat(utcnow()[:10])
+            data = engine.shared_report(("daily", chosen), lambda: daily_report(engine, chosen))
+            # This synchronous endpoint runs in the worker pool. Encode the large
+            # plain-JSON report here instead of recursively encoding on the API loop.
+            return JSONResponse(data)
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from None
 
     @app.get("/api/opportunities/routes")
     def opportunity_routes(request: Request):
-        return request.app.state.service.opportunities.routes.report()
+        engine = request.app.state.service.opportunities
+        return engine.shared_report(("routes",), engine.routes.report)
 
     @app.get("/api/opportunities/narratives")
     def opportunity_narratives(request: Request):
