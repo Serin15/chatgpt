@@ -1,1 +1,852 @@
-{"complete": false, "criteria": {"real_document_contract_reference": false, "candidate_discovered_from_document": false, "market_and_security_observed": false, "stored_signal_with_narrative_and_verdict": false, "eligible_alert_generated": false, "in_app_delivery_receipt": false, "later_outcome_evaluated": false}, "errors": []}
+{
+  "at": "2026-10-19T13:18:00.756015+00:00",
+  "complete": false,
+  "evidence_kind": "market_reference",
+  "criteria": {
+    "real_document_contract_reference": false,
+    "candidate_discovered_from_document": false,
+    "market_and_security_observed": false,
+    "stored_signal_with_narrative_and_verdict": false,
+    "eligible_alert_generated": false,
+    "in_app_delivery_receipt": false,
+    "later_outcome_evaluated": false
+  },
+  "errors": [],
+  "duration_seconds": 74,
+  "source_status": {
+    "trump": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:50.265732+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T05:28:25+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "claude": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:52.148559+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T10:47:00+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "memecoins": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:52.171070+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T06:50:46+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "crypto": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:52.203270+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T12:08:31+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "elon": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.324557+00:00",
+      "headlines": 5,
+      "latest_published_at": "2026-10-19T12:26:05+00:00",
+      "candidates": 4,
+      "error": null
+    },
+    "launches": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.371091+00:00",
+      "headlines": 10,
+      "latest_published_at": "2026-10-19T12:15:06+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "kraken_official": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.371123+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "ethereum_official": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.371128+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "zelensky": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.371134+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    },
+    "coindesk": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.464250+00:00",
+      "headlines": 25,
+      "latest_published_at": "2026-10-19T12:16:58+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "cointelegraph": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.521658+00:00",
+      "headlines": 16,
+      "latest_published_at": "2026-10-19T12:30:00+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "decrypt": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.575978+00:00",
+      "headlines": 12,
+      "latest_published_at": "2026-10-19T13:04:48+00:00",
+      "candidates": 0,
+      "error": null
+    },
+    "solana_official": {
+      "state": "ok",
+      "at": "2026-10-19T13:13:54.576005+00:00",
+      "headlines": 0,
+      "latest_published_at": null,
+      "candidates": 0,
+      "error": null
+    }
+  },
+  "stories": {
+    "items": [],
+    "stories": {
+      "at": "2026-10-19T13:17:46.931471+00:00",
+      "items": [
+        {
+          "news_id": 422,
+          "title": "Pump.fun Price Tests $0.004480 with Short-term Rebound - The Cryptonomist",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPOXJUVkhBZHNVT2NxMFVKRWh6S3FQT1BtbURSekRrTGhKTWJGaTZMLWs3TmlmU2NsYmIyTVh3dlJRR1F0aG9Jd3BfNVp4blIweGVYS0ZnaU0wV3RMMU5XeUVpWElkNW1xdzdpWUNqZERyQndzdXliUVMyU09SZ2RBMFJaUWtUdEh2SjVZdWlVaFNpYjlrU1BDSGZaQWpDcElMaEw4MGhyNkU?oc=5",
+          "publisher_reported": "The Cryptonomist",
+          "published_at": "2026-10-19T06:50:46+00:00",
+          "first_seen_at": "2026-10-19T07:23:30.794176+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 422,
+              "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPOXJUVkhBZHNVT2NxMFVKRWh6S3FQT1BtbURSekRrTGhKTWJGaTZMLWs3TmlmU2NsYmIyTVh3dlJRR1F0aG9Jd3BfNVp4blIweGVYS0ZnaU0wV3RMMU5XeUVpWElkNW1xdzdpWUNqZERyQndzdXliUVMyU09SZ2RBMFJaUWtUdEh2SjVZdWlVaFNpYjlrU1BDSGZaQWpDcElMaEw4MGhyNkU?oc=5",
+              "title": "Pump.fun Price Tests $0.004480 with Short-term Rebound - The Cryptonomist",
+              "publisher_reported": "The Cryptonomist",
+              "published_at": "2026-10-19T06:50:46+00:00",
+              "first_seen_at": "2026-10-19T07:23:30.794176+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 338,
+          "title": "GTA 6 Leaker's Latest Effort Appears To Flop As Group's Meme Coin Declines - PCMag Middle East",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPdGhzMjJJd0ttd0tGVjdDMmtPSWNyLWhMTVh0c2tCanZQcEFaQjFMTy0wanBYTkM3MFRFNlYyMEJ0ZHk4dFVsWnhuRDRjNklJV1hHUndSaU1jY3o5NEM4dW5mOENibWdzMHNZZkdub0I1V0lFRjVaamJZQWNxTHJta0NWajhyZ2ZoZExxcEJpRUloS1lSVDRIUUtUdGpYN1Yxd2FrVllVb2lvU2dYQllpUg?oc=5",
+          "publisher_reported": "PCMag Middle East",
+          "published_at": "2026-10-19T03:46:45+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.521635+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 338,
+              "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPdGhzMjJJd0ttd0tGVjdDMmtPSWNyLWhMTVh0c2tCanZQcEFaQjFMTy0wanBYTkM3MFRFNlYyMEJ0ZHk4dFVsWnhuRDRjNklJV1hHUndSaU1jY3o5NEM4dW5mOENibWdzMHNZZkdub0I1V0lFRjVaamJZQWNxTHJta0NWajhyZ2ZoZExxcEJpRUloS1lSVDRIUUtUdGpYN1Yxd2FrVllVb2lvU2dYQllpUg?oc=5",
+              "title": "GTA 6 Leaker's Latest Effort Appears To Flop As Group's Meme Coin Declines - PCMag Middle East",
+              "publisher_reported": "PCMag Middle East",
+              "published_at": "2026-10-19T03:46:45+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.521635+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 340,
+          "title": "Pump.fun (PUMP) token jumps 8.78% in four hours despite 24-hour decline - Pluang",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE01bGJlYkJHbzZ4QVNqWTVEcUFsZUp2OTBycjZLUkxNSUpWWTAybmsxRzMxUHdmSGtqWGdvcE81bEVSMjh5RDczaE1iX3ltY2Y2ZGNqR1BFTGY1TmVKZFBLdk1Ib2NaZ1oxX0dtTC04eHdaa2tyWFJiX193?oc=5",
+          "publisher_reported": "Pluang",
+          "published_at": "2026-10-19T01:53:46+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.529238+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 340,
+              "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE01bGJlYkJHbzZ4QVNqWTVEcUFsZUp2OTBycjZLUkxNSUpWWTAybmsxRzMxUHdmSGtqWGdvcE81bEVSMjh5RDczaE1iX3ltY2Y2ZGNqR1BFTGY1TmVKZFBLdk1Ib2NaZ1oxX0dtTC04eHdaa2tyWFJiX193?oc=5",
+              "title": "Pump.fun (PUMP) token jumps 8.78% in four hours despite 24-hour decline - Pluang",
+              "publisher_reported": "Pluang",
+              "published_at": "2026-10-19T01:53:46+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.529238+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 339,
+          "title": "Pump.fun Token Rises 8.78% Over Four Hours to $0.004286 - www.tokenpost.com",
+          "memecoin_headline": true,
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xckF3cTZZQkZSMFZDRlBseUhkT3ZpUlR0dVlmVXhYTFhLN1lVdnJIS1d6RUc1ZVh5V3R5aFB5cXVhM3NCaWtJWGIxY1o2X2RFTjBHM0QtXy05UQ?oc=5",
+          "publisher_reported": "www.tokenpost.com",
+          "published_at": "2026-10-19T01:35:00+00:00",
+          "first_seen_at": "2026-10-19T06:32:10.525538+00:00",
+          "document_state": "headline_only_unpermitted_document",
+          "document": null,
+          "source_kind": "headline_only",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 339,
+              "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xckF3cTZZQkZSMFZDRlBseUhkT3ZpUlR0dVlmVXhYTFhLN1lVdnJIS1d6RUc1ZVh5V3R5aFB5cXVhM3NCaWtJWGIxY1o2X2RFTjBHM0QtXy05UQ?oc=5",
+              "title": "Pump.fun Token Rises 8.78% Over Four Hours to $0.004286 - www.tokenpost.com",
+              "publisher_reported": "www.tokenpost.com",
+              "published_at": "2026-10-19T01:35:00+00:00",
+              "first_seen_at": "2026-10-19T06:32:10.525538+00:00",
+              "document_state": "headline_only_unpermitted_document"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 491,
+          "title": "Strategy Buys $22M in Bitcoin, Buys Back $193M of STRC",
+          "memecoin_headline": false,
+          "url": "https://decrypt.co/381302/strategy-buys-22m-in-bitcoin-buys-back-193m-of-strc",
+          "publisher_reported": "Decrypt",
+          "published_at": "2026-10-19T13:04:48+00:00",
+          "first_seen_at": "2026-10-19T13:08:05.886301+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://decrypt.co/381302/strategy-buys-22m-in-bitcoin-buys-back-193m-of-strc",
+            "source_sha256": "de92f759331b2f9acd782407facb46a714fb76672d0d2f92a1921619b75e39ce",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T13:08:06.437676+00:00",
+            "document_recorded_at": "2026-10-19T13:08:06.446000+00:00",
+            "excerpt": "In brief Strategy bought 267 BTC for $22.1 million last week and repurchased $193.1 million of its STRC preferred stock, according to an SEC filing. Its board raised the cap on its digital credit securities repurchase program to $3 billion from $2 billion, leaving $1.16 billion available. The company funded the Bitcoin purchase mostly by selling MSTR common stock, while the STRC buybacks came from its cash reserves. Strategy bought 267 BTC for $22.1 million last week and repurchased $193.1 milli",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 491,
+              "url": "https://decrypt.co/381302/strategy-buys-22m-in-bitcoin-buys-back-193m-of-strc",
+              "title": "Strategy Buys $22M in Bitcoin, Buys Back $193M of STRC",
+              "publisher_reported": "Decrypt",
+              "published_at": "2026-10-19T13:04:48+00:00",
+              "first_seen_at": "2026-10-19T13:08:05.886301+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 489,
+          "title": "Strategy buys $22M in Bitcoin, repurchases $193M in STRC",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/strategy-btc-22-million-buy-strc-buyback-193-million?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T12:21:40+00:00",
+          "first_seen_at": "2026-10-19T12:31:54.231092+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/news/strategy-btc-22-million-buy-strc-buyback-193-million?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "7a14e09cd193cae44c6ff433fac73fca94b125f8f4c15f4d5bf02eb26b2e2d74",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:31:55.326430+00:00",
+            "document_recorded_at": "2026-10-19T12:31:55.343750+00:00",
+            "excerpt": "Written by Helen Partz staff writer Edited by Robert Lakin staff editor Written by Helen Partz staff writer Edited by Robert Lakin staff editor Strategy buys $22M in Bitcoin, repurchases $193M in STRC Latest News Published Oct 19, 2026 Strategy added 267 Bitcoin to its holdings as it bought back 1.94 million STRC shares and boosted its preferred stock buyback program to $3 billion. Michael Saylor’s Strategy, the world’s largest publicly traded corporate Bitcoin holder, bought $22.1 million of th",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 489,
+              "url": "https://cointelegraph.com/news/strategy-btc-22-million-buy-strc-buyback-193-million?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "Strategy buys $22M in Bitcoin, repurchases $193M in STRC",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T12:21:40+00:00",
+              "first_seen_at": "2026-10-19T12:31:54.231092+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 487,
+          "title": "Morning Minute: Crypto Rebounds as 'Black Monday' Looms",
+          "memecoin_headline": false,
+          "url": "https://decrypt.co/381297/morning-minute-crypto-rebounds-as-black-monday-looms",
+          "publisher_reported": "Decrypt",
+          "published_at": "2026-10-19T12:19:39+00:00",
+          "first_seen_at": "2026-10-19T12:23:28.830867+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://decrypt.co/381297/morning-minute-crypto-rebounds-as-black-monday-looms",
+            "source_sha256": "6111902429e8b289698f6261d450de4734862d39f3069bc2514a83da8bcd2d26",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:23:29.667785+00:00",
+            "document_recorded_at": "2026-10-19T12:23:29.672308+00:00",
+            "excerpt": "Morning Minute is a daily newsletter written by Tyler Warner . The analysis and opinions expressed are his own and do not necessarily reflect those of Decrypt. And c heck out our daily news show 'FOMO HOUR' covering all of the top stories and market action. GM! Today’s top news: Crypto majors rebound despite Black Monday fears; BTC at $82k Bitcoin ETFs see $228M in net outflows this past week; ETH ETFs lost $320M Circle plans to expand into 40 emerging market countries Papertrade leads onchain p",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 487,
+              "url": "https://decrypt.co/381297/morning-minute-crypto-rebounds-as-black-monday-looms",
+              "title": "Morning Minute: Crypto Rebounds as 'Black Monday' Looms",
+              "publisher_reported": "Decrypt",
+              "published_at": "2026-10-19T12:19:39+00:00",
+              "first_seen_at": "2026-10-19T12:23:28.830867+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 486,
+          "title": "Cardano founder Charles Hoskinson is building a new programming language for the network",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/tech/2026/10/19/cardano-founder-charles-hoskinson-is-building-a-new-programming-language-for-the-network",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T12:16:58+00:00",
+          "first_seen_at": "2026-10-19T12:18:19.702089+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/tech/2026/10/19/cardano-founder-charles-hoskinson-is-building-a-new-programming-language-for-the-network",
+            "source_sha256": "526b50d174452e4ecccb3142f7781bfd0a5ee4674192dcc372deca60e44a57dd",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:18:21.055054+00:00",
+            "document_recorded_at": "2026-10-19T12:18:21.709606+00:00",
+            "excerpt": "Tech Cardano founder Charles Hoskinson is building a new programming language for the network Hoskinson said on X the language will bundle transaction requests with cryptographic proofs. He hasn’t shared a name, specs or a release date. By Shaurya Malwa | Edited by Omkar Godbole Oct 19, 2026, 8:16 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on Charles Hoskinson (CoinDesk archives) Summary Show Cardano founder ",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 486,
+              "url": "https://www.coindesk.com/tech/2026/10/19/cardano-founder-charles-hoskinson-is-building-a-new-programming-language-for-the-network",
+              "title": "Cardano founder Charles Hoskinson is building a new programming language for the network",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T12:16:58+00:00",
+              "first_seen_at": "2026-10-19T12:18:19.702089+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 482,
+          "title": "‘Terrifying Precedent’: Dutch Hand US Data From Seized Anti-Fascist Server",
+          "memecoin_headline": false,
+          "url": "https://decrypt.co/381296/terrifying-precedent-dutch-hand-us-data-from-seized-anti-fascist-server",
+          "publisher_reported": "Decrypt",
+          "published_at": "2026-10-19T12:07:46+00:00",
+          "first_seen_at": "2026-10-19T12:09:58.189205+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://decrypt.co/381296/terrifying-precedent-dutch-hand-us-data-from-seized-anti-fascist-server",
+            "source_sha256": "b4dd051d95874b1f6aa93fdcaa1061158c996c85b2060331e56f41414b5712f7",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T13:13:55.535676+00:00",
+            "document_recorded_at": "2026-10-19T13:13:55.542223+00:00",
+            "excerpt": "In brief Police in Amsterdam, Netherlands seized a server belonging to an anti-fascist group Autistici/Inventati (A/I), following a request from U.S. authorities. The U.S. designated the group as a \"Specially Designated Global Terrorist\" in August, claiming that it offered digital infrastructure to \"far-left militants.\" A privacy advocate slams the politically motivated seizure as a \"terrifying precedent,\" while a legal expert questions if the Dutch considered their legal right to refuse. A Dutc",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 482,
+              "url": "https://decrypt.co/381296/terrifying-precedent-dutch-hand-us-data-from-seized-anti-fascist-server",
+              "title": "‘Terrifying Precedent’: Dutch Hand US Data From Seized Anti-Fascist Server",
+              "publisher_reported": "Decrypt",
+              "published_at": "2026-10-19T12:07:46+00:00",
+              "first_seen_at": "2026-10-19T12:09:58.189205+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 477,
+          "title": "World Liberty’s USD1 stablecoin sheds $400M in market cap in two weeks",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/world-liberty-usd1-stablecoin-market-cap-drops-400-million?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T11:57:58+00:00",
+          "first_seen_at": "2026-10-19T12:02:42.785900+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/news/world-liberty-usd1-stablecoin-market-cap-drops-400-million?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "7246a0b75d7e0e750ead6f7f021a65e9e3ced5081eeffe700a6acf849b1e9235",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T13:03:00.590928+00:00",
+            "document_recorded_at": "2026-10-19T13:03:00.603585+00:00",
+            "excerpt": "Written by Ezra Reguerra staff writer Edited by Robert Lakin staff editor Written by Ezra Reguerra staff writer Edited by Robert Lakin staff editor World Liberty’s USD1 stablecoin sheds $400M in market cap in two weeks Latest News Published Oct 19, 2026 World Liberty Financial’s USD1 stablecoin saw its market cap decrease more than $400 million over two weeks of large redemptions on Ethereum and BNB Chain. World Liberty Financial’s USD1 stablecoin has shed over $400 million in market capitalizat",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 477,
+              "url": "https://cointelegraph.com/news/world-liberty-usd1-stablecoin-market-cap-drops-400-million?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "World Liberty’s USD1 stablecoin sheds $400M in market cap in two weeks",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T11:57:58+00:00",
+              "first_seen_at": "2026-10-19T12:02:42.785900+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 474,
+          "title": "Sam Altman's World Takes Proof-of-Human IDs to Banks, Citing $40B AI Fraud Risk",
+          "memecoin_headline": false,
+          "url": "https://decrypt.co/381288/sam-altmans-world-takes-proof-of-human-ids-to-banks-citing-40b-ai-fraud-risk",
+          "publisher_reported": "Decrypt",
+          "published_at": "2026-10-19T11:40:40+00:00",
+          "first_seen_at": "2026-10-19T11:50:40.460554+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://decrypt.co/381288/sam-altmans-world-takes-proof-of-human-ids-to-banks-citing-40b-ai-fraud-risk",
+            "source_sha256": "6b48d5e26a330588ea3f9e78198205de52ca7eb893e7156d9f3012a5027fce28",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:52:49.089973+00:00",
+            "document_recorded_at": "2026-10-19T12:52:49.096086+00:00",
+            "excerpt": "In brief World, the identity project co-founded by Sam Altman, has launched World ID for banking and finance to help institutions confirm that real humans are behind transactions. Bain Capital, Pantera Capital, VanEck Funds, OpenExchange and Outtake are design partners, World said, pointing to forecasts of rising AI-enabled fraud. The project's iris-scanning Orbs have drawn regulatory action in countries including Spain, Kenya, Brazil and Hong Kong over biometric data concerns. World co-founder ",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 474,
+              "url": "https://decrypt.co/381288/sam-altmans-world-takes-proof-of-human-ids-to-banks-citing-40b-ai-fraud-risk",
+              "title": "Sam Altman's World Takes Proof-of-Human IDs to Banks, Citing $40B AI Fraud Risk",
+              "publisher_reported": "Decrypt",
+              "published_at": "2026-10-19T11:40:40+00:00",
+              "first_seen_at": "2026-10-19T11:50:40.460554+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 469,
+          "title": "Strategy on verge of golden cross, just weeks after bitcoin flashed same bullish signal",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/daybook-us/2026/10/19/strategy-on-verge-of-golden-cross-just-weeks-after-bitcoin-flashed-same-bullish-signal",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T11:15:00+00:00",
+          "first_seen_at": "2026-10-19T11:19:24.767169+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/daybook-us/2026/10/19/strategy-on-verge-of-golden-cross-just-weeks-after-bitcoin-flashed-same-bullish-signal",
+            "source_sha256": "685c6f66a7933c08dd8aca2bbb8fca962e9c145963f61f86f23944660419c2d7",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:23:30.440490+00:00",
+            "document_recorded_at": "2026-10-19T12:23:30.449714+00:00",
+            "excerpt": "Crypto Daybook Americas Strategy on verge of golden cross, just weeks after bitcoin flashed same bullish signal Your day-ahead look for Oct. 19, 2026 By Omkar Godbole | Edited by Sheldon Reback Oct 19, 2026, 7:15 a.m. EDT 3 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on MSTR's golden cross. (CoinDesk/TradingView) Summary Show This is an excerpt from CoinDesk newsletter 'Daybook.' Sign up here , if you haven't already. We",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 469,
+              "url": "https://www.coindesk.com/daybook-us/2026/10/19/strategy-on-verge-of-golden-cross-just-weeks-after-bitcoin-flashed-same-bullish-signal",
+              "title": "Strategy on verge of golden cross, just weeks after bitcoin flashed same bullish signal",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T11:15:00+00:00",
+              "first_seen_at": "2026-10-19T11:19:24.767169+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 464,
+          "title": "Live updates: Bitcoin tags $83,000 and slips back as chip stocks lead a rebound",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/markets/2026/10/19/live-updates-bitcoin-tags-usd83-000-and-slips-back-as-chip-stocks-lead-a-rebound",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T11:05:54+00:00",
+          "first_seen_at": "2026-10-19T11:09:12.838342+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/19/live-updates-bitcoin-tags-usd83-000-and-slips-back-as-chip-stocks-lead-a-rebound",
+            "source_sha256": "f410f8428d9f2f671be80be2b8d57a7969477d52110ef82116a7db5c8a4b5434",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T13:13:56.567942+00:00",
+            "document_recorded_at": "2026-10-19T13:13:57.017456+00:00",
+            "excerpt": "24 minutes ago · 8:49 a.m. EDT Krisztian Sandor Share Share this post Copy link X icon X (Twitter) LinkedIn Facebook Email Bitmine bought another $30 million in ether Ethereum-focused treasury firm Bitmine BMNR is still adding to its crypto stash, buying another 12,535 ETH last week. The haul is worth about $30.4 million at recent ETH prices, and it was almost identical to the previous week’s purchase. The firm now holds 6.04 million ETH, leaving it roughly 64,000 tokens short of its goal of own",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 464,
+              "url": "https://www.coindesk.com/markets/2026/10/19/live-updates-bitcoin-tags-usd83-000-and-slips-back-as-chip-stocks-lead-a-rebound",
+              "title": "Live updates: Bitcoin tags $83,000 and slips back as chip stocks lead a rebound",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T11:05:54+00:00",
+              "first_seen_at": "2026-10-19T11:09:12.838342+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 458,
+          "title": "UK Trio Jailed Over Home Invasion in Failed Crypto Theft Attempt",
+          "memecoin_headline": false,
+          "url": "https://decrypt.co/381281/uk-trio-jailed-over-home-invasion-in-failed-crypto-theft-attempt",
+          "publisher_reported": "Decrypt",
+          "published_at": "2026-10-19T10:31:09+00:00",
+          "first_seen_at": "2026-10-19T10:33:36.611129+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://decrypt.co/381281/uk-trio-jailed-over-home-invasion-in-failed-crypto-theft-attempt",
+            "source_sha256": "bd684bb8ed243be662a8d167c56002876db8b81b0c60a1cc00e99bcfd660600b",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:37:00.138611+00:00",
+            "document_recorded_at": "2026-10-19T12:37:00.145394+00:00",
+            "excerpt": "In brief Three men have been jailed for between five and six years after breaking into a man's home in Bristol, England, and demanding a large amount of cryptocurrency. All three pleaded guilty to aggravated burglary and were sentenced at Bristol Crown Court. The case adds to a string of crypto \"wrench attacks,\" in which criminals use violence or threats to force holders to hand over digital assets. Three men who forced their way into a man's home in Bristol, England, and assaulted him in a fail",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 458,
+              "url": "https://decrypt.co/381281/uk-trio-jailed-over-home-invasion-in-failed-crypto-theft-attempt",
+              "title": "UK Trio Jailed Over Home Invasion in Failed Crypto Theft Attempt",
+              "publisher_reported": "Decrypt",
+              "published_at": "2026-10-19T10:31:09+00:00",
+              "first_seen_at": "2026-10-19T10:33:36.611129+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 456,
+          "title": "Bitcoin extends bounce above $82,000 as stocks rebound, DeFi tokens lead altcoin gains",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-extends-bounce-above-usd82-000-as-stocks-rebound-defi-tokens-lead-altcoin-gains",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T10:26:33+00:00",
+          "first_seen_at": "2026-10-19T10:28:32.127299+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-extends-bounce-above-usd82-000-as-stocks-rebound-defi-tokens-lead-altcoin-gains",
+            "source_sha256": "9722c7de655e96e63a044c0e28a6aa902629e8a149f3837fbecf02c5f3416ffd",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:37:01.052890+00:00",
+            "document_recorded_at": "2026-10-19T12:37:01.065540+00:00",
+            "excerpt": "Markets Bitcoin extends bounce above $82,000 as stocks rebound, DeFi tokens lead altcoin gains Bitcoin rose 0.8% to around $82,700 as China’s GDP beat estimates and Nasdaq futures rebounded, while the CoinDesk 80 gained 1.3% and DeFi led gains. By Oliver Knight , Omkar Godbole | Edited by Sheldon Reback Oct 19, 2026, 6:26 a.m. EDT 3 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on DeFi leads the way (CoinDesk data) Summary",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 456,
+              "url": "https://www.coindesk.com/markets/2026/10/19/bitcoin-extends-bounce-above-usd82-000-as-stocks-rebound-defi-tokens-lead-altcoin-gains",
+              "title": "Bitcoin extends bounce above $82,000 as stocks rebound, DeFi tokens lead altcoin gains",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T10:26:33+00:00",
+              "first_seen_at": "2026-10-19T10:28:32.127299+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 454,
+          "title": "France advances stablecoin tax, eyes self-custodial wallets and exit tax proposals",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/france-stablecoin-tax-eyes-self-custodial-wallets-exit-tax?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T10:22:30+00:00",
+          "first_seen_at": "2026-10-19T10:28:32.077059+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/news/france-stablecoin-tax-eyes-self-custodial-wallets-exit-tax?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "eab11004cd0649b7dba7c0c291213b31f310546b5cc3a24f5acaa68be3525415",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:37:01.315721+00:00",
+            "document_recorded_at": "2026-10-19T12:37:01.322674+00:00",
+            "excerpt": "Written by Zoltan Vardai staff writer Edited by Robert Lakin staff editor Written by Zoltan Vardai staff writer Edited by Robert Lakin staff editor France advances stablecoin tax, eyes self-custodial wallets and exit tax proposals Latest News Published Oct 19, 2026 France’s National Assembly adopted a crypto tax amendment targeting certain stablecoin swaps, while separate proposals on exit taxes and self-custodial wallet reporting remain under consideration. French lawmakers narrowly approved a ",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 454,
+              "url": "https://cointelegraph.com/news/france-stablecoin-tax-eyes-self-custodial-wallets-exit-tax?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "France advances stablecoin tax, eyes self-custodial wallets and exit tax proposals",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T10:22:30+00:00",
+              "first_seen_at": "2026-10-19T10:28:32.077059+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 455,
+          "title": "Stocks rebound into key tech earnings: Three things to know in Bitcoin this week",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/markets/stocks-rebound-into-key-tech-earnings-three-things-to-know-in-bitcoin-this-week?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T10:18:40+00:00",
+          "first_seen_at": "2026-10-19T10:28:32.081082+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/markets/stocks-rebound-into-key-tech-earnings-three-things-to-know-in-bitcoin-this-week?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "fdbc009d7a8b0fe508e36c42eb449b01776e3b515c2859a7cc1e55c88bd8b28a",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:42:05.417891+00:00",
+            "document_recorded_at": "2026-10-19T12:42:05.427966+00:00",
+            "excerpt": "Written by William Suberg staff writer Edited by Charles Bennett staff editor Written by William Suberg staff writer Edited by Charles Bennett staff editor Stocks rebound into key tech earnings: Three things to know in Bitcoin this week Markets Published Oct 19, 2026 Analysts expect Bitcoin to retest $80,000 support again as stock markets attempt to recover last week’s losses. Bitcoin (BTC) starts the third week of October at $82,000 as crypto and stock markets begin a tentative rebound. Key poi",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 455,
+              "url": "https://cointelegraph.com/markets/stocks-rebound-into-key-tech-earnings-three-things-to-know-in-bitcoin-this-week?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "Stocks rebound into key tech earnings: Three things to know in Bitcoin this week",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T10:18:40+00:00",
+              "first_seen_at": "2026-10-19T10:28:32.081082+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 452,
+          "title": "BingX, YouHodler added to ESMA MiCA register in latest update",
+          "memecoin_headline": false,
+          "url": "https://cointelegraph.com/news/bingx-youhodler-esma-mica-register-friday-update?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publisher_reported": "Cointelegraph",
+          "published_at": "2026-10-19T10:11:37+00:00",
+          "first_seen_at": "2026-10-19T10:17:56.919995+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://cointelegraph.com/news/bingx-youhodler-esma-mica-register-friday-update?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "source_sha256": "4dd60bf910d5d34ab0c9b93cafe2879d2bb0a65f9191c7a89e608b7acc089ec2",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:23:30.977658+00:00",
+            "document_recorded_at": "2026-10-19T12:23:30.982283+00:00",
+            "excerpt": "Written by Helen Partz staff writer Edited by Robert Lakin staff editor Written by Helen Partz staff writer Edited by Robert Lakin staff editor BingX, YouHodler added to ESMA MiCA register in latest update Latest News Published Oct 19, 2026 ESMA’s latest MiCA register update includes BingX, YouHodler and Banco Santander’s Openbank, bringing the total to 375 unique CASPs. [ Update 11:30 UTC, Oct. 19 - Updates with comment from Penning Financial Services in the sixth paragraph. ] The European Unio",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 452,
+              "url": "https://cointelegraph.com/news/bingx-youhodler-esma-mica-register-friday-update?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+              "title": "BingX, YouHodler added to ESMA MiCA register in latest update",
+              "publisher_reported": "Cointelegraph",
+              "published_at": "2026-10-19T10:11:37+00:00",
+              "first_seen_at": "2026-10-19T10:17:56.919995+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 451,
+          "title": "Zcash Developer Zakura Proposes Fix to Stop Quantum Computers Linking Shielded Swaps",
+          "memecoin_headline": false,
+          "url": "https://decrypt.co/381257/zcash-developer-zakura-proposes-fix-to-stop-quantum-computers-linking-shielded-swaps",
+          "publisher_reported": "Decrypt",
+          "published_at": "2026-10-19T10:11:21+00:00",
+          "first_seen_at": "2026-10-19T10:12:52.238651+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://decrypt.co/381257/zcash-developer-zakura-proposes-fix-to-stop-quantum-computers-linking-shielded-swaps",
+            "source_sha256": "394981654f640b50a38111361eef301de8a0a3f75d64197f015ef9061b05e798",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T12:18:21.938987+00:00",
+            "document_recorded_at": "2026-10-19T12:18:23.464979+00:00",
+            "excerpt": "In brief Zcash full node developer Zakura has proposed \"one-time\" viewing keys to stop a future quantum computer from linking a user's shielded Zcash payments. The fix targets swaps through NEAR Intents, in which the user’s shielded address is posted on NEAR’s public chain. Wallets built on Zakura's open-source libraries, such as Vizor, will be able to add the feature in the coming weeks, with hardware wallets to follow. Zakura, a developer of Zcash full node software, has proposed a way to stop",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 451,
+              "url": "https://decrypt.co/381257/zcash-developer-zakura-proposes-fix-to-stop-quantum-computers-linking-shielded-swaps",
+              "title": "Zcash Developer Zakura Proposes Fix to Stop Quantum Computers Linking Shielded Swaps",
+              "publisher_reported": "Decrypt",
+              "published_at": "2026-10-19T10:11:21+00:00",
+              "first_seen_at": "2026-10-19T10:12:52.238651+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        },
+        {
+          "news_id": 449,
+          "title": "JPMorgan's JPM Coin, representing dollar deposits, is coming to Ethereum: Bloomberg",
+          "memecoin_headline": false,
+          "url": "https://www.coindesk.com/markets/2026/10/19/jpmorgan-s-jpm-coin-representing-dollar-deposits-is-coming-to-ethereum-bloomberg",
+          "publisher_reported": "CoinDesk",
+          "published_at": "2026-10-19T10:03:47+00:00",
+          "first_seen_at": "2026-10-19T10:07:47.050436+00:00",
+          "document_state": "read",
+          "document": {
+            "url": "https://www.coindesk.com/markets/2026/10/19/jpmorgan-s-jpm-coin-representing-dollar-deposits-is-coming-to-ethereum-bloomberg",
+            "source_sha256": "b68b327204b4bf2a26e10ba2010bdb1d2847e283e0114de153bf16643ac89490",
+            "source_kind": "editorial",
+            "document_observed_at": "2026-10-19T13:13:57.754979+00:00",
+            "document_recorded_at": "2026-10-19T13:13:59.177481+00:00",
+            "excerpt": "Markets JPMorgan's JPM Coin, representing dollar deposits, is coming to Ethereum: Bloomberg JPMorgan's dollar deposit token is heading to Ethereum as the lender looks to offer it to wider selection of institutional clients. By Omkar Godbole | Edited by Sheldon Reback Oct 19, 2026, 6:03 a.m. EDT 2 min read Make preferred on Share Share this article Copy link X icon X (Twitter) LinkedIn Facebook Email Make preferred on JPMorgan to bring JPM Coin to Ethereum. (Ikechukwu Julius Ugwu/Unsplash) Summar",
+            "market_pair_references": []
+          },
+          "source_kind": "editorial",
+          "contracts": [],
+          "claim_verified": false,
+          "endorsement_verified": false,
+          "related_reports": [
+            {
+              "news_id": 449,
+              "url": "https://www.coindesk.com/markets/2026/10/19/jpmorgan-s-jpm-coin-representing-dollar-deposits-is-coming-to-ethereum-bloomberg",
+              "title": "JPMorgan's JPM Coin, representing dollar deposits, is coming to Ethereum: Bloomberg",
+              "publisher_reported": "CoinDesk",
+              "published_at": "2026-10-19T10:03:47+00:00",
+              "first_seen_at": "2026-10-19T10:07:47.050436+00:00",
+              "document_state": "read"
+            }
+          ],
+          "headline_group_only": true,
+          "grouping_note": "Same normalized headline within six hours; not proof of shared facts or independent reporting. Contract-bearing documents are never merged."
+        }
+      ],
+      "raw_headlines_in_window": 100,
+      "display_groups_in_window": 92,
+      "indexed_documents": 1098,
+      "pending_index": 0,
+      "index_budget_per_cycle": 250,
+      "note": "Headlines are reported claims; exact contract mentions are not issuer/endorsement verification. No global social growth measurements."
+    },
+    "document_requests": [],
+    "ai_configured": false,
+    "enabled": false,
+    "social_api": "not_configured",
+    "community_metrics": "not_available",
+    "story_discovery": {
+      "states": {},
+      "tracked_contracts": 0,
+      "lookup_budget_per_cycle": 3,
+      "timeout_seconds": 8,
+      "note": "Exact document references only. Unknown pools and failed lookups remain recorded; they are not zero-loss trades or verified launches.",
+      "recent_lookups": []
+    }
+  },
+  "candidate": null,
+  "universe_totals": {
+    "discovered": 43601,
+    "signals": 98857,
+    "alerts": 2599,
+    "observations": 171373,
+    "eligible": 43601,
+    "eligible_without_first_evaluation": 13,
+    "risk_update_alerts": 1163,
+    "delivered_in_app": 196,
+    "telegram_acknowledged": 0
+  },
+  "operations": "GET only; no injected stories/tokens, thresholds changed, receipt POSTs, messages sent or trades placed",
+  "coverage": "Most recent 20 document lookup jobs; once selected, one candidate is followed throughout the run. Absence is unverified, not proof no opportunity exists.",
+  "note": "Paper outcomes are simulated. Delivery receipts do not prove a human read the alert. This command does not verify browser rendering or profitability."
+}

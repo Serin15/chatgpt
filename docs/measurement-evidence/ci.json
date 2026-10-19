@@ -1,14 +1,14 @@
 {
   "conclusion": "success",
-  "databaseId": 39245535279,
-  "headSha": "c1cfb28d5369c76d2c13458e22507e11856cb4c8",
+  "databaseId": 39258455505,
+  "headSha": "452d332cf97f4630fe81fdf0b3a45685745d84a2",
   "jobs": [
     {
-      "completedAt": "2026-10-19T11:35:48Z",
+      "completedAt": "2026-10-19T13:16:23Z",
       "conclusion": "success",
-      "databaseId": 118036423327,
+      "databaseId": 118079609542,
       "name": "checks (ubuntu-latest)",
-      "startedAt": "2026-10-19T11:33:54Z",
+      "startedAt": "2026-10-19T13:14:29Z",
       "status": "completed",
       "steps": [
         {
@@ -102,14 +102,14 @@
           "status": "completed"
         }
       ],
-      "url": "https://github.com/Serin15/chatgpt/actions/runs/39245535279/job/118036423327"
+      "url": "https://github.com/Serin15/chatgpt/actions/runs/39258455505/job/118079609542"
     },
     {
-      "completedAt": "2026-10-19T11:47:51Z",
+      "completedAt": "2026-10-19T13:24:48Z",
       "conclusion": "success",
-      "databaseId": 118036423690,
+      "databaseId": 118079609931,
       "name": "checks (windows-latest)",
-      "startedAt": "2026-10-19T11:33:54Z",
+      "startedAt": "2026-10-19T13:14:29Z",
       "status": "completed",
       "steps": [
         {
@@ -203,19 +203,19 @@
           "status": "completed"
         }
       ],
-      "url": "https://github.com/Serin15/chatgpt/actions/runs/39245535279/job/118036423690"
+      "url": "https://github.com/Serin15/chatgpt/actions/runs/39258455505/job/118079609931"
     }
   ],
   "status": "completed",
-  "url": "https://github.com/Serin15/chatgpt/actions/runs/39245535279",
+  "url": "https://github.com/Serin15/chatgpt/actions/runs/39258455505",
   "extracted_log_results": {
     "windows": {
-      "test_result": "416 passed, 1 warning in 779.91s (0:12:59)",
+      "test_result": "426 passed, 1 warning in 576.81s (0:09:36)",
       "native_launcher_from_path_with_spaces": "success"
     },
     "ubuntu": {
-      "test_result": "416 passed, 1 warning in 68.74s (0:01:08)",
-      "isolated_chromium_checks": 19
+      "test_result": "426 passed, 1 warning in 69.84s (0:01:09)",
+      "isolated_chromium_checks": 20
     }
   }
 }

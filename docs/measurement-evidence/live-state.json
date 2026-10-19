@@ -1,73 +1,120 @@
 {
+  "at_utc": "2026-10-19T13:15:22Z",
   "version": "0.13.0",
+  "app_id": "pulse_crypto_research",
   "live_execution": false,
   "workers": {
     "scanner": {
       "state": "running",
-      "started_at": "2026-10-19T11:34:10.707666+00:00",
+      "started_at": "2026-10-19T13:13:48.870134+00:00",
       "restarts": 0,
       "error": null
     },
     "news": {
       "state": "running",
-      "started_at": "2026-10-19T11:34:10.812369+00:00",
+      "started_at": "2026-10-19T13:13:48.875198+00:00",
       "restarts": 0,
       "error": null
     },
     "assets": {
       "state": "running",
-      "started_at": "2026-10-19T11:34:10.812554+00:00",
+      "started_at": "2026-10-19T13:13:48.875304+00:00",
       "restarts": 0,
       "error": null
     },
     "performance": {
       "state": "running",
-      "started_at": "2026-10-19T11:34:10.826384+00:00",
+      "started_at": "2026-10-19T13:13:48.896671+00:00",
       "restarts": 0,
       "error": null
     },
     "intelligence": {
       "state": "running",
-      "started_at": "2026-10-19T11:34:10.841850+00:00",
+      "started_at": "2026-10-19T13:13:48.907627+00:00",
       "restarts": 0,
       "error": null
     }
   },
   "seconds": {
-    "health": 0.0695618019963149,
-    "status": 0.12533230599365197,
-    "narratives": 0.2612575960083632,
-    "research": 0.0029416299948934466,
-    "scanner": 0.002749580002273433,
-    "performance": 2.5356988630082924,
-    "coverage": 4.4183810480026295
+    "/healthz": 0.004560179004329257,
+    "/api/status": 0.006895336991874501,
+    "/api/portfolio?account=news": 0.0028175059997010976,
+    "/api/portfolio": 0.0028853760013589635
   },
   "news_topics": {
-    "memecoins": "ok",
     "trump": "ok",
-    "crypto": "ok",
     "claude": "ok",
-    "launches": "ok",
+    "memecoins": "ok",
+    "crypto": "ok",
     "elon": "ok",
-    "ethereum_official": "ok",
+    "launches": "ok",
     "kraken_official": "ok",
-    "coindesk": "ok",
+    "ethereum_official": "ok",
     "zelensky": "ok",
-    "decrypt": "ok",
+    "coindesk": "ok",
     "cointelegraph": "ok",
+    "decrypt": "ok",
     "solana_official": "ok"
   },
-  "tracked_story_contracts": 0,
-  "virtual_accounts": {
-    "research": {
-      "cash": "500",
-      "orders": 0
+  "opportunity_engine": {
+    "state": "ok",
+    "at": "2026-10-19T13:15:06.826842+00:00",
+    "cycles": 2856,
+    "new_candidates": 11,
+    "observed": 60,
+    "errors": [],
+    "discovery_sources": {
+      "solana": {
+        "state": "ok",
+        "at": "2026-10-19T13:14:49.203294+00:00",
+        "page": 2,
+        "count": 20,
+        "rejected": 0,
+        "next_page": 3
+      },
+      "profiles": {
+        "state": "ok",
+        "at": "2026-10-19T13:14:49.203332+00:00",
+        "counts": {
+          "solana": 24,
+          "base": 0
+        }
+      },
+      "boosts": {
+        "state": "ok",
+        "at": "2026-10-19T13:14:50.704322+00:00",
+        "reported_tokens": 23,
+        "pools": 23,
+        "sampling_bias": "paid exposure"
+      }
     },
-    "scanner": {
-      "cash": "100",
-      "orders": 0
+    "queue": {
+      "due": 38782,
+      "not_enriched": 0,
+      "oldest_due_delay_seconds": 147770,
+      "capacity_note": "Bounded API budget; queue delays can invalidate forward entry/exit windows. Missing observations remain unknown."
     }
   },
-  "ledgers_unchanged_from_before_restart": true,
-  "actual_db_quick_check": "ok"
+  "portfolios": {
+    "/api/portfolio?account=news": {
+      "mode": "paper",
+      "initial_balance": "500",
+      "cash": "500",
+      "positions": [],
+      "orders": [],
+      "account": "news",
+      "realized_pnl_usd": "0",
+      "estimated_equity_usd": "500"
+    },
+    "/api/portfolio": {
+      "mode": "paper",
+      "initial_balance": "100",
+      "cash": "100",
+      "positions": [],
+      "orders": [],
+      "account": "scanner",
+      "realized_pnl_usd": "0",
+      "estimated_equity_usd": "100"
+    }
+  }
 }

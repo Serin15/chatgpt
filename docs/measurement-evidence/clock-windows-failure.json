@@ -1,0 +1,12 @@
+{
+  "run_url": "https://github.com/Serin15/chatgpt/actions/runs/39249200198",
+  "commit": "36f344c124413b59a3101fe14bdd6859bbf4d595",
+  "platform": "windows-latest",
+  "failed_test": "tests/test_news.py::test_news_50_order_preserves_existing_account_and_context",
+  "expected_http": 200,
+  "actual_http": 409,
+  "detail": "Intrare blocată: risc critic sau verificări incomplete.",
+  "tests": "1 failed, 419 passed, 1 warning in 554.47s",
+  "deterministic_reproduction": "service-clock-before.txt",
+  "correction": "Use the same UTC clock as captured timestamps; no future-time tolerance."
+}

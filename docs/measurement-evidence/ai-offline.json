@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-19T09:03:18.707369+00:00",
+  "at": "2026-10-19T13:14:37.600068+00:00",
   "corpus_version": 2,
   "corpus_sha256": "6da9956971c54bef781ab87d209136d536043d357ac83b8cc3dfed0bff89d763",
   "prompt_version": 2,
@@ -12,4 +12,3 @@
   "metrics": null,
   "note": "Validarea offline verifică structura și proveniența declarată a setului. Precizia AI nu a fost măsurată."
 }
-

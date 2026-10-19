@@ -1,0 +1,16 @@
+{
+  "research.sqlite3": {
+    "quick_check": [
+      [
+        "ok"
+      ]
+    ]
+  },
+  "news_paper/research.sqlite3": {
+    "quick_check": [
+      [
+        "ok"
+      ]
+    ]
+  }
+}

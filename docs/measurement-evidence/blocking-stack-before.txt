@@ -1,0 +1,29 @@
+Initial snapshot storage on the event loop
+Current thread 0x00007f918158b740 (most recent call first):
+  File "/workspace/chatgpt/app/store.py", line 98 in save_snapshot
+  File "/workspace/chatgpt/app/opportunities.py", line 684 in cycle
+  File "/workspace/chatgpt/app/opportunities.py", line 812 in run
+  File "/workspace/chatgpt/app/service.py", line 69 in run_intelligence
+  File "/workspace/chatgpt/app/main.py", line 87 in supervised
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/events.py", line 88 in _run
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 1999 in _run_once
+
+Legacy archive read, after snapshot storage offload
+Current thread 0x00007f50921c2740 (most recent call first):
+  File "/workspace/chatgpt/app/store.py", line 80 in tokens
+  File "/workspace/chatgpt/app/service.py", line 294 in scan
+  File "/workspace/chatgpt/app/service.py", line 311 in run
+  File "/workspace/chatgpt/app/main.py", line 87 in supervised
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/events.py", line 88 in _run
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 1999 in _run_once
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 645 in run_forever
+
+Legacy archive read, after snapshot storage offload
+Current thread 0x00007f50921c2740 (most recent call first):
+  File "/workspace/chatgpt/app/store.py", line 79 in tokens
+  File "/workspace/chatgpt/app/service.py", line 294 in scan
+  File "/workspace/chatgpt/app/service.py", line 311 in run
+  File "/workspace/chatgpt/app/main.py", line 87 in supervised
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/events.py", line 88 in _run
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 1999 in _run_once
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 645 in run_forever

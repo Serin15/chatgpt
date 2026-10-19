@@ -5,24 +5,32 @@ Această etapă nu declară aplicația completă sau profitabilă.
 
 ## Cod și teste izolate
 
-Implementarea finală: `c1cfb28d5369c76d2c13458e22507e11856cb4c8`.
+Implementarea finală: `452d332cf97f4630fe81fdf0b3a45685745d84a2`.
 Commiturile ulterioare de documentație/dovezi nu schimbă aplicația sau testele.
 
-- `.venv/bin/pytest -q`: **416 passed**, un avertisment de deprecare din
+- `.venv/bin/pytest -q`: **426 passed**, un avertisment de deprecare din
   Starlette/httpx; [ieșire integrală](pytest.txt). Nu s-au apelat servicii externe.
 - `.venv/bin/ruff check app tests`, `git diff --check` și `node --check` pentru
   cele trei fișiere JavaScript: trecute.
-- Audit Chromium: **19/19** scenarii cu furnizori izolați,
+- Audit Chromium: **20/20** scenarii cu furnizori izolați,
   [browser.json](browser.json). Include separarea prețurilor de încercări,
   tabelele noi și lățimea de 390 px. Nu constituie dovadă de piață reală.
 - Corpus AI: 12 cazuri validate structural; `model_run=false`. Nu s-a măsurat
   precizia unui model și nu s-a apelat un model real în această etapă.
 
-CI oficial [39245535279](https://github.com/Serin15/chatgpt/actions/runs/39245535279)
-a trecut pentru commitul final al aplicației. Logurile oficiale descărcate după
+Validarea inițială CI [39245535279](https://github.com/Serin15/chatgpt/actions/runs/39245535279)
+a trecut pentru implementarea inițială `c1cfb28`. Logurile oficiale descărcate după
 încheiere confirmă **416 passed** pe Windows (779,91s) și Ubuntu (68,74s),
 **19/19** scenarii Chromium pe Linux și pornirea launcherului nativ Windows
-dintr-un director cu spații. Metadatele și liniile extrase sunt în [ci.json](ci.json).
+dintr-un director cu spații. Metadatele inițiale sunt în [ci-initial.json](ci-initial.json). Verificarea continuă
+a identificat apoi blocarea stocării și problema de precizie a ceasului, descrise mai jos.
+
+Validarea finală CI [39258455505](https://github.com/Serin15/chatgpt/actions/runs/39258455505)
+a trecut pentru codul `452d332`. Logurile oficiale descărcate confirmă **426 passed**
+pe Windows (**576,81s**) și Ubuntu (**69,84s**), **20/20** scenarii Chromium și
+pornirea nativă Windows dintr-un director cu spații. Metadatele și pașii sunt în
+[ci.json](ci.json). Verificarea intermediară a corecției de ceas, cu 424 teste,
+se păstrează în [ci-clock.json](ci-clock.json).
 
 Regresiile au fost reproduse înainte de remediere:
 
@@ -32,11 +40,22 @@ Regresiile au fost reproduse înainte de remediere:
 | Cotația preluată înaintea ferestrei consuma observația | [2 teste eșuate](window-before.txt) | Politică nouă v2; jobul așteaptă cotația din interval; un eșec real rămâne eșec |
 | Verificatorul confunda pool-ul cu contractul direct și accepta receipt viitor | [2 teste eșuate](verifier-before.txt) | Tip de dovadă explicit și receipt în intervalul real |
 | Refreshurile simultane recalculau repetat raportul mare | [2 teste eșuate](concurrency-before.txt) | Un calcul în desfășurare, copii independente, eroare transmisă și recuperare la cererea următoare |
+| Stocarea sincronă din colector bloca răspunsurile API | [4 teste eșuate](responsiveness-before.txt) și [stack real](blocking-stack-before.txt) | Persistare, istoric, outcomes și acoperire în fundal; oprirea așteaptă scrierea înainte de eliberarea lease-ului |
+| Scannerul vechi citea arhiva pe firul principal | [1 test eșuat](scanner-before.txt) și stack real | Aceeași citire în fundal, fără ștergerea sau filtrarea istoricului |
+| Rapoartele zilnice simultane se recalculau și istoricul se încărca în paralel | [regresie API](daily-concurrency-before.txt), [regresie browser](history-browser-before.txt) | Calcul comun pe aceeași zi; date diferite independente; candidații apar înaintea rapoartelor grele |
+| Windows respingea uneori date proaspete din cauza ceasurilor diferite | [eșec CI real](clock-windows-failure.json), [reproducere deterministă](service-clock-before.txt) | Un singur ceas UTC; cazurile realmente viitoare rămân blocate |
 
 Nu există cache de rapoarte istorice: o cerere nouă, după terminarea celei
 anterioare, citește date noi. Cererile simultane împart numai calculul curent.
 Testele includ succes, eroare, mutarea rezultatului de către apelant și o nouă
 cerere după eroare. Niciun test nu modifică istoricul real al utilizatorului.
+
+Testele de răspuns verifică trei stadii de colectare și scannerul vechi cu
+stocare întârziată, plus anularea în timpul scrierii. Cele cinci cazuri au trecut
+([responsiveness-after.txt](responsiveness-after.txt)). Cele trei regresii ale
+ceasului includ o captură sănătoasă, un preț viitor și securitate viitoare;
+viitorul nu este tolerat. Testele sănătoase de screening folosesc și ele UTC,
+fără să depindă de diferențele întâmplătoare dintre ceasurile Windows.
 
 ## Verificări cu date reale
 
@@ -45,7 +64,8 @@ cerere după eroare. Niciun test nu modifică istoricul real al utilizatorului.
   manuale Research/Scanner au rămas la $500/$100, cu zero ordine.
 - [browser-live.json](browser-live.json): browser normal, fără interceptări,
   afișează raportul stocat din 18 octombrie, cele trei orizonturi și șase rânduri
-  de comparație politică/cohortă; zero erori JS/API, fără overflow la 390 px.
+  de comparație politică/cohortă. Panourile de performanță și Jupiter s-au
+  afișat și ele; zero erori pe componente, JS/API și fără overflow la 390 px.
 - [live-window.json](live-window.json): job real **91202**, candidat **41806**,
   semnal **93896**, control cu verdict **MONITOR**. Cotația 165014 a fost
   înregistrată la `11:25:20.397 UTC`, dar primită la `11:25:19.856 UTC`, înainte
@@ -57,7 +77,7 @@ cerere după eroare. Niciun test nu modifică istoricul real al utilizatorului.
 - [preservation.json](preservation.json): toate cele **88.191 semnale** existente
   la verificarea inițială, cele nouă politici și configurația păstrează aceleași
   hashuri. Semnalele noi se adaugă; cele vechi nu sunt rescrise. SQLite
-  `PRAGMA quick_check` pe baza reală a răspuns `ok`.
+  `PRAGMA quick_check` pe ambele baze reale a răspuns `ok`: [integrity-final.json](integrity-final.json).
 
 Prima verificare a interfeței a expus timeout-uri și acumularea cererilor grele.
 Instanțele intermediare ale acestei sarcini au fost oprite și repornite pe
@@ -65,6 +85,52 @@ aceleași date, cu backup consistent anterior. Unele cereri de citire au depăș
 oprirea normală și au necesitat oprirea procesului intermediar. Nu s-au înlocuit
 baze/WAL-uri și nu s-au resetat conturi. Verificările de integritate și
 păstrare de mai sus sunt ulterioare acestor opriri.
+
+## Răspuns în timpul colectării
+
+O verificare extinsă a depășit timeout-ul configurat de 15s pentru verificarea
+API. Stackurile reale au arătat salvarea snapshoturilor și citirea arhivei de
+către scanner pe event loop. Testele unitare inițiale și un dashboard încărcat
+o dată nu fuseseră suficiente pentru a surprinde această problemă periodică.
+
+Cu un prag diagnostic de 0,5s, înainte de corecție au eșuat 24/208 probe;
+după primele 20s au eșuat 12/180. După mutarea colectării în fundal, monitorizarea
+a identificat și scannerul vechi, remediat separat. O verificare ulterioară pe
+pornirea normală a înregistrat **685/685 probe fără eroare în șase minute**, cu
+timeout 2s și maxim observat aproximativ **0,653s**, în timp ce dashboardul și
+furnizorii reali funcționau. [responsiveness-live.json](responsiveness-live.json)
+conține intervalele, numitorii și pragurile. Pragurile diferă; nu comparăm direct
+ratele de eșec și nu extrapolăm aceste minute la o garanție 24/7.
+
+După corecția ceasului UTC, alt interval de șase minute a avut **două timeout-uri
+la 669 probe**, cu limita strictă de 2s. Repetarea cu limita inițială de 15s a
+avut **619/619 probe reușite**, maxim **8,888s**. Aceste rezultate arată că mai
+există latențe ocazionale; nu susținem dispariția completă a întârzierilor.
+
+Verificarea pe baza reală a găsit apoi un timeout al bilanțului zilei curente,
+care nu apărea cu fixture-urile mici. Cererile identice împart acum un calcul;
+interfața încarcă mai întâi candidații, apoi pe rând bilanțul, performanța și
+Jupiter. Rapoartele zilelor diferite rămân independente. JSON-ul bilanțului se
+encodează în workerul endpointului, evitând blocarea event loop-ului. Pentru
+răspunsul de 4.786.211 octeți, serializarea a scăzut de la 0,301s la 0,033s,
+cu exact aceiași octeți; aceasta nu este o accelerare de zece ori a întregului
+raport. [report-serialization.json](report-serialization.json).
+
+Pe backupul consistent al zilei de 19 octombrie, cu 5.699 candidați, raportul
+întreg este identic după optimizarea proiecției JSON, 2,162s înainte și 1,979s
+după: [today-report-equivalence.json](today-report-equivalence.json). Browserul
+real a încărcat apoi ziua curentă și ziua de 18 octombrie, fără interceptări,
+erori API/JS sau overflow mobil. Aceasta este o verificare concretă de pornire
+și afișare, fără garanție pentru toate dimensiunile viitoare ale bazei. O monitorizare
+separată a codului final `452d332`, timp de șase minute cu limita 15s, a avut
+**662/662 probe reușite**, maxim **0,924s**, în timpul colectării și verificărilor
+UI. Intervalele anterioare mai lente sunt păstrate în același fișier.
+
+Windows CI intermediar a identificat un refuz 409 pentru un ordin virtual
+valid, cu 419 teste trecute și unul eșuat. Reproducerea a arătat că `time.time()`
+putea fi puțin în urma capturii UTC, iar screeningul o marca drept viitoare.
+Service, dosarul tokenului și smoke check folosesc acum UTC. Nu s-au schimbat
+formulele financiare, pragurile de risc sau acceptarea datelor viitoare.
 
 ## Acoperire și comparații
 

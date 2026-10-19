@@ -34,17 +34,49 @@ reale, nu modifică pragurile de selecție și nu demonstrează profitabilitate.
   fiecare câmp. Nu șterge date și nu schimbă rezultatele raportate.
   Raportul general folosește aceeași extracție JSON grupată pentru cotații,
   politici și diagnostice, reducând citirile repetitive ale istoricului complet.
-  Cererile simultane pentru acest raport împart calculul aflat în desfășurare.
+  Cererile simultane pentru raportul general, Jupiter sau aceeași zi împart
+  calculul aflat în desfășurare. Zilele diferite nu se combină.
   Fiecare primește o copie independentă; următoarea cerere recalculează datele.
   Nu se păstrează un raport vechi în cache. O eroare eliberează calculul pentru
-  o nouă încercare și se transmite cererilor care așteaptă.
+  o nouă încercare și se transmite cererilor care așteaptă. Bilanțul se
+  serializează în worker. Dashboardul încarcă întâi candidații, apoi pe rând
+  bilanțul zilnic, performanța și Jupiter, păstrând izolarea erorilor.
+- Persistarea observațiilor/snapshoturilor, citirea istoricului, calculul
+  outcome-urilor și al acoperirii rulează în fundal. Oprirea colectării așteaptă
+  scrierea în desfășurare înainte să elibereze lease-ul și blocarea ciclului.
+  Citirea arhivei de către scannerul vechi rulează și ea în fundal. Se păstrează
+  aceleași tranzacții, ferestre, costuri și date; nu s-au șters înregistrări.
+- Screeningul manual, evaluarea portofoliului, dosarul unui token și smoke check
+  folosesc același ceas UTC ca timestampurile capturilor. Astfel, diferența de
+  precizie a `time.time()` pe Windows nu mai respinge artificial o captură
+  proaspătă. Datele realmente viitoare și cele vechi rămân respinse.
 
 Codul principal este în `app/price_research.py`, `app/daily_research.py`,
 `app/opportunity_sampling.py`, `app/opportunity_outcomes.py`,
 `app/opportunities.py`, `app/story_verify.py` și `app/static/opportunities.js`.
 Testele dedicate sunt în `tests/test_price_research.py`,
 `tests/test_observation_sampling.py`, `tests/test_report_concurrency.py`,
+`tests/test_collection_responsiveness.py`, `tests/test_service_clock.py`,
 `tests/test_story_verify.py` și auditul Chromium.
+
+## Fișiere și responsabilități
+
+| Fișier | Schimbare |
+| --- | --- |
+| `app/price_research.py` | Validarea cotațiilor, acoperirea și comparația separată a prețurilor |
+| `app/daily_research.py` | Aceleași prime semnale și snapshot de citire; adaugă reperele de preț |
+| `app/opportunity_sampling.py` | Prețuri utile separate de încercări și semantica v2 a ferestrei |
+| `app/opportunity_outcomes.py` | Alegerea observației după politica originală; extracție JSON grupată |
+| `app/opportunities.py` | Persistare/calcul în fundal, proprietatea lease-ului la oprire și rapoarte simultane |
+| `app/main.py` | Rapoarte pe zi, serializare în worker și ceas UTC pentru dosar |
+| `app/service.py`, `app/smoke.py` | Citire arhivă în fundal și același ceas UTC pentru screening |
+| `app/story_verify.py` | Contract direct separat de pool și receipt fără timp viitor |
+| `app/static/opportunities.js` | Comparații, lipsuri și încărcarea succesivă a rapoartelor mari |
+| `tests/test_price_research.py`, `tests/test_observation_sampling.py` | Identitate, prospețime, ferestre, respinse, date lipsă și preț zero |
+| `tests/test_report_concurrency.py`, `tests/test_collection_responsiveness.py` | Concurență, erori, API disponibil și oprire în timpul scrierii |
+| `tests/test_service_clock.py`, `tests/test_analysis.py`, `tests/test_story_verify.py` | Ceas UTC determinist și validarea dovezilor |
+| `tests/browser_audit.py` | UI, erori pe componente, încărcare succesivă și mobil |
+| `pyproject.toml`, `uv.lock`, `app/__init__.py`, `app/static/index.html` | Versiunea aplicației; fără dependențe noi |
 
 ## Instalare și verificare
 

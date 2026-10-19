@@ -1,0 +1,234 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+______ test_collection_storage_delay_allows_other_tasks_to_run[snapshot] _______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f4efb71f4d0>, <app.opportunities.Opportunities object at 0x7f4efb699340>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4efb71c3e0>
+stage = 'snapshot'
+
+    @pytest.mark.parametrize("stage", ["snapshot", "outcomes", "coverage"])
+    def test_collection_storage_delay_allows_other_tasks_to_run(client_engine, monkeypatch, stage):
+        _, engine = client_engine
+        seed(engine)
+        target, method = {
+            "snapshot": (engine.service.store, "save_snapshot"),
+            "outcomes": (engine, "update_outcomes"),
+            "coverage": (engine.sampling, "coverage"),
+        }[stage]
+        original = getattr(target, method)
+        entered, release, finished = Event(), Event(), Event()
+        observed = []
+    
+        def delayed(*args, **kwargs):
+            entered.set()
+            release.wait(2)
+            finished.set()
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(target, method, delayed)
+    
+        async def run():
+            async def probe():
+                while not entered.is_set():
+                    await asyncio.sleep(0.001)
+                observed.append(not finished.is_set())
+                release.set()
+    
+            probe_task = asyncio.create_task(probe())
+            try:
+                await engine.cycle(refresh_discovery=False)
+            finally:
+                release.set()
+                await probe_task
+    
+        asyncio.run(run())
+>       assert observed == [True], "Storage work blocked the event loop until it finished"
+E       AssertionError: Storage work blocked the event loop until it finished
+E       assert [False] == [True]
+E         
+E         At index 0 diff: False != True
+E         Use -v to get more diff
+
+tests/test_collection_responsiveness.py:48: AssertionError
+______ test_collection_storage_delay_allows_other_tasks_to_run[outcomes] _______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f4efb772d80>, <app.opportunities.Opportunities object at 0x7f4efad686e0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4efb71c410>
+stage = 'outcomes'
+
+    @pytest.mark.parametrize("stage", ["snapshot", "outcomes", "coverage"])
+    def test_collection_storage_delay_allows_other_tasks_to_run(client_engine, monkeypatch, stage):
+        _, engine = client_engine
+        seed(engine)
+        target, method = {
+            "snapshot": (engine.service.store, "save_snapshot"),
+            "outcomes": (engine, "update_outcomes"),
+            "coverage": (engine.sampling, "coverage"),
+        }[stage]
+        original = getattr(target, method)
+        entered, release, finished = Event(), Event(), Event()
+        observed = []
+    
+        def delayed(*args, **kwargs):
+            entered.set()
+            release.wait(2)
+            finished.set()
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(target, method, delayed)
+    
+        async def run():
+            async def probe():
+                while not entered.is_set():
+                    await asyncio.sleep(0.001)
+                observed.append(not finished.is_set())
+                release.set()
+    
+            probe_task = asyncio.create_task(probe())
+            try:
+                await engine.cycle(refresh_discovery=False)
+            finally:
+                release.set()
+                await probe_task
+    
+        asyncio.run(run())
+>       assert observed == [True], "Storage work blocked the event loop until it finished"
+E       AssertionError: Storage work blocked the event loop until it finished
+E       assert [False] == [True]
+E         
+E         At index 0 diff: False != True
+E         Use -v to get more diff
+
+tests/test_collection_responsiveness.py:48: AssertionError
+______ test_collection_storage_delay_allows_other_tasks_to_run[coverage] _______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f4efad6a630>, <app.opportunities.Opportunities object at 0x7f4efb698980>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4efb5cd550>
+stage = 'coverage'
+
+    @pytest.mark.parametrize("stage", ["snapshot", "outcomes", "coverage"])
+    def test_collection_storage_delay_allows_other_tasks_to_run(client_engine, monkeypatch, stage):
+        _, engine = client_engine
+        seed(engine)
+        target, method = {
+            "snapshot": (engine.service.store, "save_snapshot"),
+            "outcomes": (engine, "update_outcomes"),
+            "coverage": (engine.sampling, "coverage"),
+        }[stage]
+        original = getattr(target, method)
+        entered, release, finished = Event(), Event(), Event()
+        observed = []
+    
+        def delayed(*args, **kwargs):
+            entered.set()
+            release.wait(2)
+            finished.set()
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(target, method, delayed)
+    
+        async def run():
+            async def probe():
+                while not entered.is_set():
+                    await asyncio.sleep(0.001)
+                observed.append(not finished.is_set())
+                release.set()
+    
+            probe_task = asyncio.create_task(probe())
+            try:
+                await engine.cycle(refresh_discovery=False)
+            finally:
+                release.set()
+                await probe_task
+    
+        asyncio.run(run())
+>       assert observed == [True], "Storage work blocked the event loop until it finished"
+E       AssertionError: Storage work blocked the event loop until it finished
+E       assert [False] == [True]
+E         
+E         At index 0 diff: False != True
+E         Use -v to get more diff
+
+tests/test_collection_responsiveness.py:48: AssertionError
+_______ test_cancelled_collection_retains_lease_until_its_write_finishes _______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f4efac07d40>, <app.opportunities.Opportunities object at 0x7f4efaacef60>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4efad474a0>
+
+    def test_cancelled_collection_retains_lease_until_its_write_finishes(client_engine, monkeypatch):
+        _, engine = client_engine
+        seed(engine)
+        original = engine.service.store.save_snapshot
+        entered, release, finished = Event(), Event(), Event()
+    
+        def delayed(*args, **kwargs):
+            entered.set()
+            release.wait(2)
+            result = original(*args, **kwargs)
+            finished.set()
+            return result
+    
+        monkeypatch.setattr(engine.service.store, "save_snapshot", delayed)
+    
+        async def run():
+            task = asyncio.create_task(engine.cycle(refresh_discovery=False))
+            try:
+                while not entered.is_set():
+                    await asyncio.sleep(0.001)
+                task.cancel()
+                await asyncio.sleep(0)
+                assert not finished.is_set() and not task.done()
+                assert engine.lock.locked()
+                with engine.store.connect() as db:
+                    assert db.execute("SELECT owner FROM opportunity_lease WHERE id=1").fetchone()[0] == engine.owner
+            finally:
+                release.set()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
+            assert finished.is_set() and task.cancelled()
+            assert not engine.lock.locked()
+            with engine.store.connect() as db:
+                assert db.execute("SELECT owner FROM opportunity_lease WHERE id=1").fetchone() is None
+    
+>       asyncio.run(run())
+
+tests/test_collection_responsiveness.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    async def run():
+        task = asyncio.create_task(engine.cycle(refresh_discovery=False))
+        try:
+            while not entered.is_set():
+                await asyncio.sleep(0.001)
+            task.cancel()
+            await asyncio.sleep(0)
+>           assert not finished.is_set() and not task.done()
+E           assert (not True)
+E            +  where True = is_set()
+E            +    where is_set = <threading.Event at 0x7f4efaacec30: set>.is_set
+
+tests/test_collection_responsiveness.py:73: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_collection_responsiveness.py::test_collection_storage_delay_allows_other_tasks_to_run[snapshot]
+FAILED tests/test_collection_responsiveness.py::test_collection_storage_delay_allows_other_tasks_to_run[outcomes]
+FAILED tests/test_collection_responsiveness.py::test_collection_storage_delay_allows_other_tasks_to_run[coverage]
+FAILED tests/test_collection_responsiveness.py::test_cancelled_collection_retains_lease_until_its_write_finishes
+4 failed, 1 warning in 9.63s

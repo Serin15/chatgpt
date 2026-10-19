@@ -1,0 +1,20 @@
+{
+  "existing_report_identical": true,
+  "day_utc": "2026-10-19",
+  "same_backup_and_clock": true,
+  "before_seconds": 2.161671790992841,
+  "after_seconds": 1.9787479210062884,
+  "totals": {
+    "discovered": 5699,
+    "eligible": 5699,
+    "excluded": 0,
+    "first_evaluations": 5699,
+    "eligible_without_first_evaluation": 0,
+    "security_pass_at_first_evaluation": 257,
+    "liquidity_pass_at_first_evaluation": 258,
+    "selected_at_first_evaluation": 178,
+    "opportunity_alerts": 216,
+    "risk_alerts": 153,
+    "alerts_displayed_in_app": 121
+  }
+}
