@@ -464,6 +464,25 @@ class Opportunities:
             "purpose": "research_candidate_not_buy_instruction",
         }
 
+    async def _background(self, function, *args):
+        """Keep storage off the event loop and finish it before releasing ownership."""
+        task = asyncio.create_task(asyncio.to_thread(function, *args))
+        try:
+            return await asyncio.shield(task)
+        except asyncio.CancelledError:
+            try:
+                await task
+            except Exception as exc:
+                log.warning("Storage failed during collection shutdown: %s", type(exc).__name__)
+            raise
+
+    def _persist_candidate(self, candidate, payload, policy, config, at):
+        self.save_observation(candidate, payload, policy, config, at)
+        self.service.store.add_token(candidate["contract"], "opportunity_engine")
+        self.service.store.save_snapshot(
+            Market(**payload["market"]), payload["security"], payload["decision"]["screening"]
+        )
+
     async def cycle(self, refresh_discovery=True):
         if self.lock.locked():
             return {"state": "busy"}
@@ -552,7 +571,8 @@ class Opportunities:
                                 pass
                         if not market:
                             errors.append("anchored_pool_observation_missing")
-                            self.save_observation(
+                            await self._background(
+                                self.save_observation,
                                 candidate,
                                 {
                                     "market": None,
@@ -562,7 +582,7 @@ class Opportunities:
                                 config,
                             )
                             continue
-                        history = self.history(candidate["id"])
+                        history = await self._background(self.history, candidate["id"])
                         previous = next(
                             (
                                 h
@@ -677,15 +697,10 @@ class Opportunities:
                             "execution_verified": False,
                             "collection_lane": candidate.get("collection_lane"),
                         }
-                        self.save_observation(candidate, payload, policy, config, at)
-                        observed += 1
-                        self.service.store.add_token(candidate["contract"], "opportunity_engine")
-                        # Reuse real observations in existing research and manual paper screens.
-                        self.service.store.save_snapshot(
-                            Market(**market),
-                            security,
-                            decision["screening"],
+                        await self._background(
+                            self._persist_candidate, candidate, payload, policy, config, at
                         )
+                        observed += 1
                         if (
                             config.ai_narratives
                             and narrative["supported"]
@@ -705,7 +720,8 @@ class Opportunities:
                         TimeoutError,
                     ) as exc:
                         log.warning("Opportunity candidate error: %s", type(exc).__name__)
-                        self.save_observation(
+                        await self._background(
+                            self.save_observation,
                             candidate,
                             {
                                 "market": None,
@@ -715,7 +731,7 @@ class Opportunities:
                             config,
                         )
                         errors.append("candidate_evidence_error")
-                self.update_outcomes()
+                await self._background(self.update_outcomes)
                 if self.route_task is None or self.route_task.done():
                     self.route_task = asyncio.create_task(self.routes.cycle())
                 self.service.notifications.collect()
@@ -734,7 +750,7 @@ class Opportunities:
                     "errors": sorted(set(errors)),
                     "discovery_sources": self.service.discovery.status,
                     "queue": self.queue_health(),
-                    "collection": self.sampling.coverage(),
+                    "collection": await self._background(self.sampling.coverage),
                     "routed_quotes": self.routes.status,
                 }
                 with self.store.connect() as db:
