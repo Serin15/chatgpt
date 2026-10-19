@@ -1,4 +1,4 @@
-# MemeScope v0.13.0 — beta privată Solana
+# MemeScope v0.13.1 — beta privată Solana
 
 **Observații și măsurare:** [noutăți v0.13, comenzi și limite reale](docs/RESEARCH-V0.13.md).
 

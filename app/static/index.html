@@ -58,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.13.0 · beta</span>
+        <span class="version">v0.13.1 · beta</span>
       </div>
     </aside>
     <main class="main">
@@ -92,7 +92,13 @@
         role="status"
         hidden
       ></div>
-      <div id="health-details" class="panel padded" hidden></div>
+      <div id="health-details" class="panel padded" role="region" aria-labelledby="health-title" hidden>
+        <div class="health-details-header">
+          <h2 id="health-title">Starea componentelor</h2>
+          <button id="health-close" class="secondary" type="button">Închide</button>
+        </div>
+        <div id="health-components"></div>
+      </div>
       <section id="view-overview" class="view">
         <div class="welcome">
           <div>

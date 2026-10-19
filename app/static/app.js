@@ -211,8 +211,13 @@ async function api(path, body) {
     clearTimeout(timer);
   }
 }
+function setHealthDetails(open) {
+  $("health-details").hidden = !open;
+  $("connection").setAttribute("aria-expanded", String(open));
+}
 function navigate(page) {
   if (!pageNames[page]) return;
+  setHealthDetails(false);
   state.page = page;
   for (const p of Object.keys(pageNames)) $("view-" + p).hidden = p !== page;
   document
@@ -807,8 +812,8 @@ function renderHealth() {
     ),
   );
   $("connection").title = "Apasă pentru starea fiecărei componente";
-  const details = $("health-details");
-  details.replaceChildren(node("h2", "Starea componentelor"));
+  const details = $("health-components");
+  details.replaceChildren();
   for (const [name, item] of Object.entries(sources)) {
     const rawNote = item?.error || (item?.errors || []).join("; ");
     const note =
@@ -1449,9 +1454,11 @@ $("refresh-all").onclick = () =>
     await api("/api/news/refresh", {});
   });
 $("connection").onclick = () => {
-  const details = $("health-details");
-  details.hidden = !details.hidden;
-  $("connection").setAttribute("aria-expanded", String(!details.hidden));
+  setHealthDetails($("health-details").hidden);
+};
+$("health-close").onclick = () => {
+  setHealthDetails(false);
+  $("connection").focus();
 };
 $("add-form").onsubmit = (event) => {
   event.preventDefault();

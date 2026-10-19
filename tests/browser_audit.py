@@ -177,6 +177,57 @@ async def check(base):
             await expect(page.locator("#health-details")).to_be_visible(timeout=1000)
             await expect(page.locator("#health-details")).to_contain_text("routed_quotes")
 
+        async def health_navigation(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                state.status.routed_quotes = {state:'partial', at:new Date().toISOString(),
+                    errors:['Rejected: Verificările de securitate sunt expirate.']};
+                renderHealth();
+            }""")
+            for name in ["news", "market", "scanner", "portfolio", "journal", "sources",
+                         "advanced", "overview", "opportunities"]:
+                await page.locator("#connection").click()
+                await expect(page.locator("#health-details")).to_be_visible()
+                await page.locator(f'.nav-item[data-page="{name}"]').click()
+                await expect(page.locator("#health-details")).to_be_hidden(timeout=1000)
+                await expect(page.locator("#connection")).to_have_attribute("aria-expanded", "false")
+                await expect(page.locator(f"#view-{name}")).to_be_in_viewport()
+                await expect(page.locator("#section-alerts")).to_contain_text("routed_quotes")
+
+        async def health_panel_bounds(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                state.status.providers = Object.fromEntries(Array.from({length:60}, (_,i) =>
+                    ['fixture_source_' + i, {state:'error', at:new Date().toISOString(),
+                        error:'Explicit fixture failure; preserve source details'}]));
+                renderHealth();
+            }""")
+            await page.locator("#connection").click()
+            for width, height in [(1440, 1000), (390, 844)]:
+                await page.set_viewport_size({"width": width, "height": height})
+                box = await page.locator("#health-details").bounding_box()
+                assert box["height"] <= height / 2 + 1, box
+                assert await page.locator("#health-components").evaluate(
+                    "n => n.scrollHeight > n.clientHeight && getComputedStyle(n).overflowY === 'auto'"
+                ), "Long component details must scroll within the panel"
+                assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+            await expect(page.locator("#health-details")).to_contain_text("fixture_source_59")
+
+        async def health_close_and_refresh(page):
+            await ready(page)
+            await page.locator("#connection").click()
+            await page.locator("#health-details").get_by_role("button", name="Închide").click(timeout=1000)
+            await expect(page.locator("#health-details")).to_be_hidden()
+            await expect(page.locator("#connection")).to_have_attribute("aria-expanded", "false")
+            await page.evaluate("renderHealth()")
+            await expect(page.locator("#health-details")).to_be_hidden()
+            await page.locator("#connection").click()
+            await page.evaluate("renderHealth()")
+            await expect(page.locator("#health-details")).to_be_visible()
+            await expect(page.locator("#connection")).to_have_attribute("aria-expanded", "true")
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-details")).to_be_hidden()
+
         async def query_race(page):
             await ready(page)
             response = await (await page.request.get(base + "/api/opportunities")).json()
@@ -419,6 +470,9 @@ async def check(base):
             ("browser back", browser_history),
             ("loaded pages survive refresh", pagination),
             ("component health details", health_details),
+            ("health panel closes on every navigation", health_navigation),
+            ("health panel has bounded desktop and mobile height", health_panel_bounds),
+            ("health panel explicit close and refresh state", health_close_and_refresh),
             ("search response race", query_race),
             ("document stories without AI", stories_without_ai),
             ("daily report race and JSON export", daily_race_and_export),
