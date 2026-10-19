@@ -1,13 +1,23 @@
 # Dovezi v0.12 — 19 octombrie 2026
 
+Codul aplicației/testelor este `97867df54eaa68cf0e42486414975b6cdf2f5b9e`.
+Commiturile ulterioare ale dovezilor nu schimbă aplicația sau dependențele.
+
 ## Teste izolate, fără dovadă de profitabilitate
 
-[`pytest.txt`](pytest.txt): **397 teste trecute**, un avertisment cunoscut de
-depreciere Starlette/httpx, în 62,56s pe Linux. Ruff, verificarea sintactică a
+[`pytest.txt`](pytest.txt): **398 teste trecute**, un avertisment cunoscut de
+depreciere Starlette/httpx, în 70,09s pe Linux. Ruff, verificarea sintactică a
 celor trei fișiere JavaScript și `git diff --check` trec.
 [`browser.json`](browser.json): **17 scenarii Chromium trecute**, cu furnizori
 izolați, inclusiv dovezi de pool, relatări repetate, comparație pe politici/cohorte
-și mobil. CI Windows/Ubuntu se raportează separat după terminarea rulării.
+și mobil. Prima rulare Windows a găsit două erori, păstrate în `ci-initial-summary.json`: un nume de fișier cu `?`, nepermis pe Windows, și o problemă de ceas în coada documentară. Numele testului folosește acum caractere valide și rezervate pentru URI. `windows-clock-before.txt` reproduce separat un decalaj de 15 ms între ceasuri: jobul nou rămânea pending. `windows-clock-after.txt` verifică remedierea pe 44 de cazuri. Coada, backoff-ul și verificarea cotației folosesc același ceas UTC; datele viitoare continuă să fie respinse strict. Rularea intermediară a fost oprită după identificarea problemei, fiind înlocuită cu cea a corecției finale.
+
+Rularea finală [39212851053](https://github.com/Serin15/chatgpt/actions/runs/39212851053)
+a trecut pe ambele sisteme. [`ci.json`](ci.json), extras din arhiva oficială a
+logurilor și starea joburilor, confirmă **398 teste pe Windows** în 647,64s și
+**398 pe Ubuntu** în 62,75s, cele **17 scenarii Chromium** pe Linux și pornirea
+launcherului Windows nativ dintr-o cale cu spații. Acestea sunt teste cu
+fixture-uri și ale pornirii aplicației, nu dovada unui avantaj predictiv.
 
 [`coverage-before.txt`](coverage-before.txt) reproduce pe codul v0.11 original
 cele trei lipsuri: articol relevant dincolo de primele zece, colectare dependentă
@@ -63,6 +73,25 @@ configurate.
 interceptări, arată 50 candidați în pagină, comparația din 18 octombrie pe politica
 5/test și politicile ulterioare/neatribuite, zero erori JS/API, fără overflow la
 390 px, cinci workeri porniți și `live_execution=false`.
+[`final-clock-runtime.json`](final-clock-runtime.json) reconfirmă motorul și cei
+cinci workeri fără erori după restartul cu remedierea finală pentru Windows.
+
+[`running-final.json`](running-final.json) și
+[`pool-candidate-ui.json`](pool-candidate-ui.json) păstrează separat o probă a
+fluxului normal din **feedurile de pool**, fără asociere de știre: candidatul
+37495, mint `4qTBT6wqvkbu7SHJr6xfeehdtiVhJyCrGeL3M418HmMV`, a fost descoperit
+automat la 06:32:09 UTC, evaluat la 06:32:19, alerta afișată la 06:38:42, cu
+observație de intrare la 06:33:13 și ieșire la 06:39:02. Scenariul independent de
+pool are 349s de deținere și PnL modelat $4,03, după costuri. Browserul arată
+contractul și rezultatul evaluat fără erori JS. Exemplul a fost ales pentru
+verificarea funcționării tehnice, nu este eșantion statistic sau dovada noii rute
+documentare; `execution_verified=false` și `is_story_discovery_proof=false`.
+Universul activ avea 37.721 candidați și 148.333 observații la captura de stare.
+
+[`package.json`](package.json): ZIP descărcat efectiv de la codeload pentru
+commitul testat, HTTP 200, 4.049.096 octeți, CRC valid și toate cele 302 fișiere
+Git comparate byte cu byte. Bazele și secretele nu sunt împachetate. SHA-256:
+`6860eeb818134615d1f0b88b66638fc20129b0e9e4572040d1628637124dd9ce`.
 
 ## Evaluare offline pe observații reale
 

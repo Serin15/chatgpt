@@ -1,0 +1,250 @@
+{
+  "version": "0.12.0",
+  "live_execution": false,
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-19T06:43:45.965028+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-19T06:43:46.049197+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-19T06:43:46.049337+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-19T06:43:46.062785+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-19T06:43:46.071027+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "news": {
+    "running": false,
+    "last_completed_at": "2026-10-19T06:43:51.686392+00:00",
+    "topics": {
+      "trump": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:47.275139+00:00",
+        "headlines": 10,
+        "latest_published_at": "2026-10-19T05:28:25+00:00",
+        "candidates": 4,
+        "error": null
+      },
+      "memecoins": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:47.316483+00:00",
+        "headlines": 10,
+        "latest_published_at": "2026-10-19T03:46:45+00:00",
+        "candidates": 0,
+        "error": null
+      },
+      "claude": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:49.187781+00:00",
+        "headlines": 10,
+        "latest_published_at": "2026-10-19T05:47:45+00:00",
+        "candidates": 4,
+        "error": null
+      },
+      "crypto": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:49.215162+00:00",
+        "headlines": 10,
+        "latest_published_at": "2026-10-19T06:34:52+00:00",
+        "candidates": 0,
+        "error": null
+      },
+      "elon": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.407297+00:00",
+        "headlines": 3,
+        "latest_published_at": "2026-10-18T20:30:05+00:00",
+        "candidates": 4,
+        "error": null
+      },
+      "launches": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.439841+00:00",
+        "headlines": 6,
+        "latest_published_at": "2026-10-19T00:45:06+00:00",
+        "candidates": 0,
+        "error": null
+      },
+      "kraken_official": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.439869+00:00",
+        "headlines": 0,
+        "latest_published_at": null,
+        "candidates": 0,
+        "error": null
+      },
+      "ethereum_official": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.439874+00:00",
+        "headlines": 0,
+        "latest_published_at": null,
+        "candidates": 0,
+        "error": null
+      },
+      "coindesk": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.560664+00:00",
+        "headlines": 19,
+        "latest_published_at": "2026-10-19T06:23:16+00:00",
+        "candidates": 0,
+        "error": null
+      },
+      "zelensky": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.560691+00:00",
+        "headlines": 0,
+        "latest_published_at": null,
+        "candidates": 0,
+        "error": null
+      },
+      "decrypt": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.612001+00:00",
+        "headlines": 7,
+        "latest_published_at": "2026-10-18T16:31:03+00:00",
+        "candidates": 0,
+        "error": null
+      },
+      "cointelegraph": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.686362+00:00",
+        "headlines": 13,
+        "latest_published_at": "2026-10-19T05:55:44+00:00",
+        "candidates": 0,
+        "error": null
+      },
+      "solana_official": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:51.686384+00:00",
+        "headlines": 0,
+        "latest_published_at": null,
+        "candidates": 0,
+        "error": null
+      }
+    },
+    "interval_seconds": 300
+  },
+  "announcement_analysis": {
+    "state": "ok",
+    "at": "2026-10-19T06:43:54.436590+00:00",
+    "error": null,
+    "sources": {
+      "www.coindesk.com": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:54.436573+00:00",
+        "error": null
+      },
+      "cointelegraph.com": {
+        "state": "ok",
+        "at": "2026-10-19T06:43:53.466963+00:00",
+        "error": null
+      }
+    }
+  },
+  "engine": {
+    "state": "ok",
+    "at": "2026-10-19T06:44:58.283268+00:00",
+    "errors": []
+  },
+  "portfolios": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "database_counts": {
+    "opportunity_candidates": 37721,
+    "opportunity_observations": 148333,
+    "story_documents": 908,
+    "story_contracts": 0,
+    "story_pool_lookups": 0
+  },
+  "latest_observation_at": "2026-10-19T06:44:57.926816+00:00",
+  "separate_pool_feed_example": {
+    "candidate_id": 37495,
+    "contract": "4qTBT6wqvkbu7SHJr6xfeehdtiVhJyCrGeL3M418HmMV",
+    "discovered_at": "2026-10-19T06:32:09.849256+00:00",
+    "signal_id": 81759,
+    "signal_at": "2026-10-19T06:32:19.734587+00:00",
+    "alert_id": 2206,
+    "delivered_in_app_at": "2026-10-19T06:38:42.121061+00:00",
+    "pool_outcome_state": "evaluated",
+    "outcome": {
+      "pnl_usd": "4.02858197674792394660374749",
+      "signal_at": "2026-10-19T06:32:19.734587+00:00",
+      "horizon_seconds": 300,
+      "execution_verified": false,
+      "model": "independent_estimated_pool_scenario",
+      "policy_id": 6,
+      "entry_observation_id": 147614,
+      "entry_at": "2026-10-19T06:33:13.199775+00:00",
+      "entry_delay_seconds": 53,
+      "entry_quote": {
+        "quantity": "2095612.496472631045786636418",
+        "cash_change": "-50.01",
+        "swap_fee_usd": "0.1500",
+        "price_impact": "0.0024418767450540288619936401",
+        "network_fee_usd": "0.01",
+        "model": "estimated_balanced_constant_product",
+        "execution_verified": false,
+        "pool_address": "CwZ73F3UhNjzrrz1Cy2qkB4hNQYBnrjivS5r3QnSXFVe"
+      },
+      "target_at_epoch": 1792391893.199775,
+      "exit_observation_id": 147974,
+      "exit_at": "2026-10-19T06:39:02.594565+00:00",
+      "actual_hold_seconds": 349,
+      "exit_quote": {
+        "quantity": "2095612.496472631045786636418",
+        "cash_change": "54.03858197674792394660374749",
+        "swap_fee_usd": "0.1630467740163879704116001239",
+        "price_impact": "0.0025337952745394753238937496",
+        "network_fee_usd": "0.01",
+        "model": "estimated_balanced_constant_product",
+        "execution_verified": false,
+        "pool_address": "CwZ73F3UhNjzrrz1Cy2qkB4hNQYBnrjivS5r3QnSXFVe"
+      },
+      "entry_cost_usd": "50.01",
+      "price_return_pct": 9.291801224443507,
+      "economically_possible_in_model": true,
+      "mfe_observed_pct": 0,
+      "mae_observed_pct": 0,
+      "priced_observations": 1,
+      "failed_observations": 0,
+      "max_observed_gap_seconds": null,
+      "unobserved_tail_seconds": 300.0,
+      "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown.",
+      "collection": {
+        "phase": "exit",
+        "job_id": 79089,
+        "status": "attempted",
+        "reason": "quote_received",
+        "deadline_at_epoch": 1792392073.199775
+      }
+    },
+    "is_story_discovery_proof": false
+  }
+}

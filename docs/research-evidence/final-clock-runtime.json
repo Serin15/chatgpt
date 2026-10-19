@@ -1,0 +1,39 @@
+{
+  "version": "0.12.0",
+  "live_execution": false,
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-19T06:58:00.647269+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-19T06:58:00.738690+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-19T06:58:00.738822+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-19T06:58:00.749221+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-19T06:58:00.758668+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "engine_state": "ok",
+  "engine_at": "2026-10-19T06:59:16.888228+00:00",
+  "engine_errors": []
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "file": "checks (ubuntu-latest)/7_Unit and integration tests.txt",
+    "results": [
+      "397 passed, 1 warning in 63.37s (0:01:03)"
+    ]
+  },
+  {
+    "file": "checks (windows-latest)/7_Unit and integration tests.txt",
+    "results": [
+      "E       sqlite3.OperationalError: unable to open database file",
+      "FAILED tests/test_cohort_comparisons.py::test_offline_store_is_read_only_and_handles_uri_characters - sqlite3.OperationalError: unable to open database file",
+      "FAILED tests/test_story_discovery.py::test_news_contract_enters_engine_without_pool_feed_or_name_search - assert 0 == 1",
+      "2 failed, 395 passed, 1 warning in 477.25s (0:07:57)",
+      "E       sqlite3.OperationalError: unable to open database file",
+      "FAILED tests/test_cohort_comparisons.py::test_offline_store_is_read_only_and_handles_uri_characters - sqlite3.OperationalError: unable to open database file",
+      "FAILED tests/test_story_discovery.py::test_news_contract_enters_engine_without_pool_feed_or_name_search - assert 0 == 1",
+      "2 failed, 395 passed, 1 warning in 477.25s (0:07:57)"
+    ]
+  }
+]

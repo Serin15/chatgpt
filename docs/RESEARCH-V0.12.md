@@ -33,6 +33,9 @@ Nu s-au trimis mesaje Telegram și nu s-au plasat ordine în portofoliile virtua
   fără rând de model, modelele dezactivate și rezultatele necunoscute în numitor.
   Diferențele mediilor sunt descriptive și condiționate de rezultatele evaluate.
   Limitele de sensibilitate pentru lipsuri nu sunt probabilități de succes.
+- Pe Windows, coada documentară și validarea cotației folosesc acum aceeași
+  sursă UTC, evitând diferențele de precizie dintre API-urile ceasului. Verificarea
+  strictă a datelor viitoare rămâne activă.
 - Exportul offline deschide SQLite numai în citire, fără worker, migrare sau
   cereri externe. Scrierea JSON este atomică și nu suprascrie baza printr-un
   hard link. Raportul general extrage doar câmpurile necesare din JSON, evitând
