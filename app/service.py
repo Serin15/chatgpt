@@ -291,7 +291,7 @@ class Service:
                     if not p["closed_at"]
                 ]
                 held = [address for address in held if not address.startswith("asset:")]
-                tracked = self.store.tokens()
+                tracked = await asyncio.to_thread(self.store.tokens)
                 addresses = list(
                     dict.fromkeys(held + [t["address"] for t in tracked if discover or t["watch"]])
                 )[:30]

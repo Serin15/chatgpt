@@ -89,3 +89,34 @@ def test_cancelled_collection_retains_lease_until_its_write_finishes(client_engi
             assert db.execute("SELECT owner FROM opportunity_lease WHERE id=1").fetchone() is None
 
     asyncio.run(run())
+
+
+def test_legacy_scanner_archive_read_does_not_block_other_tasks(client_engine, monkeypatch):
+    _, engine = client_engine
+    entered, release, finished = Event(), Event(), Event()
+    observed = []
+
+    def delayed():
+        entered.set()
+        release.wait(2)
+        finished.set()
+        return []
+
+    monkeypatch.setattr(engine.service.store, "tokens", delayed)
+
+    async def run():
+        async def probe():
+            while not entered.is_set():
+                await asyncio.sleep(0.001)
+            observed.append(not finished.is_set())
+            release.set()
+
+        probe_task = asyncio.create_task(probe())
+        try:
+            await engine.service.scan(discover=False)
+        finally:
+            release.set()
+            await probe_task
+
+    asyncio.run(run())
+    assert observed == [True], "Legacy scanner blocked the event loop reading the archive"
