@@ -1,11 +1,11 @@
 """Read-only integration check. Wrapped SOL is an infrastructure fixture, not a recommendation."""
 
 import asyncio
-import time
 
 from app.analysis import analyze
 from app.assets import Assets
 from app.config import Settings
+from app.models import epoch, utcnow
 from app.news import News
 from app.providers import ProviderError, Providers
 from app.store import Store
@@ -21,7 +21,7 @@ async def main():
         print(f"Live discovery: {len(discovered)} valid Solana profile addresses")
         market = await providers.market("So11111111111111111111111111111111111111112")
         security = await providers.security(market.address)
-        result = analyze(market, security, settings, time.time())
+        result = analyze(market, security, settings, epoch(utcnow()))
         print(
             f"Wrapped SOL infrastructure check: price={market.price_usd}, liquidity={market.liquidity_usd}"
         )

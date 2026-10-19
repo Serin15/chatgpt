@@ -312,13 +312,11 @@ def create_app(
         token = service.store.token(address)
         latest = service.store.latest(address) if token else None
         if latest:
-            import time
-
             from app.analysis import analyze
-            from app.models import Market
+            from app.models import Market, epoch, utcnow
 
             latest["analysis"] = analyze(
-                Market(**latest["market"]), latest["security"], settings, time.time()
+                Market(**latest["market"]), latest["security"], settings, epoch(utcnow())
             )
         if not latest:
             raise HTTPException(404, "Token fără observații; adaugă adresa sau verifică API-urile.")
@@ -412,7 +410,9 @@ def create_app(
         q: str = Query("", max_length=120),
         verdict: Literal["all", "PENDING", "REJECT", "MONITOR", "INVESTIGATE", "CONSIDER"] = "all",
     ):
-        return request.app.state.service.opportunities.listing(limit, before, sort == "rank", q, verdict)
+        return request.app.state.service.opportunities.listing(
+            limit, before, sort == "rank", q, verdict
+        )
 
     @app.get("/api/opportunities/performance")
     def opportunity_performance(request: Request):
@@ -436,7 +436,10 @@ def create_app(
     @app.get("/api/opportunities/narratives")
     def opportunity_narratives(request: Request):
         engine = request.app.state.service.opportunities
-        return engine.narratives.trends() | {"story_discovery": engine.story_discovery.summary() | {"recent_lookups": engine.story_discovery.recent()}}
+        return engine.narratives.trends() | {
+            "story_discovery": engine.story_discovery.summary()
+            | {"recent_lookups": engine.story_discovery.recent()}
+        }
 
     @app.get("/api/opportunities/alerts")
     def opportunity_alerts(

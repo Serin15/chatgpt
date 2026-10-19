@@ -1,7 +1,6 @@
 import asyncio
 import json
 import logging
-import time
 from dataclasses import replace
 from decimal import Decimal
 
@@ -186,7 +185,7 @@ class Service:
                         Market(**snapshot["market"]),
                         snapshot["security"],
                         self.settings,
-                        time.time(),
+                        epoch(utcnow()),
                     )
                     if snapshot
                     else {"paper_allowed": False}
@@ -262,7 +261,7 @@ class Service:
             try:
                 market = await self.providers.market(address)
                 security = await self.providers.security(address)
-                analysis = analyze(market, security, self.settings, time.time())
+                analysis = analyze(market, security, self.settings, epoch(utcnow()))
                 self.store.save_snapshot(market, security, analysis)
                 return self.store.latest(address)
             except ProviderError as exc:
@@ -318,7 +317,7 @@ class Service:
             await asyncio.sleep(self.settings.scan_interval_seconds)
 
     def listing(self):
-        now = time.time()
+        now = epoch(utcnow())
         output = []
         held = {
             p["address"]
