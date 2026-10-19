@@ -1,0 +1,54 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___ test_v2_prefetch_does_not_consume_job_and_first_actual_failure_is_final ____
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f276ccf59d0>, <app.opportunities.Opportunities object at 0x7f276c447cb0>)
+
+    def test_v2_prefetch_does_not_consume_job_and_first_actual_failure_is_final(client_engine):
+        _, engine = client_engine
+        c, p, cfg = seed(engine)
+        now = time.time() + 1
+        engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
+        early = payload(engine, c, now + 4)
+        early["market"]["observed_at"] = stamp(now + 1)
+        engine.save_observation(c, early, p, cfg, stamp(now + 4))
+        engine.update_outcomes(now + 5)
+>       assert engine.detail(c["id"])["outcomes"][0]["state"] == "pending"
+E       AssertionError: assert 'entry_unavailable' == 'pending'
+E         
+E         - pending
+E         + entry_unavailable
+
+tests/test_observation_sampling.py:358: AssertionError
+_______ test_v2_exit_skips_prefetch_but_keeps_first_actual_losing_quote ________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f276c416300>, <app.opportunities.Opportunities object at 0x7f276c2d3440>)
+
+    def test_v2_exit_skips_prefetch_but_keeps_first_actual_losing_quote(client_engine):
+        _, engine = client_engine
+        c, p, cfg = seed(engine)
+        now = time.time() + 1
+        engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
+        engine.save_observation(c, payload(engine, c, now + 4), p, cfg, stamp(now + 4))
+        engine.update_outcomes(now + 5)
+        early = payload(engine, c, now + 305, price=10)
+        early["market"]["observed_at"] = stamp(now + 303)
+        engine.save_observation(c, early, p, cfg, stamp(now + 305))
+        engine.update_outcomes(now + 306)
+>       assert engine.detail(c["id"])["outcomes"][0]["state"] == "pending"
+E       AssertionError: assert 'exit_unavailable' == 'pending'
+E         
+E         - pending
+E         + exit_unavailable
+
+tests/test_observation_sampling.py:382: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_observation_sampling.py::test_v2_prefetch_does_not_consume_job_and_first_actual_failure_is_final
+FAILED tests/test_observation_sampling.py::test_v2_exit_skips_prefetch_but_keeps_first_actual_losing_quote
+2 failed, 19 deselected, 1 warning in 1.15s

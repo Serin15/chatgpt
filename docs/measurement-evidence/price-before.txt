@@ -1,0 +1,206 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+_____ test_rejected_token_price_collapse_is_counted_without_invented_trade _____
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a748b7800>, <app.opportunities.Opportunities object at 0x7f2a740296d0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a748b4740>
+
+    def test_rejected_token_price_collapse_is_counted_without_invented_trade(client_engine, monkeypatch):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time() + 1
+        engine.save_observation(c, observed(engine, c, at, unsafe=True), policy, cfg, stamp(at))
+        engine.save_observation(c, observed(engine, c, at+301, price=0.1, unsafe=True), policy, cfg, stamp(at+301))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+302))
+        report = daily_report(engine)
+>       p = report["price_references"]["horizons"]["300"]["all_first_evaluations"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:25: KeyError
+________ test_first_failed_attempt_is_not_replaced_with_a_later_winner _________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73fff290>, <app.opportunities.Opportunities object at 0x7f2a73ef60c0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73fd7080>
+
+    def test_first_failed_attempt_is_not_replaced_with_a_later_winner(client_engine, monkeypatch):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        engine.save_observation(c, {"market": None}, policy, cfg, stamp(at+301))
+        engine.save_observation(c, observed(engine, c, at+320, price=10), policy, cfg, stamp(at+320))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+321))
+>       p = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:40: KeyError
+_____________ test_unusable_horizon_price_is_not_a_return[future] ______________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73f0f860>, <app.opportunities.Opportunities object at 0x7f2a73db60c0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73eb4290>
+bad = 'future'
+
+    @pytest.mark.parametrize("bad", ["future", "stale", "wrong_pool", "cached", "before_window"])
+    def test_unusable_horizon_price_is_not_a_return(client_engine, monkeypatch, bad):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        p = observed(engine, c, at+301, price=4)
+        if bad == "wrong_pool": p["market"]["pair_address"] = "different fixture pool"
+        elif bad == "cached": p["source_kind"] = "cached_observation"
+        else: p["market"]["observed_at"] = stamp(at+302 if bad=="future" else at+100 if bad=="stale" else at+299)
+        engine.save_observation(c, p, policy, cfg, stamp(at+301))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+303))
+>       report = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:58: KeyError
+______________ test_unusable_horizon_price_is_not_a_return[stale] ______________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73db4560>, <app.opportunities.Opportunities object at 0x7f2a73dbe0c0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73d97830>
+bad = 'stale'
+
+    @pytest.mark.parametrize("bad", ["future", "stale", "wrong_pool", "cached", "before_window"])
+    def test_unusable_horizon_price_is_not_a_return(client_engine, monkeypatch, bad):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        p = observed(engine, c, at+301, price=4)
+        if bad == "wrong_pool": p["market"]["pair_address"] = "different fixture pool"
+        elif bad == "cached": p["source_kind"] = "cached_observation"
+        else: p["market"]["observed_at"] = stamp(at+302 if bad=="future" else at+100 if bad=="stale" else at+299)
+        engine.save_observation(c, p, policy, cfg, stamp(at+301))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+303))
+>       report = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:58: KeyError
+___________ test_unusable_horizon_price_is_not_a_return[wrong_pool] ____________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73c77080>, <app.opportunities.Opportunities object at 0x7f2a73c760c0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73e4f230>
+bad = 'wrong_pool'
+
+    @pytest.mark.parametrize("bad", ["future", "stale", "wrong_pool", "cached", "before_window"])
+    def test_unusable_horizon_price_is_not_a_return(client_engine, monkeypatch, bad):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        p = observed(engine, c, at+301, price=4)
+        if bad == "wrong_pool": p["market"]["pair_address"] = "different fixture pool"
+        elif bad == "cached": p["source_kind"] = "cached_observation"
+        else: p["market"]["observed_at"] = stamp(at+302 if bad=="future" else at+100 if bad=="stale" else at+299)
+        engine.save_observation(c, p, policy, cfg, stamp(at+301))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+303))
+>       report = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:58: KeyError
+_____________ test_unusable_horizon_price_is_not_a_return[cached] ______________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73c6b7d0>, <app.opportunities.Opportunities object at 0x7f2a73bcb1d0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73c682f0>
+bad = 'cached'
+
+    @pytest.mark.parametrize("bad", ["future", "stale", "wrong_pool", "cached", "before_window"])
+    def test_unusable_horizon_price_is_not_a_return(client_engine, monkeypatch, bad):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        p = observed(engine, c, at+301, price=4)
+        if bad == "wrong_pool": p["market"]["pair_address"] = "different fixture pool"
+        elif bad == "cached": p["source_kind"] = "cached_observation"
+        else: p["market"]["observed_at"] = stamp(at+302 if bad=="future" else at+100 if bad=="stale" else at+299)
+        engine.save_observation(c, p, policy, cfg, stamp(at+301))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+303))
+>       report = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:58: KeyError
+__________ test_unusable_horizon_price_is_not_a_return[before_window] __________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73bc3440>, <app.opportunities.Opportunities object at 0x7f2a73a85bb0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73bc9a30>
+bad = 'before_window'
+
+    @pytest.mark.parametrize("bad", ["future", "stale", "wrong_pool", "cached", "before_window"])
+    def test_unusable_horizon_price_is_not_a_return(client_engine, monkeypatch, bad):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        p = observed(engine, c, at+301, price=4)
+        if bad == "wrong_pool": p["market"]["pair_address"] = "different fixture pool"
+        elif bad == "cached": p["source_kind"] = "cached_observation"
+        else: p["market"]["observed_at"] = stamp(at+302 if bad=="future" else at+100 if bad=="stale" else at+299)
+        engine.save_observation(c, p, policy, cfg, stamp(at+301))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+303))
+>       report = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:58: KeyError
+________ test_reference_report_is_read_only_and_keeps_pending_horizons _________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73b6c350>, <app.opportunities.Opportunities object at 0x7f2a73bc3380>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2a73c4b5f0>
+
+    def test_reference_report_is_read_only_and_keeps_pending_horizons(client_engine, monkeypatch):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()+1
+        engine.save_observation(c, observed(engine, c, at), policy, cfg, stamp(at))
+        monkeypatch.setattr("app.daily_research.utcnow", lambda: stamp(at+1))
+        with engine.store.connect() as db:
+            before = [tuple(r) for r in db.execute("SELECT * FROM opportunity_outcomes")]
+>       p = daily_report(engine)["price_references"]["horizons"]["300"]["all_first_evaluations"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'price_references'
+
+tests/test_price_research.py:70: KeyError
+__________ test_failed_attempt_is_distinct_from_usable_price_coverage __________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f2a73beb4d0>, <app.opportunities.Opportunities object at 0x7f2a73d01340>)
+
+    def test_failed_attempt_is_distinct_from_usable_price_coverage(client_engine):
+        _, engine = client_engine
+        c, policy, cfg = seed(engine)
+        at = time.time()-20
+        with engine.store.connect() as db:
+            engine.sampling.job(db,c["id"],123456,"checkpoint",300,at-1,at+10,control=True)
+        engine.save_observation(c,{"market":None},policy,cfg,stamp(at))
+        p=engine.sampling.coverage()["groups"]["control"]["checkpoint"]
+        assert p["attempted"] == 1
+>       assert p["usable_price_observations"] == 0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'usable_price_observations'
+
+tests/test_price_research.py:85: KeyError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_price_research.py::test_rejected_token_price_collapse_is_counted_without_invented_trade
+FAILED tests/test_price_research.py::test_first_failed_attempt_is_not_replaced_with_a_later_winner
+FAILED tests/test_price_research.py::test_unusable_horizon_price_is_not_a_return[future]
+FAILED tests/test_price_research.py::test_unusable_horizon_price_is_not_a_return[stale]
+FAILED tests/test_price_research.py::test_unusable_horizon_price_is_not_a_return[wrong_pool]
+FAILED tests/test_price_research.py::test_unusable_horizon_price_is_not_a_return[cached]
+FAILED tests/test_price_research.py::test_unusable_horizon_price_is_not_a_return[before_window]
+FAILED tests/test_price_research.py::test_reference_report_is_read_only_and_keeps_pending_horizons
+FAILED tests/test_price_research.py::test_failed_attempt_is_distinct_from_usable_price_coverage
+9 failed, 1 warning in 3.86s

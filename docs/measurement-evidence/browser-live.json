@@ -1,0 +1,15 @@
+{
+  "data": "actual normally collected provider observations; no fixture transport",
+  "requests_failed": [],
+  "js_errors": [],
+  "price_table_rows": 6,
+  "first_price_row": "5m · P5 · Test\t38 / 53\t15 / 297\t10,25% / -7,95%\t0 / 2\t1 / 3\t15 / 282",
+  "coverage_summary": "Calitatea colectării · cotații utilizabile la intrare: 1374 alerte / 8243 control · încercări: 1374 / 8264 · termene ratate: 4",
+  "day": "2026-10-18",
+  "retained_price_horizons": [
+    "300",
+    "3600",
+    "86400"
+  ],
+  "mobile_no_overflow": true
+}

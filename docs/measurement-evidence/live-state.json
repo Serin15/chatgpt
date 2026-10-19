@@ -1,0 +1,73 @@
+{
+  "version": "0.13.0",
+  "live_execution": false,
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-19T11:34:10.707666+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-19T11:34:10.812369+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-19T11:34:10.812554+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-19T11:34:10.826384+00:00",
+      "restarts": 0,
+      "error": null
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-19T11:34:10.841850+00:00",
+      "restarts": 0,
+      "error": null
+    }
+  },
+  "seconds": {
+    "health": 0.0695618019963149,
+    "status": 0.12533230599365197,
+    "narratives": 0.2612575960083632,
+    "research": 0.0029416299948934466,
+    "scanner": 0.002749580002273433,
+    "performance": 2.5356988630082924,
+    "coverage": 4.4183810480026295
+  },
+  "news_topics": {
+    "memecoins": "ok",
+    "trump": "ok",
+    "crypto": "ok",
+    "claude": "ok",
+    "launches": "ok",
+    "elon": "ok",
+    "ethereum_official": "ok",
+    "kraken_official": "ok",
+    "coindesk": "ok",
+    "zelensky": "ok",
+    "decrypt": "ok",
+    "cointelegraph": "ok",
+    "solana_official": "ok"
+  },
+  "tracked_story_contracts": 0,
+  "virtual_accounts": {
+    "research": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "ledgers_unchanged_from_before_restart": true,
+  "actual_db_quick_check": "ok"
+}

@@ -43,7 +43,8 @@ Codul principal este în `app/price_research.py`, `app/daily_research.py`,
 `app/opportunity_sampling.py`, `app/opportunity_outcomes.py`,
 `app/opportunities.py`, `app/story_verify.py` și `app/static/opportunities.js`.
 Testele dedicate sunt în `tests/test_price_research.py`,
-`tests/test_observation_sampling.py`, `tests/test_story_verify.py` și auditul Chromium.
+`tests/test_observation_sampling.py`, `tests/test_report_concurrency.py`,
+`tests/test_story_verify.py` și auditul Chromium.
 
 ## Instalare și verificare
 
@@ -74,7 +75,7 @@ uv run --frozen python -m app.story_verify --duration 900 --evidence-kind market
 
 Verificatorul nu injectează știri, ordine sau confirmări de livrare. Codul 1
 înseamnă criterii incomplete. Detaliile verificărilor efective sunt în
-[research-evidence/RESULTS.md](research-evidence/RESULTS.md).
+[measurement-evidence/RESULTS.md](measurement-evidence/RESULTS.md).
 
 ## Limite și servicii
 

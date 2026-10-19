@@ -1,0 +1,96 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_concurrent_reports_share_one_computation_and_next_request_is_fresh[False] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7fea60598e00>, <app.opportunities.Opportunities object at 0x7fea604dd610>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fea6084fda0>
+fail = False
+
+    @pytest.mark.parametrize("fail", [False, True])
+    def test_concurrent_reports_share_one_computation_and_next_request_is_fresh(
+        client_engine, monkeypatch, fail
+    ):
+        _, engine = client_engine
+        entered, waiting, release = Event(), Event(), Event()
+        calls = []
+    
+        class TrackedFuture(Future):
+            def result(self, timeout=None):
+                waiting.set()
+                return super().result(timeout)
+    
+        def compute(_):
+            calls.append(1)
+            if len(calls) == 1:
+                entered.set()
+                assert release.wait(5)
+                if fail:
+                    raise ValueError("isolated report failure")
+            return {"count": len(calls), "nested": []}
+    
+        monkeypatch.setattr("app.opportunities.Future", TrackedFuture, raising=False)
+        monkeypatch.setattr("app.opportunity_outcomes.report", compute)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            first = pool.submit(engine.report)
+            assert entered.wait(5)
+            second = pool.submit(engine.report)
+            try:
+>               assert waiting.wait(2), "Second request started another report instead of joining"
+E               AssertionError: Second request started another report instead of joining
+E               assert False
+E                +  where False = wait(2)
+E                +    where wait = <threading.Event at 0x7fea60558350: unset>.wait
+
+tests/test_report_concurrency.py:40: AssertionError
+_ test_concurrent_reports_share_one_computation_and_next_request_is_fresh[True] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7fea604dde50>, <app.opportunities.Opportunities object at 0x7fea5eb98740>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fea6055b2f0>
+fail = True
+
+    @pytest.mark.parametrize("fail", [False, True])
+    def test_concurrent_reports_share_one_computation_and_next_request_is_fresh(
+        client_engine, monkeypatch, fail
+    ):
+        _, engine = client_engine
+        entered, waiting, release = Event(), Event(), Event()
+        calls = []
+    
+        class TrackedFuture(Future):
+            def result(self, timeout=None):
+                waiting.set()
+                return super().result(timeout)
+    
+        def compute(_):
+            calls.append(1)
+            if len(calls) == 1:
+                entered.set()
+                assert release.wait(5)
+                if fail:
+                    raise ValueError("isolated report failure")
+            return {"count": len(calls), "nested": []}
+    
+        monkeypatch.setattr("app.opportunities.Future", TrackedFuture, raising=False)
+        monkeypatch.setattr("app.opportunity_outcomes.report", compute)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            first = pool.submit(engine.report)
+            assert entered.wait(5)
+            second = pool.submit(engine.report)
+            try:
+>               assert waiting.wait(2), "Second request started another report instead of joining"
+E               AssertionError: Second request started another report instead of joining
+E               assert False
+E                +  where False = wait(2)
+E                +    where wait = <threading.Event at 0x7fea5eb8c320: unset>.wait
+
+tests/test_report_concurrency.py:40: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_report_concurrency.py::test_concurrent_reports_share_one_computation_and_next_request_is_fresh[False]
+FAILED tests/test_report_concurrency.py::test_concurrent_reports_share_one_computation_and_next_request_is_fresh[True]
+2 failed, 1 warning in 5.48s

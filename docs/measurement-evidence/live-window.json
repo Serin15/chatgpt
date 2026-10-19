@@ -1,0 +1,99 @@
+{
+  "new_policy_attempted_jobs_inspected": 1000,
+  "prefetch_then_actual_window_capture_observed_live": true,
+  "example": {
+    "job": {
+      "id": 91202,
+      "candidate_id": 41806,
+      "signal_id": 93896,
+      "phase": "exit",
+      "horizon_seconds": 300,
+      "due_at": 1792409120.031708,
+      "deadline_at": 1792409300.031708,
+      "selected": 0,
+      "control_member": 1,
+      "status": "attempted",
+      "observation_id": 165074,
+      "reason": "quote_received",
+      "last_dispatch_at": 1792409177.898083
+    },
+    "early_capture": {
+      "id": 165014,
+      "at": "2026-10-19T11:25:20.397155+00:00",
+      "quoted": "2026-10-19T11:25:19.856467+00:00",
+      "source": "live_provider_observation"
+    },
+    "actual_capture": {
+      "id": 165074,
+      "at": "2026-10-19T11:26:20.215938+00:00",
+      "quoted": "2026-10-19T11:26:19.682038+00:00",
+      "source": "live_provider_observation"
+    }
+  },
+  "candidate": {
+    "chain": "solana",
+    "contract": "2y6WUdMc3LwWnrouc2jY7oRnm9tkwpBmdG41eTdcpump",
+    "discovered_at": "2026-10-19T11:19:16.399964+00:00"
+  },
+  "verdict": "MONITOR",
+  "frozen_policy_id": 10,
+  "outcome": {
+    "signal_id": 93896,
+    "horizon_seconds": 300,
+    "state": "evaluated",
+    "payload": {
+      "pnl_usd": "11.89641965389394077291952113",
+      "signal_at": "2026-10-19T11:19:24.071914+00:00",
+      "horizon_seconds": 300,
+      "execution_verified": false,
+      "model": "independent_estimated_pool_scenario",
+      "policy_id": 10,
+      "entry_observation_id": 164716,
+      "entry_at": "2026-10-19T11:20:20.031708+00:00",
+      "entry_delay_seconds": 56,
+      "entry_quote": {
+        "quantity": "120213.1370764840670227952493",
+        "cash_change": "-50.01",
+        "swap_fee_usd": "0.1500",
+        "price_impact": "0.0018633772927710498467088088",
+        "network_fee_usd": "0.01",
+        "model": "estimated_balanced_constant_product",
+        "execution_verified": false,
+        "pool_address": "4KdwxUfgHcqgFHuAMzaMDZ3vjSZFnF4zrAgVnnxq41QK"
+      },
+      "target_at_epoch": 1792409120.031708,
+      "exit_observation_id": 165074,
+      "exit_at": "2026-10-19T11:26:20.215938+00:00",
+      "actual_hold_seconds": 360,
+      "exit_quote": {
+        "quantity": "120213.1370764840670227952493",
+        "cash_change": "61.90641965389394077291952113",
+        "swap_fee_usd": "0.1866946252821921633201757625",
+        "price_impact": "0.0020699137395603763745659945",
+        "network_fee_usd": "0.01",
+        "model": "estimated_balanced_constant_product",
+        "execution_verified": false,
+        "pool_address": "4KdwxUfgHcqgFHuAMzaMDZ3vjSZFnF4zrAgVnnxq41QK"
+      },
+      "entry_cost_usd": "50.01",
+      "price_return_pct": 25.070650119817994,
+      "economically_possible_in_model": true,
+      "mfe_observed_pct": 20.361984572305246,
+      "mae_observed_pct": 0,
+      "priced_observations": 2,
+      "failed_observations": 0,
+      "max_observed_gap_seconds": 246.21237897872925,
+      "unobserved_tail_seconds": 53.78762102127075,
+      "extrema_scope": "Sampled prices through the horizon; true intra-interval extrema are unknown.",
+      "collection": {
+        "phase": "exit",
+        "job_id": 91202,
+        "status": "attempted",
+        "reason": "quote_received",
+        "deadline_at_epoch": 1792409300.031708
+      }
+    },
+    "updated_at": "2026-10-19T11:26:27.230461+00:00"
+  },
+  "scope": "Actual provider observations and independent estimated pool paper scenario. No real trade or documentary-news discovery proof."
+}
