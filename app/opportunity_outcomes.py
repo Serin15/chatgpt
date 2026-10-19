@@ -286,12 +286,9 @@ def report(engine):
         ).fetchone()[0]
         candidates = db.execute(
             """SELECT c.id,json_extract(c.discovery,'$.price_usd') AS initial_price,
-            json_extract(o.payload,'$.market.price_usd') AS price,
-            json_extract(o.payload,'$.market.observed_at') AS market_at,
-            json_extract(o.payload,'$.security.observed_at') AS security_at,
-            json_extract(o.payload,'$.decision.verdict') AS verdict,
-            json_extract(o.payload,'$.decision.security_filter_passed') AS security_pass,
-            json_extract(o.payload,'$.decision.liquidity_filter_passed') AS liquidity_pass
+            json_extract(o.payload,'$.market.price_usd','$.market.observed_at',
+            '$.security.observed_at','$.decision.verdict','$.decision.security_filter_passed',
+            '$.decision.liquidity_filter_passed') AS fields
             FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(
                 SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"""
         ).fetchall()
@@ -299,11 +296,9 @@ def report(engine):
             """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(o.payload,'$.pnl_usd') AS pnl,
             s.kind,s.at AS signal_at,s.observation_id,a.id AS alert_id,c.contract,
             e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at,
-            json_extract(s.payload,'$.policy.id') AS policy_id,
-            json_extract(s.payload,'$.policy.at') AS policy_at,
-            json_extract(s.payload,'$.policy.payload.config.test_from') AS test_from,
-            json_extract(s.payload,'$.policy.payload.config.entry_window_seconds') AS entry_window,
-            json_extract(s.payload,'$.policy.payload.config.exit_window_seconds') AS exit_window
+            json_extract(s.payload,'$.policy.id','$.policy.at','$.policy.payload.config.test_from',
+            '$.policy.payload.config.entry_window_seconds',
+            '$.policy.payload.config.exit_window_seconds') AS policy_fields
             FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id
             JOIN opportunity_candidates c ON c.id=s.candidate_id
             LEFT JOIN opportunity_alerts a ON a.signal_id=s.id AND a.severity!='critical'
@@ -312,6 +307,12 @@ def report(engine):
         parsed = []
         for r in rows:
             row = dict(r)
+            row.update(
+                zip(
+                    ["policy_id", "policy_at", "test_from", "entry_window", "exit_window"],
+                    json.loads(row.pop("policy_fields")),
+                )
+            )
             row["payload"] = {"pnl_usd": row.pop("pnl")}
             row["config_parsed"] = {
                 "test_from": row.pop("test_from"),
@@ -322,7 +323,22 @@ def report(engine):
             row.pop("config_parsed")
             parsed.append(row)
         latest = []
-        for r in candidates:
+        for raw in candidates:
+            r = dict(raw)
+            fields = r.pop("fields")
+            r.update(
+                zip(
+                    [
+                        "price",
+                        "market_at",
+                        "security_at",
+                        "verdict",
+                        "security_pass",
+                        "liquidity_pass",
+                    ],
+                    json.loads(fields) if fields else [None] * 6,
+                )
+            )
             latest.append(
                 {
                     "id": r["id"],
@@ -352,14 +368,33 @@ def report(engine):
         ).fetchall()
         initial = db.execute(
             """SELECT s.id,
-            json_extract(o.payload,'$.features.changes.5m.volume_5m_ratio') AS volume_ratio,
-            json_extract(o.payload,'$.features.excessive_extension') AS extended,
-            json_array_length(o.payload,'$.narrative.supported') AS narrative_count,
-            json_extract(o.payload,'$.decision.security_filter_passed') AS security_pass,
-            json_extract(o.payload,'$.decision.liquidity_filter_passed') AS liquidity_pass,
-            json_extract(o.payload,'$.decision.verdict') AS verdict
+            json_extract(o.payload,'$.features.changes.5m.volume_5m_ratio',
+            '$.features.excessive_extension','$.narrative.supported',
+            '$.decision.security_filter_passed','$.decision.liquidity_filter_passed',
+            '$.decision.verdict') AS fields
             FROM opportunity_signals s JOIN opportunity_observations o ON o.id=s.observation_id WHERE s.kind='baseline'"""
         ).fetchall()
+        initial = [
+            dict(r)
+            | dict(
+                zip(
+                    [
+                        "volume_ratio",
+                        "extended",
+                        "narrative_count",
+                        "security_pass",
+                        "liquidity_pass",
+                        "verdict",
+                    ],
+                    json.loads(r["fields"]),
+                )
+            )
+            for r in initial
+        ]
+        for item in initial:
+            evidence = item["narrative_count"]
+            item["narrative_count"] = len(evidence) if isinstance(evidence, list) else 0
+            item.pop("fields")
     horizons = {}
     for h in sorted({r["horizon_seconds"] for r in parsed}):
         baseline = [r for r in parsed if r["horizon_seconds"] == h and r["kind"] == "baseline"]

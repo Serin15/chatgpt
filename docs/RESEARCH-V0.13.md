@@ -32,6 +32,8 @@ reale, nu modifică pragurile de selecție și nu demonstrează profitabilitate.
 - Interogarea acoperirii proiectează o singură dată câmpurile necesare fiecărei
   observații pentru alerte/control, fără să recitească integral payloadul pentru
   fiecare câmp. Nu șterge date și nu schimbă rezultatele raportate.
+  Raportul general folosește aceeași extracție JSON grupată pentru cotații,
+  politici și diagnostice, reducând citirile repetitive ale istoricului complet.
 
 Codul principal este în `app/price_research.py`, `app/daily_research.py`,
 `app/opportunity_sampling.py`, `app/opportunity_outcomes.py`,
