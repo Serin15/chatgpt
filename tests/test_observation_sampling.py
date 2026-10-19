@@ -1,5 +1,7 @@
 """Prospective sampling regressions. Isolated fixture data, no external calls."""
 
+import copy
+import hashlib
 import json
 import time
 
@@ -11,6 +13,22 @@ from app.opportunity_rules import EngineConfig
 from app.opportunity_sampling import SAMPLING_VERSION, control_member
 from tests.test_opportunities import client_engine as client_engine
 from tests.test_opportunities import payload, seed, source_item, stamp
+
+
+def legacy_policy(engine, policy):
+    """Construct a separate, consistently hashed pre-v2 policy fixture."""
+    from app.opportunities import encode
+
+    value = copy.deepcopy(policy["payload"])
+    value.pop("forward_quote_window_version", None)
+    digest = hashlib.sha256(encode(value).encode()).hexdigest()
+    with engine.store.connect() as db:
+        db.execute(
+            "INSERT OR IGNORE INTO opportunity_policies(sha256,at,payload) VALUES(?,?,?)",
+            (digest, stamp(time.time()), encode(value)),
+        )
+        row = db.execute("SELECT * FROM opportunity_policies WHERE sha256=?", (digest,)).fetchone()
+    return dict(row) | {"payload": value}
 
 
 def address(i):
@@ -191,6 +209,7 @@ def test_control_exit_is_scheduled_from_actual_first_entry(client_engine):
 def test_prefetched_quote_cannot_be_a_post_signal_fill(client_engine):
     _, engine = client_engine
     c, p, cfg = seed(engine)
+    p = legacy_policy(engine, p)
     now = time.time() + 1
     engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
     early = payload(engine, c, now + 4)
@@ -313,6 +332,7 @@ def test_custom_config_survives_default_budget_migration(client_engine):
 def test_early_exit_quote_rejected_even_when_processing_finishes_late(client_engine):
     _, engine = client_engine
     c, p, cfg = seed(engine)
+    p = legacy_policy(engine, p)
     now = time.time() + 1
     engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
     engine.save_observation(c, payload(engine, c, now + 4), p, cfg, stamp(now + 4))
@@ -324,6 +344,49 @@ def test_early_exit_quote_rejected_even_when_processing_finishes_late(client_eng
     out = engine.detail(c["id"])["outcomes"][0]
     assert out["state"] == "exit_unavailable" and out["payload"]["pnl_usd"] is None
     assert out["payload"]["collection"]["reason"] == "quote_before_window"
+
+
+def test_v2_prefetch_does_not_consume_job_and_first_actual_failure_is_final(client_engine):
+    _, engine = client_engine
+    c, p, cfg = seed(engine)
+    now = time.time() + 1
+    engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
+    early = payload(engine, c, now + 4)
+    early["market"]["observed_at"] = stamp(now + 1)
+    engine.save_observation(c, early, p, cfg, stamp(now + 4))
+    engine.update_outcomes(now + 5)
+    assert engine.detail(c["id"])["outcomes"][0]["state"] == "pending"
+    with engine.store.connect() as db:
+        job = db.execute("SELECT * FROM observation_jobs WHERE phase='entry'").fetchone()
+        assert job["status"] == "pending" and job["observation_id"] is None
+    engine.save_observation(c, {"market": None}, p, cfg, stamp(now + 6))
+    engine.save_observation(c, payload(engine, c, now + 7, price=10), p, cfg, stamp(now + 7))
+    engine.update_outcomes(now + 8)
+    out = engine.detail(c["id"])["outcomes"][0]
+    assert out["state"] == "entry_unavailable"
+    assert out["payload"]["pnl_usd"] is None
+    assert out["payload"]["entry_at"] == stamp(now + 6)
+
+
+def test_v2_exit_skips_prefetch_but_keeps_first_actual_losing_quote(client_engine):
+    _, engine = client_engine
+    c, p, cfg = seed(engine)
+    now = time.time() + 1
+    engine.save_observation(c, payload(engine, c, now), p, cfg, stamp(now))
+    engine.save_observation(c, payload(engine, c, now + 4), p, cfg, stamp(now + 4))
+    engine.update_outcomes(now + 5)
+    early = payload(engine, c, now + 305, price=10)
+    early["market"]["observed_at"] = stamp(now + 303)
+    engine.save_observation(c, early, p, cfg, stamp(now + 305))
+    engine.update_outcomes(now + 306)
+    assert engine.detail(c["id"])["outcomes"][0]["state"] == "pending"
+    engine.save_observation(c, payload(engine, c, now + 307, price=0.5), p, cfg, stamp(now + 307))
+    engine.save_observation(c, payload(engine, c, now + 308, price=20), p, cfg, stamp(now + 308))
+    engine.update_outcomes(now + 309)
+    out = engine.detail(c["id"])["outcomes"][0]
+    assert out["state"] == "evaluated"
+    assert out["payload"]["exit_at"] == stamp(now + 307)
+    assert float(out["payload"]["pnl_usd"]) < 0
 
 
 def test_read_only_coverage_reports_expired_deadline_before_worker_runs(client_engine):

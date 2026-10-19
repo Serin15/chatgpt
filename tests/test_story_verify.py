@@ -110,3 +110,15 @@ def test_risk_alert_is_not_an_eligible_opportunity_alert():
     detail, job, alerts = sample()
     alerts[0]["severity"] = "critical"
     assert not assess(detail, job, alerts)["eligible_alert_generated"]
+
+
+def test_wrong_reference_kind_is_not_a_direct_document_contract_proof():
+    detail, job, alerts = sample()
+    detail["discovery"]["discovery_basis"] = "news_market_pair_reference_not_launch"
+    assert not assess(detail, job, alerts)["real_document_contract_reference"]
+
+
+def test_future_receipt_is_not_verified_delivery():
+    detail, job, alerts = sample()
+    alerts[0]["delivered_in_app_at"] = stamp(time.time() + 3600)
+    assert not assess(detail, job, alerts)["in_app_delivery_receipt"]

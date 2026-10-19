@@ -141,6 +141,7 @@ class Opportunities:
             "source_sha256": ENGINE_SOURCE_SHA256,
             "paper_source_sha256": PAPER_SOURCE_SHA256,
             "sampling_version": SAMPLING_VERSION,
+            "forward_quote_window_version": 2,
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
                 k: getattr(self.service.settings, k)

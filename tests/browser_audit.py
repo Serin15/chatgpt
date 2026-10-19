@@ -339,6 +339,46 @@ async def check(base):
             await page.set_viewport_size({"width": 390, "height": 844})
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
+        async def price_comparison_table(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            await page.locator("#engine-daily-panel > summary").click()
+            await page.evaluate("""() => {
+                const report = structuredClone(opportunityView.daily);
+                const s={planned:3,observed:1,unavailable_or_pending:2,mean_price_return_pct:'-90',
+                         increase_at_least_100pct:0,decline_at_least_80pct:1};
+                report.price_references={horizons:{300:{by_policy_and_cohort:{88:{test:{
+                    all_first_evaluations:s,selected_at_first_evaluation:s,control_excluding_selected:s}}}}}};
+                renderDailyResearch(report);
+            }""")
+            panel = page.locator(".price-reference-comparisons")
+            await panel.locator("summary").click()
+            await expect(panel).to_contain_text("5m · P88 · Test")
+            await expect(panel).to_contain_text("1 / 3")
+            await expect(panel).to_contain_text("-90%")
+            await expect(panel).to_contain_text("Fără costuri")
+            await page.set_viewport_size({"width": 390, "height": 844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
+        async def usable_coverage(page):
+            await ready(page)
+            await page.evaluate("""async () => {
+                const data = await (await fetch('/api/opportunities/coverage')).json();
+                Object.assign(data.prospective_groups.alerts.entry,
+                              {attempted:7,usable_price_observations:2,attempts_without_usable_price:5});
+                renderEngineCoverage(data);
+            }""")
+            await expect(page.locator("#engine-coverage-summary")).to_contain_text("2 alerte")
+            await page.locator("#engine-coverage-summary").evaluate(
+                "n => n.parentElement.open = true"
+            )
+            await expect(page.locator("#engine-coverage")).to_contain_text(
+                "2 cotații utilizabile / 7 încercări"
+            )
+            await expect(page.locator("#engine-coverage")).to_contain_text(
+                "5 încercări fără preț utilizabil"
+            )
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -357,6 +397,8 @@ async def check(base):
             ("daily mobile layout", daily_mobile),
             ("pool references and repeated report evidence", market_reference_evidence),
             ("partitioned comparison and mobile layout", cohort_comparison_table),
+            ("price references and mobile layout", price_comparison_table),
+            ("usable prices separate from attempts", usable_coverage),
         ]:
             await scenario(name, fn)
         await browser.close()

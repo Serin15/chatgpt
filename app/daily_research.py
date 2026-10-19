@@ -8,6 +8,7 @@ from decimal import Decimal, InvalidOperation
 from app.cohort_comparisons import comparisons, partition, protocol
 from app.models import epoch, utcnow
 from app.opportunity_outcomes import wilson
+from app.price_research import reference_report
 
 
 def report_epoch(value):
@@ -77,7 +78,16 @@ def daily_report(engine, day: date | None = None):
         candidates = db.execute(
             cohort
             + """
-            SELECT c.id,c.eligible,s.id AS signal_id,s.verdict,s.at AS signal_at,s.policy_id,
+            SELECT c.id,c.contract,c.pool,c.eligible,s.id AS signal_id,s.verdict,s.at AS signal_at,s.policy_id,
+            json_extract(s.payload,'$.policy.payload.observation_rules.max_snapshot_age') AS reference_max_age,
+            json_extract(s.payload,'$.policy.payload.forward_quote_window_version') AS reference_quote_window_version,
+            b.id AS initial_observation_id,b.at AS initial_at,
+            json_extract(b.payload,'$.market.observed_at') AS initial_quote_at,
+            json_extract(b.payload,'$.market.price_usd') AS initial_price_usd,
+            json_extract(b.payload,'$.market.liquidity_usd') AS initial_liquidity_usd,
+            json_extract(b.payload,'$.market.address') AS initial_contract,
+            json_extract(b.payload,'$.market.pair_address') AS initial_pool,
+            json_extract(b.payload,'$.source_kind') AS initial_source_kind,
             json_extract(s.payload,'$.policy.at') AS policy_at,
             json_extract(s.payload,'$.policy.payload.config') AS config,
             json_extract(s.payload,'$.security_filter_passed') AS security_pass,
@@ -88,7 +98,8 @@ def daily_report(engine, day: date | None = None):
             FROM cohort c LEFT JOIN opportunity_signals s ON s.id=(
                 SELECT min(id) FROM opportunity_signals WHERE candidate_id=c.id AND kind='baseline'
                 AND research_epoch(at)<=:at)
-            LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id""",
+            LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id
+            LEFT JOIN opportunity_observations b ON b.id=s.observation_id AND b.candidate_id=c.id""",
             params,
         ).fetchall()
         alerts = db.execute(
@@ -177,6 +188,7 @@ def daily_report(engine, day: date | None = None):
                     },
                 }
             models[name] = horizons
+        price_references = reference_report(db, cohort, params, firsts)
     return {
         "version": "daily-discovery-v1",
         "day_utc": day.isoformat(),
@@ -203,6 +215,7 @@ def daily_report(engine, day: date | None = None):
         },
         "first_verdicts": dict(Counter(r["verdict"] or "PENDING" for r in candidates)),
         "models": models,
+        "price_references": price_references,
         "evaluation_protocol": protocol(firsts, at),
         "live_execution": False,
         "profitability_demonstrated": False,

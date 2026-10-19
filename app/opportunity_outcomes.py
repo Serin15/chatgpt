@@ -29,16 +29,27 @@ def settings_at(engine, policy):
     )
 
 
-def observation(db, candidate_id, start, end):
-    row = db.execute(
-        "SELECT * FROM opportunity_observations WHERE candidate_id=? AND at>=? AND at<=? ORDER BY at,id LIMIT 1",
+def observation(db, candidate_id, start, end, quote_window_version=1):
+    rows = db.execute(
+        "SELECT * FROM opportunity_observations WHERE candidate_id=? AND at>=? AND at<=? ORDER BY at,id",
         (
             candidate_id,
             datetime.fromtimestamp(start, UTC).isoformat(),
             datetime.fromtimestamp(end, UTC).isoformat(),
         ),
-    ).fetchone()
-    return decode(row)
+    )
+    for raw in rows:
+        row = decode(raw)
+        if quote_window_version == 2:
+            try:
+                # A prefetched quote is not an attempt within this window. Keep the
+                # job pending; never skip an actual failed post-window request.
+                if epoch(row["market"]["observed_at"]) < start:
+                    continue
+            except (KeyError, TypeError, ValueError, OverflowError):
+                pass
+        return row
+    return None
 
 
 def available(row, settings, not_before=None):
@@ -65,9 +76,16 @@ def update_outcomes(engine, now=None):
             policy = signal["policy"]["payload"]
             config = policy["config"]
             settings = settings_at(engine, policy)
+            quote_window_version = policy.get("forward_quote_window_version", 1)
             signal_at = epoch(row["signal_at"])
             end = min(now, signal_at + config["entry_window_seconds"])
-            entry = observation(db, row["candidate_id"], signal_at + settings.min_signal_delay, end)
+            entry = observation(
+                db,
+                row["candidate_id"],
+                signal_at + settings.min_signal_delay,
+                end,
+                quote_window_version,
+            )
             payload = {
                 "pnl_usd": None,
                 "signal_at": row["signal_at"],
@@ -127,6 +145,7 @@ def update_outcomes(engine, now=None):
                         row["candidate_id"],
                         target,
                         min(now, target + config["exit_window_seconds"]),
+                        quote_window_version,
                     )
                     if exit_row is None:
                         if now >= target + config["exit_window_seconds"]:

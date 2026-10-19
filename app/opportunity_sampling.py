@@ -6,6 +6,7 @@ from collections import Counter, deque
 
 from app.models import epoch, utcnow
 from app.opportunity_rules import EngineConfig
+from app.price_research import coverage_states
 
 SAMPLING_VERSION = "balanced-deadlines-v1"
 
@@ -235,7 +236,7 @@ class Sampling:
         elif m and not (payload.get("decision") or {}).get("screening", {}).get("paper_allowed"):
             reason = "risk_or_liquidity_gate"
         db.execute(
-            "UPDATE observation_jobs SET status='attempted',observation_id=?,reason=CASE WHEN ? IS NOT NULL AND ?>=due_at THEN ? WHEN ? IS NOT NULL THEN 'quote_before_window' ELSE ? END WHERE candidate_id=? AND status='pending' AND due_at<=? AND deadline_at>=?",
+            "UPDATE observation_jobs SET status='attempted',observation_id=?,reason=CASE WHEN ? IS NOT NULL AND ?>=due_at THEN ? WHEN ? IS NOT NULL THEN 'quote_before_window' ELSE ? END WHERE candidate_id=? AND status='pending' AND due_at<=? AND deadline_at>=? AND (? IS NULL OR ?>=due_at OR coalesce((SELECT json_extract(p.payload,'$.forward_quote_window_version') FROM opportunity_signals s JOIN opportunity_policies p ON p.id=s.policy_id WHERE s.id=observation_jobs.signal_id),1)<>2)",
             (
                 observation_id,
                 epoch(m["observed_at"]) if m else None,
@@ -246,6 +247,8 @@ class Sampling:
                 candidate_id,
                 t,
                 t,
+                epoch(m["observed_at"]) if m else None,
+                epoch(m["observed_at"]) if m else None,
             ),
         )
 
@@ -314,6 +317,7 @@ class Sampling:
                     (time.time(), time.time()),
                 )
             ]
+            price_states = coverage_states(db, epoch(utcnow()))
             due = db.execute(
                 "SELECT count(*) AS jobs,count(DISTINCT candidate_id) AS candidates,min(deadline_at) AS earliest FROM observation_jobs WHERE status='pending' AND due_at<=? AND deadline_at>=?",
                 (time.time(), time.time()),
@@ -360,6 +364,25 @@ class Sampling:
                         "cancelled": counts["cancelled"],
                         "observed_attempt_rate": attempted / resolved if resolved else None,
                     }
+                    evidence = Counter()
+                    for row in price_states:
+                        if (
+                            row["phase"] == phase
+                            and row[key]
+                            and (
+                                scope == "groups"
+                                or (row["provenance"] == "prospective")
+                                == (scope == "prospective_groups")
+                            )
+                        ):
+                            evidence[row["price_state"]] += row["n"]
+                    usable = evidence["observed"]
+                    by_phase[phase].update(
+                        usable_price_observations=usable,
+                        attempts_without_usable_price=attempted - usable,
+                        usable_price_rate_among_attempts=usable / attempted if attempted else None,
+                        price_evidence_states=dict(evidence),
+                    )
                 groups[name] = by_phase
             scopes[scope] = groups
         reasons = Counter()

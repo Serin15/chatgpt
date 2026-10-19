@@ -22,6 +22,7 @@ def assess(detail, lookup, alerts, evidence_kind="direct_contract"):
         if via_market
         else "exact_contract_news_mention_not_launch"
     )
+    document = document and discovery.get("discovery_basis") == basis
     if via_market:
         try:
             ref = validated_reference(source["market_reference"])
@@ -90,7 +91,11 @@ def assess(detail, lookup, alerts, evidence_kind="direct_contract"):
             s["verdict"] in {"REJECT", "MONITOR", "INVESTIGATE", "CONSIDER"} for s in signals
         ),
         "eligible_alert_generated": bool(selected),
-        "in_app_delivery_receipt": any(a.get("delivered_in_app_at") for a in selected),
+        "in_app_delivery_receipt": any(
+            a.get("delivered_in_app_at")
+            and baseline <= epoch(a["delivered_in_app_at"]) <= time.time()
+            for a in selected
+        ),
         "later_outcome_evaluated": bool(outcomes),
     }
 

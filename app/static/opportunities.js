@@ -500,7 +500,7 @@ function renderEngineCoverage(data) {
   root.replaceChildren();
   const scope = data.prospective_groups || data.groups;
   $("engine-coverage-summary").textContent =
-    `Calitatea colectării · intrări observate: ${scope.alerts.entry.attempted} alerte / ${scope.control.entry.attempted} control · termene ratate: ${scope.alerts.entry.missed + scope.control.entry.missed}`;
+    `Calitatea colectării · cotații utilizabile la intrare: ${scope.alerts.entry.usable_price_observations ?? "—"} alerte / ${scope.control.entry.usable_price_observations ?? "—"} control · încercări: ${scope.alerts.entry.attempted} / ${scope.control.entry.attempted} · termene ratate: ${scope.alerts.entry.missed + scope.control.entry.missed}`;
   const members = (data.enrollment || []).filter(
     (r) => r.provenance === "prospective",
   );
@@ -531,12 +531,13 @@ function renderEngineCoverage(data) {
       root.append(
         node(
           "p",
-          `${name}: ${p.attempted} încercări observate la timp · ${p.missed} termene ratate · ${p.pending} în așteptare.`,
+          `${name}: ${p.usable_price_observations ?? "—"} cotații utilizabile / ${p.attempted} încercări · ${p.attempts_without_usable_price ?? "—"} încercări fără preț utilizabil · ${p.missed} termene ratate · ${p.pending} în așteptare.`,
           "footnote",
         ),
       );
     }
   }
+  root.append(node("p", "O cotație utilizabilă confirmă numai un preț raportat pentru pool-ul și intervalul cerut. Securitatea, lichiditatea de ieșire și execuția ordinului se verifică separat.", "footnote"));
   const labels = {
     capacity_or_worker_gap: "Nepreluate la timp (capacitate sau pauză)",
     collection_finished_after_deadline: "Colectare încheiată după termen",
@@ -801,6 +802,27 @@ function renderDailyResearch(data) {
     if (!Object.keys(data.models[model]).length) root.append(node("p", "Nu există încă experimente pentru această cohortă.", "footnote"));
   }
   root.append(node("p", "Simulări independente, cu costuri modelate. Lipsurile nu sunt profit sau pierdere zero. Grupurile se pot suprapune și au acoperire diferită; profitabilitatea nu este demonstrată.", "footnote"));
+  if (data.price_references) {
+    const panel = node("details", undefined, "price-reference-comparisons");
+    panel.append(node("summary", "Evoluția prețurilor · separat de profitul paper"));
+    panel.append(node("p", "De la cotația cunoscută la primul semnal până la prima încercare din intervalul viitor. Fără costuri; creșterea prețului nu dovedește o intrare sau o ieșire executabilă. Tokenurile respinse și lipsurile rămân în numitor.", "footnote"));
+    const scroll = node("div", undefined, "table-scroll"), table = node("table"), head = node("thead"), header = node("tr"), body = node("tbody");
+    ["Orizont / politică / cohortă", "Selectate observate / planificate", "Control fără suprapunere observate / planificate", "Variație medie selectate / control", "Creșteri ≥100% selectate / control", "Scăderi ≥80% selectate / control", "Lipsă selectate / control"].forEach(v => header.append(node("th", v)));
+    head.append(header); table.append(head);
+    const percent = value => value != null && Number.isFinite(Number(value)) ? `${Number(value).toLocaleString("ro-RO", {maximumFractionDigits:2})}%` : "—";
+    const cohorts = {development:"Dezvoltare", test:"Test", unassigned:"Neatribuit", purged_boundary:"Exclus la graniță"};
+    for (const [horizon, groups] of Object.entries(data.price_references.horizons)) {
+      for (const [policy, partitions] of Object.entries(groups.by_policy_and_cohort)) {
+        for (const [cohort, comparison] of Object.entries(partitions)) {
+          if (!comparison.all_first_evaluations.planned) continue;
+          const a = comparison.selected_at_first_evaluation, b = comparison.control_excluding_selected, row = node("tr");
+          [`${Number(horizon)/60}m · P${policy} · ${cohorts[cohort] || cohort}`, `${a.observed} / ${a.planned}`, `${b.observed} / ${b.planned}`, `${percent(a.mean_price_return_pct)} / ${percent(b.mean_price_return_pct)}`, `${a.increase_at_least_100pct} / ${b.increase_at_least_100pct}`, `${a.decline_at_least_80pct} / ${b.decline_at_least_80pct}`, `${a.unavailable_or_pending} / ${b.unavailable_or_pending}`].forEach(v => row.append(node("td", v)));
+          body.append(row);
+        }
+      }
+    }
+    table.append(body); scroll.append(table); panel.append(scroll); root.append(panel);
+  }
   engineJson(root, "Stări, politici, separare development/test și limite", data);
 }
 function engineChart(observations, parent) {
