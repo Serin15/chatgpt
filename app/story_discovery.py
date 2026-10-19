@@ -6,7 +6,6 @@ and a pool discovered from a news story is never labeled a new token launch.
 
 import asyncio
 import json
-import time
 from datetime import UTC, datetime
 
 import httpx
@@ -94,7 +93,7 @@ class StoryDiscovery:
                     state,
                     json.dumps(payload, allow_nan=False),
                     attempts,
-                    time.time() + delay,
+                    epoch(utcnow()) + delay,
                     contract,
                 ),
             )
@@ -123,7 +122,7 @@ class StoryDiscovery:
             with self.store.connect() as db:
                 db.execute(
                     "UPDATE opportunity_candidates SET next_due=min(next_due,?) WHERE id=? AND eligible=1",
-                    (time.time(), existing[0]),
+                    (epoch(utcnow()), existing[0]),
                 )
             self.finish(
                 contract,
@@ -143,9 +142,10 @@ class StoryDiscovery:
             ).model_dump()
             solana_address(market["address"])
             solana_address(market["pair_address"])
+            checked_at = epoch(utcnow())
             if (
                 market["address"] != contract
-                or not 0 <= time.time() - epoch(market["observed_at"]) <= 120
+                or not 0 <= checked_at - epoch(market["observed_at"]) <= 120
                 or market["liquidity_usd"] <= 0
             ):
                 raise ValueError("Incompatible market identity/freshness/liquidity")
@@ -156,7 +156,7 @@ class StoryDiscovery:
             created = market.get("pool_created_at")
             created_at = (
                 datetime.fromtimestamp(created / 1000, UTC).isoformat()
-                if created and 0 < created / 1000 <= time.time()
+                if created and 0 < created / 1000 <= checked_at
                 else None
             )
             self.service.discovery.save(
@@ -217,7 +217,7 @@ class StoryDiscovery:
         with self.store.connect() as db:
             rows = db.execute(
                 "SELECT * FROM story_pool_lookups WHERE state NOT IN ('resolved_pool','existing_candidate','evidence_expired') AND next_due<=? ORDER BY next_due,first_seen_at,contract LIMIT 3",
-                (time.time(),),
+                (epoch(utcnow()),),
             ).fetchall()
         await asyncio.gather(*(self.resolve(row) for row in rows))
         summary = self.summary()

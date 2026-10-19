@@ -9,9 +9,29 @@ from app.announcements import DocumentReader, contract_candidates
 from app.errors import ProviderError
 from app.models import utcnow
 from tests.conftest import market
-from tests.test_opportunities import TOKEN
+from tests.test_opportunities import TOKEN, stamp
 from tests.test_opportunities import client_engine as client_engine
 from tests.test_story_evidence import save_document
+
+
+def test_new_story_job_and_quote_use_same_clock_as_document_timestamps(client_engine, monkeypatch):
+    from app.models import epoch
+
+    _, engine = client_engine
+    save_document(engine)
+    engine.narratives.stories.index_documents()
+    # Windows/Python clock APIs can differ within one scheduler tick. Preserve
+    # strict future-data rejection; queue claiming must use the timestamp clock.
+    now = epoch(utcnow()) + 1
+    monkeypatch.setattr(time, "time", lambda: now - 0.015)
+    monkeypatch.setattr("app.story_discovery.utcnow", lambda: stamp(now))
+
+    async def quoted(address):
+        return market(address, observed_at=stamp(now), pool_created_at=int((now - 1800) * 1000))
+
+    monkeypatch.setattr(engine.service.providers, "market", quoted)
+    asyncio.run(engine.story_discovery.cycle())
+    assert engine.story_discovery.summary()["states"] == {"resolved_pool": 1}
 
 
 def test_news_contract_enters_engine_without_pool_feed_or_name_search(client_engine, monkeypatch):
@@ -34,7 +54,9 @@ def test_news_contract_enters_engine_without_pool_feed_or_name_search(client_eng
     assert client.get("/api/portfolio?account=news").json()["orders"] == []
 
 
-@pytest.mark.parametrize("bad", ["identity", "pool", "stale", "future", "liquidity", "provider", "nan"])
+@pytest.mark.parametrize(
+    "bad", ["identity", "pool", "stale", "future", "liquidity", "provider", "nan"]
+)
 def test_invalid_or_failed_pool_lookup_remains_unknown_and_backed_off(
     client_engine, monkeypatch, bad
 ):
