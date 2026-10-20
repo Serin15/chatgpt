@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-20T09:52:38.613377+00:00",
+  "captured_at": "2026-10-20T09:54:44.352266+00:00",
   "run": {
-    "conclusion": "",
+    "conclusion": "success",
     "headSha": "367153c4d446faee07ad6218a0dcf919425f5ced",
     "jobs": [
       {
-        "completedAt": "0001-01-01T00:00:00Z",
-        "conclusion": "",
+        "completedAt": "2026-10-20T09:52:22Z",
+        "conclusion": "success",
         "databaseId": 118558370672,
         "name": "checks (windows-latest)",
         "startedAt": "2026-10-20T09:36:23Z",
-        "status": "in_progress",
+        "status": "completed",
         "steps": [
           {
             "conclusion": "success",
@@ -49,52 +49,58 @@
             "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Unit and integration tests",
             "number": 7,
-            "status": "in_progress"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Run node --check app/static/app.js",
             "number": 8,
-            "status": "pending"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Run node --check app/static/advanced.js",
             "number": 9,
-            "status": "pending"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Run node --check app/static/opportunities.js",
             "number": 10,
-            "status": "pending"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "skipped",
             "name": "Chromium audit regressions with isolated providers",
             "number": 11,
-            "status": "pending"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Native Windows launcher from a path with spaces",
             "number": 12,
-            "status": "pending"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Post Run actions/setup-python@v5",
             "number": 23,
-            "status": "pending"
+            "status": "completed"
           },
           {
-            "conclusion": "",
+            "conclusion": "success",
             "name": "Post Run actions/checkout@v4",
             "number": 24,
-            "status": "pending"
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 25,
+            "status": "completed"
           }
         ],
         "url": "https://github.com/Serin15/chatgpt/actions/runs/39401899155/job/118558370672"
@@ -201,8 +207,22 @@
         "url": "https://github.com/Serin15/chatgpt/actions/runs/39401899155/job/118558370733"
       }
     ],
-    "status": "in_progress",
+    "status": "completed",
     "url": "https://github.com/Serin15/chatgpt/actions/runs/39401899155"
   },
-  "interpretation": "Ubuntu job succeeded. Windows tests/native launcher remain unverified until the corresponding job completes; in_progress is not success or failure."
+  "official_test_log_matches": {
+    "0_checks (ubuntu-latest).txt": [
+      "474 passed, 1 warning in 81.41s (0:01:21)"
+    ],
+    "checks (ubuntu-latest)/7_Unit and integration tests.txt": [
+      "474 passed, 1 warning in 81.41s (0:01:21)"
+    ],
+    "1_checks (windows-latest).txt": [
+      "474 passed, 1 warning in 916.33s (0:15:16)"
+    ],
+    "checks (windows-latest)/7_Unit and integration tests.txt": [
+      "474 passed, 1 warning in 916.33s (0:15:16)"
+    ]
+  },
+  "interpretation": "Both native OS jobs succeeded, including 474 unit/integration tests each, Linux Chromium audit and native Windows launcher from a path with spaces."
 }

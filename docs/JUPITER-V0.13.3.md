@@ -67,9 +67,10 @@ test independent. Baza principală are aproximativ 3,16 GB. Nu s-a șters istori
 - Ruff, `git diff --check` și `uv sync --frozen`: trecute.
 - CI nativ Windows/Linux:
   [39401899155](https://github.com/Serin15/chatgpt/actions/runs/39401899155).
-  Linux încheiat cu succes. La momentul dovezii, testele Windows încă rulează,
-  iar launcherul nativ Windows al acestei versiuni este **neverificat** până
-  la terminarea jobului: [ci.json](jupiter-window-evidence/ci.json).
+  **Succes pe ambele platforme**, inclusiv launcherul nativ Windows dintr-un
+  director cu spații. Logurile oficiale confirmă **474 teste** pe fiecare:
+  81,41 secunde pe Ubuntu și 916,33 secunde pe Windows. Chromium pe Linux:
+  **25/25** scenarii; [ci.json](jupiter-window-evidence/ci.json).
 
 Aceste teste folosesc mock-uri pentru RPC, FX și Jupiter. Demonstrează regulile
 de selecție și regresiile, fără să pretindă disponibilitate reală a furnizorilor.
