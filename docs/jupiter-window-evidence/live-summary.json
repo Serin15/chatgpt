@@ -1,0 +1,45 @@
+{
+  "started_at": "2026-10-20T09:36:50.377041+00:00",
+  "source_sha256": "a1a61cf2fd3d2947d3be48c3e004cdeb4e0bbcc70799587d889b590ec1f69060",
+  "complete": false,
+  "requests": "GET only, normal workers, no threshold changes or orders",
+  "selected_before_exit": true,
+  "health": {
+    "application": "ok",
+    "app_id": "pulse_crypto_research",
+    "version": "0.13.3",
+    "instance_id": "8d14ec2aa3dc43af006e08dc",
+    "live_execution": false
+  },
+  "updated_at": "2026-10-20T09:43:59.481410+00:00",
+  "candidate_id": 62676,
+  "signal_id": 149609,
+  "locked_at": "2026-10-20T09:38:06.647226+00:00",
+  "selected": 1,
+  "control_member": 1,
+  "terminal": true,
+  "finished_at": "2026-10-20T09:43:59.491394+00:00",
+  "last_sample": {
+    "at": "2026-10-20T09:43:59.481348+00:00",
+    "criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": false,
+      "frozen_policy_and_attempt_history": true
+    },
+    "outcome_state": "exit_unavailable",
+    "reason": "Rejected: Verificările de securitate sunt expirate."
+  },
+  "manual_portfolios": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "coverage": "One fixed candidate, selected before its exit; no replacement after the failed exit. Price-prefetch branch verified with fixtures; not encountered in this live sample.",
+  "remaining_issue": "Security was fresh when observation 244334 was saved, but stale before the routed exit attempt. Real exit quote and net PnL remain unavailable."
+}

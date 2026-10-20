@@ -1,4 +1,6 @@
-# MemeScope v0.13.2 — beta privată Solana
+# MemeScope v0.13.3 — beta privată Solana
+
+**Ferestre Jupiter v0.13.3:** [observații corecte, politici vechi păstrate și verificări](docs/JUPITER-V0.13.3.md).
 
 **Audit suplimentar v0.13.2:** [cotații, timestampuri, diagnostice și verificare corectă](docs/AUDIT-V0.13.2.md).
 

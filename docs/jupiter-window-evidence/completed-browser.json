@@ -1,0 +1,22 @@
+{
+  "candidate_id": 62711,
+  "signal_id": 149751,
+  "data": "Normal application; no interception, state injection or direct receipt API call",
+  "errors": [],
+  "version": "0.13.3",
+  "research_opened": true,
+  "displayed_outcome": [
+    "Semnal 149751 · 5m · evaluated · PnL virtual 5,41 USD"
+  ],
+  "evaluated_outcome_visible": true,
+  "contract_visible": true,
+  "alert_id": "3746",
+  "alert_visible": true,
+  "stored_alert": {
+    "id": 3746,
+    "signal_id": 149751,
+    "delivered_in_app_at": "2026-10-20T09:41:54.021279+00:00",
+    "telegram_state": "pending"
+  },
+  "completed_at": "2026-10-20T09:49:59Z"
+}

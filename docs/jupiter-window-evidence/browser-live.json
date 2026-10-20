@@ -1,0 +1,34 @@
+{
+  "data": "normal instance and real provider status; no intercepted requests or injected state",
+  "at_utc": "2026-10-20T09:37:25Z",
+  "js_errors": [],
+  "pages": [
+    "market",
+    "scanner",
+    "portfolio",
+    "journal",
+    "sources",
+    "advanced",
+    "overview",
+    "news",
+    "opportunities"
+  ],
+  "version": "0.13.3",
+  "routed_quotes": {
+    "state": "partial",
+    "at": "2026-10-20T09:36:48.595888+00:00",
+    "cycles": 4067,
+    "attempted": 2,
+    "ready": 2,
+    "errors": [
+      "ProviderError: Sursa a răspuns HTTP 400.",
+      "Rejected: Security/liquidity screening unavailable or rejected"
+    ]
+  },
+  "worker_diagnostics_visible": "dex: ok · 20.10.2026, 12:36:31\n\nrpc: ok · 20.10.2026, 12:36:37\n\ngoplus: ok · 20.10.2026, 12:36:38\n\ncoingecko: ok · 20.10.2026, 12:36:33\n\ncoingecko_catalog: ok · 20.10.2026, 12:36:26\n\nperformance: ok · 20.10.2026, 12:37:25\n\nannouncements: ok · 20.10.2026, 12:36:31\n\nopportunity_engine: running · 20.10.2026, 12:36:47\n\nstory_discovery: ok · 20.10.2026, 12:37:25\n\nrouted_quotes: eroare / date vechi · 20.10.2026, 12:36:48 · ProviderError: Sursa a răspuns HTTP 400.; Rejected: Security/liquidity screening unavailable or rejected\n\nnews_trump: ok · 20.10.2026, 12:36:26\n\nnews_claude: ok · 20.10.2026, 12:36:27\n\nnews_memecoins: ok · 20.10.2026, 12:36:28\n\nnews_crypto: ok · 20.10.2026, 12:36:28\n\nnews_launches: ok · 20.10.2026, 12:36:28\n\nnews_zelensky: ok · 20.10.2026, 12:36:28\n\nnews_elon: ok · 20.10.2026, 12:36:30\n\nnews_solana_official: ok · 20.10.2026, 12:36:30\n\nnews_kraken_official: ok · 20.10.2026, 12:36:30\n\nnews_ethereum_official: ok · 20.10.2026, 12:36:30\n\nnews_decrypt: ok · 20.10.2026, 12:36:30\n\nnews_coindesk: ok · 20.10.2026, 12:36:30\n\nnews_cointelegraph: ok · 20.10.2026, 12:36:30\n\ndiscovery_solana: ok · 20.10.2026, 12:37:25\n\ndiscovery_profiles: ok · 20.10.2026, 12:37:25\n\ndiscovery_boosts: ok · 20.10.2026, 12:37:26\n\nonchain_solana: ok · 20.10.2026, 12:36:47\n\nworker_scanner: running · pornit 20.10.2026, 12:36:25 · reporniri 0\n\nworker_news: running · pornit 20.10.2026, 12:36:25 · reporniri 0\n\nworker_assets: running · pornit 20.10.2026, 12:36:25 · reporniri 0\n\nworker_performance: running · pornit 20.10.2026, 12:36:25 · reporniri 0\n\nworker_intelligence: running · pornit 20.10.2026, 12:36:25 · reporniri 0",
+  "desktop_panel_height": 420,
+  "mobile_panel_height": 420,
+  "mobile_no_overflow": true,
+  "close_button_works": true,
+  "live_execution": false
+}

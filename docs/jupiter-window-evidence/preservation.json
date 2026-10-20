@@ -1,0 +1,26 @@
+{
+  "all_original_rows_unchanged": true,
+  "history": {
+    "opportunity_signals": {
+      "count": 149545,
+      "sha256": "d42ba497c7af930af57adc153cc30b319e0902e70a9e5189734f5828aee7e723"
+    },
+    "opportunity_policies": {
+      "count": 15,
+      "sha256": "73d2fcf307d0486a1fbc5dfc1d161caf258e95d30586b7d6df79c941b4b03a01"
+    },
+    "opportunity_config": {
+      "count": 1,
+      "sha256": "56fe19b81d91bd0389ab9102098143c842a1b5c94dc6a5d84db5e5a52a3bcb3a"
+    }
+  },
+  "routed_policies": {
+    "count": 86892,
+    "sha256": "d69c353a88def83cb4273eba60f1309596fead6b3736ece32f26866878be131d"
+  },
+  "routed_terminal_outcomes": {
+    "count": 259836,
+    "sha256": "aa81363cf2fb2af85b4b58262d56d9f8df5c987bc49f5b852fce3b6273df03d1"
+  },
+  "test_from": "2026-10-18T00:00:00Z"
+}

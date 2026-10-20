@@ -1,0 +1,22 @@
+{
+  "candidate_id": 62676,
+  "signal_id": 149609,
+  "data": "Normal application; no interception, state injection or direct receipt API call",
+  "errors": [],
+  "version": "0.13.3",
+  "research_opened": true,
+  "displayed_outcome": [
+    "Semnal 149609 · 5m · exit_unavailable · PnL virtual — · Rejected: Verificările de securitate sunt expirate."
+  ],
+  "evaluated_outcome_visible": false,
+  "contract_visible": true,
+  "alert_id": "3743",
+  "alert_visible": true,
+  "stored_alert": {
+    "id": 3743,
+    "signal_id": 149609,
+    "delivered_in_app_at": "2026-10-20T09:37:29.502004+00:00",
+    "telegram_state": "pending"
+  },
+  "completed_at": "2026-10-20T09:45:21Z"
+}
