@@ -1,0 +1,175 @@
+FF.F..F..                                                                [100%]
+=================================== FAILURES ===================================
+____ test_test_cutoff_must_be_strictly_future_on_the_capture_clock[-0.005] _____
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f22ec392f30>, <app.opportunities.Opportunities object at 0x7f22ec3c6270>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f22ec48bef0>
+offset = -0.005
+
+    @pytest.mark.parametrize("offset", [-0.005, 0, 0.005])
+    def test_test_cutoff_must_be_strictly_future_on_the_capture_clock(
+        client_engine, monkeypatch, offset
+    ):
+        _, engine = client_engine
+        now = datetime.now(UTC).timestamp()
+        monkeypatch.setattr("app.opportunities.utcnow", lambda: stamp(now))
+        monkeypatch.setattr("app.opportunities.time", SimpleNamespace(time=lambda: now - 0.01))
+        config = engine.config().model_copy(
+            update={"test_from": datetime.fromtimestamp(now + offset, UTC)}
+        )
+        if offset <= 0:
+>           with pytest.raises(ValueError, match="declared before"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests/test_engine_clock.py:24: Failed
+_______ test_test_cutoff_must_be_strictly_future_on_the_capture_clock[0] _______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f22ec3c4f50>, <app.opportunities.Opportunities object at 0x7f22eb82e270>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f22ec401670>
+offset = 0
+
+    @pytest.mark.parametrize("offset", [-0.005, 0, 0.005])
+    def test_test_cutoff_must_be_strictly_future_on_the_capture_clock(
+        client_engine, monkeypatch, offset
+    ):
+        _, engine = client_engine
+        now = datetime.now(UTC).timestamp()
+        monkeypatch.setattr("app.opportunities.utcnow", lambda: stamp(now))
+        monkeypatch.setattr("app.opportunities.time", SimpleNamespace(time=lambda: now - 0.01))
+        config = engine.config().model_copy(
+            update={"test_from": datetime.fromtimestamp(now + offset, UTC)}
+        )
+        if offset <= 0:
+>           with pytest.raises(ValueError, match="declared before"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests/test_engine_clock.py:24: Failed
+__ test_fx_freshness_uses_capture_clock_and_still_rejects_future_or_stale[0] ___
+
+routed = namespace(client=<starlette.testclient.TestClient object at 0x7f22eb8a2c90>, engine=<app.opportunities.Opportunities o...111111111111111111&amount=49700000&slippageBps=50&swapMode=ExactIn&restrictIntermediateTokens=true')>], failure=[None])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f22eb87ef00>
+offset = 0
+
+    @pytest.mark.parametrize("offset", [0, 0.001, -16])
+    def test_fx_freshness_uses_capture_clock_and_still_rejects_future_or_stale(routed, monkeypatch, offset):
+        from app.paper import Rejected
+    
+        r = routed
+        source = r.engine.service.jupiter
+        book = asyncio.run(source.stable_book())
+        book["observed_at"] = stamp(r.clock[0] + offset)
+    
+        async def observed_book():
+            return book
+    
+        monkeypatch.setattr(source, "stable_book", observed_book)
+        monkeypatch.setattr("app.jupiter.time", SimpleNamespace(time=lambda: r.clock[0] - 0.01))
+        request = source.fill("buy", "50", r.candidate["contract"], 50)
+        if offset == 0:
+>           assert asyncio.run(request)["execution_verified"] is False
+                   ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_opportunity_routes.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.jupiter.Jupiter object at 0x7f22eb734a40>, side = 'buy'
+size = Decimal('50'), address = '11111111111111111111111111111111'
+slippage_bps = 50
+
+    async def fill(self, side, size, address, slippage_bps=50):
+        solana_address(address)
+        info = await self.onchain.token("solana", address, include_distribution=False)
+        decimals = info["decimals"]
+        if not 0 <= decimals <= 18:
+            raise Rejected("Precizie de token neacceptată pentru paper.")
+        book = await self.stable_book()
+        size = amount(size)
+        network = self.settings.network_fee_usd
+        conversion_rate = self.settings.reference_fee
+        if side == "buy":
+            raw = int(
+                (size * (1 - conversion_rate) / book["ask"] * 10**6).to_integral_value(
+                    rounding=ROUND_DOWN
+                )
+            )
+            stable = D(raw) / 10**6
+            if stable > book["ask_size"]:
+                raise Rejected("Bugetul depășește USDC ask size observat.")
+            quoted = await self.quote(USDC, address, raw, slippage_bps)
+            quantity = D(quoted["otherAmountThreshold"]) / 10**decimals
+            conversion_fee = stable * book["ask"] * conversion_rate / (1 - conversion_rate)
+            cash = -(stable * book["ask"] + conversion_fee + network)
+        elif side == "sell":
+            raw = int((size * 10**decimals).to_integral_value(rounding=ROUND_DOWN))
+            if D(raw) / 10**decimals != size:
+                raise Rejected("Cantitatea de ieșire depășește precizia mintului.")
+            quoted = await self.quote(address, USDC, raw, slippage_bps)
+            stable = D(quoted["otherAmountThreshold"]) / 10**6
+            if stable > book["bid_size"]:
+                raise Rejected("Ieșirea depășește USDC bid size observat.")
+            quantity = size
+            conversion_fee = stable * book["bid"] * conversion_rate
+            cash = stable * book["bid"] - conversion_fee - network
+            if cash <= 0:
+                raise Rejected("Costurile depășesc ieșirea quote-ului.")
+        else:
+            raise Rejected("Sens necunoscut.")
+        if not 0 <= time.time() - epoch(book["observed_at"]) <= 15:
+>           raise Rejected("Book-ul USDC/USD a expirat în timpul cererii.")
+E           app.paper.Rejected: Book-ul USDC/USD a expirat în timpul cererii.
+
+app/jupiter.py:222: Rejected
+__ test_routed_quote_uses_capture_clock_and_still_rejects_future_or_stale[0] ___
+
+routed = namespace(client=<starlette.testclient.TestClient object at 0x7f22eb795520>, engine=<app.opportunities.Opportunities o...111111111111111111&amount=49700000&slippageBps=50&swapMode=ExactIn&restrictIntermediateTokens=true')>], failure=[None])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f22eb627650>
+offset = 0
+
+    @pytest.mark.parametrize("offset", [0, 0.001, -16])
+    def test_routed_quote_uses_capture_clock_and_still_rejects_future_or_stale(
+        routed, monkeypatch, offset
+    ):
+        r = routed
+        quote = asyncio.run(r.engine.service.jupiter.fill("buy", "50", r.candidate["contract"], 50))
+        quote["quote_observed_at"] = stamp(r.clock[0] + offset)
+    
+        async def observed_quote(self, *args):
+            return quote
+    
+        monkeypatch.setattr(Jupiter, "fill", observed_quote)
+        monkeypatch.setattr(
+            "app.opportunity_routes.time", SimpleNamespace(time=lambda: r.clock[0] - 0.01)
+        )
+        execute(r)
+        entry = r.engine.routes.detail(r.candidate["id"])["entries"][0]
+>       assert entry["entry_state"] == ("filled" if offset == 0 else "entry_unavailable")
+E       AssertionError: assert 'entry_unavailable' == 'filled'
+E         
+E         - filled
+E         + entry_unavailable
+
+tests/test_opportunity_routes.py:171: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_engine_clock.py::test_test_cutoff_must_be_strictly_future_on_the_capture_clock[-0.005]
+FAILED tests/test_engine_clock.py::test_test_cutoff_must_be_strictly_future_on_the_capture_clock[0]
+FAILED tests/test_opportunity_routes.py::test_fx_freshness_uses_capture_clock_and_still_rejects_future_or_stale[0]
+FAILED tests/test_opportunity_routes.py::test_routed_quote_uses_capture_clock_and_still_rejects_future_or_stale[0]
+4 failed, 5 passed, 21 deselected, 1 warning in 4.31s

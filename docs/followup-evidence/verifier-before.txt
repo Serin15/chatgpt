@@ -1,0 +1,96 @@
+.FFFFFFF                                                                 [100%]
+=================================== FAILURES ===================================
+_________________ test_checker_does_not_combine_two_candidates _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f80467bbd70>
+
+    def test_checker_does_not_combine_two_candidates(monkeypatch):
+        first,second=candidate(),candidate()
+        first["routed"]["outcomes"]=[]
+        second["id"]=8
+        second["routed"]["entries"]=[]
+>       assert not run(monkeypatch,[first,second])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:60: AssertionError
+______________ test_checker_requires_outcome_from_the_same_signal ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f804669fc50>
+
+    def test_checker_requires_outcome_from_the_same_signal(monkeypatch):
+        c=candidate();c["routed"]["outcomes"][0]["signal_id"]=10
+>       assert not run(monkeypatch,[c])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:65: AssertionError
+_____________________ test_checker_rejects_future_outcome ______________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f80466da840>
+
+    def test_checker_rejects_future_outcome(monkeypatch):
+        c=candidate();c["routed"]["outcomes"][0]["payload"]["exit_at"]=stamp(time.time()+3600)
+>       assert not run(monkeypatch,[c])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:70: AssertionError
+_______________ test_checker_requires_a_finite_net_result[None] ________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f80466dbb00>
+result = None
+
+    @pytest.mark.parametrize("result",[None,"NaN","Infinity"])
+    def test_checker_requires_a_finite_net_result(monkeypatch,result):
+        c=candidate();c["routed"]["outcomes"][0]["payload"]["pnl_usd"]=result
+>       assert not run(monkeypatch,[c])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:76: AssertionError
+________________ test_checker_requires_a_finite_net_result[NaN] ________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f80466db590>
+result = 'NaN'
+
+    @pytest.mark.parametrize("result",[None,"NaN","Infinity"])
+    def test_checker_requires_a_finite_net_result(monkeypatch,result):
+        c=candidate();c["routed"]["outcomes"][0]["payload"]["pnl_usd"]=result
+>       assert not run(monkeypatch,[c])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:76: AssertionError
+_____________ test_checker_requires_a_finite_net_result[Infinity] ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f80466d9760>
+result = 'Infinity'
+
+    @pytest.mark.parametrize("result",[None,"NaN","Infinity"])
+    def test_checker_requires_a_finite_net_result(monkeypatch,result):
+        c=candidate();c["routed"]["outcomes"][0]["payload"]["pnl_usd"]=result
+>       assert not run(monkeypatch,[c])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:76: AssertionError
+_______________ test_checker_requires_the_recorded_entry_attempt _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f804671e6f0>
+
+    def test_checker_requires_the_recorded_entry_attempt(monkeypatch):
+        c=candidate();c["routed"]["attempts"]=[copy.deepcopy(c["routed"]["attempts"][-1])]
+>       assert not run(monkeypatch,[c])["complete"]
+E       assert not True
+
+tests/test_routes_verify.py:81: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_routes_verify.py::test_checker_does_not_combine_two_candidates
+FAILED tests/test_routes_verify.py::test_checker_requires_outcome_from_the_same_signal
+FAILED tests/test_routes_verify.py::test_checker_rejects_future_outcome - ass...
+FAILED tests/test_routes_verify.py::test_checker_requires_a_finite_net_result[None]
+FAILED tests/test_routes_verify.py::test_checker_requires_a_finite_net_result[NaN]
+FAILED tests/test_routes_verify.py::test_checker_requires_a_finite_net_result[Infinity]
+FAILED tests/test_routes_verify.py::test_checker_requires_the_recorded_entry_attempt
+7 failed, 1 passed, 1 warning in 31.24s

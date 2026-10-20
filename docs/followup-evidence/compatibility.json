@@ -1,0 +1,23 @@
+{
+  "clock_normalized_methods_identical": {
+    "jupiter.py": [
+      "fill"
+    ],
+    "opportunity_routes.py": [
+      "collect",
+      "ready",
+      "claim",
+      "finish",
+      "enroll",
+      "choose",
+      "fail_entry"
+    ]
+  },
+  "intended_differences": [
+    "strict response integer schema",
+    "fractional SQL timestamp comparisons",
+    "explicit new policy metadata",
+    "narrow prior component hash compatibility"
+  ],
+  "paper_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480"
+}

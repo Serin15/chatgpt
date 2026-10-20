@@ -1,0 +1,107 @@
+{
+  "data": "isolated fixtures",
+  "checks": [
+    {
+      "check": "candidate priority",
+      "pass": true
+    },
+    {
+      "check": "routed health",
+      "pass": true
+    },
+    {
+      "check": "news source health details",
+      "pass": true
+    },
+    {
+      "check": "stale source status is consistent in details",
+      "pass": false,
+      "error": "Locator expected to contain text 'dex: eroare / date vechi'\nActual value: dex: ok · 19.10.2026, 17:01:33rpc: neverificat · dată neraportatăgoplus: neverificat · dată neraportatăcoingecko_catalog: neverificat · dată neraportatăperformance: neverificat · dată neraportatăannouncements: neverificat · dată neraportatăopportunity_engine: neverificat · dată neraportatăstory_discovery: neverificat · dată neraportatărouted_quotes: neverificat · dată neraportată \nCall log:\n  - Expect \"to_contain_text\" locator(\"#health-components\") with timeout 1000ms\n  - waiting for locator(\"#health-components\")\n    11 "
+    },
+    {
+      "check": "worker failure has visible diagnostic details",
+      "pass": false,
+      "error": "Locator expected to contain text 'Explicit fixture worker failure'\nActual value: dex: neverificat · dată neraportatărpc: neverificat · dată neraportatăgoplus: neverificat · dată neraportatăcoingecko_catalog: neverificat · dată neraportatăperformance: neverificat · dată neraportatăannouncements: neverificat · dată neraportatăopportunity_engine: neverificat · dată neraportatăstory_discovery: neverificat · dată neraportatărouted_quotes: neverificat · dată neraportată \nCall log:\n  - Expect \"to_contain_text\" locator(\"#health-components\") with timeout 1000ms\n  - waiting for locator(\"#health-componen"
+    },
+    {
+      "check": "independent candidate loading",
+      "pass": true
+    },
+    {
+      "check": "detail response race",
+      "pass": true
+    },
+    {
+      "check": "expanded evidence survives refresh",
+      "pass": true
+    },
+    {
+      "check": "receipt failure isolation",
+      "pass": true
+    },
+    {
+      "check": "browser back",
+      "pass": true
+    },
+    {
+      "check": "loaded pages survive refresh",
+      "pass": true
+    },
+    {
+      "check": "component health details",
+      "pass": true
+    },
+    {
+      "check": "health panel closes on every navigation",
+      "pass": true
+    },
+    {
+      "check": "health panel has bounded desktop and mobile height",
+      "pass": true
+    },
+    {
+      "check": "health panel explicit close and refresh state",
+      "pass": true
+    },
+    {
+      "check": "search response race",
+      "pass": true
+    },
+    {
+      "check": "document stories without AI",
+      "pass": true
+    },
+    {
+      "check": "daily report race and JSON export",
+      "pass": true
+    },
+    {
+      "check": "daily failure preserves candidates",
+      "pass": true
+    },
+    {
+      "check": "daily mobile layout",
+      "pass": true
+    },
+    {
+      "check": "pool references and repeated report evidence",
+      "pass": true
+    },
+    {
+      "check": "partitioned comparison and mobile layout",
+      "pass": true
+    },
+    {
+      "check": "price references and mobile layout",
+      "pass": true
+    },
+    {
+      "check": "usable prices separate from attempts",
+      "pass": true
+    },
+    {
+      "check": "live candidates before sequential history reports",
+      "pass": true
+    }
+  ]
+}

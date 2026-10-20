@@ -1,0 +1,110 @@
+[
+  {
+    "file": "docs/routed-evidence/core-regression-live.json",
+    "sha256": "7da91d0db98068f125a446778a43ba447c0375553f5c540d866fad425c8c2106",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": false,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 123,
+    "complete_retained_evidence": false
+  },
+  {
+    "file": "docs/routed-evidence/early-incomplete.json",
+    "sha256": "35fb41863e28aeff6e28790860b3522bf8ddb90f816eefc434d33eb0168e00db",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": false,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 123,
+    "complete_retained_evidence": false
+  },
+  {
+    "file": "docs/routed-evidence/pipeline-live.json",
+    "sha256": "f00dad385601c7c58a8bdf9b30eb54a0127aa6ad5e807e8f3416f8c3966ccd21",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": true,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 90,
+    "complete_retained_evidence": true
+  },
+  {
+    "file": "docs/beta-evidence/pipeline-live.json",
+    "sha256": "197bb8a3b255038ba56af18453937ffff5e6f47d922f65f77b46e76f169bc49a",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": false,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 99,
+    "complete_retained_evidence": false
+  },
+  {
+    "file": "docs/beta-evidence/routes-live.json",
+    "sha256": "561a3c59e6fd1d6e97c70c618dd014355399f5533ee344f2f59f6aea14d70061",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": true,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 99,
+    "complete_retained_evidence": true
+  },
+  {
+    "file": "docs/audit-v091/pipeline-live.json",
+    "sha256": "c03b29df59588f54cbac87a00a8c728370437e7ffd0812099dcf09aa57414875",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": false,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 125,
+    "complete_retained_evidence": false
+  },
+  {
+    "file": "docs/audit-v091/routes-live.json",
+    "sha256": "ae7425d005ae77a3ac6a092eeb85c3ef50bc07c6387684cd9b9d2fbeaf7c7222",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": true,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 115,
+    "complete_retained_evidence": true
+  },
+  {
+    "file": "docs/audit-v091/final-routes-live.json",
+    "sha256": "2ddafa5c53ca6599db70efc6f399a1283fa00d2584a2aab8a7f7e4b46d62151d",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": true,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 112,
+    "complete_retained_evidence": true
+  },
+  {
+    "file": "docs/audit-v091/final-pipeline-live.json",
+    "sha256": "9c126b3dbe3debe4ed7143bed22220e714346d87f5cf5748a2811f5aec0e72c9",
+    "linked_criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": false,
+      "frozen_policy_and_attempt_history": true
+    },
+    "signal_id": 112,
+    "complete_retained_evidence": false
+  }
+]

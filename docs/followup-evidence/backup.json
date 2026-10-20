@@ -1,0 +1,31 @@
+{
+  "directory": "/workspace/backups/before-v0132-20261020T055309Z",
+  "databases": {
+    "research.sqlite3": {
+      "bytes": 2971172864,
+      "quick_check": "ok",
+      "history": {
+        "opportunity_signals": {
+          "max_id": 140643,
+          "count": 140643,
+          "sha256": "739d4b4db176b9522a8278922f795d58f3bfd4b3deee851776278106dd323a19"
+        },
+        "opportunity_policies": {
+          "max_id": 14,
+          "count": 14,
+          "sha256": "aa199b40ef928268afb25874c31b7cbfd66af0fda85454e29fab08a70261d9bd"
+        },
+        "opportunity_config": {
+          "max_id": 1,
+          "count": 1,
+          "sha256": "d7bc0954471d1830a181d3486ccac20ad808b7b30349d903086ff2f3b3c0fff4"
+        }
+      }
+    },
+    "news_paper/research.sqlite3": {
+      "bytes": 811008,
+      "quick_check": "ok",
+      "history": {}
+    }
+  }
+}

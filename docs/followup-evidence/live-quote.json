@@ -1,0 +1,97 @@
+{
+  "at_utc": "2026-10-20T05:57:32Z",
+  "data": "actual provider quotes, read-only Solana RPC; hypothetical fill, no order or transaction",
+  "requests": [
+    {
+      "method": "POST",
+      "host": "api.mainnet-beta.solana.com",
+      "path": "/",
+      "rpc_method": "getAccountInfo"
+    },
+    {
+      "method": "GET",
+      "host": "api.kraken.com",
+      "path": "/0/public/Depth",
+      "rpc_method": null
+    },
+    {
+      "method": "GET",
+      "host": "api.jup.ag",
+      "path": "/swap/v1/quote",
+      "rpc_method": null
+    }
+  ],
+  "success": true,
+  "quote": {
+    "address": "So11111111111111111111111111111111111111112",
+    "side": "buy",
+    "requested_size": "50",
+    "token_decimals": 9,
+    "quantity": "0.473418658",
+    "cash_change": "-50.0099995000000",
+    "quote_observed_at": "2026-10-20T05:57:33.646960+00:00",
+    "jupiter_quote": {
+      "inputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "inAmount": "49704970",
+      "outputMint": "So11111111111111111111111111111111111111112",
+      "outAmount": "475797646",
+      "otherAmountThreshold": "473418658",
+      "swapMode": "ExactIn",
+      "slippageBps": 50,
+      "platformFee": null,
+      "priceImpactPct": "0.0000220201113913201652787152",
+      "routePlan": [
+        {
+          "swapInfo": {
+            "ammKey": "2dyTwqYbDT2NwvCSZ55mep3Cnom1YzBqBA5Rdwn6yqTn",
+            "label": "Obsidian",
+            "inputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "outputMint": "So11111111111111111111111111111111111111112",
+            "inAmount": "49704970",
+            "outAmount": "475797646",
+            "updateContextSlot": "459122286"
+          },
+          "percent": 100,
+          "bps": null
+        }
+      ],
+      "contextSlot": 459122286,
+      "timeTaken": 0.001332624,
+      "swapUsdValue": "49.69970259606817500231",
+      "mostReliableAmmsQuoteReport": {
+        "info": {
+          "Czfq3xZZDmsdGdUyrNLtRhGc47cXcZtLG4crryfu44zE": "475433924",
+          "BZtgQEyS6eXUXicYPHecYQ7PybqodXQMvkjUbP4R8mUU": "49757600"
+        }
+      },
+      "longtailMarketQuoteReport": null,
+      "useIncurredSlippageForQuoting": null,
+      "useRewards": null,
+      "otherRoutePlans": null,
+      "loadedLongtailToken": false,
+      "instructionVersion": null,
+      "transactionVersion": 0,
+      "observed_at": "2026-10-20T05:57:33.646960+00:00",
+      "request_started_at": "2026-10-20T05:57:32.809423+00:00"
+    },
+    "usdc_usd_book": {
+      "bid": "0.99980000",
+      "ask": "0.99990000",
+      "bid_size": "387717.034",
+      "ask_size": "20329485.309",
+      "observed_at": "2026-10-20T05:57:32.809354+00:00",
+      "source": "Kraken public USDC/USD L1"
+    },
+    "network_fee_usd": "0.01",
+    "network_fee_origin": "configured_assumption",
+    "conversion_fee_usd": "0.2999999970000",
+    "conversion_fee_origin": "configured_assumption",
+    "swap_fee_usd": null,
+    "swap_fee_origin": "included_in_route_outAmount; fees retained per feeMint in routePlan, not counted again",
+    "price_impact": "0.0000220201113913201652787152",
+    "slippage_bps": 50,
+    "fill_assumption": "conservative_otherAmountThreshold",
+    "model": "jupiter_quote_conservative_min_out",
+    "execution_verified": false
+  }
+}

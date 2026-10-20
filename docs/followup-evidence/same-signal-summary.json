@@ -1,0 +1,221 @@
+{
+  "complete_linked_jupiter_scenario": true,
+  "candidate_id": 58879,
+  "contract": "39uDJR4KJxTirnbjJLA3b9ByLTeW4bKx3rsnb3Wxpump",
+  "signal_id": 140946,
+  "entry_at": "2026-10-20T06:03:20.527614+00:00",
+  "exit_at": "2026-10-20T06:09:26.376991+00:00",
+  "net_simulated_pnl_usd": "3.56354860960060000",
+  "policy_id": 15,
+  "policy_declared_at": "2026-10-20T05:58:27.319535+00:00",
+  "timestamp_clock": "utc_capture_clock_v1",
+  "quote_schema_version": 2,
+  "selected": 0,
+  "control_member": 0,
+  "source_sha256": "fe46e95ea88180be8f23662d47dfac23276d4b24e7e96c5ceec9d1c6cb61d828",
+  "initial_decision": {
+    "id": 140946,
+    "candidate_id": 58879,
+    "observation_id": 231029,
+    "at": "2026-10-20T06:01:43.658637+00:00",
+    "kind": "decision_change",
+    "verdict": "MONITOR",
+    "policy_id": 15,
+    "payload": {
+      "costs": {
+        "break_even_price_estimate": "0.001382203866164998707933299843",
+        "break_even_rise_pct": "0.847180845074576816105357800",
+        "economically_feasible_in_model": true,
+        "entry": {
+          "cash_change": "-50.01",
+          "execution_verified": false,
+          "model": "estimated_balanced_constant_product",
+          "network_fee_usd": "0.01",
+          "pool_address": "2GMSM174QjhfRLE4nDgxGbAGjvxWXzUQzoz3YdR1dDES",
+          "price_impact": "0.0010108427289982128604716626",
+          "quantity": "36334.36678326089492034020621",
+          "swap_fee_usd": "0.1500"
+        },
+        "execution_verified": false,
+        "model": "estimated_pool_not_routed",
+        "roundtrip_cost_pct": 0.8393860213227019,
+        "roundtrip_net_usd": "-0.41977694926348321224098179",
+        "same_price_exit": {
+          "cash_change": "49.59022305073651678775901821",
+          "execution_verified": false,
+          "model": "estimated_balanced_constant_product",
+          "network_fee_usd": "0.01",
+          "pool_address": "2GMSM174QjhfRLE4nDgxGbAGjvxWXzUQzoz3YdR1dDES",
+          "price_impact": "0.0010067955419938655449672181",
+          "quantity": "36334.36678326089492034020621",
+          "swap_fee_usd": "0.1493988284698783172667164628"
+        }
+      },
+      "decision_at": "2026-10-20T06:01:43.658637+00:00",
+      "invalidation": [
+        "New privileged authority or transfer restriction",
+        "Liquidity decline or unavailable exit quote",
+        "Fresh evidence no longer available",
+        "Momentum becomes excessively extended",
+        "Contradictory contract/source evidence"
+      ],
+      "liquidity_filter_passed": true,
+      "negative": [
+        "Price already exceeds the configured extension threshold; avoid chasing."
+      ],
+      "no_future_data": true,
+      "policy": {
+        "at": "2026-10-20T05:58:27.319535+00:00",
+        "id": 15,
+        "payload": {
+          "config": {
+            "active_watch_seconds": 900,
+            "activity_samples": 0,
+            "ai_narratives": false,
+            "alert_verdicts": [
+              "INVESTIGATE",
+              "CONSIDER"
+            ],
+            "background_interval_seconds": 86400,
+            "cooldown_seconds": 3600,
+            "discovery_pages": 2,
+            "enabled": true,
+            "entry_window_seconds": 180,
+            "exit_window_seconds": 180,
+            "horizons_seconds": [
+              300,
+              3600,
+              86400
+            ],
+            "interval_seconds": 60,
+            "max_change_5m_pct": 30.0,
+            "max_extension_pct": 50.0,
+            "max_liquidity_drop_pct": 30.0,
+            "max_pool_age_hours": 24,
+            "max_roundtrip_cost_pct": 5.0,
+            "min_transactions_5m": 10,
+            "observation_budget": 60,
+            "position_usd": 50.0,
+            "routed_quote_budget": 4,
+            "routed_quotes_enabled": true,
+            "routed_slippage_bps": 50,
+            "security_budget": 8,
+            "telegram_enabled": false,
+            "test_from": "2026-10-18T00:00:00Z"
+          },
+          "forward_quote_window_version": 2,
+          "observation_rules": {
+            "max_snapshot_age": 120,
+            "min_signal_delay": 3
+          },
+          "paper_rules": {
+            "max_price_impact": "0.02",
+            "min_liquidity": "25000",
+            "network_fee_usd": "0.01",
+            "reference_fee": "0.006",
+            "reference_slippage": "0.005",
+            "swap_fee": "0.003"
+          },
+          "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+          "routed_policy": {
+            "enabled": true,
+            "entry_window_seconds": 180,
+            "execution_verified": false,
+            "exit_window_seconds": 180,
+            "horizons_seconds": [
+              300,
+              3600,
+              86400
+            ],
+            "model": "independent_jupiter_min_out_scenario",
+            "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+            "observation_rules": {
+              "max_snapshot_age": 120,
+              "min_signal_delay": 3
+            },
+            "paper_rules": {
+              "max_price_impact": "0.02",
+              "min_liquidity": "25000",
+              "network_fee_usd": "0.01",
+              "reference_fee": "0.006",
+              "reference_slippage": "0.005",
+              "swap_fee": "0.003"
+            },
+            "position_usd": "50.0",
+            "quote_schema_version": 2,
+            "quote_timeout_seconds": 20,
+            "slippage_bps": 50,
+            "source_sha256": "fe46e95ea88180be8f23662d47dfac23276d4b24e7e96c5ceec9d1c6cb61d828",
+            "timestamp_clock": "utc_capture_clock_v1",
+            "version": "jupiter-forward-v1"
+          },
+          "rule_version": "memescope-3.2-market-references",
+          "sampling_version": "balanced-deadlines-v1",
+          "source_sha256": "aa6d2d5372b84f7f2f9a8f0104621536708fe956fde19888feea5d1151ea51d4"
+        },
+        "sha256": "4491274a74e92d28c04cb624a187df22dbf23455c1ec024310663ac3a7eff322"
+      },
+      "positive": [
+        "[RPC] Mint authority revocată.",
+        "[RPC] Freeze authority revocată.",
+        "Small-position estimated round trip passes liquidity and impact limits."
+      ],
+      "rank_score": null,
+      "rule_version": "memescope-3.2-market-references",
+      "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+      "scores": {
+        "data_reliability": 85,
+        "early_momentum": 0,
+        "entry_attractiveness": 0,
+        "exit_liquidity": 100,
+        "market_participation_quality": 60,
+        "narrative_social_evidence": null,
+        "security_risk": 0,
+        "wallet_intelligence": null
+      },
+      "screening": {
+        "action": "monitor",
+        "critical": [],
+        "explanation_type": "deterministic_rules",
+        "invalidation": [
+          "Autoritate privilegiată/restricție nouă",
+          "Scăderea lichidității sub prag",
+          "Date expirate sau surse indisponibile"
+        ],
+        "paper_allowed": true,
+        "positive": [
+          "[RPC] Mint authority revocată.",
+          "[RPC] Freeze authority revocată."
+        ],
+        "scores": {
+          "activity": 45,
+          "copyability": null,
+          "data_completeness": 100,
+          "liquidity_exit": 100,
+          "momentum": 55,
+          "research_priority": 58,
+          "security_risk": null,
+          "wallet_quality": null
+        },
+        "security_checks_complete": true,
+        "security_fresh": true,
+        "unknown": [],
+        "warnings": [
+          "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+          "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+        ]
+      },
+      "security_filter_passed": true,
+      "unknown": [
+        "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+        "Owner-level holder growth unavailable.",
+        "No corroborated contract-specific narrative; name matches remain uncertain.",
+        "No reliable monitored-wallet accumulation evidence.",
+        "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+        "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+      ],
+      "verdict": "MONITOR"
+    }
+  },
+  "operations": "GET only; same candidate/signal fixed before later observation, no injection, no ledger orders or real trades"
+}
