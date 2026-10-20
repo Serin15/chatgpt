@@ -118,7 +118,7 @@ def main():
                 expect(page.locator("#section-alerts")).to_contain_text("Fixture news unavailable")
                 flags.update(news_failure=False, rpc_failure=True)
                 page.evaluate("load()")
-                expect(page.locator("#connection")).to_contain_text("componente cu eroare")
+                expect(page.locator("#connection")).to_have_text("1 componentă cu eroare")
                 expect(page.locator("#section-alerts")).to_contain_text("rpc")
                 flags.update(rpc_failure=False, cash=None)
 

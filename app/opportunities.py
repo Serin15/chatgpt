@@ -126,7 +126,7 @@ class Opportunities:
         if (
             body.test_from
             and body.test_from != old.test_from
-            and body.test_from.timestamp() < time.time()
+            and body.test_from.timestamp() <= epoch(utcnow())
         ):
             raise ValueError(
                 "A test split must be declared before its future observations, not selected retrospectively."

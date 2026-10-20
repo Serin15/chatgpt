@@ -4,7 +4,6 @@ import asyncio
 import hashlib
 import json
 import logging
-import time
 from collections import Counter
 from decimal import Decimal
 from pathlib import Path
@@ -22,13 +21,18 @@ SOURCE_SHA256 = hashlib.sha256(
     )
 ).hexdigest()
 QUOTE_TIMEOUT = 20
-# Audited report/error-classification upgrades: successful fills, costs and timing are unchanged.
+# Audited upgrades preserve costs, gates and observation-window durations.
 # All other unknown component versions remain unavailable.
 COMPATIBLE_EXECUTION_SOURCES = {
     "560d51daa5b729eceb99c7d68c684318527083251276cb0298defe5ddf9eedc2",
     # v0.9.1 only preserves Rejected instead of misclassifying it as a schema error.
     # Successful quote validation, fill math and all route execution methods are unchanged.
     "ffaa54a7035d561267aa57f0634865ce5c7fa36ebbd89a95d7928ff75eda65d7",
+    # v0.13.2 uses UTC, preserves fractional deadlines and rejects
+    # fractional/boolean provider integer fields.
+    # Valid quote math/costs/windows are unchanged. No grace period, retries
+    # or rewriting of terminal results; unknown implementations still stop.
+    "7f7dae89b7e9f79ff350b046112243f379a2025f5941b4bf75b6c62677becb42",
 }
 log = logging.getLogger(__name__)
 
@@ -73,6 +77,8 @@ class Routes:
             "quote_timeout_seconds": QUOTE_TIMEOUT,
             "model": "independent_jupiter_min_out_scenario",
             "execution_verified": False,
+            "timestamp_clock": "utc_capture_clock_v1",
+            "quote_schema_version": 2,
             "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
         }
 
@@ -142,8 +148,9 @@ class Routes:
 
     def recover(self, db, now):
         # A lost/ambiguous request is terminal. Never retry until a better quote appears.
+        db.create_function("routed_epoch", 1, epoch, deterministic=True)
         rows = db.execute(
-            "SELECT * FROM routed_attempts WHERE status='collecting' AND CAST(strftime('%s',started_at) AS REAL)<?",
+            "SELECT * FROM routed_attempts WHERE status='collecting' AND routed_epoch(started_at)<?",
             (now - QUOTE_TIMEOUT - 10,),
         ).fetchall()
         for a in rows:
@@ -160,7 +167,7 @@ class Routes:
                 )
 
     def ready(self):
-        now = time.time()
+        now = epoch(utcnow())
         ready = []
         with self.store.connect() as db:
             self.recover(db, now)
@@ -366,7 +373,7 @@ class Routes:
             require_fresh(
                 {"at": obs["at"], "market": obs["market"], "security": obs["security"]},
                 settings,
-                time.time(),
+                epoch(utcnow()),
             )
             if obs["decision"]["verdict"] == "REJECT":
                 raise Rejected("risk_gate")
@@ -384,7 +391,7 @@ class Routes:
                 source.fill(side, size, r["contract"], r["frozen"]["slippage_bps"]),
                 timeout=r["frozen"]["quote_timeout_seconds"],
             )
-            now = time.time()
+            now = epoch(utcnow())
             validate_execution(quote, side, size, {"address": r["contract"]}, now)
             if not r["due"] <= epoch(quote["quote_observed_at"]) <= now <= r["deadline"]:
                 raise Rejected("quote_outside_window")
@@ -484,6 +491,7 @@ class Routes:
 
     def report(self):
         with self.store.connect() as db:
+            db.create_function("routed_epoch", 1, epoch, deterministic=True)
             states = {
                 r["entry_state"]: r["n"]
                 for r in db.execute(
@@ -520,12 +528,12 @@ class Routes:
                 )
             ]
             overdue_entries = db.execute(
-                "SELECT count(*) FROM routed_experiments WHERE entry_state='entry_pending' AND CAST(strftime('%s',at) AS REAL)+json_extract(policy,'$.entry_window_seconds')<?",
-                (time.time(),),
+                "SELECT count(*) FROM routed_experiments WHERE entry_state='entry_pending' AND routed_epoch(at)+json_extract(policy,'$.entry_window_seconds')<?",
+                (epoch(utcnow()),),
             ).fetchone()[0]
             overdue_exits = db.execute(
                 "SELECT count(*) FROM routed_outcomes o JOIN routed_experiments e ON e.signal_id=o.signal_id WHERE o.state='pending' AND o.target_at+json_extract(e.policy,'$.exit_window_seconds')<?",
-                (time.time(),),
+                (epoch(utcnow()),),
             ).fetchone()[0]
         for row in rows:
             policy = json.loads(row.pop("policy"))

@@ -1,4 +1,4 @@
-# MemeScope v0.13.1 — beta privată Solana
+# MemeScope v0.13.2 — beta privată Solana
 
 **Corecție interfață v0.13.1:** [panou de stare, navigare și actualizare Windows](docs/UI-V0.13.1.md).
 

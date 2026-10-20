@@ -83,6 +83,29 @@ async def check(base):
                 "Fixture news proxy blocked", timeout=1000
             )
 
+        async def stale_health_details(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                state.status.providers.dex = {state:'ok', at:new Date(Date.now()-360000).toISOString()};
+                renderHealth();
+            }""")
+            await expect(page.locator("#section-alerts")).to_contain_text("dex · date vechi")
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-components")).to_contain_text("dex: eroare / date vechi", timeout=1000)
+            await expect(page.locator("#health-components")).not_to_contain_text("dex: ok")
+
+        async def worker_health_details(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                state.status.workers = {scanner:{state:'error', started_at:new Date().toISOString(),
+                    error:'Explicit fixture worker failure', restarts:2}};
+                renderHealth();
+            }""")
+            await expect(page.locator("#section-alerts")).to_contain_text("scanner")
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-components")).to_contain_text("Explicit fixture worker failure", timeout=1000)
+            await expect(page.locator("#health-components")).to_contain_text("worker_scanner: eroare")
+
         async def isolation(page):
             gate = asyncio.Event()
 
@@ -463,6 +486,8 @@ async def check(base):
             ("candidate priority", layout),
             ("routed health", health),
             ("news source health details", news_health_details),
+            ("stale source status is consistent in details", stale_health_details),
+            ("worker failure has visible diagnostic details", worker_health_details),
             ("independent candidate loading", isolation),
             ("detail response race", detail_race),
             ("expanded evidence survives refresh", details_preserved),

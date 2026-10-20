@@ -1,7 +1,6 @@
 """Jupiter ExactIn quotes for paper only. No swap construction, signing or submission."""
 
 import os
-import time
 from decimal import ROUND_DOWN, Decimal
 
 import httpx
@@ -14,6 +13,15 @@ from app.paper import Rejected, amount
 
 USDC = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
 D = Decimal
+
+
+def raw_integer(value):
+    """Accept exact integer units, never bools or rounded JSON floats."""
+    if type(value) is int:
+        return value
+    if isinstance(value, str) and len(value) <= 20 and value.isascii() and value.isdecimal():
+        return int(value)
+    raise ValueError("Invalid raw integer units")
 
 
 class Jupiter:
@@ -69,12 +77,16 @@ class Jupiter:
                 not isinstance(response, dict)
                 or response.get("inputMint") != input_mint
                 or response.get("outputMint") != output_mint
-                or int(response.get("inAmount", 0)) != raw_amount
+                or raw_integer(response.get("inAmount")) != raw_amount
                 or response.get("swapMode") != "ExactIn"
+                or type(response.get("slippageBps")) is not int
                 or response.get("slippageBps") != slippage_bps
             ):
                 raise ProviderError("Quote-ul nu corespunde cererii exacte.")
-            out, minimum = int(response["outAmount"]), int(response["otherAmountThreshold"])
+            out, minimum = (
+                raw_integer(response["outAmount"]),
+                raw_integer(response["otherAmountThreshold"]),
+            )
             impact = D(str(response["priceImpactPct"]))
             if (
                 not 0 < minimum <= out < 2**64
@@ -218,7 +230,7 @@ class Jupiter:
                 raise Rejected("Costurile depășesc ieșirea quote-ului.")
         else:
             raise Rejected("Sens necunoscut.")
-        if not 0 <= time.time() - epoch(book["observed_at"]) <= 15:
+        if not 0 <= epoch(utcnow()) - epoch(book["observed_at"]) <= 15:
             raise Rejected("Book-ul USDC/USD a expirat în timpul cererii.")
         return {
             "address": address,

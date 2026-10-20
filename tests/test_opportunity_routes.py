@@ -11,7 +11,7 @@ import httpx
 import pytest
 
 from app.jupiter import USDC, Jupiter
-from app.opportunity_routes import Routes
+from app.opportunity_routes import COMPATIBLE_EXECUTION_SOURCES, Routes
 from tests.test_opportunities import client_engine as client_engine
 from tests.test_opportunities import payload, seed, stamp
 
@@ -21,8 +21,10 @@ def routed(client_engine, monkeypatch):
     client, engine = client_engine
     engine.configure(engine.config().model_copy(update={"routed_quotes_enabled": True}))
     clock = [float(int(time.time()))]
-    monkeypatch.setattr("app.opportunity_routes.time", SimpleNamespace(time=lambda: clock[0]))
-    monkeypatch.setattr("app.jupiter.time", SimpleNamespace(time=lambda: clock[0]))
+    monkeypatch.setattr(
+        "app.opportunity_routes.time", SimpleNamespace(time=lambda: clock[0]), raising=False
+    )
+    monkeypatch.setattr("app.jupiter.time", SimpleNamespace(time=lambda: clock[0]), raising=False)
     monkeypatch.setattr("app.opportunity_routes.utcnow", lambda: stamp(clock[0]))
     monkeypatch.setattr("app.jupiter.utcnow", lambda: stamp(clock[0]))
     calls = []
@@ -127,6 +129,52 @@ def test_public_quote_without_key_is_not_rejected_locally(routed):
     assert entry["entry_payload"]["execution_verified"] is False
     assert r.client.get("/api/portfolio?account=news").json()["orders"] == []
     assert r.client.get("/api/portfolio?account=scanner").json()["orders"] == []
+
+
+@pytest.mark.parametrize("offset", [0, 0.001, -16])
+def test_fx_freshness_uses_capture_clock_and_still_rejects_future_or_stale(
+    routed, monkeypatch, offset
+):
+    from app.paper import Rejected
+
+    r = routed
+    source = r.engine.service.jupiter
+    book = asyncio.run(source.stable_book())
+    book["observed_at"] = stamp(r.clock[0] + offset)
+
+    async def observed_book():
+        return book
+
+    monkeypatch.setattr(source, "stable_book", observed_book)
+    monkeypatch.setattr("app.jupiter.time", SimpleNamespace(time=lambda: r.clock[0] - 0.01))
+    request = source.fill("buy", "50", r.candidate["contract"], 50)
+    if offset == 0:
+        assert asyncio.run(request)["execution_verified"] is False
+    else:
+        with pytest.raises(Rejected, match="Book-ul"):
+            asyncio.run(request)
+
+
+@pytest.mark.parametrize("offset", [0, 0.001, -16])
+def test_routed_quote_uses_capture_clock_and_still_rejects_future_or_stale(
+    routed, monkeypatch, offset
+):
+    r = routed
+    quote = asyncio.run(r.engine.service.jupiter.fill("buy", "50", r.candidate["contract"], 50))
+    quote["quote_observed_at"] = stamp(r.clock[0] + offset)
+
+    async def observed_quote(self, *args):
+        return quote
+
+    monkeypatch.setattr(Jupiter, "fill", observed_quote)
+    monkeypatch.setattr(
+        "app.opportunity_routes.time", SimpleNamespace(time=lambda: r.clock[0] - 0.01)
+    )
+    execute(r)
+    entry = r.engine.routes.detail(r.candidate["id"])["entries"][0]
+    assert entry["entry_state"] == ("filled" if offset == 0 else "entry_unavailable")
+    if offset:
+        assert "expirat sau din viitor" in entry["reason"]
 
 
 def test_exact_bought_quantity_is_sold_at_future_horizon_after_costs(routed):
@@ -261,6 +309,46 @@ def test_interrupted_attempt_is_terminal_and_late_callback_cannot_overwrite_it(r
     )
 
 
+def test_recovery_does_not_truncate_fractional_started_at(routed):
+    from app.opportunity_routes import QUOTE_TIMEOUT
+
+    r = routed
+    r.clock[0] += 0.75
+    started = r.clock[0]
+    job = r.engine.routes.ready()[0]
+    attempt_id = r.engine.routes.claim(job)
+    r.clock[0] = started + QUOTE_TIMEOUT + 10 - 0.25
+    r.engine.routes.ready()
+    with r.engine.store.connect() as db:
+        assert (
+            db.execute("SELECT status FROM routed_attempts WHERE id=?", (attempt_id,)).fetchone()[0]
+            == "collecting"
+        )
+    r.clock[0] = started + QUOTE_TIMEOUT + 10 + 0.001
+    r.engine.routes.ready()
+    with r.engine.store.connect() as db:
+        assert (
+            db.execute("SELECT status FROM routed_attempts WHERE id=?", (attempt_id,)).fetchone()[0]
+            == "interrupted"
+        )
+
+
+def test_overdue_entry_report_uses_actual_fractional_deadline_without_writing(routed):
+    r = routed
+    initial = r.clock[0] - 6 + 0.75
+    with r.engine.store.connect() as db:
+        db.execute(
+            "UPDATE routed_experiments SET at=? WHERE signal_id=?", (stamp(initial), r.signal_id)
+        )
+        db.execute("UPDATE opportunity_signals SET at=? WHERE id=?", (stamp(initial), r.signal_id))
+    deadline = initial + r.config.entry_window_seconds
+    r.clock[0] = deadline - 0.25
+    assert r.engine.routes.report()["overdue_unprocessed"]["entries"] == 0
+    r.clock[0] = deadline + 0.001
+    assert r.engine.routes.report()["overdue_unprocessed"]["entries"] == 1
+    assert r.engine.routes.detail(r.candidate["id"])["entries"][0]["entry_state"] == "entry_pending"
+
+
 def test_model_change_stops_recomputation(routed, monkeypatch):
     r = routed
     monkeypatch.setattr("app.opportunity_routes.SOURCE_SHA256", "explicit_changed_implementation")
@@ -322,6 +410,10 @@ def test_boolean_amount_rejected(settings):
         ("contextSlot", True),
         ("otherAmountThreshold", "1"),
         ("outAmount", str(2**64)),
+        ("inAmount", 50000000.5),
+        ("outAmount", 1000000000.5),
+        ("otherAmountThreshold", 995000000.5),
+        ("slippageBps", 50.0),
     ],
 )
 def test_malformed_real_quote_schema_is_rejected(settings, field, value):
@@ -353,6 +445,41 @@ def test_malformed_real_quote_schema_is_rejected(settings, field, value):
         try:
             with pytest.raises((ProviderError, Rejected)):
                 await source.quote(USDC, response["outputMint"], 50000000)
+        finally:
+            await source.close()
+
+    asyncio.run(run())
+
+
+@pytest.mark.parametrize("field", ["inAmount", "outAmount", "otherAmountThreshold", "slippageBps"])
+def test_boolean_quote_fields_cannot_impersonate_integer_one(settings, field):
+    from app.errors import ProviderError
+
+    response = {
+        "inputMint": USDC,
+        "outputMint": "So11111111111111111111111111111111111111112",
+        "inAmount": "1",
+        "outAmount": "1",
+        "otherAmountThreshold": "1",
+        "swapMode": "ExactIn",
+        "slippageBps": 1,
+        "priceImpactPct": "0",
+        "contextSlot": 42,
+        "routePlan": [{"swapInfo": {}}],
+    }
+    response[field] = True
+
+    async def run():
+        source = Jupiter(
+            settings,
+            None,
+            httpx.AsyncClient(
+                transport=httpx.MockTransport(lambda request: httpx.Response(200, json=response))
+            ),
+        )
+        try:
+            with pytest.raises(ProviderError):
+                await source.quote(USDC, response["outputMint"], 1, 1)
         finally:
             await source.close()
 
@@ -399,9 +526,8 @@ def test_split_excludes_overlapping_windows_and_undeclared_policies(routed):
     assert set_policy(signal_at - 1, signal_at + 1)["unassigned"]["experiments"] == 1
 
 
-def test_audited_reporting_upgrade_preserves_promised_execution(routed):
-    from app.opportunity_routes import COMPATIBLE_EXECUTION_SOURCES
-
+@pytest.mark.parametrize("source_sha", sorted(COMPATIBLE_EXECUTION_SOURCES))
+def test_audited_component_upgrades_preserve_promised_execution(routed, source_sha):
     r = routed
     with r.engine.store.connect() as db:
         p = json.loads(
@@ -409,10 +535,15 @@ def test_audited_reporting_upgrade_preserves_promised_execution(routed):
                 "SELECT policy FROM routed_experiments WHERE signal_id=?", (r.signal_id,)
             ).fetchone()[0]
         )
-        p["source_sha256"] = next(iter(COMPATIBLE_EXECUTION_SOURCES))
+        p["source_sha256"] = source_sha
+        p.pop("timestamp_clock", None)
+        p.pop("quote_schema_version", None)
         db.execute(
             "UPDATE routed_experiments SET policy=? WHERE signal_id=?", (json.dumps(p), r.signal_id)
         )
+        original_policy = db.execute(
+            "SELECT policy FROM routed_experiments WHERE signal_id=?", (r.signal_id,)
+        ).fetchone()[0]
     execute(r)
     later(r)
     execute(r)
@@ -422,3 +553,10 @@ def test_audited_reporting_upgrade_preserves_promised_execution(routed):
         if o["signal_id"] == r.signal_id and o["horizon_seconds"] == 300
     )
     assert outcome["state"] == "evaluated"
+    with r.engine.store.connect() as db:
+        assert (
+            db.execute(
+                "SELECT policy FROM routed_experiments WHERE signal_id=?", (r.signal_id,)
+            ).fetchone()[0]
+            == original_policy
+        )

@@ -736,6 +736,7 @@ function renderHealth() {
   const status = state.status || {},
     errors = [];
   const unknown = [];
+  const stale = new Set();
   const sources = {
     dex: status.providers?.dex,
     rpc: status.providers?.rpc,
@@ -791,11 +792,13 @@ function renderHealth() {
           : name.startsWith("discovery_")
           ? 1320000
           : 300000)
-    )
-      errors.push(name + " · date vechi");
+    ) {
+      errors.push(name);
+      stale.add(name);
+    }
   }
   for (const [name, item] of Object.entries(status.workers || {}))
-    if (item.state === "error") errors.push(name);
+    if (item.state === "error") errors.push("worker_" + name);
   const count = errors.length + Object.keys(state.sectionErrors).length;
   $("connection").replaceChildren(
     node(
@@ -805,9 +808,9 @@ function renderHealth() {
     ),
     document.createTextNode(
       count
-        ? `${count} componente cu eroare`
+        ? `${count} ${count === 1 ? "componentă cu eroare" : "componente cu eroare"}`
         : unknown.length
-          ? `${unknown.length} componente neverificate`
+          ? `${unknown.length} ${unknown.length === 1 ? "componentă neverificată" : "componente neverificate"}`
           : "Surse monitorizate",
     ),
   );
@@ -826,6 +829,13 @@ function renderHealth() {
       ),
     );
   }
+  for (const [name, item] of Object.entries(status.workers || {})) {
+    const rawNote = item.error || "";
+    const note = typeof rawNote === "string" ? rawNote : JSON.stringify(rawNote);
+    details.append(node("p",
+      `worker_${name}: ${item.state === "error" ? "eroare" : item.state || "neverificat"} · pornit ${date(item.started_at)} · reporniri ${item.restarts ?? 0}${note ? " · " + note : ""}`,
+      "footnote"));
+  }
   $("section-alerts").replaceChildren();
   for (const [key, value] of Object.entries(state.sectionErrors))
     $("section-alerts").append(
@@ -839,7 +849,7 @@ function renderHealth() {
       node(
         "p",
         "Surse afectate: " +
-          errors.join(", ") +
+          errors.map((name) => name + (stale.has(name) ? " · date vechi" : "")).join(", ") +
           ". Apasă indicatorul de stare pentru detalii.",
       ),
     );
