@@ -538,6 +538,7 @@ def test_audited_component_upgrades_preserve_promised_execution(routed, source_s
         p["source_sha256"] = source_sha
         p.pop("timestamp_clock", None)
         p.pop("quote_schema_version", None)
+        p.pop("forward_quote_window_version", None)
         db.execute(
             "UPDATE routed_experiments SET policy=? WHERE signal_id=?", (json.dumps(p), r.signal_id)
         )

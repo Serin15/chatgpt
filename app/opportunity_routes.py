@@ -14,7 +14,7 @@ from app.models import epoch, utcnow
 from app.opportunity_outcomes import available, observation, settings_at, summary
 from app.paper import Rejected, require_fresh, validate_execution
 
-VERSION = "jupiter-forward-v1"
+VERSION = "jupiter-forward-v2"
 SOURCE_SHA256 = hashlib.sha256(
     b"".join(
         Path(__file__).with_name(n).read_bytes() for n in ["opportunity_routes.py", "jupiter.py"]
@@ -33,6 +33,9 @@ COMPATIBLE_EXECUTION_SOURCES = {
     # Valid quote math/costs/windows are unchanged. No grace period, retries
     # or rewriting of terminal results; unknown implementations still stop.
     "7f7dae89b7e9f79ff350b046112243f379a2025f5941b4bf75b6c62677becb42",
+    # v0.13.3 adds opt-in prefetch handling for new policies only. Missing
+    # window version keeps the original strict first-record selection.
+    "fe46e95ea88180be8f23662d47dfac23276d4b24e7e96c5ceec9d1c6cb61d828",
 }
 log = logging.getLogger(__name__)
 
@@ -79,6 +82,7 @@ class Routes:
             "execution_verified": False,
             "timestamp_clock": "utc_capture_clock_v1",
             "quote_schema_version": 2,
+            "forward_quote_window_version": 2,
             "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
         }
 
@@ -208,7 +212,13 @@ class Routes:
                     continue
                 if now < due:
                     continue
-                obs = observation(db, r["candidate_id"], due, min(now, deadline))
+                obs = observation(
+                    db,
+                    r["candidate_id"],
+                    due,
+                    min(now, deadline),
+                    p.get("forward_quote_window_version", 1),
+                )
                 if obs is None:
                     continue
                 ready.append(

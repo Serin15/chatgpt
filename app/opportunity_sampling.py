@@ -236,7 +236,17 @@ class Sampling:
         elif m and not (payload.get("decision") or {}).get("screening", {}).get("paper_allowed"):
             reason = "risk_or_liquidity_gate"
         db.execute(
-            "UPDATE observation_jobs SET status='attempted',observation_id=?,reason=CASE WHEN ? IS NOT NULL AND ?>=due_at THEN ? WHEN ? IS NOT NULL THEN 'quote_before_window' ELSE ? END WHERE candidate_id=? AND status='pending' AND due_at<=? AND deadline_at>=? AND (? IS NULL OR ?>=due_at OR coalesce((SELECT json_extract(p.payload,'$.forward_quote_window_version') FROM opportunity_signals s JOIN opportunity_policies p ON p.id=s.policy_id WHERE s.id=observation_jobs.signal_id),1)<>2)",
+            """UPDATE observation_jobs SET status='attempted',observation_id=?,
+              reason=CASE WHEN ? IS NOT NULL AND ?>=due_at THEN ?
+                WHEN ? IS NOT NULL THEN 'quote_before_window' ELSE ? END
+            WHERE candidate_id=? AND status='pending' AND due_at<=? AND deadline_at>=?
+              AND (? IS NULL OR ?>=due_at OR coalesce((
+                SELECT json_extract(p.payload,CASE WHEN observation_jobs.phase='routed_exit'
+                  THEN '$.routed_policy.forward_quote_window_version'
+                  ELSE '$.forward_quote_window_version' END)
+                FROM opportunity_signals s JOIN opportunity_policies p ON p.id=s.policy_id
+                WHERE s.id=observation_jobs.signal_id
+              ),1)<>2)""",
             (
                 observation_id,
                 epoch(m["observed_at"]) if m else None,
