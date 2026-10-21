@@ -85,6 +85,15 @@ Căutarea textuală în baze foarte mari poate necesita încă un index separat 
 metadate înaintea unei lansări publice. Limita previne acumularea nelimitată de
 interogări costisitoare; nu garantează că orice căutare textuală va reuși.
 
+## Repornire după întreruperea procesului
+
+La pornire, după obținerea blocării exclusive `RuntimeLock` pentru `DATA_DIR`,
+aplicația elimină numai rezervarea temporară a vechiului worker. Astfel, o oprire
+forțată nu mai impune așteptarea expirării unei rezervări de până la zece minute.
+O a doua instanță încă activă împiedică această recuperare prin blocarea de dosar.
+Nu se modifică dosare, semnale, solduri, termene sau rezultate istorice. Observațiile
+ratate în timpul opririi rămân ratate.
+
 ## Instalare și pornire
 
 În Windows, închide aplicația veche, extrage complet versiunea nouă și păstrează

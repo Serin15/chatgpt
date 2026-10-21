@@ -62,6 +62,11 @@ def create_app(
         store = Store(settings)
         sources = providers or Providers(settings)
         app.state.service = Service(settings, store, sources)
+        # lifespan already holds RuntimeLock for this DATA_DIR. No previous app
+        # can still own its worker, including after a forced exit. Recover only
+        # this ephemeral lease; research rows and deadlines remain unchanged.
+        with store.connect() as db:
+            db.execute("DELETE FROM opportunity_lease WHERE id=1")
         assets = (assets_factory or Assets)(store)
         app.state.service.assets = assets
         assets.held_assets = lambda: [
