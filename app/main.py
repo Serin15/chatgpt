@@ -111,6 +111,7 @@ def create_app(
                     ("assets", assets.run),
                     ("performance", app.state.service.performance.run),
                     ("intelligence", app.state.service.run_intelligence),
+                    ("collection_report", app.state.service.opportunities.run_collection_reports),
                 ]
             ]
             if run_scanner
@@ -438,7 +439,7 @@ def create_app(
 
     @app.get("/api/opportunities/coverage")
     def opportunity_coverage(request: Request):
-        return request.app.state.service.opportunities.sampling.coverage()
+        return request.app.state.service.opportunities.collection_report()
 
     @app.get("/api/opportunities/daily")
     def opportunity_daily(request: Request, day: date | None = None):

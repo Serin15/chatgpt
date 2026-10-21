@@ -543,6 +543,20 @@ async def check(base):
             await page.set_viewport_size({"width": 390, "height": 844})
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
+        async def cached_coverage_status(page):
+            await ready(page)
+            await page.evaluate("""async () => {
+                const report = await (await fetch('/api/opportunities/coverage')).json();
+                report.report_cache = {served_from_cache:true,calculated_at:'2020-01-01T00:00:00Z',
+                    refresh:{state:'error',error:'ExplicitFixtureError'}};
+                renderEngineCoverage(report);
+            }""")
+            await page.locator("#engine-coverage-summary").evaluate("n => n.parentElement.open = true")
+            await expect(page.locator("#engine-coverage")).to_contain_text("date păstrate în cache")
+            await expect(page.locator("#engine-coverage")).to_contain_text("2020")
+            await expect(page.locator("#engine-coverage")).to_contain_text("Actualizare: eroare")
+            await expect(page.locator("#engine-coverage")).to_contain_text("ExplicitFixtureError")
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -573,6 +587,7 @@ async def check(base):
             ("actual fixture database capacity and mobile layout", storage_capacity),
             ("storage failure preserves candidate workflow", storage_failure),
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
+            ("cached coverage retains calculation date and refresh errors", cached_coverage_status),
         ]:
             await scenario(name, fn)
         await browser.close()

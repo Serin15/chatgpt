@@ -94,6 +94,21 @@ O a doua instanță încă activă împiedică această recuperare prin blocarea
 Nu se modifică dosare, semnale, solduri, termene sau rezultate istorice. Observațiile
 ratate în timpul opririi rămân ratate.
 
+## Raportarea nu mai blochează colectorul
+
+Raportul complet de acoperire este calculat de workerul independent
+`collection_report`, cu o pauză de 60 de secunde între calcule. Colectorul nu mai
+așteaptă această citire a întregului istoric înainte de ciclul următor. Cererile
+simultane pentru primul calcul folosesc aceeași operație; nu pornesc copii ale
+aceluiași raport. Ulterior, API-ul servește ultimul raport complet din cache.
+
+Interfața arată ora calculului și starea actualizării. Un eșec păstrează ultimul
+raport și semnalează eroarea; timestampul nu este înlocuit cu ora cererii. Dacă
+primul calcul încă rulează și nu există raport anterior, API-ul răspunde 503 cu
+un mesaj de pregătire. Celelalte secțiuni rămân independente. Nu se inventează
+contoare zero și nu se schimbă definițiile rezultatelor. Calculul poate rămâne
+costisitor pe o bază mare; mutarea lui nu garantează acoperirea tuturor termenelor.
+
 ## Instalare și pornire
 
 În Windows, închide aplicația veche, extrage complet versiunea nouă și păstrează

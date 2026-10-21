@@ -506,6 +506,11 @@ function renderEnginePerformance(report) {
 function renderEngineCoverage(data) {
   const root = $("engine-coverage");
   root.replaceChildren();
+  if (data.report_cache) {
+    const cache = data.report_cache, refresh = cache.refresh || {};
+    const status = {running:"în curs",ok:"în așteptarea următorului calcul",error:"eroare",not_started:"nepornită"};
+    root.append(node("p", `Raport calculat la ${date(cache.calculated_at)} · ${cache.served_from_cache ? "date păstrate în cache" : "primul calcul"}. Actualizare: ${status[refresh.state] || refresh.state || "necunoscută"}${refresh.error ? " · " + refresh.error : ""}. Contoarele descriu ultimul raport calculat.`, "footnote"));
+  }
   const scope = data.prospective_groups || data.groups;
   $("engine-coverage-summary").textContent =
     `Calitatea colectării · cotații utilizabile la intrare: ${scope.alerts.entry.usable_price_observations ?? "—"} alerte / ${scope.control.entry.usable_price_observations ?? "—"} control · încercări: ${scope.alerts.entry.attempted} / ${scope.control.entry.attempted} · termene ratate: ${scope.alerts.entry.missed + scope.control.entry.missed}`;

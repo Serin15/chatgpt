@@ -121,6 +121,8 @@ class Opportunities:
                 )
         self.sampling = Sampling(self)
         self.routes = Routes(self)
+        self.collection_cache = deepcopy(self.status.get("collection"))
+        self.collection_refresh = {"state": "not_started"}
         with self.store.connect() as db:
             forward_evaluation.initialize(db)
 
@@ -166,6 +168,7 @@ class Opportunities:
                 "open_promises_override_background_age": True,
                 "security_allocation_version": lifecycle.SECURITY_ALLOCATION_VERSION,
                 "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
+                "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
             },
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
@@ -816,7 +819,7 @@ class Opportunities:
                     "errors": sorted(set(errors)),
                     "discovery_sources": self.service.discovery.status,
                     "queue": self.queue_health(),
-                    "collection": await self._background(self.sampling.coverage),
+                    "collection": self.collection_cache,
                     "routed_quotes": self.routes.status,
                     "security_allocation": security_budget.report(),
                 }
@@ -853,6 +856,50 @@ class Opportunities:
 
     def queue_health(self):
         return lifecycle.summary(self)
+
+    def calculate_collection_report(self):
+        def compute():
+            result = self.sampling.coverage()
+            # Publish the complete report atomically, before releasing the
+            # shared future. Never expose a partially constructed report.
+            self.collection_cache = deepcopy(result)
+            return result
+
+        return self.shared_report(("collection",), compute)
+
+    def collection_report(self):
+        cached = self.collection_cache is not None
+        if not cached:
+            if self.collection_refresh["state"] == "running":
+                raise ProviderError(
+                    "Raportul de colectare se calculează în fundal. Reîncearcă după finalizarea primului calcul."
+                )
+            self.calculate_collection_report()
+        return deepcopy(self.collection_cache) | {
+            "report_cache": {
+                "served_from_cache": cached,
+                "calculated_at": self.collection_cache.get("generated_at"),
+                "refresh": deepcopy(self.collection_refresh),
+            }
+        }
+
+    async def run_collection_reports(self):
+        while True:
+            self.collection_refresh = self.collection_refresh | {
+                "state": "running",
+                "started_at": utcnow(),
+            }
+            try:
+                await self._background(self.calculate_collection_report)
+            except Exception as error:
+                self.collection_refresh = {
+                    "state": "error",
+                    "at": utcnow(),
+                    "error": type(error).__name__,
+                }
+                raise
+            self.collection_refresh = {"state": "ok", "at": utcnow()}
+            await asyncio.sleep(60)
 
     async def close(self):
         if self.route_task and not self.route_task.done():
