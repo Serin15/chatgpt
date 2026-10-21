@@ -759,6 +759,30 @@ async function loadDailyResearch() {
     if (serial === opportunityView.dailyRequest) opportunityError("Bilanț zilnic", error);
   }
 }
+function renderForwardEvaluation(root, forward) {
+  if (!forward) return;
+  const panel = node("details", undefined, "forward-evaluation");
+  panel.append(node("summary", "Validare prospectivă · perioade de test declarate în avans"));
+  const entries = Object.entries(forward.protocols || {});
+  if (!entries.length) panel.append(node("p", "Nicio declarație prospectivă pentru primele semnale din această zi. Datele istorice își păstrează clasificarea.", "footnote"));
+  for (const [id, p] of entries) panel.append(node("p", `P${id} · declarat ${date(p.declared_at)} · test de la ${date(p.test_from)} · ${p.state === "test_not_started" ? "Testul nu a început" : "Colectare pentru test; validarea nu este demonstrată"}`, "footnote"));
+  for (const [model, horizons] of Object.entries(forward.models || {})) {
+    const wrapper = node("div", undefined, "table-scroll"), table = node("table"), head = node("thead"), row = node("tr"), body = node("tbody");
+    ["Model / orizont / politică / perioadă", "Selectate evaluate / total", "Control distinct evaluat / total", "PnL mediu net selectate / control"].forEach(v => row.append(node("th", v)));
+    head.append(row); table.append(head);
+    let count = 0;
+    for (const [h, policies] of Object.entries(horizons)) for (const [id, cohorts] of Object.entries(policies)) for (const [cohort, c] of Object.entries(cohorts)) {
+      if (!c.all_first_evaluations.experiments) continue;
+      const selected = c.selected_at_first_evaluation, control = c.control_excluding_selected, line = node("tr");
+      const period = {development: "Dezvoltare", test: "Test", purged_boundary: "La granița perioadelor", unassigned: "Neatribuit"}[cohort] || cohort;
+      [`${model === "jupiter_quotes" ? "Jupiter" : "Pool"} · ${Number(h)/60}m · P${id} · ${period}`, `${selected.evaluated} / ${selected.experiments}`, `${control.evaluated} / ${control.experiments}`, `${cash(selected.mean_net_pnl_usd)} / ${cash(control.mean_net_pnl_usd)}`].forEach(v => line.append(node("td", v)));
+      body.append(line); count++;
+    }
+    if (count) { table.append(body); wrapper.append(table); panel.append(wrapper); }
+  }
+  panel.append(node("p", "Protocol separat de perioadele istorice. Primul semnal fixează selecția; controlul exclude selecțiile suprapuse. Lipsurile rămân necunoscute, iar mediile folosesc numai rezultate evaluate. O perioadă de test începută nu demonstrează profitabilitatea.", "footnote"));
+  root.append(panel);
+}
 function renderDailyResearch(data) {
   const root = $("engine-daily");
   root.replaceChildren();
@@ -767,6 +791,7 @@ function renderDailyResearch(data) {
   const t = data.totals;
   root.append(node("p", `${t.discovered} candidați · ${t.first_evaluations} prime evaluări · ${t.eligible_without_first_evaluation} eligibili fără evaluare · ${t.excluded} excluși`, "footnote"));
   root.append(node("p", `${t.opportunity_alerts} alerte de oportunitate, inclusiv cele ulterioare · ${t.selected_at_first_evaluation} selecții la prima evaluare · ${t.risk_alerts} avertizări de risc`, "footnote"));
+  renderForwardEvaluation(root, data.forward_evaluation);
   for (const [model, title] of [["estimated_pool", "Estimări de pool"], ["jupiter_quotes", "Cotații Jupiter"]]) {
     root.append(node("h3", title));
     const wrapper = node("div", undefined, "table-scroll"), table = node("table");

@@ -317,6 +317,27 @@ async def check(base):
             )
             await expect(page.locator("#engine-detail")).to_contain_text(candidate["contract"])
 
+        async def future_protocol(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            await page.evaluate("""() => {
+              const data = structuredClone(opportunityView.daily);
+              const s = {experiments:3,evaluated:1,mean_net_pnl_usd:'-7',unresolved_or_unavailable:2};
+              data.forward_evaluation = {protocols:{99:{declared_at:'2026-10-21T00:00:00Z',test_from:'2026-10-22T00:00:00Z',state:'test_not_started'}},
+                models:{jupiter_quotes:{300:{99:{development:{all_first_evaluations:s,selected_at_first_evaluation:s,control_excluding_selected:{...s,evaluated:0,mean_net_pnl_usd:null}}}}}}};
+              renderDailyResearch(data);
+            }""")
+            panel = page.locator(".forward-evaluation")
+            await page.locator("#engine-daily-panel > summary").click()
+            await panel.locator("summary").click()
+            await expect(panel).to_contain_text("Testul nu a început")
+            await expect(panel).to_contain_text("1 / 3")
+            await expect(panel).to_contain_text("0 / 3")
+            await expect(panel).to_contain_text("-7")
+            await expect(panel).to_contain_text("nu demonstrează profitabilitatea")
+            await page.set_viewport_size({"width":390,"height":844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         async def daily_race_and_export(page):
             await ready(page)
             await page.wait_for_function("() => opportunityView.daily !== null")
@@ -500,6 +521,7 @@ async def check(base):
             ("health panel explicit close and refresh state", health_close_and_refresh),
             ("search response race", query_race),
             ("document stories without AI", stories_without_ai),
+            ("future protocol, missing control and mobile layout", future_protocol),
             ("daily report race and JSON export", daily_race_and_export),
             ("daily failure preserves candidates", daily_failure_isolated),
             ("daily mobile layout", daily_mobile),

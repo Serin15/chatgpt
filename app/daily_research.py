@@ -5,6 +5,7 @@ from collections import Counter
 from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal, InvalidOperation
 
+from app import forward_evaluation
 from app.cohort_comparisons import comparisons, partition, protocol
 from app.models import epoch, utcnow
 from app.opportunity_outcomes import wilson
@@ -115,6 +116,8 @@ def daily_report(engine, day: date | None = None):
         firsts = {r["signal_id"]: dict(r) for r in candidates if r["signal_id"] is not None}
         for subject in firsts.values():
             subject["config_parsed"] = json.loads(subject["config"])
+        declarations = forward_evaluation.protocols(db, firsts, at)
+        forward_models = {}
         for name, table in [
             ("estimated_pool", "opportunity_outcomes"),
             ("jupiter_quotes", "routed_outcomes"),
@@ -159,6 +162,7 @@ def daily_report(engine, day: date | None = None):
                 )
                 parsed.append(row)
             horizons = {}
+            forward_horizons = {}
             configured_horizons = {
                 h for s in firsts.values() for h in s["config_parsed"].get("horizons_seconds", [])
             }
@@ -187,7 +191,11 @@ def daily_report(engine, day: date | None = None):
                         for p in sorted({r["policy_id"] for r in rows})
                     },
                 }
+                forward_horizons[str(horizon)] = forward_evaluation.grouped(
+                    firsts, parsed, horizon, name, summarize, declarations
+                )
             models[name] = horizons
+            forward_models[name] = forward_horizons
         price_references = reference_report(db, cohort, params, firsts)
     return {
         "version": "daily-discovery-v1",
@@ -217,6 +225,14 @@ def daily_report(engine, day: date | None = None):
         "models": models,
         "price_references": price_references,
         "evaluation_protocol": protocol(firsts, at),
+        "forward_evaluation": {
+            "version": forward_evaluation.VERSION,
+            "protocols": declarations,
+            "models": forward_models,
+            "original_cutoffs_preserved": True,
+            "profitability_demonstrated": False,
+            "note": "Separate prospectively declared protocol, not reassignment of legacy tests. Missing and rejected candidates remain counted; selected and comparison control are disjoint. No threshold fitting or profitability conclusion.",
+        },
         "live_execution": False,
         "profitability_demonstrated": False,
         "limitations": [

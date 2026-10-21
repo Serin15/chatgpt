@@ -13,12 +13,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from threading import Lock
 
+from app import forward_evaluation
 from app.credentials import secret
 from app.errors import ProviderError
 from app.models import Market, epoch, solana_address, utcnow
 from app.narratives import Narratives
 from app.notifications import telegram_receipt
-from app.opportunity_routes import Routes
+from app.opportunity_routes import QUOTE_TIMEOUT, Routes
 from app.opportunity_rules import RULE_VERSION, EngineConfig, evaluate, features
 from app.opportunity_sampling import SAMPLING_VERSION, Sampling
 from app.opportunity_sources import (
@@ -50,6 +51,7 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "analysis.py",
             "paper.py",
             "models.py",
+            "forward_evaluation.py",
         )
     )
 ).hexdigest()
@@ -90,6 +92,7 @@ class Opportunities:
                 CREATE INDEX IF NOT EXISTS opportunity_observation_time ON opportunity_observations(candidate_id,at,id);
                 CREATE TABLE IF NOT EXISTS opportunity_signals(id INTEGER PRIMARY KEY,candidate_id INTEGER NOT NULL,observation_id INTEGER,at TEXT NOT NULL,kind TEXT NOT NULL,verdict TEXT NOT NULL,policy_id INTEGER NOT NULL,payload TEXT NOT NULL);
                 CREATE INDEX IF NOT EXISTS opportunity_signal_subject ON opportunity_signals(candidate_id,id);
+                CREATE INDEX IF NOT EXISTS opportunity_signal_policy ON opportunity_signals(policy_id,kind);
                 CREATE TABLE IF NOT EXISTS opportunity_alerts(id INTEGER PRIMARY KEY,candidate_id INTEGER NOT NULL,signal_id INTEGER UNIQUE NOT NULL,at TEXT NOT NULL,severity TEXT NOT NULL,fingerprint TEXT UNIQUE NOT NULL,payload TEXT NOT NULL,delivered_in_app_at TEXT,seen_at TEXT,telegram_state TEXT NOT NULL DEFAULT 'pending',telegram_details TEXT);
                 CREATE TABLE IF NOT EXISTS opportunity_outcomes(signal_id INTEGER NOT NULL,horizon_seconds INTEGER NOT NULL,state TEXT NOT NULL,payload TEXT NOT NULL,updated_at TEXT NOT NULL,PRIMARY KEY(signal_id,horizon_seconds));
             """)
@@ -114,6 +117,8 @@ class Opportunities:
                 )
         self.sampling = Sampling(self)
         self.routes = Routes(self)
+        with self.store.connect() as db:
+            forward_evaluation.initialize(db)
 
     def config(self):
         with self.store.connect() as db:
@@ -147,6 +152,12 @@ class Opportunities:
             "paper_source_sha256": PAPER_SOURCE_SHA256,
             "sampling_version": SAMPLING_VERSION,
             "forward_quote_window_version": 2,
+            "collection_rules": {
+                "version": "incremental-routes-v1",
+                "market_batch_size": 30,
+                "security_refresh_reserve_seconds": self.security_reserve(config),
+                "route_budget_scope": "one_collector_cycle",
+            },
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
                 k: getattr(self.service.settings, k)
@@ -162,6 +173,7 @@ class Opportunities:
             row = db.execute(
                 "SELECT * FROM opportunity_policies WHERE sha256=?", (fingerprint,)
             ).fetchone()
+            forward_evaluation.register(db, dict(row), config)
         return dict(row) | {"payload": payload}
 
     def acquire(self):
@@ -483,6 +495,63 @@ class Opportunities:
             Market(**payload["market"]), payload["security"], payload["decision"]["screening"]
         )
 
+    def security_reserve(self, config):
+        # Reserve time for the entire remaining bounded quote batch. This only
+        # causes earlier reads; it never extends the frozen freshness gate.
+        return (
+            min(
+                self.service.settings.max_snapshot_age,
+                QUOTE_TIMEOUT * config.routed_quote_budget + 5,
+            )
+            if config.routed_quotes_enabled
+            else 0
+        )
+
+    async def market_candidates(self, candidates, errors):
+        # Fetch the next batch only after processing this one. Same provider
+        # request count and 30-subject limit; later prices no longer wait behind
+        # the security/quote work for all preceding batches.
+        for i in range(0, len(candidates), 30):
+            batch = candidates[i : i + 30]
+            markets = {}
+            try:
+                markets.update(
+                    await asyncio.wait_for(pool_markets(self.service.providers, batch), 35)
+                )
+            except (ProviderError, TimeoutError, ValueError, TypeError, AttributeError):
+                errors.append("batch_pool_quotes_unavailable")
+            try:
+                markets.update(
+                    await asyncio.wait_for(gecko_markets(self.service.discovery, batch), 25)
+                )
+            except (ProviderError, TimeoutError, ValueError, TypeError, KeyError):
+                errors.append("gecko_participation_unavailable")
+            for c in batch:
+                yield c, markets.get((c["pool"], c["contract"]))
+
+    async def dispatch_routes(self, session):
+        remaining = session["limit"] - session["attempted"]
+        if remaining <= 0 or session.get("disabled"):
+            return
+        status = await self.routes.cycle(budget=remaining)
+        session["attempted"] += status.get("attempted", 0)
+        session["errors"].extend(status.get("errors", []))
+        if status.get("error"):
+            session["errors"].append(status["error"])
+        if status["state"] == "disabled":
+            session["disabled"] = True
+        self.routes.status = status | {
+            "attempted": session["attempted"],
+            "errors": sorted(set(session["errors"])),
+            "state": "partial" if session["errors"] else status["state"],
+            "collector_cycle_at": session["started_at"],
+            "collector_budget": session["limit"],
+        }
+        with self.store.connect() as db:
+            db.execute(
+                "INSERT OR REPLACE INTO routed_runtime VALUES(1,?)", (encode(self.routes.status),)
+            )
+
     async def cycle(self, refresh_discovery=True):
         if self.lock.locked():
             return {"state": "busy"}
@@ -493,6 +562,12 @@ class Opportunities:
             observed = 0
             started = utcnow()
             config = self.config()
+            routing = {
+                "limit": config.routed_quote_budget,
+                "attempted": 0,
+                "errors": [],
+                "started_at": started,
+            }
             try:
                 if not config.enabled:
                     self.status = {
@@ -528,28 +603,10 @@ class Opportunities:
                 added = self.ingest(policy)
                 due = self.due(config)
                 self.sampling.dispatch(due)
-                markets = {}
-                for i in range(0, len(due), 30):
-                    try:
-                        markets.update(
-                            await asyncio.wait_for(
-                                pool_markets(self.service.providers, due[i : i + 30]), 35
-                            )
-                        )
-                    except (ProviderError, TimeoutError, ValueError, TypeError, AttributeError):
-                        errors.append("batch_pool_quotes_unavailable")
-                # Prefer a single anchored-pool source with reported buyer/seller counts where available.
-                try:
-                    if due:
-                        markets.update(
-                            await asyncio.wait_for(gecko_markets(self.service.discovery, due), 25)
-                        )
-                except (ProviderError, TimeoutError, ValueError, TypeError, KeyError):
-                    errors.append("gecko_participation_unavailable")
                 security_left = config.security_budget
                 fallback_left = 3
                 activity_left = 1
-                for candidate in due:
+                async for candidate, market in self.market_candidates(due, errors):
                     with self.store.connect() as db:
                         renewed = db.execute(
                             "UPDATE opportunity_lease SET expires_at=? WHERE id=1 AND owner=?",
@@ -560,7 +617,6 @@ class Opportunities:
                             "Opportunity worker lease expired; another process owns collection."
                         )
                     try:
-                        market = markets.get((candidate["pool"], candidate["contract"]))
                         if not market and fallback_left:
                             fallback_left -= 1
                             try:
@@ -581,6 +637,7 @@ class Opportunities:
                                 policy,
                                 config,
                             )
+                            await self.dispatch_routes(routing)
                             continue
                         history = await self._background(self.history, candidate["id"])
                         previous = next(
@@ -594,12 +651,9 @@ class Opportunities:
                             None,
                         )
                         security = (previous or {}).get("security")
-                        if (
-                            not security
-                            or not 0
-                            <= time.time() - epoch(security["observed_at"])
-                            <= self.service.settings.max_snapshot_age
-                        ):
+                        if not security or not 0 <= epoch(utcnow()) - epoch(
+                            security["observed_at"]
+                        ) <= self.service.settings.max_snapshot_age - self.security_reserve(config):
                             security = None
                             if security_left and market["liquidity_usd"] >= float(
                                 self.service.settings.min_liquidity
@@ -701,6 +755,7 @@ class Opportunities:
                             self._persist_candidate, candidate, payload, policy, config, at
                         )
                         observed += 1
+                        await self.dispatch_routes(routing)
                         if (
                             config.ai_narratives
                             and narrative["supported"]
@@ -731,9 +786,9 @@ class Opportunities:
                             config,
                         )
                         errors.append("candidate_evidence_error")
+                        await self.dispatch_routes(routing)
                 await self._background(self.update_outcomes)
-                if self.route_task is None or self.route_task.done():
-                    self.route_task = asyncio.create_task(self.routes.cycle())
+                await self.dispatch_routes(routing)
                 self.service.notifications.collect()
                 if self.wallet_task is None or self.wallet_task.done():
                     self.wallet_task = asyncio.create_task(self.refresh_wallet())

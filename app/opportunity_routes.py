@@ -36,6 +36,9 @@ COMPATIBLE_EXECUTION_SOURCES = {
     # v0.13.3 adds opt-in prefetch handling for new policies only. Missing
     # window version keeps the original strict first-record selection.
     "fe46e95ea88180be8f23662d47dfac23276d4b24e7e96c5ceec9d1c6cb61d828",
+    # v0.14.0 allows bounded incremental dispatch. Frozen windows, the first
+    # observation, safety gates and fill math remain unchanged for v0.13.3.
+    "a1a61cf2fd3d2947d3be48c3e004cdeb4e0bbcc70799587d889b590ec1f69060",
 }
 log = logging.getLogger(__name__)
 
@@ -426,14 +429,18 @@ class Routes:
         self.finish(r, attempt_id, quote, error)
         return error
 
-    async def cycle(self):
+    async def cycle(self, budget=None):
         async with self.lock:
+            chosen = []
             try:
                 ready = self.ready()
                 cfg = self.engine.config()
-                chosen = (
-                    self.choose(ready, cfg.routed_quote_budget) if cfg.routed_quotes_enabled else []
+                limit = (
+                    cfg.routed_quote_budget
+                    if budget is None
+                    else max(0, min(budget, cfg.routed_quote_budget))
                 )
+                chosen = self.choose(ready, limit) if cfg.routed_quotes_enabled and limit else []
                 errors = []
                 for r in chosen:
                     error = await self.collect(r)
@@ -458,6 +465,7 @@ class Routes:
                     "at": utcnow(),
                     "error": type(exc).__name__,
                     "cycles": self.status.get("cycles", 0),
+                    "attempted": len(chosen),
                 }
             with self.store.connect() as db:
                 db.execute(
