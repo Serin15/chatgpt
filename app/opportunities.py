@@ -1025,11 +1025,11 @@ class Opportunities:
             base = """
                 FROM opportunity_candidates c LEFT JOIN opportunity_observations o
                 ON o.id=(SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)
-                WHERE (:verdict='all' OR coalesce(json_extract(o.payload,'$.decision.verdict'),'PENDING')=:verdict)
+                WHERE (:verdict='all' OR coalesce(json_extract(archive_text(o.payload),'$.decision.verdict'),'PENDING')=:verdict)
                 AND (:q='' OR instr(casefold(c.contract || ' ' ||
                     coalesce(json_extract(c.discovery,'$.name'),'') || ' ' ||
-                    coalesce(json_extract(o.payload,'$.market.name'),'') || ' ' ||
-                    coalesce(json_extract(o.payload,'$.market.symbol'),'')),:q)>0)
+                    coalesce(json_extract(archive_text(o.payload),'$.market.name'),'') || ' ' ||
+                    coalesce(json_extract(archive_text(o.payload),'$.market.symbol'),'')),:q)>0)
             """
             params = {
                 "q": query.strip().casefold(),
@@ -1042,7 +1042,7 @@ class Opportunities:
                 ).isoformat(),
             }
             order = (
-                "coalesce(CASE WHEN julianday(json_extract(o.payload,'$.market.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) AND julianday(json_extract(o.payload,'$.security.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) THEN json_extract(o.payload,'$.decision.rank_score') END,-1) DESC,c.id DESC"
+                "coalesce(CASE WHEN julianday(json_extract(archive_text(o.payload),'$.market.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) AND julianday(json_extract(archive_text(o.payload),'$.security.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) THEN json_extract(archive_text(o.payload),'$.decision.rank_score') END,-1) DESC,c.id DESC"
                 if ranked
                 else "c.id DESC"
             )

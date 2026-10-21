@@ -3,6 +3,7 @@ import sqlite3
 from contextlib import contextmanager
 from decimal import Decimal
 
+from app.archive_codec import configure
 from app.models import utcnow
 
 
@@ -54,7 +55,7 @@ class Store:
     @contextmanager
     def connect(self):
         db = sqlite3.connect(self.path, timeout=10)
-        db.row_factory = sqlite3.Row
+        configure(db)
         try:
             yield db
             db.commit()

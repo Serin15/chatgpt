@@ -58,7 +58,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.14.0 · beta</span>
+        <span class="version">v0.15.0 · beta</span>
       </div>
     </aside>
     <main class="main">
@@ -418,6 +418,14 @@
           <div id="performance"></div>
         </section>
         <section class="panel"><div id="orders"></div></section>
+        <details class="panel padded" id="storage-panel">
+          <summary>Stocare și arhivarea istoricului</summary>
+          <p>Compresie fără ștergerea candidaților, observațiilor sau rezultatelor.</p>
+          <button id="storage-refresh" class="secondary" type="button">Verifică spațiul</button>
+          <div id="storage-status" role="status">Apasă „Verifică spațiul” pentru date actuale.</div>
+          <p class="footnote">Pentru arhivare și micșorarea bazei: oprește aplicația, apoi deschide archive-windows.cmd din folderul extras. Se creează și se verifică un backup înaintea modificărilor.</p>
+          <p class="footnote">Arhiva comprimată din bază păstrează istoricul accesibil. Backupul ZIP trebuie copiat separat pentru protecție la defectarea discului.</p>
+        </details>
       </section>
       <section id="view-opportunities" class="view" hidden>
         <div class="view-heading">

@@ -78,7 +78,7 @@ def coverage_states(db, now):
         dict(r)
         for r in db.execute("""
         WITH quotes AS MATERIALIZED (
-          SELECT id,candidate_id,at,json_extract(payload,'$.market.price_usd',
+          SELECT id,candidate_id,at,json_extract(archive_text(payload),'$.market.price_usd',
             '$.market.liquidity_usd','$.market.observed_at','$.source_kind',
             '$.market.address','$.market.pair_address') AS fields
           FROM opportunity_observations WHERE id IN (
@@ -126,7 +126,7 @@ def reference_report(db, cohort, params, firsts):
     query = (
         cohort
         + """SELECT o.id,o.candidate_id,o.at,
-        json_extract(o.payload,'$.market.observed_at','$.market.price_usd',
+        json_extract(archive_text(o.payload),'$.market.observed_at','$.market.price_usd',
         '$.market.liquidity_usd','$.market.address','$.market.pair_address',
         '$.source_kind') AS capture_fields
         FROM opportunity_observations o JOIN cohort c ON c.id=o.candidate_id

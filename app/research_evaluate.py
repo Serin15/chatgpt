@@ -9,6 +9,7 @@ from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
 
+from app.archive_codec import configure
 from app.config import Settings
 from app.daily_research import daily_report
 
@@ -23,7 +24,7 @@ class ReadOnlyStore:
     def connect(self):
         db = sqlite3.connect(self.path.as_uri() + "?mode=ro", uri=True, timeout=30)
         try:
-            db.row_factory = sqlite3.Row
+            configure(db)
             db.execute("PRAGMA query_only=ON")
             yield db
         finally:

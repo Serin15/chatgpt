@@ -1,36 +1,59 @@
 """Portable, consistent paper-data backups and full experiment exports."""
 
 import json
+import os
 import sqlite3
 import tempfile
+import uuid
 import zipfile
 from contextlib import closing
 from pathlib import Path
 
 from app import __version__
 from app.models import utcnow
+from app.storage import require_space
 
 
 def backup(service):
     folder = service.settings.data_dir / "backups"
-    folder.mkdir(parents=True, exist_ok=True)
-    name = "pulse-" + utcnow().replace(":", "").replace("+", "-") + ".zip"
+    folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+    name = (
+        "pulse-" + utcnow().replace(":", "").replace("+", "-") + "-" + uuid.uuid4().hex[:8] + ".zip"
+    )
     target = folder / name
-    with tempfile.TemporaryDirectory() as scratch:
-        with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-            for relative, store in [
-                ("research.sqlite3", service.store),
-                ("news_paper/research.sqlite3", service.news_paper),
-            ]:
-                copied = Path(scratch) / Path(relative).name
-                with (
-                    closing(
-                        sqlite3.connect(store.path.resolve().as_uri() + "?mode=ro", uri=True)
-                    ) as source,
-                    closing(sqlite3.connect(copied)) as destination,
-                ):
-                    source.backup(destination)
-                archive.write(copied, relative)
+    stores = [
+        ("research.sqlite3", service.store),
+        ("news_paper/research.sqlite3", service.news_paper),
+    ]
+    require_space(folder, sum(s.path.stat().st_size for _, s in stores) * 2)
+    partial = target.with_suffix(".zip.partial")
+    try:
+        # Scratch and final ZIP use the same filesystem checked above. Failure
+        # never publishes an incomplete ZIP or removes an older backup.
+        with tempfile.TemporaryDirectory(prefix=".backup-", dir=folder) as scratch:
+            with zipfile.ZipFile(partial, "x", compression=zipfile.ZIP_DEFLATED) as archive:
+                partial.chmod(0o600)
+                for relative, store in stores:
+                    copied = Path(scratch) / relative
+                    copied.parent.mkdir(parents=True, exist_ok=True)
+                    with (
+                        closing(
+                            sqlite3.connect(store.path.resolve().as_uri() + "?mode=ro", uri=True)
+                        ) as source,
+                        closing(sqlite3.connect(copied)) as destination,
+                    ):
+                        source.backup(destination)
+                        if destination.execute("PRAGMA quick_check").fetchone()[0] != "ok":
+                            raise ValueError("Backup SQLite integrity check failed")
+                    archive.write(copied, relative)
+            with zipfile.ZipFile(partial) as archive:
+                if archive.testzip() is not None:
+                    raise ValueError("Backup ZIP checksum failed")
+            with partial.open("r+b") as handle:
+                os.fsync(handle.fileno())
+            partial.replace(target)
+    finally:
+        partial.unlink(missing_ok=True)
     return target
 
 

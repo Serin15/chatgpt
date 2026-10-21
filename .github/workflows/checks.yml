@@ -85,3 +85,22 @@ jobs:
           } finally {
             taskkill /PID $process.Id /T /F 2>$null
           }
+      - name: Native Windows archival launcher and verified restore from paths with spaces
+        if: runner.os == 'Windows'
+        shell: python
+        run: |
+          import os
+          import pathlib
+          import subprocess
+          import tempfile
+
+          project = pathlib.Path(os.environ["RUNNER_TEMP"]) / "PULSE test path"
+          with tempfile.TemporaryDirectory(prefix="MemeScope archive data ", dir=os.environ["RUNNER_TEMP"]) as data:
+              env = os.environ | {"DATA_DIR": data, "PYTHONIOENCODING": "utf-8"}
+              setup = "from pathlib import Path; import os; from dataclasses import replace; from decimal import Decimal; from app.config import Settings; from app.store import Store; s=Settings(data_dir=Path(os.environ['DATA_DIR'])); Store(s); Store(replace(s,data_dir=s.data_dir/'news_paper',initial_balance=Decimal(500)))"
+              subprocess.run(["uv", "run", "--frozen", "python", "-c", setup], cwd=project, env=env, check=True)
+              result = subprocess.run(["cmd", "/c", "archive-windows.cmd"], input="\n", cwd=project, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding="utf-8", errors="replace", timeout=180)
+              print(result.stdout, flush=True)
+              assert result.returncode == 0, "Native archival launcher failed"
+              assert '"backup_restore_verified": true' in result.stdout, "Restore verification absent"
+              assert '"logical_history_identical": true' in result.stdout, "Logical preservation verification absent"

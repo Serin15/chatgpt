@@ -286,14 +286,14 @@ def report(engine):
         ).fetchone()[0]
         candidates = db.execute(
             """SELECT c.id,json_extract(c.discovery,'$.price_usd') AS initial_price,
-            json_extract(o.payload,'$.market.price_usd','$.market.observed_at',
+            json_extract(archive_text(o.payload),'$.market.price_usd','$.market.observed_at',
             '$.security.observed_at','$.decision.verdict','$.decision.security_filter_passed',
             '$.decision.liquidity_filter_passed') AS fields
             FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(
                 SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"""
         ).fetchall()
         rows = db.execute(
-            """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(o.payload,'$.pnl_usd') AS pnl,
+            """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(archive_text(o.payload),'$.pnl_usd') AS pnl,
             s.kind,s.at AS signal_at,s.observation_id,a.id AS alert_id,c.contract,
             e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at,
             json_extract(s.payload,'$.policy.id','$.policy.at','$.policy.payload.config.test_from',
@@ -368,7 +368,7 @@ def report(engine):
         ).fetchall()
         initial = db.execute(
             """SELECT s.id,
-            json_extract(o.payload,'$.features.changes.5m.volume_5m_ratio',
+            json_extract(archive_text(o.payload),'$.features.changes.5m.volume_5m_ratio',
             '$.features.excessive_extension','$.narrative.supported',
             '$.decision.security_filter_passed','$.decision.liquidity_filter_passed',
             '$.decision.verdict') AS fields

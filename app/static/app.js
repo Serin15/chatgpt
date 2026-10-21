@@ -769,6 +769,7 @@ function renderHealth() {
     ),
   };
   if (status.ai_summaries?.configured) sources.ai = status.ai_summaries;
+  if (status.storage) sources.storage = status.storage;
   if (status.jupiter?.mode === "jupiter")
     sources.jupiter = status.jupiter.status;
   if (status.notifications?.telegram_bot_configured)
@@ -2346,6 +2347,22 @@ $("export-button").onclick = () => {
   a.download = "pulse-" + state.account + ".json";
   a.click();
 };
+$("storage-refresh").onclick = () =>
+  action($("storage-refresh"), async () => {
+    const report = await api("/api/storage");
+    const target = $("storage-status");
+    const bytes = (value) => `${(Number(value) / 1024 ** 3).toLocaleString("ro-RO", {maximumFractionDigits: 2})} GiB`;
+    target.replaceChildren();
+    target.append(node("p", `Verificat ${date(report.at)} · Liber pe disc: ${bytes(report.disk_free_bytes)} · ${report.state === "ok" ? "spațiu disponibil" : "spațiu redus: copiază backupurile pe alt disc"}`, report.state === "ok" ? "" : "warn"));
+    for (const db of report.databases) {
+      target.append(node("p", `${db.database}: ${bytes(db.file_bytes)} pe disc · ${bytes(db.reusable_bytes)} reutilizabili în bază · WAL ${bytes(db.wal_bytes)}`));
+      if (db.last_archive) {
+        const rows = Object.values(db.last_archive.tables || {}).reduce((sum, table) => sum + table.rows_compressed, 0);
+        target.append(node("p", `Ultima arhivare: ${rows} rânduri comprimate; observații mai vechi de ${date(db.last_archive.cutoff)}. Istoricul este accesibil în dosare și rapoarte.`, "footnote"));
+      }
+    }
+    target.append(node("p", `Backupuri locale: ${report.backup_count} · ${bytes(report.backup_bytes)}. Arhivare automată: oprită.`, "footnote"));
+  });
 $("backup-button").onclick = () =>
   action($("backup-button"), async () => {
     const response = await fetch("/api/backup", {

@@ -335,7 +335,7 @@ class Sampling:
             recent = {}
             for name, field in [("alerts", "selected"), ("control", "control_member")]:
                 query = (
-                    "SELECT j.id,j.candidate_id,c.contract,c.chain,e.provenance,j.signal_id,j.phase,j.horizon_seconds,j.due_at,j.deadline_at,j.reason,o.at AS observed_at,json_extract(o.payload,'$.market.observed_at') AS quote_observed_at,json_extract(o.payload,'$.source_kind') AS source_kind FROM observation_jobs j JOIN opportunity_candidates c ON c.id=j.candidate_id JOIN sampling_enrollment e ON e.candidate_id=c.id JOIN opportunity_observations o ON o.id=j.observation_id WHERE j.status='attempted' AND j."
+                    "SELECT j.id,j.candidate_id,c.contract,c.chain,e.provenance,j.signal_id,j.phase,j.horizon_seconds,j.due_at,j.deadline_at,j.reason,o.at AS observed_at,json_extract(archive_text(o.payload),'$.market.observed_at') AS quote_observed_at,json_extract(archive_text(o.payload),'$.source_kind') AS source_kind FROM observation_jobs j JOIN opportunity_candidates c ON c.id=j.candidate_id JOIN sampling_enrollment e ON e.candidate_id=c.id JOIN opportunity_observations o ON o.id=j.observation_id WHERE j.status='attempted' AND j."
                     + field
                     + "=1 AND e.provenance='prospective' "
                 )

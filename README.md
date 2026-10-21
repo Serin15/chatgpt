@@ -1,4 +1,6 @@
-# MemeScope v0.14.0 — beta privată Solana
+# MemeScope v0.15.0 — beta privată Solana
+
+**Stocare v0.15.0:** [arhivare fără pierderi, backup verificat prin restaurare și controlul spațiului](docs/STORAGE-V0.15.md). În Windows: oprește aplicația, apoi rulează `archive-windows.cmd`; istoricul rămâne accesibil.
 
 **Colectare și validare v0.14.0:** [securitate reîmprospătată, cotații incrementale în același buget și protocol viitor separat](docs/COLLECTION-V0.14.md).
 

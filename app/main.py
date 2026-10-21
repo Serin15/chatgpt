@@ -37,7 +37,9 @@ from app.opportunity_rules import EngineConfig
 from app.paper import Rejected
 from app.providers import ProviderError, Providers
 from app.research import EvidenceInput, SourceInput
+from app.runtime_lock import RuntimeLock
 from app.service import Service
+from app.storage import capacity, disk_health
 from app.store import Store
 from app.wallets import WalletInput
 
@@ -56,7 +58,7 @@ def create_app(
     install_redaction()
 
     @asynccontextmanager
-    async def lifespan(app):
+    async def service_lifespan(app):
         store = Store(settings)
         sources = providers or Providers(settings)
         app.state.service = Service(settings, store, sources)
@@ -122,6 +124,12 @@ def create_app(
             await assets.close()
             await news.close()
             await sources.close()
+
+    @asynccontextmanager
+    async def lifespan(app):
+        with RuntimeLock(settings.data_dir):
+            async with service_lifespan(app):
+                yield
 
     app = FastAPI(title="PULSE Crypto Research · Paper only", lifespan=lifespan)
     app.add_middleware(
@@ -229,6 +237,7 @@ def create_app(
             "notifications": service.notifications.config(),
             "authentication_enabled": service.auth.enabled,
             "opportunity_engine": service.opportunities.status,
+            "storage": disk_health(settings.data_dir),
         }
 
     @app.get("/api/tokens")
@@ -388,6 +397,10 @@ def create_app(
     async def backup_data(request: Request):
         path = await run_in_threadpool(backup, request.app.state.service)
         return FileResponse(path, filename=path.name, media_type="application/zip")
+
+    @app.get("/api/storage")
+    def storage_capacity():
+        return capacity(settings.data_dir)
 
     def known_subject(service, address):
         if address.startswith("asset:"):

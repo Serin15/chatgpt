@@ -503,6 +503,26 @@ async def check(base):
             await page.wait_for_function("() => !opportunityView.loading && !state.loading")
             assert heavy == ["/api/opportunities/performance", "/api/opportunities/routes"]
 
+        async def storage_capacity(page):
+            await ready(page)
+            await page.locator('.nav-item[data-page="journal"]').click()
+            await page.locator("#storage-panel > summary").click()
+            await page.locator("#storage-refresh").click()
+            await expect(page.locator("#storage-status")).to_contain_text("research.sqlite3")
+            await expect(page.locator("#storage-status")).to_contain_text("Arhivare automată: oprită")
+            await page.set_viewport_size({"width": 390, "height": 844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
+        async def storage_failure(page):
+            await ready(page)
+            await page.route("**/api/storage", lambda r: r.fulfill(status=503, json={"detail": "Fixture storage unavailable"}))
+            await page.locator('.nav-item[data-page="journal"]').click()
+            await page.locator("#storage-panel > summary").click()
+            await page.locator("#storage-refresh").click()
+            await expect(page.locator("#storage-refresh")).to_be_enabled()
+            await page.locator('.nav-item[data-page="opportunities"]').click()
+            await expect(page.locator("#engine-rows tr")).to_have_count(1)
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -530,6 +550,8 @@ async def check(base):
             ("price references and mobile layout", price_comparison_table),
             ("usable prices separate from attempts", usable_coverage),
             ("live candidates before sequential history reports", history_requests_are_sequential),
+            ("actual fixture database capacity and mobile layout", storage_capacity),
+            ("storage failure preserves candidate workflow", storage_failure),
         ]:
             await scenario(name, fn)
         await browser.close()
