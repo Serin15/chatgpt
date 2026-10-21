@@ -868,17 +868,19 @@ class Opportunities:
         return self.shared_report(("collection",), compute)
 
     def collection_report(self):
-        cached = self.collection_cache is not None
+        snapshot = self.collection_cache
+        cached = snapshot is not None
         if not cached:
             if self.collection_refresh["state"] == "running":
                 raise ProviderError(
                     "Raportul de colectare se calculează în fundal. Reîncearcă după finalizarea primului calcul."
                 )
             self.calculate_collection_report()
-        return deepcopy(self.collection_cache) | {
+            snapshot = self.collection_cache
+        return deepcopy(snapshot) | {
             "report_cache": {
                 "served_from_cache": cached,
-                "calculated_at": self.collection_cache.get("generated_at"),
+                "calculated_at": snapshot.get("generated_at"),
                 "refresh": deepcopy(self.collection_refresh),
             }
         }

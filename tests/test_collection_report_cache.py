@@ -56,3 +56,28 @@ def test_initial_background_report_does_not_block_api_requests(client_engine, mo
     assert response.status_code == 503
     assert "în fundal" in response.json()["detail"]
     assert client.get("/api/opportunities").status_code == 200
+
+
+def test_response_timestamp_stays_with_its_snapshot_during_concurrent_publication(
+    client_engine, monkeypatch
+):
+    from copy import deepcopy as copy
+
+    import app.opportunities as module
+
+    _, engine = client_engine
+    engine.collection_report()
+    original = engine.collection_cache
+    original["generated_at"] = "2020-01-01T00:00:00Z"
+    newer = copy(original) | {"generated_at": "2020-01-02T00:00:00Z"}
+
+    def publish_during_copy(value):
+        result = copy(value)
+        if value is original:
+            engine.collection_cache = newer
+        return result
+
+    monkeypatch.setattr(module, "deepcopy", publish_during_copy)
+    response = engine.collection_report()
+    assert response["generated_at"] == response["report_cache"]["calculated_at"]
+    assert engine.collection_cache["generated_at"] == newer["generated_at"]
