@@ -39,10 +39,14 @@ def test_collection_storage_delay_allows_other_tasks_to_run(client_engine, monke
 
         probe_task = asyncio.create_task(probe())
         try:
-            await engine.cycle(refresh_discovery=False)
+            if stage == "coverage":
+                # Coverage now has an independent worker, outside the urgent cycle.
+                await engine._background(engine.calculate_collection_report)
+            else:
+                await engine.cycle(refresh_discovery=False)
         finally:
             release.set()
-            await probe_task
+            await asyncio.wait_for(probe_task, 5)
 
     asyncio.run(run())
     assert observed == [True], "Storage work blocked the event loop until it finished"
