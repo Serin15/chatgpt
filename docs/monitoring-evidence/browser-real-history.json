@@ -1,0 +1,38 @@
+{
+  "data": "normal live application and real preserved history; no interception or injected state",
+  "js_errors": [],
+  "http_5xx": [],
+  "candidate": {
+    "id": 1,
+    "contract": "EbBYgCUj15BtKF8YvvZ99YTDjQbig28Sft6eRr9Ypump",
+    "monitoring": {
+      "version": "bounded-background-v1",
+      "state": "paused",
+      "reason": "background_window_finished_no_open_promises",
+      "has_open_promises": false,
+      "background_until": "2026-10-18T08:41:34.446057+00:00",
+      "background_watch_hours": 48,
+      "history_preserved": true,
+      "not_a_new_launch": true
+    },
+    "original_discovered_at": "2026-10-16T08:41:25.802933+00:00",
+    "observations": 9,
+    "signals": 4,
+    "outcomes": 9
+  },
+  "mobile_no_overflow": true,
+  "coverage_loaded": true,
+  "section_errors": {},
+  "coverage_text": "Raport calculat la 21.10.2026, 19:51:50 · date păstrate în cache. Actualizare: în așteptarea următorului calcul. Contoarele descriu ultimul raport calculat.\n\nUrmărire echilibrată din 16.10.2026, 11:41:24. 84480 candidați noi; 16839 în grupul fix de comparație.\n\nMonitorizare: 30418 reevaluări periodice scadente · 40513 în pauză · total periodic înregistrat 70931. Observații promise scadente: 34 candidați, dintre care 33 în afara programului periodic. Fereastra de fundal: 48 ore de la înregistrare. Dosarele și rezultatele rămân păstrate; observațiile promise, prima colectare, lista de urmărire și pozițiile virtuale deschise sunt protejate. Capacitatea API poate lăsa termene ratate; rezultatele lipsă rămân necunoscute.\n\nAlerte\n\nIntrare: 2752 cotații utilizabile / 2754 încercări · 2 încercări fără preț utilizabil · 2 termene ratate · 0 în așteptare.\n\nIeșire: 5856 cotații utilizabile / 5958 încercări · 102 încercări fără preț utilizabil · 896 termene ratate · 445 în așteptare.\n\nRepere de preț, inclusiv tokenuri respinse: 0 cotații utilizabile / 0 încercări · 0 încercări fără preț utilizabil · 0 termene ratate · 0 în așteptare.\n\nObservații pentru ieșirile rutate: 3318 cotații utilizabile / 3384 încercări · 66 încercări fără preț utilizabil · 536 termene ratate · 259 în așteptare.\n\nGrup de comparație\n\nIntrare: 16746 cotații utilizabile / 16807 încercări · 61 încercări fără preț utilizabil · 31 termene ratate · 0 în așteptare.\n\nIeșire: 1564 cotații utilizabile / 1627 încercări · 63 încercări fără preț utilizabil · 243 termene ratate · 122 în așteptare.\n\nRepere de preț, inclusiv tokenuri respinse: 41042 cotații utilizabile / 41302 încercări · 260 încercări fără preț utilizabil · 6066 termene ratate · 3149 în așteptare.\n\nObservații pentru ieșirile rutate: 825 cotații utilizabile / 846 încercări · 21 încercări fără preț utilizabil · 117 termene ratate · 66 în așteptare.\n\nO cotație utilizabilă confirmă numai un preț raportat pentru pool-ul și intervalul cerut. Securitatea, lichiditatea de ieșire și execuția ordinului se verifică separat.\n\nPreț indisponibil la furnizor: 892\n\nCotație preluată prea devreme: 616\n\nCotație primită: 21170\n\nFiltru de risc sau lichiditate: 167031\n\nNepreluate la timp (capacitate sau pauză): 9858\n\nColectare încheiată după termen: 374\n\nSecuritate insuficient verificată: 319\n\nGrupul se stabilește înaintea evaluării și poate include tokenuri alertate. Datele vechi rămân separate. Completitudinea observațiilor și rezultatele paper se măsoară separat.\n\nAcoperire și reguli de colectare",
+  "engine_health_text": "Motor: running · ultim ciclu 21.10.2026, 19:52:18 · 60 observații în ciclu. Reevaluări periodice eligibile scadente: 30376; întârziere maximă 172375s. Istoric cu reevaluarea periodică în pauză: 40532. Total periodic scadent înregistrat: 70908.",
+  "manual_accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  }
+}

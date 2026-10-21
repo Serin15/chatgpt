@@ -1,0 +1,120 @@
+{
+  "at_utc": "2026-10-21T17:23:13.085573+00:00",
+  "current_protocol": {
+    "policy_id": 25,
+    "declared_at": "2026-10-21T17:19:51.883574+00:00",
+    "test_from": "2026-10-22T17:19:51.883574+00:00"
+  },
+  "candidate_rows": 84865,
+  "eligible_candidates": 84865,
+  "opportunity_signals": 210561,
+  "opportunity_observations": 332508,
+  "sampling_enrollment": 84865,
+  "observation_jobs": 206576,
+  "health": {
+    "version": "0.16.0",
+    "live_execution": false,
+    "workers": {
+      "scanner": {
+        "state": "running",
+        "started_at": "2026-10-21T17:19:51.758302+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "news": {
+        "state": "running",
+        "started_at": "2026-10-21T17:19:51.774720+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "assets": {
+        "state": "running",
+        "started_at": "2026-10-21T17:19:51.774936+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "performance": {
+        "state": "running",
+        "started_at": "2026-10-21T17:19:51.833771+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "intelligence": {
+        "state": "running",
+        "started_at": "2026-10-21T17:19:51.870520+00:00",
+        "restarts": 0,
+        "error": null
+      },
+      "collection_report": {
+        "state": "running",
+        "started_at": "2026-10-21T17:19:51.972087+00:00",
+        "restarts": 0,
+        "error": null
+      }
+    },
+    "engine": {
+      "state": "running",
+      "at": "2026-10-21T17:22:39.343625+00:00",
+      "cycles": 5539,
+      "observed": 60,
+      "security_allocation": {
+        "version": "early-security-reserve-v1",
+        "budget": 8,
+        "reserved_for_early": 3,
+        "used": 7,
+        "early_used": 5,
+        "other_used": 2,
+        "unspent": 1,
+        "note": "Provider attempts, including failures; not completed security checks. Original risk and freshness gates remain required."
+      },
+      "queue": {
+        "version": "bounded-background-v1",
+        "due": 71431,
+        "dispatchable_due": 30260,
+        "paused_due": 41171,
+        "promised_due_candidates": 44,
+        "promised_due_outside_periodic_queue": 44,
+        "not_enriched": 1,
+        "oldest_due_delay_seconds": 270174,
+        "dispatchable_oldest_due_delay_seconds": 172371,
+        "background_watch_hours": 48,
+        "active_watch_seconds": 900,
+        "counts_by_state": {
+          "active": {
+            "candidates": 225,
+            "due": 138
+          },
+          "awaiting_first_observation": {
+            "candidates": 1,
+            "due": 1
+          },
+          "background": {
+            "candidates": 33408,
+            "due": 29745
+          },
+          "followup": {
+            "candidates": 3894,
+            "due": 376
+          },
+          "paused": {
+            "candidates": 47319,
+            "due": 41171
+          }
+        },
+        "history_preserved": true,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown."
+      },
+      "errors": []
+    }
+  },
+  "manual_accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  }
+}

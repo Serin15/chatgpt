@@ -1,0 +1,54 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+__ test_completed_old_candidate_stops_periodic_polling_without_losing_history __
+
+client_engine = (<starlette.testclient.TestClient object at 0x7fe54581ecf0>, <app.opportunities.Opportunities object at 0x7fe545788da0>)
+
+    def test_completed_old_candidate_stops_periodic_polling_without_losing_history(client_engine):
+        client, engine = client_engine
+        c = observed(engine, 15001, 5 * 86400)
+        history = engine.history(c["id"])
+        before = engine.detail(c["id"])
+>       assert c["id"] not in {r["id"] for r in engine.due(engine.config())}
+E       assert 1 not in {1}
+
+tests/test_candidate_lifecycle.py:29: AssertionError
+___________ test_active_candidate_precedes_warm_background_candidate ___________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7fe545c2e1b0>, <app.opportunities.Opportunities object at 0x7fe544dadac0>)
+
+    def test_active_candidate_precedes_warm_background_candidate(client_engine):
+        _, engine = client_engine
+        warm = observed(engine, 15002, 86400, due_age=3600)
+        active = observed(engine, 15003, 600)
+        due = engine.due(engine.config().model_copy(update={"observation_budget": 1}))
+>       assert due[0]["id"] == active["id"]
+E       assert 1 == 2
+
+tests/test_candidate_lifecycle.py:42: AssertionError
+________ test_queue_separates_paused_background_from_dispatchable_work _________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7fe545958f80>, <app.opportunities.Opportunities object at 0x7fe544d21cd0>)
+
+    def test_queue_separates_paused_background_from_dispatchable_work(client_engine):
+        _, engine = client_engine
+        observed(engine, 15004, 5 * 86400)
+        observed(engine, 15005, 600)
+        q = engine.queue_health()
+        assert q["due"] == 2, "Raw overdue work must remain visible"
+>       assert q["dispatchable_due"] == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'dispatchable_due'
+
+tests/test_candidate_lifecycle.py:54: KeyError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_candidate_lifecycle.py::test_completed_old_candidate_stops_periodic_polling_without_losing_history
+FAILED tests/test_candidate_lifecycle.py::test_active_candidate_precedes_warm_background_candidate
+FAILED tests/test_candidate_lifecycle.py::test_queue_separates_paused_background_from_dispatchable_work
+3 failed, 1 warning in 1.89s

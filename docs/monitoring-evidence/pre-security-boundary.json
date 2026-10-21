@@ -1,0 +1,39 @@
+{
+  "at_utc": "2026-10-21T16:09:39.799799+00:00",
+  "checks": {
+    "opportunity_policies": {
+      "rows": 21,
+      "maximum_key": 21,
+      "sha256": "47cfac60acf2201027a692560403228df483f18e970e76d22052bb21f35d1d2b"
+    },
+    "forward_evaluation_protocols": {
+      "rows": 5,
+      "maximum_key": 21,
+      "sha256": "8317bf8e42fd99587b6a33989a81ab0f48d1461a9ca9dc9460dabb97f82a3f47"
+    },
+    "sampling_enrollment": {
+      "rows": 84335,
+      "maximum_key": 84335,
+      "sha256": "0d3fd6dd09d4486b1d26b39e23e4b24f9c7b103232c35bda34dc506dc3cc3b87"
+    },
+    "observation_jobs": {
+      "rows": 205121,
+      "maximum_key": 205121,
+      "sha256": "4dd09d37a5a36e9088cc3ccd933e383dc3a6afc4dca248100d4c8acb025ba424"
+    },
+    "opportunity_candidates": {
+      "rows": 84335,
+      "maximum_key": 84335,
+      "sha256": "079fd23654e26cc56c4d96910ae46b86431cfd83e1d42161298a93d87a41c838"
+    }
+  },
+  "max_ids_before_startup": {
+    "opportunity_candidates": 84335,
+    "opportunity_signals": 209053,
+    "opportunity_observations": 330784,
+    "opportunity_policies": 21,
+    "observation_jobs": 205121,
+    "opportunity_alerts": 5052
+  },
+  "config_sha256": "b42366b81e86cbb31f250fdb4811152e6df7315e206a7182e669ab39c656ba6c"
+}

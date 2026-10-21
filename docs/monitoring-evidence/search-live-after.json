@@ -1,0 +1,20 @@
+[
+  {
+    "query_type": "exact_contract",
+    "http_status": 200,
+    "seconds": 0.56,
+    "matching_total": 1,
+    "ids": [
+      1
+    ],
+    "detail": null
+  },
+  {
+    "query_type": "unmatched_text",
+    "http_status": 503,
+    "seconds": 5.057,
+    "matching_total": null,
+    "ids": [],
+    "detail": "C\u0103utarea a dep\u0103\u0219it limita de execu\u021bie. Folose\u0219te adresa exact\u0103 a contractului sau o c\u0103utare mai precis\u0103."
+  }
+]

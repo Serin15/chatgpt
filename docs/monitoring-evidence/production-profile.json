@@ -1,0 +1,41 @@
+{
+  "data": "read-only production database; no providers mocked or records changed",
+  "at_utc": "2026-10-21T15:48:39.184420+00:00",
+  "summary": {
+    "version": "bounded-background-v1",
+    "due": 70018,
+    "dispatchable_due": 30918,
+    "paused_due": 39100,
+    "not_enriched": 0,
+    "oldest_due_delay_seconds": 264598,
+    "dispatchable_oldest_due_delay_seconds": 172404,
+    "background_watch_hours": 48,
+    "active_watch_seconds": 900,
+    "counts_by_state": {
+      "active": {
+        "candidates": 243,
+        "due": 141
+      },
+      "background": {
+        "candidates": 34148,
+        "due": 30393
+      },
+      "followup": {
+        "candidates": 4052,
+        "due": 384
+      },
+      "paused": {
+        "candidates": 45698,
+        "due": 39100
+      }
+    },
+    "history_preserved": true,
+    "capacity_note": "Raw due totals retain paused background candidates. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown."
+  },
+  "summary_seconds": 0.329,
+  "active_query_seconds": 0.217,
+  "active_candidates_returned": 120,
+  "states": [
+    "active"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "at_utc": "2026-10-21T17:05:19.234954+00:00",
+  "data": "pre-restart restored backup compared with normal live database; no injected records",
+  "checks": {
+    "opportunity_signals": {
+      "original_rows_unchanged": 208684,
+      "columns_compared": [
+        "id",
+        "candidate_id",
+        "observation_id",
+        "at",
+        "kind",
+        "verdict",
+        "policy_id",
+        "payload"
+      ],
+      "sha256": "dcdcb9e121aa5d823262b979dd1a77c6834b8b1323db5ea744712c0695659d85"
+    },
+    "opportunity_policies": {
+      "original_rows_unchanged": 20,
+      "columns_compared": [
+        "id",
+        "sha256",
+        "at",
+        "payload"
+      ],
+      "sha256": "b42cf3f85cef57a53f77cbad6210894036b285fe6a9ec56fe244be307472b466"
+    },
+    "opportunity_observations": {
+      "original_rows_unchanged": 330391,
+      "columns_compared": [
+        "id",
+        "candidate_id",
+        "at",
+        "status",
+        "payload"
+      ],
+      "sha256": "c664169172864f4e87d70baccb364183f07e310f031000bc251b1b2b9397f6fd"
+    },
+    "snapshots": {
+      "original_rows_unchanged": 328105,
+      "columns_compared": [
+        "id",
+        "address",
+        "at",
+        "market",
+        "security",
+        "analysis"
+      ],
+      "sha256": "07c850e93a566ec724cb94495271b8780f07fbb640306095cb148162641dd962"
+    },
+    "sampling_enrollment": {
+      "original_rows_unchanged": 84205,
+      "columns_compared": [
+        "candidate_id",
+        "at",
+        "control_member",
+        "provenance"
+      ],
+      "sha256": "48425ff2a9aad0e5c11ec3d7b07df6a3b16aed56d882f7772d93e59d6502c7ea"
+    },
+    "forward_evaluation_protocols": {
+      "original_rows_unchanged": 4,
+      "columns_compared": [
+        "policy_id",
+        "declared_at",
+        "test_from",
+        "payload"
+      ],
+      "sha256": "40a343e5a1a3458c2a85deee8e31d72e9e54bc97838c33c4401bdf5d09d65fd1"
+    },
+    "opportunity_candidates": {
+      "original_rows_unchanged": 84205,
+      "columns_compared": [
+        "id",
+        "chain",
+        "contract",
+        "pool",
+        "discovered_at",
+        "ingested_at",
+        "discovery",
+        "eligible",
+        "exclusion_reason"
+      ],
+      "sha256": "52a1222a8d5f50e4716bb2d838116ade9c43528c6513a07f40439aa5405cd7f4"
+    },
+    "observation_jobs": {
+      "original_rows_unchanged": 204759,
+      "columns_compared": [
+        "id",
+        "candidate_id",
+        "signal_id",
+        "phase",
+        "horizon_seconds",
+        "due_at",
+        "deadline_at",
+        "selected",
+        "control_member"
+      ],
+      "sha256": "e3bbed701e9fa775b3c7cb4663b7b71544790ccf7abea7ba0f7944d060a38ac8"
+    },
+    "opportunity_outcomes": {
+      "terminal_original_rows_unchanged": 371726
+    },
+    "routed_outcomes": {
+      "terminal_original_rows_unchanged": 372791
+    }
+  },
+  "history_preserved": true,
+  "new_records_allowed": true,
+  "original_deadlines_and_control_membership_unchanged": true
+}

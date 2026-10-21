@@ -1,0 +1,12 @@
+{
+  "compared_to": "0b15864cd2dc8f05902000b2865b033f8f05de97",
+  "all_byte_identical": true,
+  "sha256": {
+    "app/paper.py": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+    "app/jupiter.py": "ea9c2c741cbf4176bb189f889f3bb60beb6364a63bc948cb483ecc4504524d14",
+    "app/opportunity_routes.py": "026402aa1cacbb9f0e50e7884a5a3d8c5d48d7281dd3ce7b2b9a533f6b8573b4",
+    "app/opportunity_outcomes.py": "2cd2a11a8328a0c508375882b265bb920376fec54fce8362e6d40360b1c43e21",
+    "app/analysis.py": "9a5576fcfd399c0eefd104d93cb1e009d7f1edf821680009122483157927fa56",
+    "app/models.py": "a93eeb27712b6fe42e9a3b617856d767e2b8a8b810646c5d236d602135b50cb1"
+  }
+}

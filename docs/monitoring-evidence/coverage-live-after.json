@@ -1,0 +1,119 @@
+{
+  "data": "normal running application; no intercepted responses or injected state",
+  "requests": [
+    {
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.028,
+      "health": {
+        "application": "ok",
+        "app_id": "pulse_crypto_research",
+        "version": "0.16.0",
+        "instance_id": "8d14ec2aa3dc43af006e08dc",
+        "live_execution": false
+      }
+    },
+    {
+      "path": "/api/opportunities/coverage",
+      "status": 200,
+      "seconds": 0.012,
+      "generated_at": "2026-10-21T16:51:50.610164+00:00",
+      "report_cache": {
+        "served_from_cache": true,
+        "calculated_at": "2026-10-21T16:51:50.610164+00:00",
+        "refresh": {
+          "state": "ok",
+          "at": "2026-10-21T16:51:51.167539+00:00"
+        }
+      },
+      "monitoring": {
+        "version": "bounded-background-v1",
+        "due": 70931,
+        "dispatchable_due": 30418,
+        "paused_due": 40513,
+        "promised_due_candidates": 34,
+        "promised_due_outside_periodic_queue": 33,
+        "not_enriched": 28,
+        "oldest_due_delay_seconds": 268324,
+        "dispatchable_oldest_due_delay_seconds": 172409,
+        "background_watch_hours": 48,
+        "active_watch_seconds": 900,
+        "counts_by_state": {
+          "active": {
+            "candidates": 48,
+            "due": 32
+          },
+          "awaiting_first_observation": {
+            "candidates": 28,
+            "due": 28
+          },
+          "background": {
+            "candidates": 33681,
+            "due": 29989
+          },
+          "followup": {
+            "candidates": 3988,
+            "due": 369
+          },
+          "paused": {
+            "candidates": 46771,
+            "due": 40513
+          }
+        },
+        "history_preserved": true,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown."
+      }
+    },
+    {
+      "path": "/api/opportunities/coverage",
+      "status": 200,
+      "seconds": 0.028,
+      "generated_at": "2026-10-21T16:51:50.610164+00:00",
+      "report_cache": {
+        "served_from_cache": true,
+        "calculated_at": "2026-10-21T16:51:50.610164+00:00",
+        "refresh": {
+          "state": "ok",
+          "at": "2026-10-21T16:51:51.167539+00:00"
+        }
+      },
+      "monitoring": {
+        "version": "bounded-background-v1",
+        "due": 70931,
+        "dispatchable_due": 30418,
+        "paused_due": 40513,
+        "promised_due_candidates": 34,
+        "promised_due_outside_periodic_queue": 33,
+        "not_enriched": 28,
+        "oldest_due_delay_seconds": 268324,
+        "dispatchable_oldest_due_delay_seconds": 172409,
+        "background_watch_hours": 48,
+        "active_watch_seconds": 900,
+        "counts_by_state": {
+          "active": {
+            "candidates": 48,
+            "due": 32
+          },
+          "awaiting_first_observation": {
+            "candidates": 28,
+            "due": 28
+          },
+          "background": {
+            "candidates": 33681,
+            "due": 29989
+          },
+          "followup": {
+            "candidates": 3988,
+            "due": 369
+          },
+          "paused": {
+            "candidates": 46771,
+            "due": 40513
+          }
+        },
+        "history_preserved": true,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown."
+      }
+    }
+  ]
+}

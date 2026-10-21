@@ -1,0 +1,461 @@
+{
+  "data": "75 normal API reads across the report refresh; real database, no response interception",
+  "all_timestamps_match_content": true,
+  "calculation_versions": [
+    "2026-10-21T17:21:24.195945+00:00",
+    "2026-10-21T17:22:42.499899+00:00"
+  ],
+  "max_latency_seconds": 1.1676,
+  "requests": [
+    {
+      "status": 200,
+      "seconds": 0.0313,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0183,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0373,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0537,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0962,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1662,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.018,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0157,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0094,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1527,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0203,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0076,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0143,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0119,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0098,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0356,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0137,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0263,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0718,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0132,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0128,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.7614,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.796,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 1.1676,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0303,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1005,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.013,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.156,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0099,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0584,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1326,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0834,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.3067,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0217,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0078,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1607,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.2905,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1129,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.009,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0395,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0072,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.01,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0151,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0096,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.3131,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0329,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.1553,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0104,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.2356,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0316,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.2236,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.016,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.2771,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0125,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0275,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0163,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0223,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0178,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0063,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.024,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0117,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0073,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0094,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.3499,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0083,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0109,
+      "generated_at": "2026-10-21T17:21:24.195945+00:00",
+      "refresh_state": "running"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0084,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0524,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0072,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0111,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0054,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.009,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0093,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0081,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    },
+    {
+      "status": 200,
+      "seconds": 0.0086,
+      "generated_at": "2026-10-21T17:22:42.499899+00:00",
+      "refresh_state": "ok"
+    }
+  ]
+}

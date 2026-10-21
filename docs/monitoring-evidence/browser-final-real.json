@@ -1,0 +1,15 @@
+{
+  "data": "normal application; no response interception or injected data",
+  "js_errors": [],
+  "http_5xx": [],
+  "stored_outcome_visible": true,
+  "result_rows": [
+    "Semnal 209593 · 5m · exit_unavailable · PnL — · MFE observat 0.00% · MAE 0.00%",
+    "Semnal 209593 · 60m · pending · PnL — · MFE observat 0.00% · MAE -97.15%",
+    "Semnal 209593 · 1440m · pending · PnL — · MFE observat 0.00% · MAE -97.15%",
+    "Semnal 209593 · 5m · exit_unavailable · PnL virtual — · Rejected: Security/liquidity screening unavailable or rejected",
+    "Semnal 209593 · 60m · pending · PnL virtual —",
+    "Semnal 209593 · 1440m · pending · PnL virtual —"
+  ],
+  "mobile_no_overflow": true
+}

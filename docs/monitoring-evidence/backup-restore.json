@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-10-21T15:59:10.790886+00:00",
+  "data": "normal production data; offline backup and actual restore; no simulated records",
+  "backup_name": "pulse-2026-10-21T155511.334998-0000-ddf918ff.zip",
+  "backup_bytes": 677057132,
+  "backup_sha256": "144fd1ed2b7ee423edae646b7f4fcfaa24913735caebe1d602f07a8f867955cd",
+  "backup_restore_verified": true,
+  "logical_history_identical": true,
+  "tables_verified": 59,
+  "rows_verified": 2399283,
+  "max_ids_before_startup": {
+    "opportunity_candidates": 84205,
+    "opportunity_signals": 208684,
+    "opportunity_observations": 330391,
+    "opportunity_policies": 20,
+    "observation_jobs": 204759,
+    "opportunity_alerts": 5048
+  },
+  "previous_policy_id": 20,
+  "config_sha256": "b42366b81e86cbb31f250fdb4811152e6df7315e206a7182e669ab39c656ba6c",
+  "disk_free_after_restore": 5713498112
+}
