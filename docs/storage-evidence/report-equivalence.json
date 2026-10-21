@@ -1,0 +1,34 @@
+{
+  "day_utc": "2026-10-16",
+  "totals_before": {
+    "discovered": 13660,
+    "eligible": 13660,
+    "excluded": 0,
+    "first_evaluations": 13659,
+    "eligible_without_first_evaluation": 1,
+    "security_pass_at_first_evaluation": 454,
+    "liquidity_pass_at_first_evaluation": 465,
+    "selected_at_first_evaluation": 276,
+    "opportunity_alerts": 390,
+    "risk_alerts": 325,
+    "alerts_displayed_in_app": 46
+  },
+  "totals_after": {
+    "discovered": 13660,
+    "eligible": 13660,
+    "excluded": 0,
+    "first_evaluations": 13659,
+    "eligible_without_first_evaluation": 1,
+    "security_pass_at_first_evaluation": 454,
+    "liquidity_pass_at_first_evaluation": 465,
+    "selected_at_first_evaluation": 276,
+    "opportunity_alerts": 390,
+    "risk_alerts": 325,
+    "alerts_displayed_in_app": 46
+  },
+  "differing_paths": [
+    ".generated_at"
+  ],
+  "only_report_clock_changed": true,
+  "normalized_report_sha256": "d0d0b40743a290946dddc507ab0d99da34e4b90f4009ff66181c4a56a76b7329"
+}

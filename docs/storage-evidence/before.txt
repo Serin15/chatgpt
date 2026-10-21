@@ -1,0 +1,102 @@
+F.F...                                                                   [100%]
+=================================== FAILURES ===================================
+______ test_archived_baseline_remains_readable_in_sql_and_readonly_report ______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f8f0b981e80>, <app.opportunities.Opportunities object at 0x7f8f0b0ff440>)
+
+    def test_archived_baseline_remains_readable_in_sql_and_readonly_report(client_engine):
+        client, engine = client_engine
+        c, cutoff = cold_history(engine)
+        before = daily_report(engine)
+        history = engine.history(c["id"])
+        manifest = logical_manifest(engine.store.path)
+        run = archive_database(engine.store.path, cutoff)
+        assert run["tables"]["opportunity_observations"]["rows_compressed"] == 2
+        assert engine.history(c["id"]) == history
+        assert logical_manifest(engine.store.path) == manifest
+>       after = daily_report(engine)
+                ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_storage.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+engine = <app.opportunities.Opportunities object at 0x7f8f0b0ff440>
+day = datetime.date(2026, 10, 21)
+
+    def daily_report(engine, day: date | None = None):
+        today = datetime.now(UTC).date()
+        day = day or today
+        if day > today:
+            raise ValueError("Alege ziua UTC curentă sau o zi trecută.")
+        start = datetime.combine(day, datetime.min.time(), UTC)
+        end = start + timedelta(days=1)
+        at = utcnow()
+        now = epoch(at)
+        params = {"start": start.timestamp(), "end": end.timestamp(), "at": now}
+        cohort = """WITH cohort AS (
+            SELECT * FROM opportunity_candidates WHERE chain='solana'
+            AND research_epoch(discovered_at)>=:start
+            AND research_epoch(discovered_at)<:end
+            AND research_epoch(discovered_at)<=:at) """
+        with engine.store.connect() as db:
+            db.execute("BEGIN")
+            db.create_function("research_epoch", 1, report_epoch, deterministic=True)
+>           candidates = db.execute(
+                cohort
+                + """
+                SELECT c.id,c.contract,c.pool,c.eligible,s.id AS signal_id,s.verdict,s.at AS signal_at,s.policy_id,
+                json_extract(s.payload,'$.policy.payload.observation_rules.max_snapshot_age') AS reference_max_age,
+                json_extract(s.payload,'$.policy.payload.forward_quote_window_version') AS reference_quote_window_version,
+                b.id AS initial_observation_id,b.at AS initial_at,
+                json_extract(b.payload,'$.market.observed_at') AS initial_quote_at,
+                json_extract(b.payload,'$.market.price_usd') AS initial_price_usd,
+                json_extract(b.payload,'$.market.liquidity_usd') AS initial_liquidity_usd,
+                json_extract(b.payload,'$.market.address') AS initial_contract,
+                json_extract(b.payload,'$.market.pair_address') AS initial_pool,
+                json_extract(b.payload,'$.source_kind') AS initial_source_kind,
+                json_extract(s.payload,'$.policy.at') AS policy_at,
+                json_extract(s.payload,'$.policy.payload.config') AS config,
+                json_extract(s.payload,'$.security_filter_passed') AS security_pass,
+                json_extract(s.payload,'$.liquidity_filter_passed') AS liquidity_pass,
+                e.control_member,e.provenance,e.at AS enrolled_at,
+                EXISTS(SELECT 1 FROM opportunity_alerts a WHERE a.signal_id=s.id AND a.severity!='critical'
+                       AND research_epoch(a.at)<=:at) AS selected
+                FROM cohort c LEFT JOIN opportunity_signals s ON s.id=(
+                    SELECT min(id) FROM opportunity_signals WHERE candidate_id=c.id AND kind='baseline'
+                    AND research_epoch(at)<=:at)
+                LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id
+                LEFT JOIN opportunity_observations b ON b.id=s.observation_id AND b.candidate_id=c.id""",
+                params,
+            ).fetchall()
+E           sqlite3.OperationalError: malformed JSON
+
+app/daily_research.py:79: OperationalError
+_____________ test_offline_maintenance_refuses_running_application _____________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f8f0b0feb10>, <app.opportunities.Opportunities object at 0x7f8f0b131f40>)
+
+    def test_offline_maintenance_refuses_running_application(client_engine):
+        _, engine = client_engine
+>       with pytest.raises(ValueError, match="Close MemeScope"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_storage.py:66: Failed
+----------------------------- Captured stderr call -----------------------------
+Creating consistent backup before archival...
+Archiving research.sqlite3...
+Archiving news_paper/research.sqlite3...
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_storage.py::test_restore_rejects_paths_duplicates_and_existing_directory
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'research.sqlite3'
+    return self._open_to_write(zinfo, force_zip64=force_zip64)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_storage.py::test_archived_baseline_remains_readable_in_sql_and_readonly_report
+FAILED tests/test_storage.py::test_offline_maintenance_refuses_running_application
+2 failed, 4 passed, 2 warnings in 1.14s

@@ -123,6 +123,31 @@ reală nu este disponibilă sau executată de acest flux.
 
 ## Verificări
 
+Codul aplicației/testelor: `b27f4070b7a49367a68af4f94e91de230e8ad085`.
+Modificările ulterioare din această livrare documentează verificările.
+
+- **502 teste unitare/de integrare trecute**, 98,12 secunde local; un avertisment
+  existent de deprecare Starlette/httpx. [pytest.txt](storage-evidence/pytest.txt).
+- **28/28 scenarii Chromium trecute**, cu baze temporare și furnizori izolați:
+  [browser.json](storage-evidence/browser.json).
+- Ruff, sintaxa celor trei fișiere JS, `uv sync --frozen` și `git diff --check`:
+  trecute. Nu există dependențe noi.
+- Aplicația obișnuită, cu date reale: panoul stocării, dosarul candidatului 1
+  (inclusiv 7 observații comprimate), desktop/mobil, fără interceptări/stare
+  injectată, fără erori JS sau HTTP 500 în verificare. Conturi manuale $500/$100,
+  zero ordine: [browser-live.json](storage-evidence/browser-live.json).
+- După repararea blocării, **10 confirmări normale de alertă cu HTTP 200** și
+  zero `database is locked` în fereastra observată:
+  [backlog-live.json](storage-evidence/backlog-live.json). Acesta este un eșantion,
+  nu o garanție că toate condițiile viitoare au fost testate.
+- Semnalele, politicile, configurația și protocolul inițial sunt verificate și
+  după reluarea colectării:
+  [after-restart-preservation.json](storage-evidence/after-restart-preservation.json).
+- CI nativ Linux/Windows: [39550431631](https://github.com/Serin15/chatgpt/actions/runs/39550431631).
+  Rezultatul curent este păstrat în `storage-evidence/ci.json`; o rulare încă în
+  curs nu reprezintă validare Windows. Include launcherul de arhivare într-o
+  cale cu spații și verificarea restaurării.
+
 Dovezile versiunii sunt în `storage-evidence/`. Testele de piață din suită folosesc
 furnizori simulați; SQLite, ZIP, compresia și restaurarea sunt reale. Verificarea
 separată pe baza cloud folosește istoricul colectat efectiv, fără cotații inventate.
@@ -175,3 +200,35 @@ Limitări păstrate: arhivarea nu oprește creșterea tuturor tabelelor, backupu
 nu protejează la pierderea discului, iar compactarea întrerupe colectarea. Pentru
 următoarea etapă: colectare prospectivă cu politica fixată, raport de completitudine
 și rezultate după costuri. Nu există încă dovadă statistică pentru 10x/100x.
+
+## Starea funcțiilor și ce rămâne
+
+| Funcție | Stare |
+| --- | --- |
+| Compresie fără pierderi, compactare și integritatea istoricului | Implementate și verificate pe baza reală Linux |
+| Backup și restaurare, înainte și după compresie | Implementate și verificate prin restaurarea efectivă a ambelor baze |
+| Dosare, rapoarte vechi și export read-only pe date comprimate | Implementate și verificate, inclusiv pe cohorta reală de 13.660 candidați |
+| Capacitate, avertizare de spațiu și UI mobil | Implementate și verificate |
+| Cale SQL nativă pentru text; decoder numai pentru BLOB | Implementată și verificată prin regresie și măsurători reale |
+| Eliberarea blocării între calculele rezultatelor | Implementată, regresie trecută și confirmări HTTP 200 observate în aplicație |
+| Launcher de arhivare nativ Windows | Implementat; rezultatul CI stabilește verificarea nativă, separat de Linux |
+| Arhivare/eliminare automată a backupurilor | Neimplementată; operația este manuală, fără ștergeri automate |
+| Avantaj predictiv și rezultate pe testul viitor | Neverificate; necesită timp și date prospective suficiente |
+
+Priorități rămase:
+
+1. **Completitudinea colectării.** Snapshotul de stare păstrează aproximativ
+   61.000 de reevaluări de fundal restante, cu bugete API limitate. Toți candidații
+   noi din acel snapshot au o primă observație, dar aceasta nu garantează
+   follow-up sau ieșiri la timp. Arhivarea nu repară această capacitate de colectare.
+   Urmează evaluarea duratei monitorizării active și a bugetelor, fără eliminarea
+   candidaților nereușiți din istoric sau din comparații.
+2. **Test prospectiv și rapoarte mari.** Politica finală 20 este declarată la
+   21 octombrie 05:34:30 UTC; testul ei începe la **22 octombrie 05:34:30 UTC
+   (08:34 în România)**. Protocoalele 17–19 rămân intacte. Păstrează politica
+   fixată și colectarea pornită; nu modifica cutoff-ul pentru a obține rezultate.
+   Rapoartele globale pot rămâne costisitoare pe istoricul mare; următoarea
+   optimizare trebuie să păstreze toți numitorii și proveniența datelor.
+3. **Backup pe alt volum.** Copiile locale sunt verificate, dar nu protejează la
+   pierderea întregului disc. Nu s-a configurat o destinație externă și nu s-au
+   șters copii pentru a afișa artificial mai mult spațiu liber.

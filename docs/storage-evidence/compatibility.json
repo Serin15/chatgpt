@@ -1,0 +1,11 @@
+{
+  "execution_source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+  "financial_files": {
+    "paper.py": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+    "jupiter.py": "ea9c2c741cbf4176bb189f889f3bb60beb6364a63bc948cb483ecc4504524d14",
+    "opportunity_routes.py": "026402aa1cacbb9f0e50e7884a5a3d8c5d48d7281dd3ce7b2b9a533f6b8573b4",
+    "opportunity_rules.py": "2ce2a952e9948b55d3116dc6eb20c2ba60d522e8b4133644f941c7b46874a542"
+  },
+  "codec_version": 1,
+  "real_execution": false
+}

@@ -1,0 +1,41 @@
+{
+  "opportunity_signals": {
+    "rows": 183375,
+    "sha256": "9baabb8f01a110a51e452f8c9bf5a029a78a4fc382809a0d2bad8bb9c161af33"
+  },
+  "opportunity_policies": {
+    "rows": 17,
+    "sha256": "a14453c2f5b14f19702e27002e3f34ee1aa83f68a09435461ea53a6567cb03f6"
+  },
+  "opportunity_config": {
+    "rows": 1,
+    "sha256": "f4deee2bb4bd9e5aba1be1c2c1586ac101775c1e54c92ae2764a7ac1b73216b1"
+  },
+  "forward_evaluation_protocols": {
+    "rows": 1,
+    "sha256": "0fcc223460553c0a7ccb4ec3eaed1f3139789e935342d0d01ba93657ac6bcac7"
+  },
+  "protocols": [
+    {
+      "policy_id": 17,
+      "declared_at": "2026-10-21T04:27:18.219994+00:00",
+      "test_from": "2026-10-22T04:27:18.219994+00:00"
+    },
+    {
+      "policy_id": 18,
+      "declared_at": "2026-10-21T05:23:55.916755+00:00",
+      "test_from": "2026-10-22T05:23:55.916755+00:00"
+    },
+    {
+      "policy_id": 19,
+      "declared_at": "2026-10-21T05:29:25.370778+00:00",
+      "test_from": "2026-10-22T05:29:25.370778+00:00"
+    },
+    {
+      "policy_id": 20,
+      "declared_at": "2026-10-21T05:34:30.545045+00:00",
+      "test_from": "2026-10-22T05:34:30.545045+00:00"
+    }
+  ],
+  "code_commit": "b27f4070b7a49367a68af4f94e91de230e8ad085"
+}

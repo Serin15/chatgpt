@@ -1,0 +1,14 @@
+{
+  "old_unconditional": {
+    "seconds": 0.14471892400251818,
+    "result": 57180
+  },
+  "native_text": {
+    "seconds": 0.05181434100086335,
+    "result": 57180
+  },
+  "conditional": {
+    "seconds": 0.04658745399865438,
+    "result": 57180
+  }
+}

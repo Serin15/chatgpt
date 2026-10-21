@@ -1,0 +1,19 @@
+{
+  "backup_name": "pulse-2026-10-21T052127.652444-0000-bf0be695.zip",
+  "bytes": 625837061,
+  "sha256": "613b24ae3aaf10a9cc2c193569938e260aa05078ba7d31901bc14dff553ab8c1",
+  "restored_all_logical_tables_identical": true,
+  "archive_run_metadata_identical": true,
+  "databases": {
+    "research.sqlite3": {
+      "tables": 51,
+      "rows": 2103290
+    },
+    "news_paper/research.sqlite3": {
+      "tables": 8,
+      "rows": 4900
+    }
+  },
+  "destination_was_new": true,
+  "temporary_restoration_cleaned_after_verification": true
+}

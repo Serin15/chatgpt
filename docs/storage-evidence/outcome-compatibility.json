@@ -1,0 +1,5 @@
+{
+  "outcome_calculation_ast_identical_after_removing_commit_calls": true,
+  "parent_commit": "6715e6d93767fedcc4d6b9ad64ec9265e0fe8bbf",
+  "changed": "transaction boundaries only; no formulas, gates, windows or observation selection changes"
+}

@@ -1,0 +1,84 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_plain_json_uses_sqlite_native_path_and_cold_json_still_decodes ______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f55f1a8b860>, <app.opportunities.Opportunities object at 0x7f55f19fda00>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f55f1a6b6b0>
+
+    def test_plain_json_uses_sqlite_native_path_and_cold_json_still_decodes(client_engine, monkeypatch):
+        from app.archive_codec import configure
+    
+        _, engine = client_engine
+        c, cutoff = cold_history(engine)
+        called = []
+    
+        def configure_without_plain_decode(db):
+            configure(db)
+            def only_binary(value):
+                if not isinstance(value, bytes):
+                    raise ValueError("Plain JSON must not cross the Python/SQLite boundary")
+                called.append(True)
+                return decode(value)
+            db.create_function("archive_text", 1, only_binary, deterministic=True)
+    
+        monkeypatch.setattr("app.store.configure", configure_without_plain_decode)
+>       assert engine.listing(ranked=True)["items"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_storage.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.opportunities.Opportunities object at 0x7f55f19fda00>, limit = 50
+before = None, ranked = True, query = '', verdict = 'all'
+
+    def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
+        now = time.time()
+        with self.store.connect() as db:
+            db.create_function(
+                "casefold", 1, lambda value: str(value or "").casefold(), deterministic=True
+            )
+            base = """
+                FROM opportunity_candidates c LEFT JOIN opportunity_observations o
+                ON o.id=(SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)
+                WHERE (:verdict='all' OR coalesce(json_extract(archive_text(o.payload),'$.decision.verdict'),'PENDING')=:verdict)
+                AND (:q='' OR instr(casefold(c.contract || ' ' ||
+                    coalesce(json_extract(c.discovery,'$.name'),'') || ' ' ||
+                    coalesce(json_extract(archive_text(o.payload),'$.market.name'),'') || ' ' ||
+                    coalesce(json_extract(archive_text(o.payload),'$.market.symbol'),'')),:q)>0)
+            """
+            params = {
+                "q": query.strip().casefold(),
+                "verdict": verdict,
+                "before": before,
+                "limit": limit + 1,
+                "now": datetime.fromtimestamp(now, UTC).isoformat(),
+                "fresh_from": datetime.fromtimestamp(
+                    now - self.service.settings.max_snapshot_age, UTC
+                ).isoformat(),
+            }
+            order = (
+                "coalesce(CASE WHEN julianday(json_extract(archive_text(o.payload),'$.market.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) AND julianday(json_extract(archive_text(o.payload),'$.security.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) THEN json_extract(archive_text(o.payload),'$.decision.rank_score') END,-1) DESC,c.id DESC"
+                if ranked
+                else "c.id DESC"
+            )
+            matching_total = db.execute("SELECT count(*) " + base, params).fetchone()[0]
+>           rows = db.execute(
+                "SELECT c.* "
+                + base
+                + " AND (:before IS NULL OR c.id<:before) ORDER BY "
+                + order
+                + " LIMIT :limit",
+                params,
+            ).fetchall()
+E           sqlite3.OperationalError: user-defined function raised exception
+
+app/opportunities.py:1050: OperationalError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_storage.py::test_plain_json_uses_sqlite_native_path_and_cold_json_still_decodes
+1 failed, 14 deselected, 1 warning in 0.72s

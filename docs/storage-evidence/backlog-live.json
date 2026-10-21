@@ -1,0 +1,72 @@
+{
+  "data": "normal live server after transaction fix",
+  "receipt_responses": [
+    {
+      "path": "/api/opportunities/alerts/4427/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4426/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4425/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4423/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4424/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4432/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4431/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4430/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4428/receipt",
+      "status": 200
+    },
+    {
+      "path": "/api/opportunities/alerts/4429/receipt",
+      "status": 200
+    }
+  ],
+  "http_500_responses": [],
+  "database_locked_errors": 0,
+  "opportunity_engine": {
+    "state": "running",
+    "at": "2026-10-21T05:36:57.194265+00:00",
+    "cycles": 4894,
+    "observed": 60,
+    "new_candidates": 3,
+    "errors": [],
+    "queue": {
+      "due": 61167,
+      "not_enriched": 0,
+      "oldest_due_delay_seconds": 242011,
+      "capacity_note": "Bounded API budget; queue delays can invalidate forward entry/exit windows. Missing observations remain unknown."
+    }
+  },
+  "routed_quotes": {
+    "state": "ok",
+    "at": "2026-10-21T05:37:39.977867+00:00",
+    "cycles": 6942,
+    "attempted": 0,
+    "ready": 0,
+    "errors": [],
+    "collector_cycle_at": "2026-10-21T05:37:30.605482+00:00",
+    "collector_budget": 4
+  },
+  "live_execution": false
+}

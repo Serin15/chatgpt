@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-21T05:12:40.395857+00:00",
+  "state": "ok",
+  "disk_free_bytes": 11671162880,
+  "disk_total_bytes": 33770192896,
+  "databases": [
+    {
+      "database": "research.sqlite3",
+      "file_bytes": 3845509120,
+      "logical_page_bytes": 3845509120,
+      "reusable_bytes": 0,
+      "wal_bytes": 0,
+      "last_archive": null
+    },
+    {
+      "database": "news_paper/research.sqlite3",
+      "file_bytes": 1011712,
+      "logical_page_bytes": 1011712,
+      "reusable_bytes": 0,
+      "wal_bytes": 0,
+      "last_archive": null
+    }
+  ],
+  "backup_count": 0,
+  "backup_bytes": 0,
+  "automatic_archival": false,
+  "history_deleted": false,
+  "archive_is_independent_backup": false
+}

@@ -1,0 +1,330 @@
+{
+  "backup": "pulse-2026-10-21T051351.445707-0000-4f704fce.zip",
+  "backup_restore_verified": true,
+  "logical_history_identical": true,
+  "runs": {
+    "research.sqlite3": {
+      "cutoff": "2026-10-18T05:15:55.801274+00:00",
+      "tables": {
+        "snapshots": {
+          "rows_compressed": 128071,
+          "original_payload_bytes": 237945971,
+          "stored_payload_bytes": 157186512
+        },
+        "opportunity_observations": {
+          "rows_compressed": 128558,
+          "original_payload_bytes": 675153450,
+          "stored_payload_bytes": 306672734
+        }
+      },
+      "codec": "memescope-zlib-sha256-v1"
+    },
+    "news_paper/research.sqlite3": {
+      "cutoff": "2026-10-18T05:15:55.801274+00:00",
+      "tables": {
+        "snapshots": {
+          "rows_compressed": 0,
+          "original_payload_bytes": 0,
+          "stored_payload_bytes": 0
+        }
+      },
+      "codec": "memescope-zlib-sha256-v1"
+    }
+  },
+  "manifests": {
+    "research.sqlite3": {
+      "account": {
+        "rows": 1,
+        "sha256": "fde506f02763c7e249ae8a652b0eeded50c49f89e7626337d15fd00abaebb0f0"
+      },
+      "ai_attempts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ai_configuration": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "alerts": {
+        "rows": 262,
+        "sha256": "db09f57fdd7dc26d63fd6539656c17e2402a86b5d9030d008428593d38c017e7"
+      },
+      "announcement_checks": {
+        "rows": 28,
+        "sha256": "ba2facfac28fc5a4f68e6540fd124b7277836970bb7affcf1b2780a7150e1709"
+      },
+      "announcement_documents": {
+        "rows": 2298,
+        "sha256": "9bdbda706ab09796a185399b1492a0c680e6e543ae8e2a32305b14583d81b7ae"
+      },
+      "asset_books": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "asset_observations": {
+        "rows": 61000,
+        "sha256": "ed2a93de43701dba28326c29d5913254970f5eaf3fe6c2586207c588e58fe710"
+      },
+      "asset_watch": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "assets": {
+        "rows": 27,
+        "sha256": "fac07c96a1a93b2f4c1c722186d9a0d42fb35e933d96b8705987a1aaa77604a5"
+      },
+      "auth_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "discovered_pools": {
+        "rows": 80007,
+        "sha256": "20c140f0bdc5284b1d006a7db343a2efa4a7feb5b26607cdfad9a8144a74ac16"
+      },
+      "discovery_runs": {
+        "rows": 4887,
+        "sha256": "9ef885b7541c9fe859d2575719904651e6619e87d82854f9571a41a84e27f79d"
+      },
+      "equity_observations": {
+        "rows": 4896,
+        "sha256": "41f47bb5ed87b5821f3ac486d6e697c26192ab91491464813fa10afecd546e7b"
+      },
+      "forward_evaluation_protocols": {
+        "rows": 1,
+        "sha256": "0fcc223460553c0a7ccb4ec3eaed1f3139789e935342d0d01ba93657ac6bcac7"
+      },
+      "fundamental_observations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "listing_schedules": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "narrative_research_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "news": {
+        "rows": 815,
+        "sha256": "d50f9336e94a677edc0a2b5a1e7a36f6de8b58bd39a424620208f3c0f4141d92"
+      },
+      "news_matches": {
+        "rows": 1240,
+        "sha256": "acf54fc35085db5ca65588c6d5311bbe2e0df8eefc5435b045a479dd6a1b2209"
+      },
+      "news_read": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "news_topics": {
+        "rows": 827,
+        "sha256": "faf98cd17f76b56e7999863189a46d18ce38e2379a7602b970bba3120e7671b5"
+      },
+      "observation_jobs": {
+        "rows": 178437,
+        "sha256": "9f4ec16096d26d50bcb3ee2f3eb80f25c4bdfe7a2c112bae41d0a1af9e09bdb7"
+      },
+      "opportunity_alerts": {
+        "rows": 4418,
+        "sha256": "a00ea6a4c528be2d845558e4c86b8111599c36e400d41f98122d81ea50841e6e"
+      },
+      "opportunity_candidates": {
+        "rows": 75201,
+        "sha256": "a8bfcbc26ce120c72d708e2b1fe7d5b655dfd5548094ec43fcd24cb78def7727"
+      },
+      "opportunity_config": {
+        "rows": 1,
+        "sha256": "f4deee2bb4bd9e5aba1be1c2c1586ac101775c1e54c92ae2764a7ac1b73216b1"
+      },
+      "opportunity_lease": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "opportunity_observations": {
+        "rows": 292890,
+        "sha256": "d660acf405aa7281b86f97a91b3442b5201bc20fbf3f9bd53b2539f6fd388e0a"
+      },
+      "opportunity_outcomes": {
+        "rows": 324522,
+        "sha256": "bab0708896b51485ae5ee96d2bda731578cb039621175695508dc15e855046b5"
+      },
+      "opportunity_policies": {
+        "rows": 17,
+        "sha256": "a14453c2f5b14f19702e27002e3f34ee1aa83f68a09435461ea53a6567cb03f6"
+      },
+      "opportunity_runtime": {
+        "rows": 1,
+        "sha256": "babdeb60459abde8ed51748df2167614907126a929d19455d803af3975133494"
+      },
+      "opportunity_signals": {
+        "rows": 183375,
+        "sha256": "9baabb8f01a110a51e452f8c9bf5a029a78a4fc382809a0d2bad8bb9c161af33"
+      },
+      "orders": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "positions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "research_evidence": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "routed_attempts": {
+        "rows": 12205,
+        "sha256": "ec4cb91e267f66f35d62c337315ab8087ceb68e3bd1d2507623d9e1eac2726b2"
+      },
+      "routed_experiments": {
+        "rows": 108174,
+        "sha256": "00414f802dc6a5628e3b8e516674e0e8e3f756f549d70fde082ab43fb7ccfe86"
+      },
+      "routed_outcomes": {
+        "rows": 324522,
+        "sha256": "c504afa6edc64193c5d1f56a7c4b52760a87963f7afe6e7a090fe329a2f3764c"
+      },
+      "routed_runtime": {
+        "rows": 1,
+        "sha256": "4d91e22cd65b497c8a736c45c19f5045dd6c06501fe7cac4d38b96543fbb493c"
+      },
+      "sampling_enrollment": {
+        "rows": 75201,
+        "sha256": "0682922c4a7108c66594ab544ec7a0d4f1c1df3328caefaa93d0452b0719e53c"
+      },
+      "sampling_metadata": {
+        "rows": 1,
+        "sha256": "cd5abeb164b8ba0309351a233f8bf24c386067fce4d3def4a8cd2daace4d57d4"
+      },
+      "schema_migrations": {
+        "rows": 1,
+        "sha256": "8067e390f39c69ce5f51a962ada94311378308651b689df66fcb4bfd841451d8"
+      },
+      "signals": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "snapshots": {
+        "rows": 290817,
+        "sha256": "11d4da0074a418dcada8cfd0632163e2b929a5b91a1871cd978c02fcdd8ad526"
+      },
+      "source_approvals": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_contracts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_documents": {
+        "rows": 2298,
+        "sha256": "e700cd271d31b2c31f37f52a5170486dde3151a79fb6e041fc14fcac2d0efbac"
+      },
+      "story_pool_lookups": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "tokens": {
+        "rows": 74919,
+        "sha256": "18b029762066e3446a82879b9b61447df1564c9f341a83212220f5702d0fcef2"
+      },
+      "tracked_wallets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "wallet_activity": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "news_paper/research.sqlite3": {
+      "account": {
+        "rows": 1,
+        "sha256": "6b7b7bfa89c8a12216532289385f49da8a59a785b45fff6466879b3136946cbe"
+      },
+      "equity_observations": {
+        "rows": 4899,
+        "sha256": "4476932c3d2f969d578b63522dff489833a09e19ce47a0254b6054922c31ca65"
+      },
+      "orders": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "positions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "schema_migrations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "signals": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "snapshots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "tokens": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "capacity": {
+    "at": "2026-10-21T05:20:18.827558+00:00",
+    "state": "ok",
+    "disk_free_bytes": 11661176832,
+    "disk_total_bytes": 33770192896,
+    "databases": [
+      {
+        "database": "research.sqlite3",
+        "file_bytes": 3514163200,
+        "logical_page_bytes": 3514163200,
+        "reusable_bytes": 0,
+        "wal_bytes": 0,
+        "last_archive": {
+          "cutoff": "2026-10-18T05:15:55.801274+00:00",
+          "tables": {
+            "snapshots": {
+              "rows_compressed": 128071,
+              "original_payload_bytes": 237945971,
+              "stored_payload_bytes": 157186512
+            },
+            "opportunity_observations": {
+              "rows_compressed": 128558,
+              "original_payload_bytes": 675153450,
+              "stored_payload_bytes": 306672734
+            }
+          },
+          "codec": "memescope-zlib-sha256-v1"
+        }
+      },
+      {
+        "database": "news_paper/research.sqlite3",
+        "file_bytes": 1015808,
+        "logical_page_bytes": 1015808,
+        "reusable_bytes": 0,
+        "wal_bytes": 0,
+        "last_archive": {
+          "cutoff": "2026-10-18T05:15:55.801274+00:00",
+          "tables": {
+            "snapshots": {
+              "rows_compressed": 0,
+              "original_payload_bytes": 0,
+              "stored_payload_bytes": 0
+            }
+          },
+          "codec": "memescope-zlib-sha256-v1"
+        }
+      }
+    ],
+    "backup_count": 1,
+    "backup_bytes": 341242669,
+    "automatic_archival": false,
+    "history_deleted": false,
+    "archive_is_independent_backup": false
+  }
+}
