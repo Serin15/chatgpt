@@ -29,6 +29,24 @@ vechi și granițele lor dezvoltare/testare nu se modifică. Pentru politica nou
 se aplică o nouă declarare prospectivă; datele de dezvoltare nu validează
 profitabilitatea viitoare.
 
+## Bugetul verificărilor de securitate
+
+Rularea reală a scos la iveală un al patrulea blocaj: verificările pentru
+candidații procesați primii puteau consuma tot bugetul înainte de descoperirile
+noi. Se rezervă acum până la `ceil(security_budget / 3)` apeluri pentru
+candidații aflați în fereastra activă sau încă fără prima observație. Cu buget de
+un singur apel, rezervarea alternează între cicluri. Locurile eliberate pot fi
+folosite de candidații procesați ulterior. Unele pot rămâne nefolosite dacă
+ultimii candidați nu au nevoie de verificare sau nu au lichiditate suficientă.
+
+Ordinea cotațiilor și termenele observațiilor promise rămân respectate. Nu se
+mărește bugetul total și nu se relaxează verificarea de securitate, vechimea
+acceptată sau filtrele de lichiditate. Un apel eșuat consumă un loc și lasă
+dovezile necunoscute. `status.security_allocation` raportează apelurile încercate
+pentru candidații timpurii și pentru ceilalți; nu reprezintă numărul de tokenuri
+sigure sau de verificări complete. Schimbarea are propria versiune în politica
+înghețată și necesită evaluare prospectivă separată.
+
 ## Protecții
 
 - Prima încercare de colectare este obligatorie chiar dacă furnizorul a fost

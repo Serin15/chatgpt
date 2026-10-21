@@ -162,6 +162,8 @@ class Opportunities:
                 "monitoring_version": lifecycle.VERSION,
                 "background_watch_hours": config.background_watch_hours,
                 "open_promises_override_background_age": True,
+                "security_allocation_version": lifecycle.SECURITY_ALLOCATION_VERSION,
+                "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
             },
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
@@ -608,10 +610,13 @@ class Opportunities:
                 added = self.ingest(policy)
                 due = self.due(config)
                 self.sampling.dispatch(due)
-                security_left = config.security_budget
+                security_budget = lifecycle.SecurityBudget(
+                    due, config, self.status.get("cycles", 0)
+                )
                 fallback_left = 3
                 activity_left = 1
                 async for candidate, market in self.market_candidates(due, errors):
+                    security_budget.visit(candidate["id"])
                     with self.store.connect() as db:
                         renewed = db.execute(
                             "UPDATE opportunity_lease SET expires_at=? WHERE id=1 AND owner=?",
@@ -660,10 +665,9 @@ class Opportunities:
                             security["observed_at"]
                         ) <= self.service.settings.max_snapshot_age - self.security_reserve(config):
                             security = None
-                            if security_left and market["liquidity_usd"] >= float(
+                            if market["liquidity_usd"] >= float(
                                 self.service.settings.min_liquidity
-                            ):
-                                security_left -= 1
+                            ) and security_budget.take(candidate["id"]):
                                 try:
                                     security = await asyncio.wait_for(
                                         self.service.providers.security(candidate["contract"]), 30
@@ -812,6 +816,7 @@ class Opportunities:
                     "queue": self.queue_health(),
                     "collection": await self._background(self.sampling.coverage),
                     "routed_quotes": self.routes.status,
+                    "security_allocation": security_budget.report(),
                 }
                 with self.store.connect() as db:
                     db.execute(
@@ -1049,7 +1054,9 @@ class Opportunities:
                 params,
             ).fetchall()
             items = []
-            monitoring = lifecycle.candidates(self, db, config, [r["id"] for r in rows[:limit]], now)
+            monitoring = lifecycle.candidates(
+                self, db, config, [r["id"] for r in rows[:limit]], now
+            )
             for r in rows[:limit]:
                 latest = db.execute(
                     "SELECT * FROM opportunity_observations WHERE candidate_id=? ORDER BY id DESC LIMIT 1",

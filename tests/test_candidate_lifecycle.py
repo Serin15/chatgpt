@@ -28,7 +28,7 @@ def observed(engine, number, age, due_age=10):
             "UPDATE observation_jobs SET status='missed',reason='fixture_prior_worker_gap' WHERE candidate_id=?",
             (c["id"],),
         )
-    return c
+    return engine.detail(c["id"])
 
 
 def test_completed_old_candidate_stops_periodic_polling_without_losing_history(client_engine):
@@ -284,3 +284,89 @@ def test_unsupported_future_or_expired_story_cannot_reactivate(client_engine, ev
         )
     assert engine.detail(c["id"])["monitoring"]["state"] == "paused"
     assert engine.due(engine.config()) == []
+
+
+def test_old_promises_cannot_consume_all_security_checks_before_new_discoveries(
+    client_engine, monkeypatch
+):
+    import asyncio
+
+    from tests.conftest import security
+
+    _, engine = client_engine
+    now = time.time()
+    old = [observed(engine, 15100 + i, 86400) for i in range(3)]
+    fresh = [candidate(engine, 15200 + i, now) for i in range(2)]
+    queue = [c | {"collection_lane": "protected_followup"} for c in old] + [
+        c | {"collection_lane": "discovery"} for c in fresh
+    ]
+    monkeypatch.setattr(engine, "due", lambda cfg: queue)
+    engine.configure(engine.config().model_copy(update={"security_budget": 2}))
+    calls = []
+
+    async def checked(address):
+        calls.append(address)
+        return security()
+
+    monkeypatch.setattr(engine.service.providers, "security", checked)
+    result = asyncio.run(engine.cycle(False))
+    assert len(calls) == 2, "The existing total API budget must not increase"
+    assert any(c["contract"] in calls for c in fresh), calls
+    assert any(c["contract"] in calls for c in old), calls
+    assert any(engine.history(c["id"])[-1]["security"]["rpc"] for c in fresh)
+    assert result["observed"] == len(queue)
+
+
+@pytest.mark.parametrize("cycles,expected_lane", [(0, "early"), (1, "other")])
+def test_single_security_slot_is_shared_across_cycles(
+    client_engine, monkeypatch, cycles, expected_lane
+):
+    import asyncio
+
+    from tests.conftest import security
+
+    _, engine = client_engine
+    old = observed(engine, 15300, 86400)
+    fresh = candidate(engine, 15301, time.time())
+    monkeypatch.setattr(engine, "due", lambda cfg: [old, fresh])
+    engine.configure(engine.config().model_copy(update={"security_budget": 1}))
+    engine.status["cycles"] = cycles
+    calls = []
+
+    async def checked(address):
+        calls.append(address)
+        return security()
+
+    monkeypatch.setattr(engine.service.providers, "security", checked)
+    result = asyncio.run(engine.cycle(False))
+    assert calls == [fresh["contract"] if expected_lane == "early" else old["contract"]]
+    assert result["security_allocation"]["used"] == 1
+    assert result["security_allocation"][expected_lane + "_used"] == 1
+
+
+def test_failed_security_calls_consume_budget_and_never_create_verified_evidence(
+    client_engine, monkeypatch
+):
+    import asyncio
+
+    from app.errors import ProviderError
+
+    _, engine = client_engine
+    rows = [observed(engine, 15400, 86400), candidate(engine, 15401, time.time())]
+    monkeypatch.setattr(engine, "due", lambda cfg: rows)
+    engine.configure(engine.config().model_copy(update={"security_budget": 2}))
+    calls = []
+
+    async def failed(address):
+        calls.append(address)
+        raise ProviderError("Explicit fixture security outage")
+
+    monkeypatch.setattr(engine.service.providers, "security", failed)
+    result = asyncio.run(engine.cycle(False))
+    assert len(calls) == result["security_allocation"]["used"] == 2
+    for row in rows:
+        obs = engine.history(row["id"])[-1]
+        assert obs["security"]["rpc"] is None and obs["security"]["goplus"] is None
+        assert obs["decision"]["verdict"] in {"MONITOR", "REJECT"}
+        assert obs["decision"]["security_filter_passed"] is False
+        assert obs["decision"]["scores"]["security_risk"] is None

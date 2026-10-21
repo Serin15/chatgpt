@@ -7,6 +7,60 @@ from datetime import UTC, datetime, timedelta
 from app.models import epoch
 
 VERSION = "bounded-background-v1"
+SECURITY_ALLOCATION_VERSION = "early-security-reserve-v1"
+
+
+class SecurityBudget:
+    """Reserve part of the existing API budget without reordering quote deadlines.
+
+    Earlier background work cannot spend the slots reserved for still-unvisited
+    early candidates. Later work can borrow slots released by cached/missing or
+    illiquid early observations. Failed provider calls still spend their slot.
+    """
+
+    def __init__(self, rows, config, cycles=0, now=None):
+        now = time.time() if now is None else now
+        self.total = self.left = config.security_budget
+        self.priority = set()
+        for row in rows:
+            try:
+                early = 0 <= now - epoch(row["ingested_at"]) <= config.active_watch_seconds
+            except (ValueError, TypeError, OverflowError):
+                early = False
+            if early or row.get("last_attempt_at") is None:
+                self.priority.add(row["id"])
+        self.pending = self.priority.copy()
+        self.reserved = min(len(self.priority), (self.total + 2) // 3)
+        if self.total == 1 and cycles % 2:
+            self.reserved = 0
+        self.initial_reserve = self.reserved
+        self.priority_used = 0
+
+    def visit(self, candidate_id):
+        self.pending.discard(candidate_id)
+
+    def take(self, candidate_id):
+        early = candidate_id in self.priority
+        if self.left <= 0 or (not early and self.left <= min(self.reserved, len(self.pending))):
+            return False
+        self.left -= 1
+        if early:
+            self.priority_used += 1
+            self.reserved = max(0, self.reserved - 1)
+        return True
+
+    def report(self):
+        return {
+            "version": SECURITY_ALLOCATION_VERSION,
+            "budget": self.total,
+            "reserved_for_early": self.initial_reserve,
+            "used": self.total - self.left,
+            "early_used": self.priority_used,
+            "other_used": self.total - self.left - self.priority_used,
+            "unspent": self.left,
+            "note": "Provider attempts, including failures; not completed security checks. Original risk and freshness gates remain required.",
+        }
+
 
 # Small, indexed sets are materialized once; no payload decoder or Python UDF
 # runs for every candidate. All statements are read-only, including status GETs.
