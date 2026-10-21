@@ -1,0 +1,32 @@
+{
+  "baseline_commit": "0571f5694807f652d70e912c3ddbd6b36a885129",
+  "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+  "compatible_execution_sources": [
+    "560d51daa5b729eceb99c7d68c684318527083251276cb0298defe5ddf9eedc2",
+    "7f7dae89b7e9f79ff350b046112243f379a2025f5941b4bf75b6c62677becb42",
+    "a1a61cf2fd3d2947d3be48c3e004cdeb4e0bbcc70799587d889b590ec1f69060",
+    "fe46e95ea88180be8f23662d47dfac23276d4b24e7e96c5ceec9d1c6cb61d828",
+    "ffaa54a7035d561267aa57f0634865ce5c7fa36ebbd89a95d7928ff75eda65d7"
+  ],
+  "unchanged_files": {
+    "paper.py": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+    "jupiter.py": "ea9c2c741cbf4176bb189f889f3bb60beb6364a63bc948cb483ecc4504524d14",
+    "opportunity_outcomes.py": "1d24f7a6aa4d6dc56d231a1730a7673c4ea9826a37d59e9029579bd65aefa8ea",
+    "opportunity_rules.py": "2ce2a952e9948b55d3116dc6eb20c2ba60d522e8b4133644f941c7b46874a542",
+    "opportunity_sampling.py": "7cc3fa3c445443789dcaaf2696aa34dabc0d1cf8e0b98bc4bcf102dae837ef76"
+  },
+  "unchanged_route_methods": [
+    "__init__",
+    "policy",
+    "enroll",
+    "fail_entry",
+    "recover",
+    "ready",
+    "choose",
+    "claim",
+    "finish",
+    "collect",
+    "detail",
+    "report"
+  ]
+}

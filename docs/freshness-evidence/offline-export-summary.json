@@ -1,0 +1,48 @@
+{
+  "day_utc": "2026-10-21",
+  "generated_at": "2026-10-21T04:36:58.973973+00:00",
+  "totals": {
+    "discovered": 155,
+    "eligible": 155,
+    "excluded": 0,
+    "first_evaluations": 154,
+    "eligible_without_first_evaluation": 1,
+    "security_pass_at_first_evaluation": 16,
+    "liquidity_pass_at_first_evaluation": 16,
+    "selected_at_first_evaluation": 12,
+    "opportunity_alerts": 12,
+    "risk_alerts": 1,
+    "alerts_displayed_in_app": 11
+  },
+  "legacy_evaluation_protocol": {
+    "policies": {
+      "17": {
+        "declared_at": "2026-10-21T04:27:18.219232+00:00",
+        "test_from": "2026-10-18T00:00:00Z",
+        "state": "unassigned"
+      }
+    },
+    "original_declarations_preserved": true,
+    "profitability_demonstrated": false,
+    "note": "A test window having started is not a completed or successful experiment. New policies declared after an old cutoff remain unassigned."
+  },
+  "new_forward_protocols": {
+    "17": {
+      "policy_id": 17,
+      "declared_at": "2026-10-21T04:27:18.219994+00:00",
+      "test_from": "2026-10-22T04:27:18.219994+00:00",
+      "payload": {
+        "boundary": "purge entry+horizon+exit windows crossing test_from",
+        "control": "prospective contract-hash enrollment; exclude selected from comparison",
+        "costs": "original frozen per-signal costs; independent paper experiments",
+        "cutoff_basis": "24h_after_declaration",
+        "policy_sha256": "411a5d057bcc3444d05c3e7672ee127541af8fa301f365e4fcb1a72ba5f6a608",
+        "threshold_optimization": false,
+        "version": "prospective-holdout-v1"
+      },
+      "state": "test_not_started"
+    }
+  },
+  "method": "app.research_evaluate via read-only SQLite store, no schema writes on report/export",
+  "profitability_demonstrated": false
+}

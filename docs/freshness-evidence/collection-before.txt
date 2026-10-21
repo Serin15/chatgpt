@@ -1,0 +1,180 @@
+FFF.                                                                     [100%]
+=================================== FAILURES ===================================
+_________ test_exit_is_dispatched_before_unrelated_slow_candidate[10] __________
+
+routed = namespace(client=<starlette.testclient.TestClient object at 0x7f6aec4d5e80>, engine=<app.opportunities.Opportunities o...pC8G4wEGGkZwyTDt1v&amount=98903000&slippageBps=50&swapMode=ExactIn&restrictIntermediateTokens=true')>], failure=[None])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6aec4aaea0>
+security_age = 10
+
+    @pytest.mark.parametrize("security_age", [10, 118])
+    def test_exit_is_dispatched_before_unrelated_slow_candidate(routed, monkeypatch, security_age):
+        r = routed
+        execute(r)
+        r.clock[0] += 301
+        cached = payload(r.engine, r.candidate, r.clock[0] - 2)
+        cached["security"]["observed_at"] = stamp(r.clock[0] - security_age)
+        r.engine.save_observation(r.candidate, cached, r.policy, r.config, stamp(r.clock[0] - 2))
+        second = candidate(r.engine, 9001, r.clock[0])
+        queue = [r.candidate | {"collection_lane": "protected_followup"}, second]
+        monkeypatch.setattr(r.engine, "due", lambda cfg: queue)
+        monkeypatch.setattr("app.opportunities.utcnow", lambda: stamp(r.clock[0]))
+        monkeypatch.setattr("app.opportunities.time", SimpleNamespace(time=lambda: r.clock[0]))
+        trace = []
+    
+        async def quotes(providers, rows):
+            return {
+                (c["pool"], c["contract"]): market(c["contract"]).model_dump()
+                | {"pair_address": c["pool"], "observed_at": stamp(r.clock[0])}
+                for c in rows
+            }
+    
+        async def checked(address):
+            trace.append(("security", address))
+            if address == second["contract"]:
+                r.clock[0] += 25
+            return security() | {"observed_at": stamp(r.clock[0])}
+    
+        original = Jupiter.fill
+    
+        async def fill(self, side, *args):
+            trace.append((side, args[1]))
+            return await original(self, side, *args)
+    
+        monkeypatch.setattr("app.opportunities.pool_markets", quotes)
+        monkeypatch.setattr(r.engine.service.providers, "security", checked)
+        monkeypatch.setattr(Jupiter, "fill", fill)
+    
+        async def run():
+            await r.engine.cycle(False)
+            if r.engine.route_task:
+                await r.engine.route_task
+    
+        asyncio.run(run())
+        out = next(
+            o
+            for o in r.engine.routes.detail(r.candidate["id"])["outcomes"]
+            if o["signal_id"] == r.signal_id and o["horizon_seconds"] == 300
+        )
+        assert out["state"] == "evaluated", out["payload"]
+>       assert trace.index(("sell", r.candidate["contract"])) < trace.index(
+            ("security", second["contract"])
+        )
+E       AssertionError: assert 1 < 0
+E        +  where 1 = <built-in method index of list object at 0x7f6aec432c00>(('sell', '11111111111111111111111111111111'))
+E        +    where <built-in method index of list object at 0x7f6aec432c00> = [('security', '1111111111111111111111111111113gC'), ('sell', '11111111111111111111111111111111')].index
+E        +  and   0 = <built-in method index of list object at 0x7f6aec432c00>(('security', '1111111111111111111111111111113gC'))
+E        +    where <built-in method index of list object at 0x7f6aec432c00> = [('security', '1111111111111111111111111111113gC'), ('sell', '11111111111111111111111111111111')].index
+
+tests/test_collection_timing.py:68: AssertionError
+_________ test_exit_is_dispatched_before_unrelated_slow_candidate[118] _________
+
+routed = namespace(client=<starlette.testclient.TestClient object at 0x7f6aec55f260>, engine=<app.opportunities.Opportunities o...111111111111111111&amount=49700000&slippageBps=50&swapMode=ExactIn&restrictIntermediateTokens=true')>], failure=[None])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6aec4d5df0>
+security_age = 118
+
+    @pytest.mark.parametrize("security_age", [10, 118])
+    def test_exit_is_dispatched_before_unrelated_slow_candidate(routed, monkeypatch, security_age):
+        r = routed
+        execute(r)
+        r.clock[0] += 301
+        cached = payload(r.engine, r.candidate, r.clock[0] - 2)
+        cached["security"]["observed_at"] = stamp(r.clock[0] - security_age)
+        r.engine.save_observation(r.candidate, cached, r.policy, r.config, stamp(r.clock[0] - 2))
+        second = candidate(r.engine, 9001, r.clock[0])
+        queue = [r.candidate | {"collection_lane": "protected_followup"}, second]
+        monkeypatch.setattr(r.engine, "due", lambda cfg: queue)
+        monkeypatch.setattr("app.opportunities.utcnow", lambda: stamp(r.clock[0]))
+        monkeypatch.setattr("app.opportunities.time", SimpleNamespace(time=lambda: r.clock[0]))
+        trace = []
+    
+        async def quotes(providers, rows):
+            return {
+                (c["pool"], c["contract"]): market(c["contract"]).model_dump()
+                | {"pair_address": c["pool"], "observed_at": stamp(r.clock[0])}
+                for c in rows
+            }
+    
+        async def checked(address):
+            trace.append(("security", address))
+            if address == second["contract"]:
+                r.clock[0] += 25
+            return security() | {"observed_at": stamp(r.clock[0])}
+    
+        original = Jupiter.fill
+    
+        async def fill(self, side, *args):
+            trace.append((side, args[1]))
+            return await original(self, side, *args)
+    
+        monkeypatch.setattr("app.opportunities.pool_markets", quotes)
+        monkeypatch.setattr(r.engine.service.providers, "security", checked)
+        monkeypatch.setattr(Jupiter, "fill", fill)
+    
+        async def run():
+            await r.engine.cycle(False)
+            if r.engine.route_task:
+                await r.engine.route_task
+    
+        asyncio.run(run())
+        out = next(
+            o
+            for o in r.engine.routes.detail(r.candidate["id"])["outcomes"]
+            if o["signal_id"] == r.signal_id and o["horizon_seconds"] == 300
+        )
+>       assert out["state"] == "evaluated", out["payload"]
+E       AssertionError: {'execution_verified': False, 'model': 'independent_jupiter_min_out_scenario', 'pnl_usd': None, 'reason': 'Rejected: Verificările de securitate sunt expirate.', ...}
+E       assert 'exit_unavailable' == 'evaluated'
+E         
+E         - evaluated
+E         + exit_unavailable
+
+tests/test_collection_timing.py:67: AssertionError
+______ test_later_market_batch_is_fetched_after_first_batch_is_persisted _______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f6aebae5b20>, <app.opportunities.Opportunities object at 0x7f6aea9e13a0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6aebaf3fb0>
+
+    def test_later_market_batch_is_fetched_after_first_batch_is_persisted(client_engine, monkeypatch):
+        _, engine = client_engine
+        engine.configure(engine.config().model_copy(update={"routed_quotes_enabled": False}))
+        now = time.time()
+        queue = [candidate(engine, 9100 + i, now) for i in range(31)]
+        monkeypatch.setattr(engine, "due", lambda cfg: queue)
+        events = []
+    
+        async def quotes(providers, rows):
+            events.append(("fetch", rows[0]["id"]))
+            return {
+                (c["pool"], c["contract"]): market(c["contract"]).model_dump()
+                | {"pair_address": c["pool"]}
+                for c in rows
+            }
+    
+        original = engine._persist_candidate
+    
+        def persist(c, *args):
+            events.append(("persist", c["id"]))
+            return original(c, *args)
+    
+        monkeypatch.setattr("app.opportunities.pool_markets", quotes)
+        monkeypatch.setattr(engine, "_persist_candidate", persist)
+        asyncio.run(engine.cycle(False))
+>       assert events.index(("persist", queue[29]["id"])) < events.index(("fetch", queue[30]["id"]))
+E       AssertionError: assert 31 < 1
+E        +  where 31 = <built-in method index of list object at 0x7f6aebb0e480>(('persist', 30))
+E        +    where <built-in method index of list object at 0x7f6aebb0e480> = [('fetch', 1), ('fetch', 31), ('persist', 1), ('persist', 2), ('persist', 3), ('persist', 4), ...].index
+E        +  and   1 = <built-in method index of list object at 0x7f6aebb0e480>(('fetch', 31))
+E        +    where <built-in method index of list object at 0x7f6aebb0e480> = [('fetch', 1), ('fetch', 31), ('persist', 1), ('persist', 2), ('persist', 3), ('persist', 4), ...].index
+
+tests/test_collection_timing.py:101: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_collection_timing.py::test_exit_is_dispatched_before_unrelated_slow_candidate[10]
+FAILED tests/test_collection_timing.py::test_exit_is_dispatched_before_unrelated_slow_candidate[118]
+FAILED tests/test_collection_timing.py::test_later_market_batch_is_fetched_after_first_batch_is_persisted
+3 failed, 1 passed, 1 warning in 2.89s

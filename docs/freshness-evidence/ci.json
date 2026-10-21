@@ -1,0 +1,228 @@
+{
+  "captured_at": "2026-10-21T04:42:33.288796+00:00",
+  "run": {
+    "conclusion": "success",
+    "headSha": "e0b574e0673e66e935054cc0c36667df51f12943",
+    "jobs": [
+      {
+        "completedAt": "2026-10-21T04:37:15Z",
+        "conclusion": "success",
+        "databaseId": 119038602295,
+        "name": "checks (windows-latest)",
+        "startedAt": "2026-10-21T04:28:25Z",
+        "status": "completed",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run python -m pip install uv==0.12.23",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run uv sync --frozen",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run uv run ruff check app tests",
+            "number": 6,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Unit and integration tests",
+            "number": 7,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run node --check app/static/app.js",
+            "number": 8,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run node --check app/static/advanced.js",
+            "number": 9,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run node --check app/static/opportunities.js",
+            "number": 10,
+            "status": "completed"
+          },
+          {
+            "conclusion": "skipped",
+            "name": "Chromium audit regressions with isolated providers",
+            "number": 11,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Native Windows launcher from a path with spaces",
+            "number": 12,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 23,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 24,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 25,
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Serin15/chatgpt/actions/runs/39544217200/job/119038602295"
+      },
+      {
+        "completedAt": "2026-10-21T04:30:27Z",
+        "conclusion": "success",
+        "databaseId": 119038602509,
+        "name": "checks (ubuntu-latest)",
+        "startedAt": "2026-10-21T04:28:25Z",
+        "status": "completed",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run python -m pip install uv==0.12.23",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run uv sync --frozen",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run uv run ruff check app tests",
+            "number": 6,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Unit and integration tests",
+            "number": 7,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run node --check app/static/app.js",
+            "number": 8,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run node --check app/static/advanced.js",
+            "number": 9,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run node --check app/static/opportunities.js",
+            "number": 10,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Chromium audit regressions with isolated providers",
+            "number": 11,
+            "status": "completed"
+          },
+          {
+            "conclusion": "skipped",
+            "name": "Native Windows launcher from a path with spaces",
+            "number": 12,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 23,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 24,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 25,
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Serin15/chatgpt/actions/runs/39544217200/job/119038602509"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/Serin15/chatgpt/actions/runs/39544217200"
+  },
+  "official_test_log_matches": {
+    "0_checks (ubuntu-latest).txt": [
+      "486 passed, 1 warning in 70.74s (0:01:10)"
+    ],
+    "checks (ubuntu-latest)/7_Unit and integration tests.txt": [
+      "486 passed, 1 warning in 70.74s (0:01:10)"
+    ],
+    "1_checks (windows-latest).txt": [
+      "486 passed, 1 warning in 502.24s (0:08:22)"
+    ],
+    "checks (windows-latest)/7_Unit and integration tests.txt": [
+      "486 passed, 1 warning in 502.24s (0:08:22)"
+    ]
+  },
+  "interpretation": "Native Windows and Ubuntu succeeded;486 unit/integration tests each,26 Chromium scenarios on Linux, native Windows launcher from a path with spaces."
+}

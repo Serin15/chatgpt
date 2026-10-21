@@ -1,0 +1,22 @@
+{
+  "data": "Normal application and stored protocol; no interception or injected state",
+  "errors": [],
+  "protocol": {
+    "policy_id": 17,
+    "declared_at": "2026-10-21T04:27:18.219994+00:00",
+    "test_from": "2026-10-22T04:27:18.219994+00:00",
+    "payload": {
+      "boundary": "purge entry+horizon+exit windows crossing test_from",
+      "control": "prospective contract-hash enrollment; exclude selected from comparison",
+      "costs": "original frozen per-signal costs; independent paper experiments",
+      "cutoff_basis": "24h_after_declaration",
+      "policy_sha256": "411a5d057bcc3444d05c3e7672ee127541af8fa301f365e4fcb1a72ba5f6a608",
+      "threshold_optimization": false,
+      "version": "prospective-holdout-v1"
+    },
+    "state": "test_not_started"
+  },
+  "version": "0.14.0",
+  "desktop_visible": true,
+  "mobile_no_overflow": true
+}

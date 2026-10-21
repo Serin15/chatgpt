@@ -1,0 +1,66 @@
+{
+  "started_at": "2026-10-21T04:27:58.981941+00:00",
+  "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+  "complete": true,
+  "requests": "GET only, normal workers, no threshold changes or orders",
+  "selected_before_exit": true,
+  "updated_at": "2026-10-21T04:34:29.778193+00:00",
+  "candidate_id": 74616,
+  "signal_id": 181553,
+  "locked_at": "2026-10-21T04:28:28.901291+00:00",
+  "selected": 1,
+  "control_member": 0,
+  "terminal": true,
+  "finished_at": "2026-10-21T04:34:30.024514+00:00",
+  "last_sample": {
+    "at": "2026-10-21T04:34:29.777885+00:00",
+    "criteria": {
+      "real_candidate_and_market_observations": true,
+      "routed_buy_quote_stored": true,
+      "later_routed_sell_and_net_outcome": true,
+      "frozen_policy_and_attempt_history": true
+    },
+    "outcome_state": "evaluated",
+    "reason": null
+  },
+  "contract": "4YumeWB5HptRuAnZPqAo1NnHBBkMd2kX6B6fQ3tn81GV",
+  "name": "CHAMPI / SOL",
+  "discovered_at": "2026-10-21T04:27:18.775761+00:00",
+  "entry_at": "2026-10-21T04:28:23.129329+00:00",
+  "exit_at": "2026-10-21T04:34:24.394274+00:00",
+  "actual_hold_seconds": 361.2649450302124,
+  "net_modeled_pnl_usd": "13.70379800219978993963782696",
+  "timing": {
+    "entry": {
+      "attempt_id": 12064,
+      "observation_id": 290234,
+      "security_observed_at": "2026-10-21T04:28:20.336185+00:00",
+      "observation_at": "2026-10-21T04:28:21.107472+00:00",
+      "attempt_at": "2026-10-21T04:28:21.484161+00:00",
+      "dispatch_lag_seconds": 0.37668895721435547,
+      "security_age_at_request_seconds": 1.1479759216308594,
+      "security_age_at_quote_seconds": 2.7931439876556396
+    },
+    "exit": {
+      "attempt_id": 12089,
+      "observation_id": 290594,
+      "security_observed_at": "2026-10-21T04:34:21.366095+00:00",
+      "observation_at": "2026-10-21T04:34:22.077555+00:00",
+      "attempt_at": "2026-10-21T04:34:23.741655+00:00",
+      "dispatch_lag_seconds": 1.664100170135498,
+      "security_age_at_request_seconds": 2.3755600452423096,
+      "security_age_at_quote_seconds": 3.0281789302825928
+    }
+  },
+  "manual_accounts": {
+    "news": {
+      "cash": "500",
+      "orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "orders": 0
+    }
+  },
+  "note": "Single prospectively fixed technical scenario; no replacement, no real trade or profitability evidence. Both entry and exit stayed under the original120s security age gate; no general missingness reduction estimate."
+}

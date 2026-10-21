@@ -1,4 +1,6 @@
-# MemeScope v0.13.3 — beta privată Solana
+# MemeScope v0.14.0 — beta privată Solana
+
+**Colectare și validare v0.14.0:** [securitate reîmprospătată, cotații incrementale în același buget și protocol viitor separat](docs/COLLECTION-V0.14.md).
 
 **Ferestre Jupiter v0.13.3:** [observații corecte, politici vechi păstrate și verificări](docs/JUPITER-V0.13.3.md).
 

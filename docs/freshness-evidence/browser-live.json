@@ -1,0 +1,35 @@
+{
+  "data": "normal instance and real provider status; no intercepted requests or injected state",
+  "at_utc": "2026-10-21T04:28:55Z",
+  "js_errors": [],
+  "pages": [
+    "market",
+    "scanner",
+    "portfolio",
+    "journal",
+    "sources",
+    "advanced",
+    "overview",
+    "news",
+    "opportunities"
+  ],
+  "version": "0.14.0",
+  "routed_quotes": {
+    "state": "partial",
+    "at": "2026-10-21T04:28:28.930786+00:00",
+    "cycles": 4905,
+    "attempted": 4,
+    "ready": 1,
+    "errors": [
+      "Rejected: Security/liquidity screening unavailable or rejected"
+    ],
+    "collector_cycle_at": "2026-10-21T04:28:18.230988+00:00",
+    "collector_budget": 4
+  },
+  "worker_diagnostics_visible": "dex: ok · 21.10.2026, 07:28:35\n\nrpc: ok · 21.10.2026, 07:28:32\n\ngoplus: ok · 21.10.2026, 07:28:32\n\ncoingecko: ok · 21.10.2026, 07:27:26\n\ncoingecko_catalog: ok · 21.10.2026, 07:27:18\n\nperformance: ok · 21.10.2026, 07:28:18\n\nannouncements: ok · 21.10.2026, 07:27:27\n\nopportunity_engine: eroare / date vechi · 21.10.2026, 07:28:42 · anchored_pool_observation_missing\n\nstory_discovery: ok · 21.10.2026, 07:28:18\n\nrouted_quotes: eroare / date vechi · 21.10.2026, 07:28:28 · Rejected: Security/liquidity screening unavailable or rejected\n\nnews_trump: ok · 21.10.2026, 07:27:19\n\nnews_memecoins: ok · 21.10.2026, 07:27:19\n\nnews_crypto: ok · 21.10.2026, 07:27:19\n\nnews_claude: ok · 21.10.2026, 07:27:20\n\nnews_zelensky: ok · 21.10.2026, 07:27:20\n\nnews_launches: ok · 21.10.2026, 07:27:21\n\nnews_elon: ok · 21.10.2026, 07:27:23\n\nnews_kraken_official: ok · 21.10.2026, 07:27:23\n\nnews_coindesk: ok · 21.10.2026, 07:27:23\n\nnews_solana_official: ok · 21.10.2026, 07:27:23\n\nnews_ethereum_official: ok · 21.10.2026, 07:27:23\n\nnews_cointelegraph: ok · 21.10.2026, 07:27:23\n\nnews_decrypt: ok · 21.10.2026, 07:27:23\n\ndiscovery_solana: ok · 21.10.2026, 07:28:18\n\ndiscovery_profiles: ok · 21.10.2026, 07:28:18\n\ndiscovery_boosts: ok · 21.10.2026, 07:28:19\n\nonchain_solana: ok · 21.10.2026, 07:28:25\n\nworker_scanner: running · pornit 21.10.2026, 07:27:18 · reporniri 0\n\nworker_news: running · pornit 21.10.2026, 07:27:18 · reporniri 0\n\nworker_assets: running · pornit 21.10.2026, 07:27:18 · reporniri 0\n\nworker_performance: running · pornit 21.10.2026, 07:27:18 · reporniri 0\n\nworker_intelligence: running · pornit 21.10.2026, 07:27:18 · reporniri 0",
+  "desktop_panel_height": 420,
+  "mobile_panel_height": 420,
+  "mobile_no_overflow": true,
+  "close_button_works": true,
+  "live_execution": false
+}

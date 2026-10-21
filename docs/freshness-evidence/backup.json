@@ -1,0 +1,39 @@
+{
+  "directory": "/workspace/backups/before-v0140-20261021T042515Z",
+  "databases": {
+    "research.sqlite3": {
+      "bytes": 3801726976,
+      "quick_check": "ok",
+      "history": {
+        "opportunity_signals": {
+          "max_id": 181476,
+          "count": 181476,
+          "sha256": "c6d2d29ca53e8275e55fb5c6f76e5f135c2d9be1e6ffef88000e7a29918b7a74"
+        },
+        "opportunity_policies": {
+          "max_id": 16,
+          "count": 16,
+          "sha256": "660f7258d5ce1db598096b24d011795ba5799403dc3f5b684c76f9dfc3a9e6e2"
+        },
+        "opportunity_config": {
+          "max_id": 1,
+          "count": 1,
+          "sha256": "56fe19b81d91bd0389ab9102098143c842a1b5c94dc6a5d84db5e5a52a3bcb3a"
+        }
+      },
+      "routed_policies": {
+        "count": 106874,
+        "sha256": "9f04da388c1d7ad0e1249c24cb01b3c369443e7808215f0be15842974ffc7a41"
+      },
+      "routed_terminal_outcomes": {
+        "count": 319887,
+        "sha256": "9854fc4c5e8f58148f7e5ae75677b8b703a50db257bb59ec9e97d3a65230c7fc"
+      }
+    },
+    "news_paper/research.sqlite3": {
+      "bytes": 1003520,
+      "quick_check": "ok",
+      "history": {}
+    }
+  }
+}
