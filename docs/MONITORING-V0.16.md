@@ -72,6 +72,19 @@ restul. Observațiile promise pot ocoli programul periodic: numărul lor distinc
 este raportat separat prin `promised_due_candidates`, inclusiv partea din afara
 cozii periodice. Nu aduna aceste grupuri fără a elimina suprapunerile.
 
+## Căutarea în istoricul mare
+
+Adresele Solana complete sunt căutate prin indexul de identitate, cu literele
+mari și mici respectate. O adresă necunoscută nu este înlocuită cu alt token care
+diferă numai prin capitalizare. Căutările după nume, simbol sau fragmente de
+adresă rămân disponibile, cu o limită SQL de cinci secunde. Dacă o căutare este
+prea costisitoare, API-ul răspunde controlat cu 503 și sugerează contractul
+exact; datele deja afișate rămân păstrate. Nu se modifică prețurile sau istoricul.
+
+Căutarea textuală în baze foarte mari poate necesita încă un index separat de
+metadate înaintea unei lansări publice. Limita previne acumularea nelimitată de
+interogări costisitoare; nu garantează că orice căutare textuală va reuși.
+
 ## Instalare și pornire
 
 În Windows, închide aplicația veche, extrage complet versiunea nouă și păstrează

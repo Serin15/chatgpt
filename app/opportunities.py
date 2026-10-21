@@ -5,6 +5,7 @@ import hashlib
 import json
 import logging
 import os
+import sqlite3
 import time
 import uuid
 from concurrent.futures import Future
@@ -12,6 +13,7 @@ from copy import deepcopy
 from datetime import UTC, datetime
 from pathlib import Path
 from threading import Lock
+from time import monotonic
 
 from app import forward_evaluation
 from app import opportunity_lifecycle as lifecycle
@@ -1014,9 +1016,26 @@ class Opportunities:
                 self._report_futures.pop(key, None)
 
     def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
+        try:
+            return self._listing(limit, before, ranked, query, verdict)
+        except sqlite3.OperationalError as error:
+            if getattr(error, "sqlite_errorcode", None) == sqlite3.SQLITE_INTERRUPT:
+                raise ProviderError(
+                    "Căutarea a depășit limita de execuție. Folosește adresa exactă a contractului sau o căutare mai precisă."
+                ) from None
+            raise
+
+    def _listing(self, limit, before, ranked, query, verdict):
         now = time.time()
         config = self.config()
+        try:
+            exact_contract = solana_address(query.strip())
+        except ValueError:
+            exact_contract = None
         with self.store.connect() as db:
+            if query.strip():
+                deadline = monotonic() + 5
+                db.set_progress_handler(lambda: int(monotonic() >= deadline), 1000)
             db.create_function(
                 "casefold", 1, lambda value: str(value or "").casefold(), deterministic=True
             )
@@ -1039,6 +1058,11 @@ class Opportunities:
                     now - self.service.settings.max_snapshot_age, UTC
                 ).isoformat(),
             }
+            if exact_contract:
+                # Solana addresses are case sensitive. Use the identity index;
+                # do not scan market payloads or return a different-case token.
+                base += " AND c.chain='solana' AND c.contract=:exact_contract"
+                params.update(exact_contract=exact_contract, q="")
             order = (
                 "coalesce(CASE WHEN julianday(json_extract(o.payload,'$.market.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) AND julianday(json_extract(o.payload,'$.security.observed_at')) BETWEEN julianday(:fresh_from) AND julianday(:now) THEN json_extract(o.payload,'$.decision.rank_score') END,-1) DESC,c.id DESC"
                 if ranked
