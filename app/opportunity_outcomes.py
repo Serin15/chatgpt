@@ -68,6 +68,9 @@ def update_outcomes(engine, now=None):
     updated = 0
     with engine.store.connect() as db:
         engine.sampling.expire(db, now)
+        # Expiry is a short write. Do not retain its writer lock while decoding
+        # and calculating up to 2,000 historical outcomes after downtime.
+        db.commit()
         rows = db.execute(
             "SELECT o.*,s.candidate_id,s.at AS signal_at,s.payload AS signal_payload,s.observation_id FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id WHERE o.state='pending' ORDER BY o.updated_at,s.id,o.horizon_seconds LIMIT 2000"
         ).fetchall()
@@ -109,6 +112,7 @@ def update_outcomes(engine, now=None):
                     (json.dumps(payload), utcnow(), row["signal_id"], row["horizon_seconds"]),
                 )
                 updated += 1
+                db.commit()
                 continue
             state = "pending"
             if entry is None:
@@ -224,6 +228,9 @@ def update_outcomes(engine, now=None):
                 ),
             )
             updated += 1
+            # The outcome and its sampling jobs commit together. Release the
+            # writer before the next calculation so receipts and ingestion work.
+            db.commit()
     return updated
 
 
@@ -286,14 +293,14 @@ def report(engine):
         ).fetchone()[0]
         candidates = db.execute(
             """SELECT c.id,json_extract(c.discovery,'$.price_usd') AS initial_price,
-            json_extract(archive_text(o.payload),'$.market.price_usd','$.market.observed_at',
+            json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,'$.market.price_usd','$.market.observed_at',
             '$.security.observed_at','$.decision.verdict','$.decision.security_filter_passed',
             '$.decision.liquidity_filter_passed') AS fields
             FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(
                 SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"""
         ).fetchall()
         rows = db.execute(
-            """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(archive_text(o.payload),'$.pnl_usd') AS pnl,
+            """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(o.payload,'$.pnl_usd') AS pnl,
             s.kind,s.at AS signal_at,s.observation_id,a.id AS alert_id,c.contract,
             e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at,
             json_extract(s.payload,'$.policy.id','$.policy.at','$.policy.payload.config.test_from',
@@ -368,7 +375,7 @@ def report(engine):
         ).fetchall()
         initial = db.execute(
             """SELECT s.id,
-            json_extract(archive_text(o.payload),'$.features.changes.5m.volume_5m_ratio',
+            json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,'$.features.changes.5m.volume_5m_ratio',
             '$.features.excessive_extension','$.narrative.supported',
             '$.decision.security_filter_passed','$.decision.liquidity_filter_passed',
             '$.decision.verdict') AS fields

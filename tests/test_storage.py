@@ -56,6 +56,58 @@ def test_archived_baseline_remains_readable_in_sql_and_readonly_report(client_en
     )
 
 
+def test_plain_json_uses_sqlite_native_path_and_cold_json_still_decodes(client_engine, monkeypatch):
+    from app.archive_codec import configure
+
+    _, engine = client_engine
+    c, cutoff = cold_history(engine)
+    called = []
+
+    def configure_without_plain_decode(db):
+        configure(db)
+
+        def only_binary(value):
+            if not isinstance(value, bytes):
+                raise ValueError("Plain JSON must not cross the Python/SQLite boundary")
+            called.append(True)
+            return decode(value)
+
+        db.create_function("archive_text", 1, only_binary, deterministic=True)
+
+    monkeypatch.setattr("app.store.configure", configure_without_plain_decode)
+    assert engine.listing(ranked=True)["items"]
+    assert engine.report()["totals"]["discovered"] == 1
+    assert not called
+    archive_database(engine.store.path, cutoff)
+    assert engine.history(c["id"])
+    assert engine.report()["totals"]["discovered"] == 1
+    assert called, "Archived history must still be decoded in SQL"
+
+
+def test_outcome_backlog_releases_writer_lock_between_calculations(client_engine, monkeypatch):
+    import app.opportunity_outcomes as outcomes
+
+    _, engine = client_engine
+    cold_history(engine)
+    original = outcomes.observation
+    writes = []
+
+    def calculation(db, *args):
+        # Another connection represents an in-app alert receipt. The collector
+        # must not hold a writer lock while reading/calculating an outcome.
+        with sqlite3.connect(engine.store.path, timeout=0.02) as other:
+            other.execute(
+                "UPDATE opportunity_alerts SET delivered_in_app_at=coalesce(delivered_in_app_at,?)",
+                (stamp(time.time()),),
+            )
+        writes.append(True)
+        return original(db, *args)
+
+    monkeypatch.setattr(outcomes, "observation", calculation)
+    assert engine.update_outcomes(time.time()) > 0
+    assert len(writes) > 1
+
+
 def test_codec_exact_unicode_and_corruption_rejected():
     value = json.dumps(
         {"text": "Știre românească 🐕 " * 1000, "tiny_price": "0.00000000000123"},

@@ -80,7 +80,9 @@ este 16 MiB/payload; valorile mai mari rămân text. Coruperea produce eroare,
 nu date absente sau PnL zero.
 
 Conexiunile aplicației și exportatorului read-only decodează valorile. Interogările
-SQL JSON1 folosesc `archive_text(payload)`. Pentru scripturi SQLite externe:
+SQL JSON1 folosesc `archive_text(payload)` numai pentru BLOB-uri. JSON-ul text
+folosește calea nativă SQLite; clasarea ultimei observații rămâne nativă, deoarece
+arhivarea păstrează acest rând în text. Pentru scripturi SQLite externe:
 
 ```python
 import sqlite3
@@ -109,7 +111,7 @@ istorice nu sunt rescrise și nu demonstrează performanța unei politici noi.
 | `app/runtime_lock.py`, `app/main.py` | Excludere între aplicație și mentenanță; endpoint capacitate și avertizare de spațiu |
 | `app/maintenance.py` | Backup atomic, verificări SQLite/ZIP și spațiu înaintea copierii |
 | `app/store.py`, `app/research_evaluate.py` | Citirea arhivei în aplicație și exportul offline |
-| `app/daily_research.py`, `app/price_research.py`, `app/opportunity_outcomes.py`, `app/opportunity_sampling.py`, `app/opportunities.py` | JSON1 decodează istoricul înaintea extragerii câmpurilor |
+| `app/daily_research.py`, `app/price_research.py`, `app/opportunity_outcomes.py`, `app/opportunity_sampling.py` | JSON1 decodează numai payloadurile binare; textul și clasarea ultimei observații păstrează calea nativă SQLite |
 | `app/static/app.js`, `app/static/index.html` | Panou de stocare și avertizare în starea generală |
 | `archive-windows.cmd` | Mentenanță cu backup/restaurare verificată din Windows |
 | `tests/test_storage.py`, `tests/browser_audit.py`, `.github/workflows/checks.yml` | SQLite/ZIP/lock, erori, UI desktop/mobil și launcher nativ Windows |
@@ -124,6 +126,44 @@ reală nu este disponibilă sau executată de acest flux.
 Dovezile versiunii sunt în `storage-evidence/`. Testele de piață din suită folosesc
 furnizori simulați; SQLite, ZIP, compresia și restaurarea sunt reale. Verificarea
 separată pe baza cloud folosește istoricul colectat efectiv, fără cotații inventate.
+
+### Verificare pe baza reală, 21 octombrie 2026
+
+- Rulare offline cu `--days 3 --compact`, separat de valoarea implicită de 7 zile.
+  Baza principală: **3.845.509.120 → 3.514.163.200 bytes**, reducere de
+  **331.345.920 bytes / 8,62%**. Nu este o estimare pentru alte baze.
+- **128.071 snapshoturi și 128.558 observații** comprimate. Manifestele celor
+  **59 de tabele de cercetare/conturi**, însumând **2.108.190 de rânduri**, sunt
+  identice logic înainte/după. Jurnalul nou de arhivare este verificat separat.
+- Sunt păstrate inclusiv **183.375 semnale**, **17 politici**, **108.174 experimente
+  Jupiter**, **324.522 rezultate Jupiter** și zero ordine în conturile manuale.
+- Backupul inițial de 341.242.669 bytes a fost restaurat și comparat înaintea
+  compresiei. Un backup ulterior al bazei comprimate, de **625.837.061 bytes**,
+  a fost de asemenea restaurat într-un dosar nou: toate rândurile logice și
+  metadatele arhivării sunt identice.
+- Raportul cohortei **16 octombrie, 13.660 de candidați**, este identic integral
+  înainte/după, exceptând `generated_at`. Hashul raportului normalizat este în
+  [report-equivalence.json](storage-evidence/report-equivalence.json).
+- Verificarea inițială pe baza mare a identificat o regresie de viteză în accesul
+  necondiționat prin Python. A fost reprodusă printr-un test care refuză decoderul
+  pe JSON text și corectată: numai BLOB-urile traversează decoderul. Pe 5.000 de
+  observații reale, aceeași extragere a durat 0,145 s prin decoder necondiționat,
+  0,052 s nativ și 0,047 s condițional. Sunt măsurători locale, nu garanții.
+  Două cereri reale de clasare după corecție au returnat câte 50 de candidați în
+  **2,71 s și 1,89 s**.
+- La recuperarea după oprire, recalcularea a până la 2.000 de rezultate păstra
+  blocarea de scriere între calcule; confirmări ale alertelor au răspuns HTTP 500
+  cu `database is locked`. Regresia este reprodusă separat în
+  [backlog-before.txt](storage-evidence/backlog-before.txt). Expirarea joburilor
+  se confirmă acum separat, apoi fiecare rezultat și joburile lui se confirmă
+  atomic înaintea următorului calcul. Formulele, ferestrele și selecția observației
+  sunt identice AST după eliminarea apelurilor suplimentare de commit:
+  [outcome-compatibility.json](storage-evidence/outcome-compatibility.json).
+
+Backupurile sunt păstrate pe același volum în această verificare și ocupă separat
+967.079.730 bytes. Economia din fișierul bazei **nu este economie netă pe disc**
+după adăugarea acestor copii. Mută copii verificate pe alt disc pentru protecție
+independentă; aplicația nu elimină automat niciun backup.
 
 ```bash
 uv run --frozen pytest -q
