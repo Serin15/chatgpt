@@ -1,4 +1,6 @@
-# MemeScope v0.15.0 — beta privată Solana
+# MemeScope v0.16.0 — beta privată Solana
+
+**Monitorizare v0.16.0:** [prioritate pentru candidații timpurii, pauză pentru reevaluările vechi și istoric păstrat](docs/MONITORING-V0.16.md). Observațiile promise și pozițiile virtuale deschise rămân protejate.
 
 **Stocare v0.15.0:** [arhivare fără pierderi, backup verificat prin restaurare și controlul spațiului](docs/STORAGE-V0.15.md). În Windows: oprește aplicația, apoi rulează `archive-windows.cmd`; istoricul rămâne accesibil.
 

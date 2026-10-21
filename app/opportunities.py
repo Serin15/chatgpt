@@ -14,6 +14,7 @@ from pathlib import Path
 from threading import Lock
 
 from app import forward_evaluation
+from app import opportunity_lifecycle as lifecycle
 from app.credentials import secret
 from app.errors import ProviderError
 from app.models import Market, epoch, solana_address, utcnow
@@ -47,6 +48,7 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "news.py",
             "opportunity_outcomes.py",
             "opportunity_sampling.py",
+            "opportunity_lifecycle.py",
             "opportunity_routes.py",
             "analysis.py",
             "paper.py",
@@ -157,6 +159,9 @@ class Opportunities:
                 "market_batch_size": 30,
                 "security_refresh_reserve_seconds": self.security_reserve(config),
                 "route_budget_scope": "one_collector_cycle",
+                "monitoring_version": lifecycle.VERSION,
+                "background_watch_hours": config.background_watch_hours,
+                "open_promises_override_background_age": True,
             },
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
@@ -840,20 +845,7 @@ class Opportunities:
             log.warning("Monitored wallet observation unavailable; existing evidence retained.")
 
     def queue_health(self):
-        with self.store.connect() as db:
-            row = db.execute(
-                "SELECT count(*) AS due,min(next_due) AS oldest FROM opportunity_candidates WHERE eligible=1 AND next_due<=?",
-                (time.time(),),
-            ).fetchone()
-            pending = db.execute(
-                "SELECT count(*) FROM opportunity_candidates WHERE eligible=1 AND last_attempt_at IS NULL"
-            ).fetchone()[0]
-        return {
-            "due": row["due"],
-            "not_enriched": pending,
-            "oldest_due_delay_seconds": round(max(0, time.time() - (row["oldest"] or time.time()))),
-            "capacity_note": "Bounded API budget; queue delays can invalidate forward entry/exit windows. Missing observations remain unknown.",
-        }
+        return lifecycle.summary(self)
 
     async def close(self):
         if self.route_task and not self.route_task.done():
@@ -1018,6 +1010,7 @@ class Opportunities:
 
     def listing(self, limit=50, before=None, ranked=False, query="", verdict="all"):
         now = time.time()
+        config = self.config()
         with self.store.connect() as db:
             db.create_function(
                 "casefold", 1, lambda value: str(value or "").casefold(), deterministic=True
@@ -1056,6 +1049,7 @@ class Opportunities:
                 params,
             ).fetchall()
             items = []
+            monitoring = lifecycle.candidates(self, db, config, [r["id"] for r in rows[:limit]], now)
             for r in rows[:limit]:
                 latest = db.execute(
                     "SELECT * FROM opportunity_observations WHERE candidate_id=? ORDER BY id DESC LIMIT 1",
@@ -1073,6 +1067,7 @@ class Opportunities:
                         "discovery": json.loads(r["discovery"]),
                         "latest": last,
                         "latest_at": latest["at"] if latest else None,
+                        "monitoring": monitoring[r["id"]],
                         "initial_signal": dict(initial)
                         | {"payload": json.loads(initial["payload"])}
                         if initial
@@ -1095,7 +1090,7 @@ class Opportunities:
             "ranking_limited": ranked and len(rows) > limit,
             "next_cursor": rows[limit - 1]["id"] if len(rows) > limit and not ranked else None,
             "status": self.status,
-            "config": self.config().model_dump(mode="json"),
+            "config": config.model_dump(mode="json"),
             "coverage": "Solana provider pool/profile/paid-exposure feeds; not all launches, and meme classification is unverified. Base is discovery-only in Level 3.",
             "live_execution": False,
         }
@@ -1125,6 +1120,7 @@ class Opportunities:
                 "SELECT count(*) FROM opportunity_observations WHERE candidate_id=?",
                 (candidate_id,),
             ).fetchone()[0]
+            monitoring = lifecycle.candidates(self, db, self.config(), [candidate_id])[candidate_id]
         return dict(row) | {
             "discovery": json.loads(row["discovery"]),
             "signals": signals,
@@ -1134,6 +1130,7 @@ class Opportunities:
             "outcomes": outcomes,
             "live_execution": False,
             "sampling_enrollment": self.sampling.enrollment(candidate_id),
+            "monitoring": monitoring,
             "routed": self.routes.detail(candidate_id),
             "current_narrative": self.narratives.evidence(row["contract"], utcnow()),
         }

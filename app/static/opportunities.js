@@ -173,9 +173,13 @@ async function loadOpportunityCandidates(mode = "refresh") {
     if (first.status.errors?.length)
       $("engine-health").textContent +=
         ` Probleme: ${first.status.errors.join(", ")}.`;
-    if (first.status.queue?.due)
+    const queue = first.status.queue;
+    if (queue?.dispatchable_due != null)
       $("engine-health").textContent +=
-        ` În așteptare: ${first.status.queue.due}; întârziere maximă ${first.status.queue.oldest_due_delay_seconds}s.`;
+        ` Reevaluări periodice eligibile scadente: ${queue.dispatchable_due}; întârziere maximă ${queue.dispatchable_oldest_due_delay_seconds}s. Istoric cu reevaluarea periodică în pauză: ${queue.paused_due}. Total periodic scadent înregistrat: ${queue.due}.`;
+    else if (queue?.due)
+      $("engine-health").textContent +=
+        ` În așteptare: ${queue.due}; întârziere maximă ${queue.oldest_due_delay_seconds}s.`;
     renderCandidateRows();
     if (!$("engine-config").dataset.loaded) {
       const c = first.config;
@@ -519,6 +523,15 @@ function renderEngineCoverage(data) {
       "footnote",
     ),
   );
+  const monitoring = data.monitoring;
+  if (monitoring)
+    root.append(
+      node(
+        "p",
+        `Monitorizare: ${monitoring.dispatchable_due} reevaluări periodice scadente · ${monitoring.paused_due} în pauză · total periodic înregistrat ${monitoring.due}. Observații promise scadente: ${monitoring.promised_due_candidates ?? "—"} candidați, dintre care ${monitoring.promised_due_outside_periodic_queue ?? "—"} în afara programului periodic. Fereastra de fundal: ${monitoring.background_watch_hours} ore de la înregistrare. Dosarele și rezultatele rămân păstrate; observațiile promise, prima colectare, lista de urmărire și pozițiile virtuale deschise sunt protejate. Capacitatea API poate lăsa termene ratate; rezultatele lipsă rămân necunoscute.`,
+        "footnote",
+      ),
+    );
   for (const [key, label] of [
     ["alerts", "Alerte"],
     ["control", "Grup de comparație"],
@@ -949,6 +962,20 @@ async function openOpportunity(id, scroll = true) {
           "footnote",
         ),
       );
+    if (c.monitoring) {
+      const labels = {
+        excluded: "Exclus din monitorizarea automată",
+        awaiting_first_observation: "Prima colectare este încă necesară",
+        manual_watch: "Urmărit prin lista personală sau o poziție virtuală",
+        reactivated: "Urmărire reluată după o referință recentă la contract; asocierea oficială nu este confirmată",
+        active: "Monitorizare inițială activă",
+        followup: "Observații promise sau rezultate încă nerezolvate",
+        metadata_unknown: "Momentul înregistrării este necunoscut; verificarea continuă",
+        background: "Monitorizare periodică în fereastra de fundal",
+        paused: "Reevaluarea periodică este în pauză; istoricul și rezultatele rămân accesibile",
+      };
+      root.append(node("p", labels[c.monitoring.state] || c.monitoring.state, "footnote"));
+    }
     if (c.history_truncated)
       root.append(
         node(

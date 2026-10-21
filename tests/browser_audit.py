@@ -524,6 +524,25 @@ async def check(base):
             await page.locator('.nav-item[data-page="opportunities"]').click()
             await expect(page.locator("#engine-rows tr")).to_have_count(1)
 
+        async def bounded_monitoring(page):
+            # UI-only synthetic counts; backend preservation uses real SQLite tests.
+            await ready(page)
+            await page.evaluate("""async () => {
+                const coverage = await (await fetch('/api/opportunities/coverage')).json();
+                coverage.monitoring = {dispatchable_due:5, paused_due:95, due:100, background_watch_hours:48};
+                renderEngineCoverage(coverage);
+            }""")
+            await page.locator("#engine-coverage-summary").evaluate("n => n.parentElement.open = true")
+            await expect(page.locator("#engine-coverage")).to_contain_text("5 reevaluări periodice scadente · 95 în pauză · total periodic înregistrat 100")
+            value = await (await page.request.get(base + "/api/opportunities/1")).json()
+            value["monitoring"] = {"state": "paused", "history_preserved": True}
+            await page.route("**/api/opportunities/1", lambda r: r.fulfill(json=value))
+            await page.evaluate("openOpportunity(1, false)")
+            await expect(page.locator("#engine-detail")).to_contain_text("istoricul și rezultatele rămân accesibile")
+            await expect(page.locator("#engine-detail")).to_contain_text("Prima descoperire")
+            await page.set_viewport_size({"width": 390, "height": 844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -553,6 +572,7 @@ async def check(base):
             ("live candidates before sequential history reports", history_requests_are_sequential),
             ("actual fixture database capacity and mobile layout", storage_capacity),
             ("storage failure preserves candidate workflow", storage_failure),
+            ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
         ]:
             await scenario(name, fn)
         await browser.close()

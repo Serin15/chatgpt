@@ -4,6 +4,7 @@ import json
 import time
 from collections import Counter, deque
 
+from app import opportunity_lifecycle as lifecycle
 from app.models import epoch, utcnow
 from app.opportunity_rules import EngineConfig
 from app.price_research import coverage_states
@@ -208,9 +209,18 @@ class Sampling:
             if len(chosen) < config.observation_budget:
                 take(ready("1=1"), config.observation_budget - len(chosen), "other_followup")
             if len(chosen) < config.observation_budget:
+                params = lifecycle.parameters(self.engine, config, now)
+                params["limit"] = config.observation_budget + len(ids)
                 rows = db.execute(
-                    "SELECT * FROM opportunity_candidates WHERE eligible=1 AND next_due<=? ORDER BY next_due,id LIMIT ?",
-                    (now, config.observation_budget + len(ids)),
+                    lifecycle.SQL + "SELECT c.* FROM opportunity_candidates c JOIN monitoring m ON m.id=c.id WHERE m.state IN ('awaiting_first_observation','manual_watch','reactivated','active') AND c.next_due<=:clock ORDER BY c.next_due,c.id LIMIT :limit",
+                    params,
+                ).fetchall()
+                take(rows, config.observation_budget - len(chosen), "active_watch")
+            if len(chosen) < config.observation_budget:
+                params["limit"] = config.observation_budget + len(ids)
+                rows = db.execute(
+                    lifecycle.SQL + "SELECT c.* FROM opportunity_candidates c JOIN monitoring m ON m.id=c.id WHERE m.state IN ('followup','background','metadata_unknown') AND c.next_due<=:clock ORDER BY c.next_due,c.id LIMIT :limit",
+                    params,
                 ).fetchall()
                 take(rows, config.observation_budget - len(chosen), "background")
         return chosen
@@ -404,6 +414,7 @@ class Sampling:
                     prospective_reasons[r["reason"]] += r["n"]
         return {
             "version": SAMPLING_VERSION,
+            "monitoring": lifecycle.summary(self.engine),
             "activated_at": meta["at"],
             "generated_at": utcnow(),
             "policy": json.loads(meta["payload"]),
