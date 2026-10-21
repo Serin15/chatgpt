@@ -2351,7 +2351,12 @@ $("storage-refresh").onclick = () =>
   action($("storage-refresh"), async () => {
     const report = await api("/api/storage");
     const target = $("storage-status");
-    const bytes = (value) => `${(Number(value) / 1024 ** 3).toLocaleString("ro-RO", {maximumFractionDigits: 2})} GiB`;
+    const bytes = (value) => {
+      const size = Number(value);
+      const units = [[1024 ** 3, "GiB"], [1024 ** 2, "MiB"], [1024, "KiB"], [1, "B"]];
+      const [scale, unit] = units.find(([scale]) => size >= scale) || units.at(-1);
+      return `${(size / scale).toLocaleString("ro-RO", {maximumFractionDigits: 2})} ${unit}`;
+    };
     target.replaceChildren();
     target.append(node("p", `Verificat ${date(report.at)} · Liber pe disc: ${bytes(report.disk_free_bytes)} · ${report.state === "ok" ? "spațiu disponibil" : "spațiu redus: copiază backupurile pe alt disc"}`, report.state === "ok" ? "" : "warn"));
     for (const db of report.databases) {

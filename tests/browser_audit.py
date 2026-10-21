@@ -510,6 +510,7 @@ async def check(base):
             await page.locator("#storage-refresh").click()
             await expect(page.locator("#storage-status")).to_contain_text("research.sqlite3")
             await expect(page.locator("#storage-status")).to_contain_text("Arhivare automată: oprită")
+            await expect(page.locator("#storage-status")).to_contain_text("KiB")
             await page.set_viewport_size({"width": 390, "height": 844})
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
