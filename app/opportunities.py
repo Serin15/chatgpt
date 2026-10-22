@@ -169,6 +169,9 @@ class Opportunities:
                 "security_allocation_version": lifecycle.SECURITY_ALLOCATION_VERSION,
                 "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
                 "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
+                "scheduling_version": lifecycle.SCHEDULING_VERSION,
+                "research_reserve_rule": "up to max(1,floor(budget/6)) slots after balanced protected followups and discovery, before surplus followups; manual/evidenced-story cadence overrides daily background",
+                "execution_order": "earliest currently due deadline among admitted unique candidates; stable ties",
             },
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
@@ -313,12 +316,18 @@ class Opportunities:
             )
             observation_id = row.lastrowid
             self.sampling.record(db, candidate["id"], observation_id, payload, at)
+            research_watch = lifecycle.research_watch(
+                self, db, candidate["contract"], config, epoch(at)
+            )
             delay = config.interval_seconds
             if state != "ok":
                 delay = min(900, delay * 2 ** min(candidate.get("failures", 0) + 1, 4))
-            elif decision["verdict"] == "REJECT":
+            elif decision["verdict"] == "REJECT" and not research_watch:
                 delay = max(delay, 300)
-            if epoch(at) - epoch(candidate["ingested_at"]) >= config.active_watch_seconds:
+            if (
+                not research_watch
+                and epoch(at) - epoch(candidate["ingested_at"]) >= config.active_watch_seconds
+            ):
                 delay = max(delay, config.background_interval_seconds)
             db.execute(
                 "UPDATE opportunity_candidates SET last_attempt_at=?,next_due=?,failures=? WHERE id=?",
@@ -637,6 +646,20 @@ class Opportunities:
                 stage("provider_discovery")
                 added = await self._background(self.ingest, policy)
                 due = await self._background(self.due, config)
+                collection_plan = {
+                    "version": lifecycle.SCHEDULING_VERSION,
+                    "budget": config.observation_budget,
+                    "admitted": len(due),
+                    "lanes": {
+                        lane: sum((c.get("collection_lane") or "unknown") == lane for c in due)
+                        for lane in sorted({c.get("collection_lane") or "unknown" for c in due})
+                    },
+                    "scheduled_at": utcnow(),
+                    "earliest_due_deadline": min(
+                        (c["collection_deadline"] for c in due if c.get("collection_deadline") is not None),
+                        default=None,
+                    ),
+                }
                 stage("scheduling")
                 self.sampling.dispatch(due)
                 security_budget = lifecycle.SecurityBudget(
@@ -672,6 +695,7 @@ class Opportunities:
                                 {
                                     "market": None,
                                     "error": "Anchored pool quote unavailable; disappearance, outage and unsellability are not interchangeable.",
+                                    "collection_lane": candidate.get("collection_lane"),
                                 },
                                 policy,
                                 config,
@@ -819,6 +843,7 @@ class Opportunities:
                             {
                                 "market": None,
                                 "error": "Incomplete provider evidence; candidate retained.",
+                                "collection_lane": candidate.get("collection_lane"),
                             },
                             policy,
                             config,
@@ -850,6 +875,7 @@ class Opportunities:
                     "collection": self.collection_cache,
                     "routed_quotes": self.routes.status,
                     "security_allocation": security_budget.report(),
+                    "collection_plan": collection_plan,
                 }
                 with self.store.connect() as db:
                     db.execute(

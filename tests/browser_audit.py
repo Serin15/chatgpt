@@ -543,6 +543,29 @@ async def check(base):
             await page.set_viewport_size({"width": 390, "height": 844})
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
+        async def priority_monitoring(page):
+            await ready(page)
+            await page.evaluate("""async () => {
+                const coverage = await (await fetch('/api/opportunities/coverage')).json();
+                coverage.monitoring = {
+                    dispatchable_due:302, paused_due:95, due:397, background_watch_hours:48,
+                    priority_due:2, priority_stale_attempts:1, freshness_max_age_seconds:120,
+                    counts_by_state:{
+                        active:{candidates:3,due:2,oldest_due_delay_seconds:15,stale_attempts:1},
+                        background:{candidates:300,due:300,oldest_due_delay_seconds:86000,stale_attempts:300}
+                    }
+                };
+                renderEngineCoverage(coverage);
+            }""")
+            await page.locator("#engine-coverage-summary").evaluate("n => n.parentElement.open = true")
+            coverage = page.locator("#engine-coverage")
+            await expect(coverage).to_contain_text("2 reevaluări prioritare scadente")
+            await expect(coverage).to_contain_text("Tokenuri descoperite recent: 3 candidați · 2 scadente · întârziere maximă 15s")
+            await expect(coverage).to_contain_text("Reevaluări de fundal: 300 candidați · 300 scadente")
+            await expect(coverage).to_contain_text("Un răspuns eșuat recent nu este o cotație validă")
+            await page.set_viewport_size({"width": 320, "height": 800})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         async def cached_coverage_status(page):
             await ready(page)
             await page.evaluate("""async () => {
@@ -742,6 +765,7 @@ async def check(base):
             ("actual fixture database capacity and mobile layout", storage_capacity),
             ("storage failure preserves candidate workflow", storage_failure),
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
+            ("priority freshness separates active research from background backlog", priority_monitoring),
             ("cached coverage retains calculation date and refresh errors", cached_coverage_status),
             ("phone drawer focus, all destinations and return navigation", mobile_workspace_navigation),
             ("quick verdict filters and search keyboard shortcut", quick_filters_and_keyboard),

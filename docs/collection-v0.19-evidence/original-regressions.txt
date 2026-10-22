@@ -1,0 +1,206 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+_______ test_old_watched_token_keeps_active_polling_interval[watchlist] ________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c1c495e0>, <app.opportunities.Opportunities object at 0x7f56c1b12ab0>)
+kind = 'watchlist'
+
+    @pytest.mark.parametrize("kind", ["watchlist", "scanner_position", "news_position"])
+    def test_old_watched_token_keeps_active_polling_interval(client_engine, kind):
+        _, engine = client_engine
+        c = observed(engine, 19001, 5 * 86400)
+        watch(engine, c, kind)
+        now = time.time()
+        cfg = engine.config()
+        engine.save_observation(c, payload(engine, c, now), engine.policy(cfg), cfg, stamp(now))
+        with engine.store.connect() as db:
+            row = db.execute("SELECT * FROM opportunity_candidates WHERE id=?", (c["id"],)).fetchone()
+>       assert row["next_due"] == pytest.approx(now + cfg.interval_seconds, abs=0.001)
+E       assert 1792789442.515235 == 1792703102.5152347 ± 0.001
+E         
+E         comparison failed
+E         Obtained: 1792789442.515235
+E         Expected: 1792703102.5152347 ± 0.001
+
+tests/test_collection_priorities.py:36: AssertionError
+____ test_old_watched_token_keeps_active_polling_interval[scanner_position] ____
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c1adbf80>, <app.opportunities.Opportunities object at 0x7f56c128c4d0>)
+kind = 'scanner_position'
+
+    @pytest.mark.parametrize("kind", ["watchlist", "scanner_position", "news_position"])
+    def test_old_watched_token_keeps_active_polling_interval(client_engine, kind):
+        _, engine = client_engine
+        c = observed(engine, 19001, 5 * 86400)
+        watch(engine, c, kind)
+        now = time.time()
+        cfg = engine.config()
+        engine.save_observation(c, payload(engine, c, now), engine.policy(cfg), cfg, stamp(now))
+        with engine.store.connect() as db:
+            row = db.execute("SELECT * FROM opportunity_candidates WHERE id=?", (c["id"],)).fetchone()
+>       assert row["next_due"] == pytest.approx(now + cfg.interval_seconds, abs=0.001)
+E       assert 1792789442.920955 == 1792703102.9209547 ± 0.001
+E         
+E         comparison failed
+E         Obtained: 1792789442.920955
+E         Expected: 1792703102.9209547 ± 0.001
+
+tests/test_collection_priorities.py:36: AssertionError
+_____ test_old_watched_token_keeps_active_polling_interval[news_position] ______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c10b0200>, <app.opportunities.Opportunities object at 0x7f56c1155ac0>)
+kind = 'news_position'
+
+    @pytest.mark.parametrize("kind", ["watchlist", "scanner_position", "news_position"])
+    def test_old_watched_token_keeps_active_polling_interval(client_engine, kind):
+        _, engine = client_engine
+        c = observed(engine, 19001, 5 * 86400)
+        watch(engine, c, kind)
+        now = time.time()
+        cfg = engine.config()
+        engine.save_observation(c, payload(engine, c, now), engine.policy(cfg), cfg, stamp(now))
+        with engine.store.connect() as db:
+            row = db.execute("SELECT * FROM opportunity_candidates WHERE id=?", (c["id"],)).fetchone()
+>       assert row["next_due"] == pytest.approx(now + cfg.interval_seconds, abs=0.001)
+E       assert 1792789443.32791 == 1792703103.3279102 ± 0.001
+E         
+E         comparison failed
+E         Obtained: 1792789443.32791
+E         Expected: 1792703103.3279102 ± 0.001
+
+tests/test_collection_priorities.py:36: AssertionError
+_ test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history[watchlist] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c1167560>, <app.opportunities.Opportunities object at 0x7f56c1203680>)
+kind = 'watchlist'
+
+    @pytest.mark.parametrize("kind", ["watchlist", "scanner_position", "news_position"])
+    def test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history(client_engine, kind):
+        _, engine = client_engine
+        c = observed(engine, 19002, 5 * 86400)
+        now = time.time()
+        with engine.store.connect() as db:
+            db.execute(
+                "UPDATE opportunity_candidates SET last_attempt_at=?,next_due=? WHERE id=?",
+                (stamp(now - 120), now + 86000, c["id"]),
+            )
+        watch(engine, c, kind)
+        before = engine.detail(c["id"])
+        chosen = engine.due(engine.config())
+>       assert c["id"] in {r["id"] for r in chosen}
+E       assert 1 in set()
+
+tests/test_collection_priorities.py:52: AssertionError
+_ test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history[scanner_position] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c1157c20>, <app.opportunities.Opportunities object at 0x7f56c0ed7a70>)
+kind = 'scanner_position'
+
+    @pytest.mark.parametrize("kind", ["watchlist", "scanner_position", "news_position"])
+    def test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history(client_engine, kind):
+        _, engine = client_engine
+        c = observed(engine, 19002, 5 * 86400)
+        now = time.time()
+        with engine.store.connect() as db:
+            db.execute(
+                "UPDATE opportunity_candidates SET last_attempt_at=?,next_due=? WHERE id=?",
+                (stamp(now - 120), now + 86000, c["id"]),
+            )
+        watch(engine, c, kind)
+        before = engine.detail(c["id"])
+        chosen = engine.due(engine.config())
+>       assert c["id"] in {r["id"] for r in chosen}
+E       assert 1 in set()
+
+tests/test_collection_priorities.py:52: AssertionError
+_ test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history[news_position] _
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c0f01cd0>, <app.opportunities.Opportunities object at 0x7f56c0da1d60>)
+kind = 'news_position'
+
+    @pytest.mark.parametrize("kind", ["watchlist", "scanner_position", "news_position"])
+    def test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history(client_engine, kind):
+        _, engine = client_engine
+        c = observed(engine, 19002, 5 * 86400)
+        now = time.time()
+        with engine.store.connect() as db:
+            db.execute(
+                "UPDATE opportunity_candidates SET last_attempt_at=?,next_due=? WHERE id=?",
+                (stamp(now - 120), now + 86000, c["id"]),
+            )
+        watch(engine, c, kind)
+        before = engine.detail(c["id"])
+        chosen = engine.due(engine.config())
+>       assert c["id"] in {r["id"] for r in chosen}
+E       assert 1 in set()
+
+tests/test_collection_priorities.py:52: AssertionError
+__________ test_due_followups_cannot_consume_every_active_watch_slot ___________
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c0db7800>, <app.opportunities.Opportunities object at 0x7f56c11bc1d0>)
+
+    def test_due_followups_cannot_consume_every_active_watch_slot(client_engine):
+        _, engine = client_engine
+        now = time.time()
+        # Twelve due research subjects used to consume all twelve slots, even though
+        # only six were the explicitly protected, balanced follow-up allocation.
+        for i in range(12):
+            scheduled(engine, 19100 + i, now - 20, selected=i % 2 == 0, control=i % 2 == 1)
+        active = observed(engine, 19200, 600)
+        cfg = engine.config().model_copy(update={"observation_budget": 12})
+        chosen = engine.due(cfg)
+>       assert active["id"] in {r["id"] for r in chosen}
+E       assert 13 in {1, 2, 3, 4, 5, 6, ...}
+
+tests/test_collection_priorities.py:70: AssertionError
+______ test_earliest_actual_deadline_runs_first_after_balanced_allocation ______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c0c98c20>, <app.opportunities.Opportunities object at 0x7f56c0f256d0>)
+
+    def test_earliest_actual_deadline_runs_first_after_balanced_allocation(client_engine):
+        _, engine = client_engine
+        now = time.time()
+        later, _ = scheduled(engine, 19300, now - 10, selected=True)
+        urgent, _ = scheduled(engine, 19301, now - 160, control=True)
+        cfg = engine.config().model_copy(update={"observation_budget": 4})
+        chosen = engine.due(cfg)
+>       assert [r["id"] for r in chosen] == [urgent["id"], later["id"]]
+E       assert [1, 2] == [2, 1]
+E         
+E         At index 0 diff: 1 != 2
+E         Use -v to get more diff
+
+tests/test_collection_priorities.py:82: AssertionError
+______ test_queue_freshness_distinguishes_recent_research_from_background ______
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f56c107bbc0>, <app.opportunities.Opportunities object at 0x7f56c0eba330>)
+
+    def test_queue_freshness_distinguishes_recent_research_from_background(client_engine):
+        _, engine = client_engine
+        active = observed(engine, 19400, 600)
+        observed(engine, 19401, 86400, due_age=3600)
+        cfg = engine.config()
+        now = time.time()
+        summary = lifecycle.summary(engine, cfg, now)
+>       assert summary["counts_by_state"]["active"]["stale_observations"] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'stale_observations'
+
+tests/test_collection_priorities.py:93: KeyError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_collection_priorities.py::test_old_watched_token_keeps_active_polling_interval[watchlist]
+FAILED tests/test_collection_priorities.py::test_old_watched_token_keeps_active_polling_interval[scanner_position]
+FAILED tests/test_collection_priorities.py::test_old_watched_token_keeps_active_polling_interval[news_position]
+FAILED tests/test_collection_priorities.py::test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history[watchlist]
+FAILED tests/test_collection_priorities.py::test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history[scanner_position]
+FAILED tests/test_collection_priorities.py::test_new_watch_bypasses_existing_daily_schedule_without_rewriting_history[news_position]
+FAILED tests/test_collection_priorities.py::test_due_followups_cannot_consume_every_active_watch_slot
+FAILED tests/test_collection_priorities.py::test_earliest_actual_deadline_runs_first_after_balanced_allocation
+FAILED tests/test_collection_priorities.py::test_queue_freshness_distinguishes_recent_research_from_background
+9 failed, 1 warning in 5.87s

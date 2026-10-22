@@ -8,6 +8,8 @@ from app.models import epoch
 
 VERSION = "bounded-background-v1"
 SECURITY_ALLOCATION_VERSION = "early-security-reserve-v1"
+SCHEDULING_VERSION = "balanced-research-deadlines-v2"
+PRIORITY_STATES = ("awaiting_first_observation", "manual_watch", "reactivated", "active")
 
 
 class SecurityBudget:
@@ -64,7 +66,24 @@ class SecurityBudget:
 
 # Small, indexed sets are materialized once; no payload decoder or Python UDF
 # runs for every candidate. All statements are read-only, including status GETs.
-SQL = """WITH
+RESEARCH_CTES = """
+manual_contracts(address) AS MATERIALIZED (
+    SELECT address FROM tokens WHERE watch=1
+    UNION SELECT address FROM positions WHERE closed_at IS NULL
+    UNION SELECT value FROM json_each(:news_holdings)
+),
+story_contracts(address) AS MATERIALIZED (
+    SELECT l.contract FROM story_pool_lookups l
+    WHERE l.state='existing_candidate'
+      AND julianday(json_extract(l.payload,'$.last_checked_at'))
+        BETWEEN julianday(:active_from) AND julianday(:at)
+      AND (json_extract(l.payload,'$.current_evidence.association')='exact_contract_document_mention'
+        OR (json_extract(l.payload,'$.current_evidence.association')='resolved_market_pair_reference'
+          AND json_extract(l.payload,'$.current_evidence.market_reference.qualifies_for_discovery')=1))
+) """
+
+SQL = (
+    """WITH
 promises(candidate_id) AS MATERIALIZED (
     SELECT candidate_id FROM observation_jobs WHERE status='pending' AND deadline_at>=:clock
     UNION
@@ -80,30 +99,18 @@ due_promises(candidate_id) AS MATERIALIZED (
     SELECT DISTINCT candidate_id FROM observation_jobs
     WHERE status='pending' AND due_at<=:clock AND deadline_at>=:clock
 ),
-manual_contracts(address) AS MATERIALIZED (
-    SELECT address FROM tokens WHERE watch=1
-    UNION SELECT address FROM positions WHERE closed_at IS NULL
-    UNION SELECT value FROM json_each(:news_holdings)
-),
-story_candidates(candidate_id) AS MATERIALIZED (
-    SELECT c.id FROM story_pool_lookups l
-      JOIN opportunity_candidates c ON c.chain='solana' AND c.contract=l.contract
-    WHERE l.state='existing_candidate'
-      AND julianday(json_extract(l.payload,'$.last_checked_at'))
-        BETWEEN julianday(:active_from) AND julianday(:at)
-      AND (json_extract(l.payload,'$.current_evidence.association')='exact_contract_document_mention'
-        OR (json_extract(l.payload,'$.current_evidence.association')='resolved_market_pair_reference'
-          AND json_extract(l.payload,'$.current_evidence.market_reference.qualifies_for_discovery')=1))
-),
-monitoring AS (
-    SELECT c.id,c.next_due,c.last_attempt_at,c.ingested_at,
+"""
+    + RESEARCH_CTES
+    + """,
+monitoring_states AS (
+    SELECT c.id,c.next_due,c.last_attempt_at,c.ingested_at,c.failures,
       c.id IN (SELECT candidate_id FROM promises) AS has_promises,
       c.id IN (SELECT candidate_id FROM due_promises) AS has_due_promises,
       CASE
         WHEN c.eligible=0 THEN 'excluded'
         WHEN c.last_attempt_at IS NULL THEN 'awaiting_first_observation'
         WHEN c.contract IN (SELECT address FROM manual_contracts) THEN 'manual_watch'
-        WHEN c.id IN (SELECT candidate_id FROM story_candidates) THEN 'reactivated'
+        WHEN c.chain='solana' AND c.contract IN (SELECT address FROM story_contracts) THEN 'reactivated'
         WHEN julianday(c.ingested_at)>=julianday(:active_from) THEN 'active'
         WHEN c.id IN (SELECT candidate_id FROM promises) THEN 'followup'
         WHEN julianday(c.ingested_at) IS NULL THEN 'metadata_unknown'
@@ -111,7 +118,18 @@ monitoring AS (
         ELSE 'paused'
       END AS state
     FROM opportunity_candidates c
+),
+monitoring AS (
+    SELECT *, CASE
+      WHEN state IN ('manual_watch','reactivated') AND julianday(last_attempt_at) IS NOT NULL
+      THEN min(next_due,
+        (julianday(last_attempt_at)-2440587.5)*86400
+        +CASE WHEN failures>0 THEN min(900,:interval_seconds*(1 << min(4,failures)))
+          ELSE :interval_seconds END)
+      ELSE next_due END AS effective_due
+    FROM monitoring_states
 ) """
+)
 
 REASONS = {
     "excluded": "discovery_exclusion",
@@ -140,8 +158,26 @@ def parameters(engine, config, now=None):
         "at": at.isoformat(),
         "active_from": (at - timedelta(seconds=config.active_watch_seconds)).isoformat(),
         "background_from": (at - timedelta(hours=config.background_watch_hours)).isoformat(),
+        "stale_from": (
+            at - timedelta(seconds=engine.service.settings.max_snapshot_age)
+        ).isoformat(),
+        "interval_seconds": config.interval_seconds,
         "news_holdings": json.dumps(holdings),
     }
+
+
+def research_watch(engine, db, contract, config, now):
+    """Watch/position and evidenced story cadence, without scanning outcome promises."""
+    params = parameters(engine, config, now) | {"contract": contract}
+    return bool(
+        db.execute(
+            "WITH "
+            + RESEARCH_CTES
+            + """SELECT :contract IN (SELECT address FROM manual_contracts)
+          OR :contract IN (SELECT address FROM story_contracts)""",
+            params,
+        ).fetchone()[0]
+    )
 
 
 def candidates(engine, db, config, ids, now=None):
@@ -179,11 +215,16 @@ def summary(engine, config=None, now=None):
         rows = db.execute(
             SQL
             + """SELECT state,count(*) AS candidates,
-                sum(next_due<=:clock) AS due,
+                sum(effective_due<=:clock) AS due,
+                sum(next_due<=:clock) AS stored_schedule_due,
                 sum(last_attempt_at IS NULL) AS not_enriched,
+                sum(julianday(last_attempt_at) BETWEEN julianday(:stale_from) AND julianday(:at)) AS fresh,
+                sum(julianday(last_attempt_at)<julianday(:stale_from)) AS stale,
+                sum(last_attempt_at IS NOT NULL AND
+                  (julianday(last_attempt_at) IS NULL OR julianday(last_attempt_at)>julianday(:at))) AS invalid_clock,
                 sum(has_due_promises) AS promised_due,
                 sum(has_due_promises AND next_due>:clock) AS promised_outside_periodic,
-                min(CASE WHEN next_due<=:clock THEN next_due END) AS oldest
+                min(CASE WHEN effective_due<=:clock THEN effective_due END) AS oldest
               FROM monitoring GROUP BY state""",
             params,
         ).fetchall()
@@ -196,7 +237,9 @@ def summary(engine, config=None, now=None):
 
     return {
         "version": VERSION,
+        "scheduling_version": SCHEDULING_VERSION,
         "due": sum(r["due"] for r in included),
+        "stored_schedule_due": sum(r["stored_schedule_due"] for r in included),
         "dispatchable_due": sum(r["due"] for r in dispatchable),
         "paused_due": sum(r["due"] for r in included if r["state"] == "paused"),
         "promised_due_candidates": sum(r["promised_due"] for r in included),
@@ -204,13 +247,28 @@ def summary(engine, config=None, now=None):
             r["promised_outside_periodic"] for r in included
         ),
         "not_enriched": sum(r["not_enriched"] for r in included),
+        "priority_due": sum(r["due"] for r in rows if r["state"] in PRIORITY_STATES),
+        "priority_stale_attempts": sum(
+            r["stale"] or 0 for r in rows if r["state"] in PRIORITY_STATES
+        ),
+        "freshness_max_age_seconds": engine.service.settings.max_snapshot_age,
+        "freshness_scope": "Last collection attempt, not a guarantee of a usable or executable market quote. Price and security timestamps must still pass their own gates.",
         "oldest_due_delay_seconds": delay(included),
         "dispatchable_oldest_due_delay_seconds": delay(dispatchable),
         "background_watch_hours": config.background_watch_hours,
         "active_watch_seconds": config.active_watch_seconds,
         "counts_by_state": {
-            r["state"]: {"candidates": r["candidates"], "due": r["due"]} for r in rows
+            r["state"]: {
+                "candidates": r["candidates"],
+                "due": r["due"],
+                "oldest_due_delay_seconds": delay([r]),
+                "recent_attempts": r["fresh"] or 0,
+                "stale_attempts": r["stale"] or 0,
+                "invalid_attempt_timestamps": r["invalid_clock"] or 0,
+                "never_attempted": r["not_enriched"],
+            }
+            for r in rows
         },
         "history_preserved": True,
-        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+        "capacity_note": "Due totals use the effective periodic schedule and retain paused background candidates. A new watch or evidenced story can shorten a previous daily schedule without rewriting it. Promised jobs bypass periodic polling; alerts and controls share protected capacity. Research watch slots are reserved before surplus followups. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
     }

@@ -206,23 +206,57 @@ class Sampling:
                 ),
                 "discovery",
             )
-            if len(chosen) < config.observation_budget:
-                take(ready("1=1"), config.observation_budget - len(chosen), "other_followup")
+            # Preserve a small research allocation before surplus promised work.
+            # Without this, a busy follow-up universe can take every remaining
+            # slot, leaving no second observation for a recent token or holding.
             if len(chosen) < config.observation_budget:
                 params = lifecycle.parameters(self.engine, config, now)
                 params["limit"] = config.observation_budget + len(ids)
                 rows = db.execute(
-                    lifecycle.SQL + "SELECT c.* FROM opportunity_candidates c JOIN monitoring m ON m.id=c.id WHERE m.state IN ('awaiting_first_observation','manual_watch','reactivated','active') AND c.next_due<=:clock ORDER BY c.next_due,c.id LIMIT :limit",
+                    lifecycle.SQL
+                    + "SELECT c.* FROM opportunity_candidates c JOIN monitoring m ON m.id=c.id WHERE m.state IN ('awaiting_first_observation','manual_watch','reactivated','active') AND m.effective_due<=:clock ORDER BY CASE m.state WHEN 'manual_watch' THEN 0 WHEN 'reactivated' THEN 1 WHEN 'awaiting_first_observation' THEN 2 ELSE 3 END,m.effective_due,c.id LIMIT :limit",
                     params,
                 ).fetchall()
+                take(
+                    rows,
+                    min(
+                        max(1, config.observation_budget // 6),
+                        config.observation_budget - len(chosen),
+                    ),
+                    "active_watch",
+                )
+            if len(chosen) < config.observation_budget:
+                take(ready("1=1"), config.observation_budget - len(chosen), "other_followup")
+            if len(chosen) < config.observation_budget:
                 take(rows, config.observation_budget - len(chosen), "active_watch")
             if len(chosen) < config.observation_budget:
+                params = lifecycle.parameters(self.engine, config, now)
                 params["limit"] = config.observation_budget + len(ids)
                 rows = db.execute(
-                    lifecycle.SQL + "SELECT c.* FROM opportunity_candidates c JOIN monitoring m ON m.id=c.id WHERE m.state IN ('followup','background','metadata_unknown') AND c.next_due<=:clock ORDER BY c.next_due,c.id LIMIT :limit",
+                    lifecycle.SQL
+                    + "SELECT c.* FROM opportunity_candidates c JOIN monitoring m ON m.id=c.id WHERE m.state IN ('followup','background','metadata_unknown') AND m.effective_due<=:clock ORDER BY m.effective_due,c.id LIMIT :limit",
                     params,
                 ).fetchall()
                 take(rows, config.observation_budget - len(chosen), "background")
+            if chosen:
+                # Allocation remains balanced. Execute the admitted subjects by
+                # their earliest *currently due* job, regardless of source lane.
+                marks = ",".join("?" for _ in chosen)
+                deadlines = dict(
+                    db.execute(
+                        f"SELECT candidate_id,min(deadline_at) FROM observation_jobs WHERE candidate_id IN ({marks}) AND status='pending' AND due_at<=? AND deadline_at>=? GROUP BY candidate_id",
+                        (*[c["id"] for c in chosen], now, now),
+                    ).fetchall()
+                )
+                for c in chosen:
+                    c["collection_deadline"] = deadlines.get(c["id"])
+                chosen.sort(
+                    key=lambda c: (
+                        c["collection_deadline"]
+                        if c["collection_deadline"] is not None
+                        else float("inf")
+                    )
+                )
         return chosen
 
     def dispatch(self, candidates):

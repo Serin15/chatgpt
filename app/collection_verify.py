@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import math
 import time
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -14,6 +15,8 @@ from app.opportunity_sampling import SAMPLING_VERSION
 
 def verify(url, duration):
     started = time.monotonic()
+    since = time.time()
+    accumulated = {"alerts": {}, "control": {}}
     last_log = -30
     with httpx.Client(base_url=url, timeout=20, trust_env=False) as client:
         status = client.get("/api/status")
@@ -28,25 +31,37 @@ def verify(url, duration):
             response = client.get("/api/opportunities/coverage")
             response.raise_for_status()
             coverage = response.json()
-            examples = {
-                k: [
-                    r
-                    for r in coverage.get("recent_attempts", {}).get(k, [])
-                    if r["source_kind"] == "live_provider_observation"
-                    and r["quote_observed_at"]
-                    and r["due_at"]
-                    <= epoch(r["quote_observed_at"])
-                    <= epoch(r["observed_at"])
-                    <= r["deadline_at"]
-                    and r["provenance"] == "prospective"
-                ]
-                for k in ["alerts", "control"]
+            until = time.time()
+            for group in accumulated:
+                for r in coverage.get("recent_attempts", {}).get(group, []):
+                    try:
+                        quote, received = epoch(r["quote_observed_at"]), epoch(r["observed_at"])
+                        valid = (
+                            r["source_kind"] == "live_provider_observation"
+                            and r["provenance"] == "prospective"
+                            and isinstance(r["id"], int)
+                            and isinstance(r["candidate_id"], int)
+                            and all(
+                                math.isfinite(v)
+                                for v in (quote, received, r["due_at"], r["deadline_at"])
+                            )
+                            and since <= quote <= received <= until
+                            and r["due_at"] <= quote <= received <= r["deadline_at"]
+                        )
+                        if valid:
+                            accumulated[group][r["id"]] = r
+                    except (ValueError, TypeError, KeyError, OverflowError):
+                        continue
+            examples = {group: list(rows.values()) for group, rows in accumulated.items()}
+            captures = {
+                group: len({(r["candidate_id"], r["quote_observed_at"]) for r in rows})
+                for group, rows in examples.items()
             }
             criteria = {
                 "real_money_disabled": True,
                 "prospective_collection_policy": coverage.get("version") == SAMPLING_VERSION,
-                "control_market_observations_in_window": len(examples["control"]) >= 2,
-                "alert_market_observations_in_window": len(examples["alerts"]) >= 2,
+                "control_market_observations_in_window": captures["control"] >= 2,
+                "alert_market_observations_in_window": captures["alerts"] >= 2,
                 "later_exit_observed": any(r["phase"] == "exit" for r in examples["alerts"]),
                 "control_price_checkpoint_observed": any(
                     r["phase"] == "checkpoint" for r in examples["control"]
@@ -77,12 +92,15 @@ def verify(url, duration):
             "complete": all(criteria.values()),
             "criteria": criteria,
             "duration_seconds": round(elapsed),
+            "validation_started_at_epoch": since,
+            "validation_finished_at_epoch": until,
+            "distinct_observations": captures,
             "source": "normal worker with public providers; no candidate injection or threshold changes",
             "requests": "read-only API requests",
             "coverage": coverage,
             "examples": examples,
             "manual_account_orders": {a: len(p["orders"]) for a, p in ledgers.items()},
-            "note": "This verifies observed windows, not predictive quality, fair coverage under every future load, or real execution. Pending/failed observations remain in the report.",
+            "note": "Only provider quotes captured and received during this verification count. Distinct market captures, not duplicate jobs, are counted. This verifies observed windows, not predictive quality, fair coverage under every future load, or real execution. Pending/failed observations remain in the report.",
         }
         return result
 

@@ -1,0 +1,32 @@
+{
+  "normal_cycles": 6,
+  "new_candidates": 111,
+  "observations": 360,
+  "timing_seconds": [
+    69.8114,
+    103.7192,
+    87.9002,
+    114.6678,
+    69.8421,
+    62.5545
+  ],
+  "active_slots": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "errors": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "excluded_previous_runtime": [
+    7169
+  ]
+}

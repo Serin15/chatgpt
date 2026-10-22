@@ -1,0 +1,1714 @@
+{
+  "url": "http://127.0.0.1:8001",
+  "real_data": true,
+  "response_injection": false,
+  "orders_placed": 0,
+  "javascript_errors": [],
+  "http_5xx": [],
+  "policy": {
+    "id": 30,
+    "at": "2026-10-22T21:20:42.122296+00:00",
+    "sha256": "ae91054724c104e0ccc4fe1859421580ab8b2d767e034f081f77f9332046027d"
+  },
+  "protocol": {
+    "policy_id": 30,
+    "declared_at": "2026-10-22T21:20:42.129976+00:00",
+    "test_from": "2026-10-23T21:20:42.129976+00:00",
+    "payload": "{\"boundary\": \"purge entry+horizon+exit windows crossing test_from\", \"control\": \"prospective contract-hash enrollment; exclude selected from comparison\", \"costs\": \"original frozen per-signal costs; independent paper experiments\", \"cutoff_basis\": \"24h_after_declaration\", \"policy_sha256\": \"ae91054724c104e0ccc4fe1859421580ab8b2d767e034f081f77f9332046027d\", \"threshold_optimization\": false, \"version\": \"prospective-holdout-v1\"}"
+  },
+  "first_baseline_signal_id": 267828,
+  "first_real_candidate": {
+    "id": 109191,
+    "chain": "solana",
+    "contract": "rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump",
+    "pool": "8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA",
+    "discovered_at": "2026-10-22T21:20:43.351150+00:00",
+    "ingested_at": "2026-10-22T21:20:44.415088+00:00",
+    "discovery": {
+      "chain": "solana",
+      "contract": "rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump",
+      "discovery_basis": "provider_new_pool_feed",
+      "first_capture_available": true,
+      "imported_from_cache": false,
+      "indexed_at": null,
+      "liquidity_usd": 3037.3883,
+      "name": "ZC / SOL",
+      "observed_at": "2026-10-22T21:20:43.351142+00:00",
+      "official_affiliation": "unverified",
+      "pool": "8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA",
+      "pool_created_at_reported": "2026-10-22T21:18:09Z",
+      "pool_identifier_type": "account_address",
+      "price_usd": 3.9030448331440964e-06,
+      "source": "GeckoTerminal",
+      "source_first_seen_at": "2026-10-22T21:20:43.351150+00:00",
+      "token_launched_at": null
+    },
+    "eligible": 1,
+    "exclusion_reason": null,
+    "next_due": 1792704418.324453,
+    "last_attempt_at": "2026-10-22T21:21:58.324453+00:00",
+    "failures": 0,
+    "signals": [
+      {
+        "id": 267760,
+        "candidate_id": 109191,
+        "observation_id": null,
+        "at": "2026-10-22T21:20:44.415088+00:00",
+        "kind": "discovery",
+        "verdict": "MONITOR",
+        "policy_id": 30,
+        "payload": {
+          "decision_at": "2026-10-22T21:20:44.415088+00:00",
+          "discovery": {
+            "chain": "solana",
+            "contract": "rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump",
+            "discovery_basis": "provider_new_pool_feed",
+            "first_capture_available": true,
+            "imported_from_cache": false,
+            "indexed_at": null,
+            "liquidity_usd": 3037.3883,
+            "name": "ZC / SOL",
+            "observed_at": "2026-10-22T21:20:43.351142+00:00",
+            "official_affiliation": "unverified",
+            "pool": "8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA",
+            "pool_created_at_reported": "2026-10-22T21:18:09Z",
+            "pool_identifier_type": "account_address",
+            "price_usd": 3.9030448331440964e-06,
+            "source": "GeckoTerminal",
+            "source_first_seen_at": "2026-10-22T21:20:43.351150+00:00",
+            "token_launched_at": null
+          },
+          "negative": [],
+          "no_future_data": true,
+          "positive": [],
+          "scores": {},
+          "unknown": [
+            "Discovery metadata only; enrichment has not yet completed."
+          ],
+          "verdict": "MONITOR"
+        }
+      },
+      {
+        "id": 267828,
+        "candidate_id": 109191,
+        "observation_id": 430855,
+        "at": "2026-10-22T21:21:25.440971+00:00",
+        "kind": "baseline",
+        "verdict": "REJECT",
+        "policy_id": 30,
+        "payload": {
+          "costs": {
+            "economically_feasible_in_model": false,
+            "error": "Liquidity/size/impact constraints prevent the estimated round trip.",
+            "execution_verified": false
+          },
+          "decision_at": "2026-10-22T21:21:25.440971+00:00",
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": false,
+          "negative": [
+            "Lichiditate sub pragul de $25000.",
+            "Small-position modeled entry/exit unavailable."
+          ],
+          "no_future_data": true,
+          "policy": {
+            "at": "2026-10-22T21:20:42.122296+00:00",
+            "id": 30,
+            "payload": {
+              "collection_rules": {
+                "background_watch_hours": 48,
+                "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
+                "execution_order": "earliest currently due deadline among admitted unique candidates; stable ties",
+                "market_batch_size": 30,
+                "monitoring_version": "bounded-background-v1",
+                "open_promises_override_background_age": true,
+                "research_reserve_rule": "up to max(1,floor(budget/6)) slots after balanced protected followups and discovery, before surplus followups; manual/evidenced-story cadence overrides daily background",
+                "route_budget_scope": "one_collector_cycle",
+                "scheduling_version": "balanced-research-deadlines-v2",
+                "security_allocation_version": "early-security-reserve-v1",
+                "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
+                "security_refresh_reserve_seconds": 85,
+                "version": "incremental-routes-v1"
+              },
+              "config": {
+                "active_watch_seconds": 900,
+                "activity_samples": 0,
+                "ai_narratives": false,
+                "alert_verdicts": [
+                  "INVESTIGATE",
+                  "CONSIDER"
+                ],
+                "background_interval_seconds": 86400,
+                "background_watch_hours": 48,
+                "cooldown_seconds": 3600,
+                "discovery_pages": 2,
+                "enabled": true,
+                "entry_window_seconds": 180,
+                "exit_window_seconds": 180,
+                "horizons_seconds": [
+                  300,
+                  3600,
+                  86400
+                ],
+                "interval_seconds": 60,
+                "max_change_5m_pct": 30.0,
+                "max_extension_pct": 50.0,
+                "max_liquidity_drop_pct": 30.0,
+                "max_pool_age_hours": 24,
+                "max_roundtrip_cost_pct": 5.0,
+                "min_transactions_5m": 10,
+                "observation_budget": 60,
+                "position_usd": 50.0,
+                "routed_quote_budget": 4,
+                "routed_quotes_enabled": true,
+                "routed_slippage_bps": 50,
+                "security_budget": 8,
+                "telegram_enabled": false,
+                "test_from": "2026-10-18T00:00:00Z"
+              },
+              "forward_quote_window_version": 2,
+              "observation_rules": {
+                "max_snapshot_age": 120,
+                "min_signal_delay": 3
+              },
+              "paper_rules": {
+                "max_price_impact": "0.02",
+                "min_liquidity": "25000",
+                "network_fee_usd": "0.01",
+                "reference_fee": "0.006",
+                "reference_slippage": "0.005",
+                "swap_fee": "0.003"
+              },
+              "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+              "routed_policy": {
+                "enabled": true,
+                "entry_window_seconds": 180,
+                "execution_verified": false,
+                "exit_window_seconds": 180,
+                "forward_quote_window_version": 2,
+                "horizons_seconds": [
+                  300,
+                  3600,
+                  86400
+                ],
+                "model": "independent_jupiter_min_out_scenario",
+                "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+                "observation_rules": {
+                  "max_snapshot_age": 120,
+                  "min_signal_delay": 3
+                },
+                "paper_rules": {
+                  "max_price_impact": "0.02",
+                  "min_liquidity": "25000",
+                  "network_fee_usd": "0.01",
+                  "reference_fee": "0.006",
+                  "reference_slippage": "0.005",
+                  "swap_fee": "0.003"
+                },
+                "position_usd": "50.0",
+                "quote_schema_version": 2,
+                "quote_timeout_seconds": 20,
+                "slippage_bps": 50,
+                "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+                "timestamp_clock": "utc_capture_clock_v1",
+                "version": "jupiter-forward-v2"
+              },
+              "rule_version": "memescope-3.2-market-references",
+              "sampling_version": "balanced-deadlines-v1",
+              "source_sha256": "efe530001fed0eb5bbe8092617ff50cc1de5c87a521b747f8b9cb8ace8b4ff3c"
+            },
+            "sha256": "ae91054724c104e0ccc4fe1859421580ab8b2d767e034f081f77f9332046027d"
+          },
+          "positive": [],
+          "rank_score": null,
+          "rule_version": "memescope-3.2-market-references",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 20,
+            "early_momentum": 53.947,
+            "entry_attractiveness": 40,
+            "exit_liquidity": 5,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": null,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "reject",
+            "critical": [
+              "Lichiditate sub pragul de $25000."
+            ],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": false,
+            "positive": [],
+            "scores": {
+              "activity": 90,
+              "copyability": null,
+              "data_completeness": 50,
+              "liquidity_exit": 6,
+              "momentum": 58,
+              "research_priority": 0,
+              "security_risk": 100,
+              "wallet_quality": null
+            },
+            "security_checks_complete": false,
+            "security_fresh": true,
+            "unknown": [
+              "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+              "[GoPlus] Token mintabil: informație lipsă.",
+              "[GoPlus] Conturi înghețabile: informație lipsă.",
+              "[GoPlus] Transferuri interzise: informație lipsă.",
+              "Raportul GoPlus nu este disponibil."
+            ],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": false,
+          "unknown": [
+            "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+            "[GoPlus] Token mintabil: informație lipsă.",
+            "[GoPlus] Conturi înghețabile: informație lipsă.",
+            "[GoPlus] Transferuri interzise: informație lipsă.",
+            "Raportul GoPlus nu este disponibil.",
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "REJECT"
+        }
+      }
+    ],
+    "observations": [
+      {
+        "id": 430855,
+        "candidate_id": 109191,
+        "at": "2026-10-22T21:21:25.440971+00:00",
+        "status": "ok",
+        "payload": "{\"collection_lane\": \"active_watch\", \"decision\": {\"costs\": {\"economically_feasible_in_model\": false, \"error\": \"Liquidity/size/impact constraints prevent the estimated round trip.\", \"execution_verified\": false}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": false, \"negative\": [\"Lichiditate sub pragul de $25000.\", \"Small-position modeled entry/exit unavailable.\"], \"positive\": [], \"rank_score\": null, \"rule_version\": \"memescope-3.2-market-references\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 20, \"early_momentum\": 53.947, \"entry_attractiveness\": 40, \"exit_liquidity\": 5, \"market_participation_quality\": 60, \"narrative_social_evidence\": null, \"security_risk\": null, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"reject\", \"critical\": [\"Lichiditate sub pragul de $25000.\"], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": false, \"positive\": [], \"scores\": {\"activity\": 90, \"copyability\": null, \"data_completeness\": 50, \"liquidity_exit\": 6, \"momentum\": 58, \"research_priority\": 0, \"security_risk\": 100, \"wallet_quality\": null}, \"security_checks_complete\": false, \"security_fresh\": true, \"unknown\": [\"Autoritățile mint/freeze nu au fost verificate prin RPC.\", \"[GoPlus] Token mintabil: informație lipsă.\", \"[GoPlus] Conturi înghețabile: informație lipsă.\", \"[GoPlus] Transferuri interzise: informație lipsă.\", \"Raportul GoPlus nu este disponibil.\"], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": false, \"unknown\": [\"Autoritățile mint/freeze nu au fost verificate prin RPC.\", \"[GoPlus] Token mintabil: informație lipsă.\", \"[GoPlus] Conturi înghețabile: informație lipsă.\", \"[GoPlus] Transferuri interzise: informație lipsă.\", \"Raportul GoPlus nu este disponibil.\", \"Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\", \"Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints.\"], \"verdict\": \"REJECT\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 22, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": null}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 0, \"history_span_seconds\": 0, \"holder_growth\": null, \"latest_liquidity_change_pct\": null, \"organic_demand_verified\": false, \"pool_age_hours\": 0.054566936360465154, \"price_change_since_first_capture_pct\": -20.071702674905424, \"reported_transactions_5m\": 61, \"sellers_5m_provider_reported\": 19, \"social_mentions_growth\": null, \"story_reference_prior_24h_move_reported_pct\": null, \"suspicions\": [], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump\", \"buyers_5m_reported\": 22, \"buys_5m\": 27, \"change_5m\": 3.947, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 2964.3731, \"market_cap\": null, \"name\": \"ZC / SOL\", \"observed_at\": \"2026-10-22T21:21:16.003104+00:00\", \"pair_address\": \"8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA\", \"pool_created_at\": null, \"price_usd\": 3.119637278967155e-06, \"sellers_5m_reported\": 19, \"sells_5m\": 34, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"ZC\", \"volume_1h\": 4192.3729606539, \"volume_5m\": 4192.3729606539}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"contradictory\": [], \"market_references\": [], \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"ranking_supported\": false, \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 30, \"security\": {\"errors\": [\"Security budget/provider unavailable; screening unknown.\"], \"goplus\": null, \"observed_at\": \"2026-10-22T21:21:25.440960+00:00\", \"rpc\": null}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "collection_lane": "active_watch",
+        "decision": {
+          "costs": {
+            "economically_feasible_in_model": false,
+            "error": "Liquidity/size/impact constraints prevent the estimated round trip.",
+            "execution_verified": false
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": false,
+          "negative": [
+            "Lichiditate sub pragul de $25000.",
+            "Small-position modeled entry/exit unavailable."
+          ],
+          "positive": [],
+          "rank_score": null,
+          "rule_version": "memescope-3.2-market-references",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 20,
+            "early_momentum": 53.947,
+            "entry_attractiveness": 40,
+            "exit_liquidity": 5,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": null,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "reject",
+            "critical": [
+              "Lichiditate sub pragul de $25000."
+            ],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": false,
+            "positive": [],
+            "scores": {
+              "activity": 90,
+              "copyability": null,
+              "data_completeness": 50,
+              "liquidity_exit": 6,
+              "momentum": 58,
+              "research_priority": 0,
+              "security_risk": 100,
+              "wallet_quality": null
+            },
+            "security_checks_complete": false,
+            "security_fresh": true,
+            "unknown": [
+              "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+              "[GoPlus] Token mintabil: informație lipsă.",
+              "[GoPlus] Conturi înghețabile: informație lipsă.",
+              "[GoPlus] Transferuri interzise: informație lipsă.",
+              "Raportul GoPlus nu este disponibil."
+            ],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": false,
+          "unknown": [
+            "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+            "[GoPlus] Token mintabil: informație lipsă.",
+            "[GoPlus] Conturi înghețabile: informație lipsă.",
+            "[GoPlus] Transferuri interzise: informație lipsă.",
+            "Raportul GoPlus nu este disponibil.",
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "REJECT"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 22,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": null
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 0,
+          "history_span_seconds": 0,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": null,
+          "organic_demand_verified": false,
+          "pool_age_hours": 0.054566936360465154,
+          "price_change_since_first_capture_pct": -20.071702674905424,
+          "reported_transactions_5m": 61,
+          "sellers_5m_provider_reported": 19,
+          "social_mentions_growth": null,
+          "story_reference_prior_24h_move_reported_pct": null,
+          "suspicions": [],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump",
+          "buyers_5m_reported": 22,
+          "buys_5m": 27,
+          "change_5m": 3.947,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 2964.3731,
+          "market_cap": null,
+          "name": "ZC / SOL",
+          "observed_at": "2026-10-22T21:21:16.003104+00:00",
+          "pair_address": "8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA",
+          "pool_created_at": null,
+          "price_usd": 3.119637278967155e-06,
+          "sellers_5m_reported": 19,
+          "sells_5m": 34,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "ZC",
+          "volume_1h": 4192.3729606539,
+          "volume_5m": 4192.3729606539
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "contradictory": [],
+          "market_references": [],
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "ranking_supported": false,
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 30,
+        "security": {
+          "errors": [
+            "Security budget/provider unavailable; screening unknown."
+          ],
+          "goplus": null,
+          "observed_at": "2026-10-22T21:21:25.440960+00:00",
+          "rpc": null
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      },
+      {
+        "id": 430895,
+        "candidate_id": 109191,
+        "at": "2026-10-22T21:21:58.324453+00:00",
+        "status": "ok",
+        "payload": "{\"collection_lane\": \"protected_followup\", \"decision\": {\"costs\": {\"economically_feasible_in_model\": false, \"error\": \"Liquidity/size/impact constraints prevent the estimated round trip.\", \"execution_verified\": false}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": false, \"negative\": [\"Lichiditate sub pragul de $25000.\", \"Small-position modeled entry/exit unavailable.\"], \"positive\": [], \"rank_score\": null, \"rule_version\": \"memescope-3.2-market-references\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 25, \"early_momentum\": 48.265, \"entry_attractiveness\": 26, \"exit_liquidity\": 4, \"market_participation_quality\": 5, \"narrative_social_evidence\": null, \"security_risk\": null, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"reject\", \"critical\": [\"Lichiditate sub pragul de $25000.\"], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": false, \"positive\": [], \"scores\": {\"activity\": 34, \"copyability\": null, \"data_completeness\": 50, \"liquidity_exit\": 5, \"momentum\": 47, \"research_priority\": 0, \"security_risk\": 100, \"wallet_quality\": null}, \"security_checks_complete\": false, \"security_fresh\": true, \"unknown\": [\"Autoritățile mint/freeze nu au fost verificate prin RPC.\", \"[GoPlus] Token mintabil: informație lipsă.\", \"[GoPlus] Conturi înghețabile: informație lipsă.\", \"[GoPlus] Transferuri interzise: informație lipsă.\", \"Raportul GoPlus nu este disponibil.\"], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": false, \"unknown\": [\"Autoritățile mint/freeze nu au fost verificate prin RPC.\", \"[GoPlus] Token mintabil: informație lipsă.\", \"[GoPlus] Conturi înghețabile: informație lipsă.\", \"[GoPlus] Transferuri interzise: informație lipsă.\", \"Raportul GoPlus nu este disponibil.\", \"Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\", \"Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints.\"], \"verdict\": \"REJECT\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 1, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": null}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 1, \"history_span_seconds\": 32.883482217788696, \"holder_growth\": null, \"latest_liquidity_change_pct\": -19.321582698210282, \"organic_demand_verified\": false, \"pool_age_hours\": 0.06370123697651757, \"price_change_since_first_capture_pct\": -21.45856387606043, \"reported_transactions_5m\": 3, \"sellers_5m_provider_reported\": 2, \"social_mentions_growth\": null, \"story_reference_prior_24h_move_reported_pct\": null, \"suspicions\": [], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump\", \"buyers_5m_reported\": 1, \"buys_5m\": 1, \"change_5m\": -1.735, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 2391.6093, \"market_cap\": null, \"name\": \"ZC / SOL\", \"observed_at\": \"2026-10-22T21:21:58.319680+00:00\", \"pair_address\": \"8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA\", \"pool_created_at\": null, \"price_usd\": 3.0655074645125944e-06, \"sellers_5m_reported\": 2, \"sells_5m\": 2, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"ZC\", \"volume_1h\": 4455.1765655264, \"volume_5m\": 262.8036048725}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"contradictory\": [], \"market_references\": [], \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"ranking_supported\": false, \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 30, \"security\": {\"errors\": [\"Security budget/provider unavailable; screening unknown.\"], \"goplus\": null, \"observed_at\": \"2026-10-22T21:21:58.324428+00:00\", \"rpc\": null}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "collection_lane": "protected_followup",
+        "decision": {
+          "costs": {
+            "economically_feasible_in_model": false,
+            "error": "Liquidity/size/impact constraints prevent the estimated round trip.",
+            "execution_verified": false
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": false,
+          "negative": [
+            "Lichiditate sub pragul de $25000.",
+            "Small-position modeled entry/exit unavailable."
+          ],
+          "positive": [],
+          "rank_score": null,
+          "rule_version": "memescope-3.2-market-references",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 25,
+            "early_momentum": 48.265,
+            "entry_attractiveness": 26,
+            "exit_liquidity": 4,
+            "market_participation_quality": 5,
+            "narrative_social_evidence": null,
+            "security_risk": null,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "reject",
+            "critical": [
+              "Lichiditate sub pragul de $25000."
+            ],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": false,
+            "positive": [],
+            "scores": {
+              "activity": 34,
+              "copyability": null,
+              "data_completeness": 50,
+              "liquidity_exit": 5,
+              "momentum": 47,
+              "research_priority": 0,
+              "security_risk": 100,
+              "wallet_quality": null
+            },
+            "security_checks_complete": false,
+            "security_fresh": true,
+            "unknown": [
+              "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+              "[GoPlus] Token mintabil: informație lipsă.",
+              "[GoPlus] Conturi înghețabile: informație lipsă.",
+              "[GoPlus] Transferuri interzise: informație lipsă.",
+              "Raportul GoPlus nu este disponibil."
+            ],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": false,
+          "unknown": [
+            "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+            "[GoPlus] Token mintabil: informație lipsă.",
+            "[GoPlus] Conturi înghețabile: informație lipsă.",
+            "[GoPlus] Transferuri interzise: informație lipsă.",
+            "Raportul GoPlus nu este disponibil.",
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "REJECT"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 1,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": null
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 1,
+          "history_span_seconds": 32.883482217788696,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": -19.321582698210282,
+          "organic_demand_verified": false,
+          "pool_age_hours": 0.06370123697651757,
+          "price_change_since_first_capture_pct": -21.45856387606043,
+          "reported_transactions_5m": 3,
+          "sellers_5m_provider_reported": 2,
+          "social_mentions_growth": null,
+          "story_reference_prior_24h_move_reported_pct": null,
+          "suspicions": [],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump",
+          "buyers_5m_reported": 1,
+          "buys_5m": 1,
+          "change_5m": -1.735,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 2391.6093,
+          "market_cap": null,
+          "name": "ZC / SOL",
+          "observed_at": "2026-10-22T21:21:58.319680+00:00",
+          "pair_address": "8XYjJd3LQz3aQwZckgqToqYpdCVpYZ8mbiW8sdUuQLtA",
+          "pool_created_at": null,
+          "price_usd": 3.0655074645125944e-06,
+          "sellers_5m_reported": 2,
+          "sells_5m": 2,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "ZC",
+          "volume_1h": 4455.1765655264,
+          "volume_5m": 262.8036048725
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "contradictory": [],
+          "market_references": [],
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "ranking_supported": false,
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 30,
+        "security": {
+          "errors": [
+            "Security budget/provider unavailable; screening unknown."
+          ],
+          "goplus": null,
+          "observed_at": "2026-10-22T21:21:58.324428+00:00",
+          "rpc": null
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      }
+    ],
+    "observations_total": 2,
+    "history_truncated": false,
+    "outcomes": [
+      {
+        "signal_id": 267828,
+        "horizon_seconds": 300,
+        "state": "entry_unavailable",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-22T21:21:25.440971+00:00",
+          "horizon_seconds": 300,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 30,
+          "entry_observation_id": 430895,
+          "entry_at": "2026-10-22T21:21:58.324453+00:00",
+          "entry_delay_seconds": 33,
+          "unavailable_reason": "security_liquidity_cost_or_timestamp_gate",
+          "collection": {
+            "phase": "entry",
+            "job_id": 266278,
+            "status": "attempted",
+            "reason": "risk_or_liquidity_gate",
+            "deadline_at_epoch": 1792704265.440971
+          }
+        },
+        "updated_at": "2026-10-22T21:22:14.229535+00:00"
+      },
+      {
+        "signal_id": 267828,
+        "horizon_seconds": 3600,
+        "state": "entry_unavailable",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-22T21:21:25.440971+00:00",
+          "horizon_seconds": 3600,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 30,
+          "entry_observation_id": 430895,
+          "entry_at": "2026-10-22T21:21:58.324453+00:00",
+          "entry_delay_seconds": 33,
+          "unavailable_reason": "security_liquidity_cost_or_timestamp_gate",
+          "collection": {
+            "phase": "entry",
+            "job_id": 266278,
+            "status": "attempted",
+            "reason": "risk_or_liquidity_gate",
+            "deadline_at_epoch": 1792704265.440971
+          }
+        },
+        "updated_at": "2026-10-22T21:22:14.230956+00:00"
+      },
+      {
+        "signal_id": 267828,
+        "horizon_seconds": 86400,
+        "state": "entry_unavailable",
+        "payload": {
+          "pnl_usd": null,
+          "signal_at": "2026-10-22T21:21:25.440971+00:00",
+          "horizon_seconds": 86400,
+          "execution_verified": false,
+          "model": "independent_estimated_pool_scenario",
+          "policy_id": 30,
+          "entry_observation_id": 430895,
+          "entry_at": "2026-10-22T21:21:58.324453+00:00",
+          "entry_delay_seconds": 33,
+          "unavailable_reason": "security_liquidity_cost_or_timestamp_gate",
+          "collection": {
+            "phase": "entry",
+            "job_id": 266278,
+            "status": "attempted",
+            "reason": "risk_or_liquidity_gate",
+            "deadline_at_epoch": 1792704265.440971
+          }
+        },
+        "updated_at": "2026-10-22T21:22:14.232367+00:00"
+      }
+    ],
+    "live_execution": false,
+    "sampling_enrollment": {
+      "candidate_id": 109191,
+      "at": "2026-10-22T21:20:44.415088+00:00",
+      "control_member": 1,
+      "provenance": "prospective",
+      "version": "balanced-deadlines-v1"
+    },
+    "monitoring": {
+      "version": "bounded-background-v1",
+      "state": "active",
+      "reason": "within_active_observation_window",
+      "has_open_promises": true,
+      "background_until": "2026-10-24T21:20:44.415088+00:00",
+      "background_watch_hours": 48,
+      "history_preserved": true,
+      "not_a_new_launch": true
+    },
+    "routed": {
+      "entries": [
+        {
+          "signal_id": 267828,
+          "candidate_id": 109191,
+          "at": "2026-10-22T21:21:25.440971+00:00",
+          "policy": {
+            "declared_at": "2026-10-22T21:20:42.122296+00:00",
+            "enabled": true,
+            "entry_window_seconds": 180,
+            "execution_verified": false,
+            "exit_window_seconds": 180,
+            "forward_quote_window_version": 2,
+            "horizons_seconds": [
+              300,
+              3600,
+              86400
+            ],
+            "model": "independent_jupiter_min_out_scenario",
+            "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+            "observation_rules": {
+              "max_snapshot_age": 120,
+              "min_signal_delay": 3
+            },
+            "opportunity_policy_id": 30,
+            "paper_rules": {
+              "max_price_impact": "0.02",
+              "min_liquidity": "25000",
+              "network_fee_usd": "0.01",
+              "reference_fee": "0.006",
+              "reference_slippage": "0.005",
+              "swap_fee": "0.003"
+            },
+            "position_usd": "50.0",
+            "quote_schema_version": 2,
+            "quote_timeout_seconds": 20,
+            "slippage_bps": 50,
+            "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+            "test_from": "2026-10-18T00:00:00Z",
+            "timestamp_clock": "utc_capture_clock_v1",
+            "version": "jupiter-forward-v2"
+          },
+          "selected": 0,
+          "control_member": 1,
+          "entry_state": "entry_rejected",
+          "reason": "original_risk_gate",
+          "entry_at": null,
+          "entry_payload": null,
+          "entry_attempt_id": null
+        }
+      ],
+      "outcomes": [
+        {
+          "signal_id": 267828,
+          "horizon_seconds": 300,
+          "target_at": null,
+          "state": "entry_rejected",
+          "payload": {
+            "execution_verified": false,
+            "model": "independent_jupiter_min_out_scenario",
+            "pnl_usd": null,
+            "reason": "original_risk_gate"
+          },
+          "updated_at": "2026-10-22T21:21:25.797377+00:00"
+        },
+        {
+          "signal_id": 267828,
+          "horizon_seconds": 3600,
+          "target_at": null,
+          "state": "entry_rejected",
+          "payload": {
+            "execution_verified": false,
+            "model": "independent_jupiter_min_out_scenario",
+            "pnl_usd": null,
+            "reason": "original_risk_gate"
+          },
+          "updated_at": "2026-10-22T21:21:25.797414+00:00"
+        },
+        {
+          "signal_id": 267828,
+          "horizon_seconds": 86400,
+          "target_at": null,
+          "state": "entry_rejected",
+          "payload": {
+            "execution_verified": false,
+            "model": "independent_jupiter_min_out_scenario",
+            "pnl_usd": null,
+            "reason": "original_risk_gate"
+          },
+          "updated_at": "2026-10-22T21:21:25.797437+00:00"
+        }
+      ],
+      "attempts": [],
+      "execution_verified": false
+    },
+    "current_narrative": {
+      "supported": [],
+      "uncertain": [],
+      "contradictory": [],
+      "market_references": [],
+      "ranking_supported": false,
+      "publication_hosts": [],
+      "news_recurrence_counts": {},
+      "social_mentions_growth": null,
+      "community_activity": null,
+      "score": null,
+      "ai_interpretations": [],
+      "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement."
+    }
+  },
+  "runtime": {
+    "at": "2026-10-22T21:23:22.875954+00:00",
+    "collection": {
+      "activated_at": "2026-10-16T08:41:24.600695+00:00",
+      "due": {
+        "candidates": 102,
+        "earliest": 1792704134.015826,
+        "jobs": 105
+      },
+      "enrollment": [
+        {
+          "control_member": 0,
+          "n": 87390,
+          "never_observed": 15,
+          "provenance": "prospective"
+        },
+        {
+          "control_member": 1,
+          "n": 21827,
+          "never_observed": 2,
+          "provenance": "prospective"
+        }
+      ],
+      "generated_at": "2026-10-22T21:22:06.452668+00:00",
+      "groups": {
+        "alerts": {
+          "checkpoint": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "entry": {
+            "attempted": 3693,
+            "attempts_without_usable_price": 2,
+            "cancelled": 0,
+            "missed": 2,
+            "observed_attempt_rate": 0.9994587280108255,
+            "pending": 0,
+            "price_evidence_states": {
+              "observed": 3691,
+              "quote_unavailable": 2
+            },
+            "scheduled": 3695,
+            "usable_price_observations": 3691,
+            "usable_price_rate_among_attempts": 0.999458434876794
+          },
+          "exit": {
+            "attempted": 8190,
+            "attempts_without_usable_price": 108,
+            "cancelled": 0,
+            "missed": 898,
+            "observed_attempt_rate": 0.9011883802816901,
+            "pending": 725,
+            "price_evidence_states": {
+              "observed": 8082,
+              "quote_before_window": 94,
+              "quote_unavailable": 14
+            },
+            "scheduled": 9813,
+            "usable_price_observations": 8082,
+            "usable_price_rate_among_attempts": 0.9868131868131869
+          },
+          "routed_exit": {
+            "attempted": 4657,
+            "attempts_without_usable_price": 66,
+            "cancelled": 0,
+            "missed": 539,
+            "observed_attempt_rate": 0.8962663587374904,
+            "pending": 420,
+            "price_evidence_states": {
+              "observed": 4591,
+              "quote_before_window": 63,
+              "quote_unavailable": 3
+            },
+            "scheduled": 5616,
+            "usable_price_observations": 4591,
+            "usable_price_rate_among_attempts": 0.9858277861284088
+          }
+        },
+        "control": {
+          "checkpoint": {
+            "attempted": 55027,
+            "attempts_without_usable_price": 354,
+            "cancelled": 0,
+            "missed": 6096,
+            "observed_attempt_rate": 0.9002666753922419,
+            "pending": 4358,
+            "price_evidence_states": {
+              "observed": 54673,
+              "quote_before_window": 3,
+              "quote_unavailable": 352
+            },
+            "scheduled": 65481,
+            "usable_price_observations": 54673,
+            "usable_price_rate_among_attempts": 0.9935667944827085
+          },
+          "entry": {
+            "attempted": 21780,
+            "attempts_without_usable_price": 69,
+            "cancelled": 0,
+            "missed": 35,
+            "observed_attempt_rate": 0.9983955993582397,
+            "pending": 9,
+            "price_evidence_states": {
+              "observed": 21711,
+              "quote_unavailable": 69
+            },
+            "scheduled": 21824,
+            "usable_price_observations": 21711,
+            "usable_price_rate_among_attempts": 0.996831955922865
+          },
+          "exit": {
+            "attempted": 2142,
+            "attempts_without_usable_price": 65,
+            "cancelled": 0,
+            "missed": 245,
+            "observed_attempt_rate": 0.8973607038123167,
+            "pending": 163,
+            "price_evidence_states": {
+              "observed": 2077,
+              "quote_before_window": 60,
+              "quote_unavailable": 5
+            },
+            "scheduled": 2550,
+            "usable_price_observations": 2077,
+            "usable_price_rate_among_attempts": 0.9696545284780579
+          },
+          "routed_exit": {
+            "attempted": 1135,
+            "attempts_without_usable_price": 21,
+            "cancelled": 0,
+            "missed": 117,
+            "observed_attempt_rate": 0.9065495207667732,
+            "pending": 83,
+            "price_evidence_states": {
+              "observed": 1114,
+              "quote_before_window": 18,
+              "quote_unavailable": 3
+            },
+            "scheduled": 1335,
+            "usable_price_observations": 1114,
+            "usable_price_rate_among_attempts": 0.9814977973568282
+          }
+        }
+      },
+      "legacy_groups": {
+        "alerts": {
+          "checkpoint": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "entry": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "exit": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "routed_exit": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          }
+        },
+        "control": {
+          "checkpoint": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "entry": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "exit": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "routed_exit": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          }
+        }
+      },
+      "monitoring": {
+        "active_watch_seconds": 900,
+        "background_watch_hours": 48,
+        "capacity_note": "Due totals use the effective periodic schedule and retain paused background candidates. A new watch or evidenced story can shorten a previous daily schedule without rewriting it. Promised jobs bypass periodic polling; alerts and controls share protected capacity. Research watch slots are reserved before surplus followups. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+        "counts_by_state": {
+          "active": {
+            "candidates": 207,
+            "due": 91,
+            "invalid_attempt_timestamps": 0,
+            "never_attempted": 0,
+            "oldest_due_delay_seconds": 564,
+            "recent_attempts": 78,
+            "stale_attempts": 129
+          },
+          "awaiting_first_observation": {
+            "candidates": 6,
+            "due": 6,
+            "invalid_attempt_timestamps": 0,
+            "never_attempted": 6,
+            "oldest_due_delay_seconds": 22,
+            "recent_attempts": 0,
+            "stale_attempts": 0
+          },
+          "background": {
+            "candidates": 30614,
+            "due": 26509,
+            "invalid_attempt_timestamps": 0,
+            "never_attempted": 0,
+            "oldest_due_delay_seconds": 172338,
+            "recent_attempts": 0,
+            "stale_attempts": 30614
+          },
+          "followup": {
+            "candidates": 5356,
+            "due": 189,
+            "invalid_attempt_timestamps": 0,
+            "never_attempted": 0,
+            "oldest_due_delay_seconds": 51072,
+            "recent_attempts": 26,
+            "stale_attempts": 5330
+          },
+          "paused": {
+            "candidates": 73034,
+            "due": 72649,
+            "invalid_attempt_timestamps": 0,
+            "never_attempted": 0,
+            "oldest_due_delay_seconds": 370940,
+            "recent_attempts": 0,
+            "stale_attempts": 73034
+          }
+        },
+        "dispatchable_due": 26795,
+        "dispatchable_oldest_due_delay_seconds": 172338,
+        "due": 99444,
+        "freshness_max_age_seconds": 120,
+        "freshness_scope": "Last collection attempt, not a guarantee of a usable or executable market quote. Price and security timestamps must still pass their own gates.",
+        "history_preserved": true,
+        "not_enriched": 6,
+        "oldest_due_delay_seconds": 370940,
+        "paused_due": 72649,
+        "priority_due": 97,
+        "priority_stale_attempts": 129,
+        "promised_due_candidates": 109,
+        "promised_due_outside_periodic_queue": 105,
+        "scheduling_version": "balanced-research-deadlines-v2",
+        "stored_schedule_due": 99444,
+        "version": "bounded-background-v1"
+      },
+      "note": "Control membership fixed at discovery by contract hash, independent of score/return. Legacy data are not prospectively balanced. Groups may overlap. An observation attempt is not a successful fill; capacity and provider gaps remain explicit.",
+      "policy": {
+        "legacy_outcomes_recovered": true,
+        "old_default_budget_upgraded": false,
+        "version": "balanced-deadlines-v1"
+      },
+      "prospective_groups": {
+        "alerts": {
+          "checkpoint": {
+            "attempted": 0,
+            "attempts_without_usable_price": 0,
+            "cancelled": 0,
+            "missed": 0,
+            "observed_attempt_rate": null,
+            "pending": 0,
+            "price_evidence_states": {},
+            "scheduled": 0,
+            "usable_price_observations": 0,
+            "usable_price_rate_among_attempts": null
+          },
+          "entry": {
+            "attempted": 3693,
+            "attempts_without_usable_price": 2,
+            "cancelled": 0,
+            "missed": 2,
+            "observed_attempt_rate": 0.9994587280108255,
+            "pending": 0,
+            "price_evidence_states": {
+              "observed": 3691,
+              "quote_unavailable": 2
+            },
+            "scheduled": 3695,
+            "usable_price_observations": 3691,
+            "usable_price_rate_among_attempts": 0.999458434876794
+          },
+          "exit": {
+            "attempted": 8190,
+            "attempts_without_usable_price": 108,
+            "cancelled": 0,
+            "missed": 898,
+            "observed_attempt_rate": 0.9011883802816901,
+            "pending": 725,
+            "price_evidence_states": {
+              "observed": 8082,
+              "quote_before_window": 94,
+              "quote_unavailable": 14
+            },
+            "scheduled": 9813,
+            "usable_price_observations": 8082,
+            "usable_price_rate_among_attempts": 0.9868131868131869
+          },
+          "routed_exit": {
+            "attempted": 4657,
+            "attempts_without_usable_price": 66,
+            "cancelled": 0,
+            "missed": 539,
+            "observed_attempt_rate": 0.8962663587374904,
+            "pending": 420,
+            "price_evidence_states": {
+              "observed": 4591,
+              "quote_before_window": 63,
+              "quote_unavailable": 3
+            },
+            "scheduled": 5616,
+            "usable_price_observations": 4591,
+            "usable_price_rate_among_attempts": 0.9858277861284088
+          }
+        },
+        "control": {
+          "checkpoint": {
+            "attempted": 55027,
+            "attempts_without_usable_price": 354,
+            "cancelled": 0,
+            "missed": 6096,
+            "observed_attempt_rate": 0.9002666753922419,
+            "pending": 4358,
+            "price_evidence_states": {
+              "observed": 54673,
+              "quote_before_window": 3,
+              "quote_unavailable": 352
+            },
+            "scheduled": 65481,
+            "usable_price_observations": 54673,
+            "usable_price_rate_among_attempts": 0.9935667944827085
+          },
+          "entry": {
+            "attempted": 21780,
+            "attempts_without_usable_price": 69,
+            "cancelled": 0,
+            "missed": 35,
+            "observed_attempt_rate": 0.9983955993582397,
+            "pending": 9,
+            "price_evidence_states": {
+              "observed": 21711,
+              "quote_unavailable": 69
+            },
+            "scheduled": 21824,
+            "usable_price_observations": 21711,
+            "usable_price_rate_among_attempts": 0.996831955922865
+          },
+          "exit": {
+            "attempted": 2142,
+            "attempts_without_usable_price": 65,
+            "cancelled": 0,
+            "missed": 245,
+            "observed_attempt_rate": 0.8973607038123167,
+            "pending": 163,
+            "price_evidence_states": {
+              "observed": 2077,
+              "quote_before_window": 60,
+              "quote_unavailable": 5
+            },
+            "scheduled": 2550,
+            "usable_price_observations": 2077,
+            "usable_price_rate_among_attempts": 0.9696545284780579
+          },
+          "routed_exit": {
+            "attempted": 1135,
+            "attempts_without_usable_price": 21,
+            "cancelled": 0,
+            "missed": 117,
+            "observed_attempt_rate": 0.9065495207667732,
+            "pending": 83,
+            "price_evidence_states": {
+              "observed": 1114,
+              "quote_before_window": 18,
+              "quote_unavailable": 3
+            },
+            "scheduled": 1335,
+            "usable_price_observations": 1114,
+            "usable_price_rate_among_attempts": 0.9814977973568282
+          }
+        }
+      },
+      "prospective_reasons": {
+        "capacity_or_worker_gap": 10249,
+        "collection_finished_after_deadline": 622,
+        "provider_quote_unavailable": 1129,
+        "quote_before_window": 616,
+        "quote_received": 30023,
+        "risk_or_liquidity_gate": 214624,
+        "security_evidence_unavailable": 995
+      },
+      "reasons": {
+        "capacity_or_worker_gap": 10249,
+        "collection_finished_after_deadline": 622,
+        "provider_quote_unavailable": 1129,
+        "quote_before_window": 616,
+        "quote_received": 30023,
+        "risk_or_liquidity_gate": 214624,
+        "security_evidence_unavailable": 995
+      },
+      "recent_attempts": {
+        "alerts": [
+          {
+            "candidate_id": 107201,
+            "chain": "solana",
+            "contract": "6tQyT3hXuyNecZnuA5tj7XobCvLVj3SDgx8xwN9pump",
+            "deadline_at": 1792704233.70726,
+            "due_at": 1792704053.70726,
+            "horizon_seconds": 3600,
+            "id": 263903,
+            "observed_at": "2026-10-22T21:21:53.357562+00:00",
+            "phase": "exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:44.439208+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 265367,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 107201,
+            "chain": "solana",
+            "contract": "6tQyT3hXuyNecZnuA5tj7XobCvLVj3SDgx8xwN9pump",
+            "deadline_at": 1792704235.104302,
+            "due_at": 1792704055.104302,
+            "horizon_seconds": 3600,
+            "id": 263879,
+            "observed_at": "2026-10-22T21:21:53.357562+00:00",
+            "phase": "routed_exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:44.439208+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 265367,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 88525,
+            "chain": "solana",
+            "contract": "HzN41on4UFn9gZdZ2ZnPhpvp1SpwKmsSmaWpnYwTpump",
+            "deadline_at": 1792704133.556745,
+            "due_at": 1792703953.556745,
+            "horizon_seconds": 86400,
+            "id": 215488,
+            "observed_at": "2026-10-22T21:20:56.051282+00:00",
+            "phase": "exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:20:46.791342+00:00",
+            "reason": "quote_received",
+            "signal_id": 219202,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 109064,
+            "chain": "solana",
+            "contract": "KAfWqLkVVRC7j7pNpiRS9LKpuzSSoBdZjBRqzkVqSae",
+            "deadline_at": 1792704038.895788,
+            "due_at": 1792703858.895788,
+            "horizon_seconds": 300,
+            "id": 265959,
+            "observed_at": "2026-10-22T21:18:55.094148+00:00",
+            "phase": "exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:18:34.052182+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267398,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 109064,
+            "chain": "solana",
+            "contract": "KAfWqLkVVRC7j7pNpiRS9LKpuzSSoBdZjBRqzkVqSae",
+            "deadline_at": 1792704040.835867,
+            "due_at": 1792703860.835867,
+            "horizon_seconds": 300,
+            "id": 265920,
+            "observed_at": "2026-10-22T21:18:55.094148+00:00",
+            "phase": "routed_exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:18:34.052182+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267398,
+            "source_kind": "live_provider_observation"
+          }
+        ],
+        "control": [
+          {
+            "candidate_id": 109199,
+            "chain": "solana",
+            "contract": "57vdUH1LTPrjG3nFeMzHg1Wbp5bjG2c6z6SJEuiRpump",
+            "deadline_at": 1792704269.804437,
+            "due_at": 1792704092.804437,
+            "horizon_seconds": 0,
+            "id": 266286,
+            "observed_at": "2026-10-22T21:21:59.228771+00:00",
+            "phase": "entry",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:58.319764+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267836,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 109192,
+            "chain": "solana",
+            "contract": "481f9VV5JFhBLA8aus78625QcwM3iswEhaqPLzimpump",
+            "deadline_at": 1792704265.838287,
+            "due_at": 1792704088.838287,
+            "horizon_seconds": 0,
+            "id": 266279,
+            "observed_at": "2026-10-22T21:21:58.789848+00:00",
+            "phase": "entry",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:58.319749+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267829,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 109191,
+            "chain": "solana",
+            "contract": "rQcNhUWWesFF3dUg5G3wpsiU1MeRx1ZQ3FYLMBspump",
+            "deadline_at": 1792704265.440971,
+            "due_at": 1792704088.440971,
+            "horizon_seconds": 0,
+            "id": 266278,
+            "observed_at": "2026-10-22T21:21:58.324453+00:00",
+            "phase": "entry",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:58.319680+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267828,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 109188,
+            "chain": "solana",
+            "contract": "5k8yTmQdhQwKdKjT91qL7wdZJqHyCvK9akHFbLfxpump",
+            "deadline_at": 1792704264.154029,
+            "due_at": 1792704087.154029,
+            "horizon_seconds": 0,
+            "id": 266275,
+            "observed_at": "2026-10-22T21:21:57.236340+00:00",
+            "phase": "entry",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:44.439301+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267825,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 109187,
+            "chain": "solana",
+            "contract": "8D4BbVcJJdFxW9keP6x1mzbk6FC78A7Fkcq7v65Ypump",
+            "deadline_at": 1792704263.678739,
+            "due_at": 1792704086.678739,
+            "horizon_seconds": 0,
+            "id": 266274,
+            "observed_at": "2026-10-22T21:21:56.776196+00:00",
+            "phase": "entry",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:44.439292+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 267824,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 88525,
+            "chain": "solana",
+            "contract": "HzN41on4UFn9gZdZ2ZnPhpvp1SpwKmsSmaWpnYwTpump",
+            "deadline_at": 1792704133.556745,
+            "due_at": 1792703953.556745,
+            "horizon_seconds": 86400,
+            "id": 215488,
+            "observed_at": "2026-10-22T21:20:56.051282+00:00",
+            "phase": "exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:20:46.791342+00:00",
+            "reason": "quote_received",
+            "signal_id": 219202,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 88573,
+            "chain": "solana",
+            "contract": "6aLccL9FrBEaLALb5wTNMzWMZhm8yjdgSCRU4nfXpump",
+            "deadline_at": 1792704250.615813,
+            "due_at": 1792704070.615813,
+            "horizon_seconds": 86400,
+            "id": 215532,
+            "observed_at": "2026-10-22T21:21:54.636998+00:00",
+            "phase": "checkpoint",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T21:21:44.439239+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 219286,
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "candidate_id": 88103,
+            "chain": "solana",
+            "contract": "5YyfjMupMa2LVCVNgmcNoCGxuWxZrc6i53DMift46tL3",
+            "deadline_at": 1792702511.375523,
+            "due_at": 1792702331.375523,
+            "horizon_seconds": 86400,
+            "id": 214519,
+            "observed_at": "2026-10-22T20:52:57.243720+00:00",
+            "phase": "routed_exit",
+            "provenance": "prospective",
+            "quote_observed_at": "2026-10-22T20:52:53.405942+00:00",
+            "reason": "risk_or_liquidity_gate",
+            "signal_id": 218201,
+            "source_kind": "live_provider_observation"
+          }
+        ]
+      },
+      "version": "balanced-deadlines-v1"
+    },
+    "collection_plan": {
+      "admitted": 60,
+      "budget": 60,
+      "earliest_due_deadline": 1792704188.973676,
+      "lanes": {
+        "active_watch": 10,
+        "discovery": 20,
+        "other_followup": 17,
+        "protected_followup": 13
+      },
+      "scheduled_at": "2026-10-22T21:22:44.073121+00:00",
+      "version": "balanced-research-deadlines-v2"
+    },
+    "cycles": 7178,
+    "discovery_sources": {
+      "boosts": {
+        "at": "2026-10-22T21:22:42.512328+00:00",
+        "pools": 22,
+        "reported_tokens": 22,
+        "sampling_bias": "paid exposure",
+        "state": "ok"
+      },
+      "profiles": {
+        "at": "2026-10-22T21:22:42.400986+00:00",
+        "counts": {
+          "base": 1,
+          "solana": 25
+        },
+        "state": "ok"
+      },
+      "solana": {
+        "at": "2026-10-22T21:22:42.400929+00:00",
+        "count": 20,
+        "next_page": 3,
+        "page": 2,
+        "rejected": 0,
+        "state": "ok"
+      }
+    },
+    "errors": [
+      "anchored_pool_observation_missing"
+    ],
+    "new_candidates": 22,
+    "observed": 59,
+    "queue": {
+      "active_watch_seconds": 900,
+      "background_watch_hours": 48,
+      "capacity_note": "Due totals use the effective periodic schedule and retain paused background candidates. A new watch or evidenced story can shorten a previous daily schedule without rewriting it. Promised jobs bypass periodic polling; alerts and controls share protected capacity. Research watch slots are reserved before surplus followups. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+      "counts_by_state": {
+        "active": {
+          "candidates": 214,
+          "due": 79,
+          "invalid_attempt_timestamps": 0,
+          "never_attempted": 0,
+          "oldest_due_delay_seconds": 401,
+          "recent_attempts": 89,
+          "stale_attempts": 125
+        },
+        "background": {
+          "candidates": 30611,
+          "due": 26496,
+          "invalid_attempt_timestamps": 0,
+          "never_attempted": 0,
+          "oldest_due_delay_seconds": 172356,
+          "recent_attempts": 5,
+          "stale_attempts": 30606
+        },
+        "followup": {
+          "candidates": 5358,
+          "due": 192,
+          "invalid_attempt_timestamps": 0,
+          "never_attempted": 0,
+          "oldest_due_delay_seconds": 51149,
+          "recent_attempts": 33,
+          "stale_attempts": 5325
+        },
+        "paused": {
+          "candidates": 73056,
+          "due": 72673,
+          "invalid_attempt_timestamps": 0,
+          "never_attempted": 0,
+          "oldest_due_delay_seconds": 371016,
+          "recent_attempts": 0,
+          "stale_attempts": 73056
+        }
+      },
+      "dispatchable_due": 26767,
+      "dispatchable_oldest_due_delay_seconds": 172356,
+      "due": 99440,
+      "freshness_max_age_seconds": 120,
+      "freshness_scope": "Last collection attempt, not a guarantee of a usable or executable market quote. Price and security timestamps must still pass their own gates.",
+      "history_preserved": true,
+      "not_enriched": 0,
+      "oldest_due_delay_seconds": 371016,
+      "paused_due": 72673,
+      "priority_due": 79,
+      "priority_stale_attempts": 125,
+      "promised_due_candidates": 142,
+      "promised_due_outside_periodic_queue": 133,
+      "scheduling_version": "balanced-research-deadlines-v2",
+      "stored_schedule_due": 99440,
+      "version": "bounded-background-v1"
+    },
+    "routed_quotes": {
+      "at": "2026-10-22T21:23:01.299578+00:00",
+      "attempted": 4,
+      "collector_budget": 4,
+      "collector_cycle_at": "2026-10-22T21:22:42.159765+00:00",
+      "cycles": 76631,
+      "errors": [
+        "ProviderError: Sursa a răspuns HTTP 400.",
+        "Rejected: Security/liquidity screening unavailable or rejected"
+      ],
+      "ready": 1,
+      "state": "partial"
+    },
+    "security_allocation": {
+      "budget": 8,
+      "early_used": 1,
+      "note": "Provider attempts, including failures; not completed security checks. Original risk and freshness gates remain required.",
+      "other_used": 2,
+      "reserved_for_early": 3,
+      "unspent": 5,
+      "used": 3,
+      "version": "early-security-reserve-v1"
+    },
+    "started_at": "2026-10-22T21:22:42.159765+00:00",
+    "state": "partial",
+    "timing_seconds": {
+      "enrichment_and_routed_quotes": 35.3512,
+      "outcomes_and_status": 3.4516,
+      "provider_discovery": 1.0179,
+      "scheduling": 0.8557,
+      "story_discovery": 0.0397,
+      "total": 40.7162
+    }
+  },
+  "rows": 50,
+  "diagnostics": "Raport calculat la 23.10.2026, 00:22:06 · date păstrate în cache. Actualizare: în curs. Contoarele descriu ultimul raport calculat.\n\nUrmărire echilibrată din 16.10.2026, 11:41:24. 109217 candidați noi; 21827 în grupul fix de comparație.\n\nMonitorizare: 26795 reevaluări periodice scadente · 72649 în pauză · total periodic înregistrat 99444. Observații promise scadente: 109 candidați, dintre care 105 în afara programului periodic. Fereastra de fundal: 48 ore de la înregistrare. Dosarele și rezultatele rămân păstrate; observațiile promise, prima colectare, lista de urmărire și pozițiile virtuale deschise sunt protejate. Capacitatea API poate lăsa termene ratate; rezultatele lipsă rămân necunoscute.\n\nPunctualitatea colectării\n\n97 reevaluări prioritare scadente · 129 ultime încercări prioritare mai vechi de 120s.\n\nPrima colectare: 6 candidați · 6 scadente · întârziere maximă 22s · 0 încercări vechi.\nTokenuri descoperite recent: 207 candidați · 91 scadente · întârziere maximă 564s · 129 încercări vechi.\nRezultate și observații încă promise: 5356 candidați · 189 scadente · întârziere maximă 51072s · 5330 încercări vechi.\nReevaluări de fundal: 30614 candidați · 26509 scadente · întârziere maximă 172338s · 30614 încercări vechi.\nIstoric în pauză: 73034 candidați · 72649 scadente · întârziere maximă 370940s · 73034 încercări vechi.\n\nProspețimea de aici măsoară ultima încercare de colectare. Un răspuns eșuat recent nu este o cotație validă; prețul și securitatea au verificări separate. Rezervele împart capacitatea disponibilă, fără garanția respectării tuturor termenelor.\n\nAlerte\n\nIntrare: 3691 cotații utilizabile / 3693 încercări · 2 încercări fără preț utilizabil · 2 termene ratate · 0 în așteptare.\n\nIeșire: 8082 cotații utilizabile / 8190 încercări · 108 încercări fără preț utilizabil · 898 termene ratate · 725 în așteptare.\n\nRepere de preț, inclusiv tokenuri respinse: 0 cotații utilizabile / 0 încercări · 0 încercări fără preț utilizabil · 0 termene ratate · 0 în așteptare.\n\nObservații pentru ieșirile rutate: 4591 cotații utilizabile / 4657 încercări · 66 încercări fără preț utilizabil · 539 termene ratate · 420 în așteptare.\n\nGrup de comparație\n\nIntrare: 21711 cotații utilizabile / 21780 încercări · 69 încercări fără preț utilizabil · 35 termene ratate · 9 în așteptare.\n\nIeșire: 2077 cotații utilizabile / 2142 încercări · 65 încercări fără preț utilizabil · 245 termene ratate · 163 în așteptare.\n\nRepere de preț, inclusiv tokenuri respinse: 54673 cotații utilizabile / 55027 încercări · 354 încercări fără preț utilizabil · 6096 termene ratate · 4358 în așteptare.\n\nObservații pentru ieșirile rutate: 1114 cotații utilizabile / 1135 încercări · 21 încercări fără preț utilizabil · 117 termene ratate · 83 în așteptare.\n\nO cotație utilizabilă confirmă numai un preț raportat pentru pool-ul și intervalul cerut. Securitatea, lichiditatea de ieșire și execuția ordinului se verifică separat.\n\nPreț indisponibil la furnizor: 1129\n\nCotație preluată prea devreme: 616\n\nCotație primită: 30023\n\nFiltru de risc sau lichiditate: 214624\n\nNepreluate la timp (capacitate sau pauză): 10249\n\nColectare încheiată după termen: 622\n\nSecuritate insuficient verificată: 995\n\nGrupul se stabilește înaintea evaluării și poate include tokenuri alertate. Datele vechi rămân separate. Completitudinea observațiilor și rezultatele paper se măsoară separat.\n\nAcoperire și reguli de colectare",
+  "dossier_text": "KI\n\nDOSAR DE CERCETARE / SOLANA\n\nkimchi / SOL\nÎnchide dosarul ×\nKAfWqLkVVRC7j7pNpiRS9LKpuzSSoBdZjBRqzkVqSae\nCopiază adresa\nExplorer\nPiață\n\nIdentitate oficială neconfirmată · numele și simbolul pot fi imitate.\n\nPrima descoperire 23.10.2026, 00:10:58 · înregistrare în motor 23.10.2026, 00:11:00 · pool FSN8wt…PbUPF\n\nUltima observație 23.10.2026, 00:21:44 · răspuns API recent; ora tranzacției sursă poate fi necunoscută\n\nMonitorizare inițială activă\n\nREJECT\nRespins de regulile curente\nPreț raportat\n0,0000034915953 USD\nGeckoTerminal pool observation\nLichiditate disponibilă\n0,00 USD\nRaportată pentru acest pool\nVolum / 5 minute\n0,00 USD\nVolumul nu confirmă cerere organică\nVariație / 5 minute\n0.00%\nRaportată de sursă; fără predicție\nPreț observat\nOBSERVAȚII API · FĂRĂ DATE INTERPOLATE\n0,0000034915953 USD\n23.10.2026, 00:21:44\n23.10.2026, 00:11:47\n23.10.2026, 00:21:44\n\nMin observat 0,0000034915953 USD · max observat 0,000065181967 USD · 4 observații. Extrema dintre observații rămân necunoscute.\n\nCe s-a schimbat între observații\n\nComparații cu istoricul propriu al tokenului. Activitatea raportată și volumul în creștere nu confirmă cerere organică.\n\n5 minute\n\nIstoric insuficient pentru comparație.\n\n15 minute\n\nIstoric insuficient pentru comparație.\n\n1 oră\n\nIstoric insuficient pentru comparație.\n\nExtensie în ultima observație: pragul configurat nu a fost depășit în datele disponibile. Momentul lansării tokenului rămâne neconfirmat; vârsta poolului se verifică separat.\n\nProfilul de cercetare\n\nScoruri euristice, fără probabilități de câștig. La riscul de securitate, mai mare înseamnă mai riscant; la celelalte dimensiuni, dovezi mai puternice. Necunoscut nu înseamnă sigur.\n\nFiabilitatea datelor\n35/100\nMai mare = scor euristic mai ridicat\nMomentum timpuriu\n50/100\nMai mare = scor euristic mai ridicat\nCondiții de intrare\n25/100\nMai mare = scor euristic mai ridicat\nLichiditate de ieșire\n0/100\nMai mare = scor euristic mai ridicat\nParticipare observată\n0/100\nMai mare = scor euristic mai ridicat\nDovezi narative / sociale\nNecunoscut\nLipsesc dovezile necesare\nRisc în verificările disponibile\nNecunoscut\nMai mic = risc mai mic în verificările disponibile\nDovezi wallet\nNecunoscut\nLipsesc dovezile necesare\nCe susține cercetarea\n0 observații\n\nNicio observație raportată în această categorie.\n\nRiscuri\n2 observații\nLichiditate sub pragul de $25000.\nIntrarea sau ieșirea modelată pentru o poziție mică nu este disponibilă.\nNecunoscute\n11 observații\nAutoritățile mint/freeze nu au fost verificate prin RPC.\n[GoPlus] Token mintabil: informație lipsă.\n[GoPlus] Conturi înghețabile: informație lipsă.\n[GoPlus] Transferuri interzise: informație lipsă.\nRaportul GoPlus nu este disponibil.\nIdentitățile cumpărătorilor unici nu sunt validate independent. Contoarele furnizorului și numărul tranzacțiilor nu dovedesc participare organică.\nCreșterea numărului de deținători la nivel de proprietar nu este disponibilă.\nNu există o narațiune coroborată pentru acest contract. Potrivirile de nume rămân incerte.\nNu există dovezi fiabile de acumulare din walleturile urmărite.\nDatele agregate nu confirmă absența wash tradingului, identitatea dezvoltatorului, proprietatea LP sau posibilitatea vânzării.\nProspețimea răspunsului API folosește ora primirii. Aceste endpointuri nu furnizează ora tranzacției din sursa inițială.\nCând se invalidează ipoteza\n5 observații\nApare o autoritate privilegiată sau o restricție nouă asupra transferurilor.\nScade lichiditatea sau nu se mai poate obține o cotație de ieșire.\nDovezile recente nu mai sunt disponibile.\nCreșterea prețului depășește pragul de extensie configurat.\nApar contradicții între contract și surse.\nCosturi pentru o poziție virtuală mică\n\nModel estimativ de pool, separat de cotațiile Jupiter. Nu dovedește executarea unui ordin.\n\nIntrarea și ieșirea estimate nu sunt disponibile în limitele de lichiditate, mărime sau impact ale modelului.\n\nCosturi de intrare / ieșire estimate\nLegături actuale cu știrile\n\nDovezi disponibile acum; semnalele originale și scorurile lor rămân păstrate.\n\nNu există dovezi suficiente pentru a lega acest token de o știre.\n\nRezultate păstrate\n\nExperimente virtuale independente. Un rezultat lipsă sau o ieșire indisponibilă rămâne necunoscut, nu zero. MFE/MAE descriu numai observațiile disponibile.\n\nSemnal 267398\n5m\nIeșire indisponibilă\n\nPnL —\n\nMFE observat 0.00%\n\nMAE observat 0.00%\n\nStare înregistrată: exit_unavailable\n1 observații de preț · extrema reale dintre observații sunt necunoscute\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267398\n60m\nÎn așteptarea observațiilor\n\nPnL —\n\nMFE observat 0.00%\n\nMAE observat -94.64%\n\nStare înregistrată: pending\n3 observații de preț · extrema reale dintre observații sunt necunoscute\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267398\n1440m\nÎn așteptarea observațiilor\n\nPnL —\n\nMFE observat 0.00%\n\nMAE observat -94.64%\n\nStare înregistrată: pending\n3 observații de preț · extrema reale dintre observații sunt necunoscute\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267699\n5m\nIntrare indisponibilă\n\nPnL —\n\nMFE observat —\n\nMAE observat —\n\nStare înregistrată: entry_unavailable\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267699\n60m\nIntrare indisponibilă\n\nPnL —\n\nMFE observat —\n\nMAE observat —\n\nStare înregistrată: entry_unavailable\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267699\n1440m\nIntrare indisponibilă\n\nPnL —\n\nMFE observat —\n\nMAE observat —\n\nStare înregistrată: entry_unavailable\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267847\n5m\nÎn așteptarea observațiilor\n\nPnL —\n\nMFE observat —\n\nMAE observat —\n\nStare înregistrată: pending\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267847\n60m\nÎn așteptarea observațiilor\n\nPnL —\n\nMFE observat —\n\nMAE observat —\n\nStare înregistrată: pending\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267847\n1440m\nÎn așteptarea observațiilor\n\nPnL —\n\nMFE observat —\n\nMAE observat —\n\nStare înregistrată: pending\nRezultatul net nu poate fi stabilit din datele disponibile.\nIstoricul complet al rezultatelor\nPaper Jupiter · separat de estimările de pool\nSemnal 267398\n5m\nIeșire indisponibilă\n\nPnL virtual —\n\nStare înregistrată: exit_unavailable · Rejected: Security/liquidity screening unavailable or rejected\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267398\n60m\nÎn așteptarea observațiilor\n\nPnL virtual —\n\nStare înregistrată: pending\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267398\n1440m\nÎn așteptarea observațiilor\n\nPnL virtual —\n\nStare înregistrată: pending\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267699\n5m\nIntrare respinsă\n\nPnL virtual —\n\nStare înregistrată: entry_rejected · original_risk_gate\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267699\n60m\nIntrare respinsă\n\nPnL virtual —\n\nStare înregistrată: entry_rejected · original_risk_gate\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267699\n1440m\nIntrare respinsă\n\nPnL virtual —\n\nStare înregistrată: entry_rejected · original_risk_gate\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267847\n5m\nIntrare respinsă\n\nPnL virtual —\n\nStare înregistrată: entry_rejected · original_risk_gate\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267847\n60m\nIntrare respinsă\n\nPnL virtual —\n\nStare înregistrată: entry_rejected · original_risk_gate\nRezultatul net nu poate fi stabilit din datele disponibile.\nSemnal 267847\n1440m\nIntrare respinsă\n\nPnL virtual —\n\nStare înregistrată: entry_rejected · original_risk_gate\nRezultatul net nu poate fi stabilit din datele disponibile.\nCotații originale și politica de cost\nSemnale originale și politici înghețate\nObservații, narațiuni și walleturi\nCaptura inițială",
+  "layout": {
+    "320": {
+      "viewport": 320,
+      "scroll": 320
+    },
+    "390": {
+      "viewport": 390,
+      "scroll": 390
+    },
+    "768": {
+      "viewport": 768,
+      "scroll": 768
+    },
+    "1536": {
+      "viewport": 1536,
+      "scroll": 1536
+    }
+  },
+  "ledgers": {
+    "news": {
+      "mode": "paper",
+      "initial_balance": "500",
+      "cash": "500",
+      "positions": [],
+      "orders": [],
+      "account": "news",
+      "realized_pnl_usd": "0",
+      "estimated_equity_usd": "500"
+    },
+    "scanner": {
+      "mode": "paper",
+      "initial_balance": "100",
+      "cash": "100",
+      "positions": [],
+      "orders": [],
+      "account": "scanner",
+      "realized_pnl_usd": "0",
+      "estimated_equity_usd": "100"
+    }
+  },
+  "at_epoch": 1792704216.7104685
+}

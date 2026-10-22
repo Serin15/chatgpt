@@ -1,4 +1,6 @@
-# MemeScope v0.18.0 — research workspace
+# MemeScope v0.19.0 — research workspace
+
+**Colectare v0.19.0:** [reevaluări prioritare, urmărirea pozițiilor virtuale și verificare live strictă](docs/COLLECTION-V0.19.md). Tokenurile urmărite pot depăși programarea zilnică de fundal; termenele apropiate sunt executate primele dintre candidații admiși. Dashboardul separă întârzierile prioritare de istoricul de fundal.
 
 **Performanță v0.18.0:** [raport complet în fundal, proces de citire separat și colectare fără așteptări inutile](docs/PERFORMANCE-V0.18.md). Raportul afișează ora snapshotului; rezultatele viitoare sunt recalculate la termen sau când apar observații noi.
 

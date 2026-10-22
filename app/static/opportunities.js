@@ -302,6 +302,8 @@ async function loadOpportunityCandidates(mode = "refresh") {
     else if (queue?.due)
       $("engine-health").textContent +=
         ` În așteptare: ${queue.due}; întârziere maximă ${queue.oldest_due_delay_seconds}s.`;
+    if (queue?.priority_due != null)
+      $("engine-health").textContent += ` Prioritare scadente: ${queue.priority_due} (tokenuri recente, prima colectare, lista de urmărire și referințe documentate).`;
     const engineStates = {ok:"Motor activ", running:"Motor în colectare", partial:"Colectare parțială", error:"Eroare de colectare", disabled:"Motor oprit", idle:"Motor în așteptare"};
     $("engine-cycle-state").textContent = `${engineStates[first.status.state] || first.status.state || "Stare necunoscută"} · ultim ciclu ${date(first.status.at)}` + (first.status.errors?.length ? ` · ${first.status.errors.length} probleme` : "") + (queue?.dispatchable_due > 0 ? ` · ${queue.dispatchable_due.toLocaleString("ro-RO")} reevaluări scadente` : "");
     $("engine-status-panel").classList.toggle("has-warning", !!first.status.errors?.length || queue?.dispatchable_due > 0 || ["error", "partial"].includes(first.status.state));
@@ -672,6 +674,24 @@ function renderEngineCoverage(data) {
         "footnote",
       ),
     );
+  if (monitoring?.priority_due != null) {
+    root.append(node("h3", "Punctualitatea colectării"));
+    root.append(node("p", `${monitoring.priority_due} reevaluări prioritare scadente · ${monitoring.priority_stale_attempts ?? "—"} ultime încercări prioritare mai vechi de ${monitoring.freshness_max_age_seconds}s.`, "footnote"));
+    const states = node("ul", "", "footnote");
+    for (const [key, label] of [
+      ["awaiting_first_observation", "Prima colectare"],
+      ["active", "Tokenuri descoperite recent"],
+      ["manual_watch", "Lista de urmărire și poziții virtuale"],
+      ["reactivated", "Referințe documentate recente"],
+      ["followup", "Rezultate și observații încă promise"],
+      ["background", "Reevaluări de fundal"],
+      ["paused", "Istoric în pauză"],
+    ]) {
+      const s = monitoring.counts_by_state?.[key];
+      if (s) states.append(node("li", `${label}: ${s.candidates} candidați · ${s.due} scadente · întârziere maximă ${s.oldest_due_delay_seconds}s · ${s.stale_attempts} încercări vechi${s.invalid_attempt_timestamps ? ` · ${s.invalid_attempt_timestamps} timestampuri invalide` : ""}.`));
+    }
+    root.append(states, node("p", "Prospețimea de aici măsoară ultima încercare de colectare. Un răspuns eșuat recent nu este o cotație validă; prețul și securitatea au verificări separate. Rezervele împart capacitatea disponibilă, fără garanția respectării tuturor termenelor.", "footnote"));
+  }
   for (const [key, label] of [
     ["alerts", "Alerte"],
     ["control", "Grup de comparație"],
