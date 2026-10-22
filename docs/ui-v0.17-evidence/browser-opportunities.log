@@ -1,0 +1,1 @@
+{"pass": true, "data": "isolated fixtures", "checks": ["discovery list", "filter/search", "alert receipt and seen", "unknown scores", "paper outcomes", "sample chart", "config", "collection panel and saved budget", "separate Jupiter panel and saved routing policy", "mobile 390px", "zero ledger orders"]}

@@ -166,10 +166,11 @@ def main():
                 assert not page.request.get(base + "/api/portfolio?account=news").json()["orders"]
 
                 page.set_viewport_size({"width": 390, "height": 844})
-                expect(page.locator('.nav-item[data-page="journal"]')).to_be_visible()
+                expect(page.locator("#mobile-more")).to_be_visible()
                 page.get_by_role("button", name="Verifică documentele și identitatea").click()
                 expect(page.locator("pre.history-row")).to_be_visible()
                 assert page.evaluate("document.documentElement.scrollWidth") == 390
+                page.locator("#mobile-more").click()
                 page.locator('.nav-item[data-page="journal"]').click()
                 expect(page.locator("#performance")).to_contain_text(
                     "Nu demonstrează un avantaj financiar"

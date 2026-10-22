@@ -207,6 +207,10 @@ async function api(path, body) {
           : "Cerere invalidă. Verifică datele introduse.",
       );
     return data;
+  } catch (error) {
+    if (controller?.signal.aborted)
+      throw new Error("Răspunsul a depășit limita de 20 de secunde. Reîncearcă actualizarea.");
+    throw error;
   } finally {
     clearTimeout(timer);
   }
@@ -218,16 +222,45 @@ function setHealthDetails(open) {
 function navigate(page) {
   if (!pageNames[page]) return;
   setHealthDetails(false);
+  setWorkspaceNavigation(false);
   state.page = page;
   for (const p of Object.keys(pageNames)) $("view-" + p).hidden = p !== page;
   document
-    .querySelectorAll(".nav-item[data-page]")
-    .forEach((b) => b.classList.toggle("active", b.dataset.page === page));
+    .querySelectorAll(".nav-item[data-page], .mobile-dock [data-page]")
+    .forEach((b) => {
+      b.classList.toggle("active", b.dataset.page === page);
+      if (b.dataset.page === page) b.setAttribute("aria-current", "page");
+      else b.removeAttribute("aria-current");
+    });
   $("page-name").textContent = pageNames[page];
   if (location.hash !== "#" + page) history.pushState(null, "", "#" + page);
   window.scrollTo({ top: 0, behavior: "instant" });
   if (page === "advanced") renderAdvanced();
   if (page === "opportunities") renderOpportunities();
+}
+let workspaceNavigationOpener = null;
+function setWorkspaceNavigation(open, returnFocus = false) {
+  const wasOpen = document.body.classList.contains("navigation-open");
+  if (open && !wasOpen) workspaceNavigationOpener = document.activeElement;
+  document.body.classList.toggle("navigation-open", open);
+  $("navigation-backdrop").hidden = !open;
+  for (const id of ["navigation-toggle", "mobile-more"])
+    $(id).setAttribute("aria-expanded", String(open));
+  // Off-canvas navigation behaves as a modal on phones, including keyboard focus.
+  if (open && matchMedia("(max-width: 600px)").matches) {
+    $("workspace-navigation").setAttribute("role", "dialog");
+    $("workspace-navigation").setAttribute("aria-modal", "true");
+    $("main-content").inert = true;
+    document.querySelector(".mobile-dock").inert = true;
+    $("navigation-close").focus();
+  } else {
+    $("workspace-navigation").removeAttribute("role");
+    $("workspace-navigation").removeAttribute("aria-modal");
+    $("main-content").inert = false;
+    document.querySelector(".mobile-dock").inert = false;
+    if (returnFocus) (workspaceNavigationOpener?.getClientRects().length ? workspaceNavigationOpener : $("navigation-toggle")).focus();
+    else if (wasOpen) $("main-content").focus({preventScroll:true});
+  }
 }
 async function action(b, fn) {
   b.disabled = true;
@@ -1471,6 +1504,27 @@ $("health-close").onclick = () => {
   setHealthDetails(false);
   $("connection").focus();
 };
+for (const id of ["navigation-toggle", "mobile-more"])
+  $(id).onclick = () => setWorkspaceNavigation(true);
+for (const id of ["navigation-close", "navigation-backdrop"])
+  $(id).onclick = () => setWorkspaceNavigation(false, true);
+matchMedia("(max-width: 600px)").addEventListener("change", () => setWorkspaceNavigation(false));
+document.addEventListener("keydown", (event) => {
+  if (document.body.classList.contains("navigation-open")) {
+    if (event.key === "Escape") setWorkspaceNavigation(false, true);
+    if (event.key === "Tab") {
+      const items = [...$("workspace-navigation").querySelectorAll("a, button")].filter(n => n.getClientRects().length);
+      const first = items[0], last = items.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+    return;
+  }
+  if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && !event.target.closest("input, textarea, select, [contenteditable=true]") && state.page === "opportunities") {
+    event.preventDefault();
+    $("engine-search").focus();
+  }
+});
 $("add-form").onsubmit = (event) => {
   event.preventDefault();
   const b = event.currentTarget.querySelector("button");

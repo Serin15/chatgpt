@@ -36,6 +36,51 @@ function enginePill(text, verdict) {
     "pill engine-" + (verdict || "unknown").toLowerCase(),
   );
 }
+const verdictDescriptions = {
+  CONSIDER: "De luat în calcul pentru cercetare; fără recomandare de cumpărare",
+  INVESTIGATE: "Necesită cercetare suplimentară",
+  MONITOR: "De urmărit; condiții insuficiente pentru următorul pas",
+  REJECT: "Respins de regulile curente",
+  PENDING: "Date sau evaluare în așteptare",
+};
+// Translate fixed rule text only; unrecognized source statements retain their original wording.
+const researchTranslations = {
+  "Small-position estimated round trip passes liquidity and impact limits.": "Intrarea și ieșirea estimate pentru o poziție mică respectă limitele modelului de lichiditate și impact.",
+  "Small-position modeled entry/exit unavailable.": "Intrarea sau ieșirea modelată pentru o poziție mică nu este disponibilă.",
+  "Price already exceeds the configured extension threshold; avoid chasing.": "Prețul a depășit deja pragul configurat de creștere; există risc de intrare târzie.",
+  "Large observed USD liquidity decline; requires recheck.": "S-a observat o scădere mare a lichidității în USD; este necesară reverificarea.",
+  "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.": "Identitățile cumpărătorilor unici nu sunt validate independent. Contoarele furnizorului și numărul tranzacțiilor nu dovedesc participare organică.",
+  "Owner-level holder growth unavailable.": "Creșterea numărului de deținători la nivel de proprietar nu este disponibilă.",
+  "No corroborated contract-specific narrative; name matches remain uncertain.": "Nu există o narațiune coroborată pentru acest contract. Potrivirile de nume rămân incerte.",
+  "Contract-specific sources contain negative or contradictory context; issuer claims require independent review.": "Sursele asociate contractului conțin context negativ sau contradictoriu. Afirmațiile emitentului necesită verificare independentă.",
+  "No reliable monitored-wallet accumulation evidence.": "Nu există dovezi fiabile de acumulare din walleturile urmărite.",
+  "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.": "Datele agregate nu confirmă absența wash tradingului, identitatea dezvoltatorului, proprietatea LP sau posibilitatea vânzării.",
+  "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints.": "Prospețimea răspunsului API folosește ora primirii. Aceste endpointuri nu furnizează ora tranzacției din sursa inițială.",
+  "Fresh security screening, reported activity and recent pool age support further research.": "Verificările recente de securitate, activitatea raportată și vârsta mică a poolului susțin cercetarea suplimentară.",
+  "Observed history and non-overlapping five-minute windows support liquidity retention and reported or sampled participation.": "Istoricul observat și ferestrele de cinci minute fără suprapunere susțin menținerea lichidității și participarea raportată sau eșantionată.",
+  "Recent transaction counts unavailable.": "Numărul tranzacțiilor recente nu este disponibil.",
+  "Pool creation timestamp unavailable; early status is unconfirmed.": "Momentul creării poolului nu este disponibil; stadiul timpuriu rămâne neconfirmat.",
+  "New privileged authority or transfer restriction": "Apare o autoritate privilegiată sau o restricție nouă asupra transferurilor.",
+  "Liquidity decline or unavailable exit quote": "Scade lichiditatea sau nu se mai poate obține o cotație de ieșire.",
+  "Fresh evidence no longer available": "Dovezile recente nu mai sunt disponibile.",
+  "Momentum becomes excessively extended": "Creșterea prețului depășește pragul de extensie configurat.",
+  "Contradictory contract/source evidence": "Apar contradicții între contract și surse.",
+};
+function candidateAvatar(contract, symbol) {
+  const avatar = node("span", (symbol || "?").replace(/[^\p{L}\p{N}]/gu, "").slice(0, 2).toUpperCase() || "?", "candidate-avatar");
+  let hue = 0;
+  for (const char of contract) hue = (hue * 31 + char.charCodeAt(0)) % 360;
+  avatar.style.setProperty("--token-hue", hue);
+  avatar.setAttribute("aria-hidden", "true");
+  return avatar;
+}
+function syncVerdictFilters() {
+  document.querySelectorAll("[data-verdict]").forEach(b => {
+    const selected = b.dataset.verdict === $("engine-verdict").value;
+    b.classList.toggle("active", selected);
+    b.setAttribute("aria-pressed", String(selected));
+  });
+}
 function engineStat(label, value, note) {
   const n = node("article", undefined, "panel padded engine-stat");
   n.append(
@@ -49,14 +94,21 @@ function renderCandidateRows() {
   const root = $("engine-rows");
   root.replaceChildren();
   const items = opportunityView.items;
+  $("engine-visible-count").textContent = items.length.toLocaleString("ro-RO");
   for (const c of items) {
     const m = c.latest?.market || {},
       d = c.latest?.decision,
       f = c.latest?.features || {},
       row = node("tr");
     const name = node("td");
-    name.append(
+    const identity = node("div", undefined, "candidate-identity"), identityText = node("div");
+    identityText.append(
       node("strong", m.symbol || c.discovery.name || "Date în așteptare"),
+      node("small", (c.chain || "Chain necunoscut").toUpperCase(), "chain-label"),
+    );
+    identity.append(candidateAvatar(c.contract, m.symbol || c.discovery.name), identityText);
+    name.append(
+      identity,
       node("small", short(c.contract), "contract-text"),
       node("small", "Descoperit " + date(c.discovered_at), "footnote"),
     );
@@ -76,6 +128,14 @@ function renderCandidateRows() {
         "footnote",
       ),
     );
+    decision.querySelector(".pill").title = verdictDescriptions[d?.verdict || "PENDING"] || "Verdict de cercetare";
+    if (d?.rank_score != null && c.fresh) {
+      const track = node("span", undefined, "rank-track");
+      const fill = node("i");
+      fill.style.width = `${Math.min(100, Math.max(0, Number(d.rank_score)))}%`;
+      track.setAttribute("aria-hidden", "true");
+      track.append(fill); decision.append(track);
+    }
     const freshness = node("td");
     freshness.append(
       node("span", `${f.reported_transactions_5m ?? "—"} tx / 5m`),
@@ -93,8 +153,12 @@ function renderCandidateRows() {
     );
     const controls = node("td");
     controls.append(
-      button("Cercetează", "secondary", () => openOpportunity(c.id)),
+      button("Cercetează ↗", "secondary research-button", () => openOpportunity(c.id)),
     );
+    [name, value, decision, freshness, controls].forEach((cell, i) => {
+      cell.dataset.label = ["Candidat", "Preț / lichiditate", "Verdict / prioritate", "Activitate / date", "Dosar de cercetare"][i];
+    });
+    if (c.id === opportunityView.selection) row.classList.add("selected-candidate");
     row.append(name, value, decision, freshness, controls);
     root.append(row);
   }
@@ -104,6 +168,55 @@ function renderCandidateRows() {
 }
 function engineJson(parent, label, value) {
   jsonDetails(parent, label, value);
+}
+function dossierOutcomes(parent, items, routed = false) {
+  const labels = {
+    pending: "În așteptarea observațiilor", evaluated: "Evaluat în simulare", exit_unavailable: "Ieșire indisponibilă",
+    entry_unavailable: "Intrare indisponibilă", entry_rejected: "Intrare respinsă", missing_forward_entry: "Observație de intrare lipsă",
+    missing_forward_exit: "Observație de ieșire lipsă", missing: "Observații lipsă",
+  };
+  if (items.length > 15) parent.append(node("p", `Ultimele 15 din ${items.length} rezultate. Istoricul complet este disponibil în dovezile de mai jos.`, "footnote"));
+  for (const o of items.slice(-15)) {
+    const item = node("article", undefined, "outcome-card");
+    const header = node("div", undefined, "outcome-heading");
+    header.append(node("strong", `Semnal ${o.signal_id}`), node("span", `${o.horizon_seconds / 60}m`, "pill"), node("span", labels[o.state] || o.state, "outcome-label"));
+    item.append(header);
+    const metrics = node("div", undefined, "outcome-values");
+    metrics.append(node("p", `PnL ${routed ? "virtual " : ""}${cash(o.payload.pnl_usd)}`));
+    if (!routed) metrics.append(node("p", `MFE observat ${o.payload.mfe_observed_pct == null ? "—" : percent(o.payload.mfe_observed_pct)}`), node("p", `MAE observat ${o.payload.mae_observed_pct == null ? "—" : percent(o.payload.mae_observed_pct)}`));
+    item.append(metrics, node("small", `Stare înregistrată: ${o.state}${o.payload.reason ? " · " + o.payload.reason : ""}`, "footnote"));
+    if (!routed && o.payload.priced_observations != null) item.append(node("small", `${o.payload.priced_observations} observații de preț · extrema reale dintre observații sunt necunoscute`, "footnote"));
+    if (o.payload.pnl_usd == null) item.append(node("small", "Rezultatul net nu poate fi stabilit din datele disponibile.", "outcome-unknown"));
+    parent.append(item);
+  }
+}
+function dossierActivity(parent, features) {
+  if (!features) return;
+  const section = node("section", undefined, "dossier-section activity-windows");
+  section.append(node("h3", "Ce s-a schimbat între observații"), node("p", "Comparații cu istoricul propriu al tokenului. Activitatea raportată și volumul în creștere nu confirmă cerere organică.", "footnote"));
+  const windows = node("div", undefined, "activity-window-grid");
+  for (const [key, label] of [["5m", "5 minute"], ["15m", "15 minute"], ["1h", "1 oră"]]) {
+    const change = features.changes?.[key], card = node("article", undefined, "activity-window");
+    card.append(node("h4", label));
+    if (!change) card.append(node("p", "Istoric insuficient pentru comparație.", "footnote"));
+    else {
+      for (const [label, value] of [
+        ["Preț", percent(change.price_change_pct)],
+        ["Lichiditate", percent(change.liquidity_change_pct)],
+        ["Volum 5m / referință", change.volume_5m_ratio == null ? "—" : number(change.volume_5m_ratio) + "×"],
+        ["Cumpărători raportați", percent(change.reported_buyers_change_pct)],
+      ]) {
+        const row = node("div", undefined, "activity-window-value");
+        row.append(node("span", label), node("strong", value)); card.append(row);
+      }
+      card.append(node("p", "Referință: " + date(change.baseline_at), "footnote"));
+    }
+    windows.append(card);
+  }
+  section.append(windows);
+  const extension = features.excessive_extension === true ? "pragul configurat a fost depășit." : features.excessive_extension === false ? "pragul configurat nu a fost depășit în datele disponibile." : "date indisponibile.";
+  section.append(node("p", "Extensie în ultima observație: " + extension + " Momentul lansării tokenului " + (features.token_launch_time_known ? "este raportat de sursă." : "rămâne neconfirmat; vârsta poolului se verifică separat."), features.excessive_extension ? "warn footnote" : "footnote"));
+  parent.append(section);
 }
 function candidateQuery() {
   return new URLSearchParams({
@@ -120,11 +233,20 @@ function opportunityError(key, error) {
   for (const [name, text] of Object.entries(opportunityView.errors))
     root.append(node("p", `${name}: ${text}. Datele păstrate pot fi vechi.`));
   root.hidden = !Object.keys(opportunityView.errors).length;
+  const failedSections = Object.keys(opportunityView.errors);
+  $("engine-section-errors").textContent = failedSections.length ? "Secțiuni indisponibile: " + failedSections.join(", ") + ". Deschide detaliile." : "";
+  $("engine-section-errors").hidden = !failedSections.length;
+  $("engine-status-panel").classList.toggle("has-view-warning", !!failedSections.length);
   if (Object.keys(opportunityView.errors).length)
     state.sectionErrors.opportunities = Object.keys(
       opportunityView.errors,
     ).join(", ");
   else delete state.sectionErrors.opportunities;
+  if (key === "Performanță" && error && $("engine-stats").getAttribute("aria-busy") === "true") {
+    $("engine-stats").setAttribute("aria-busy", "false");
+    $("engine-stats").dataset.state = "unavailable";
+    $("engine-stats").replaceChildren(node("p", "Raport indisponibil · indicatorii istorici nu pot fi afișați momentan. Candidații și dosarele pot fi cercetate în continuare.", "footnote"));
+  }
   renderHealth();
 }
 async function loadOpportunityCandidates(mode = "refresh") {
@@ -180,6 +302,10 @@ async function loadOpportunityCandidates(mode = "refresh") {
     else if (queue?.due)
       $("engine-health").textContent +=
         ` În așteptare: ${queue.due}; întârziere maximă ${queue.oldest_due_delay_seconds}s.`;
+    const engineStates = {ok:"Motor activ", running:"Motor în colectare", partial:"Colectare parțială", error:"Eroare de colectare", disabled:"Motor oprit", idle:"Motor în așteptare"};
+    $("engine-cycle-state").textContent = `${engineStates[first.status.state] || first.status.state || "Stare necunoscută"} · ultim ciclu ${date(first.status.at)}` + (first.status.errors?.length ? ` · ${first.status.errors.length} probleme` : "") + (queue?.dispatchable_due > 0 ? ` · ${queue.dispatchable_due.toLocaleString("ro-RO")} reevaluări scadente` : "");
+    $("engine-status-panel").classList.toggle("has-warning", !!first.status.errors?.length || queue?.dispatchable_due > 0 || ["error", "partial"].includes(first.status.state));
+    syncVerdictFilters();
     renderCandidateRows();
     if (!$("engine-config").dataset.loaded) {
       const c = first.config;
@@ -219,6 +345,9 @@ function renderOpportunityStats(report) {
   const t = report.totals,
     root = $("engine-stats");
   root.replaceChildren();
+  root.setAttribute("aria-busy", "false");
+  delete root.dataset.state;
+  root.setAttribute("aria-label", "Indicatori ai cercetării" + (report.generated_at ? " · raport " + date(report.generated_at) : ""));
   root.append(
     engineStat(
       "CANDIDAȚI",
@@ -349,11 +478,11 @@ async function renderEngineAlerts(items) {
       ),
     );
     for (const reason of p.positive.slice(0, 2))
-      box.append(node("p", reason, "good footnote"));
+      box.append(node("p", researchTranslations[reason] || reason, "good footnote"));
     box.append(
       node(
         "p",
-        p.negative.concat(p.unknown).slice(0, 2).join(" "),
+        p.negative.concat(p.unknown).slice(0, 2).map(text => researchTranslations[text] || text).join(" "),
         "warn footnote",
       ),
     );
@@ -873,57 +1002,72 @@ function renderDailyResearch(data) {
   engineJson(root, "Stări, politici, separare development/test și limite", data);
 }
 function engineChart(observations, parent) {
-  const priced = observations.filter((o) => o.market);
+  const priced = observations.filter(o => o.market?.price_usd != null && Number.isFinite(Number(o.market.price_usd)));
   if (priced.length < 2) return;
-  const values = priced.map((o) => o.market.price_usd),
-    lo = Math.min(...values),
-    hi = Math.max(...values),
-    start = new Date(priced[0].at).getTime(),
-    end = new Date(priced.at(-1).at).getTime();
+  const values = priced.map(o => Number(o.market.price_usd)), lo = Math.min(...values), hi = Math.max(...values);
+  const start = new Date(priced[0].at).getTime(), end = new Date(priced.at(-1).at).getTime();
+  const x = o => 18 + 764 * (new Date(o.at).getTime() - start) / Math.max(1, end - start);
+  const y = o => 164 - 140 * (Number(o.market.price_usd) - lo) / Math.max(hi - lo, Math.abs(hi) * 0.000001, 1e-30);
+  const panel = node("section", undefined, "observed-chart");
+  const heading = node("div", undefined, "chart-heading"), readout = node("div", undefined, "chart-readout");
+  heading.append(node("h3", "Preț observat"), node("span", "OBSERVAȚII API · FĂRĂ DATE INTERPOLATE", "eyebrow"));
+  panel.append(heading, readout);
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 600 130");
+  svg.setAttribute("viewBox", "0 0 800 190");
   svg.classList.add("engine-chart");
-  svg.setAttribute(
-    "aria-label",
-    "Prețuri observate; spațiile fără date nu sunt interpolate",
-  );
-  let path = "",
-    previous = null;
-  for (const o of observations) {
-    if (!o.market) {
-      previous = null;
-      continue;
-    }
-    const t = new Date(o.at).getTime(),
-      x = 10 + (580 * (t - start)) / Math.max(1, end - start),
-      y =
-        115 -
-        (100 * (o.market.price_usd - lo)) / Math.max(hi - lo, hi * 0.000001);
-    path +=
-      (previous &&
-      t - previous <
-        Math.max(
-          180000,
-          (opportunityView.config?.interval_seconds || 60) * 2500,
-        )
-        ? " L"
-        : " M") + `${x.toFixed(2)} ${y.toFixed(2)}`;
-    previous = t;
+  svg.setAttribute("role", "img");
+  svg.setAttribute("tabindex", "0");
+  svg.setAttribute("aria-label", "Prețuri observate; spațiile fără date nu sunt interpolate. Săgețile stânga și dreapta parcurg observațiile.");
+  function element(tag, attributes) {
+    const item = document.createElementNS(svg.namespaceURI, tag);
+    for (const [key, value] of Object.entries(attributes)) item.setAttribute(key, value);
+    svg.append(item); return item;
   }
-  const line = document.createElementNS(svg.namespaceURI, "path");
-  line.setAttribute("d", path);
-  line.setAttribute("fill", "none");
-  line.setAttribute("stroke", "#9af3c4");
-  line.setAttribute("stroke-width", "2");
-  svg.append(line);
-  parent.append(
-    svg,
-    node(
-      "p",
-      `Min observat ${price(lo)} · max observat ${price(hi)} · ${priced.length} observații. Extrema dintre observații rămân necunoscute.`,
-      "footnote",
-    ),
-  );
+  for (const height of [24, 94, 164]) element("line", {x1:18, x2:782, y1:height, y2:height, stroke:"currentColor", opacity:0.12, "stroke-dasharray":"4 6"});
+  let path = "", previous = null;
+  const segments = [];
+  for (const o of observations) {
+    if (!priced.includes(o)) { previous = null; continue; }
+    const t = new Date(o.at).getTime();
+    const connected = previous !== null && t - previous < Math.max(180000, (opportunityView.config?.interval_seconds || 60) * 2500);
+    path += (connected ? " L" : " M") + `${x(o).toFixed(2)} ${y(o).toFixed(2)}`;
+    previous = t;
+    segments.push(o);
+  }
+  const color = values.at(-1) < values[0] ? "var(--red)" : "var(--green)";
+  element("path", {d:path, fill:"none", stroke:color, "stroke-width":2, "vector-effect":"non-scaling-stroke"});
+  // Isolated observations remain visible even when long gaps break the line.
+  for (const o of segments) element("circle", {cx:x(o), cy:y(o), r:2.5, fill:color});
+  const cursor = element("line", {x1:0, x2:0, y1:12, y2:176, stroke:"currentColor", opacity:0.3, "stroke-dasharray":"3 4"});
+  const point = element("circle", {r:5, fill:color, stroke:"var(--panel)", "stroke-width":3});
+  let selected = priced.length - 1;
+  function show(index) {
+    selected = Math.max(0, Math.min(priced.length - 1, index));
+    const o = priced[selected];
+    readout.replaceChildren(node("strong", price(o.market.price_usd)), node("span", date(o.at), "footnote"));
+    svg.setAttribute("aria-label", `Preț observat ${price(o.market.price_usd)}, ${date(o.at)}. Săgețile stânga și dreapta parcurg observațiile. Golurile fără date nu sunt interpolate.`);
+    cursor.setAttribute("x1", x(o)); cursor.setAttribute("x2", x(o));
+    point.setAttribute("cx", x(o)); point.setAttribute("cy", y(o));
+  }
+  svg.onpointermove = event => {
+    const rect = svg.getBoundingClientRect(), target = (event.clientX - rect.left) / rect.width * 800;
+    let nearest = 0;
+    for (let i = 1; i < priced.length; i++) if (Math.abs(x(priced[i]) - target) < Math.abs(x(priced[nearest]) - target)) nearest = i;
+    show(nearest);
+  };
+  svg.onpointerleave = () => show(priced.length - 1);
+  svg.onkeydown = event => {
+    if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
+      event.preventDefault();
+      show(event.key === "Home" ? 0 : event.key === "End" ? priced.length - 1 : selected + (event.key === "ArrowRight" ? 1 : -1));
+    }
+  };
+  show(selected);
+  panel.append(svg);
+  const axis = node("div", undefined, "chart-axis");
+  axis.append(node("span", date(priced[0].at)), node("span", date(priced.at(-1).at)));
+  panel.append(axis, node("p", `Min observat ${price(lo)} · max observat ${price(hi)} · ${priced.length} observații. Extrema dintre observații rămân necunoscute.`, "footnote"));
+  parent.append(panel);
 }
 async function openOpportunity(id, scroll = true) {
   opportunityView.selection = id;
@@ -950,9 +1094,27 @@ async function openOpportunity(id, scroll = true) {
     const latest = c.observations.at(-1),
       d = latest?.decision,
       m = latest?.market;
+    const header = node("div", undefined, "dossier-header"), identity = node("div", undefined, "dossier-identity"), title = node("div");
+    title.append(node("p", "DOSAR DE CERCETARE / " + (c.chain || "CHAIN NECUNOSCUT").toUpperCase(), "eyebrow"), node("h2", m?.name || c.discovery.name || "Candidat"));
+    identity.append(candidateAvatar(c.contract, m?.symbol || c.discovery.name), title);
+    const close = button("Închide dosarul ×", "secondary dossier-close", () => {
+      opportunityView.selection = null;
+      opportunityView.detailRequest++;
+      root.hidden = true;
+      renderCandidateRows();
+      $("engine-candidates").scrollIntoView({block:"start"});
+      $("engine-search").focus({preventScroll:true});
+    });
+    header.append(identity, close); root.append(header);
+    const contract = node("div", undefined, "dossier-contract");
+    const copy = button("Copiază adresa", "text-button", async () => {
+      try { await navigator.clipboard.writeText(c.contract); message("Adresa contractului a fost copiată.", true); }
+      catch { message("Copierea nu este disponibilă în acest browser. Selectează adresa afișată."); }
+    });
+    contract.append(node("code", c.contract, "contract-text"), copy);
+    if (["solana", "base"].includes(c.chain)) contract.append(link("Explorer", (c.chain === "solana" ? "https://solscan.io/token/" : "https://basescan.org/token/") + encodeURIComponent(c.contract), "text-button"), link("Piață", `https://dexscreener.com/${c.chain}/${encodeURIComponent(c.pool)}`, "text-button"));
+    root.append(contract, node("p", "Identitate oficială neconfirmată · numele și simbolul pot fi imitate.", "footnote"));
     root.append(
-      node("h2", m?.name || c.discovery.name || "Candidat"),
-      node("p", c.contract, "contract-text"),
       node(
         "p",
         `Prima descoperire ${date(c.discovered_at)} · înregistrare în motor ${date(c.ingested_at)} · pool ${short(c.pool)}`,
@@ -990,29 +1152,68 @@ async function openOpportunity(id, scroll = true) {
         ),
       );
     if (d) {
-      root.append(enginePill(d.verdict, d.verdict));
+      const verdict = node("div", undefined, "dossier-verdict");
+      verdict.append(enginePill(d.verdict, d.verdict), node("span", verdictDescriptions[d.verdict] || "Verdict de cercetare"));
+      root.append(verdict);
+    }
+    const metrics = node("div", undefined, "dossier-metrics");
+    for (const [label, value, note] of [
+      ["Preț raportat", price(m?.price_usd), m?.source || "Sursă de piață indisponibilă"],
+      ["Lichiditate disponibilă", cash(m?.liquidity_usd), "Raportată pentru acest pool"],
+      ["Volum / 5 minute", cash(m?.volume_5m), "Volumul nu confirmă cerere organică"],
+      ["Variație / 5 minute", percent(m?.change_5m), "Raportată de sursă; fără predicție"],
+    ]) metrics.append(engineStat(label, value, note));
+    root.append(metrics);
+    engineChart(c.observations, root);
+    dossierActivity(root, latest?.features);
+    if (d) {
+      const scoreSection = node("section", undefined, "dossier-section");
+      scoreSection.append(node("h3", "Profilul de cercetare"), node("p", "Scoruri euristice, fără probabilități de câștig. La riscul de securitate, mai mare înseamnă mai riscant; la celelalte dimensiuni, dovezi mai puternice. Necunoscut nu înseamnă sigur.", "footnote"));
       const scores = node("div", undefined, "engine-scores");
-      for (const [key, value] of Object.entries(d.scores))
-        scores.append(
-          engineStat(
+      for (const [key, value] of Object.entries(d.scores)) {
+        const score = engineStat(
             opportunityLabels[key] || key,
             value == null ? "Necunoscut" : `${value}/100`,
-          ),
-        );
-      root.append(scores);
+            key === "security_risk" ? "Mai mic = risc mai mic în verificările disponibile" : value == null ? "Lipsesc dovezile necesare" : "Mai mare = scor euristic mai ridicat",
+          );
+        score.classList.add("research-score");
+        if (value == null) score.classList.add("score-unknown");
+        const track = node("span", undefined, "score-track"), fill = node("i");
+        fill.style.width = `${value == null ? 0 : Math.min(100, Math.max(0, Number(value)))}%`;
+        if (key === "security_risk") fill.classList.add("risk-score-fill");
+        track.setAttribute("aria-hidden", "true"); track.append(fill); score.append(track);
+        scores.append(score);
+      }
+      scoreSection.append(scores); root.append(scoreSection);
+      const reasons = node("div", undefined, "dossier-reasons");
       for (const [name, list, style] of [
-        ["Pozitive", d.positive, "good"],
+        ["Ce susține cercetarea", d.positive, "good"],
         ["Riscuri", d.negative, "warn"],
         ["Necunoscute", d.unknown, "footnote"],
-        ["Invalidare", d.invalidation, "warn"],
+        ["Când se invalidează ipoteza", d.invalidation, "warn"],
       ]) {
-        root.append(node("h3", name));
-        for (const value of list)
-          root.append(node("p", value, style + " footnote"));
+        const card = node("section", undefined, "reason-card " + style.replace("footnote", "unknown-reasons"));
+        card.append(node("h3", name), node("span", `${list.length} observații`, "reason-count"));
+        const ul = node("ul");
+        for (const value of list) {
+          const item = node("li", researchTranslations[value] || value);
+          if (researchTranslations[value]) item.title = value;
+          ul.append(item);
+        }
+        if (!list.length) card.append(node("p", "Nicio observație raportată în această categorie.", "footnote"));
+        card.append(ul); reasons.append(card);
       }
+      root.append(reasons);
+      const costPanel = node("section", undefined, "dossier-section cost-summary");
+      costPanel.append(node("h3", "Costuri pentru o poziție virtuală mică"), node("p", "Model estimativ de pool, separat de cotațiile Jupiter. Nu dovedește executarea unui ordin.", "footnote"));
+      if (d.costs.economically_feasible_in_model) {
+        const costs = node("div", undefined, "dossier-metrics");
+        costs.append(engineStat("Ieșire + intrare", percent(d.costs.roundtrip_cost_pct), "Cost tur-retur la același preț"), engineStat("Prag break-even", percent(d.costs.break_even_rise_pct), "Creștere estimată pentru acoperirea costurilor"));
+        costPanel.append(costs);
+      } else costPanel.append(node("p", "Intrarea și ieșirea estimate nu sunt disponibile în limitele de lichiditate, mărime sau impact ale modelului.", "warn footnote"));
+      root.append(costPanel);
       engineJson(root, "Costuri de intrare / ieșire estimate", d.costs);
     }
-    engineChart(c.observations, root);
     if (c.current_narrative) {
       root.append(node("h3", "Legături actuale cu știrile"));
       root.append(node("p", "Dovezi disponibile acum; semnalele originale și scorurile lor rămân păstrate.", "footnote"));
@@ -1030,30 +1231,19 @@ async function openOpportunity(id, scroll = true) {
         root.append(node("p", "Nu există dovezi suficiente pentru a lega acest token de o știre.", "footnote"));
     }
     const outcomes = node("div");
+    outcomes.className = "dossier-section dossier-outcomes";
     outcomes.append(node("h3", "Rezultate păstrate"));
-    for (const o of c.outcomes.slice(-15)) {
-      outcomes.append(
-        node(
-          "p",
-          `Semnal ${o.signal_id} · ${o.horizon_seconds / 60}m · ${o.state} · PnL ${cash(o.payload.pnl_usd)} · MFE observat ${o.payload.mfe_observed_pct?.toFixed(2) ?? "—"}% · MAE ${o.payload.mae_observed_pct?.toFixed(2) ?? "—"}%`,
-          "footnote",
-        ),
-      );
-    }
+    outcomes.append(node("p", "Experimente virtuale independente. Un rezultat lipsă sau o ieșire indisponibilă rămâne necunoscut, nu zero. MFE/MAE descriu numai observațiile disponibile.", "footnote"));
+    dossierOutcomes(outcomes, c.outcomes);
+    if (!c.outcomes.length) outcomes.append(node("p", "Nu există încă rezultate pentru acest candidat.", "footnote"));
+    engineJson(outcomes, "Istoricul complet al rezultatelor", c.outcomes);
     root.append(outcomes);
     if (c.routed) {
-      const routed = node("div");
+      const routed = node("div", undefined, "dossier-section");
       routed.append(
         node("h3", "Paper Jupiter · separat de estimările de pool"),
       );
-      for (const o of c.routed.outcomes.slice(-15))
-        routed.append(
-          node(
-            "p",
-            `Semnal ${o.signal_id} · ${o.horizon_seconds / 60}m · ${o.state} · PnL virtual ${cash(o.payload.pnl_usd)}${o.payload.reason ? ` · ${o.payload.reason}` : ""}`,
-            "footnote",
-          ),
-        );
+      dossierOutcomes(routed, c.routed.outcomes, true);
       engineJson(routed, "Cotații originale și politica de cost", c.routed);
       root.append(routed);
     }
@@ -1086,12 +1276,29 @@ async function openOpportunity(id, scroll = true) {
   }
 }
 function setupOpportunityControls() {
+  document.querySelectorAll("[data-verdict]").forEach(b => {
+    b.onclick = () => {
+      $("engine-verdict").value = b.dataset.verdict;
+      syncVerdictFilters();
+      loadOpportunityCandidates();
+    };
+  });
+  document.querySelectorAll("[data-research-target]").forEach(b => {
+    b.onclick = () => {
+      const target = $(b.dataset.researchTarget);
+      if (target.tagName === "DETAILS") target.open = true;
+      document.querySelectorAll("[data-research-target]").forEach(other => other.classList.toggle("active", b === other));
+      target.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block:"start"});
+      target.tabIndex = -1;
+      target.focus({preventScroll:true});
+    };
+  });
   let searchTimer;
   $("engine-search").oninput = () => {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => loadOpportunityCandidates(), 250);
   };
-  $("engine-verdict").onchange = () => loadOpportunityCandidates();
+  $("engine-verdict").onchange = () => { syncVerdictFilters(); loadOpportunityCandidates(); };
   $("engine-sort").onchange = () => loadOpportunityCandidates();
   $("engine-refresh").onclick = renderOpportunities;
   $("engine-daily-day").onchange = () => {

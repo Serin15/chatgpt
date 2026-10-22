@@ -5,23 +5,27 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>MemeScope — Early Opportunity Engine</title>
-    <link rel="stylesheet" href="/static/style.css" />
-    <script src="/static/advanced.js" defer></script>
-    <script src="/static/opportunities.js" defer></script>
-    <script src="/static/app.js" defer></script>
+    <link rel="stylesheet" href="/static/style.css?v=0.17.0" />
+    <link rel="stylesheet" href="/static/workspace.css?v=0.17.0" />
+    <script src="/static/advanced.js?v=0.17.0" defer></script>
+    <script src="/static/opportunities.js?v=0.17.0" defer></script>
+    <script src="/static/app.js?v=0.17.0" defer></script>
   </head>
   <body>
-    <aside class="sidebar">
+    <a class="skip-link" href="#main-content">Sari la conținut</a>
+    <button id="navigation-backdrop" class="navigation-backdrop" aria-label="Închide meniul" hidden></button>
+    <aside class="sidebar" id="workspace-navigation" aria-label="Navigație principală">
       <a
         href="#overview"
         data-page="overview"
         class="brand"
         aria-label="MemeScope"
-        ><span class="brand-mark">m</span>
-        <div>MEMESCOPE<small>EARLY OPPORTUNITY ENGINE</small></div></a
+        ><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div>MemeScope<small>RESEARCH WORKSPACE</small></div></a
       >
-      <p class="nav-label">SPAȚIUL TĂU DE CERCETARE</p>
-      <nav id="navigation">
+      <button id="navigation-close" class="icon-button" aria-label="Închide meniul">×</button>
+      <p class="nav-label">DESCOPERĂ & CERCETEAZĂ</p>
+      <nav id="navigation" aria-label="Spațiul de cercetare">
         <button class="nav-item" data-page="opportunities">
           <span>◎</span>Oportunități timpurii
         </button>
@@ -48,9 +52,9 @@
         </button>
       </nav>
       <div class="sidebar-note">
-        <span class="live-dot"></span>EXPERIMENT CONTROLAT
-        <p>Informații reale.<br />Decizii manuale.<br />Capital virtual.</p>
         <span class="paper-pill">PAPER ONLY</span>
+        <p>Idei reale.<br /><strong>Capital virtual.</strong></p>
+        <small>Cercetează. Testează. Măsoară.</small>
       </div>
       <button class="nav-item settings-button" data-page="sources">
         <span>⚙</span>Surse & metodologie
@@ -58,16 +62,18 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.16.0 · beta</span>
+        <span class="version">v0.17.0 · beta</span>
       </div>
     </aside>
-    <main class="main">
+    <main class="main" id="main-content" tabindex="-1">
       <header class="topbar">
-        <div>
-          <span class="breadcrumb">WORKSPACE /</span>
+        <div class="workspace-location">
+          <button id="navigation-toggle" class="icon-button" aria-label="Deschide meniul" aria-controls="workspace-navigation" aria-expanded="false">☰</button>
+          <span class="breadcrumb">SPAȚIUL MEU <span>/</span></span>
           <strong id="page-name">Privire de ansamblu</strong>
         </div>
         <div class="top-actions">
+          <span class="workspace-mode">CAPITAL VIRTUAL</span>
           <button
             class="connection"
             id="connection"
@@ -428,59 +434,75 @@
         </details>
       </section>
       <section id="view-opportunities" class="view" hidden>
-        <div class="view-heading">
+        <div class="view-heading discovery-heading">
           <div>
-            <p class="eyebrow">LEVEL 3 · SOLANA · PAPER ONLY</p>
+            <p class="eyebrow"><span class="section-marker"></span> DISCOVERY / SOLANA FIRST</p>
             <h1>Oportunități timpurii</h1>
-            <p>
-              Candidați descoperiți automat. Dovezi, riscuri și rezultate
-              păstrate în timp.
-            </p>
+            <p class="discovery-intro">Mai puțin zgomot.<br /> <strong>Mai mult context pentru fiecare semnal.</strong></p>
+            <p>Candidați descoperiți automat, cercetați prin dovezi și urmăriți în timp.</p>
           </div>
+          <aside class="research-flow" aria-label="Fluxul de cercetare">
+            <p class="eyebrow">DE LA DESCOPERIRE LA REZULTAT</p>
+            <ol><li><b>01</b><span>Descoperă<small>Pooluri și date de piață</small></span></li><li><b>02</b><span>Cercetează<small>Riscuri, lichiditate, dovezi</small></span></li><li><b>03</b><span>Măsoară<small>Observații și rezultate paper</small></span></li></ol>
+          </aside>
         </div>
-        <p class="engine-disclaimer">
-          Scorurile sunt reguli de cercetare, fără probabilități de câștig.
-          Datele raportate de API, observațiile on-chain și simulările sunt
-          etichetate separat.
-        </p>
-        <div id="engine-health" class="section-alerts" role="status">
-          Se verifică motorul…
-        </div>
+        <nav class="research-sections" aria-label="Secțiunile cercetării">
+          <button type="button" data-research-target="engine-candidates" class="active">Candidați</button>
+          <button type="button" data-research-target="engine-alerts-panel">Alerte</button>
+          <button type="button" data-research-target="engine-daily-panel">Rezultate</button>
+          <button type="button" data-research-target="engine-method">Metodologie</button>
+          <span class="research-label">DATE EXTERNE · DECIZII MANUALE</span>
+        </nav>
+        <details class="engine-status-panel" id="engine-status-panel">
+          <summary><span class="status-orbit" aria-hidden="true"></span><span class="engine-state-copy"><span id="engine-cycle-state">Se verifică motorul…</span><span id="engine-section-errors" hidden></span></span><span class="status-details-label">Detalii colectare</span></summary>
+          <div id="engine-health" role="status">Se verifică motorul…</div>
         <div
           id="engine-errors"
           class="section-alerts"
           role="status"
           hidden
         ></div>
-        <div id="engine-stats" class="engine-stats"></div>
-        <section class="panel padded">
-          <h2>Candidați de cercetat</h2>
+        </details>
+        <div id="engine-stats" class="engine-stats" aria-label="Indicatori ai cercetării" aria-busy="true"><div class="stat-placeholder"><span>CANDIDAȚI</span><strong>—</strong><small>Se încarcă raportul…</small></div><div class="stat-placeholder"><span>FILTRU DE SECURITATE</span><strong>—</strong><small>Se încarcă raportul…</small></div><div class="stat-placeholder"><span>ALERTE</span><strong>—</strong><small>Se încarcă raportul…</small></div><div class="stat-placeholder"><span>OBSERVAȚII</span><strong>—</strong><small>Se încarcă raportul…</small></div></div>
+        <section class="panel padded candidate-panel" id="engine-candidates" aria-labelledby="candidate-title">
+          <div class="candidate-panel-heading"><div><p class="eyebrow">RADARUL TĂU DE CERCETARE</p><h2 id="candidate-title">Candidați de cercetat <span id="engine-visible-count" class="count-badge">—</span></h2></div><span class="pill data-type-label">OBSERVAȚII API</span></div>
+          <p class="candidate-context">Un scor ordonează cercetarea. Verifică dovezile și riscurile înaintea unei decizii.</p>
           <p id="engine-list-note" class="footnote" role="status">
             Se încarcă lista…
           </p>
-          <div class="engine-controls">
+          <div class="engine-controls candidate-toolbar">
+            <div class="candidate-search">
+            <span aria-hidden="true">⌕</span>
             <input
               id="engine-search"
               type="search"
               aria-label="Caută candidat"
               maxlength="120"
-              placeholder="Nume, simbol sau contract"
+              placeholder="Caută un nume, simbol sau contract…"
             />
+            <kbd aria-hidden="true">/</kbd></div>
             <select id="engine-verdict" aria-label="Filtru verdict">
               <option value="all">Toate verdictele</option>
-              <option>CONSIDER</option>
-              <option>INVESTIGATE</option>
-              <option>MONITOR</option>
-              <option>REJECT</option>
-              <option>PENDING</option>
+              <option value="CONSIDER">De luat în calcul</option>
+              <option value="INVESTIGATE">De investigat</option>
+              <option value="MONITOR">De urmărit</option>
+              <option value="REJECT">Respinși</option>
+              <option value="PENDING">În așteptare</option>
             </select>
             <select id="engine-sort" aria-label="Ordine candidați">
               <option value="rank">Clasament</option>
               <option value="recent">Descoperiri recente</option>
             </select>
             <button id="engine-refresh" class="secondary">
-              Actualizează afișarea
+              Actualizează ↻
             </button>
+          </div>
+          <div class="verdict-filters" role="group" aria-label="Selecție rapidă după verdict">
+            <button type="button" data-verdict="all" aria-pressed="true" class="active">Toți candidații</button>
+            <button type="button" data-verdict="CONSIDER" aria-pressed="false">De luat în calcul</button>
+            <button type="button" data-verdict="INVESTIGATE" aria-pressed="false">De investigat</button>
+            <button type="button" data-verdict="MONITOR" aria-pressed="false">De urmărit</button>
+            <button type="button" data-verdict="REJECT" aria-pressed="false">Respinși</button>
           </div>
           <div class="table-scroll">
             <table class="engine-table">
@@ -489,7 +511,7 @@
                   <th>CANDIDAT / POOL</th>
                   <th>PREȚ / LICHIDITATE</th>
                   <th>VERDICT / SCOR</th>
-                  <th>ACTIVITATE / PROSPEȚIME</th>
+                  <th>ACTIVITATE / DATE</th>
                   <th>DOVEZI</th>
                 </tr>
               </thead>
@@ -503,7 +525,7 @@
             Mai multe descoperiri
           </button>
         </section>
-        <section id="engine-detail" class="panel padded" hidden></section>
+        <section id="engine-detail" class="panel padded" aria-label="Dosarul candidatului" hidden></section>
         <details class="panel padded" id="engine-daily-panel">
           <summary>Bilanț zilnic · cohortele descoperite și rezultatele lor</summary>
           <div class="engine-controls">
@@ -522,7 +544,8 @@
           <div id="engine-coverage"></div>
         </details>
         <div class="engine-grid">
-          <section class="panel padded">
+          <section class="panel padded" id="engine-alerts-panel">
+            <p class="eyebrow">SEMNAL → CERCETARE</p>
             <h2>Alerte de cercetare</h2>
             <p class="footnote">
               Afișarea în aplicație este confirmată separat de livrarea
@@ -531,6 +554,7 @@
             <div id="engine-alerts"></div>
           </section>
           <section class="panel padded">
+            <p class="eyebrow">CAPITAL VIRTUAL</p>
             <h2>Rezultate estimate din pool</h2>
             <p class="footnote">
               Experimente independente de $50, cu costuri estimate; observațiile
@@ -539,10 +563,12 @@
             <div id="engine-performance"></div>
           </section>
           <section class="panel padded">
+            <p class="eyebrow">NARAȚIUNI & CONTEXT</p>
             <h2>Știri, contracte și dovezi</h2>
             <div id="engine-narratives"></div>
           </section>
           <section class="panel padded">
+            <p class="eyebrow">WALLET INTELLIGENCE</p>
             <h2>Activitatea walleturilor urmărite</h2>
             <div id="engine-wallets"></div>
             <button class="secondary" data-page="advanced">
@@ -550,6 +576,7 @@
             </button>
           </section>
         </div>
+        <p class="engine-disclaimer" id="engine-method">Scorurile sunt reguli de cercetare, fără probabilități de câștig. Datele raportate de API, observațiile on-chain și simulările sunt etichetate separat. Identitatea oficială a unui token necesită dovezi independente.</p>
         <details class="panel padded">
           <summary>Praguri și funcționare</summary>
           <form id="engine-config" class="engine-config">
@@ -696,15 +723,21 @@
       </section>
       <footer>
         <span
-          ><span class="live-dot"></span> PULSE RESEARCH / PAPER TRADING</span
+          ><span class="live-dot"></span> MEMESCOPE / RESEARCH WORKSPACE</span
         ><span
           >Date externe · explicații deterministe · execuție reală
           dezactivată</span
         >
       </footer>
     </main>
+    <nav class="mobile-dock" aria-label="Acces rapid">
+      <button type="button" data-page="opportunities"><span aria-hidden="true">◎</span>Radar</button>
+      <button type="button" data-page="news"><span aria-hidden="true">◷</span>Știri</button>
+      <button type="button" data-page="portfolio"><span aria-hidden="true">▧</span>Portofoliu</button>
+      <button type="button" id="mobile-more" aria-controls="workspace-navigation" aria-expanded="false"><span aria-hidden="true">☰</span>Mai mult</button>
+    </nav>
     <dialog id="login-dialog" class="login-dialog">
-      <h2>Intră în spațiul tău PULSE</h2>
+      <h2>Intră în spațiul tău MemeScope</h2>
       <p class="footnote">
         Acces personal la informații și portofoliul virtual.
       </p>

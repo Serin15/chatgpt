@@ -1,4 +1,6 @@
-# MemeScope v0.16.0 — beta privată Solana
+# MemeScope v0.17.0 — research workspace
+
+**Interfață v0.17.0:** [radar, dosare vizuale, grafice observate și navigație mobilă](docs/UI-V0.17.md). Filtre rapide, comparații 5m/15m/1h, riscuri și rezultate necunoscute explicate. Fără schimbări ale regulilor financiare.
 
 **Monitorizare v0.16.0:** [prioritate pentru candidații timpurii, pauză pentru reevaluările vechi și istoric păstrat](docs/MONITORING-V0.16.md). Observațiile promise și pozițiile virtuale deschise rămân protejate.
 

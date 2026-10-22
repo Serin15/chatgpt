@@ -557,6 +557,145 @@ async def check(base):
             await expect(page.locator("#engine-coverage")).to_contain_text("Actualizare: eroare")
             await expect(page.locator("#engine-coverage")).to_contain_text("ExplicitFixtureError")
 
+        async def mobile_workspace_navigation(page):
+            await ready(page)
+            await page.emulate_media(reduced_motion="reduce")
+            await page.set_viewport_size({"width": 390, "height": 844})
+            await page.locator("#navigation-toggle").click()
+            await expect(page.locator("#workspace-navigation")).to_have_attribute("aria-modal", "true")
+            assert await page.locator("#main-content").evaluate("n => n.inert")
+            # Tab wraps inside the drawer, and Escape returns focus to its opener.
+            await page.locator('.nav-item[data-page="sources"]').focus()
+            await page.keyboard.press("Tab")
+            await expect(page.locator(".brand")).to_be_focused()
+            await page.keyboard.press("Escape")
+            await expect(page.locator("#navigation-toggle")).to_be_focused()
+            assert not await page.locator("#main-content").evaluate("n => n.inert")
+            await page.locator("#mobile-more").click()
+            await page.keyboard.press("Escape")
+            await expect(page.locator("#mobile-more")).to_be_focused()
+            for destination in ["market", "scanner", "journal", "advanced", "sources", "overview"]:
+                await page.locator("#mobile-more").click()
+                await page.locator(f'.nav-item[data-page="{destination}"]').click()
+                await expect(page.locator(f"#view-{destination}")).to_be_visible()
+                await expect(page.locator("#mobile-more")).to_have_attribute("aria-expanded", "false")
+                assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+            await page.locator('.mobile-dock [data-page="opportunities"]').click()
+            await expect(page.locator('.mobile-dock [data-page="opportunities"]')).to_have_attribute("aria-current", "page")
+
+        async def quick_filters_and_keyboard(page):
+            await ready(page)
+            await page.locator('[data-verdict="REJECT"]').click()
+            await expect(page.locator("#engine-empty")).to_be_visible()
+            await expect(page.locator("#engine-verdict")).to_have_value("REJECT")
+            await expect(page.locator('[data-verdict="REJECT"]')).to_have_attribute("aria-pressed", "true")
+            await page.locator("#engine-verdict").select_option("INVESTIGATE")
+            await expect(page.locator("#engine-rows tr")).to_have_count(1)
+            await expect(page.locator('[data-verdict="INVESTIGATE"]')).to_have_attribute("aria-pressed", "true")
+            await page.locator("#candidate-title").click()
+            await page.keyboard.press("/")
+            await expect(page.locator("#engine-search")).to_be_focused()
+            await page.keyboard.type("/")
+            await expect(page.locator("#engine-search")).to_have_value("/")
+
+        async def dossier_chart_and_unknowns(page):
+            await ready(page)
+            await page.evaluate("openOpportunity(1, false)")
+            await expect(page.locator(".score-unknown").first).to_contain_text("Necunoscut")
+            await expect(page.locator("#engine-detail")).to_contain_text("mai mare înseamnă mai riscant")
+            observations = await page.evaluate("opportunityView.selection === 1")
+            assert observations
+            chart = page.locator("#engine-detail .engine-chart")
+            await chart.focus()
+            await page.keyboard.press("Home")
+            first = await page.locator(".chart-readout strong").inner_text()
+            await page.keyboard.press("End")
+            last = await page.locator(".chart-readout strong").inner_text()
+            assert first != last, (first, last)
+            await expect(page.locator(".observed-chart")).to_contain_text("Extrema dintre observații rămân necunoscute")
+            for width in [320, 390, 768, 1440]:
+                await page.set_viewport_size({"width": width, "height": 900})
+                assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), width
+
+        async def chart_decline_and_gaps(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                const root = document.createElement('section'); root.id='chart-fixture'; document.body.append(root);
+                engineChart([
+                    {at:'2026-01-01T00:00:00Z',market:{price_usd:1}},
+                    {at:'2026-01-01T00:01:00Z',market:null},
+                    {at:'2026-01-01T00:02:00Z',market:{price_usd:0.5}}
+                ], root);
+            }""")
+            path = page.locator("#chart-fixture path")
+            assert (await path.get_attribute("d")).count("M") == 2
+            assert "L" not in await path.get_attribute("d")
+            assert await path.get_attribute("stroke") == "var(--red)"
+            assert await page.locator("#chart-fixture circle").count() == 3
+
+        async def close_dossier_during_refresh(page):
+            await ready(page)
+            await page.evaluate("openOpportunity(1, false)")
+            gate, started = asyncio.Event(), asyncio.Event()
+
+            async def hold(route):
+                started.set()
+                await gate.wait()
+                await route.continue_()
+
+            await page.route("**/api/opportunities/1", hold)
+            try:
+                await page.evaluate("void openOpportunity(1, false)")
+                await asyncio.wait_for(started.wait(), 3)
+                await page.locator(".dossier-close").click()
+                await expect(page.locator("#engine-detail")).to_be_hidden()
+            finally:
+                gate.set()
+            await page.wait_for_load_state("networkidle")
+            await expect(page.locator("#engine-detail")).to_be_hidden()
+            assert await page.evaluate("opportunityView.selection === null")
+
+        async def stats_failure_is_explicit(page):
+            await page.route("**/api/opportunities/performance", lambda r: r.fulfill(status=503, json={"detail":"Explicit fixture report unavailable"}))
+            await page.goto(base)
+            await expect(page.locator("#engine-stats")).to_have_attribute("aria-busy", "false")
+            await expect(page.locator("#engine-stats")).to_contain_text("Raport indisponibil")
+            await expect(page.locator("#engine-rows tr")).to_have_count(1)
+            await expect(page.locator("#engine-section-errors")).to_be_visible()
+            await expect(page.locator("#engine-section-errors")).to_contain_text("Performanță")
+            await page.locator("#engine-status-panel > summary").click()
+            await expect(page.locator("#engine-errors")).to_be_visible()
+            await expect(page.locator("#engine-errors")).to_contain_text("Explicit fixture report unavailable")
+
+        async def request_timeout_explains_recovery(page):
+            await ready(page)
+            # Accelerate only the request deadline; browser fetch uses an actually aborted signal.
+            result = await page.evaluate("""async () => {
+                const original = window.setTimeout;
+                window.setTimeout = (fn, ms, ...args) => ms === 20000 ? (fn(), 0) : original(fn, ms, ...args);
+                try { await api('/api/status'); return 'unexpected success'; }
+                catch (error) { return error.message; }
+                finally { window.setTimeout = original; }
+            }""")
+            assert "20 de secunde" in result and "Reîncearcă" in result, result
+
+        async def activity_windows_keep_missing_values(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                const root=document.createElement('section');root.id='window-fixture';document.body.append(root);
+                dossierActivity(root,{changes:{'5m':null,'15m':{price_change_pct:5,
+                    liquidity_change_pct:-20,volume_5m_ratio:2,reported_buyers_change_pct:null,
+                    baseline_at:'2026-01-01T00:00:00Z'}}});
+            }""")
+            panel = page.locator("#window-fixture")
+            await expect(panel.locator(".activity-window").first).to_contain_text("Istoric insuficient")
+            await expect(panel.locator(".activity-window").nth(1)).to_contain_text("-20.00%")
+            await expect(panel.locator(".activity-window").nth(1)).to_contain_text("2×")
+            await expect(panel.locator(".activity-window").nth(1)).to_contain_text("—")
+            await expect(panel).to_contain_text("Extensie în ultima observație: date indisponibile")
+            await page.set_viewport_size({"width": 320, "height": 844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -588,6 +727,14 @@ async def check(base):
             ("storage failure preserves candidate workflow", storage_failure),
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
             ("cached coverage retains calculation date and refresh errors", cached_coverage_status),
+            ("phone drawer focus, all destinations and return navigation", mobile_workspace_navigation),
+            ("quick verdict filters and search keyboard shortcut", quick_filters_and_keyboard),
+            ("dossier observed chart, unknown scores and responsive widths", dossier_chart_and_unknowns),
+            ("declining chart retains gaps and isolated observations", chart_decline_and_gaps),
+            ("closed dossier cannot reopen after a delayed response", close_dossier_during_refresh),
+            ("failed statistics stop loading and preserve candidate access", stats_failure_is_explicit),
+            ("activity windows preserve missing evidence without invented zeros", activity_windows_keep_missing_values),
+            ("request deadline explains timeout and recovery in Romanian", request_timeout_explains_recovery),
         ]:
             await scenario(name, fn)
         await browser.close()

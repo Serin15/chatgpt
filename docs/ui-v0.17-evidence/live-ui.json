@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-22T05:28:42.162027+00:00",
+  "data": "normal app, stored and live API data; no injected values or response interception",
+  "automatic_browser_refresh": "disabled for finite inspection",
+  "js_errors": [],
+  "http_5xx": [],
+  "screenshots": [
+    "radar-desktop.png",
+    "research-desktop.png",
+    "evidence-desktop.png",
+    "research-mobile.png",
+    "radar-mobile.png",
+    "navigation-mobile.png",
+    "news-desktop.png"
+  ],
+  "widths": {
+    "320": {
+      "no_page_overflow": true
+    },
+    "390": {
+      "no_page_overflow": true
+    },
+    "768": {
+      "no_page_overflow": true
+    },
+    "1536": {
+      "no_page_overflow": true
+    }
+  },
+  "health": {
+    "application": "ok",
+    "app_id": "pulse_crypto_research",
+    "version": "0.17.0",
+    "instance_id": "8d14ec2aa3dc43af006e08dc",
+    "live_execution": false
+  },
+  "candidate_count_shown": 50,
+  "statistics": "Raport indisponibil · indicatorii istorici nu pot fi afișați momentan. Candidații și dosarele pot fi cercetate în continuare.",
+  "visible_engine_state": "Motor activ · ultim ciclu 22.10.2026, 08:28:43 · 27.790 reevaluări scadente",
+  "visible_errors": "",
+  "preserved_original_result": {
+    "signal": 209593,
+    "state": "exit_unavailable",
+    "pnl_usd": null
+  },
+  "news_cards": 30,
+  "paper_accounts": {
+    "news": {
+      "cash": "500",
+      "manual_orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "manual_orders": 0
+    }
+  },
+  "pass": true
+}
