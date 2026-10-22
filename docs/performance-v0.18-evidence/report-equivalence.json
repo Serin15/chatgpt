@@ -1,0 +1,22 @@
+{
+  "read_only_real_database": true,
+  "same_read_transaction": true,
+  "snapshot_at": "2026-10-22T15:22:40.936162+00:00",
+  "baseline_seconds": 79.0742255889927,
+  "optimized_seconds": 34.159671986999456,
+  "differences": [],
+  "counts": {
+    "discovered": 103819,
+    "signals": 254631,
+    "alerts": 6478,
+    "observations": 410191,
+    "eligible": 103819,
+    "eligible_without_first_evaluation": 297,
+    "risk_update_alerts": 2944,
+    "delivered_in_app": 415,
+    "telegram_acknowledged": 0
+  },
+  "identical": true,
+  "reference_sha256": "69deef626ba7a1d9d2e7f5bcb5900772a6acf91d503fcaa04ee15f57466e9a05",
+  "optimized_sha256": "69deef626ba7a1d9d2e7f5bcb5900772a6acf91d503fcaa04ee15f57466e9a05"
+}

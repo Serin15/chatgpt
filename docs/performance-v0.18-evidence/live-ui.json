@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-22T16:02:20.394142+00:00",
+  "data": "normal app, stored and live API data; no injected values or response interception",
+  "automatic_browser_refresh": "disabled for finite inspection",
+  "js_errors": [],
+  "http_5xx": [],
+  "screenshots": [
+    "radar-desktop.png",
+    "research-desktop.png",
+    "evidence-desktop.png",
+    "research-mobile.png",
+    "radar-mobile.png",
+    "navigation-mobile.png",
+    "news-desktop.png"
+  ],
+  "widths": {
+    "320": {
+      "no_page_overflow": true
+    },
+    "390": {
+      "no_page_overflow": true
+    },
+    "768": {
+      "no_page_overflow": true
+    },
+    "1536": {
+      "no_page_overflow": true
+    }
+  },
+  "health": {
+    "application": "ok",
+    "app_id": "pulse_crypto_research",
+    "version": "0.18.0",
+    "instance_id": "8d14ec2aa3dc43af006e08dc",
+    "live_execution": false
+  },
+  "candidate_count_shown": 50,
+  "statistics": "CANDIDAȚI\n104300\n104300 eligibili în universul observat\nFILTRU DE SECURITATE\n6\nVerificări limitate, fără garanție de siguranță\nALERTE\n6516\n415 afișate în aplicație\nOBSERVAȚII\n412245\nInclusiv încercările fără date",
+  "visible_engine_state": "Motor activ · ultim ciclu 22.10.2026, 19:02:09 · 27.102 reevaluări scadente",
+  "section_diagnostics": "",
+  "visible_section_warning": "",
+  "report_freshness": "Indicatori din snapshot 22.10.2026, 19:00:50 · calcul finalizat 22.10.2026, 19:01:36 · raport păstrat în cache. Actualizare: running.",
+  "preserved_original_result": {
+    "signal": 209593,
+    "state": "exit_unavailable",
+    "pnl_usd": null
+  },
+  "news_cards": 30,
+  "paper_accounts": {
+    "news": {
+      "cash": "500",
+      "manual_orders": 0
+    },
+    "scanner": {
+      "cash": "100",
+      "manual_orders": 0
+    }
+  },
+  "pass": true
+}

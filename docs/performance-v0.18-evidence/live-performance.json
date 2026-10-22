@@ -1,0 +1,4022 @@
+{
+  "started_at": "2026-10-22T15:59:52.410503+00:00",
+  "data": "normal application, real stored/live provider observations; no response interception",
+  "report_reads": [
+    {
+      "at": "2026-10-22T15:59:52.731717+00:00",
+      "status": 503,
+      "seconds": 0.2593166660226416
+    },
+    {
+      "at": "2026-10-22T15:59:57.745747+00:00",
+      "status": 503,
+      "seconds": 0.011529336974490434
+    },
+    {
+      "at": "2026-10-22T16:00:03.008826+00:00",
+      "status": 503,
+      "seconds": 0.2594601199962199
+    },
+    {
+      "at": "2026-10-22T16:00:08.209527+00:00",
+      "status": 200,
+      "seconds": 0.19778968000900932,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:13.225195+00:00",
+      "status": 200,
+      "seconds": 0.009150730009423569,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:18.238345+00:00",
+      "status": 200,
+      "seconds": 0.008585045987274498,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:23.284204+00:00",
+      "status": 200,
+      "seconds": 0.040749434992903844,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:28.299915+00:00",
+      "status": 200,
+      "seconds": 0.008023436996154487,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:33.312851+00:00",
+      "status": 200,
+      "seconds": 0.0080160110082943,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:38.326946+00:00",
+      "status": 200,
+      "seconds": 0.007911189983133227,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:43.341070+00:00",
+      "status": 200,
+      "seconds": 0.009375677997013554,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:48.411888+00:00",
+      "status": 200,
+      "seconds": 0.06534488400211558,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:53.538847+00:00",
+      "status": 200,
+      "seconds": 0.12063384801149368,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:00:58.749278+00:00",
+      "status": 200,
+      "seconds": 0.19512032700004056,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:03.776277+00:00",
+      "status": 200,
+      "seconds": 0.013225762988440692,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:08.794007+00:00",
+      "status": 200,
+      "seconds": 0.010876063024625182,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:13.809577+00:00",
+      "status": 200,
+      "seconds": 0.009032386005856097,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:18.829837+00:00",
+      "status": 200,
+      "seconds": 0.013194757979363203,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:23.871623+00:00",
+      "status": 200,
+      "seconds": 0.0354076579969842,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:28.886610+00:00",
+      "status": 200,
+      "seconds": 0.008328663010615855,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:33.901481+00:00",
+      "status": 200,
+      "seconds": 0.00964431298780255,
+      "snapshot_at": "2026-10-22T15:59:36.057166+00:00",
+      "calculation_seconds": 29.23238735299674,
+      "refresh": "running",
+      "stale": false,
+      "totals": {
+        "discovered": 104260,
+        "signals": 255984,
+        "alerts": 6515,
+        "observations": 412157,
+        "eligible": 104260,
+        "eligible_without_first_evaluation": 297,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:38.914839+00:00",
+      "status": 200,
+      "seconds": 0.007788201997755095,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:43.928944+00:00",
+      "status": 200,
+      "seconds": 0.00882961301249452,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:49.035488+00:00",
+      "status": 200,
+      "seconds": 0.10182899399660528,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:54.235965+00:00",
+      "status": 200,
+      "seconds": 0.19424950500251725,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:59.445009+00:00",
+      "status": 200,
+      "seconds": 0.2037404619914014,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:02:04.462200+00:00",
+      "status": 200,
+      "seconds": 0.010172464011702687,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    },
+    {
+      "at": "2026-10-22T16:02:09.494907+00:00",
+      "status": 200,
+      "seconds": 0.025116656004684046,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "refresh": "ok",
+      "stale": false,
+      "totals": {
+        "discovered": 104300,
+        "signals": 256106,
+        "alerts": 6516,
+        "observations": 412245,
+        "eligible": 104300,
+        "eligible_without_first_evaluation": 301,
+        "risk_update_alerts": 2966,
+        "delivered_in_app": 415,
+        "telegram_acknowledged": 0
+      }
+    }
+  ],
+  "cycles": [
+    {
+      "at": "2026-10-22T16:00:09.605135+00:00",
+      "started_at": "2026-10-22T15:59:36.056579+00:00",
+      "observed": 60,
+      "new_candidates": 20,
+      "errors": [],
+      "timing_seconds": {
+        "enrichment_and_routed_quotes": 30.0625,
+        "outcomes_and_status": 1.0762,
+        "provider_discovery": 1.4921,
+        "scheduling": 0.8842,
+        "story_discovery": 0.0335,
+        "total": 33.5486
+      },
+      "queue": {
+        "active_watch_seconds": 900,
+        "background_watch_hours": 48,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+        "counts_by_state": {
+          "active": {
+            "candidates": 212,
+            "due": 87
+          },
+          "background": {
+            "candidates": 30855,
+            "due": 26878
+          },
+          "followup": {
+            "candidates": 5183,
+            "due": 133
+          },
+          "paused": {
+            "candidates": 68030,
+            "due": 67667
+          }
+        },
+        "dispatchable_due": 27098,
+        "dispatchable_oldest_due_delay_seconds": 172367,
+        "due": 94765,
+        "history_preserved": true,
+        "not_enriched": 0,
+        "oldest_due_delay_seconds": 351623,
+        "paused_due": 67667,
+        "promised_due_candidates": 55,
+        "promised_due_outside_periodic_queue": 53,
+        "version": "bounded-background-v1"
+      },
+      "security_allocation": {
+        "budget": 8,
+        "early_used": 3,
+        "note": "Provider attempts, including failures; not completed security checks. Original risk and freshness gates remain required.",
+        "other_used": 0,
+        "reserved_for_early": 3,
+        "unspent": 5,
+        "used": 3,
+        "version": "early-security-reserve-v1"
+      }
+    },
+    {
+      "at": "2026-10-22T16:01:06.922355+00:00",
+      "started_at": "2026-10-22T16:00:36.073715+00:00",
+      "observed": 60,
+      "new_candidates": 20,
+      "errors": [],
+      "timing_seconds": {
+        "enrichment_and_routed_quotes": 27.9611,
+        "outcomes_and_status": 1.108,
+        "provider_discovery": 1.0696,
+        "scheduling": 0.6817,
+        "story_discovery": 0.0282,
+        "total": 30.8487
+      },
+      "queue": {
+        "active_watch_seconds": 900,
+        "background_watch_hours": 48,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+        "counts_by_state": {
+          "active": {
+            "candidates": 212,
+            "due": 89
+          },
+          "background": {
+            "candidates": 30871,
+            "due": 26878
+          },
+          "followup": {
+            "candidates": 5187,
+            "due": 138
+          },
+          "paused": {
+            "candidates": 68030,
+            "due": 67669
+          }
+        },
+        "dispatchable_due": 27105,
+        "dispatchable_oldest_due_delay_seconds": 172424,
+        "due": 94774,
+        "history_preserved": true,
+        "not_enriched": 0,
+        "oldest_due_delay_seconds": 351681,
+        "paused_due": 67669,
+        "promised_due_candidates": 63,
+        "promised_due_outside_periodic_queue": 56,
+        "version": "bounded-background-v1"
+      },
+      "security_allocation": {
+        "budget": 8,
+        "early_used": 3,
+        "note": "Provider attempts, including failures; not completed security checks. Original risk and freshness gates remain required.",
+        "other_used": 1,
+        "reserved_for_early": 3,
+        "unspent": 4,
+        "used": 4,
+        "version": "early-security-reserve-v1"
+      }
+    },
+    {
+      "at": "2026-10-22T16:02:09.334218+00:00",
+      "started_at": "2026-10-22T16:01:36.090816+00:00",
+      "observed": 60,
+      "new_candidates": 13,
+      "errors": [],
+      "timing_seconds": {
+        "enrichment_and_routed_quotes": 29.6443,
+        "outcomes_and_status": 2.1442,
+        "provider_discovery": 0.7941,
+        "scheduling": 0.606,
+        "story_discovery": 0.0548,
+        "total": 33.2434
+      },
+      "queue": {
+        "active_watch_seconds": 900,
+        "background_watch_hours": 48,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+        "counts_by_state": {
+          "active": {
+            "candidates": 206,
+            "due": 93
+          },
+          "background": {
+            "candidates": 30878,
+            "due": 26875
+          },
+          "followup": {
+            "candidates": 5171,
+            "due": 134
+          },
+          "paused": {
+            "candidates": 68058,
+            "due": 67697
+          }
+        },
+        "dispatchable_due": 27102,
+        "dispatchable_oldest_due_delay_seconds": 172358,
+        "due": 94799,
+        "history_preserved": true,
+        "not_enriched": 0,
+        "oldest_due_delay_seconds": 351743,
+        "paused_due": 67697,
+        "promised_due_candidates": 55,
+        "promised_due_outside_periodic_queue": 47,
+        "version": "bounded-background-v1"
+      },
+      "security_allocation": {
+        "budget": 8,
+        "early_used": 3,
+        "note": "Provider attempts, including failures; not completed security checks. Original risk and freshness gates remain required.",
+        "other_used": 5,
+        "reserved_for_early": 3,
+        "unspent": 0,
+        "used": 8,
+        "version": "early-security-reserve-v1"
+      }
+    }
+  ],
+  "errors": [],
+  "last_report": {
+    "rule_version": "memescope-3.2-market-references",
+    "totals": {
+      "discovered": 104300,
+      "signals": 256106,
+      "alerts": 6516,
+      "observations": 412245,
+      "eligible": 104300,
+      "eligible_without_first_evaluation": 301,
+      "risk_update_alerts": 2966,
+      "delivered_in_app": 415,
+      "telegram_acknowledged": 0
+    },
+    "sampling": {
+      "version": "balanced-deadlines-v1",
+      "monitoring": {
+        "version": "bounded-background-v1",
+        "due": 94794,
+        "dispatchable_due": 27114,
+        "paused_due": 67680,
+        "promised_due_candidates": 69,
+        "promised_due_outside_periodic_queue": 58,
+        "not_enriched": 0,
+        "oldest_due_delay_seconds": 351710,
+        "dispatchable_oldest_due_delay_seconds": 172389,
+        "background_watch_hours": 48,
+        "active_watch_seconds": 900,
+        "counts_by_state": {
+          "active": {
+            "candidates": 212,
+            "due": 100
+          },
+          "background": {
+            "candidates": 30864,
+            "due": 26876
+          },
+          "followup": {
+            "candidates": 5187,
+            "due": 138
+          },
+          "paused": {
+            "candidates": 68037,
+            "due": 67680
+          }
+        },
+        "history_preserved": true,
+        "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown."
+      },
+      "activated_at": "2026-10-16T08:41:24.600695+00:00",
+      "generated_at": "2026-10-22T16:01:36.171943+00:00",
+      "policy": {
+        "version": "balanced-deadlines-v1",
+        "old_default_budget_upgraded": false,
+        "legacy_outcomes_recovered": true
+      },
+      "enrollment": [
+        {
+          "provenance": "prospective",
+          "control_member": 0,
+          "n": 83508,
+          "never_observed": 0
+        },
+        {
+          "provenance": "prospective",
+          "control_member": 1,
+          "n": 20792,
+          "never_observed": 0
+        }
+      ],
+      "groups": {
+        "alerts": {
+          "entry": {
+            "scheduled": 3550,
+            "attempted": 3548,
+            "missed": 2,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.9994366197183099,
+            "usable_price_observations": 3546,
+            "attempts_without_usable_price": 2,
+            "usable_price_rate_among_attempts": 0.9994363021420518,
+            "price_evidence_states": {
+              "observed": 3546,
+              "quote_unavailable": 2
+            }
+          },
+          "exit": {
+            "scheduled": 9420,
+            "attempted": 7780,
+            "missed": 898,
+            "pending": 742,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8965199354690021,
+            "usable_price_observations": 7678,
+            "attempts_without_usable_price": 102,
+            "usable_price_rate_among_attempts": 0.9868894601542416,
+            "price_evidence_states": {
+              "observed": 7678,
+              "quote_before_window": 94,
+              "quote_unavailable": 8
+            }
+          },
+          "checkpoint": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "routed_exit": {
+            "scheduled": 5358,
+            "attempted": 4405,
+            "missed": 539,
+            "pending": 414,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8909789644012945,
+            "usable_price_observations": 4339,
+            "attempts_without_usable_price": 66,
+            "usable_price_rate_among_attempts": 0.985017026106697,
+            "price_evidence_states": {
+              "observed": 4339,
+              "quote_before_window": 63,
+              "quote_unavailable": 3
+            }
+          }
+        },
+        "control": {
+          "entry": {
+            "scheduled": 20791,
+            "attempted": 20753,
+            "missed": 35,
+            "pending": 3,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.998316336347893,
+            "usable_price_observations": 20691,
+            "attempts_without_usable_price": 62,
+            "usable_price_rate_among_attempts": 0.9970124801233556,
+            "price_evidence_states": {
+              "observed": 20691,
+              "quote_unavailable": 62
+            }
+          },
+          "exit": {
+            "scheduled": 2472,
+            "attempted": 2055,
+            "missed": 245,
+            "pending": 172,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8934782608695652,
+            "usable_price_observations": 1992,
+            "attempts_without_usable_price": 63,
+            "usable_price_rate_among_attempts": 0.9693430656934306,
+            "price_evidence_states": {
+              "observed": 1992,
+              "quote_before_window": 60,
+              "quote_unavailable": 3
+            }
+          },
+          "checkpoint": {
+            "scheduled": 62376,
+            "attempted": 52107,
+            "missed": 6096,
+            "pending": 4173,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8952631307664554,
+            "usable_price_observations": 51818,
+            "attempts_without_usable_price": 289,
+            "usable_price_rate_among_attempts": 0.9944537202295277,
+            "price_evidence_states": {
+              "observed": 51818,
+              "quote_before_window": 3,
+              "quote_unavailable": 286
+            }
+          },
+          "routed_exit": {
+            "scheduled": 1293,
+            "attempted": 1084,
+            "missed": 117,
+            "pending": 92,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.9025811823480433,
+            "usable_price_observations": 1063,
+            "attempts_without_usable_price": 21,
+            "usable_price_rate_among_attempts": 0.9806273062730627,
+            "price_evidence_states": {
+              "observed": 1063,
+              "quote_before_window": 18,
+              "quote_unavailable": 3
+            }
+          }
+        }
+      },
+      "prospective_groups": {
+        "alerts": {
+          "entry": {
+            "scheduled": 3550,
+            "attempted": 3548,
+            "missed": 2,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.9994366197183099,
+            "usable_price_observations": 3546,
+            "attempts_without_usable_price": 2,
+            "usable_price_rate_among_attempts": 0.9994363021420518,
+            "price_evidence_states": {
+              "observed": 3546,
+              "quote_unavailable": 2
+            }
+          },
+          "exit": {
+            "scheduled": 9420,
+            "attempted": 7780,
+            "missed": 898,
+            "pending": 742,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8965199354690021,
+            "usable_price_observations": 7678,
+            "attempts_without_usable_price": 102,
+            "usable_price_rate_among_attempts": 0.9868894601542416,
+            "price_evidence_states": {
+              "observed": 7678,
+              "quote_before_window": 94,
+              "quote_unavailable": 8
+            }
+          },
+          "checkpoint": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "routed_exit": {
+            "scheduled": 5358,
+            "attempted": 4405,
+            "missed": 539,
+            "pending": 414,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8909789644012945,
+            "usable_price_observations": 4339,
+            "attempts_without_usable_price": 66,
+            "usable_price_rate_among_attempts": 0.985017026106697,
+            "price_evidence_states": {
+              "observed": 4339,
+              "quote_before_window": 63,
+              "quote_unavailable": 3
+            }
+          }
+        },
+        "control": {
+          "entry": {
+            "scheduled": 20791,
+            "attempted": 20753,
+            "missed": 35,
+            "pending": 3,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.998316336347893,
+            "usable_price_observations": 20691,
+            "attempts_without_usable_price": 62,
+            "usable_price_rate_among_attempts": 0.9970124801233556,
+            "price_evidence_states": {
+              "observed": 20691,
+              "quote_unavailable": 62
+            }
+          },
+          "exit": {
+            "scheduled": 2472,
+            "attempted": 2055,
+            "missed": 245,
+            "pending": 172,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8934782608695652,
+            "usable_price_observations": 1992,
+            "attempts_without_usable_price": 63,
+            "usable_price_rate_among_attempts": 0.9693430656934306,
+            "price_evidence_states": {
+              "observed": 1992,
+              "quote_before_window": 60,
+              "quote_unavailable": 3
+            }
+          },
+          "checkpoint": {
+            "scheduled": 62376,
+            "attempted": 52107,
+            "missed": 6096,
+            "pending": 4173,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.8952631307664554,
+            "usable_price_observations": 51818,
+            "attempts_without_usable_price": 289,
+            "usable_price_rate_among_attempts": 0.9944537202295277,
+            "price_evidence_states": {
+              "observed": 51818,
+              "quote_before_window": 3,
+              "quote_unavailable": 286
+            }
+          },
+          "routed_exit": {
+            "scheduled": 1293,
+            "attempted": 1084,
+            "missed": 117,
+            "pending": 92,
+            "cancelled": 0,
+            "observed_attempt_rate": 0.9025811823480433,
+            "usable_price_observations": 1063,
+            "attempts_without_usable_price": 21,
+            "usable_price_rate_among_attempts": 0.9806273062730627,
+            "price_evidence_states": {
+              "observed": 1063,
+              "quote_before_window": 18,
+              "quote_unavailable": 3
+            }
+          }
+        }
+      },
+      "legacy_groups": {
+        "alerts": {
+          "entry": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "exit": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "checkpoint": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "routed_exit": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          }
+        },
+        "control": {
+          "entry": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "exit": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "checkpoint": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          },
+          "routed_exit": {
+            "scheduled": 0,
+            "attempted": 0,
+            "missed": 0,
+            "pending": 0,
+            "cancelled": 0,
+            "observed_attempt_rate": null,
+            "usable_price_observations": 0,
+            "attempts_without_usable_price": 0,
+            "usable_price_rate_among_attempts": null,
+            "price_evidence_states": {}
+          }
+        }
+      },
+      "reasons": {
+        "provider_quote_unavailable": 986,
+        "quote_before_window": 616,
+        "quote_received": 28538,
+        "risk_or_liquidity_gate": 204871,
+        "capacity_or_worker_gap": 10079,
+        "collection_finished_after_deadline": 586,
+        "security_evidence_unavailable": 945
+      },
+      "prospective_reasons": {
+        "provider_quote_unavailable": 986,
+        "quote_before_window": 616,
+        "quote_received": 28538,
+        "risk_or_liquidity_gate": 204871,
+        "capacity_or_worker_gap": 10079,
+        "collection_finished_after_deadline": 586,
+        "security_evidence_unavailable": 945
+      },
+      "due": {
+        "jobs": 71,
+        "candidates": 69,
+        "earliest": 1792684979.493416
+      },
+      "recent_attempts": {
+        "alerts": [
+          {
+            "id": 254337,
+            "candidate_id": 104268,
+            "contract": "8JdGPm1t2UPvaqGviBvJsun8EvXBvZ13tGcAsgyPmJ9n",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 256017,
+            "phase": "entry",
+            "horizon_seconds": 0,
+            "due_at": 1792684792.054086,
+            "deadline_at": 1792684969.054086,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T16:00:39.467235+00:00",
+            "quote_observed_at": "2026-10-22T16:00:38.617089+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 252068,
+            "candidate_id": 103442,
+            "contract": "6FPSAR9t5hzNUzxpiPVSEUWPZBNANSH8qmvYxS7Wpump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 253758,
+            "phase": "exit",
+            "horizon_seconds": 3600,
+            "due_at": 1792684727.164969,
+            "deadline_at": 1792684907.164969,
+            "reason": "risk_or_liquidity_gate",
+            "observed_at": "2026-10-22T15:59:19.311173+00:00",
+            "quote_observed_at": "2026-10-22T15:59:16.142313+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 254197,
+            "candidate_id": 104224,
+            "contract": "547q1FEqDR6mkJ5bjVKt9xT3RNVYnLkH6ZdMD91Bpump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 255883,
+            "phase": "entry",
+            "horizon_seconds": 0,
+            "due_at": 1792684594.661004,
+            "deadline_at": 1792684771.661004,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T15:57:21.307268+00:00",
+            "quote_observed_at": "2026-10-22T15:57:15.885875+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 254196,
+            "candidate_id": 104223,
+            "contract": "67XU8mYmbj3EL5yzyTmhSTyBiKFa792AehGwFcbqLkVy",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 255882,
+            "phase": "entry",
+            "horizon_seconds": 0,
+            "due_at": 1792684592.804396,
+            "deadline_at": 1792684769.804396,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T15:57:19.144496+00:00",
+            "quote_observed_at": "2026-10-22T15:57:15.885816+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 254064,
+            "candidate_id": 104147,
+            "contract": "GSMcm2bgZ6dgi7XAx4m9FRSzu56sN7cVZiefgFZWa9JF",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 255664,
+            "phase": "exit",
+            "horizon_seconds": 300,
+            "due_at": 1792684580.189427,
+            "deadline_at": 1792684760.189427,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T15:57:17.022605+00:00",
+            "quote_observed_at": "2026-10-22T15:57:15.885774+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 254035,
+            "candidate_id": 104147,
+            "contract": "GSMcm2bgZ6dgi7XAx4m9FRSzu56sN7cVZiefgFZWa9JF",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 255664,
+            "phase": "routed_exit",
+            "horizon_seconds": 300,
+            "due_at": 1792684581.626346,
+            "deadline_at": 1792684761.626346,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T15:57:17.022605+00:00",
+            "quote_observed_at": "2026-10-22T15:57:15.885774+00:00",
+            "source_kind": "live_provider_observation"
+          }
+        ],
+        "control": [
+          {
+            "id": 204846,
+            "candidate_id": 84237,
+            "contract": "KpbpR5KJFVLFzfpGVaSHqYGSv3cfQF8BFv8P2SSpump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 208776,
+            "phase": "checkpoint",
+            "horizon_seconds": 86400,
+            "due_at": 1792684836.82076,
+            "deadline_at": 1792685016.82076,
+            "reason": "risk_or_liquidity_gate",
+            "observed_at": "2026-10-22T16:00:45.329044+00:00",
+            "quote_observed_at": "2026-10-22T16:00:38.617510+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 204843,
+            "candidate_id": 84236,
+            "contract": "8axQcS92KR9w9rCzLEuB1MKRXtigSrXJCNiQu83gpump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 208775,
+            "phase": "checkpoint",
+            "horizon_seconds": 86400,
+            "due_at": 1792684836.818777,
+            "deadline_at": 1792685016.818777,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T16:00:44.976909+00:00",
+            "quote_observed_at": "2026-10-22T16:00:38.617498+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 204840,
+            "candidate_id": 84229,
+            "contract": "H9wg4pmGt97njo9kzx4mgW377Yessyvhsz1noWR1pump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 208768,
+            "phase": "checkpoint",
+            "horizon_seconds": 86400,
+            "due_at": 1792684836.802899,
+            "deadline_at": 1792685016.802899,
+            "reason": "risk_or_liquidity_gate",
+            "observed_at": "2026-10-22T16:00:44.075668+00:00",
+            "quote_observed_at": "2026-10-22T16:00:38.617487+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 204837,
+            "candidate_id": 84225,
+            "contract": "EM3yzJF5XMA8x6iEeigpborku8oPmvvRTeHMb2NkpoSX",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 208764,
+            "phase": "checkpoint",
+            "horizon_seconds": 86400,
+            "due_at": 1792684836.793938,
+            "deadline_at": 1792685016.793938,
+            "reason": "risk_or_liquidity_gate",
+            "observed_at": "2026-10-22T16:00:43.772379+00:00",
+            "quote_observed_at": "2026-10-22T16:00:38.617475+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 254347,
+            "candidate_id": 104278,
+            "contract": "J6aCxsE7h3UiJFDyJcGevsy66mYKtg3vQVKXj5S1pump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 256027,
+            "phase": "entry",
+            "horizon_seconds": 0,
+            "due_at": 1792684796.139417,
+            "deadline_at": 1792684973.139417,
+            "reason": "risk_or_liquidity_gate",
+            "observed_at": "2026-10-22T16:00:43.376097+00:00",
+            "quote_observed_at": "2026-10-22T16:00:38.617463+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 252065,
+            "candidate_id": 103435,
+            "contract": "8S8pANknbhLowaYzmQmxhDabDdHk613uCbzqz8s796BD",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 253751,
+            "phase": "exit",
+            "horizon_seconds": 3600,
+            "due_at": 1792684727.965216,
+            "deadline_at": 1792684907.965216,
+            "reason": "risk_or_liquidity_gate",
+            "observed_at": "2026-10-22T15:59:20.597609+00:00",
+            "quote_observed_at": "2026-10-22T15:59:16.142378+00:00",
+            "source_kind": "live_provider_observation"
+          },
+          {
+            "id": 204332,
+            "candidate_id": 84013,
+            "contract": "taw7Xdvxts1Bvkt2Q5cBKJsaqJWKGD2rBsQN515pump",
+            "chain": "solana",
+            "provenance": "prospective",
+            "signal_id": 208227,
+            "phase": "routed_exit",
+            "horizon_seconds": 86400,
+            "due_at": 1792683740.910471,
+            "deadline_at": 1792683920.910471,
+            "reason": "quote_received",
+            "observed_at": "2026-10-22T15:44:50.672915+00:00",
+            "quote_observed_at": "2026-10-22T15:44:43.825860+00:00",
+            "source_kind": "live_provider_observation"
+          }
+        ]
+      },
+      "note": "Control membership fixed at discovery by contract hash, independent of score/return. Legacy data are not prospectively balanced. Groups may overlap. An observation attempt is not a successful fill; capacity and provider gaps remain explicit."
+    },
+    "first_evaluation_security_pass": 4365,
+    "first_evaluation_liquidity_pass": 4399,
+    "first_evaluation_verdicts": {
+      "REJECT": 99630,
+      "MONITOR": 1677,
+      "INVESTIGATE": 2692
+    },
+    "current_security_pass": 6,
+    "current_liquidity_pass": 6,
+    "current_verdicts": {
+      "REJECT": 101794,
+      "PENDING": 1321,
+      "MONITOR": 1104,
+      "INVESTIGATE": 81
+    },
+    "known_current_price_collapses_ge_80pct": 8148,
+    "known_current_appreciation_ge_100pct": 3188,
+    "alerts_already_extended_at_signal": 705,
+    "confirmed_unsellable": null,
+    "missed_opportunities": null,
+    "horizons": {
+      "300": {
+        "all_eligible_first_evaluations": {
+          "experiments": 103999,
+          "evaluated": 2925,
+          "unresolved_or_unavailable": 101074,
+          "states": {
+            "entry_unavailable": 99272,
+            "evaluated": 2925,
+            "exit_unavailable": 1161,
+            "missing_forward_exit": 16,
+            "missing_forward_entry": 586,
+            "pending": 39
+          },
+          "profitable_after_costs": 2003,
+          "loss_rate_among_evaluated": 0.3152136752136752,
+          "unprofitable_rate_among_evaluated": 0.3152136752136752,
+          "net_pnl_independent_experiments_usd": "23864.92814356672648221674318",
+          "mean_net_pnl_usd": "8.158949792672385122125382284",
+          "win_rate_95pct_wilson_approx": [
+            0.6677159220194252,
+            0.7013719794908512
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 2692,
+          "evaluated": 1701,
+          "unresolved_or_unavailable": 991,
+          "states": {
+            "evaluated": 1701,
+            "exit_unavailable": 663,
+            "entry_unavailable": 315,
+            "missing_forward_exit": 7,
+            "missing_forward_entry": 2,
+            "pending": 4
+          },
+          "profitable_after_costs": 1389,
+          "loss_rate_among_evaluated": 0.18342151675485008,
+          "unprofitable_rate_among_evaluated": 0.18342151675485008,
+          "net_pnl_independent_experiments_usd": "9156.442703591455829998295370",
+          "mean_net_pnl_usd": "5.382976310165464920633918501",
+          "win_rate_95pct_wilson_approx": [
+            0.7974800503197148,
+            0.8342501937099944
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "deterministic_20pct_baseline": {
+          "experiments": 20791,
+          "evaluated": 562,
+          "unresolved_or_unavailable": 20229,
+          "states": {
+            "entry_unavailable": 19924,
+            "evaluated": 562,
+            "exit_unavailable": 259,
+            "missing_forward_entry": 35,
+            "missing_forward_exit": 1,
+            "pending": 10
+          },
+          "profitable_after_costs": 395,
+          "loss_rate_among_evaluated": 0.297153024911032,
+          "unprofitable_rate_among_evaluated": 0.297153024911032,
+          "net_pnl_independent_experiments_usd": "4450.487308525772373560588823",
+          "mean_net_pnl_usd": "7.919016563213118102420976553",
+          "win_rate_95pct_wilson_approx": [
+            0.6637890764520925,
+            0.73915054481294
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "later_alert_experiments": {
+          "experiments": 858,
+          "evaluated": 568,
+          "unresolved_or_unavailable": 290,
+          "states": {
+            "exit_unavailable": 196,
+            "entry_unavailable": 93,
+            "evaluated": 568,
+            "missing_forward_exit": 1
+          },
+          "profitable_after_costs": 363,
+          "loss_rate_among_evaluated": 0.3609154929577465,
+          "unprofitable_rate_among_evaluated": 0.3609154929577465,
+          "net_pnl_independent_experiments_usd": "3073.189002897052864018058175",
+          "mean_net_pnl_usd": "5.410544019184952225383905238",
+          "win_rate_95pct_wilson_approx": [
+            0.5987749774417065,
+            0.6775253127085729
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "cohorts": {
+          "development": {
+            "experiments": 34892,
+            "evaluated": 1008,
+            "unresolved_or_unavailable": 33884,
+            "states": {
+              "entry_unavailable": 33504,
+              "evaluated": 1008,
+              "exit_unavailable": 377,
+              "missing_forward_exit": 1,
+              "missing_forward_entry": 2
+            },
+            "profitable_after_costs": 632,
+            "loss_rate_among_evaluated": 0.373015873015873,
+            "unprofitable_rate_among_evaluated": 0.373015873015873,
+            "net_pnl_independent_experiments_usd": "6946.739091542820371305509147",
+            "mean_net_pnl_usd": "6.891606241609940844549116217",
+            "win_rate_95pct_wilson_approx": [
+              0.5966997969325217,
+              0.6563042305753412
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "test": {
+            "experiments": 1587,
+            "evaluated": 44,
+            "unresolved_or_unavailable": 1543,
+            "states": {
+              "entry_unavailable": 1499,
+              "evaluated": 44,
+              "exit_unavailable": 21,
+              "missing_forward_exit": 3,
+              "missing_forward_entry": 20
+            },
+            "profitable_after_costs": 33,
+            "loss_rate_among_evaluated": 0.25,
+            "unprofitable_rate_among_evaluated": 0.25,
+            "net_pnl_independent_experiments_usd": "225.6760846861479155144901258",
+            "mean_net_pnl_usd": "5.129001924685179898056593768",
+            "win_rate_95pct_wilson_approx": [
+              0.6055915019158504,
+              0.8542593391931426
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "unassigned": {
+            "experiments": 67331,
+            "evaluated": 1872,
+            "unresolved_or_unavailable": 65459,
+            "states": {
+              "entry_unavailable": 64082,
+              "evaluated": 1872,
+              "exit_unavailable": 762,
+              "missing_forward_entry": 564,
+              "missing_forward_exit": 12,
+              "pending": 39
+            },
+            "profitable_after_costs": 1337,
+            "loss_rate_among_evaluated": 0.2857905982905983,
+            "unprofitable_rate_among_evaluated": 0.2857905982905983,
+            "net_pnl_independent_experiments_usd": "16684.13099450903903821072800",
+            "mean_net_pnl_usd": "8.912463138092435383659576923",
+            "win_rate_95pct_wilson_approx": [
+              0.6933206501861524,
+              0.7342207797512155
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "purged_boundary": {
+            "experiments": 189,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 188,
+            "states": {
+              "entry_unavailable": 187,
+              "evaluated": 1,
+              "exit_unavailable": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "8.38197282871915718601586952",
+            "mean_net_pnl_usd": "8.38197282871915718601586952",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 32,
+            "unresolved_or_unavailable": 637,
+            "states": {
+              "entry_unavailable": 631,
+              "evaluated": 32,
+              "exit_unavailable": 6
+            },
+            "profitable_after_costs": 22,
+            "loss_rate_among_evaluated": 0.3125,
+            "unprofitable_rate_among_evaluated": 0.3125,
+            "net_pnl_independent_experiments_usd": "196.6915901588598466501502648",
+            "mean_net_pnl_usd": "6.146612192464370207817195775",
+            "win_rate_95pct_wilson_approx": [
+              0.514330003019676,
+              0.8204764788338126
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 132,
+            "states": {
+              "entry_unavailable": 130,
+              "exit_unavailable": 2,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "1.84293103519413693226529895",
+            "mean_net_pnl_usd": "1.84293103519413693226529895",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "3": {
+            "experiments": 2259,
+            "evaluated": 81,
+            "unresolved_or_unavailable": 2178,
+            "states": {
+              "entry_unavailable": 2157,
+              "evaluated": 81,
+              "exit_unavailable": 21
+            },
+            "profitable_after_costs": 60,
+            "loss_rate_among_evaluated": 0.25925925925925924,
+            "unprofitable_rate_among_evaluated": 0.25925925925925924,
+            "net_pnl_independent_experiments_usd": "778.3903868518939118752448655",
+            "mean_net_pnl_usd": "9.609757862369060640435121796",
+            "win_rate_95pct_wilson_approx": [
+              0.63595445945254,
+              0.8237256974516202
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "4": {
+            "experiments": 111,
+            "evaluated": 3,
+            "unresolved_or_unavailable": 108,
+            "states": {
+              "entry_unavailable": 107,
+              "evaluated": 3,
+              "exit_unavailable": 1
+            },
+            "profitable_after_costs": 3,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "40.95875396669092703960956767",
+            "mean_net_pnl_usd": "13.65291798889697567986985589",
+            "win_rate_95pct_wilson_approx": [
+              0.43849391955098227,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "5": {
+            "experiments": 34298,
+            "evaluated": 969,
+            "unresolved_or_unavailable": 33329,
+            "states": {
+              "evaluated": 969,
+              "entry_unavailable": 32926,
+              "exit_unavailable": 377,
+              "missing_forward_exit": 4,
+              "missing_forward_entry": 22
+            },
+            "profitable_after_costs": 603,
+            "loss_rate_among_evaluated": 0.37770897832817335,
+            "unprofitable_rate_among_evaluated": 0.37770897832817335,
+            "net_pnl_independent_experiments_usd": "6361.448008239102605091160711",
+            "mean_net_pnl_usd": "6.564961824808155423210692168",
+            "win_rate_95pct_wilson_approx": [
+              0.591338637988849,
+              0.6522775889488148
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "6": {
+            "experiments": 120,
+            "evaluated": 12,
+            "unresolved_or_unavailable": 108,
+            "states": {
+              "entry_unavailable": 106,
+              "evaluated": 12,
+              "exit_unavailable": 2
+            },
+            "profitable_after_costs": 7,
+            "loss_rate_among_evaluated": 0.4166666666666667,
+            "unprofitable_rate_among_evaluated": 0.4166666666666667,
+            "net_pnl_independent_experiments_usd": "41.83210758272195544203380573",
+            "mean_net_pnl_usd": "3.486008965226829620169483811",
+            "win_rate_95pct_wilson_approx": [
+              0.3195073356553728,
+              0.8067425380947535
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "7": {
+            "experiments": 89,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 88,
+            "states": {
+              "entry_unavailable": 84,
+              "exit_unavailable": 4,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "0.39621199321771910113628603",
+            "mean_net_pnl_usd": "0.39621199321771910113628603",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "8": {
+            "experiments": 211,
+            "evaluated": 9,
+            "unresolved_or_unavailable": 202,
+            "states": {
+              "entry_unavailable": 201,
+              "exit_unavailable": 1,
+              "evaluated": 9
+            },
+            "profitable_after_costs": 8,
+            "loss_rate_among_evaluated": 0.1111111111111111,
+            "unprofitable_rate_among_evaluated": 0.1111111111111111,
+            "net_pnl_independent_experiments_usd": "61.15992842495828066012208836",
+            "mean_net_pnl_usd": "6.795547602773142295569120929",
+            "win_rate_95pct_wilson_approx": [
+              0.5649937852319399,
+              0.9801096286728695
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "9": {
+            "experiments": 1959,
+            "evaluated": 52,
+            "unresolved_or_unavailable": 1907,
+            "states": {
+              "entry_unavailable": 1889,
+              "exit_unavailable": 18,
+              "evaluated": 52
+            },
+            "profitable_after_costs": 43,
+            "loss_rate_among_evaluated": 0.17307692307692307,
+            "unprofitable_rate_among_evaluated": 0.17307692307692307,
+            "net_pnl_independent_experiments_usd": "653.4445516550798702148820061",
+            "mean_net_pnl_usd": "12.56624137798230519644003858",
+            "win_rate_95pct_wilson_approx": [
+              0.7026887630639471,
+              0.9061763124353222
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "10": {
+            "experiments": 2055,
+            "evaluated": 57,
+            "unresolved_or_unavailable": 1998,
+            "states": {
+              "entry_unavailable": 1978,
+              "evaluated": 57,
+              "exit_unavailable": 20
+            },
+            "profitable_after_costs": 46,
+            "loss_rate_among_evaluated": 0.19298245614035087,
+            "unprofitable_rate_among_evaluated": 0.19298245614035087,
+            "net_pnl_independent_experiments_usd": "431.9161961990518211886965566",
+            "mean_net_pnl_usd": "7.577477126299154757696430818",
+            "win_rate_95pct_wilson_approx": [
+              0.6865906266298637,
+              0.8886736662223952
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "11": {
+            "experiments": 68,
+            "evaluated": 3,
+            "unresolved_or_unavailable": 65,
+            "states": {
+              "entry_unavailable": 63,
+              "evaluated": 3,
+              "exit_unavailable": 2
+            },
+            "profitable_after_costs": 2,
+            "loss_rate_among_evaluated": 0.3333333333333333,
+            "unprofitable_rate_among_evaluated": 0.3333333333333333,
+            "net_pnl_independent_experiments_usd": "8.25663687013244696940107152",
+            "mean_net_pnl_usd": "2.752212290044148989800357173",
+            "win_rate_95pct_wilson_approx": [
+              0.2076549551264879,
+              0.9385096847238394
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "12": {
+            "experiments": 488,
+            "evaluated": 23,
+            "unresolved_or_unavailable": 465,
+            "states": {
+              "entry_unavailable": 458,
+              "evaluated": 23,
+              "exit_unavailable": 7
+            },
+            "profitable_after_costs": 16,
+            "loss_rate_among_evaluated": 0.30434782608695654,
+            "unprofitable_rate_among_evaluated": 0.30434782608695654,
+            "net_pnl_independent_experiments_usd": "301.3851958369709249416948364",
+            "mean_net_pnl_usd": "13.10370416682482282355194941",
+            "win_rate_95pct_wilson_approx": [
+              0.49133870939427393,
+              0.8439617197902755
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "13": {
+            "experiments": 1063,
+            "evaluated": 25,
+            "unresolved_or_unavailable": 1038,
+            "states": {
+              "entry_unavailable": 1004,
+              "exit_unavailable": 10,
+              "evaluated": 25,
+              "missing_forward_entry": 23,
+              "missing_forward_exit": 1
+            },
+            "profitable_after_costs": 19,
+            "loss_rate_among_evaluated": 0.24,
+            "unprofitable_rate_among_evaluated": 0.24,
+            "net_pnl_independent_experiments_usd": "144.2053154671479108757843472",
+            "mean_net_pnl_usd": "5.768212618685916435031373888",
+            "win_rate_95pct_wilson_approx": [
+              0.5656994004476144,
+              0.8850384226967327
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "14": {
+            "experiments": 15988,
+            "evaluated": 390,
+            "unresolved_or_unavailable": 15598,
+            "states": {
+              "entry_unavailable": 15403,
+              "evaluated": 390,
+              "exit_unavailable": 178,
+              "missing_forward_entry": 17
+            },
+            "profitable_after_costs": 294,
+            "loss_rate_among_evaluated": 0.24615384615384617,
+            "unprofitable_rate_among_evaluated": 0.24615384615384617,
+            "net_pnl_independent_experiments_usd": "3181.926994799601962140486864",
+            "mean_net_pnl_usd": "8.158787166152825543949966318",
+            "win_rate_95pct_wilson_approx": [
+              0.70875394191024,
+              0.793986246023183
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "15": {
+            "experiments": 3026,
+            "evaluated": 92,
+            "unresolved_or_unavailable": 2934,
+            "states": {
+              "entry_unavailable": 2899,
+              "evaluated": 92,
+              "exit_unavailable": 35
+            },
+            "profitable_after_costs": 75,
+            "loss_rate_among_evaluated": 0.18478260869565216,
+            "unprofitable_rate_among_evaluated": 0.18478260869565216,
+            "net_pnl_independent_experiments_usd": "858.3213195778456771396716918",
+            "mean_net_pnl_usd": "9.329579560628757360213822737",
+            "win_rate_95pct_wilson_approx": [
+              0.7238575588369482,
+              0.881307630391946
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "16": {
+            "experiments": 11793,
+            "evaluated": 275,
+            "unresolved_or_unavailable": 11518,
+            "states": {
+              "entry_unavailable": 11329,
+              "evaluated": 275,
+              "exit_unavailable": 120,
+              "missing_forward_entry": 67,
+              "missing_forward_exit": 2
+            },
+            "profitable_after_costs": 185,
+            "loss_rate_among_evaluated": 0.32727272727272727,
+            "unprofitable_rate_among_evaluated": 0.32727272727272727,
+            "net_pnl_independent_experiments_usd": "3003.129092678882424808539614",
+            "mean_net_pnl_usd": "10.92046942792320881748559860",
+            "win_rate_95pct_wilson_approx": [
+              0.6152215774310497,
+              0.7254736416467351
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "17": {
+            "experiments": 589,
+            "evaluated": 25,
+            "unresolved_or_unavailable": 564,
+            "states": {
+              "entry_unavailable": 545,
+              "evaluated": 25,
+              "exit_unavailable": 5,
+              "missing_forward_exit": 2,
+              "missing_forward_entry": 12
+            },
+            "profitable_after_costs": 11,
+            "loss_rate_among_evaluated": 0.56,
+            "unprofitable_rate_among_evaluated": 0.56,
+            "net_pnl_independent_experiments_usd": "50.11487610493942904440894765",
+            "mean_net_pnl_usd": "2.004595044197577161776357906",
+            "win_rate_95pct_wilson_approx": [
+              0.2666537494700256,
+              0.6293298298043557
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "18": {
+            "experiments": 82,
+            "evaluated": 2,
+            "unresolved_or_unavailable": 80,
+            "states": {
+              "exit_unavailable": 2,
+              "entry_unavailable": 77,
+              "evaluated": 2,
+              "missing_forward_exit": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": 1.0,
+            "unprofitable_rate_among_evaluated": 1.0,
+            "net_pnl_independent_experiments_usd": "-21.70560508556298640802742859",
+            "mean_net_pnl_usd": "-10.85280254278149320401371430",
+            "win_rate_95pct_wilson_approx": [
+              0,
+              0.6576280471103807
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "19": {
+            "experiments": 56,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 56,
+            "states": {
+              "entry_unavailable": 41,
+              "missing_forward_entry": 15
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "20": {
+            "experiments": 8853,
+            "evaluated": 296,
+            "unresolved_or_unavailable": 8557,
+            "states": {
+              "entry_unavailable": 8400,
+              "exit_unavailable": 102,
+              "evaluated": 296,
+              "missing_forward_entry": 51,
+              "missing_forward_exit": 4
+            },
+            "profitable_after_costs": 211,
+            "loss_rate_among_evaluated": 0.28716216216216217,
+            "unprofitable_rate_among_evaluated": 0.28716216216216217,
+            "net_pnl_independent_experiments_usd": "3293.215604815017725596900877",
+            "mean_net_pnl_usd": "11.12572839464533015404358404",
+            "win_rate_95pct_wilson_approx": [
+              0.6588266996040402,
+              0.7613951775470957
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "21": {
+            "experiments": 130,
+            "evaluated": 2,
+            "unresolved_or_unavailable": 128,
+            "states": {
+              "entry_unavailable": 57,
+              "missing_forward_entry": 71,
+              "evaluated": 2
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.5,
+            "unprofitable_rate_among_evaluated": 0.5,
+            "net_pnl_independent_experiments_usd": "22.91052348218061042458853875",
+            "mean_net_pnl_usd": "11.45526174109030521229426938",
+            "win_rate_95pct_wilson_approx": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "22": {
+            "experiments": 77,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 77,
+            "states": {
+              "missing_forward_entry": 75,
+              "entry_unavailable": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "23": {
+            "experiments": 60,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 60,
+            "states": {
+              "missing_forward_entry": 49,
+              "entry_unavailable": 10,
+              "missing_forward_exit": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "24": {
+            "experiments": 333,
+            "evaluated": 5,
+            "unresolved_or_unavailable": 328,
+            "states": {
+              "entry_unavailable": 263,
+              "missing_forward_exit": 1,
+              "missing_forward_entry": 59,
+              "exit_unavailable": 5,
+              "evaluated": 5
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.8,
+            "unprofitable_rate_among_evaluated": 0.8,
+            "net_pnl_independent_experiments_usd": "5.01595241204181328366678208",
+            "mean_net_pnl_usd": "1.003190482408362656733356416",
+            "win_rate_95pct_wilson_approx": [
+              0.03622316096978745,
+              0.6244717358814613
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "25": {
+            "experiments": 19220,
+            "evaluated": 566,
+            "unresolved_or_unavailable": 18654,
+            "states": {
+              "entry_unavailable": 18378,
+              "exit_unavailable": 243,
+              "evaluated": 566,
+              "missing_forward_entry": 33
+            },
+            "profitable_after_costs": 392,
+            "loss_rate_among_evaluated": 0.30742049469964666,
+            "unprofitable_rate_among_evaluated": 0.30742049469964666,
+            "net_pnl_independent_experiments_usd": "4439.519581787102459723091462",
+            "mean_net_pnl_usd": "7.843674172768732260994861240",
+            "win_rate_95pct_wilson_approx": [
+              0.6533728600614314,
+              0.7291895923814932
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "26": {
+            "experiments": 117,
+            "evaluated": 3,
+            "unresolved_or_unavailable": 114,
+            "states": {
+              "entry_unavailable": 68,
+              "missing_forward_entry": 46,
+              "evaluated": 3
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.6666666666666666,
+            "unprofitable_rate_among_evaluated": 0.6666666666666666,
+            "net_pnl_independent_experiments_usd": "0.14879328290849052642016109",
+            "mean_net_pnl_usd": "0.04959776096949684214005369667",
+            "win_rate_95pct_wilson_approx": [
+              0.0614903152761605,
+              0.7923450448735121
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "27": {
+            "experiments": 116,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 115,
+            "states": {
+              "missing_forward_entry": 46,
+              "evaluated": 1,
+              "entry_unavailable": 66,
+              "pending": 3
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "10.40319543074651895481392864",
+            "mean_net_pnl_usd": "10.40319543074651895481392864",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "28": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "pending": 36
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "prospective_comparison": {
+          "selected_at_first_evaluation": {
+            "experiments": 2692,
+            "evaluated": 1701,
+            "unresolved_or_unavailable": 991,
+            "states": {
+              "evaluated": 1701,
+              "exit_unavailable": 663,
+              "entry_unavailable": 315,
+              "missing_forward_exit": 7,
+              "missing_forward_entry": 2,
+              "pending": 4
+            },
+            "profitable_after_costs": 1389,
+            "loss_rate_among_evaluated": 0.18342151675485008,
+            "unprofitable_rate_among_evaluated": 0.18342151675485008,
+            "net_pnl_independent_experiments_usd": "9156.442703591455829998295370",
+            "mean_net_pnl_usd": "5.382976310165464920633918501",
+            "win_rate_95pct_wilson_approx": [
+              0.7974800503197148,
+              0.8342501937099944
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "fixed_control": {
+            "experiments": 20791,
+            "evaluated": 562,
+            "unresolved_or_unavailable": 20229,
+            "states": {
+              "entry_unavailable": 19924,
+              "evaluated": 562,
+              "exit_unavailable": 259,
+              "missing_forward_entry": 35,
+              "missing_forward_exit": 1,
+              "pending": 10
+            },
+            "profitable_after_costs": 395,
+            "loss_rate_among_evaluated": 0.297153024911032,
+            "unprofitable_rate_among_evaluated": 0.297153024911032,
+            "net_pnl_independent_experiments_usd": "4450.487308525772373560588823",
+            "mean_net_pnl_usd": "7.919016563213118102420976553",
+            "win_rate_95pct_wilson_approx": [
+              0.6637890764520925,
+              0.73915054481294
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "overlapping_experiments": 548,
+          "note": "Control assigned before screening, including rejected tokens and any overlapping alerts. Legacy history is excluded. Observation coverage and executable paper results are separate."
+        }
+      },
+      "3600": {
+        "all_eligible_first_evaluations": {
+          "experiments": 103999,
+          "evaluated": 1345,
+          "unresolved_or_unavailable": 102654,
+          "states": {
+            "entry_unavailable": 99272,
+            "exit_unavailable": 2636,
+            "evaluated": 1345,
+            "missing_forward_entry": 586,
+            "missing_forward_exit": 88,
+            "pending": 72
+          },
+          "profitable_after_costs": 749,
+          "loss_rate_among_evaluated": 0.44312267657992566,
+          "unprofitable_rate_among_evaluated": 0.44312267657992566,
+          "net_pnl_independent_experiments_usd": "69466.10584331615371407539280",
+          "mean_net_pnl_usd": "51.64766233703803250117129576",
+          "win_rate_95pct_wilson_approx": [
+            0.5302043724371569,
+            0.5832262928092292
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 2692,
+          "evaluated": 594,
+          "unresolved_or_unavailable": 2098,
+          "states": {
+            "evaluated": 594,
+            "exit_unavailable": 1710,
+            "entry_unavailable": 315,
+            "missing_forward_exit": 47,
+            "missing_forward_entry": 2,
+            "pending": 24
+          },
+          "profitable_after_costs": 450,
+          "loss_rate_among_evaluated": 0.24242424242424243,
+          "unprofitable_rate_among_evaluated": 0.24242424242424243,
+          "net_pnl_independent_experiments_usd": "25597.68284215773512064087117",
+          "mean_net_pnl_usd": "43.09374215851470559030449692",
+          "win_rate_95pct_wilson_approx": [
+            0.721527830862781,
+            0.7903134327762833
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "deterministic_20pct_baseline": {
+          "experiments": 20791,
+          "evaluated": 278,
+          "unresolved_or_unavailable": 20513,
+          "states": {
+            "entry_unavailable": 19924,
+            "evaluated": 278,
+            "exit_unavailable": 518,
+            "missing_forward_exit": 19,
+            "missing_forward_entry": 35,
+            "pending": 17
+          },
+          "profitable_after_costs": 164,
+          "loss_rate_among_evaluated": 0.41007194244604317,
+          "unprofitable_rate_among_evaluated": 0.41007194244604317,
+          "net_pnl_independent_experiments_usd": "14747.93092748098713273316517",
+          "mean_net_pnl_usd": "53.05011124993160839112649342",
+          "win_rate_95pct_wilson_approx": [
+            0.5312665958200916,
+            0.6461380172675434
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "later_alert_experiments": {
+          "experiments": 858,
+          "evaluated": 239,
+          "unresolved_or_unavailable": 619,
+          "states": {
+            "exit_unavailable": 511,
+            "entry_unavailable": 93,
+            "evaluated": 239,
+            "missing_forward_exit": 11,
+            "pending": 4
+          },
+          "profitable_after_costs": 159,
+          "loss_rate_among_evaluated": 0.33472803347280333,
+          "unprofitable_rate_among_evaluated": 0.33472803347280333,
+          "net_pnl_independent_experiments_usd": "11971.86807722203070950061744",
+          "mean_net_pnl_usd": "50.09149823105452179707371314",
+          "win_rate_95pct_wilson_approx": [
+            0.6032472527859444,
+            0.7220676850171338
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "cohorts": {
+          "development": {
+            "experiments": 33939,
+            "evaluated": 491,
+            "unresolved_or_unavailable": 33448,
+            "states": {
+              "entry_unavailable": 32591,
+              "evaluated": 491,
+              "exit_unavailable": 855,
+              "missing_forward_entry": 2
+            },
+            "profitable_after_costs": 216,
+            "loss_rate_among_evaluated": 0.560081466395112,
+            "unprofitable_rate_among_evaluated": 0.560081466395112,
+            "net_pnl_independent_experiments_usd": "20441.06482692265936759951975",
+            "mean_net_pnl_usd": "41.63149659251050787698476527",
+            "win_rate_95pct_wilson_approx": [
+              0.3966469155917963,
+              0.48412301159298365
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "test": {
+            "experiments": 1587,
+            "evaluated": 10,
+            "unresolved_or_unavailable": 1577,
+            "states": {
+              "entry_unavailable": 1499,
+              "evaluated": 10,
+              "exit_unavailable": 20,
+              "missing_forward_exit": 38,
+              "missing_forward_entry": 20
+            },
+            "profitable_after_costs": 7,
+            "loss_rate_among_evaluated": 0.3,
+            "unprofitable_rate_among_evaluated": 0.3,
+            "net_pnl_independent_experiments_usd": "561.2865197252512306700678312",
+            "mean_net_pnl_usd": "56.12865197252512306700678312",
+            "win_rate_95pct_wilson_approx": [
+              0.39677321997956516,
+              0.892210712513788
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "unassigned": {
+            "experiments": 67331,
+            "evaluated": 832,
+            "unresolved_or_unavailable": 66499,
+            "states": {
+              "entry_unavailable": 64082,
+              "exit_unavailable": 1731,
+              "evaluated": 832,
+              "missing_forward_entry": 564,
+              "missing_forward_exit": 50,
+              "pending": 72
+            },
+            "profitable_after_costs": 518,
+            "loss_rate_among_evaluated": 0.37740384615384615,
+            "unprofitable_rate_among_evaluated": 0.37740384615384615,
+            "net_pnl_independent_experiments_usd": "48015.36227107352980855135584",
+            "mean_net_pnl_usd": "57.71077196042491563527807192",
+            "win_rate_95pct_wilson_approx": [
+              0.5891653718234234,
+              0.6549000108998103
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "purged_boundary": {
+            "experiments": 1142,
+            "evaluated": 12,
+            "unresolved_or_unavailable": 1130,
+            "states": {
+              "entry_unavailable": 1100,
+              "exit_unavailable": 30,
+              "evaluated": 12
+            },
+            "profitable_after_costs": 8,
+            "loss_rate_among_evaluated": 0.3333333333333333,
+            "unprofitable_rate_among_evaluated": 0.3333333333333333,
+            "net_pnl_independent_experiments_usd": "448.3922255947133072544494520",
+            "mean_net_pnl_usd": "37.3660187995594422712041210",
+            "win_rate_95pct_wilson_approx": [
+              0.3906175873976139,
+              0.8618821601026385
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 24,
+            "unresolved_or_unavailable": 645,
+            "states": {
+              "entry_unavailable": 631,
+              "exit_unavailable": 14,
+              "evaluated": 24
+            },
+            "profitable_after_costs": 13,
+            "loss_rate_among_evaluated": 0.4583333333333333,
+            "unprofitable_rate_among_evaluated": 0.4583333333333333,
+            "net_pnl_independent_experiments_usd": "981.7108522003783788921296378",
+            "mean_net_pnl_usd": "40.90461884168243245383873491",
+            "win_rate_95pct_wilson_approx": [
+              0.35074553553106635,
+              0.7210894164831857
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_unavailable": 130,
+              "exit_unavailable": 3
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "3": {
+            "experiments": 2259,
+            "evaluated": 36,
+            "unresolved_or_unavailable": 2223,
+            "states": {
+              "entry_unavailable": 2157,
+              "evaluated": 36,
+              "exit_unavailable": 66
+            },
+            "profitable_after_costs": 21,
+            "loss_rate_among_evaluated": 0.4166666666666667,
+            "unprofitable_rate_among_evaluated": 0.4166666666666667,
+            "net_pnl_independent_experiments_usd": "1484.062952178883890891277160",
+            "mean_net_pnl_usd": "41.22397089385788585809103222",
+            "win_rate_95pct_wilson_approx": [
+              0.4219996966427768,
+              0.7285966649491271
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "4": {
+            "experiments": 111,
+            "evaluated": 2,
+            "unresolved_or_unavailable": 109,
+            "states": {
+              "entry_unavailable": 107,
+              "evaluated": 2,
+              "exit_unavailable": 2
+            },
+            "profitable_after_costs": 2,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "273.7229546557490637187545895",
+            "mean_net_pnl_usd": "136.8614773278745318593772948",
+            "win_rate_95pct_wilson_approx": [
+              0.34237195288961925,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "5": {
+            "experiments": 34298,
+            "evaluated": 475,
+            "unresolved_or_unavailable": 33823,
+            "states": {
+              "exit_unavailable": 837,
+              "entry_unavailable": 32926,
+              "evaluated": 475,
+              "missing_forward_entry": 22,
+              "missing_forward_exit": 38
+            },
+            "profitable_after_costs": 208,
+            "loss_rate_among_evaluated": 0.5621052631578948,
+            "unprofitable_rate_among_evaluated": 0.5621052631578948,
+            "net_pnl_independent_experiments_usd": "19692.95766540799095091400527",
+            "mean_net_pnl_usd": "41.45885824296419147560843215",
+            "win_rate_95pct_wilson_approx": [
+              0.3939522649450507,
+              0.4828337118790181
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "6": {
+            "experiments": 120,
+            "evaluated": 7,
+            "unresolved_or_unavailable": 113,
+            "states": {
+              "entry_unavailable": 106,
+              "exit_unavailable": 7,
+              "evaluated": 7
+            },
+            "profitable_after_costs": 5,
+            "loss_rate_among_evaluated": 0.2857142857142857,
+            "unprofitable_rate_among_evaluated": 0.2857142857142857,
+            "net_pnl_independent_experiments_usd": "340.4120461275500097837709663",
+            "mean_net_pnl_usd": "48.63029230393571568339585233",
+            "win_rate_95pct_wilson_approx": [
+              0.35892909014821267,
+              0.9177828342909844
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "7": {
+            "experiments": 89,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 88,
+            "states": {
+              "entry_unavailable": 84,
+              "exit_unavailable": 4,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "1.76792315281753960067117821",
+            "mean_net_pnl_usd": "1.76792315281753960067117821",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "8": {
+            "experiments": 211,
+            "evaluated": 5,
+            "unresolved_or_unavailable": 206,
+            "states": {
+              "entry_unavailable": 201,
+              "exit_unavailable": 5,
+              "evaluated": 5
+            },
+            "profitable_after_costs": 5,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "574.9124300994198228929494957",
+            "mean_net_pnl_usd": "114.9824860198839645785898991",
+            "win_rate_95pct_wilson_approx": [
+              0.5655085052479191,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "9": {
+            "experiments": 1959,
+            "evaluated": 24,
+            "unresolved_or_unavailable": 1935,
+            "states": {
+              "entry_unavailable": 1889,
+              "exit_unavailable": 46,
+              "evaluated": 24
+            },
+            "profitable_after_costs": 17,
+            "loss_rate_among_evaluated": 0.2916666666666667,
+            "unprofitable_rate_among_evaluated": 0.2916666666666667,
+            "net_pnl_independent_experiments_usd": "1231.746784262766742201960629",
+            "mean_net_pnl_usd": "51.32278267761528092508169288",
+            "win_rate_95pct_wilson_approx": [
+              0.508319363412903,
+              0.8508553966583573
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "10": {
+            "experiments": 2055,
+            "evaluated": 19,
+            "unresolved_or_unavailable": 2036,
+            "states": {
+              "entry_unavailable": 1978,
+              "exit_unavailable": 58,
+              "evaluated": 19
+            },
+            "profitable_after_costs": 11,
+            "loss_rate_among_evaluated": 0.42105263157894735,
+            "unprofitable_rate_among_evaluated": 0.42105263157894735,
+            "net_pnl_independent_experiments_usd": "1134.708758036490034339391314",
+            "mean_net_pnl_usd": "59.72151358086789654417849021",
+            "win_rate_95pct_wilson_approx": [
+              0.36275551465160105,
+              0.7685837960796962
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "11": {
+            "experiments": 68,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 67,
+            "states": {
+              "entry_unavailable": 63,
+              "exit_unavailable": 4,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": 1.0,
+            "unprofitable_rate_among_evaluated": 1.0,
+            "net_pnl_independent_experiments_usd": "-0.53967814170222462698159596",
+            "mean_net_pnl_usd": "-0.53967814170222462698159596",
+            "win_rate_95pct_wilson_approx": [
+              0,
+              0.7934567085261071
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "12": {
+            "experiments": 488,
+            "evaluated": 9,
+            "unresolved_or_unavailable": 479,
+            "states": {
+              "entry_unavailable": 458,
+              "evaluated": 9,
+              "exit_unavailable": 21
+            },
+            "profitable_after_costs": 4,
+            "loss_rate_among_evaluated": 0.5555555555555556,
+            "unprofitable_rate_among_evaluated": 0.5555555555555556,
+            "net_pnl_independent_experiments_usd": "920.1940576049309252050853558",
+            "mean_net_pnl_usd": "102.2437841783256583561205951",
+            "win_rate_95pct_wilson_approx": [
+              0.188775429471914,
+              0.7333526542559703
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "13": {
+            "experiments": 1063,
+            "evaluated": 8,
+            "unresolved_or_unavailable": 1055,
+            "states": {
+              "entry_unavailable": 1004,
+              "exit_unavailable": 28,
+              "evaluated": 8,
+              "missing_forward_entry": 23
+            },
+            "profitable_after_costs": 5,
+            "loss_rate_among_evaluated": 0.375,
+            "unprofitable_rate_among_evaluated": 0.375,
+            "net_pnl_independent_experiments_usd": "286.9922736372052255907304154",
+            "mean_net_pnl_usd": "35.87403420465065319884130192",
+            "win_rate_95pct_wilson_approx": [
+              0.30573785458380187,
+              0.863158240538479
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "14": {
+            "experiments": 15988,
+            "evaluated": 171,
+            "unresolved_or_unavailable": 15817,
+            "states": {
+              "entry_unavailable": 15403,
+              "evaluated": 171,
+              "exit_unavailable": 396,
+              "missing_forward_exit": 1,
+              "missing_forward_entry": 17
+            },
+            "profitable_after_costs": 115,
+            "loss_rate_among_evaluated": 0.32748538011695905,
+            "unprofitable_rate_among_evaluated": 0.32748538011695905,
+            "net_pnl_independent_experiments_usd": "12120.70166939982095454470288",
+            "mean_net_pnl_usd": "70.88129631227965470493978292",
+            "win_rate_95pct_wilson_approx": [
+              0.5990576008912465,
+              0.7383906951664423
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "15": {
+            "experiments": 3026,
+            "evaluated": 37,
+            "unresolved_or_unavailable": 2989,
+            "states": {
+              "entry_unavailable": 2899,
+              "evaluated": 37,
+              "exit_unavailable": 90
+            },
+            "profitable_after_costs": 24,
+            "loss_rate_among_evaluated": 0.35135135135135137,
+            "unprofitable_rate_among_evaluated": 0.35135135135135137,
+            "net_pnl_independent_experiments_usd": "1587.466246083336652379579218",
+            "mean_net_pnl_usd": "42.90449313738747709133997886",
+            "win_rate_95pct_wilson_approx": [
+              0.48758729517569566,
+              0.7817459336889914
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "16": {
+            "experiments": 11793,
+            "evaluated": 133,
+            "unresolved_or_unavailable": 11660,
+            "states": {
+              "entry_unavailable": 11329,
+              "evaluated": 133,
+              "exit_unavailable": 233,
+              "missing_forward_exit": 31,
+              "missing_forward_entry": 67
+            },
+            "profitable_after_costs": 82,
+            "loss_rate_among_evaluated": 0.38345864661654133,
+            "unprofitable_rate_among_evaluated": 0.38345864661654133,
+            "net_pnl_independent_experiments_usd": "8840.960810267791014046952831",
+            "mean_net_pnl_usd": "66.47338955088564672215754008",
+            "win_rate_95pct_wilson_approx": [
+              0.5317359210143325,
+              0.6948033769769214
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "17": {
+            "experiments": 589,
+            "evaluated": 14,
+            "unresolved_or_unavailable": 575,
+            "states": {
+              "entry_unavailable": 545,
+              "exit_unavailable": 17,
+              "evaluated": 14,
+              "missing_forward_exit": 1,
+              "missing_forward_entry": 12
+            },
+            "profitable_after_costs": 6,
+            "loss_rate_among_evaluated": 0.5714285714285714,
+            "unprofitable_rate_among_evaluated": 0.5714285714285714,
+            "net_pnl_independent_experiments_usd": "157.4270325970498334340865067",
+            "mean_net_pnl_usd": "11.24478804264641667386332191",
+            "win_rate_95pct_wilson_approx": [
+              0.21380509930400526,
+              0.6740973309713064
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "18": {
+            "experiments": 82,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 81,
+            "states": {
+              "exit_unavailable": 4,
+              "entry_unavailable": 77,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": 1.0,
+            "unprofitable_rate_among_evaluated": 1.0,
+            "net_pnl_independent_experiments_usd": "-11.81559644583804228423502979",
+            "mean_net_pnl_usd": "-11.81559644583804228423502979",
+            "win_rate_95pct_wilson_approx": [
+              0,
+              0.7934567085261071
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "19": {
+            "experiments": 56,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 56,
+            "states": {
+              "entry_unavailable": 41,
+              "missing_forward_entry": 15
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "20": {
+            "experiments": 8853,
+            "evaluated": 145,
+            "unresolved_or_unavailable": 8708,
+            "states": {
+              "entry_unavailable": 8400,
+              "evaluated": 145,
+              "exit_unavailable": 243,
+              "missing_forward_entry": 51,
+              "missing_forward_exit": 14
+            },
+            "profitable_after_costs": 96,
+            "loss_rate_among_evaluated": 0.33793103448275863,
+            "unprofitable_rate_among_evaluated": 0.33793103448275863,
+            "net_pnl_independent_experiments_usd": "9037.822215104248825975755218",
+            "mean_net_pnl_usd": "62.32980838002930224810865668",
+            "win_rate_95pct_wilson_approx": [
+              0.5817803799119106,
+              0.733991554816015
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "21": {
+            "experiments": 130,
+            "evaluated": 2,
+            "unresolved_or_unavailable": 128,
+            "states": {
+              "entry_unavailable": 57,
+              "missing_forward_entry": 71,
+              "evaluated": 2
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.5,
+            "unprofitable_rate_among_evaluated": 0.5,
+            "net_pnl_independent_experiments_usd": "241.9920284115978637665412858",
+            "mean_net_pnl_usd": "120.9960142057989318832706429",
+            "win_rate_95pct_wilson_approx": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "22": {
+            "experiments": 77,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 77,
+            "states": {
+              "missing_forward_entry": 75,
+              "entry_unavailable": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "23": {
+            "experiments": 60,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 60,
+            "states": {
+              "missing_forward_entry": 49,
+              "entry_unavailable": 10,
+              "exit_unavailable": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "24": {
+            "experiments": 333,
+            "evaluated": 3,
+            "unresolved_or_unavailable": 330,
+            "states": {
+              "entry_unavailable": 263,
+              "exit_unavailable": 8,
+              "missing_forward_entry": 59,
+              "evaluated": 3
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.6666666666666666,
+            "unprofitable_rate_among_evaluated": 0.6666666666666666,
+            "net_pnl_independent_experiments_usd": "66.31032995770109128317348621",
+            "mean_net_pnl_usd": "22.10344331923369709439116207",
+            "win_rate_95pct_wilson_approx": [
+              0.0614903152761605,
+              0.7923450448735121
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "25": {
+            "experiments": 19220,
+            "evaluated": 228,
+            "unresolved_or_unavailable": 18992,
+            "states": {
+              "entry_unavailable": 18378,
+              "exit_unavailable": 549,
+              "evaluated": 228,
+              "missing_forward_exit": 3,
+              "missing_forward_entry": 33,
+              "pending": 29
+            },
+            "profitable_after_costs": 132,
+            "loss_rate_among_evaluated": 0.42105263157894735,
+            "unprofitable_rate_among_evaluated": 0.42105263157894735,
+            "net_pnl_independent_experiments_usd": "10502.59208871796516152509201",
+            "mean_net_pnl_usd": "46.06400038911388228739075443",
+            "win_rate_95pct_wilson_approx": [
+              0.5140709882951416,
+              0.6412074431856626
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "26": {
+            "experiments": 117,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 117,
+            "states": {
+              "entry_unavailable": 68,
+              "missing_forward_entry": 46,
+              "pending": 3
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "27": {
+            "experiments": 116,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 116,
+            "states": {
+              "missing_forward_entry": 46,
+              "pending": 4,
+              "entry_unavailable": 66
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "28": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "pending": 36
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "prospective_comparison": {
+          "selected_at_first_evaluation": {
+            "experiments": 2692,
+            "evaluated": 594,
+            "unresolved_or_unavailable": 2098,
+            "states": {
+              "evaluated": 594,
+              "exit_unavailable": 1710,
+              "entry_unavailable": 315,
+              "missing_forward_exit": 47,
+              "missing_forward_entry": 2,
+              "pending": 24
+            },
+            "profitable_after_costs": 450,
+            "loss_rate_among_evaluated": 0.24242424242424243,
+            "unprofitable_rate_among_evaluated": 0.24242424242424243,
+            "net_pnl_independent_experiments_usd": "25597.68284215773512064087117",
+            "mean_net_pnl_usd": "43.09374215851470559030449692",
+            "win_rate_95pct_wilson_approx": [
+              0.721527830862781,
+              0.7903134327762833
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "fixed_control": {
+            "experiments": 20791,
+            "evaluated": 278,
+            "unresolved_or_unavailable": 20513,
+            "states": {
+              "entry_unavailable": 19924,
+              "evaluated": 278,
+              "exit_unavailable": 518,
+              "missing_forward_exit": 19,
+              "missing_forward_entry": 35,
+              "pending": 17
+            },
+            "profitable_after_costs": 164,
+            "loss_rate_among_evaluated": 0.41007194244604317,
+            "unprofitable_rate_among_evaluated": 0.41007194244604317,
+            "net_pnl_independent_experiments_usd": "14747.93092748098713273316517",
+            "mean_net_pnl_usd": "53.05011124993160839112649342",
+            "win_rate_95pct_wilson_approx": [
+              0.5312665958200916,
+              0.6461380172675434
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "overlapping_experiments": 548,
+          "note": "Control assigned before screening, including rejected tokens and any overlapping alerts. Legacy history is excluded. Observation coverage and executable paper results are separate."
+        }
+      },
+      "86400": {
+        "all_eligible_first_evaluations": {
+          "experiments": 103999,
+          "evaluated": 400,
+          "unresolved_or_unavailable": 103599,
+          "states": {
+            "entry_unavailable": 99272,
+            "exit_unavailable": 1637,
+            "evaluated": 400,
+            "missing_forward_exit": 1238,
+            "missing_forward_entry": 586,
+            "pending": 866
+          },
+          "profitable_after_costs": 196,
+          "loss_rate_among_evaluated": 0.51,
+          "unprofitable_rate_among_evaluated": 0.51,
+          "net_pnl_independent_experiments_usd": "23164.47262575786891390337596",
+          "mean_net_pnl_usd": "57.9111815643946722847584399",
+          "win_rate_95pct_wilson_approx": [
+            0.4413384044602659,
+            0.5388518483517277
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "selected_at_first_evaluation": {
+          "experiments": 2692,
+          "evaluated": 132,
+          "unresolved_or_unavailable": 2560,
+          "states": {
+            "exit_unavailable": 1067,
+            "evaluated": 132,
+            "entry_unavailable": 315,
+            "missing_forward_exit": 670,
+            "missing_forward_entry": 2,
+            "pending": 506
+          },
+          "profitable_after_costs": 88,
+          "loss_rate_among_evaluated": 0.3333333333333333,
+          "unprofitable_rate_among_evaluated": 0.3333333333333333,
+          "net_pnl_independent_experiments_usd": "5560.502810377471872498855168",
+          "mean_net_pnl_usd": "42.12502129073842327650647855",
+          "win_rate_95pct_wilson_approx": [
+            0.5825388565032712,
+            0.7413678112627149
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "deterministic_20pct_baseline": {
+          "experiments": 20791,
+          "evaluated": 94,
+          "unresolved_or_unavailable": 20697,
+          "states": {
+            "entry_unavailable": 19924,
+            "evaluated": 94,
+            "exit_unavailable": 344,
+            "missing_forward_exit": 225,
+            "missing_forward_entry": 35,
+            "pending": 169
+          },
+          "profitable_after_costs": 48,
+          "loss_rate_among_evaluated": 0.48936170212765956,
+          "unprofitable_rate_among_evaluated": 0.48936170212765956,
+          "net_pnl_independent_experiments_usd": "5339.657020194132707461050248",
+          "mean_net_pnl_usd": "56.80486191695885859001117285",
+          "win_rate_95pct_wilson_approx": [
+            0.41116709806344404,
+            0.6092741048604655
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "later_alert_experiments": {
+          "experiments": 858,
+          "evaluated": 61,
+          "unresolved_or_unavailable": 797,
+          "states": {
+            "exit_unavailable": 338,
+            "entry_unavailable": 93,
+            "evaluated": 61,
+            "missing_forward_exit": 162,
+            "pending": 204
+          },
+          "profitable_after_costs": 33,
+          "loss_rate_among_evaluated": 0.45901639344262296,
+          "unprofitable_rate_among_evaluated": 0.45901639344262296,
+          "net_pnl_independent_experiments_usd": "2910.570254468584317889604921",
+          "mean_net_pnl_usd": "47.71426646669810357196073641",
+          "win_rate_95pct_wilson_approx": [
+            0.4172382993581416,
+            0.6598726911171089
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "cohorts": {
+          "development": {
+            "experiments": 12744,
+            "evaluated": 94,
+            "unresolved_or_unavailable": 12650,
+            "states": {
+              "entry_unavailable": 12352,
+              "evaluated": 94,
+              "exit_unavailable": 297,
+              "missing_forward_exit": 1
+            },
+            "profitable_after_costs": 39,
+            "loss_rate_among_evaluated": 0.5851063829787234,
+            "unprofitable_rate_among_evaluated": 0.5851063829787234,
+            "net_pnl_independent_experiments_usd": "3502.229391189043795674579576",
+            "mean_net_pnl_usd": "37.25775948073450846462318698",
+            "win_rate_95pct_wilson_approx": [
+              0.32054873736395484,
+              0.5159216392447679
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "test": {
+            "experiments": 1587,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 1587,
+            "states": {
+              "entry_unavailable": 1499,
+              "missing_forward_exit": 68,
+              "missing_forward_entry": 20
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "unassigned": {
+            "experiments": 67331,
+            "evaluated": 289,
+            "unresolved_or_unavailable": 67042,
+            "states": {
+              "entry_unavailable": 64082,
+              "exit_unavailable": 1280,
+              "evaluated": 289,
+              "missing_forward_entry": 564,
+              "missing_forward_exit": 250,
+              "pending": 866
+            },
+            "profitable_after_costs": 154,
+            "loss_rate_among_evaluated": 0.4671280276816609,
+            "unprofitable_rate_among_evaluated": 0.4671280276816609,
+            "net_pnl_independent_experiments_usd": "19338.41535784733953079768312",
+            "mean_net_pnl_usd": "66.91493203407383920691239834",
+            "win_rate_95pct_wilson_approx": [
+              0.4752953229226151,
+              0.589586169324388
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "purged_boundary": {
+            "experiments": 22337,
+            "evaluated": 17,
+            "unresolved_or_unavailable": 22320,
+            "states": {
+              "entry_unavailable": 21339,
+              "exit_unavailable": 60,
+              "evaluated": 17,
+              "missing_forward_exit": 919,
+              "missing_forward_entry": 2
+            },
+            "profitable_after_costs": 3,
+            "loss_rate_among_evaluated": 0.8235294117647058,
+            "unprofitable_rate_among_evaluated": 0.8235294117647058,
+            "net_pnl_independent_experiments_usd": "323.8278767214855874311132665",
+            "mean_net_pnl_usd": "19.04869863067562279006548626",
+            "win_rate_95pct_wilson_approx": [
+              0.0619101371254899,
+              0.41029929017375777
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "policies": {
+          "1": {
+            "experiments": 669,
+            "evaluated": 19,
+            "unresolved_or_unavailable": 650,
+            "states": {
+              "entry_unavailable": 631,
+              "exit_unavailable": 19,
+              "evaluated": 19
+            },
+            "profitable_after_costs": 10,
+            "loss_rate_among_evaluated": 0.47368421052631576,
+            "unprofitable_rate_among_evaluated": 0.47368421052631576,
+            "net_pnl_independent_experiments_usd": "1007.922676692103766919711376",
+            "mean_net_pnl_usd": "53.04856193116335615366901979",
+            "win_rate_95pct_wilson_approx": [
+              0.31707482511825114,
+              0.7267049451255145
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "2": {
+            "experiments": 133,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 133,
+            "states": {
+              "entry_unavailable": 130,
+              "exit_unavailable": 3
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "3": {
+            "experiments": 2259,
+            "evaluated": 26,
+            "unresolved_or_unavailable": 2233,
+            "states": {
+              "entry_unavailable": 2157,
+              "evaluated": 26,
+              "exit_unavailable": 76
+            },
+            "profitable_after_costs": 14,
+            "loss_rate_among_evaluated": 0.46153846153846156,
+            "unprofitable_rate_among_evaluated": 0.46153846153846156,
+            "net_pnl_independent_experiments_usd": "1220.756455185926947266319881",
+            "mean_net_pnl_usd": "46.95217135330488258716614927",
+            "win_rate_95pct_wilson_approx": [
+              0.3545763620443012,
+              0.712444173047651
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "4": {
+            "experiments": 111,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 110,
+            "states": {
+              "entry_unavailable": 107,
+              "exit_unavailable": 3,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "181.4810814615554420158729064",
+            "mean_net_pnl_usd": "181.4810814615554420158729064",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "5": {
+            "experiments": 34298,
+            "evaluated": 84,
+            "unresolved_or_unavailable": 34214,
+            "states": {
+              "exit_unavailable": 278,
+              "entry_unavailable": 32926,
+              "evaluated": 84,
+              "missing_forward_exit": 988,
+              "missing_forward_entry": 22
+            },
+            "profitable_after_costs": 27,
+            "loss_rate_among_evaluated": 0.6785714285714286,
+            "unprofitable_rate_among_evaluated": 0.6785714285714286,
+            "net_pnl_independent_experiments_usd": "2423.819731263046993823500054",
+            "mean_net_pnl_usd": "28.85499680075055945027976255",
+            "win_rate_95pct_wilson_approx": [
+              0.23125977350162447,
+              0.42721639268842665
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "6": {
+            "experiments": 120,
+            "evaluated": 4,
+            "unresolved_or_unavailable": 116,
+            "states": {
+              "entry_unavailable": 106,
+              "exit_unavailable": 10,
+              "evaluated": 4
+            },
+            "profitable_after_costs": 3,
+            "loss_rate_among_evaluated": 0.25,
+            "unprofitable_rate_among_evaluated": 0.25,
+            "net_pnl_independent_experiments_usd": "273.9568285252215887115714932",
+            "mean_net_pnl_usd": "68.4892071313053971778928733",
+            "win_rate_95pct_wilson_approx": [
+              0.3006360524426366,
+              0.9544139373553637
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "7": {
+            "experiments": 89,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 88,
+            "states": {
+              "entry_unavailable": 84,
+              "exit_unavailable": 4,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "33.46087679535060458840087776",
+            "mean_net_pnl_usd": "33.46087679535060458840087776",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "8": {
+            "experiments": 211,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 210,
+            "states": {
+              "entry_unavailable": 201,
+              "exit_unavailable": 9,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.0,
+            "unprofitable_rate_among_evaluated": 0.0,
+            "net_pnl_independent_experiments_usd": "22.74132114320858373321314479",
+            "mean_net_pnl_usd": "22.74132114320858373321314479",
+            "win_rate_95pct_wilson_approx": [
+              0.20654329147389294,
+              1
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "9": {
+            "experiments": 1959,
+            "evaluated": 16,
+            "unresolved_or_unavailable": 1943,
+            "states": {
+              "entry_unavailable": 1889,
+              "exit_unavailable": 54,
+              "evaluated": 16
+            },
+            "profitable_after_costs": 11,
+            "loss_rate_among_evaluated": 0.3125,
+            "unprofitable_rate_among_evaluated": 0.3125,
+            "net_pnl_independent_experiments_usd": "1013.828302321662248853823131",
+            "mean_net_pnl_usd": "63.36426889510389055336394569",
+            "win_rate_95pct_wilson_approx": [
+              0.4440393186673406,
+              0.8583556494803894
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "10": {
+            "experiments": 2055,
+            "evaluated": 12,
+            "unresolved_or_unavailable": 2043,
+            "states": {
+              "entry_unavailable": 1978,
+              "exit_unavailable": 65,
+              "evaluated": 12
+            },
+            "profitable_after_costs": 5,
+            "loss_rate_among_evaluated": 0.5833333333333334,
+            "unprofitable_rate_among_evaluated": 0.5833333333333334,
+            "net_pnl_independent_experiments_usd": "856.6395346389438535030153069",
+            "mean_net_pnl_usd": "71.38662788657865445858460891",
+            "win_rate_95pct_wilson_approx": [
+              0.19325746190524656,
+              0.6804926643446272
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "11": {
+            "experiments": 68,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 67,
+            "states": {
+              "entry_unavailable": 63,
+              "exit_unavailable": 4,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": 1.0,
+            "unprofitable_rate_among_evaluated": 1.0,
+            "net_pnl_independent_experiments_usd": "-0.54080389109161244857582059",
+            "mean_net_pnl_usd": "-0.54080389109161244857582059",
+            "win_rate_95pct_wilson_approx": [
+              0,
+              0.7934567085261071
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "12": {
+            "experiments": 488,
+            "evaluated": 8,
+            "unresolved_or_unavailable": 480,
+            "states": {
+              "entry_unavailable": 458,
+              "evaluated": 8,
+              "exit_unavailable": 22
+            },
+            "profitable_after_costs": 3,
+            "loss_rate_among_evaluated": 0.625,
+            "unprofitable_rate_among_evaluated": 0.625,
+            "net_pnl_independent_experiments_usd": "622.6710206791999212842678053",
+            "mean_net_pnl_usd": "77.83387758489999016053347566",
+            "win_rate_95pct_wilson_approx": [
+              0.13684175946152105,
+              0.6942621454161981
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "13": {
+            "experiments": 1063,
+            "evaluated": 5,
+            "unresolved_or_unavailable": 1058,
+            "states": {
+              "entry_unavailable": 1004,
+              "exit_unavailable": 31,
+              "missing_forward_entry": 23,
+              "evaluated": 5
+            },
+            "profitable_after_costs": 1,
+            "loss_rate_among_evaluated": 0.8,
+            "unprofitable_rate_among_evaluated": 0.8,
+            "net_pnl_independent_experiments_usd": "-32.79875472032232967807333984",
+            "mean_net_pnl_usd": "-6.559750944064465935614667968",
+            "win_rate_95pct_wilson_approx": [
+              0.03622316096978745,
+              0.6244717358814613
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "14": {
+            "experiments": 15988,
+            "evaluated": 55,
+            "unresolved_or_unavailable": 15933,
+            "states": {
+              "entry_unavailable": 15403,
+              "exit_unavailable": 283,
+              "evaluated": 55,
+              "missing_forward_exit": 230,
+              "missing_forward_entry": 17
+            },
+            "profitable_after_costs": 29,
+            "loss_rate_among_evaluated": 0.4727272727272727,
+            "unprofitable_rate_among_evaluated": 0.4727272727272727,
+            "net_pnl_independent_experiments_usd": "3780.209990316432619364005876",
+            "mean_net_pnl_usd": "68.73109073302604762480010684",
+            "win_rate_95pct_wilson_approx": [
+              0.39791319071629383,
+              0.6530711468951917
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "15": {
+            "experiments": 3026,
+            "evaluated": 18,
+            "unresolved_or_unavailable": 3008,
+            "states": {
+              "entry_unavailable": 2899,
+              "exit_unavailable": 109,
+              "evaluated": 18
+            },
+            "profitable_after_costs": 14,
+            "loss_rate_among_evaluated": 0.2222222222222222,
+            "unprofitable_rate_among_evaluated": 0.2222222222222222,
+            "net_pnl_independent_experiments_usd": "1330.228255830115340593225503",
+            "mean_net_pnl_usd": "73.9015697683397411440680835",
+            "win_rate_95pct_wilson_approx": [
+              0.5478497354769452,
+              0.90999218086618
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "16": {
+            "experiments": 11793,
+            "evaluated": 77,
+            "unresolved_or_unavailable": 11716,
+            "states": {
+              "entry_unavailable": 11329,
+              "exit_unavailable": 305,
+              "evaluated": 77,
+              "missing_forward_exit": 15,
+              "missing_forward_entry": 67
+            },
+            "profitable_after_costs": 40,
+            "loss_rate_among_evaluated": 0.4805194805194805,
+            "unprofitable_rate_among_evaluated": 0.4805194805194805,
+            "net_pnl_independent_experiments_usd": "5702.292218256655425613995603",
+            "mean_net_pnl_usd": "74.05574309424227825472721562",
+            "win_rate_95pct_wilson_approx": [
+              0.40963811196379796,
+              0.6274714949712452
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "17": {
+            "experiments": 589,
+            "evaluated": 7,
+            "unresolved_or_unavailable": 582,
+            "states": {
+              "entry_unavailable": 545,
+              "exit_unavailable": 25,
+              "evaluated": 7,
+              "missing_forward_entry": 12
+            },
+            "profitable_after_costs": 4,
+            "loss_rate_among_evaluated": 0.42857142857142855,
+            "unprofitable_rate_among_evaluated": 0.42857142857142855,
+            "net_pnl_independent_experiments_usd": "63.01507862575290292979030524",
+            "mean_net_pnl_usd": "9.002154089393271847112900749",
+            "win_rate_95pct_wilson_approx": [
+              0.2504542304090258,
+              0.8417830777373732
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "18": {
+            "experiments": 82,
+            "evaluated": 1,
+            "unresolved_or_unavailable": 81,
+            "states": {
+              "exit_unavailable": 4,
+              "entry_unavailable": 77,
+              "evaluated": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": 1.0,
+            "unprofitable_rate_among_evaluated": 1.0,
+            "net_pnl_independent_experiments_usd": "-8.14905054217578244446331916",
+            "mean_net_pnl_usd": "-8.14905054217578244446331916",
+            "win_rate_95pct_wilson_approx": [
+              0,
+              0.7934567085261071
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "19": {
+            "experiments": 56,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 56,
+            "states": {
+              "entry_unavailable": 41,
+              "missing_forward_entry": 15
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "20": {
+            "experiments": 8853,
+            "evaluated": 64,
+            "unresolved_or_unavailable": 8789,
+            "states": {
+              "entry_unavailable": 8400,
+              "evaluated": 64,
+              "exit_unavailable": 333,
+              "missing_forward_entry": 51,
+              "missing_forward_exit": 5
+            },
+            "profitable_after_costs": 32,
+            "loss_rate_among_evaluated": 0.5,
+            "unprofitable_rate_among_evaluated": 0.5,
+            "net_pnl_independent_experiments_usd": "4672.937863176282399273775227",
+            "mean_net_pnl_usd": "73.01465411212941248865273792",
+            "win_rate_95pct_wilson_approx": [
+              0.38101888493214947,
+              0.6189811150678505
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "21": {
+            "experiments": 130,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 130,
+            "states": {
+              "entry_unavailable": 57,
+              "missing_forward_entry": 71,
+              "pending": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "22": {
+            "experiments": 77,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 77,
+            "states": {
+              "missing_forward_entry": 75,
+              "entry_unavailable": 2
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "23": {
+            "experiments": 60,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 60,
+            "states": {
+              "missing_forward_entry": 49,
+              "entry_unavailable": 10,
+              "pending": 1
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "24": {
+            "experiments": 333,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 333,
+            "states": {
+              "entry_unavailable": 263,
+              "pending": 11,
+              "missing_forward_entry": 59
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "25": {
+            "experiments": 19220,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 19220,
+            "states": {
+              "entry_unavailable": 18378,
+              "pending": 809,
+              "missing_forward_entry": 33
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "26": {
+            "experiments": 117,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 117,
+            "states": {
+              "entry_unavailable": 68,
+              "missing_forward_entry": 46,
+              "pending": 3
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "27": {
+            "experiments": 116,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 116,
+            "states": {
+              "missing_forward_entry": 46,
+              "pending": 4,
+              "entry_unavailable": 66
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "28": {
+            "experiments": 36,
+            "evaluated": 0,
+            "unresolved_or_unavailable": 36,
+            "states": {
+              "pending": 36
+            },
+            "profitable_after_costs": 0,
+            "loss_rate_among_evaluated": null,
+            "unprofitable_rate_among_evaluated": null,
+            "net_pnl_independent_experiments_usd": null,
+            "mean_net_pnl_usd": null,
+            "win_rate_95pct_wilson_approx": null,
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          }
+        },
+        "prospective_comparison": {
+          "selected_at_first_evaluation": {
+            "experiments": 2692,
+            "evaluated": 132,
+            "unresolved_or_unavailable": 2560,
+            "states": {
+              "exit_unavailable": 1067,
+              "evaluated": 132,
+              "entry_unavailable": 315,
+              "missing_forward_exit": 670,
+              "missing_forward_entry": 2,
+              "pending": 506
+            },
+            "profitable_after_costs": 88,
+            "loss_rate_among_evaluated": 0.3333333333333333,
+            "unprofitable_rate_among_evaluated": 0.3333333333333333,
+            "net_pnl_independent_experiments_usd": "5560.502810377471872498855168",
+            "mean_net_pnl_usd": "42.12502129073842327650647855",
+            "win_rate_95pct_wilson_approx": [
+              0.5825388565032712,
+              0.7413678112627149
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "fixed_control": {
+            "experiments": 20791,
+            "evaluated": 94,
+            "unresolved_or_unavailable": 20697,
+            "states": {
+              "entry_unavailable": 19924,
+              "evaluated": 94,
+              "exit_unavailable": 344,
+              "missing_forward_exit": 225,
+              "missing_forward_entry": 35,
+              "pending": 169
+            },
+            "profitable_after_costs": 48,
+            "loss_rate_among_evaluated": 0.48936170212765956,
+            "unprofitable_rate_among_evaluated": 0.48936170212765956,
+            "net_pnl_independent_experiments_usd": "5339.657020194132707461050248",
+            "mean_net_pnl_usd": "56.80486191695885859001117285",
+            "win_rate_95pct_wilson_approx": [
+              0.41116709806344404,
+              0.6092741048604655
+            ],
+            "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+            "profitability_demonstrated": false
+          },
+          "overlapping_experiments": 548,
+          "note": "Control assigned before screening, including rejected tokens and any overlapping alerts. Legacy history is excluded. Observation coverage and executable paper results are separate."
+        }
+      }
+    },
+    "exploratory_signal_diagnostics": {
+      "volume_acceleration_ge_2": {
+        "300": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "3600": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "86400": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        }
+      },
+      "excessive_extension": {
+        "300": {
+          "experiments": 14608,
+          "evaluated": 773,
+          "unresolved_or_unavailable": 13835,
+          "states": {
+            "entry_unavailable": 13359,
+            "exit_unavailable": 380,
+            "evaluated": 773,
+            "missing_forward_exit": 4,
+            "missing_forward_entry": 84,
+            "pending": 8
+          },
+          "profitable_after_costs": 431,
+          "loss_rate_among_evaluated": 0.4424320827943079,
+          "unprofitable_rate_among_evaluated": 0.4424320827943079,
+          "net_pnl_independent_experiments_usd": "9509.163468975053858926767408",
+          "mean_net_pnl_usd": "12.30163450061455867907731877",
+          "win_rate_95pct_wilson_approx": [
+            0.5223550150607534,
+            0.5922114551179805
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "3600": {
+          "experiments": 14608,
+          "evaluated": 380,
+          "unresolved_or_unavailable": 14228,
+          "states": {
+            "entry_unavailable": 13359,
+            "evaluated": 380,
+            "exit_unavailable": 736,
+            "missing_forward_entry": 84,
+            "missing_forward_exit": 33,
+            "pending": 16
+          },
+          "profitable_after_costs": 164,
+          "loss_rate_among_evaluated": 0.5684210526315789,
+          "unprofitable_rate_among_evaluated": 0.5684210526315789,
+          "net_pnl_independent_experiments_usd": "17661.48398066131620331806218",
+          "mean_net_pnl_usd": "46.47758942279293737715279521",
+          "win_rate_95pct_wilson_approx": [
+            0.38270881191571604,
+            0.48181863899111643
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "86400": {
+          "experiments": 14608,
+          "evaluated": 138,
+          "unresolved_or_unavailable": 14470,
+          "states": {
+            "entry_unavailable": 13359,
+            "evaluated": 138,
+            "exit_unavailable": 445,
+            "missing_forward_exit": 341,
+            "missing_forward_entry": 84,
+            "pending": 241
+          },
+          "profitable_after_costs": 44,
+          "loss_rate_among_evaluated": 0.6811594202898551,
+          "unprofitable_rate_among_evaluated": 0.6811594202898551,
+          "net_pnl_independent_experiments_usd": "4361.800088372543053921535890",
+          "mean_net_pnl_usd": "31.60724701719234097044591225",
+          "win_rate_95pct_wilson_approx": [
+            0.24689555453184558,
+            0.4005985515696084
+          ],
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        }
+      },
+      "contract_narrative": {
+        "300": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "3600": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        },
+        "86400": {
+          "experiments": 0,
+          "evaluated": 0,
+          "unresolved_or_unavailable": 0,
+          "states": {},
+          "profitable_after_costs": 0,
+          "loss_rate_among_evaluated": null,
+          "unprofitable_rate_among_evaluated": null,
+          "net_pnl_independent_experiments_usd": null,
+          "mean_net_pnl_usd": null,
+          "win_rate_95pct_wilson_approx": null,
+          "uncertainty_note": "Missing outcomes excluded from PnL, retained in denominator/coverage. Interval assumes independent binary outcomes; correlated tokens can invalidate that assumption.",
+          "profitability_demonstrated": false
+        }
+      }
+    },
+    "note": "Partial provider discovery universe, not all launches. Follow-up prioritizes alerts, so comparative coverage is unequal and missingness can bias comparisons. No global missed-opportunity rate. Historical or missing prices are never filled with future data. Independent experiments are not a capital-constrained strategy or demonstrated profit.",
+    "live_execution": false,
+    "generated_at": "2026-10-22T16:00:50.302624+00:00",
+    "report_cache": {
+      "served_from_cache": true,
+      "snapshot_at": "2026-10-22T16:00:50.302624+00:00",
+      "calculated_at": "2026-10-22T16:01:36.227880+00:00",
+      "calculation_seconds": 45.92526234299294,
+      "calculation_mode": "isolated_read_only_process",
+      "seconds_since_snapshot": 79.17270360799739,
+      "seconds_since_calculation": 33.257265982974786,
+      "stale": false,
+      "refresh": {
+        "state": "ok",
+        "at": "2026-10-22T16:01:36.227880+00:00"
+      }
+    }
+  }
+}

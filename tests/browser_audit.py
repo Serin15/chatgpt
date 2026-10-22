@@ -679,6 +679,22 @@ async def check(base):
             }""")
             assert "20 de secunde" in result and "Reîncearcă" in result, result
 
+        async def performance_snapshot_freshness(page):
+            await ready(page)
+            await page.evaluate("""async () => {
+                const report=await api('/api/opportunities/performance');
+                report.generated_at='2020-01-01T00:00:00Z';
+                report.report_cache={snapshot_at:report.generated_at,calculated_at:'2020-01-01T00:00:20Z',
+                    stale:true,refresh:{state:'error',error:'ExplicitFixtureFailure'}};
+                renderOpportunityStats(report);
+            }""")
+            await expect(page.locator("#engine-report-freshness")).to_be_visible()
+            await expect(page.locator("#engine-report-freshness")).to_contain_text("Snapshot vechi")
+            await expect(page.locator("#engine-report-freshness")).to_contain_text("2020")
+            await expect(page.locator("#engine-report-freshness")).to_contain_text("ExplicitFixtureFailure")
+            await page.set_viewport_size({"width":390,"height":844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         async def activity_windows_keep_missing_values(page):
             await ready(page)
             await page.evaluate("""() => {
@@ -735,6 +751,7 @@ async def check(base):
             ("failed statistics stop loading and preserve candidate access", stats_failure_is_explicit),
             ("activity windows preserve missing evidence without invented zeros", activity_windows_keep_missing_values),
             ("request deadline explains timeout and recovery in Romanian", request_timeout_explains_recovery),
+            ("performance snapshot date, stale cache and refresh errors remain visible", performance_snapshot_freshness),
         ]:
             await scenario(name, fn)
         await browser.close()

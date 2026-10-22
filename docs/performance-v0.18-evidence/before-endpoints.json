@@ -1,0 +1,14 @@
+{
+  "coverage": {
+    "seconds": 0.44255664199590683,
+    "status": 200
+  },
+  "candidates": {
+    "seconds": 4.2029540249786805,
+    "status": 200
+  },
+  "performance": {
+    "seconds": 21.03199866900104,
+    "error": "ReadTimeout"
+  }
+}

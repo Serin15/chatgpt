@@ -1,0 +1,20 @@
+{
+  "health": {
+    "application": "ok",
+    "app_id": "pulse_crypto_research",
+    "version": "0.18.0",
+    "instance_id": "8d14ec2aa3dc43af006e08dc",
+    "live_execution": false
+  },
+  "early_report": {
+    "status": 503,
+    "seconds": 0.2992540539999027,
+    "cache": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  "candidates": {
+    "status": 200,
+    "seconds": 2.0572986970073543
+  }
+}

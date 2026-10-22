@@ -1,0 +1,22 @@
+{
+  "opportunity_candidates": {
+    "rows": 103673,
+    "count_seconds": 0.0161
+  },
+  "opportunity_observations": {
+    "rows": 409738,
+    "count_seconds": 0.0332
+  },
+  "opportunity_signals": {
+    "rows": 254293,
+    "count_seconds": 0.0203
+  },
+  "opportunity_outcomes": {
+    "rows": 451860,
+    "count_seconds": 0.0384
+  },
+  "observation_jobs": {
+    "rows": 252584,
+    "count_seconds": 0.0329
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "data": "controlled providers and events; no external API calls",
+  "before": {
+    "errors": [
+      "batch_pool_quotes_unavailable"
+    ],
+    "calls": [
+      "pool",
+      "gecko"
+    ],
+    "result": [
+      [
+        {
+          "pool": "pool",
+          "contract": "contract"
+        },
+        {
+          "source": "gecko"
+        }
+      ]
+    ],
+    "independent_sources_succeeded": false
+  },
+  "after": {
+    "errors": [],
+    "calls": [
+      "pool",
+      "gecko"
+    ],
+    "result": [
+      [
+        {
+          "pool": "pool",
+          "contract": "contract"
+        },
+        {
+          "source": "gecko"
+        }
+      ]
+    ],
+    "independent_sources_succeeded": true
+  }
+}

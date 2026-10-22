@@ -1,0 +1,10 @@
+{
+  "app/main.py": "0fc90c591f0455717a00e59411f0ee4822a097fa4e01b313056d9b36ac75dff2",
+  "app/opportunities.py": "2d7b407a35d43e6d745c428b3d8a9a4e72de0ac829055462aebcce10bfbc6d14",
+  "app/opportunity_outcomes.py": "9156698b1ef01b18480fc7acb02cc64ee05fa0628904745cc5ee5f8bc4ad5319",
+  "app/performance_reporting.py": "882d638972ad4ef04079dc921f3f8c1594254217d4339490357d5ee59f2107ed",
+  "app/performance_cache.py": "ee224e818e8677c5c53c7651b7bbe28df42b91afb87d3d34fab66d023f73c7ca",
+  "app/performance_worker.py": "d5a7d1cb0e265104fcc7622c48e907e0e479f7ff8a74ec1828972337834a3620",
+  "app/static/index.html": "3509743809fe26a195795b70bebe0326ca69d3bea345d5f25a07094a449ffdbc",
+  "app/static/opportunities.js": "b3ff3158c22b8ab5935525a52a9676debcc775516aba7969f773aeb380a2b1f8"
+}

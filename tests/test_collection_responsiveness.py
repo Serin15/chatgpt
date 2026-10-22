@@ -9,7 +9,7 @@ from tests.test_opportunities import client_engine as client_engine
 from tests.test_opportunities import seed
 
 
-@pytest.mark.parametrize("stage", ["snapshot", "outcomes", "coverage"])
+@pytest.mark.parametrize("stage", ["snapshot", "outcomes", "coverage", "policy", "scheduling", "queue", "story_index"])
 def test_collection_storage_delay_allows_other_tasks_to_run(client_engine, monkeypatch, stage):
     _, engine = client_engine
     seed(engine)
@@ -17,6 +17,10 @@ def test_collection_storage_delay_allows_other_tasks_to_run(client_engine, monke
         "snapshot": (engine.service.store, "save_snapshot"),
         "outcomes": (engine, "update_outcomes"),
         "coverage": (engine.sampling, "coverage"),
+        "policy": (engine, "policy"),
+        "scheduling": (engine, "due"),
+        "queue": (engine, "queue_health"),
+        "story_index": (engine.narratives.stories, "index_documents"),
     }[stage]
     original = getattr(target, method)
     entered, release, finished = Event(), Event(), Event()

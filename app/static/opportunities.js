@@ -348,6 +348,12 @@ function renderOpportunityStats(report) {
   root.setAttribute("aria-busy", "false");
   delete root.dataset.state;
   root.setAttribute("aria-label", "Indicatori ai cercetării" + (report.generated_at ? " · raport " + date(report.generated_at) : ""));
+  const freshness = $("engine-report-freshness"), cache = report.report_cache;
+  freshness.hidden = !cache;
+  if (cache) {
+    freshness.textContent = `Indicatori din snapshot ${date(cache.snapshot_at || report.generated_at)} · calcul finalizat ${date(cache.calculated_at)} · raport păstrat în cache. Actualizare: ${cache.refresh?.state || "necunoscută"}.` + (cache.stale ? " Snapshot vechi; verifică ora datelor înaintea interpretării." : "") + (cache.refresh?.state === "error" ? ` Ultima recalculare a eșuat: ${cache.refresh.error || "eroare"}.` : "");
+    freshness.classList.toggle("warn", !!cache.stale || cache.refresh?.state === "error");
+  }
   root.append(
     engineStat(
       "CANDIDAȚI",

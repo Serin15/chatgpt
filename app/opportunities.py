@@ -525,21 +525,51 @@ class Opportunities:
         # the security/quote work for all preceding batches.
         for i in range(0, len(candidates), 30):
             batch = candidates[i : i + 30]
-            markets = {}
-            try:
-                markets.update(
-                    await asyncio.wait_for(pool_markets(self.service.providers, batch), 35)
-                )
-            except (ProviderError, TimeoutError, ValueError, TypeError, AttributeError):
-                errors.append("batch_pool_quotes_unavailable")
-            try:
-                markets.update(
-                    await asyncio.wait_for(gecko_markets(self.service.discovery, batch), 25)
-                )
-            except (ProviderError, TimeoutError, ValueError, TypeError, KeyError):
-                errors.append("gecko_participation_unavailable")
+            async def pool():
+                try:
+                    return dict(await asyncio.wait_for(pool_markets(self.service.providers, batch), 35))
+                except (ProviderError, TimeoutError, ValueError, TypeError, AttributeError):
+                    errors.append("batch_pool_quotes_unavailable")
+                    return {}
+
+            async def gecko():
+                try:
+                    return dict(await asyncio.wait_for(gecko_markets(self.service.discovery, batch), 25))
+                except (ProviderError, TimeoutError, ValueError, TypeError, KeyError):
+                    errors.append("gecko_participation_unavailable")
+                    return {}
+
+            # Independent providers overlap; precedence remains pool then Gecko,
+            # regardless of completion order. Cancellation owns both requests.
+            async with asyncio.TaskGroup() as group:
+                pool_task = group.create_task(pool())
+                gecko_task = group.create_task(gecko())
+            markets = pool_task.result() | gecko_task.result()
             for c in batch:
                 yield c, markets.get((c["pool"], c["contract"]))
+
+    async def refresh_discovery(self, page, errors):
+        async def pools():
+            try:
+                await asyncio.wait_for(self.service.discovery.refresh("solana", page), 60)
+            except (ProviderError, TimeoutError, ValueError):
+                errors.append("discovery_temporarily_unavailable")
+
+        async def boosts():
+            try:
+                await asyncio.wait_for(self.service.discovery.boosts(), 25)
+            except (ProviderError, TimeoutError, ValueError, TypeError):
+                errors.append("paid_exposure_feed_unavailable")
+                self.service.discovery.status["boosts"] = {
+                    "state": "error", "at": utcnow(), "error": "Paid-exposure source unavailable."
+                }
+
+        async with asyncio.TaskGroup() as group:
+            group.create_task(pools())
+            group.create_task(boosts())
+
+        if any(s.get("state") in {"error", "partial"} for s in self.service.discovery.status.values()):
+            errors.append("discovery_source_incomplete")
 
     async def dispatch_routes(self, session):
         remaining = session["limit"] - session["attempted"]
@@ -573,6 +603,14 @@ class Opportunities:
             errors = []
             observed = 0
             started = utcnow()
+            stage_started = cycle_started = monotonic()
+            timing = {}
+
+            def stage(name):
+                nonlocal stage_started
+                clock = monotonic()
+                timing[name] = round(clock - stage_started, 4)
+                stage_started = clock
             config = self.config()
             routing = {
                 "limit": config.routed_quote_budget,
@@ -588,32 +626,18 @@ class Opportunities:
                         "cycles": self.status.get("cycles", 0),
                     }
                     return self.status
-                policy = self.policy(config)
-                self.narratives.stories.index_documents()
+                policy = await self._background(self.policy, config)
+                await self._background(self.narratives.stories.index_documents)
                 await self.story_discovery.cycle()
+                stage("story_discovery")
                 self.status = {**self.status, "state": "running", "started_at": started}
                 page = (self.status.get("cycles", 0) % config.discovery_pages) + 1
                 if refresh_discovery:
-                    try:
-                        await asyncio.wait_for(self.service.discovery.refresh("solana", page), 60)
-                    except (ProviderError, TimeoutError, ValueError):
-                        errors.append("discovery_temporarily_unavailable")
-                    try:
-                        await asyncio.wait_for(self.service.discovery.boosts(), 25)
-                    except (ProviderError, TimeoutError, ValueError, TypeError):
-                        errors.append("paid_exposure_feed_unavailable")
-                        self.service.discovery.status["boosts"] = {
-                            "state": "error",
-                            "at": utcnow(),
-                            "error": "Paid-exposure source unavailable.",
-                        }
-                    if any(
-                        s.get("state") in {"error", "partial"}
-                        for s in self.service.discovery.status.values()
-                    ):
-                        errors.append("discovery_source_incomplete")
-                added = self.ingest(policy)
-                due = self.due(config)
+                    await self.refresh_discovery(page, errors)
+                stage("provider_discovery")
+                added = await self._background(self.ingest, policy)
+                due = await self._background(self.due, config)
+                stage("scheduling")
                 self.sampling.dispatch(due)
                 security_budget = lifecycle.SecurityBudget(
                     due, config, self.status.get("cycles", 0)
@@ -801,6 +825,7 @@ class Opportunities:
                         )
                         errors.append("candidate_evidence_error")
                         await self.dispatch_routes(routing)
+                stage("enrichment_and_routed_quotes")
                 await self._background(self.update_outcomes)
                 await self.dispatch_routes(routing)
                 self.service.notifications.collect()
@@ -809,6 +834,8 @@ class Opportunities:
                 if config.ai_narratives and (self.ai_task is None or self.ai_task.done()):
                     self.ai_task = asyncio.create_task(self.refresh_narratives(config))
                 await self.deliver_telegram(config)
+                queue = await self._background(self.queue_health)
+                stage("outcomes_and_status")
                 self.status = {
                     "state": "partial" if errors else "ok",
                     "at": utcnow(),
@@ -818,7 +845,8 @@ class Opportunities:
                     "observed": observed,
                     "errors": sorted(set(errors)),
                     "discovery_sources": self.service.discovery.status,
-                    "queue": self.queue_health(),
+                    "queue": queue,
+                    "timing_seconds": timing | {"total": round(monotonic() - cycle_started, 4)},
                     "collection": self.collection_cache,
                     "routed_quotes": self.routes.status,
                     "security_allocation": security_budget.report(),
@@ -1107,6 +1135,8 @@ class Opportunities:
                     now - self.service.settings.max_snapshot_age, UTC
                 ).isoformat(),
             }
+            cold_payload = "CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END"
+            base = base.replace("json_extract(o.payload,", "json_extract(" + cold_payload + ",")
             if exact_contract:
                 # Solana addresses are case sensitive. Use the identity index;
                 # do not scan market payloads or return a different-case token.
@@ -1117,7 +1147,12 @@ class Opportunities:
                 if ranked
                 else "c.id DESC"
             )
-            matching_total = db.execute("SELECT count(*) " + base, params).fetchone()[0]
+            order = order.replace("json_extract(o.payload,", "json_extract(" + cold_payload + ",")
+            matching_total = (
+                db.execute("SELECT count(*) FROM opportunity_candidates").fetchone()[0]
+                if verdict == "all" and not params["q"] and not exact_contract
+                else db.execute("SELECT count(*) " + base, params).fetchone()[0]
+            )
             rows = db.execute(
                 "SELECT c.* "
                 + base

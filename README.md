@@ -1,4 +1,6 @@
-# MemeScope v0.17.0 — research workspace
+# MemeScope v0.18.0 — research workspace
+
+**Performanță v0.18.0:** [raport complet în fundal, proces de citire separat și colectare fără așteptări inutile](docs/PERFORMANCE-V0.18.md). Raportul afișează ora snapshotului; rezultatele viitoare sunt recalculate la termen sau când apar observații noi.
 
 **Interfață v0.17.0:** [radar, dosare vizuale, grafice observate și navigație mobilă](docs/UI-V0.17.md). Filtre rapide, comparații 5m/15m/1h, riscuri și rezultate necunoscute explicate. Fără schimbări ale regulilor financiare.
 

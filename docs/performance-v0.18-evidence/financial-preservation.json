@@ -1,0 +1,21 @@
+{
+  "base": "bff178904d09c30249c383cab84b8af7760de7d0",
+  "byte_identical_financial_and_sampling_files": [
+    "app/paper.py",
+    "app/jupiter.py",
+    "app/opportunity_routes.py",
+    "app/opportunity_rules.py",
+    "app/analysis.py",
+    "app/models.py",
+    "app/cohort_comparisons.py",
+    "app/forward_evaluation.py",
+    "app/opportunity_sampling.py",
+    "app/opportunity_lifecycle.py"
+  ],
+  "outcome_module_changed_functions": [
+    "report",
+    "update_outcomes (work selection only)"
+  ],
+  "outcome_execution_and_cost_functions_unchanged": true,
+  "outcome_evaluation_loop_ast_identical": true
+}

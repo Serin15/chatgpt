@@ -1,0 +1,366 @@
+{
+  "candidate_id": 104261,
+  "chain": "solana",
+  "contract": "24iLPEFDWh3Zf8NqmUvJ7LDpSXSo6THCbu4vLjmWpump",
+  "pool": "N9vq8NHMgjwtCbcne7iSGec9uG8fQAWPNLY1wGH3nrK",
+  "discovered_at": "2026-10-22T15:59:36.388497+00:00",
+  "ingested_at": "2026-10-22T15:59:37.601539+00:00",
+  "signal_at": "2026-10-22T15:59:45.669803+00:00",
+  "signal": {
+    "costs": {
+      "economically_feasible_in_model": false,
+      "error": "Liquidity/size/impact constraints prevent the estimated round trip.",
+      "execution_verified": false
+    },
+    "decision_at": "2026-10-22T15:59:45.669803+00:00",
+    "invalidation": [
+      "New privileged authority or transfer restriction",
+      "Liquidity decline or unavailable exit quote",
+      "Fresh evidence no longer available",
+      "Momentum becomes excessively extended",
+      "Contradictory contract/source evidence"
+    ],
+    "liquidity_filter_passed": false,
+    "negative": [
+      "Lichiditate sub pragul de $25000.",
+      "Small-position modeled entry/exit unavailable."
+    ],
+    "no_future_data": true,
+    "policy": {
+      "at": "2026-10-22T15:59:36.064150+00:00",
+      "id": 28,
+      "payload": {
+        "collection_rules": {
+          "background_watch_hours": 48,
+          "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
+          "market_batch_size": 30,
+          "monitoring_version": "bounded-background-v1",
+          "open_promises_override_background_age": true,
+          "route_budget_scope": "one_collector_cycle",
+          "security_allocation_version": "early-security-reserve-v1",
+          "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
+          "security_refresh_reserve_seconds": 85,
+          "version": "incremental-routes-v1"
+        },
+        "config": {
+          "active_watch_seconds": 900,
+          "activity_samples": 0,
+          "ai_narratives": false,
+          "alert_verdicts": [
+            "INVESTIGATE",
+            "CONSIDER"
+          ],
+          "background_interval_seconds": 86400,
+          "background_watch_hours": 48,
+          "cooldown_seconds": 3600,
+          "discovery_pages": 2,
+          "enabled": true,
+          "entry_window_seconds": 180,
+          "exit_window_seconds": 180,
+          "horizons_seconds": [
+            300,
+            3600,
+            86400
+          ],
+          "interval_seconds": 60,
+          "max_change_5m_pct": 30.0,
+          "max_extension_pct": 50.0,
+          "max_liquidity_drop_pct": 30.0,
+          "max_pool_age_hours": 24,
+          "max_roundtrip_cost_pct": 5.0,
+          "min_transactions_5m": 10,
+          "observation_budget": 60,
+          "position_usd": 50.0,
+          "routed_quote_budget": 4,
+          "routed_quotes_enabled": true,
+          "routed_slippage_bps": 50,
+          "security_budget": 8,
+          "telegram_enabled": false,
+          "test_from": "2026-10-18T00:00:00Z"
+        },
+        "forward_quote_window_version": 2,
+        "observation_rules": {
+          "max_snapshot_age": 120,
+          "min_signal_delay": 3
+        },
+        "paper_rules": {
+          "max_price_impact": "0.02",
+          "min_liquidity": "25000",
+          "network_fee_usd": "0.01",
+          "reference_fee": "0.006",
+          "reference_slippage": "0.005",
+          "swap_fee": "0.003"
+        },
+        "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+        "routed_policy": {
+          "enabled": true,
+          "entry_window_seconds": 180,
+          "execution_verified": false,
+          "exit_window_seconds": 180,
+          "forward_quote_window_version": 2,
+          "horizons_seconds": [
+            300,
+            3600,
+            86400
+          ],
+          "model": "independent_jupiter_min_out_scenario",
+          "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+          "observation_rules": {
+            "max_snapshot_age": 120,
+            "min_signal_delay": 3
+          },
+          "paper_rules": {
+            "max_price_impact": "0.02",
+            "min_liquidity": "25000",
+            "network_fee_usd": "0.01",
+            "reference_fee": "0.006",
+            "reference_slippage": "0.005",
+            "swap_fee": "0.003"
+          },
+          "position_usd": "50.0",
+          "quote_schema_version": 2,
+          "quote_timeout_seconds": 20,
+          "slippage_bps": 50,
+          "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+          "timestamp_clock": "utc_capture_clock_v1",
+          "version": "jupiter-forward-v2"
+        },
+        "rule_version": "memescope-3.2-market-references",
+        "sampling_version": "balanced-deadlines-v1",
+        "source_sha256": "3cb9ab02c6dc62a7c2186805abf0a4afbf6f01730825f9edc2cafcc411bda5db"
+      },
+      "sha256": "d0db2d65f432232b11c889f28d3ff4ebe44d137656e7a07891965314218f9f67"
+    },
+    "positive": [],
+    "rank_score": null,
+    "rule_version": "memescope-3.2-market-references",
+    "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+    "scores": {
+      "data_reliability": 20,
+      "early_momentum": 49.956,
+      "entry_attractiveness": 27,
+      "exit_liquidity": 4,
+      "market_participation_quality": 5,
+      "narrative_social_evidence": null,
+      "security_risk": null,
+      "wallet_intelligence": null
+    },
+    "screening": {
+      "action": "reject",
+      "critical": [
+        "Lichiditate sub pragul de $25000."
+      ],
+      "explanation_type": "deterministic_rules",
+      "invalidation": [
+        "Autoritate privilegiată/restricție nouă",
+        "Scăderea lichidității sub prag",
+        "Date expirate sau surse indisponibile"
+      ],
+      "paper_allowed": false,
+      "positive": [],
+      "scores": {
+        "activity": 27,
+        "copyability": null,
+        "data_completeness": 50,
+        "liquidity_exit": 5,
+        "momentum": 50,
+        "research_priority": 0,
+        "security_risk": 100,
+        "wallet_quality": null
+      },
+      "security_checks_complete": false,
+      "security_fresh": true,
+      "unknown": [
+        "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+        "[GoPlus] Token mintabil: informație lipsă.",
+        "[GoPlus] Conturi înghețabile: informație lipsă.",
+        "[GoPlus] Transferuri interzise: informație lipsă.",
+        "Raportul GoPlus nu este disponibil."
+      ],
+      "warnings": [
+        "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+        "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+      ]
+    },
+    "security_filter_passed": false,
+    "unknown": [
+      "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+      "[GoPlus] Token mintabil: informație lipsă.",
+      "[GoPlus] Conturi înghețabile: informație lipsă.",
+      "[GoPlus] Transferuri interzise: informație lipsă.",
+      "Raportul GoPlus nu este disponibil.",
+      "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+      "Owner-level holder growth unavailable.",
+      "No corroborated contract-specific narrative; name matches remain uncertain.",
+      "No reliable monitored-wallet accumulation evidence.",
+      "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+      "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+    ],
+    "verdict": "REJECT"
+  },
+  "observation_at": "2026-10-22T15:59:45.669803+00:00",
+  "observation": {
+    "collection_lane": "discovery",
+    "decision": {
+      "costs": {
+        "economically_feasible_in_model": false,
+        "error": "Liquidity/size/impact constraints prevent the estimated round trip.",
+        "execution_verified": false
+      },
+      "invalidation": [
+        "New privileged authority or transfer restriction",
+        "Liquidity decline or unavailable exit quote",
+        "Fresh evidence no longer available",
+        "Momentum becomes excessively extended",
+        "Contradictory contract/source evidence"
+      ],
+      "liquidity_filter_passed": false,
+      "negative": [
+        "Lichiditate sub pragul de $25000.",
+        "Small-position modeled entry/exit unavailable."
+      ],
+      "positive": [],
+      "rank_score": null,
+      "rule_version": "memescope-3.2-market-references",
+      "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+      "scores": {
+        "data_reliability": 20,
+        "early_momentum": 49.956,
+        "entry_attractiveness": 27,
+        "exit_liquidity": 4,
+        "market_participation_quality": 5,
+        "narrative_social_evidence": null,
+        "security_risk": null,
+        "wallet_intelligence": null
+      },
+      "screening": {
+        "action": "reject",
+        "critical": [
+          "Lichiditate sub pragul de $25000."
+        ],
+        "explanation_type": "deterministic_rules",
+        "invalidation": [
+          "Autoritate privilegiată/restricție nouă",
+          "Scăderea lichidității sub prag",
+          "Date expirate sau surse indisponibile"
+        ],
+        "paper_allowed": false,
+        "positive": [],
+        "scores": {
+          "activity": 27,
+          "copyability": null,
+          "data_completeness": 50,
+          "liquidity_exit": 5,
+          "momentum": 50,
+          "research_priority": 0,
+          "security_risk": 100,
+          "wallet_quality": null
+        },
+        "security_checks_complete": false,
+        "security_fresh": true,
+        "unknown": [
+          "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+          "[GoPlus] Token mintabil: informație lipsă.",
+          "[GoPlus] Conturi înghețabile: informație lipsă.",
+          "[GoPlus] Transferuri interzise: informație lipsă.",
+          "Raportul GoPlus nu este disponibil."
+        ],
+        "warnings": [
+          "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+          "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+        ]
+      },
+      "security_filter_passed": false,
+      "unknown": [
+        "Autoritățile mint/freeze nu au fost verificate prin RPC.",
+        "[GoPlus] Token mintabil: informație lipsă.",
+        "[GoPlus] Conturi înghețabile: informație lipsă.",
+        "[GoPlus] Transferuri interzise: informație lipsă.",
+        "Raportul GoPlus nu este disponibil.",
+        "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+        "Owner-level holder growth unavailable.",
+        "No corroborated contract-specific narrative; name matches remain uncertain.",
+        "No reliable monitored-wallet accumulation evidence.",
+        "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+        "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+      ],
+      "verdict": "REJECT"
+    },
+    "execution_verified": false,
+    "features": {
+      "activity_sample": null,
+      "buyers_5m_provider_reported": 1,
+      "changes": {
+        "15m": null,
+        "1h": null,
+        "5m": null
+      },
+      "distribution": null,
+      "excessive_extension": false,
+      "history_observations": 0,
+      "history_span_seconds": 0,
+      "holder_growth": null,
+      "latest_liquidity_change_pct": null,
+      "organic_demand_verified": false,
+      "pool_age_hours": 0.022408278584480287,
+      "price_change_since_first_capture_pct": 0.0,
+      "reported_transactions_5m": 2,
+      "sellers_5m_provider_reported": 1,
+      "social_mentions_growth": null,
+      "story_reference_prior_24h_move_reported_pct": null,
+      "suspicions": [],
+      "token_launch_time_known": false,
+      "unique_buyers": null
+    },
+    "market": {
+      "address": "24iLPEFDWh3Zf8NqmUvJ7LDpSXSo6THCbu4vLjmWpump",
+      "buyers_5m_reported": 1,
+      "buys_5m": 1,
+      "change_5m": -0.044,
+      "dex": "GeckoTerminal reported pool",
+      "fdv": null,
+      "liquidity_usd": 2392.7747,
+      "market_cap": null,
+      "name": "MARTIN / SOL",
+      "observed_at": "2026-10-22T15:59:38.963409+00:00",
+      "pair_address": "N9vq8NHMgjwtCbcne7iSGec9uG8fQAWPNLY1wGH3nrK",
+      "pool_created_at": null,
+      "price_usd": 3.0175361741957456e-06,
+      "sellers_5m_reported": 1,
+      "sells_5m": 1,
+      "source": "GeckoTerminal pool observation",
+      "symbol": "MARTIN",
+      "volume_1h": 206.4401252903,
+      "volume_5m": 206.4401252903
+    },
+    "narrative": {
+      "ai_interpretations": [],
+      "community_activity": null,
+      "contradictory": [],
+      "market_references": [],
+      "news_recurrence_counts": {},
+      "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+      "publication_hosts": [],
+      "ranking_supported": false,
+      "score": null,
+      "social_mentions_growth": null,
+      "supported": [],
+      "uncertain": []
+    },
+    "policy_id": 28,
+    "security": {
+      "errors": [
+        "Security budget/provider unavailable; screening unknown."
+      ],
+      "goplus": null,
+      "observed_at": "2026-10-22T15:59:45.669789+00:00",
+      "rpc": null
+    },
+    "source_kind": "live_provider_observation",
+    "wallet": {
+      "events": [],
+      "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+      "score": null
+    }
+  }
+}

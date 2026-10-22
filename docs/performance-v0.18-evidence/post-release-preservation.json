@@ -1,0 +1,38 @@
+{
+  "old_policy_max_id": 27,
+  "old_policies_identical": true,
+  "old_protocols_identical": true,
+  "config_identical": true,
+  "case_209593_300_identical": true,
+  "new_policy": [
+    28,
+    "2026-10-22T15:59:36.064150+00:00"
+  ],
+  "new_protocol": [
+    28,
+    "2026-10-22T15:59:36.065066+00:00",
+    "2026-10-23T15:59:36.065066+00:00"
+  ],
+  "manual_accounts": {
+    "research.sqlite3": {
+      "account": [
+        [
+          1,
+          "100",
+          "100"
+        ]
+      ],
+      "orders": 0
+    },
+    "news_paper/research.sqlite3": {
+      "account": [
+        [
+          1,
+          "500",
+          "500"
+        ]
+      ],
+      "orders": 0
+    }
+  }
+}

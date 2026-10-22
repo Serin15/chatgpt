@@ -1,0 +1,87 @@
+{
+  "data": "normal app and real stored/live provider observations",
+  "report_ready_reads": 25,
+  "report_min_seconds": 0.007788201997755095,
+  "report_median_seconds": 0.010876063024625182,
+  "report_max_seconds": 0.2037404619914014,
+  "read_errors": [],
+  "calculation_seconds": [
+    29.23238735299674,
+    45.92526234299294
+  ],
+  "complete_cycles": 3,
+  "cycle_seconds": [
+    {
+      "enrichment_and_routed_quotes": 30.0625,
+      "outcomes_and_status": 1.0762,
+      "provider_discovery": 1.4921,
+      "scheduling": 0.8842,
+      "story_discovery": 0.0335,
+      "total": 33.5486
+    },
+    {
+      "enrichment_and_routed_quotes": 27.9611,
+      "outcomes_and_status": 1.108,
+      "provider_discovery": 1.0696,
+      "scheduling": 0.6817,
+      "story_discovery": 0.0282,
+      "total": 30.8487
+    },
+    {
+      "enrichment_and_routed_quotes": 29.6443,
+      "outcomes_and_status": 2.1442,
+      "provider_discovery": 0.7941,
+      "scheduling": 0.606,
+      "story_discovery": 0.0548,
+      "total": 33.2434
+    }
+  ],
+  "observations_per_cycle": [
+    60,
+    60,
+    60
+  ],
+  "discovered_per_cycle": [
+    20,
+    20,
+    13
+  ],
+  "cycle_errors": [
+    [],
+    [],
+    []
+  ],
+  "latest_queue": {
+    "active_watch_seconds": 900,
+    "background_watch_hours": 48,
+    "capacity_note": "Due totals describe periodic candidate polling and retain paused background candidates. Promised jobs may bypass that schedule and are counted separately. Promises, first observations, watchlists and paper holdings are protected. API capacity can still cause missed deadlines; missing outcomes remain unknown.",
+    "counts_by_state": {
+      "active": {
+        "candidates": 206,
+        "due": 93
+      },
+      "background": {
+        "candidates": 30878,
+        "due": 26875
+      },
+      "followup": {
+        "candidates": 5171,
+        "due": 134
+      },
+      "paused": {
+        "candidates": 68058,
+        "due": 67697
+      }
+    },
+    "dispatchable_due": 27102,
+    "dispatchable_oldest_due_delay_seconds": 172358,
+    "due": 94799,
+    "history_preserved": true,
+    "not_enriched": 0,
+    "oldest_due_delay_seconds": 351743,
+    "paused_due": 67697,
+    "promised_due_candidates": 55,
+    "promised_due_outside_periodic_queue": 47,
+    "version": "bounded-background-v1"
+  }
+}

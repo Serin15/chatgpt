@@ -1,6 +1,5 @@
 """Forward-only independent paper experiments, including missing and rejected candidates."""
 
-import hashlib
 import json
 import math
 import time
@@ -9,9 +8,7 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from decimal import Decimal
 
-from app.cohort_comparisons import partition
 from app.models import epoch, utcnow
-from app.opportunity_rules import RULE_VERSION
 from app.paper import Rejected, fill, require_fresh
 
 D = Decimal
@@ -72,7 +69,16 @@ def update_outcomes(engine, now=None):
         # and calculating up to 2,000 historical outcomes after downtime.
         db.commit()
         rows = db.execute(
-            "SELECT o.*,s.candidate_id,s.at AS signal_at,s.payload AS signal_payload,s.observation_id FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id WHERE o.state='pending' ORDER BY o.updated_at,s.id,o.horizon_seconds LIMIT 2000"
+            """SELECT o.*,s.candidate_id,s.at AS signal_at,s.payload AS signal_payload,s.observation_id
+            FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id
+            WHERE o.state='pending' AND (
+              json_extract(o.payload,'$.entry_quote') IS NULL
+              OR coalesce(json_type(o.payload,'$.target_at_epoch'),'null') NOT IN ('integer','real')
+              OR json_extract(o.payload,'$.target_at_epoch')<=?
+              OR julianday((SELECT at FROM opportunity_observations
+                  WHERE candidate_id=s.candidate_id ORDER BY id DESC LIMIT 1))>julianday(o.updated_at)
+            ) ORDER BY o.updated_at,s.id,o.horizon_seconds LIMIT 2000""",
+            (now,),
         ).fetchall()
         for row in rows:
             signal = json.loads(row["signal_payload"])
@@ -266,251 +272,6 @@ def summary(rows):
 
 
 def report(engine):
-    with engine.store.connect() as db:
-        totals = {
-            key: db.execute("SELECT count(*) FROM " + table).fetchone()[0]
-            for key, table in [
-                ("discovered", "opportunity_candidates"),
-                ("signals", "opportunity_signals"),
-                ("alerts", "opportunity_alerts"),
-                ("observations", "opportunity_observations"),
-            ]
-        }
-        totals["eligible"] = db.execute(
-            "SELECT count(*) FROM opportunity_candidates WHERE eligible=1"
-        ).fetchone()[0]
-        totals["eligible_without_first_evaluation"] = db.execute(
-            "SELECT count(*) FROM opportunity_candidates c WHERE eligible=1 AND NOT EXISTS(SELECT 1 FROM opportunity_signals s WHERE s.candidate_id=c.id AND s.kind='baseline')"
-        ).fetchone()[0]
-        totals["risk_update_alerts"] = db.execute(
-            "SELECT count(*) FROM opportunity_alerts WHERE severity='critical'"
-        ).fetchone()[0]
-        totals["delivered_in_app"] = db.execute(
-            "SELECT count(*) FROM opportunity_alerts WHERE delivered_in_app_at IS NOT NULL"
-        ).fetchone()[0]
-        totals["telegram_acknowledged"] = db.execute(
-            "SELECT count(*) FROM opportunity_alerts WHERE telegram_state='acknowledged_by_api'"
-        ).fetchone()[0]
-        candidates = db.execute(
-            """SELECT c.id,json_extract(c.discovery,'$.price_usd') AS initial_price,
-            json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,'$.market.price_usd','$.market.observed_at',
-            '$.security.observed_at','$.decision.verdict','$.decision.security_filter_passed',
-            '$.decision.liquidity_filter_passed') AS fields
-            FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(
-                SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)"""
-        ).fetchall()
-        rows = db.execute(
-            """SELECT o.signal_id,o.horizon_seconds,o.state,json_extract(o.payload,'$.pnl_usd') AS pnl,
-            s.kind,s.at AS signal_at,s.observation_id,a.id AS alert_id,c.contract,
-            e.control_member,e.provenance AS enrollment_provenance,e.at AS enrolled_at,
-            json_extract(s.payload,'$.policy.id','$.policy.at','$.policy.payload.config.test_from',
-            '$.policy.payload.config.entry_window_seconds',
-            '$.policy.payload.config.exit_window_seconds') AS policy_fields
-            FROM opportunity_outcomes o JOIN opportunity_signals s ON s.id=o.signal_id
-            JOIN opportunity_candidates c ON c.id=s.candidate_id
-            LEFT JOIN opportunity_alerts a ON a.signal_id=s.id AND a.severity!='critical'
-            LEFT JOIN sampling_enrollment e ON e.candidate_id=c.id ORDER BY s.id,o.horizon_seconds"""
-        ).fetchall()
-        parsed = []
-        for r in rows:
-            row = dict(r)
-            row.update(
-                zip(
-                    ["policy_id", "policy_at", "test_from", "entry_window", "exit_window"],
-                    json.loads(row.pop("policy_fields")),
-                )
-            )
-            row["payload"] = {"pnl_usd": row.pop("pnl")}
-            row["config_parsed"] = {
-                "test_from": row.pop("test_from"),
-                "entry_window_seconds": row.pop("entry_window"),
-                "exit_window_seconds": row.pop("exit_window"),
-            }
-            row["cohort"] = partition(row, r["horizon_seconds"])
-            row.pop("config_parsed")
-            parsed.append(row)
-        latest = []
-        for raw in candidates:
-            r = dict(raw)
-            fields = r.pop("fields")
-            r.update(
-                zip(
-                    [
-                        "price",
-                        "market_at",
-                        "security_at",
-                        "verdict",
-                        "security_pass",
-                        "liquidity_pass",
-                    ],
-                    json.loads(fields) if fields else [None] * 6,
-                )
-            )
-            latest.append(
-                {
-                    "id": r["id"],
-                    "initial_price": r["initial_price"],
-                    "price": r["price"],
-                    "decision": {
-                        "verdict": r["verdict"] or "PENDING",
-                        "security_filter_passed": r["security_pass"],
-                        "liquidity_filter_passed": r["liquidity_pass"],
-                    },
-                    "security_fresh": bool(
-                        r["security_at"]
-                        and 0
-                        <= time.time() - epoch(r["security_at"])
-                        <= engine.service.settings.max_snapshot_age
-                    ),
-                    "fresh": bool(
-                        r["market_at"]
-                        and 0
-                        <= time.time() - epoch(r["market_at"])
-                        <= engine.service.settings.max_snapshot_age
-                    ),
-                }
-            )
-        alert_rows = db.execute(
-            "SELECT json_extract(payload,'$.features.excessive_extension') AS extended FROM opportunity_alerts"
-        ).fetchall()
-        initial = db.execute(
-            """SELECT s.id,
-            json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,'$.features.changes.5m.volume_5m_ratio',
-            '$.features.excessive_extension','$.narrative.supported',
-            '$.decision.security_filter_passed','$.decision.liquidity_filter_passed',
-            '$.decision.verdict') AS fields
-            FROM opportunity_signals s JOIN opportunity_observations o ON o.id=s.observation_id WHERE s.kind='baseline'"""
-        ).fetchall()
-        initial = [
-            dict(r)
-            | dict(
-                zip(
-                    [
-                        "volume_ratio",
-                        "extended",
-                        "narrative_count",
-                        "security_pass",
-                        "liquidity_pass",
-                        "verdict",
-                    ],
-                    json.loads(r["fields"]),
-                )
-            )
-            for r in initial
-        ]
-        for item in initial:
-            evidence = item["narrative_count"]
-            item["narrative_count"] = len(evidence) if isinstance(evidence, list) else 0
-            item.pop("fields")
-    horizons = {}
-    for h in sorted({r["horizon_seconds"] for r in parsed}):
-        baseline = [r for r in parsed if r["horizon_seconds"] == h and r["kind"] == "baseline"]
-        horizons[str(h)] = {
-            "all_eligible_first_evaluations": summary(baseline),
-            "selected_at_first_evaluation": summary(
-                [r for r in baseline if r["alert_id"] is not None]
-            ),
-            "deterministic_20pct_baseline": summary(
-                [
-                    r
-                    for r in baseline
-                    if int(hashlib.sha256(r["contract"].encode()).hexdigest()[:8], 16) % 5 == 0
-                ]
-            ),
-            "later_alert_experiments": summary(
-                [
-                    r
-                    for r in parsed
-                    if r["horizon_seconds"] == h
-                    and r["kind"] != "baseline"
-                    and r["alert_id"] is not None
-                ]
-            ),
-            "cohorts": {
-                c: summary([r for r in baseline if r["cohort"] == c])
-                for c in ["development", "test", "unassigned", "purged_boundary"]
-            },
-            "policies": {
-                str(p): summary([r for r in baseline if r["policy_id"] == p])
-                for p in sorted({r["policy_id"] for r in baseline})
-            },
-            "prospective_comparison": {
-                "selected_at_first_evaluation": summary(
-                    [
-                        r
-                        for r in baseline
-                        if r["enrollment_provenance"] == "prospective"
-                        and epoch(r["enrolled_at"]) <= epoch(r["signal_at"])
-                        and r["alert_id"] is not None
-                    ]
-                ),
-                "fixed_control": summary(
-                    [
-                        r
-                        for r in baseline
-                        if r["enrollment_provenance"] == "prospective"
-                        and epoch(r["enrolled_at"]) <= epoch(r["signal_at"])
-                        and r["control_member"]
-                    ]
-                ),
-                "overlapping_experiments": sum(
-                    r["enrollment_provenance"] == "prospective"
-                    and epoch(r["enrolled_at"]) <= epoch(r["signal_at"])
-                    and bool(r["control_member"])
-                    and r["alert_id"] is not None
-                    for r in baseline
-                ),
-                "note": "Control assigned before screening, including rejected tokens and any overlapping alerts. Legacy history is excluded. Observation coverage and executable paper results are separate.",
-            },
-        }
-    diagnostics = {}
-    for name, predicate in [
-        (
-            "volume_acceleration_ge_2",
-            lambda p: (p["volume_ratio"] or 0) >= 2,
-        ),
-        ("excessive_extension", lambda p: p["extended"]),
-        ("contract_narrative", lambda p: bool(p["narrative_count"])),
-    ]:
-        ids = {p["id"] for p in initial if predicate(p)}
-        diagnostics[name] = {
-            str(h): summary(
-                [r for r in parsed if r["horizon_seconds"] == h and r["signal_id"] in ids]
-            )
-            for h in sorted({r["horizon_seconds"] for r in parsed})
-        }
-    return {
-        "rule_version": RULE_VERSION,
-        "totals": totals,
-        "sampling": engine.sampling.coverage(),
-        "first_evaluation_security_pass": sum(bool(p["security_pass"]) for p in initial),
-        "first_evaluation_liquidity_pass": sum(bool(p["liquidity_pass"]) for p in initial),
-        "first_evaluation_verdicts": dict(Counter(p["verdict"] for p in initial)),
-        "current_security_pass": sum(
-            bool(r["fresh"] and r["security_fresh"] and r["decision"].get("security_filter_passed"))
-            for r in latest
-        ),
-        "current_liquidity_pass": sum(
-            bool(r["fresh"] and r["decision"].get("liquidity_filter_passed")) for r in latest
-        ),
-        "current_verdicts": dict(Counter(r["decision"].get("verdict", "PENDING") for r in latest)),
-        "known_current_price_collapses_ge_80pct": sum(
-            r["price"] is not None
-            and (r["initial_price"] or 0) > 0
-            and r["price"] / r["initial_price"] <= 0.2
-            for r in latest
-        ),
-        "known_current_appreciation_ge_100pct": sum(
-            r["price"] is not None
-            and (r["initial_price"] or 0) > 0
-            and r["price"] / r["initial_price"] >= 2
-            for r in latest
-        ),
-        "alerts_already_extended_at_signal": sum(bool(r["extended"]) for r in alert_rows),
-        "confirmed_unsellable": None,
-        "missed_opportunities": None,
-        "horizons": horizons,
-        "exploratory_signal_diagnostics": diagnostics,
-        "note": "Partial provider discovery universe, not all launches. Follow-up prioritizes alerts, so comparative coverage is unequal and missingness can bias comparisons. No global missed-opportunity rate. Historical or missing prices are never filled with future data. Independent experiments are not a capital-constrained strategy or demonstrated profit.",
-        "live_execution": False,
-    }
+    from app.performance_reporting import report as calculate_report
+
+    return calculate_report(engine, time.time())

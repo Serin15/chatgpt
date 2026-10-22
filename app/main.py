@@ -35,6 +35,7 @@ from app.models import (
 from app.news import News
 from app.opportunity_rules import EngineConfig
 from app.paper import Rejected
+from app.performance_cache import PerformanceReports
 from app.providers import ProviderError, Providers
 from app.research import EvidenceInput, SourceInput
 from app.runtime_lock import RuntimeLock
@@ -81,6 +82,9 @@ def create_app(
         news.notifications = app.state.service.notifications
         app.state.service.news = news
         app.state.workers = {}
+        app.state.performance_reports = (
+            PerformanceReports(app.state.service.opportunities) if run_scanner else None
+        )
 
         async def supervised(name, fn):
             app.state.workers[name] = {
@@ -112,6 +116,7 @@ def create_app(
                     ("performance", app.state.service.performance.run),
                     ("intelligence", app.state.service.run_intelligence),
                     ("collection_report", app.state.service.opportunities.run_collection_reports),
+                    ("performance_report", app.state.performance_reports.run),
                 ]
             ]
             if run_scanner
@@ -429,12 +434,14 @@ def create_app(
         q: str = Query("", max_length=120),
         verdict: Literal["all", "PENDING", "REJECT", "MONITOR", "INVESTIGATE", "CONSIDER"] = "all",
     ):
-        return request.app.state.service.opportunities.listing(
+        return JSONResponse(request.app.state.service.opportunities.listing(
             limit, before, sort == "rank", q, verdict
-        )
+        ))
 
     @app.get("/api/opportunities/performance")
     def opportunity_performance(request: Request):
+        if request.app.state.performance_reports is not None:
+            return JSONResponse(request.app.state.performance_reports.read())
         return request.app.state.service.opportunities.report()
 
     @app.get("/api/opportunities/coverage")
