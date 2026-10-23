@@ -1,4 +1,6 @@
-# MemeScope v0.20.0 — research workspace
+# MemeScope v0.20.1 — research workspace
+
+**Corecție Windows v0.20.1:** [contabilizare corectă după timeout, rezervări comune și verificări](docs/WINDOWS-V0.20.1.md). Un timer expirat nu mai lasă un rest de timp care admite cereri suplimentare către o sursă blocată.
 
 **Colectare v0.20.0:** [bugete comune de timp, RPC/GoPlus în paralel și amânări explicite](docs/NETWORK-V0.20.md). O cerere neîncepută nu devine eșec de tranzacție; dashboardul arată separat timeouturile și lucrările amânate. Finalizarea în SQLite poate încă depăși intervalul nominal.
 

@@ -3,7 +3,7 @@
 import asyncio
 from time import monotonic
 
-VERSION = "collection-network-budget-v1"
+VERSION = "collection-network-budget-v2"
 
 
 class CollectionDeferred(TimeoutError):
@@ -21,22 +21,36 @@ class CollectionBudget:
         self.story_seconds = min(5, interval / 12)
         self.market_seconds = min(15, interval / 4)
         self.enrichment_spent = 0
+        self.enrichment_wait = 0
+        self.enrichment_reserved = 0
+        self.deadline_exhausted = False
+        self.exhausted_groups = set()
         self.market_candidates_started = 0
         self.calls = {}
 
     @property
     def remaining(self):
+        if self.deadline_exhausted:
+            return 0
         return max(0, self.deadline - self.clock())
 
     async def call(self, name, operation, timeout, *, enrichment=False, until=None):
         stats = self.calls.setdefault(
-            name, {"started": 0, "timeouts": 0, "errors": 0, "deferred": 0, "seconds": 0}
+            name, {
+                "started": 0, "timeouts": 0, "budget_timeouts": 0,
+                "provider_timeouts": 0, "errors": 0, "deferred": 0, "seconds": 0,
+            }
         )
-        allowed = min(timeout, self.remaining)
+        cycle_left = self.remaining
+        allowed = min(timeout, cycle_left)
         if enrichment:
-            allowed = min(allowed, max(0, self.enrichment_seconds - self.enrichment_spent))
+            allowed = min(allowed, max(
+                0, self.enrichment_seconds - self.enrichment_spent - self.enrichment_reserved
+            ))
+        group_left = None
         if until is not None:
-            allowed = min(allowed, max(0, until - self.clock()))
+            group_left = 0 if until in self.exhausted_groups else max(0, until - self.clock())
+            allowed = min(allowed, group_left)
         if allowed <= 0:
             stats["deferred"] += 1
             raise CollectionDeferred(
@@ -44,10 +58,15 @@ class CollectionBudget:
             )
         began = self.clock()
         stats["started"] += 1
+        if enrichment:
+            self.enrichment_reserved += allowed
+        timer = asyncio.timeout(allowed)
         try:
-            return await asyncio.wait_for(operation(), allowed)
+            async with timer:
+                return await operation()
         except TimeoutError:
             stats["timeouts"] += 1
+            stats["budget_timeouts" if timer.expired() else "provider_timeouts"] += 1
             raise
         except Exception:
             stats["errors"] += 1
@@ -55,15 +74,28 @@ class CollectionBudget:
         finally:
             elapsed = max(0, self.clock() - began)
             stats["seconds"] += elapsed
+            # Event-loop timers may fire before a coarse monotonic clock reports
+            # the whole allowance (notably on Windows). An expired timer spends
+            # its admitted allowance; a provider's own early TimeoutError does not.
+            if timer.expired():
+                if allowed == cycle_left:
+                    self.deadline_exhausted = True
+                if group_left is not None and allowed == group_left:
+                    self.exhausted_groups.add(until)
             if enrichment:
-                self.enrichment_spent += elapsed
+                self.enrichment_reserved -= allowed
+                self.enrichment_wait += elapsed
+                self.enrichment_spent += max(elapsed, allowed if timer.expired() else 0)
 
     def report(self):
         return {
             "version": VERSION,
             "network_budget_seconds": self.network_seconds,
             "enrichment_budget_seconds": self.enrichment_seconds,
-            "enrichment_wait_seconds": round(self.enrichment_spent, 4),
+            "enrichment_wait_seconds": round(self.enrichment_wait, 4),
+            "enrichment_accounted_seconds": round(self.enrichment_spent, 4),
+            "enrichment_reserved_seconds": round(self.enrichment_reserved, 4),
+            "cycle_deadline_exhausted": self.deadline_exhausted,
             "remaining_seconds": round(self.remaining, 4),
             "elapsed_seconds": round(max(0, self.clock() - self.started), 4),
             "market_candidates_started": self.market_candidates_started,

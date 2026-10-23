@@ -1,0 +1,278 @@
+checks (windows-latest)	Unit and integration tests	﻿2026-10-23T18:37:41.5723861Z ##[group]Run import os
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5724096Z [36;1mimport os[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5724217Z [36;1mimport subprocess[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5724342Z [36;1mimport sys[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5724448Z [36;1m[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5724654Z [36;1m# Windows redirects stdout using cp1252 by default. Preserve Romanian diagnostics.[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5724946Z [36;1msys.stdout.reconfigure(encoding="utf-8", errors="replace")[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5725188Z [36;1msys.stderr.reconfigure(encoding="utf-8", errors="replace")[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5725382Z [36;1mresult = subprocess.run([0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5725541Z [36;1m    ["uv", "run", "pytest", "-q"],[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5725703Z [36;1m    stdout=subprocess.PIPE,[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5725856Z [36;1m    stderr=subprocess.STDOUT,[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5726005Z [36;1m    encoding="utf-8",[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5726135Z [36;1m    errors="replace",[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5726316Z [36;1m    env=os.environ | {"PYTHONIOENCODING": "utf-8"},[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5726511Z [36;1m)[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5726625Z [36;1mprint(result.stdout, flush=True)[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5726775Z [36;1mif result.returncode:[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5727005Z [36;1m    detail = result.stdout[-24000:].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5727303Z [36;1m    print("::error title=Pytest failure::" + detail, flush=True)[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5727504Z [36;1msys.exit(result.returncode)[0m
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5731357Z shell: C:\hostedtoolcache\windows\Python\3.12.10\x64\python.EXE {0}
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5731548Z env:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5731698Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5731952Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5732197Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5732419Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5732647Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:37:41.5732827Z ##[endgroup]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4876195Z ........................................................................ [ 12%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4876827Z ........................................................................ [ 24%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4877104Z ..................................F..................................... [ 36%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4877343Z .....................................................F.................. [ 48%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4877615Z ........................................................................ [ 60%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4877944Z ........................................................................ [ 72%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4878257Z ........................................................................ [ 84%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4878608Z ........................................................................ [ 96%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4879474Z ..................                                                       [100%]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4879839Z ================================== FAILURES ===================================
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4880280Z _ test_optional_timeouts_share_one_allowance_and_cancel_the_underlying_request _
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4880588Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4880716Z     async def stalled():
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4880957Z         try:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4881184Z >           await asyncio.Event().wait()
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4881379Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4881485Z tests\test_collection_budget.py:33: 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4881798Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4882037Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4882194Z self = <asyncio.locks.Event object at 0x000002601F8D0A40 [unset]>
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4882453Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4882563Z     async def wait(self):
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4882848Z         """Block until the internal flag is true.
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4886069Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4886361Z         If the internal flag is true on entry, return True
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4886795Z         immediately.  Otherwise, block until another coroutine calls
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4887195Z         set() to set the flag to true, then return True.
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4887500Z         """
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4887712Z         if self._value:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4887941Z             return True
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4888188Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4888476Z         fut = self._get_loop().create_future()
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4888850Z         self._waiters.append(fut)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4889109Z         try:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4889312Z >           await fut
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4889567Z E           asyncio.exceptions.CancelledError
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4889779Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4890004Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\locks.py:212: CancelledError
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4890519Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4890706Z The above exception was the direct cause of the following exception:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4891055Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4891290Z     def test_optional_timeouts_share_one_allowance_and_cancel_the_underlying_request():
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4891686Z         async def run():
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4891947Z             budget = CollectionBudget(0.2, reserve=0)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4892237Z             cancelled = []
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4892445Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4892648Z             async def stalled():
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4892914Z                 try:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4893153Z                     await asyncio.Event().wait()
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4893438Z                 finally:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4893835Z                     cancelled.append(True)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4894086Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4894298Z             with pytest.raises(TimeoutError):
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4894648Z                 await budget.call("security", stalled, 30, enrichment=True)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4895025Z             with pytest.raises(CollectionDeferred):
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4895416Z                 await budget.call("fallback", stalled, 15, enrichment=True)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4895765Z             assert cancelled == [True]
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4896115Z             assert budget.report()["calls"]["security"]["timeouts"] == 1
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4896531Z             assert budget.report()["calls"]["fallback"]["started"] == 0
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4896869Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4897076Z >       asyncio.run(run())
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4897242Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4897357Z tests\test_collection_budget.py:45: 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4897622Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4898047Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\runners.py:195: in run
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4898448Z     return runner.run(main)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4898632Z            ^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4899788Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\runners.py:118: in run
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4900227Z     return self._loop.run_until_complete(task)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4900530Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4901012Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\base_events.py:691: in run_until_complete
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4901477Z     return future.result()
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4901723Z            ^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4901998Z tests\test_collection_budget.py:40: in run
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4902363Z     await budget.call("fallback", stalled, 15, enrichment=True)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4902712Z app\collection_budget.py:48: in call
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4903025Z     return await asyncio.wait_for(operation(), allowed)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4903367Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4903771Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\tasks.py:519: in wait_for
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4904221Z     async with timeouts.timeout(timeout):
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4905105Z                ^^^^^^^^^^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4905429Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4905663Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4905782Z self = <Timeout [expired]>
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4906091Z exc_type = <class 'asyncio.exceptions.CancelledError'>
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4906731Z exc_val = CancelledError(), exc_tb = <traceback object at 0x000002601F8F1980>
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4907059Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4907149Z     async def __aexit__(
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4907392Z         self,
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4907671Z         exc_type: Optional[Type[BaseException]],
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4907982Z         exc_val: Optional[BaseException],
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4908273Z         exc_tb: Optional[TracebackType],
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4908607Z     ) -> Optional[bool]:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4908926Z         assert self._state in (_State.ENTERED, _State.EXPIRING)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4909277Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4909514Z         if self._timeout_handler is not None:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4909815Z             self._timeout_handler.cancel()
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4910120Z             self._timeout_handler = None
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4910393Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4910617Z         if self._state is _State.EXPIRING:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4910929Z             self._state = _State.EXPIRED
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4911199Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4911561Z             if self._task.uncancel() <= self._cancelling and exc_type is exceptions.CancelledError:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4912056Z                 # Since there are no new cancel requests, we're
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4912389Z                 # handling this.
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4912661Z >               raise TimeoutError from exc_val
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4912964Z E               TimeoutError
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4913160Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4913418Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\timeouts.py:115: TimeoutError
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4914110Z ___________ test_security_outage_cannot_block_every_later_candidate ___________
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4914385Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4914810Z client_engine = (<starlette.testclient.TestClient object at 0x00000260209910A0>, <app.opportunities.Opportunities object at 0x000002601D5A15B0>)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4915511Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026021D33FB0>
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4915837Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4916076Z     def test_security_outage_cannot_block_every_later_candidate(client_engine, monkeypatch):
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4916519Z         _, engine = client_engine
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4916815Z         first, _, cfg = seed(engine)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4917130Z         second = candidate(engine, 22001, time.time())
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4917567Z         engine.configure(cfg.model_copy(update={"routed_quotes_enabled": False}))
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4918039Z         monkeypatch.setattr(engine, "due", lambda _: [first, second])
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4918724Z         monkeypatch.setattr("app.opportunities.CollectionBudget", small_budget, raising=False)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4919207Z         calls, cancelled = [], []
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4919442Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4919643Z         async def stalled(address):
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4919923Z             calls.append(address)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4920199Z             try:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4920431Z                 await asyncio.Event().wait()
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4920714Z             finally:
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4920963Z                 cancelled.append(address)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4921243Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4921551Z         monkeypatch.setattr(engine.service.providers, "security", stalled)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4921935Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4922141Z         async def run():
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4922429Z             return await asyncio.wait_for(engine.cycle(False), 5)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4922740Z     
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4922934Z         result = asyncio.run(run())
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4923217Z         assert result["observed"] == 2
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4923865Z >       assert len(calls) == len(cancelled) == 1
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4924166Z E       AssertionError: assert 2 == 1
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4924573Z E        +  where 2 = len(['11111111111111111111111111111111', '1111111111111111111111111111117YL'])
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4924880Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4924997Z tests\test_network_deadlines.py:41: AssertionError
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4925339Z ============================== warnings summary ===============================
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4925688Z .venv\Lib\site-packages\fastapi\testclient.py:1
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4926394Z   D:\a\chatgpt\chatgpt\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4927177Z     from starlette.testclient import TestClient as TestClient  # noqa
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4927426Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4927690Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4928103Z =========================== short test summary info ===========================
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4928773Z FAILED tests/test_collection_budget.py::test_optional_timeouts_share_one_allowance_and_cancel_the_underlying_request - TimeoutError
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4929576Z FAILED tests/test_network_deadlines.py::test_security_outage_cannot_block_every_later_candidate - AssertionError: assert 2 == 1
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4930208Z  +  where 2 = len(['11111111111111111111111111111111', '1111111111111111111111111111117YL'])
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4930630Z 2 failed, 592 passed, 1 warning in 686.88s (0:11:26)
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4930818Z 
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4969686Z ##[error]........................................................................ [ 12%]
+checks (windows-latest)	Unit and integration tests	........................................................................ [ 24%]
+checks (windows-latest)	Unit and integration tests	..................................F..................................... [ 36%]
+checks (windows-latest)	Unit and integration tests	.....................................................F.................. [ 48%]
+checks (windows-latest)	Unit and integration tests	........................................................................ [ 60%]
+checks (windows-latest)	Unit and integration tests	........................................................................ [ 72%]
+checks (windows-latest)	Unit and integration tests	........................................................................ [ 84%]
+checks (windows-latest)	Unit and integration tests	........................................................................ [ 96%]
+checks (windows-latest)	Unit and integration tests	..................                                                       [100%]
+checks (windows-latest)	Unit and integration tests	================================== FAILURES ===================================
+checks (windows-latest)	Unit and integration tests	_ test_optional_timeouts_share_one_allowance_and_cancel_the_underlying_request _
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	    async def stalled():
+checks (windows-latest)	Unit and integration tests	        try:
+checks (windows-latest)	Unit and integration tests	>           await asyncio.Event().wait()
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	tests\test_collection_budget.py:33: 
+checks (windows-latest)	Unit and integration tests	_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	self = <asyncio.locks.Event object at 0x000002601F8D0A40 [unset]>
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	    async def wait(self):
+checks (windows-latest)	Unit and integration tests	        """Block until the internal flag is true.
+checks (windows-latest)	Unit and integration tests	    
+checks (windows-latest)	Unit and integration tests	        If the internal flag is true on entry, return True
+checks (windows-latest)	Unit and integration tests	        immediately.  Otherwise, block until another coroutine calls
+checks (windows-latest)	Unit and integration tests	        set() to set the flag to true, then return True.
+checks (windows-latest)	Unit and integration tests	        """
+checks (windows-latest)	Unit and integration tests	        if self._value:
+checks (windows-latest)	Unit and integration tests	            return True
+checks (windows-latest)	Unit and integration tests	    
+checks (windows-latest)	Unit and integration tests	        fut = self._get_loop().create_future()
+checks (windows-latest)	Unit and integration tests	        self._waiters.append(fut)
+checks (windows-latest)	Unit and integration tests	        try:
+checks (windows-latest)	Unit and integration tests	>           await fut
+checks (windows-latest)	Unit and integration tests	E           asyncio.exceptions.CancelledError
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\locks.py:212: CancelledError
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	The above exception was the direct cause of the following exception:
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	    def test_optional_timeouts_share_one_allowance_and_cancel_the_underlying_request():
+checks (windows-latest)	Unit and integration tests	        async def run():
+checks (windows-latest)	Unit and integration tests	            budget = CollectionBudget(0.2, reserve=0)
+checks (windows-latest)	Unit and integration tests	            cancelled = []
+checks (windows-latest)	Unit and integration tests	    
+checks (windows-latest)	Unit and integration tests	            async def stalled():
+checks (windows-latest)	Unit and integration tests	                try:
+checks (windows-latest)	Unit and integration tests	                    await asyncio.Event().wait()
+checks (windows-latest)	Unit and integration tests	                finally:
+checks (windows-latest)	Unit and integration tests	                    cancelled.append(True)
+checks (windows-latest)	Unit and integration tests	    
+checks (windows-latest)	Unit and integration tests	            with pytest.raises(TimeoutError):
+checks (windows-latest)	Unit and integration tests	                await budget.call("security", stalled, 30, enrichment=True)
+checks (windows-latest)	Unit and integration tests	            with pytest.raises(CollectionDeferred):
+checks (windows-latest)	Unit and integration tests	                await budget.call("fallback", stalled, 15, enrichment=True)
+checks (windows-latest)	Unit and integration tests	            assert cancelled == [True]
+checks (windows-latest)	Unit and integration tests	            assert budget.report()["calls"]["security"]["timeouts"] == 1
+checks (windows-latest)	Unit and integration tests	            assert budget.report()["calls"]["fallback"]["started"] == 0
+checks (windows-latest)	Unit and integration tests	    
+checks (windows-latest)	Unit and integration tests	>       asyncio.run(run())
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	tests\test_collection_budget.py:45: 
+checks (windows-latest)	Unit and integration tests	_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks (windows-latest)	Unit and integration tests	C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\runners.py:195: in run
+checks (windows-latest)	Unit and integration tests	    return runner.run(main)
+checks (windows-latest)	Unit and integration tests	           ^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\runners.py:118: in run
+checks (windows-latest)	Unit and integration tests	    return self._loop.run_until_complete(task)
+checks (windows-latest)	Unit and integration tests	           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\base_events.py:691: in run_until_complete
+checks (windows-latest)	Unit and integration tests	    return future.result()
+checks (windows-latest)	Unit and integration tests	           ^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	tests\test_collection_budget.py:40: in run
+checks (windows-latest)	Unit and integration tests	    await budget.call("fallback", stalled, 15, enrichment=True)
+checks (windows-latest)	Unit and integration tests	app\collection_budget.py:48: in call
+checks (windows-latest)	Unit and integration tests	    return await asyncio.wait_for(operation(), allowed)
+checks (windows-latest)	Unit and integration tests	           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\tasks.py:519: in wait_for
+checks (windows-latest)	Unit and integration tests	    async with timeouts.timeout(timeout):
+checks (windows-latest)	Unit and integration tests	               ^^^^^^^^^^^^^^^^^^^^^^^^^
+checks (windows-latest)	Unit and integration tests	_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	self = <Timeout [expired]>
+checks (windows-latest)	Unit and integration tests	exc_type = <class 'asyncio.exceptions.CancelledError'>
+checks (windows-latest)	Unit and integration tests	exc_val = CancelledError(), exc_tb = <traceback object at 0x000002601F8F1980>
+checks (windows-latest)	Unit and integration tests	
+checks (windows-latest)	Unit and integration tests	    async def __aexit__(
+checks (windows-latest)	Unit and integration tests	        self,
+checks (windows-latest)	Unit and integration tests	        exc_type: Optional[Type[BaseException]],
+checks (windows-latest)	Unit and integration tests	        exc_val: Optional[BaseException],
+checks (windows-latest)	Unit and integration tests	        exc_tb: Optional[TracebackType],
+checks (windows-latest)	Unit and integration tests	    ) -> Optional[bool]:
+checks (windows-latest)	Unit and integration tests	        ass
+checks (windows-latest)	Unit and integration tests	2026-10-23T18:49:10.4984837Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,328 @@
+...FFF.                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags[enrichment] _
+
+    async def stalled():
+        started.append(True)
+        try:
+>           await asyncio.Event().wait()
+
+tests/test_collection_budget.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <asyncio.locks.Event object at 0x7fb022f9c710 [unset]>
+
+    async def wait(self):
+        """Block until the internal flag is true.
+    
+        If the internal flag is true on entry, return True
+        immediately.  Otherwise, block until another coroutine calls
+        set() to set the flag to true, then return True.
+        """
+        if self._value:
+            return True
+    
+        fut = self._get_loop().create_future()
+        self._waiters.append(fut)
+        try:
+>           await fut
+E           asyncio.exceptions.CancelledError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/locks.py:212: CancelledError
+
+The above exception was the direct cause of the following exception:
+
+scope = 'enrichment'
+
+    @pytest.mark.parametrize("scope", ["enrichment", "cycle", "discovery_group"])
+    def test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags(scope):
+        """A coarse clock need not advance as far as the event loop's timeout."""
+        async def run():
+            budget = CollectionBudget(0.04, reserve=0.03 if scope == "cycle" else 0, clock=lambda: 0)
+            limits = {"enrichment": scope == "enrichment"}
+            if scope == "discovery_group":
+                limits["until"] = 0.01
+            cancelled, started = [], []
+    
+            async def stalled():
+                started.append(True)
+                try:
+                    await asyncio.Event().wait()
+                finally:
+                    cancelled.append(True)
+    
+            with pytest.raises(TimeoutError):
+                await budget.call("first", stalled, 1, **limits)
+            with pytest.raises(CollectionDeferred):
+                await budget.call("second", stalled, 1, **limits)
+            assert started == cancelled == [True]
+            assert budget.report()["calls"]["second"]["started"] == 0
+    
+>       asyncio.run(run())
+
+tests/test_collection_budget.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_collection_budget.py:90: in run
+    await budget.call("second", stalled, 1, **limits)
+app/collection_budget.py:48: in call
+    return await asyncio.wait_for(operation(), allowed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/tasks.py:519: in wait_for
+    async with timeouts.timeout(timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Timeout [expired]>
+exc_type = <class 'asyncio.exceptions.CancelledError'>
+exc_val = CancelledError(), exc_tb = <traceback object at 0x7fb022e8a780>
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> Optional[bool]:
+        assert self._state in (_State.ENTERED, _State.EXPIRING)
+    
+        if self._timeout_handler is not None:
+            self._timeout_handler.cancel()
+            self._timeout_handler = None
+    
+        if self._state is _State.EXPIRING:
+            self._state = _State.EXPIRED
+    
+            if self._task.uncancel() <= self._cancelling and exc_type is exceptions.CancelledError:
+                # Since there are no new cancel requests, we're
+                # handling this.
+>               raise TimeoutError from exc_val
+E               TimeoutError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/timeouts.py:115: TimeoutError
+_ test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags[cycle] _
+
+    async def stalled():
+        started.append(True)
+        try:
+>           await asyncio.Event().wait()
+
+tests/test_collection_budget.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <asyncio.locks.Event object at 0x7fb022f9d1c0 [unset]>
+
+    async def wait(self):
+        """Block until the internal flag is true.
+    
+        If the internal flag is true on entry, return True
+        immediately.  Otherwise, block until another coroutine calls
+        set() to set the flag to true, then return True.
+        """
+        if self._value:
+            return True
+    
+        fut = self._get_loop().create_future()
+        self._waiters.append(fut)
+        try:
+>           await fut
+E           asyncio.exceptions.CancelledError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/locks.py:212: CancelledError
+
+The above exception was the direct cause of the following exception:
+
+scope = 'cycle'
+
+    @pytest.mark.parametrize("scope", ["enrichment", "cycle", "discovery_group"])
+    def test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags(scope):
+        """A coarse clock need not advance as far as the event loop's timeout."""
+        async def run():
+            budget = CollectionBudget(0.04, reserve=0.03 if scope == "cycle" else 0, clock=lambda: 0)
+            limits = {"enrichment": scope == "enrichment"}
+            if scope == "discovery_group":
+                limits["until"] = 0.01
+            cancelled, started = [], []
+    
+            async def stalled():
+                started.append(True)
+                try:
+                    await asyncio.Event().wait()
+                finally:
+                    cancelled.append(True)
+    
+            with pytest.raises(TimeoutError):
+                await budget.call("first", stalled, 1, **limits)
+            with pytest.raises(CollectionDeferred):
+                await budget.call("second", stalled, 1, **limits)
+            assert started == cancelled == [True]
+            assert budget.report()["calls"]["second"]["started"] == 0
+    
+>       asyncio.run(run())
+
+tests/test_collection_budget.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_collection_budget.py:90: in run
+    await budget.call("second", stalled, 1, **limits)
+app/collection_budget.py:48: in call
+    return await asyncio.wait_for(operation(), allowed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/tasks.py:519: in wait_for
+    async with timeouts.timeout(timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Timeout [expired]>
+exc_type = <class 'asyncio.exceptions.CancelledError'>
+exc_val = CancelledError(), exc_tb = <traceback object at 0x7fb022ac36c0>
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> Optional[bool]:
+        assert self._state in (_State.ENTERED, _State.EXPIRING)
+    
+        if self._timeout_handler is not None:
+            self._timeout_handler.cancel()
+            self._timeout_handler = None
+    
+        if self._state is _State.EXPIRING:
+            self._state = _State.EXPIRED
+    
+            if self._task.uncancel() <= self._cancelling and exc_type is exceptions.CancelledError:
+                # Since there are no new cancel requests, we're
+                # handling this.
+>               raise TimeoutError from exc_val
+E               TimeoutError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/timeouts.py:115: TimeoutError
+_ test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags[discovery_group] _
+
+    async def stalled():
+        started.append(True)
+        try:
+>           await asyncio.Event().wait()
+
+tests/test_collection_budget.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <asyncio.locks.Event object at 0x7fb022f9fbc0 [unset]>
+
+    async def wait(self):
+        """Block until the internal flag is true.
+    
+        If the internal flag is true on entry, return True
+        immediately.  Otherwise, block until another coroutine calls
+        set() to set the flag to true, then return True.
+        """
+        if self._value:
+            return True
+    
+        fut = self._get_loop().create_future()
+        self._waiters.append(fut)
+        try:
+>           await fut
+E           asyncio.exceptions.CancelledError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/locks.py:212: CancelledError
+
+The above exception was the direct cause of the following exception:
+
+scope = 'discovery_group'
+
+    @pytest.mark.parametrize("scope", ["enrichment", "cycle", "discovery_group"])
+    def test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags(scope):
+        """A coarse clock need not advance as far as the event loop's timeout."""
+        async def run():
+            budget = CollectionBudget(0.04, reserve=0.03 if scope == "cycle" else 0, clock=lambda: 0)
+            limits = {"enrichment": scope == "enrichment"}
+            if scope == "discovery_group":
+                limits["until"] = 0.01
+            cancelled, started = [], []
+    
+            async def stalled():
+                started.append(True)
+                try:
+                    await asyncio.Event().wait()
+                finally:
+                    cancelled.append(True)
+    
+            with pytest.raises(TimeoutError):
+                await budget.call("first", stalled, 1, **limits)
+            with pytest.raises(CollectionDeferred):
+                await budget.call("second", stalled, 1, **limits)
+            assert started == cancelled == [True]
+            assert budget.report()["calls"]["second"]["started"] == 0
+    
+>       asyncio.run(run())
+
+tests/test_collection_budget.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_collection_budget.py:90: in run
+    await budget.call("second", stalled, 1, **limits)
+app/collection_budget.py:48: in call
+    return await asyncio.wait_for(operation(), allowed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/tasks.py:519: in wait_for
+    async with timeouts.timeout(timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Timeout [expired]>
+exc_type = <class 'asyncio.exceptions.CancelledError'>
+exc_val = CancelledError(), exc_tb = <traceback object at 0x7fb022cb7540>
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> Optional[bool]:
+        assert self._state in (_State.ENTERED, _State.EXPIRING)
+    
+        if self._timeout_handler is not None:
+            self._timeout_handler.cancel()
+            self._timeout_handler = None
+    
+        if self._state is _State.EXPIRING:
+            self._state = _State.EXPIRED
+    
+            if self._task.uncancel() <= self._cancelling and exc_type is exceptions.CancelledError:
+                # Since there are no new cancel requests, we're
+                # handling this.
+>               raise TimeoutError from exc_val
+E               TimeoutError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/timeouts.py:115: TimeoutError
+=========================== short test summary info ============================
+FAILED tests/test_collection_budget.py::test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags[enrichment]
+FAILED tests/test_collection_budget.py::test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags[cycle]
+FAILED tests/test_collection_budget.py::test_expired_timer_cannot_reopen_allowance_when_accounting_clock_lags[discovery_group]
+3 failed, 4 passed in 0.34s
