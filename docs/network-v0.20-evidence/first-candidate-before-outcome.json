@@ -1,0 +1,115 @@
+{
+  "id": 123038,
+  "chain": "solana",
+  "contract": "96J15XxtHvdZpNAJHFoaUbFeqrayggtNU1jsqBmXpump",
+  "pool": "Ehgi1rwMB37CFLsmUvA27aVmjB5VUdpzCuWHoGwrm4Gh",
+  "discovered_at": "2026-10-23T18:18:33.785659+00:00",
+  "ingested_at": "2026-10-23T18:18:38.663085+00:00",
+  "discovery": {
+    "chain": "solana",
+    "contract": "96J15XxtHvdZpNAJHFoaUbFeqrayggtNU1jsqBmXpump",
+    "discovery_basis": "provider_new_pool_feed",
+    "first_capture_available": true,
+    "imported_from_cache": false,
+    "indexed_at": null,
+    "liquidity_usd": 100.3215,
+    "name": "SXSN / SOL",
+    "observed_at": "2026-10-23T18:18:33.785649+00:00",
+    "official_affiliation": "unverified",
+    "pool": "Ehgi1rwMB37CFLsmUvA27aVmjB5VUdpzCuWHoGwrm4Gh",
+    "pool_created_at_reported": "2026-10-23T18:15:29Z",
+    "pool_identifier_type": "account_address",
+    "price_usd": 8.334829391010517e-08,
+    "source": "GeckoTerminal",
+    "source_first_seen_at": "2026-10-23T18:18:33.785659+00:00",
+    "token_launched_at": null
+  },
+  "eligible": 1,
+  "exclusion_reason": null,
+  "next_due": 1792779519.7942114,
+  "last_attempt_at": null,
+  "failures": 0,
+  "signals": [
+    {
+      "id": 301356,
+      "candidate_id": 123038,
+      "observation_id": null,
+      "at": "2026-10-23T18:18:38.663085+00:00",
+      "kind": "discovery",
+      "verdict": "MONITOR",
+      "policy_id": 31,
+      "payload": {
+        "decision_at": "2026-10-23T18:18:38.663085+00:00",
+        "discovery": {
+          "chain": "solana",
+          "contract": "96J15XxtHvdZpNAJHFoaUbFeqrayggtNU1jsqBmXpump",
+          "discovery_basis": "provider_new_pool_feed",
+          "first_capture_available": true,
+          "imported_from_cache": false,
+          "indexed_at": null,
+          "liquidity_usd": 100.3215,
+          "name": "SXSN / SOL",
+          "observed_at": "2026-10-23T18:18:33.785649+00:00",
+          "official_affiliation": "unverified",
+          "pool": "Ehgi1rwMB37CFLsmUvA27aVmjB5VUdpzCuWHoGwrm4Gh",
+          "pool_created_at_reported": "2026-10-23T18:15:29Z",
+          "pool_identifier_type": "account_address",
+          "price_usd": 8.334829391010517e-08,
+          "source": "GeckoTerminal",
+          "source_first_seen_at": "2026-10-23T18:18:33.785659+00:00",
+          "token_launched_at": null
+        },
+        "negative": [],
+        "no_future_data": true,
+        "positive": [],
+        "scores": {},
+        "unknown": [
+          "Discovery metadata only; enrichment has not yet completed."
+        ],
+        "verdict": "MONITOR"
+      }
+    }
+  ],
+  "observations": [],
+  "observations_total": 0,
+  "history_truncated": false,
+  "outcomes": [],
+  "live_execution": false,
+  "sampling_enrollment": {
+    "candidate_id": 123038,
+    "at": "2026-10-23T18:18:38.663085+00:00",
+    "control_member": 0,
+    "provenance": "prospective",
+    "version": "balanced-deadlines-v1"
+  },
+  "monitoring": {
+    "version": "bounded-background-v1",
+    "state": "awaiting_first_observation",
+    "reason": "first_observation_required",
+    "has_open_promises": false,
+    "background_until": "2026-10-25T18:18:38.663085+00:00",
+    "background_watch_hours": 48,
+    "history_preserved": true,
+    "not_a_new_launch": true
+  },
+  "routed": {
+    "entries": [],
+    "outcomes": [],
+    "attempts": [],
+    "execution_verified": false
+  },
+  "current_narrative": {
+    "supported": [],
+    "uncertain": [],
+    "contradictory": [],
+    "market_references": [],
+    "ranking_supported": false,
+    "publication_hosts": [],
+    "news_recurrence_counts": {},
+    "social_mentions_growth": null,
+    "community_activity": null,
+    "score": null,
+    "ai_interpretations": [],
+    "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement."
+  }
+}

@@ -41,9 +41,13 @@ class SecurityBudget:
     def visit(self, candidate_id):
         self.pending.discard(candidate_id)
 
+    def can_take(self, candidate_id):
+        early = candidate_id in self.priority
+        return self.left > 0 and (early or self.left > min(self.reserved, len(self.pending)))
+
     def take(self, candidate_id):
         early = candidate_id in self.priority
-        if self.left <= 0 or (not early and self.left <= min(self.reserved, len(self.pending))):
+        if not self.can_take(candidate_id):
             return False
         self.left -= 1
         if early:

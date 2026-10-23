@@ -1,4 +1,6 @@
-# MemeScope v0.19.0 — research workspace
+# MemeScope v0.20.0 — research workspace
+
+**Colectare v0.20.0:** [bugete comune de timp, RPC/GoPlus în paralel și amânări explicite](docs/NETWORK-V0.20.md). O cerere neîncepută nu devine eșec de tranzacție; dashboardul arată separat timeouturile și lucrările amânate. Finalizarea în SQLite poate încă depăși intervalul nominal.
 
 **Colectare v0.19.0:** [reevaluări prioritare, urmărirea pozițiilor virtuale și verificare live strictă](docs/COLLECTION-V0.19.md). Tokenurile urmărite pot depăși programarea zilnică de fundal; termenele apropiate sunt executate primele dintre candidații admiși. Dashboardul separă întârzierile prioritare de istoricul de fundal.
 

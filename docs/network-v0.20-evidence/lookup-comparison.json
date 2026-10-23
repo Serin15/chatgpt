@@ -1,0 +1,37 @@
+{
+  "same_read_snapshot": true,
+  "real_data": true,
+  "subjects": 60,
+  "table_rows": 131640,
+  "prior_chain_lookup": {
+    "seconds": 12.676636113999848,
+    "sha256": "a07304dc0355e77192ffbb1aec09f32da5f1e569a419e41d343289295182ccf4",
+    "query_plan": [
+      [
+        5,
+        0,
+        62,
+        "SEARCH discovered_pools USING INDEX sqlite_autoindex_discovered_pools_1 (chain=?)"
+      ],
+      [
+        25,
+        0,
+        0,
+        "USE TEMP B-TREE FOR ORDER BY"
+      ]
+    ]
+  },
+  "contract_lookup": {
+    "seconds": 0.0003939849993912503,
+    "sha256": "a07304dc0355e77192ffbb1aec09f32da5f1e569a419e41d343289295182ccf4",
+    "query_plan": [
+      [
+        5,
+        0,
+        61,
+        "SEARCH discovered_pools USING INDEX discovered_pools_contract (chain=? AND contract=?)"
+      ]
+    ]
+  },
+  "identical_results": true
+}

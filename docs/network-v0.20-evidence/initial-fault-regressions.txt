@@ -1,0 +1,332 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+___________ test_security_outage_cannot_block_every_later_candidate ____________
+
+address = '11111111111111111111111111111111'
+
+    async def stalled(address):
+        calls.append(address)
+        try:
+>           await asyncio.Event().wait()
+
+tests/test_network_deadlines.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <asyncio.locks.Event object at 0x7f82a4022960 [unset]>
+
+    async def wait(self):
+        """Block until the internal flag is true.
+    
+        If the internal flag is true on entry, return True
+        immediately.  Otherwise, block until another coroutine calls
+        set() to set the flag to true, then return True.
+        """
+        if self._value:
+            return True
+    
+        fut = self._get_loop().create_future()
+        self._waiters.append(fut)
+        try:
+>           await fut
+E           asyncio.exceptions.CancelledError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/locks.py:212: CancelledError
+
+The above exception was the direct cause of the following exception:
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f82a53619d0>, <app.opportunities.Opportunities object at 0x7f82a4020260>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f82a4a8aae0>
+
+    def test_security_outage_cannot_block_every_later_candidate(client_engine, monkeypatch):
+        _, engine = client_engine
+        first, _, cfg = seed(engine)
+        second = candidate(engine, 22001, time.time())
+        engine.configure(cfg.model_copy(update={"routed_quotes_enabled": False}))
+        monkeypatch.setattr(engine, "due", lambda _: [first, second])
+        monkeypatch.setattr("app.opportunities.CollectionBudget", small_budget, raising=False)
+        calls, cancelled = [], []
+    
+        async def stalled(address):
+            calls.append(address)
+            try:
+                await asyncio.Event().wait()
+            finally:
+                cancelled.append(address)
+    
+        monkeypatch.setattr(engine.service.providers, "security", stalled)
+    
+        async def run():
+            return await asyncio.wait_for(engine.cycle(False), 2)
+    
+>       result = asyncio.run(run())
+                 ^^^^^^^^^^^^^^^^^^
+
+tests/test_network_deadlines.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_network_deadlines.py:39: in run
+    return await asyncio.wait_for(engine.cycle(False), 2)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/tasks.py:519: in wait_for
+    async with timeouts.timeout(timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Timeout [expired]>
+exc_type = <class 'asyncio.exceptions.CancelledError'>
+exc_val = CancelledError(), exc_tb = <traceback object at 0x7f82a49fef80>
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> Optional[bool]:
+        assert self._state in (_State.ENTERED, _State.EXPIRING)
+    
+        if self._timeout_handler is not None:
+            self._timeout_handler.cancel()
+            self._timeout_handler = None
+    
+        if self._state is _State.EXPIRING:
+            self._state = _State.EXPIRED
+    
+            if self._task.uncancel() <= self._cancelling and exc_type is exceptions.CancelledError:
+                # Since there are no new cancel requests, we're
+                # handling this.
+>               raise TimeoutError from exc_val
+E               TimeoutError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/timeouts.py:115: TimeoutError
+________ test_stalled_discovery_does_not_block_already_due_observations ________
+
+fut = <coroutine object Opportunities.cycle at 0x2d23dce0>, timeout = 2
+
+    async def wait_for(fut, timeout):
+        """Wait for the single Future or coroutine to complete, with timeout.
+    
+        Coroutine will be wrapped in Task.
+    
+        Returns result of the Future or coroutine.  When a timeout occurs,
+        it cancels the task and raises TimeoutError.  To avoid the task
+        cancellation, wrap it in shield().
+    
+        If the wait is cancelled, the task is also cancelled.
+    
+        If the task suppresses the cancellation and returns a value instead,
+        that value is returned.
+    
+        This function is a coroutine.
+        """
+        # The special case for timeout <= 0 is for the following case:
+        #
+        # async def test_waitfor():
+        #     func_started = False
+        #
+        #     async def func():
+        #         nonlocal func_started
+        #         func_started = True
+        #
+        #     try:
+        #         await asyncio.wait_for(func(), 0)
+        #     except asyncio.TimeoutError:
+        #         assert not func_started
+        #     else:
+        #         assert False
+        #
+        # asyncio.run(test_waitfor())
+    
+    
+        if timeout is not None and timeout <= 0:
+            fut = ensure_future(fut)
+    
+            if fut.done():
+                return fut.result()
+    
+            await _cancel_and_wait(fut)
+            try:
+                return fut.result()
+            except exceptions.CancelledError as exc:
+                raise TimeoutError from exc
+    
+        async with timeouts.timeout(timeout):
+>           return await fut
+                   ^^^^^^^^^
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/tasks.py:520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/opportunities.py:645: in cycle
+    await self.refresh_discovery(page, errors)
+app/opportunities.py:576: in refresh_discovery
+    async with asyncio.TaskGroup() as group:
+               ^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/taskgroups.py:71: in __aexit__
+    return await self._aexit(et, exc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/taskgroups.py:153: in _aexit
+    raise propagate_cancellation_error
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <TaskGroup cancelling>, et = None, exc = None
+
+    async def _aexit(self, et, exc):
+        self._exiting = True
+    
+        if (exc is not None and
+                self._is_base_error(exc) and
+                self._base_error is None):
+            self._base_error = exc
+    
+        propagate_cancellation_error = \
+            exc if et is exceptions.CancelledError else None
+        if self._parent_cancel_requested:
+            # If this flag is set we *must* call uncancel().
+            if self._parent_task.uncancel() == 0:
+                # If there are no pending cancellations left,
+                # don't propagate CancelledError.
+                propagate_cancellation_error = None
+    
+        if et is not None:
+            if not self._aborting:
+                # Our parent task is being cancelled:
+                #
+                #    async with TaskGroup() as g:
+                #        g.create_task(...)
+                #        await ...  # <- CancelledError
+                #
+                # or there's an exception in "async with":
+                #
+                #    async with TaskGroup() as g:
+                #        g.create_task(...)
+                #        1 / 0
+                #
+                self._abort()
+    
+        # We use while-loop here because "self._on_completed_fut"
+        # can be cancelled multiple times if our parent task
+        # is being cancelled repeatedly (or even once, when
+        # our own cancellation is already in progress)
+        while self._tasks:
+            if self._on_completed_fut is None:
+                self._on_completed_fut = self._loop.create_future()
+    
+            try:
+>               await self._on_completed_fut
+E               asyncio.exceptions.CancelledError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/taskgroups.py:124: CancelledError
+
+The above exception was the direct cause of the following exception:
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f82a4943770>, <app.opportunities.Opportunities object at 0x7f82a2cf8c20>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f82a4a8a690>
+
+    def test_stalled_discovery_does_not_block_already_due_observations(client_engine, monkeypatch):
+        _, engine = client_engine
+        c, _, cfg = seed(engine)
+        engine.configure(cfg.model_copy(update={"routed_quotes_enabled": False}))
+        monkeypatch.setattr("app.opportunities.CollectionBudget", small_budget, raising=False)
+        cancelled = []
+    
+        async def stalled(*args):
+            try:
+                await asyncio.Event().wait()
+            finally:
+                cancelled.append(True)
+    
+        async def boosts():
+            return None
+    
+        monkeypatch.setattr(engine.service.discovery, "refresh", stalled)
+        monkeypatch.setattr(engine.service.discovery, "boosts", boosts)
+    
+        async def run():
+            return await asyncio.wait_for(engine.cycle(), 2)
+    
+>       result = asyncio.run(run())
+                 ^^^^^^^^^^^^^^^^^^
+
+tests/test_network_deadlines.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_network_deadlines.py:70: in run
+    return await asyncio.wait_for(engine.cycle(), 2)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/tasks.py:519: in wait_for
+    async with timeouts.timeout(timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Timeout [expired]>
+exc_type = <class 'asyncio.exceptions.CancelledError'>
+exc_val = CancelledError(), exc_tb = <traceback object at 0x7f82a4090cc0>
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> Optional[bool]:
+        assert self._state in (_State.ENTERED, _State.EXPIRING)
+    
+        if self._timeout_handler is not None:
+            self._timeout_handler.cancel()
+            self._timeout_handler = None
+    
+        if self._state is _State.EXPIRING:
+            self._state = _State.EXPIRED
+    
+            if self._task.uncancel() <= self._cancelling and exc_type is exceptions.CancelledError:
+                # Since there are no new cancel requests, we're
+                # handling this.
+>               raise TimeoutError from exc_val
+E               TimeoutError
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/timeouts.py:115: TimeoutError
+_____ test_no_time_for_a_full_quote_defers_without_claiming_a_failed_trade _____
+
+routed = namespace(client=<starlette.testclient.TestClient object at 0x7f82a2ce8980>, engine=<app.opportunities.Opportunities o...111111111111111111&amount=49700000&slippageBps=50&swapMode=ExactIn&restrictIntermediateTokens=true')>], failure=[None])
+
+    def test_no_time_for_a_full_quote_defers_without_claiming_a_failed_trade(routed):
+        from types import SimpleNamespace
+    
+        r = routed
+        before = r.engine.routes.detail(r.candidate["id"])
+        session = {"limit": 4, "attempted": 0, "errors": [], "started_at": "fixture",
+                   "clock": SimpleNamespace(remaining=0)}
+        asyncio.run(r.engine.dispatch_routes(session))
+        after = r.engine.routes.detail(r.candidate["id"])
+>       assert after["attempts"] == before["attempts"] == []
+E       AssertionError: assert [{'id': 1, 's...nds': 0, ...}] == []
+E         
+E         Left contains one more item: {'id': 1, 'signal_id': 2, 'phase': 'entry', 'horizon_seconds': 0, ...}
+E         Use -v to get more diff
+
+tests/test_network_deadlines.py:88: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_network_deadlines.py::test_security_outage_cannot_block_every_later_candidate
+FAILED tests/test_network_deadlines.py::test_stalled_discovery_does_not_block_already_due_observations
+FAILED tests/test_network_deadlines.py::test_no_time_for_a_full_quote_defers_without_claiming_a_failed_trade
+3 failed, 1 warning in 6.31s

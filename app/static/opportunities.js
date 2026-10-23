@@ -304,6 +304,12 @@ async function loadOpportunityCandidates(mode = "refresh") {
         ` În așteptare: ${queue.due}; întârziere maximă ${queue.oldest_due_delay_seconds}s.`;
     if (queue?.priority_due != null)
       $("engine-health").textContent += ` Prioritare scadente: ${queue.priority_due} (tokenuri recente, prima colectare, lista de urmărire și referințe documentate).`;
+    const network = first.status.network_budget, plan = first.status.collection_plan;
+    $("engine-network-health").hidden = !network;
+    if (network) {
+      const timeouts = Object.values(network.calls || {}).reduce((sum, c) => sum + (c.timeouts || 0), 0);
+      $("engine-network-health").textContent = `Ultimul ciclu: ${first.status.timing_seconds?.total ?? "—"}s · timp comun disponibil cererilor: ${network.network_budget_seconds}s · așteptări API expirate: ${timeouts}. Colectare pornită pentru ${plan?.started ?? "—"}/${plan?.admitted ?? "—"} candidați; ${plan?.deferred_before_market_read ?? "—"} amânați înaintea citirii prețului.${first.status.routed_dispatch_deferred ? " Cotații virtuale amânate: bugetul de timp nu permite o încercare completă." : ""} Scrierile și finalizarea rezultatelor pot depăși intervalul. O amânare nu este o tranzacție eșuată.`;
+    }
     const engineStates = {ok:"Motor activ", running:"Motor în colectare", partial:"Colectare parțială", error:"Eroare de colectare", disabled:"Motor oprit", idle:"Motor în așteptare"};
     $("engine-cycle-state").textContent = `${engineStates[first.status.state] || first.status.state || "Stare necunoscută"} · ultim ciclu ${date(first.status.at)}` + (first.status.errors?.length ? ` · ${first.status.errors.length} probleme` : "") + (queue?.dispatchable_due > 0 ? ` · ${queue.dispatchable_due.toLocaleString("ro-RO")} reevaluări scadente` : "");
     $("engine-status-panel").classList.toggle("has-warning", !!first.status.errors?.length || queue?.dispatchable_due > 0 || ["error", "partial"].includes(first.status.state));

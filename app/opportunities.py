@@ -17,6 +17,8 @@ from time import monotonic
 
 from app import forward_evaluation
 from app import opportunity_lifecycle as lifecycle
+from app.collection_budget import VERSION as BUDGET_VERSION
+from app.collection_budget import CollectionBudget, CollectionDeferred, bounded
 from app.credentials import secret
 from app.errors import ProviderError
 from app.models import Market, epoch, solana_address, utcnow
@@ -56,6 +58,8 @@ ENGINE_SOURCE_SHA256 = hashlib.sha256(
             "paper.py",
             "models.py",
             "forward_evaluation.py",
+            "collection_budget.py",
+            "providers.py",
         )
     )
 ).hexdigest()
@@ -172,6 +176,9 @@ class Opportunities:
                 "scheduling_version": lifecycle.SCHEDULING_VERSION,
                 "research_reserve_rule": "up to max(1,floor(budget/6)) slots after balanced protected followups and discovery, before surplus followups; manual/evidenced-story cadence overrides daily background",
                 "execution_order": "earliest currently due deadline among admitted unique candidates; stable ties",
+                "network_budget_version": BUDGET_VERSION,
+                "network_budget_rule": "interval minus 5s for finalization; optional enrichment waits share min(30s,interval/4); discovery min(10s,interval/6); markets min(15s,interval/4) per batch",
+                "route_admission_rule": "one quote per candidate dispatch; require time for the full original quote timeout before claiming; defer without a failed attempt",
             },
             "routed_policy": self.routes.policy(config),
             "observation_rules": {
@@ -528,22 +535,39 @@ class Opportunities:
             else 0
         )
 
-    async def market_candidates(self, candidates, errors):
+    async def market_candidates(self, candidates, errors, budget=None, dispatch=False):
         # Fetch the next batch only after processing this one. Same provider
         # request count and 30-subject limit; later prices no longer wait behind
         # the security/quote work for all preceding batches.
         for i in range(0, len(candidates), 30):
+            if budget is not None and budget.remaining <= 0:
+                errors.append("market_collection_deferred_time_budget")
+                break
             batch = candidates[i : i + 30]
+            began = time.time()
+            requests_before = sum(s["started"] for s in budget.calls.values()) if budget else 0
             async def pool():
                 try:
-                    return dict(await asyncio.wait_for(pool_markets(self.service.providers, batch), 35))
+                    return dict(await bounded(
+                        budget, "market_dex", lambda: pool_markets(self.service.providers, batch),
+                        budget.market_seconds if budget else 35,
+                    ))
+                except CollectionDeferred:
+                    errors.append("market_dex_deferred_time_budget")
+                    return {}
                 except (ProviderError, TimeoutError, ValueError, TypeError, AttributeError):
                     errors.append("batch_pool_quotes_unavailable")
                     return {}
 
             async def gecko():
                 try:
-                    return dict(await asyncio.wait_for(gecko_markets(self.service.discovery, batch), 25))
+                    return dict(await bounded(
+                        budget, "market_gecko", lambda: gecko_markets(self.service.discovery, batch),
+                        budget.market_seconds if budget else 25,
+                    ))
+                except CollectionDeferred:
+                    errors.append("market_gecko_deferred_time_budget")
+                    return {}
                 except (ProviderError, TimeoutError, ValueError, TypeError, KeyError):
                     errors.append("gecko_participation_unavailable")
                     return {}
@@ -554,19 +578,34 @@ class Opportunities:
                 pool_task = group.create_task(pool())
                 gecko_task = group.create_task(gecko())
             markets = pool_task.result() | gecko_task.result()
+            requests_after = sum(s["started"] for s in budget.calls.values()) if budget else 1
+            if requests_after == requests_before:
+                errors.append("market_collection_deferred_time_budget")
+                break
+            if dispatch:
+                # Persist the actual batch's request time after a request ran.
+                # A later batch that never starts keeps its jobs pending/unclaimed.
+                await self._background(self.sampling.dispatch, batch, began)
+            if budget:
+                budget.market_candidates_started += len(batch)
             for c in batch:
                 yield c, markets.get((c["pool"], c["contract"]))
 
-    async def refresh_discovery(self, page, errors):
+    async def refresh_discovery(self, page, errors, budget=None):
+        until = budget.clock() + budget.discovery_seconds if budget else None
         async def pools():
             try:
-                await asyncio.wait_for(self.service.discovery.refresh("solana", page), 60)
+                await bounded(budget, "discovery", lambda: self.service.discovery.refresh("solana", page), 60, until=until)
             except (ProviderError, TimeoutError, ValueError):
                 errors.append("discovery_temporarily_unavailable")
+                self.service.discovery.status["solana"] = {
+                    "state": "error", "at": utcnow(),
+                    "error": "Discovery unavailable or collection wait limit reached.", "page": page,
+                }
 
         async def boosts():
             try:
-                await asyncio.wait_for(self.service.discovery.boosts(), 25)
+                await bounded(budget, "paid_exposure", self.service.discovery.boosts, 25, until=until)
             except (ProviderError, TimeoutError, ValueError, TypeError):
                 errors.append("paid_exposure_feed_unavailable")
                 self.service.discovery.status["boosts"] = {
@@ -580,11 +619,31 @@ class Opportunities:
         if any(s.get("state") in {"error", "partial"} for s in self.service.discovery.status.values()):
             errors.append("discovery_source_incomplete")
 
-    async def dispatch_routes(self, session):
+    async def dispatch_routes(self, session, drain=False):
         remaining = session["limit"] - session["attempted"]
         if remaining <= 0 or session.get("disabled"):
             return
-        status = await self.routes.cycle(budget=remaining)
+        if session.get("deferred_for_time"):
+            return
+        clock = session.get("clock")
+        if clock is not None and clock.remaining < QUOTE_TIMEOUT:
+            if not drain:
+                return
+            ready = await self._background(self.routes.ready)
+            session["deferred_for_time"] = bool(ready)
+            self.routes.status = self.routes.status | {
+                "state": "partial" if ready or session["errors"] else "ok",
+                "at": utcnow(),
+                "attempted": session["attempted"],
+                "ready": len(ready),
+                "errors": sorted(set(session["errors"] + (["Collector time budget exhausted; routed work remains pending."] if ready else []))),
+                "collector_cycle_at": session["started_at"],
+                "collector_budget": session["limit"],
+                "collector_dispatch_state": "deferred_time_budget" if ready else "idle",
+            }
+            await self._background(self._save_routes_status)
+            return
+        status = await self.routes.cycle(budget=1 if clock else remaining)
         session["attempted"] += status.get("attempted", 0)
         session["errors"].extend(status.get("errors", []))
         if status.get("error"):
@@ -597,7 +656,13 @@ class Opportunities:
             "state": "partial" if session["errors"] else status["state"],
             "collector_cycle_at": session["started_at"],
             "collector_budget": session["limit"],
+            "collector_dispatch_state": "active",
         }
+        await self._background(self._save_routes_status)
+        if drain and clock and status.get("attempted") and session["attempted"] < session["limit"]:
+            await self.dispatch_routes(session, drain=True)
+
+    def _save_routes_status(self):
         with self.store.connect() as db:
             db.execute(
                 "INSERT OR REPLACE INTO routed_runtime VALUES(1,?)", (encode(self.routes.status),)
@@ -621,11 +686,13 @@ class Opportunities:
                 timing[name] = round(clock - stage_started, 4)
                 stage_started = clock
             config = self.config()
+            network = CollectionBudget(config.interval_seconds, started=cycle_started)
             routing = {
                 "limit": config.routed_quote_budget,
                 "attempted": 0,
                 "errors": [],
                 "started_at": started,
+                "clock": network if config.routed_quotes_enabled else None,
             }
             try:
                 if not config.enabled:
@@ -637,12 +704,19 @@ class Opportunities:
                     return self.status
                 policy = await self._background(self.policy, config)
                 await self._background(self.narratives.stories.index_documents)
-                await self.story_discovery.cycle()
+                try:
+                    await bounded(network, "story_discovery", self.story_discovery.cycle, network.story_seconds)
+                except (TimeoutError, ProviderError):
+                    errors.append("story_discovery_temporarily_unavailable")
+                    self.story_discovery.status = self.story_discovery.status | {
+                        "state": "partial", "at": utcnow(),
+                        "error": "Story discovery wait limit reached or provider unavailable; queued evidence remains stored.",
+                    }
                 stage("story_discovery")
                 self.status = {**self.status, "state": "running", "started_at": started}
                 page = (self.status.get("cycles", 0) % config.discovery_pages) + 1
                 if refresh_discovery:
-                    await self.refresh_discovery(page, errors)
+                    await self.refresh_discovery(page, errors, network)
                 stage("provider_discovery")
                 added = await self._background(self.ingest, policy)
                 due = await self._background(self.due, config)
@@ -661,13 +735,12 @@ class Opportunities:
                     ),
                 }
                 stage("scheduling")
-                self.sampling.dispatch(due)
                 security_budget = lifecycle.SecurityBudget(
                     due, config, self.status.get("cycles", 0)
                 )
                 fallback_left = 3
                 activity_left = 1
-                async for candidate, market in self.market_candidates(due, errors):
+                async for candidate, market in self.market_candidates(due, errors, network, dispatch=True):
                     security_budget.visit(candidate["id"])
                     with self.store.connect() as db:
                         renewed = db.execute(
@@ -682,8 +755,8 @@ class Opportunities:
                         if not market and fallback_left:
                             fallback_left -= 1
                             try:
-                                market = await asyncio.wait_for(
-                                    fallback_pool(self.service.discovery, candidate), 15
+                                market = await bounded(
+                                    network, "fallback_pool", lambda: fallback_pool(self.service.discovery, candidate), 15, enrichment=True
                                 )
                             except (ProviderError, TimeoutError, ValueError, KeyError, TypeError):
                                 pass
@@ -720,10 +793,15 @@ class Opportunities:
                             security = None
                             if market["liquidity_usd"] >= float(
                                 self.service.settings.min_liquidity
-                            ) and security_budget.take(candidate["id"]):
+                            ) and security_budget.can_take(candidate["id"]):
+                                def security_request():
+                                    # Consume the count budget only after the time
+                                    # budget admits an actual provider operation.
+                                    security_budget.take(candidate["id"])
+                                    return self.service.providers.security(candidate["contract"])
                                 try:
-                                    security = await asyncio.wait_for(
-                                        self.service.providers.security(candidate["contract"]), 30
+                                    security = await bounded(
+                                        network, "security", security_request, 30, enrichment=True
                                     )
                                 except (ProviderError, TimeoutError):
                                     security = None
@@ -745,17 +823,18 @@ class Opportunities:
                         if config.activity_samples and activity_left:
                             activity_left -= 1
                             try:
-                                activity = await asyncio.wait_for(
-                                    pool_activity(
+                                activity = await bounded(
+                                    network, "activity", lambda: pool_activity(
                                         self.service.onchain, candidate, config.activity_samples
                                     ),
                                     25,
+                                    enrichment=True,
                                 )
                             except (ProviderError, TimeoutError, ValueError, KeyError):
                                 errors.append("sampled_activity_unavailable")
                             try:
-                                distribution = await asyncio.wait_for(
-                                    self.service.onchain.token("solana", candidate["contract"]), 20
+                                distribution = await bounded(
+                                    network, "distribution", lambda: self.service.onchain.token("solana", candidate["contract"]), 20, enrichment=True
                                 )
                             except (ProviderError, TimeoutError):
                                 errors.append("distribution_unavailable")
@@ -852,15 +931,26 @@ class Opportunities:
                         await self.dispatch_routes(routing)
                 stage("enrichment_and_routed_quotes")
                 await self._background(self.update_outcomes)
-                await self.dispatch_routes(routing)
+                await self.dispatch_routes(routing, drain=True)
                 self.service.notifications.collect()
                 if self.wallet_task is None or self.wallet_task.done():
                     self.wallet_task = asyncio.create_task(self.refresh_wallet())
                 if config.ai_narratives and (self.ai_task is None or self.ai_task.done()):
                     self.ai_task = asyncio.create_task(self.refresh_narratives(config))
-                await self.deliver_telegram(config)
+                # Never shorten a claimed delivery's timeout; leave it pending
+                # if this cycle has no room for its existing 20-second bound.
+                if not config.telegram_enabled or network.remaining >= 20:
+                    await self.deliver_telegram(config)
+                else:
+                    errors.append("telegram_delivery_deferred_time_budget")
                 queue = await self._background(self.queue_health)
                 stage("outcomes_and_status")
+                collection_plan["started"] = network.market_candidates_started
+                collection_plan["deferred_before_market_read"] = len(due) - network.market_candidates_started
+                if collection_plan["deferred_before_market_read"]:
+                    errors.append("market_collection_deferred_time_budget")
+                if routing.get("deferred_for_time"):
+                    errors.append("routed_quotes_deferred_time_budget")
                 self.status = {
                     "state": "partial" if errors else "ok",
                     "at": utcnow(),
@@ -876,6 +966,8 @@ class Opportunities:
                     "routed_quotes": self.routes.status,
                     "security_allocation": security_budget.report(),
                     "collection_plan": collection_plan,
+                    "network_budget": network.report(),
+                    "routed_dispatch_deferred": routing.get("deferred_for_time", False),
                 }
                 with self.store.connect() as db:
                     db.execute(

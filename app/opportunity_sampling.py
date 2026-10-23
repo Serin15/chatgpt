@@ -259,8 +259,8 @@ class Sampling:
                 )
         return chosen
 
-    def dispatch(self, candidates):
-        now = time.time()
+    def dispatch(self, candidates, now=None):
+        now = time.time() if now is None else now
         with self.store.connect() as db:
             db.executemany(
                 "UPDATE observation_jobs SET last_dispatch_at=? WHERE candidate_id=? AND status='pending' AND due_at<=? AND deadline_at>=?",

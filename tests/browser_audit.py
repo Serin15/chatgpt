@@ -524,6 +524,22 @@ async def check(base):
             await page.locator('.nav-item[data-page="opportunities"]').click()
             await expect(page.locator("#engine-rows tr")).to_have_count(1)
 
+        async def network_budget_status(page):
+            await ready(page)
+            value = await (await page.request.get(base + "/api/opportunities?limit=50")).json()
+            value["status"]["network_budget"] = {"network_budget_seconds":55,"calls":{"security":{"timeouts":1}}}
+            value["status"]["collection_plan"] = {"started":30,"admitted":60,"deferred_before_market_read":30}
+            value["status"]["routed_dispatch_deferred"] = True
+            await page.route("**/api/opportunities?*", lambda r: r.fulfill(json=value))
+            await page.evaluate("loadOpportunityCandidates()")
+            await page.locator("#engine-status-panel").evaluate("n => n.open = true")
+            note = page.locator("#engine-network-health")
+            await expect(note).to_contain_text("Colectare pornită pentru 30/60 candidați")
+            await expect(note).to_contain_text("așteptări API expirate: 1")
+            await expect(note).to_contain_text("O amânare nu este o tranzacție eșuată")
+            await page.set_viewport_size({"width":320,"height":800})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
         async def bounded_monitoring(page):
             # UI-only synthetic counts; backend preservation uses real SQLite tests.
             await ready(page)
@@ -766,6 +782,7 @@ async def check(base):
             ("storage failure preserves candidate workflow", storage_failure),
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
             ("priority freshness separates active research from background backlog", priority_monitoring),
+            ("network budget distinguishes deferred observations and virtual quotes", network_budget_status),
             ("cached coverage retains calculation date and refresh errors", cached_coverage_status),
             ("phone drawer focus, all destinations and return navigation", mobile_workspace_navigation),
             ("quick verdict filters and search keyboard shortcut", quick_filters_and_keyboard),

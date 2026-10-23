@@ -1,0 +1,38 @@
+{
+  "app/paper.py": {
+    "sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+    "unchanged_from_v019": true
+  },
+  "app/jupiter.py": {
+    "sha256": "ea9c2c741cbf4176bb189f889f3bb60beb6364a63bc948cb483ecc4504524d14",
+    "unchanged_from_v019": true
+  },
+  "app/opportunity_routes.py": {
+    "sha256": "026402aa1cacbb9f0e50e7884a5a3d8c5d48d7281dd3ce7b2b9a533f6b8573b4",
+    "unchanged_from_v019": true
+  },
+  "app/opportunity_rules.py": {
+    "sha256": "95591d008d694986b9e6d091ff9c2085a5d6b9fb56ae49653d28896be5a2ce1a",
+    "unchanged_from_v019": true
+  },
+  "app/analysis.py": {
+    "sha256": "9a5576fcfd399c0eefd104d93cb1e009d7f1edf821680009122483157927fa56",
+    "unchanged_from_v019": true
+  },
+  "app/models.py": {
+    "sha256": "a93eeb27712b6fe42e9a3b617856d767e2b8a8b810646c5d236d602135b50cb1",
+    "unchanged_from_v019": true
+  },
+  "app/cohort_comparisons.py": {
+    "sha256": "5de730ae7b2ddc631a32345c06c2c395688e41f757e84ae0c8adf4aa3c022322",
+    "unchanged_from_v019": true
+  },
+  "app/forward_evaluation.py": {
+    "sha256": "9ed1daa9d656d5bb7da352f0e86b98a2008cf7a8dce0f29e6c5626344ccb0553",
+    "unchanged_from_v019": true
+  },
+  "app/opportunity_outcomes.py": {
+    "sha256": "9156698b1ef01b18480fc7acb02cc64ee05fa0628904745cc5ee5f8bc4ad5319",
+    "unchanged_from_v019": true
+  }
+}

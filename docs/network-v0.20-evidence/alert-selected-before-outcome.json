@@ -1,0 +1,895 @@
+{
+  "selected_at_epoch": 1792779548.838824,
+  "alert": {
+    "id": 7794,
+    "candidate_id": 123058,
+    "signal_id": 301432,
+    "at": "2026-10-23T18:19:06.672933+00:00",
+    "severity": "research",
+    "fingerprint": "13f8f44361290fd1986791e4cef544dec20b0f837564a0c5e9d08ff2fe632cec",
+    "payload": {
+      "alert_kind": "opportunity",
+      "chain": "solana",
+      "contract": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+      "costs": {
+        "break_even_price_estimate": "0.0005095498199043990809253867129",
+        "break_even_rise_pct": "0.986688468966322335048780800",
+        "economically_feasible_in_model": true,
+        "entry": {
+          "cash_change": "-50.01",
+          "execution_verified": false,
+          "model": "estimated_balanced_constant_product",
+          "network_fee_usd": "0.01",
+          "pool_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+          "price_impact": "0.0016989933842509778656965294",
+          "quantity": "98628.89111996750280000402660",
+          "swap_fee_usd": "0.1500"
+        },
+        "execution_verified": false,
+        "model": "estimated_pool_not_routed",
+        "roundtrip_cost_pct": 0.9755908692055469,
+        "roundtrip_net_usd": "-0.48789299368969403329773080",
+        "same_price_exit": {
+          "cash_change": "49.52210700631030596670226920",
+          "execution_verified": false,
+          "model": "estimated_balanced_constant_product",
+          "network_fee_usd": "0.01",
+          "pool_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+          "price_impact": "0.0016910319711231243384407683",
+          "quantity": "98628.89111996750280000402660",
+          "swap_fee_usd": "0.1492959155393852662601850840"
+        }
+      },
+      "data_observed_at": "2026-10-23T18:18:44.586420+00:00",
+      "decision_at": "2026-10-23T18:19:06.672933+00:00",
+      "discovered_at": "2026-10-23T18:18:34.082547+00:00",
+      "features": {
+        "activity_sample": null,
+        "buyers_5m_provider_reported": 130,
+        "changes": {
+          "15m": null,
+          "1h": null,
+          "5m": null
+        },
+        "distribution": null,
+        "excessive_extension": false,
+        "history_observations": 0,
+        "history_span_seconds": 0,
+        "holder_growth": null,
+        "latest_liquidity_change_pct": null,
+        "organic_demand_verified": false,
+        "pool_age_hours": 0.38324248141712614,
+        "price_change_since_first_capture_pct": -2.64879927981696,
+        "reported_transactions_5m": 369,
+        "sellers_5m_provider_reported": 42,
+        "social_mentions_growth": null,
+        "story_reference_prior_24h_move_reported_pct": null,
+        "suspicions": [
+          {
+            "evidence": {
+              "amount_reported": 30.0,
+              "observed_at": "2026-10-23T18:18:33.874022+00:00",
+              "organic_demand_verified": false,
+              "source": "DEX Screener token boosts",
+              "total_amount_reported": 30.0
+            },
+            "kind": "paid_boost_reported",
+            "note": "Paid exposure is not proof of manipulation or organic social demand.",
+            "origin": "provider_reported_promotion",
+            "severity": "medium"
+          }
+        ],
+        "token_launch_time_known": false,
+        "unique_buyers": null
+      },
+      "invalidation": [
+        "New privileged authority or transfer restriction",
+        "Liquidity decline or unavailable exit quote",
+        "Fresh evidence no longer available",
+        "Momentum becomes excessively extended",
+        "Contradictory contract/source evidence"
+      ],
+      "links": {
+        "explorer": "https://solscan.io/token/E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+        "market": "https://dexscreener.com/solana/FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us"
+      },
+      "liquidity_usd": 58582.1059,
+      "live_execution": false,
+      "name": "CI / SOL",
+      "narrative": {
+        "ai_interpretations": [],
+        "community_activity": null,
+        "contradictory": [],
+        "market_references": [],
+        "news_recurrence_counts": {},
+        "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+        "publication_hosts": [],
+        "ranking_supported": false,
+        "score": null,
+        "social_mentions_growth": null,
+        "supported": [],
+        "uncertain": []
+      },
+      "negative": [
+        "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+      ],
+      "positive": [
+        "[RPC] Mint authority revocată.",
+        "[RPC] Freeze authority revocată.",
+        "Small-position estimated round trip passes liquidity and impact limits.",
+        "Fresh security screening, reported activity and recent pool age support further research."
+      ],
+      "price_usd": 0.0005045712733327087,
+      "purpose": "research_candidate_not_buy_instruction",
+      "rank_score": 73,
+      "scores": {
+        "data_reliability": 70,
+        "early_momentum": 59.83,
+        "entry_attractiveness": 70,
+        "exit_liquidity": 94,
+        "market_participation_quality": 60,
+        "narrative_social_evidence": null,
+        "security_risk": 0,
+        "wallet_intelligence": null
+      },
+      "signal_id": 301432,
+      "symbol": "CI",
+      "unknown": [
+        "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+        "Owner-level holder growth unavailable.",
+        "No corroborated contract-specific narrative; name matches remain uncertain.",
+        "No reliable monitored-wallet accumulation evidence.",
+        "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+        "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+      ],
+      "verdict": "INVESTIGATE"
+    },
+    "delivered_in_app_at": null,
+    "seen_at": null,
+    "telegram_state": "pending",
+    "telegram_details": null
+  },
+  "detail_at_selection": {
+    "id": 123058,
+    "chain": "solana",
+    "contract": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+    "pool": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+    "discovered_at": "2026-10-23T18:18:34.082547+00:00",
+    "ingested_at": "2026-10-23T18:18:38.663085+00:00",
+    "discovery": {
+      "chain": "solana",
+      "contract": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+      "discovery_basis": "paid_boost_exposure_not_launch",
+      "first_capture_available": true,
+      "imported_from_cache": false,
+      "indexed_at": null,
+      "liquidity_usd": 61720.91,
+      "name": "Cyber Inu",
+      "observed_at": "2026-10-23T18:18:34.082539+00:00",
+      "official_affiliation": "unverified",
+      "pool": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+      "pool_created_at_reported": "2026-10-23T17:56:07+00:00",
+      "price_usd": 0.0005183,
+      "promotion": {
+        "amount_reported": 30.0,
+        "observed_at": "2026-10-23T18:18:33.874022+00:00",
+        "organic_demand_verified": false,
+        "source": "DEX Screener token boosts",
+        "total_amount_reported": 30.0
+      },
+      "source": "DEX Screener",
+      "source_first_seen_at": "2026-10-23T18:18:34.082547+00:00",
+      "token_launched_at": null
+    },
+    "eligible": 1,
+    "exclusion_reason": null,
+    "next_due": 1792779606.672933,
+    "last_attempt_at": "2026-10-23T18:19:06.672933+00:00",
+    "failures": 0,
+    "signals": [
+      {
+        "id": 301376,
+        "candidate_id": 123058,
+        "observation_id": null,
+        "at": "2026-10-23T18:18:38.663085+00:00",
+        "kind": "discovery",
+        "verdict": "MONITOR",
+        "policy_id": 31,
+        "payload": {
+          "decision_at": "2026-10-23T18:18:38.663085+00:00",
+          "discovery": {
+            "chain": "solana",
+            "contract": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+            "discovery_basis": "paid_boost_exposure_not_launch",
+            "first_capture_available": true,
+            "imported_from_cache": false,
+            "indexed_at": null,
+            "liquidity_usd": 61720.91,
+            "name": "Cyber Inu",
+            "observed_at": "2026-10-23T18:18:34.082539+00:00",
+            "official_affiliation": "unverified",
+            "pool": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+            "pool_created_at_reported": "2026-10-23T17:56:07+00:00",
+            "price_usd": 0.0005183,
+            "promotion": {
+              "amount_reported": 30.0,
+              "observed_at": "2026-10-23T18:18:33.874022+00:00",
+              "organic_demand_verified": false,
+              "source": "DEX Screener token boosts",
+              "total_amount_reported": 30.0
+            },
+            "source": "DEX Screener",
+            "source_first_seen_at": "2026-10-23T18:18:34.082547+00:00",
+            "token_launched_at": null
+          },
+          "negative": [],
+          "no_future_data": true,
+          "positive": [],
+          "scores": {},
+          "unknown": [
+            "Discovery metadata only; enrichment has not yet completed."
+          ],
+          "verdict": "MONITOR"
+        }
+      },
+      {
+        "id": 301432,
+        "candidate_id": 123058,
+        "observation_id": 489394,
+        "at": "2026-10-23T18:19:06.672933+00:00",
+        "kind": "baseline",
+        "verdict": "INVESTIGATE",
+        "policy_id": 31,
+        "payload": {
+          "costs": {
+            "break_even_price_estimate": "0.0005095498199043990809253867129",
+            "break_even_rise_pct": "0.986688468966322335048780800",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+              "price_impact": "0.0016989933842509778656965294",
+              "quantity": "98628.89111996750280000402660",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 0.9755908692055469,
+            "roundtrip_net_usd": "-0.48789299368969403329773080",
+            "same_price_exit": {
+              "cash_change": "49.52210700631030596670226920",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+              "price_impact": "0.0016910319711231243384407683",
+              "quantity": "98628.89111996750280000402660",
+              "swap_fee_usd": "0.1492959155393852662601850840"
+            }
+          },
+          "decision_at": "2026-10-23T18:19:06.672933+00:00",
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "no_future_data": true,
+          "policy": {
+            "at": "2026-10-23T18:18:33.046529+00:00",
+            "id": 31,
+            "payload": {
+              "collection_rules": {
+                "background_watch_hours": 48,
+                "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
+                "execution_order": "earliest currently due deadline among admitted unique candidates; stable ties",
+                "market_batch_size": 30,
+                "monitoring_version": "bounded-background-v1",
+                "network_budget_rule": "interval minus 5s for finalization; optional enrichment waits share min(30s,interval/4); discovery min(10s,interval/6); markets min(15s,interval/4) per batch",
+                "network_budget_version": "collection-network-budget-v1",
+                "open_promises_override_background_age": true,
+                "research_reserve_rule": "up to max(1,floor(budget/6)) slots after balanced protected followups and discovery, before surplus followups; manual/evidenced-story cadence overrides daily background",
+                "route_admission_rule": "one quote per candidate dispatch; require time for the full original quote timeout before claiming; defer without a failed attempt",
+                "route_budget_scope": "one_collector_cycle",
+                "scheduling_version": "balanced-research-deadlines-v2",
+                "security_allocation_version": "early-security-reserve-v1",
+                "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
+                "security_refresh_reserve_seconds": 85,
+                "version": "incremental-routes-v1"
+              },
+              "config": {
+                "active_watch_seconds": 900,
+                "activity_samples": 0,
+                "ai_narratives": false,
+                "alert_verdicts": [
+                  "INVESTIGATE",
+                  "CONSIDER"
+                ],
+                "background_interval_seconds": 86400,
+                "background_watch_hours": 48,
+                "cooldown_seconds": 3600,
+                "discovery_pages": 2,
+                "enabled": true,
+                "entry_window_seconds": 180,
+                "exit_window_seconds": 180,
+                "horizons_seconds": [
+                  300,
+                  3600,
+                  86400
+                ],
+                "interval_seconds": 60,
+                "max_change_5m_pct": 30.0,
+                "max_extension_pct": 50.0,
+                "max_liquidity_drop_pct": 30.0,
+                "max_pool_age_hours": 24,
+                "max_roundtrip_cost_pct": 5.0,
+                "min_transactions_5m": 10,
+                "observation_budget": 60,
+                "position_usd": 50.0,
+                "routed_quote_budget": 4,
+                "routed_quotes_enabled": true,
+                "routed_slippage_bps": 50,
+                "security_budget": 8,
+                "telegram_enabled": false,
+                "test_from": "2026-10-18T00:00:00Z"
+              },
+              "forward_quote_window_version": 2,
+              "observation_rules": {
+                "max_snapshot_age": 120,
+                "min_signal_delay": 3
+              },
+              "paper_rules": {
+                "max_price_impact": "0.02",
+                "min_liquidity": "25000",
+                "network_fee_usd": "0.01",
+                "reference_fee": "0.006",
+                "reference_slippage": "0.005",
+                "swap_fee": "0.003"
+              },
+              "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+              "routed_policy": {
+                "enabled": true,
+                "entry_window_seconds": 180,
+                "execution_verified": false,
+                "exit_window_seconds": 180,
+                "forward_quote_window_version": 2,
+                "horizons_seconds": [
+                  300,
+                  3600,
+                  86400
+                ],
+                "model": "independent_jupiter_min_out_scenario",
+                "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+                "observation_rules": {
+                  "max_snapshot_age": 120,
+                  "min_signal_delay": 3
+                },
+                "paper_rules": {
+                  "max_price_impact": "0.02",
+                  "min_liquidity": "25000",
+                  "network_fee_usd": "0.01",
+                  "reference_fee": "0.006",
+                  "reference_slippage": "0.005",
+                  "swap_fee": "0.003"
+                },
+                "position_usd": "50.0",
+                "quote_schema_version": 2,
+                "quote_timeout_seconds": 20,
+                "slippage_bps": 50,
+                "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+                "timestamp_clock": "utc_capture_clock_v1",
+                "version": "jupiter-forward-v2"
+              },
+              "rule_version": "memescope-3.2-market-references",
+              "sampling_version": "balanced-deadlines-v1",
+              "source_sha256": "16cebd724b70b89bcf983efae6c825cd533d882cc199909dbac024e7d970f3d2"
+            },
+            "sha256": "1ed3b92f0f264fec327ed4a30f84e5c19054658b30b82203be29d64048be0177"
+          },
+          "positive": [
+            "[RPC] Mint authority revocată.",
+            "[RPC] Freeze authority revocată.",
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 73,
+          "rule_version": "memescope-3.2-market-references",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 70,
+            "early_momentum": 59.83,
+            "entry_attractiveness": 70,
+            "exit_liquidity": 94,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "investigate",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 100,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 100,
+              "momentum": 70,
+              "research_priority": 94,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "security_checks_complete": true,
+            "security_fresh": true,
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "INVESTIGATE"
+        }
+      }
+    ],
+    "observations": [
+      {
+        "id": 489394,
+        "candidate_id": 123058,
+        "at": "2026-10-23T18:19:06.672933+00:00",
+        "status": "ok",
+        "payload": "{\"collection_lane\": \"active_watch\", \"decision\": {\"costs\": {\"break_even_price_estimate\": \"0.0005095498199043990809253867129\", \"break_even_rise_pct\": \"0.986688468966322335048780800\", \"economically_feasible_in_model\": true, \"entry\": {\"cash_change\": \"-50.01\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us\", \"price_impact\": \"0.0016989933842509778656965294\", \"quantity\": \"98628.89111996750280000402660\", \"swap_fee_usd\": \"0.1500\"}, \"execution_verified\": false, \"model\": \"estimated_pool_not_routed\", \"roundtrip_cost_pct\": 0.9755908692055469, \"roundtrip_net_usd\": \"-0.48789299368969403329773080\", \"same_price_exit\": {\"cash_change\": \"49.52210700631030596670226920\", \"execution_verified\": false, \"model\": \"estimated_balanced_constant_product\", \"network_fee_usd\": \"0.01\", \"pool_address\": \"FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us\", \"price_impact\": \"0.0016910319711231243384407683\", \"quantity\": \"98628.89111996750280000402660\", \"swap_fee_usd\": \"0.1492959155393852662601850840\"}}, \"invalidation\": [\"New privileged authority or transfer restriction\", \"Liquidity decline or unavailable exit quote\", \"Fresh evidence no longer available\", \"Momentum becomes excessively extended\", \"Contradictory contract/source evidence\"], \"liquidity_filter_passed\": true, \"negative\": [\"paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand.\"], \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\", \"Small-position estimated round trip passes liquidity and impact limits.\", \"Fresh security screening, reported activity and recent pool age support further research.\"], \"rank_score\": 73, \"rule_version\": \"memescope-3.2-market-references\", \"score_note\": \"Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.\", \"scores\": {\"data_reliability\": 70, \"early_momentum\": 59.83, \"entry_attractiveness\": 70, \"exit_liquidity\": 94, \"market_participation_quality\": 60, \"narrative_social_evidence\": null, \"security_risk\": 0, \"wallet_intelligence\": null}, \"screening\": {\"action\": \"investigate\", \"critical\": [], \"explanation_type\": \"deterministic_rules\", \"invalidation\": [\"Autoritate privilegiată/restricție nouă\", \"Scăderea lichidității sub prag\", \"Date expirate sau surse indisponibile\"], \"paper_allowed\": true, \"positive\": [\"[RPC] Mint authority revocată.\", \"[RPC] Freeze authority revocată.\"], \"scores\": {\"activity\": 100, \"copyability\": null, \"data_completeness\": 100, \"liquidity_exit\": 100, \"momentum\": 70, \"research_priority\": 94, \"security_risk\": null, \"wallet_quality\": null}, \"security_checks_complete\": true, \"security_fresh\": true, \"unknown\": [], \"warnings\": [\"Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.\", \"Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici.\"]}, \"security_filter_passed\": true, \"unknown\": [\"Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.\", \"Owner-level holder growth unavailable.\", \"No corroborated contract-specific narrative; name matches remain uncertain.\", \"No reliable monitored-wallet accumulation evidence.\", \"Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.\", \"Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints.\"], \"verdict\": \"INVESTIGATE\"}, \"execution_verified\": false, \"features\": {\"activity_sample\": null, \"buyers_5m_provider_reported\": 130, \"changes\": {\"15m\": null, \"1h\": null, \"5m\": null}, \"distribution\": null, \"excessive_extension\": false, \"history_observations\": 0, \"history_span_seconds\": 0, \"holder_growth\": null, \"latest_liquidity_change_pct\": null, \"organic_demand_verified\": false, \"pool_age_hours\": 0.38324248141712614, \"price_change_since_first_capture_pct\": -2.64879927981696, \"reported_transactions_5m\": 369, \"sellers_5m_provider_reported\": 42, \"social_mentions_growth\": null, \"story_reference_prior_24h_move_reported_pct\": null, \"suspicions\": [{\"evidence\": {\"amount_reported\": 30.0, \"observed_at\": \"2026-10-23T18:18:33.874022+00:00\", \"organic_demand_verified\": false, \"source\": \"DEX Screener token boosts\", \"total_amount_reported\": 30.0}, \"kind\": \"paid_boost_reported\", \"note\": \"Paid exposure is not proof of manipulation or organic social demand.\", \"origin\": \"provider_reported_promotion\", \"severity\": \"medium\"}], \"token_launch_time_known\": false, \"unique_buyers\": null}, \"market\": {\"address\": \"E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump\", \"buyers_5m_reported\": 130, \"buys_5m\": 248, \"change_5m\": 9.83, \"dex\": \"GeckoTerminal reported pool\", \"fdv\": null, \"liquidity_usd\": 58582.1059, \"market_cap\": null, \"name\": \"CI / SOL\", \"observed_at\": \"2026-10-23T18:18:44.586420+00:00\", \"pair_address\": \"FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us\", \"pool_created_at\": null, \"price_usd\": 0.0005045712733327087, \"sellers_5m_reported\": 42, \"sells_5m\": 121, \"source\": \"GeckoTerminal pool observation\", \"symbol\": \"CI\", \"volume_1h\": 783541.770269979, \"volume_5m\": 42500.4476734507}, \"narrative\": {\"ai_interpretations\": [], \"community_activity\": null, \"contradictory\": [], \"market_references\": [], \"news_recurrence_counts\": {}, \"note\": \"Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.\", \"publication_hosts\": [], \"ranking_supported\": false, \"score\": null, \"social_mentions_growth\": null, \"supported\": [], \"uncertain\": []}, \"policy_id\": 31, \"security\": {\"errors\": [], \"goplus\": {\"balance_mutable_authority\": {\"authority\": [], \"status\": \"0\"}, \"closable\": {\"authority\": [], \"status\": \"0\"}, \"creators\": [], \"default_account_state\": \"1\", \"default_account_state_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"freezable\": {\"authority\": [], \"status\": \"0\"}, \"metadata\": {\"description\": \"The internet needs a guard dog. Cyber Inu clocks in. 🐕🛡\", \"name\": \"Cyber Inu\", \"symbol\": \"CI\", \"uri\": \"https://ipfs.io/ipfs/bafkreif2gdm523phheogkqquudyzbc6fzuo3ipzgk7762uzi5pjbq5xh5e\"}, \"metadata_mutable\": {\"metadata_upgrade_authority\": [], \"status\": \"0\"}, \"mintable\": {\"authority\": [], \"status\": \"0\"}, \"non_transferable\": \"0\", \"total_supply\": \"1000000000\", \"transfer_fee\": {}, \"transfer_fee_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"transfer_hook\": [], \"transfer_hook_upgradable\": {\"authority\": [], \"status\": \"0\"}, \"trusted_token\": 0}, \"observed_at\": \"2026-10-23T18:19:06.190266+00:00\", \"rpc\": {\"extensions\": [{\"extension\": \"metadataPointer\", \"state\": {\"authority\": null, \"metadataAddress\": \"E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump\"}}, {\"extension\": \"tokenMetadata\", \"state\": {\"additionalMetadata\": [], \"mint\": \"E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump\", \"name\": \"Cyber Inu\", \"symbol\": \"CI\", \"updateAuthority\": null, \"uri\": \"https://ipfs.io/ipfs/bafkreif2gdm523phheogkqquudyzbc6fzuo3ipzgk7762uzi5pjbq5xh5e\"}}], \"freeze_authority\": null, \"mint_authority\": null, \"program\": \"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\", \"slot\": 460542423}}, \"source_kind\": \"live_provider_observation\", \"wallet\": {\"events\": [], \"note\": \"Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.\", \"score\": null}}",
+        "collection_lane": "active_watch",
+        "decision": {
+          "costs": {
+            "break_even_price_estimate": "0.0005095498199043990809253867129",
+            "break_even_rise_pct": "0.986688468966322335048780800",
+            "economically_feasible_in_model": true,
+            "entry": {
+              "cash_change": "-50.01",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+              "price_impact": "0.0016989933842509778656965294",
+              "quantity": "98628.89111996750280000402660",
+              "swap_fee_usd": "0.1500"
+            },
+            "execution_verified": false,
+            "model": "estimated_pool_not_routed",
+            "roundtrip_cost_pct": 0.9755908692055469,
+            "roundtrip_net_usd": "-0.48789299368969403329773080",
+            "same_price_exit": {
+              "cash_change": "49.52210700631030596670226920",
+              "execution_verified": false,
+              "model": "estimated_balanced_constant_product",
+              "network_fee_usd": "0.01",
+              "pool_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+              "price_impact": "0.0016910319711231243384407683",
+              "quantity": "98628.89111996750280000402660",
+              "swap_fee_usd": "0.1492959155393852662601850840"
+            }
+          },
+          "invalidation": [
+            "New privileged authority or transfer restriction",
+            "Liquidity decline or unavailable exit quote",
+            "Fresh evidence no longer available",
+            "Momentum becomes excessively extended",
+            "Contradictory contract/source evidence"
+          ],
+          "liquidity_filter_passed": true,
+          "negative": [
+            "paid_boost_reported (provider_reported_promotion): Paid exposure is not proof of manipulation or organic social demand."
+          ],
+          "positive": [
+            "[RPC] Mint authority revocată.",
+            "[RPC] Freeze authority revocată.",
+            "Small-position estimated round trip passes liquidity and impact limits.",
+            "Fresh security screening, reported activity and recent pool age support further research."
+          ],
+          "rank_score": 73,
+          "rule_version": "memescope-3.2-market-references",
+          "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+          "scores": {
+            "data_reliability": 70,
+            "early_momentum": 59.83,
+            "entry_attractiveness": 70,
+            "exit_liquidity": 94,
+            "market_participation_quality": 60,
+            "narrative_social_evidence": null,
+            "security_risk": 0,
+            "wallet_intelligence": null
+          },
+          "screening": {
+            "action": "investigate",
+            "critical": [],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_allowed": true,
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "scores": {
+              "activity": 100,
+              "copyability": null,
+              "data_completeness": 100,
+              "liquidity_exit": 100,
+              "momentum": 70,
+              "research_priority": 94,
+              "security_risk": null,
+              "wallet_quality": null
+            },
+            "security_checks_complete": true,
+            "security_fresh": true,
+            "unknown": [],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ]
+          },
+          "security_filter_passed": true,
+          "unknown": [
+            "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+            "Owner-level holder growth unavailable.",
+            "No corroborated contract-specific narrative; name matches remain uncertain.",
+            "No reliable monitored-wallet accumulation evidence.",
+            "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+            "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+          ],
+          "verdict": "INVESTIGATE"
+        },
+        "execution_verified": false,
+        "features": {
+          "activity_sample": null,
+          "buyers_5m_provider_reported": 130,
+          "changes": {
+            "15m": null,
+            "1h": null,
+            "5m": null
+          },
+          "distribution": null,
+          "excessive_extension": false,
+          "history_observations": 0,
+          "history_span_seconds": 0,
+          "holder_growth": null,
+          "latest_liquidity_change_pct": null,
+          "organic_demand_verified": false,
+          "pool_age_hours": 0.38324248141712614,
+          "price_change_since_first_capture_pct": -2.64879927981696,
+          "reported_transactions_5m": 369,
+          "sellers_5m_provider_reported": 42,
+          "social_mentions_growth": null,
+          "story_reference_prior_24h_move_reported_pct": null,
+          "suspicions": [
+            {
+              "evidence": {
+                "amount_reported": 30.0,
+                "observed_at": "2026-10-23T18:18:33.874022+00:00",
+                "organic_demand_verified": false,
+                "source": "DEX Screener token boosts",
+                "total_amount_reported": 30.0
+              },
+              "kind": "paid_boost_reported",
+              "note": "Paid exposure is not proof of manipulation or organic social demand.",
+              "origin": "provider_reported_promotion",
+              "severity": "medium"
+            }
+          ],
+          "token_launch_time_known": false,
+          "unique_buyers": null
+        },
+        "market": {
+          "address": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+          "buyers_5m_reported": 130,
+          "buys_5m": 248,
+          "change_5m": 9.83,
+          "dex": "GeckoTerminal reported pool",
+          "fdv": null,
+          "liquidity_usd": 58582.1059,
+          "market_cap": null,
+          "name": "CI / SOL",
+          "observed_at": "2026-10-23T18:18:44.586420+00:00",
+          "pair_address": "FdcKb3iKFeYcWAqYfjRx246wFrY1CmMdC36N9PSAU4us",
+          "pool_created_at": null,
+          "price_usd": 0.0005045712733327087,
+          "sellers_5m_reported": 42,
+          "sells_5m": 121,
+          "source": "GeckoTerminal pool observation",
+          "symbol": "CI",
+          "volume_1h": 783541.770269979,
+          "volume_5m": 42500.4476734507
+        },
+        "narrative": {
+          "ai_interpretations": [],
+          "community_activity": null,
+          "contradictory": [],
+          "market_references": [],
+          "news_recurrence_counts": {},
+          "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+          "publication_hosts": [],
+          "ranking_supported": false,
+          "score": null,
+          "social_mentions_growth": null,
+          "supported": [],
+          "uncertain": []
+        },
+        "policy_id": 31,
+        "security": {
+          "errors": [],
+          "goplus": {
+            "balance_mutable_authority": {
+              "authority": [],
+              "status": "0"
+            },
+            "closable": {
+              "authority": [],
+              "status": "0"
+            },
+            "creators": [],
+            "default_account_state": "1",
+            "default_account_state_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "freezable": {
+              "authority": [],
+              "status": "0"
+            },
+            "metadata": {
+              "description": "The internet needs a guard dog. Cyber Inu clocks in. 🐕🛡",
+              "name": "Cyber Inu",
+              "symbol": "CI",
+              "uri": "https://ipfs.io/ipfs/bafkreif2gdm523phheogkqquudyzbc6fzuo3ipzgk7762uzi5pjbq5xh5e"
+            },
+            "metadata_mutable": {
+              "metadata_upgrade_authority": [],
+              "status": "0"
+            },
+            "mintable": {
+              "authority": [],
+              "status": "0"
+            },
+            "non_transferable": "0",
+            "total_supply": "1000000000",
+            "transfer_fee": {},
+            "transfer_fee_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "transfer_hook": [],
+            "transfer_hook_upgradable": {
+              "authority": [],
+              "status": "0"
+            },
+            "trusted_token": 0
+          },
+          "observed_at": "2026-10-23T18:19:06.190266+00:00",
+          "rpc": {
+            "extensions": [
+              {
+                "extension": "metadataPointer",
+                "state": {
+                  "authority": null,
+                  "metadataAddress": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump"
+                }
+              },
+              {
+                "extension": "tokenMetadata",
+                "state": {
+                  "additionalMetadata": [],
+                  "mint": "E8YeG61gTkBADYtnPcobeyMe6iBwbx5MkUGyNyhxpump",
+                  "name": "Cyber Inu",
+                  "symbol": "CI",
+                  "updateAuthority": null,
+                  "uri": "https://ipfs.io/ipfs/bafkreif2gdm523phheogkqquudyzbc6fzuo3ipzgk7762uzi5pjbq5xh5e"
+                }
+              }
+            ],
+            "freeze_authority": null,
+            "mint_authority": null,
+            "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+            "slot": 460542423
+          }
+        },
+        "source_kind": "live_provider_observation",
+        "wallet": {
+          "events": [],
+          "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+          "score": null
+        }
+      }
+    ],
+    "observations_total": 1,
+    "history_truncated": false,
+    "outcomes": [
+      {
+        "signal_id": 301432,
+        "horizon_seconds": 300,
+        "state": "pending",
+        "payload": {
+          "execution_verified": false,
+          "pnl_usd": null
+        },
+        "updated_at": "2026-10-23T18:19:06.872734+00:00"
+      },
+      {
+        "signal_id": 301432,
+        "horizon_seconds": 3600,
+        "state": "pending",
+        "payload": {
+          "execution_verified": false,
+          "pnl_usd": null
+        },
+        "updated_at": "2026-10-23T18:19:06.872941+00:00"
+      },
+      {
+        "signal_id": 301432,
+        "horizon_seconds": 86400,
+        "state": "pending",
+        "payload": {
+          "execution_verified": false,
+          "pnl_usd": null
+        },
+        "updated_at": "2026-10-23T18:19:06.873061+00:00"
+      }
+    ],
+    "live_execution": false,
+    "sampling_enrollment": {
+      "candidate_id": 123058,
+      "at": "2026-10-23T18:18:38.663085+00:00",
+      "control_member": 0,
+      "provenance": "prospective",
+      "version": "balanced-deadlines-v1"
+    },
+    "monitoring": {
+      "version": "bounded-background-v1",
+      "state": "active",
+      "reason": "within_active_observation_window",
+      "has_open_promises": true,
+      "background_until": "2026-10-25T18:18:38.663085+00:00",
+      "background_watch_hours": 48,
+      "history_preserved": true,
+      "not_a_new_launch": true
+    },
+    "routed": {
+      "entries": [
+        {
+          "signal_id": 301432,
+          "candidate_id": 123058,
+          "at": "2026-10-23T18:19:06.672933+00:00",
+          "policy": {
+            "declared_at": "2026-10-23T18:18:33.046529+00:00",
+            "enabled": true,
+            "entry_window_seconds": 180,
+            "execution_verified": false,
+            "exit_window_seconds": 180,
+            "forward_quote_window_version": 2,
+            "horizons_seconds": [
+              300,
+              3600,
+              86400
+            ],
+            "model": "independent_jupiter_min_out_scenario",
+            "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+            "observation_rules": {
+              "max_snapshot_age": 120,
+              "min_signal_delay": 3
+            },
+            "opportunity_policy_id": 31,
+            "paper_rules": {
+              "max_price_impact": "0.02",
+              "min_liquidity": "25000",
+              "network_fee_usd": "0.01",
+              "reference_fee": "0.006",
+              "reference_slippage": "0.005",
+              "swap_fee": "0.003"
+            },
+            "position_usd": "50.0",
+            "quote_schema_version": 2,
+            "quote_timeout_seconds": 20,
+            "slippage_bps": 50,
+            "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+            "test_from": "2026-10-18T00:00:00Z",
+            "timestamp_clock": "utc_capture_clock_v1",
+            "version": "jupiter-forward-v2"
+          },
+          "selected": 1,
+          "control_member": 0,
+          "entry_state": "entry_pending",
+          "reason": null,
+          "entry_at": null,
+          "entry_payload": null,
+          "entry_attempt_id": null
+        }
+      ],
+      "outcomes": [
+        {
+          "signal_id": 301432,
+          "horizon_seconds": 300,
+          "target_at": null,
+          "state": "pending",
+          "payload": {
+            "execution_verified": false,
+            "model": "independent_jupiter_min_out_scenario",
+            "pnl_usd": null,
+            "reason": null
+          },
+          "updated_at": "2026-10-23T18:19:06.875110+00:00"
+        },
+        {
+          "signal_id": 301432,
+          "horizon_seconds": 3600,
+          "target_at": null,
+          "state": "pending",
+          "payload": {
+            "execution_verified": false,
+            "model": "independent_jupiter_min_out_scenario",
+            "pnl_usd": null,
+            "reason": null
+          },
+          "updated_at": "2026-10-23T18:19:06.875239+00:00"
+        },
+        {
+          "signal_id": 301432,
+          "horizon_seconds": 86400,
+          "target_at": null,
+          "state": "pending",
+          "payload": {
+            "execution_verified": false,
+            "model": "independent_jupiter_min_out_scenario",
+            "pnl_usd": null,
+            "reason": null
+          },
+          "updated_at": "2026-10-23T18:19:06.875258+00:00"
+        }
+      ],
+      "attempts": [],
+      "execution_verified": false
+    },
+    "current_narrative": {
+      "supported": [],
+      "uncertain": [],
+      "contradictory": [],
+      "market_references": [],
+      "ranking_supported": false,
+      "publication_hosts": [],
+      "news_recurrence_counts": {},
+      "social_mentions_growth": null,
+      "community_activity": null,
+      "score": null,
+      "ai_interpretations": [],
+      "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement."
+    }
+  }
+}

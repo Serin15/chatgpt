@@ -199,11 +199,21 @@ class Providers:
 
     async def security(self, address):
         evidence = {"observed_at": utcnow(), "rpc": None, "goplus": None, "errors": []}
-        for source, fn in (("rpc", self.mint_info), ("goplus", self.goplus)):
+
+        async def read(fn):
             try:
-                evidence[source] = await fn(address)
+                return await fn(address), None
             except ProviderError as exc:
-                evidence["errors"].append(str(exc))
+                return None, str(exc)
+
+        async with asyncio.TaskGroup() as group:
+            rpc = group.create_task(read(self.mint_info))
+            goplus = group.create_task(read(self.goplus))
+        # Stable source/error order regardless of network completion order.
+        for source, task in (("rpc", rpc), ("goplus", goplus)):
+            evidence[source], error = task.result()
+            if error:
+                evidence["errors"].append(error)
         return evidence
 
     @schema_checked("rpc")

@@ -1,0 +1,19 @@
+{
+  "subjects": 60,
+  "promotion_seconds": 22.33811583500028,
+  "history_seconds": 0.012563566000608262,
+  "promotion_plan": [
+    [
+      5,
+      0,
+      62,
+      "SEARCH discovered_pools USING INDEX sqlite_autoindex_discovered_pools_1 (chain=?)"
+    ],
+    [
+      25,
+      0,
+      0,
+      "USE TEMP B-TREE FOR ORDER BY"
+    ]
+  ]
+}

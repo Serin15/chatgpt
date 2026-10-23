@@ -29,6 +29,7 @@ class Discovery:
         with store.connect() as db:
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS discovered_pools(chain TEXT NOT NULL,pool TEXT NOT NULL,contract TEXT NOT NULL,first_seen_at TEXT NOT NULL,last_seen_at TEXT NOT NULL,payload TEXT NOT NULL,PRIMARY KEY(chain,pool));
+                CREATE INDEX IF NOT EXISTS discovered_pools_contract ON discovered_pools(chain,contract,last_seen_at DESC);
                 CREATE TABLE IF NOT EXISTS discovery_runs(id INTEGER PRIMARY KEY,at TEXT NOT NULL,payload TEXT NOT NULL);
             """)
             if "first_payload" not in {

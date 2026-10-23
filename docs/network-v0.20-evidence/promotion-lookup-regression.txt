@@ -1,0 +1,37 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_contract_lookup_preserves_latest_promotion_and_uses_contract_index ____
+
+client_engine = (<starlette.testclient.TestClient object at 0x7f0d25c98e00>, <app.opportunities.Opportunities object at 0x7f0d25aa9df0>)
+
+    def test_contract_lookup_preserves_latest_promotion_and_uses_contract_index(client_engine):
+        _, engine = client_engine
+        original = source_item()
+        engine.service.discovery.save(original | {"promotion": {"fixture": "first"}})
+        engine.service.discovery.save(original | {"pool": original["contract"], "promotion": {"fixture": "latest"}})
+        with engine.store.connect() as db:
+            db.execute("DROP INDEX IF EXISTS discovered_pools_contract")
+            db.execute("UPDATE discovered_pools SET last_seen_at='2030-01-01T00:00:00+00:00' WHERE pool=?", (original["contract"],))
+            before = [tuple(r) for r in db.execute(QUERY, (original["contract"],))]
+            assert json.loads(before[0][0])["promotion"]["fixture"] == "latest"
+        # Idempotent upgrade on an existing database, not a fresh empty schema.
+        Discovery(engine.store, client=engine.service.discovery.client)
+        with engine.store.connect() as db:
+            after = [tuple(r) for r in db.execute(QUERY, (original["contract"],))]
+            plan = [r[3] for r in db.execute("EXPLAIN QUERY PLAN " + QUERY, (original["contract"],))]
+        assert before == after
+>       assert any("contract=?" in detail for detail in plan), plan
+E       AssertionError: ['SEARCH discovered_pools USING INDEX sqlite_autoindex_discovered_pools_1 (chain=?)', 'USE TEMP B-TREE FOR ORDER BY']
+E       assert False
+E        +  where False = any(<generator object test_contract_lookup_preserves_latest_promotion_and_uses_contract_index.<locals>.<genexpr> at 0x7f0d25a33e00>)
+
+tests/test_promotion_lookup.py:29: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_promotion_lookup.py::test_contract_lookup_preserves_latest_promotion_and_uses_contract_index
+1 failed, 1 warning in 0.88s
