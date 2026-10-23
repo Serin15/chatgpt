@@ -66,13 +66,13 @@
     "positions": []
   },
   "counts": {
-    "opportunity_candidates": 124137,
-    "opportunity_signals": 303873,
-    "opportunity_observations": 492843,
-    "opportunity_alerts": 7832,
-    "observation_jobs": 304677
+    "opportunity_candidates": 124284,
+    "opportunity_signals": 304339,
+    "opportunity_observations": 493383,
+    "opportunity_alerts": 7838,
+    "observation_jobs": 305137
   },
-  "last_candidate_id": 124137,
+  "last_candidate_id": 124284,
   "news_ledger": {
     "account": [
       [

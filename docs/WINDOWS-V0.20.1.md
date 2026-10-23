@@ -69,6 +69,46 @@ de rezultatele corectate. Verificarea nativă Windows/Linux și observațiile cu
 reale se raportează separat; nu sunt deduse din testele locale. Un preț colectat sau o alertă
 livrată nu demonstrează profitabilitatea selecției.
 
+Verificarea nativă Windows/Linux este publică în
+[CI run 40010975346](https://github.com/Serin15/chatgpt/actions/runs/40010975346),
+pentru commitul de cod `7e933369d0acb330114e3acca9e9c9a117f69646`. Jobul Windows
+include launcherul și arhivarea/restaurarea din directoare cu spații în nume.
+Commitul ulterior conține doar documentație și dovezi; hashurile tuturor surselor,
+testelor și configurației CI sunt identice cu commitul verificat.
+
+## Rulare cu surse reale
+
+Motorul normal a parcurs șapte cicluri observate, cu **420 de observații și 123 de
+candidați nou înregistrați**, fără injecții de candidați sau modificarea pragurilor.
+Duratele au fost între 37,59s și 56,55s. Acesta este un eșantion local scurt, nu
+o garanție de latență. Verificatorul strict a trecut toate cele șase criterii în
+215s: cinci capturi distincte pentru alerte și 12 pentru control, capturate și
+primite în propria rulare și în ferestrele originale.
+
+Alerta 7832 / candidatul 124123 / semnalul 303857 a fost aleasă înainte de rezultat.
+Contract Solana: `3HV7xnV8uDmBne5xkRZAvUyj4dwLZss3vrEhHyMTxz8i`.
+Verdictul original `INVESTIGATE` și payloadul alertei au rămas identice după observațiile
+ulterioare. Alerta a primit confirmarea afișării în aplicație la **23 octombrie 2026,
+22:22:37, Europe/Bucharest**. Nu a fost trimisă pe Telegram.
+
+În experimentul estimativ independent de pool, prima observație eligibilă pentru intrare
+a venit după 57s, pentru un cost virtual de 50,01 USD. La evaluarea de cinci minute,
+prima observație de ieșire nu a trecut filtrele; starea este **`exit_unavailable`,
+cu PnL necunoscut**, nu zero și nu profit. Acesta nu este un ordin executat sau dovada
+că tokenul nu poate fi vândut pe nicio piață. Un preț public disponibil nu confirmă
+singur o ieșire economic posibilă. Rezultatul și toate observațiile sunt păstrate.
+
+Browserul a afișat dosarul și această stare ulterioară. Navigarea prin toate cele nouă
+secțiuni a funcționat fără erori JavaScript sau HTTP 5xx în această rulare. Dosarul nu
+a depășit lățimea viewportului la 320/390/768/1536px. Aceste verificări folosesc Chromium,
+nu un telefon fizic.
+
+Hashurile confirmă păstrarea configurației, politicilor și declarațiilor 1–31, a
+exemplului istoric Speed și a ambelor registre manuale: solduri 100/500 USD, zero
+ordine. Politica 32 corespunde surselor instalate și are testarea viitoare declarată
+din **24 octombrie 2026, 22:20:37, Europe/Bucharest**. Declarațiile anterioare nu au
+fost mutate. Sursele modelelor de cost și evaluare financiară sunt identice cu v0.20.0.
+
 ## Ce urmează
 
 Măsurarea prospectivă a acoperirii și a rezultatelor după costuri rămâne necesară.
