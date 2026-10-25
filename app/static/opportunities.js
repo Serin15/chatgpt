@@ -444,6 +444,7 @@ async function renderOpportunities() {
   try {
     await Promise.allSettled([
       loadOpportunityCandidates(),
+      loadPilot(),
       ...sections.map(loadSection),
       opportunityView.selection !== null
         ? openOpportunity(opportunityView.selection, false)
@@ -462,6 +463,93 @@ async function renderOpportunities() {
       renderOpportunities();
     }
   }
+}
+const pilotView = { serial: 0, data: null };
+async function loadPilot() {
+  const serial = ++pilotView.serial;
+  try {
+    const data = await api("/api/opportunities/pilot");
+    if (serial !== pilotView.serial) return;
+    renderPilot(data);
+    opportunityError("Pilot", null);
+  } catch (error) {
+    if (serial !== pilotView.serial) return;
+    $("engine-pilot-status").textContent = "Bilanțul pilotului nu poate fi actualizat: " + error.message + (pilotView.data ? " Ultimul bilanț rămâne afișat; poate fi vechi." : "");
+    opportunityError("Pilot", error);
+  }
+}
+function renderPilot(data) {
+  const root = $("engine-pilot"), status = $("engine-pilot-status"), study = data.study;
+  $("engine-pilot-start").hidden = !!study;
+  if (!study) {
+    root.replaceChildren(node("p", "Pilotul înregistrează numai candidații noi, după activare. Fixează perioada și politica; nu poate fi resetat pentru a muta rezultatele. Colectarea continuă cât timp aplicația și calculatorul sunt pornite.", "footnote"));
+    status.textContent = "Pilot neînceput · fără rezultate atribuite retrospectiv.";
+    $("engine-pilot-export").disabled = true;
+    return;
+  }
+  const period = `${date(study.declared_at)} → ${date(study.ends_at)} · politica ${study.payload.policy_id}`;
+  if (data.report_state !== "ready") {
+    status.textContent = period + " · primul bilanț se calculează în fundal.";
+    return;
+  }
+  pilotView.data = data;
+  $("engine-pilot-export").disabled = false;
+  const cache = data.report_cache;
+  status.textContent = `${period} · ${Math.min(30, data.elapsed_days).toFixed(1)}/30 zile calendaristice · bilanț ${date(data.generated_at)}.` + (cache ? ` Snapshot în cache, actualizare ${cache.refresh?.state || "necunoscută"}.` : "") + (cache?.stale ? " Date vechi: verifică ora bilanțului." : "") + (cache?.refresh?.state === "error" ? " Ultima recalculare a eșuat." : "");
+  if (data.phase === "followup") status.textContent += " Înscrierile s-au încheiat; continuă urmărirea rezultatelor deja promise.";
+  const t = data.totals;
+  root.replaceChildren();
+  const stats = node("div", undefined, "engine-grid");
+  stats.append(engineStat("ÎNREGISTRĂRI NOI", t.new_registrations, `${t.eligible} eligibile · ${t.first_evaluations} prime evaluări`), engineStat("ALERTE", t.opportunity_alerts, `${t.alerts_displayed} afișate · ${t.risk_alerts} avertizări de risc`));
+  root.append(stats, node("p", `${t.analysis_tokens} tokenuri în comparația politicii inițiale · ${t.initially_selected_tokens} selectate inițial · ${t.control_tokens_excluding_selected} control fără suprapunere.`, "footnote"));
+  if (Object.keys(t.analysis_exclusions).length)
+    engineJson(root, "Înregistrări în afara comparației · motive", t.analysis_exclusions);
+  root.append(node("h3", "Cât de repede ajunge informația"));
+  const labels = {registration_to_first_evaluation:"Înregistrare → prima evaluare", discovery_to_alert:"Descoperire în sursă → alertă", alert_to_display:"Alertă → afișare în aplicație", signal_to_pool_paper_entry:"Prima evaluare → observație eligibilă pentru intrarea paper estimată", first_alert_to_pool_paper_entry:"Prima alertă → observație eligibilă pentru intrarea paper estimată"};
+  for (const [key, value] of Object.entries(data.latency)) {
+    const time = n => n === null ? "—" : `${Number(n).toFixed(1)}s`;
+    root.append(node("p", `${labels[key] || key}: mediană ${time(value.p50_seconds)}, p95 ${time(value.p95_seconds)} · ${value.measured}/${value.subjects} măsurate · ${value.missing} lipsă · ${value.invalid_clock} ceas invalid.`, "footnote"));
+  }
+  if (data.alert_followup) {
+    root.append(node("h3", "Ce s-a întâmplat după prima alertă a fiecărui token"));
+    root.append(node("p", "Include și alertele emise după prima evaluare. Aceste rezultate sunt descriptive; nu modifică selecția inițială din comparația cu controlul.", "footnote"));
+    for (const [model, title] of [["estimated_pool","Pool estimativ"],["jupiter_quotes","Jupiter"]]) {
+      for (const [h, value] of Object.entries(data.alert_followup[model])) {
+        const s = value.matured;
+        root.append(node("p", `${title} · ${Number(h)/60}m: ${s.evaluated}/${s.experiments} evaluate la termen · medie netă evaluată ${cash(s.mean_net_pnl_usd)} · ${s.unresolved_or_unavailable} necunoscute · ${value.not_yet_mature} încă înainte de termen.`, "footnote"));
+      }
+    }
+  }
+  for (const [model, title] of [["estimated_pool", "Estimări de pool"], ["jupiter_quotes", "Cotații Jupiter"]]) {
+    root.append(node("h3", title));
+    const wrapper = node("div", undefined, "table-scroll"), table = node("table"), head = node("thead"), hr = node("tr"), body = node("tbody");
+    ["Orizont / grup", "Evaluate / ajunse la termen", "Medie netă evaluată", "Necunoscute"].forEach(s => hr.append(node("th", s)));
+    head.append(hr); table.append(head);
+    for (const [h, result] of Object.entries(data.models[model])) {
+      for (const [group, label] of [["all_first_evaluations", "Toate"], ["selected_at_first_evaluation", "Selectate inițial"], ["control_excluding_selected", "Control distinct"]]) {
+        const value = result.comparison[group], tr = node("tr");
+        [`${Number(h)/60}m · ${label}`, `${value.evaluated}/${value.experiments}`, cash(value.mean_net_pnl_usd), String(value.unresolved_or_unavailable)].forEach(s => tr.append(node("td", s)));
+        body.append(tr);
+      }
+      const pending = node("tr"), cell = node("td", `${Number(h)/60}m · ${result.not_yet_mature}/${result.planned} nu au ajuns încă la termenul conservator.`); cell.colSpan = 4; pending.append(cell); body.append(pending);
+    }
+    table.append(body); wrapper.append(table); root.append(wrapper);
+  }
+  root.append(node("h3", "Punctualitatea colectării"));
+  const coverageScroll = node("div", undefined, "table-scroll"), coverageTable = node("table"), coverageHead = node("thead"), coverageHeader = node("tr"), coverageBody = node("tbody");
+  ["Grup / observație", "Preț valid în fereastră", "Încercări fără preț valid", "Termene ratate", "În așteptare"].forEach(s => coverageHeader.append(node("th", s)));
+  coverageHead.append(coverageHeader); coverageTable.append(coverageHead);
+  const phases = {entry:"Intrare",exit:"Ieșire",checkpoint:"Reper de preț",routed_exit:"Reper pentru ieșire Jupiter"};
+  for (const [group, title] of [["alerts","Alerte"],["control","Control distinct"]]) {
+    for (const [phase, values] of Object.entries(data.collection[group] || {})) {
+      const tr = node("tr"), observed = values["price:observed"] || 0;
+      [`${title} · ${phases[phase] || phase}`, observed, (values.attempted || 0)-observed, values.missed || 0, (values.due || 0)+(values.not_due || 0)].forEach(s => tr.append(node("td", String(s))));
+      coverageBody.append(tr);
+    }
+  }
+  coverageTable.append(coverageBody); coverageScroll.append(coverageTable); root.append(coverageScroll);
+  engineJson(root, "Detaliile colectării și motivele datelor nevalide", data.collection);
+  root.append(node("p", "Zilele calendaristice nu dovedesc colectare continuă. Comparația include numai orizonturi ajunse la termen; lipsurile rămân necunoscute. Latențele fără intrare includ și intrările refuzate. Mediile folosesc doar rezultate evaluate. Prețurile și cotațiile paper nu confirmă execuția. Rezultatele sunt descriptive, fără dovadă de profitabilitate sau drawdown de portofoliu.", "footnote"));
 }
 async function renderEngineAlerts(items) {
   const root = $("engine-alerts");
@@ -1308,6 +1396,19 @@ async function openOpportunity(id, scroll = true) {
   }
 }
 function setupOpportunityControls() {
+  $("engine-pilot-start").onclick = () => action($("engine-pilot-start"), async () => {
+    ++pilotView.serial;
+    renderPilot(await api("/api/opportunities/pilot/start", {}));
+    await loadPilot();
+  });
+  $("engine-pilot-refresh").onclick = loadPilot;
+  $("engine-pilot-export").onclick = () => {
+    if (!pilotView.data) return;
+    const url = URL.createObjectURL(new Blob([JSON.stringify(pilotView.data, null, 2)], {type:"application/json"}));
+    const a = document.createElement("a"); a.href = url;
+    a.download = `memescope-pilot-${pilotView.data.study.declared_at.slice(0,10)}.json`;
+    a.click(); URL.revokeObjectURL(url);
+  };
   document.querySelectorAll("[data-verdict]").forEach(b => {
     b.onclick = () => {
       $("engine-verdict").value = b.dataset.verdict;

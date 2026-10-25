@@ -36,6 +36,8 @@ from app.news import News
 from app.opportunity_rules import EngineConfig
 from app.paper import Rejected
 from app.performance_cache import PerformanceReports
+from app.pilot import Pilot
+from app.pilot import report as pilot_report
 from app.providers import ProviderError, Providers
 from app.research import EvidenceInput, SourceInput
 from app.runtime_lock import RuntimeLock
@@ -63,6 +65,7 @@ def create_app(
         store = Store(settings)
         sources = providers or Providers(settings)
         app.state.service = Service(settings, store, sources)
+        app.state.pilot = Pilot(app.state.service.opportunities)
         # lifespan already holds RuntimeLock for this DATA_DIR. No previous app
         # can still own its worker, including after a forced exit. Recover only
         # this ephemeral lease; research rows and deadlines remain unchanged.
@@ -447,6 +450,26 @@ def create_app(
     @app.get("/api/opportunities/coverage")
     def opportunity_coverage(request: Request):
         return request.app.state.service.opportunities.collection_report()
+
+    @app.post("/api/opportunities/pilot/start")
+    def opportunity_pilot_start(request: Request):
+        return {"study": request.app.state.pilot.start(), "report_state": "preparing"}
+
+    @app.get("/api/opportunities/pilot")
+    def opportunity_pilot(request: Request):
+        study = request.app.state.pilot.status()
+        if study is None:
+            return {"study": None, "report_state": "not_started"}
+        cache = request.app.state.performance_reports
+        if cache is None:
+            return JSONResponse(pilot_report(request.app.state.service.opportunities))
+        snapshot = cache.read()
+        data = snapshot.get("pilot")
+        if data and data.get("report_state") == "error":
+            raise ProviderError("Raportul pilotului nu a putut fi actualizat în fundal.")
+        if not data or not data.get("study") or data["study"]["sha256"] != study["sha256"]:
+            return {"study": study, "report_state": "preparing"}
+        return JSONResponse(data | {"report_cache": snapshot["report_cache"]})
 
     @app.get("/api/opportunities/daily")
     def opportunity_daily(request: Request, day: date | None = None):

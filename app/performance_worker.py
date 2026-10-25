@@ -12,6 +12,7 @@ from app.archive_codec import configure
 from app.opportunity_rules import EngineConfig
 from app.opportunity_sampling import Sampling
 from app.performance_reporting import report
+from app.pilot import report as pilot_report
 
 
 class ReadStore:
@@ -52,7 +53,13 @@ def main():
     parser.add_argument("--max-snapshot-age", type=int, default=120)
     args = parser.parse_args()
     try:
-        data = report(ReadEngine(args.database, args.news_database, args.max_snapshot_age))
+        engine = ReadEngine(args.database, args.news_database, args.max_snapshot_age)
+        data = report(engine)
+        try:
+            data["pilot"] = pilot_report(engine)
+        except Exception as error:
+            # A pilot error must not discard the existing full performance report.
+            data["pilot"] = {"report_state": "error", "error": type(error).__name__}
         sys.stdout.buffer.write(
             json.dumps(data, ensure_ascii=False, allow_nan=False).encode("utf-8")
         )

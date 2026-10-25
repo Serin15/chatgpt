@@ -538,6 +538,79 @@ async def check(base):
             await expect(note).to_contain_text("așteptări API expirate: 1")
             await expect(note).to_contain_text("O amânare nu este o tranzacție eșuată")
             await page.set_viewport_size({"width":320,"height":800})
+
+        def pilot_fixture():
+            from datetime import UTC, datetime, timedelta
+
+            now = datetime.now(UTC)
+            group = {"experiments":1,"evaluated":0,"unresolved_or_unavailable":1,
+                     "mean_net_pnl_usd":None}
+            comparison = {key:group for key in ["all_first_evaluations", "selected_at_first_evaluation",
+                                              "control_excluding_selected"]}
+            return {
+                "study":{"declared_at":now.isoformat(),"ends_at":(now+timedelta(days=30)).isoformat(),
+                         "sha256":"explicit-browser-fixture", "payload":{"policy_id":32}},
+                "report_state":"ready","generated_at":now.isoformat(),"elapsed_days":.5,
+                "totals":{"new_registrations":4,"eligible":3,"first_evaluations":3,
+                          "opportunity_alerts":1,"alerts_displayed":1,"risk_alerts":0,
+                          "analysis_tokens":3,"initially_selected_tokens":1,
+                          "control_tokens_excluding_selected":1,"analysis_exclusions":{"changed_policy":1}},
+                "latency":{"signal_to_pool_paper_entry":{"subjects":1,"measured":1,"missing":0,
+                           "invalid_clock":0,"p50_seconds":57,"p95_seconds":57}},
+                "models":{name:{"300":{"comparison":comparison,"planned":3,"not_yet_mature":1}}
+                          for name in ["estimated_pool","jupiter_quotes"]},
+                "collection":{"alerts":{"entry":{"attempted":1,"price:observed":1}}},
+                "alert_followup":{model:{"300":{"matured":group,"not_yet_mature":1}}
+                                   for model in ["estimated_pool","jupiter_quotes"]},
+            }
+
+        async def pilot_start_export(page):
+            value = pilot_fixture()
+            started = []
+
+            async def status(route):
+                await route.fulfill(json=value if started else {"study":None,"report_state":"not_started"})
+
+            async def start(route):
+                started.append(True)
+                await route.fulfill(json={"study":value["study"],"report_state":"preparing"})
+
+            await page.route("**/api/opportunities/pilot", status)
+            await page.route("**/api/opportunities/pilot/start", start)
+            await ready(page)
+            await expect(page.locator("#engine-pilot-status")).to_contain_text("neînceput")
+            await page.locator("#engine-pilot-start").click()
+            await expect(page.locator("#engine-pilot-start")).to_be_hidden()
+            await expect(page.locator("#engine-pilot")).to_contain_text("57.0s")
+            await expect(page.locator("#engine-pilot")).to_contain_text("Include și alertele emise după prima evaluare")
+            await expect(page.locator("#engine-pilot")).to_contain_text("Necunoscute")
+            async with page.expect_download() as info:
+                await page.locator("#engine-pilot-export").click()
+            downloaded = await info.value
+            actual = json.loads(Path(await downloaded.path()).read_text())
+            assert actual["study"] == value["study"] and len(started) == 1
+            assert actual["models"]["estimated_pool"]["300"]["comparison"]["all_first_evaluations"]["mean_net_pnl_usd"] is None
+
+        async def pilot_failure_preserves_data(page):
+            value = pilot_fixture()
+            await page.route("**/api/opportunities/pilot", lambda r: r.fulfill(json=value))
+            await ready(page)
+            await expect(page.locator("#engine-pilot")).to_contain_text("4")
+            await page.unroute("**/api/opportunities/pilot")
+            await page.route("**/api/opportunities/pilot", lambda r: r.fulfill(status=503,json={"detail":"Explicit fixture pilot report failure"}))
+            await page.locator("#engine-pilot-refresh").click()
+            await expect(page.locator("#engine-pilot-status")).to_contain_text("Ultimul bilanț rămâne afișat")
+            await expect(page.locator("#engine-pilot")).to_contain_text("57.0s")
+            await expect(page.locator("#engine-rows tr")).to_have_count(1)
+
+        async def pilot_mobile(page):
+            value = pilot_fixture()
+            await page.route("**/api/opportunities/pilot", lambda r: r.fulfill(json=value))
+            await ready(page)
+            for width in [320,390,768]:
+                await page.set_viewport_size({"width":width,"height":900})
+                await page.locator("#engine-pilot-panel").evaluate("n => n.scrollIntoView()")
+                assert await page.evaluate("document.documentElement.scrollWidth<=innerWidth"), width
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
         async def bounded_monitoring(page):
@@ -783,6 +856,9 @@ async def check(base):
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
             ("priority freshness separates active research from background backlog", priority_monitoring),
             ("network budget distinguishes deferred observations and virtual quotes", network_budget_status),
+            ("pilot starts prospectively and exports unknown results", pilot_start_export),
+            ("pilot report failure preserves stored display and candidate access", pilot_failure_preserves_data),
+            ("pilot metrics and comparisons fit mobile widths", pilot_mobile),
             ("cached coverage retains calculation date and refresh errors", cached_coverage_status),
             ("phone drawer focus, all destinations and return navigation", mobile_workspace_navigation),
             ("quick verdict filters and search keyboard shortcut", quick_filters_and_keyboard),

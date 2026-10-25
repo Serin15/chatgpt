@@ -1,4 +1,6 @@
-# MemeScope v0.20.1 — research workspace
+# MemeScope v0.21.0 — research workspace
+
+**Pilot Solana v0.21.0:** [30 de zile, protocol fix, latențe și rezultate comparabile](docs/PILOT-V0.21.md). Urmărește numai înregistrări noi, separă alertele ulterioare de selecția inițială și păstrează necunoscutele. Activare din „Oportunități timpurii → Pilot 30 zile”.
 
 **Corecție Windows v0.20.1:** [contabilizare corectă după timeout, rezervări comune și verificări](docs/WINDOWS-V0.20.1.md). Un timer expirat nu mai lasă un rest de timp care admite cereri suplimentare către o sursă blocată.
 

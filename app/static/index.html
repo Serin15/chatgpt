@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>MemeScope — Early Opportunity Engine</title>
-    <link rel="stylesheet" href="/static/style.css?v=0.20.1" />
-    <link rel="stylesheet" href="/static/workspace.css?v=0.20.1" />
-    <script src="/static/advanced.js?v=0.20.1" defer></script>
-    <script src="/static/opportunities.js?v=0.20.1" defer></script>
-    <script src="/static/app.js?v=0.20.1" defer></script>
+    <link rel="stylesheet" href="/static/style.css?v=0.21.0" />
+    <link rel="stylesheet" href="/static/workspace.css?v=0.21.0" />
+    <script src="/static/advanced.js?v=0.21.0" defer></script>
+    <script src="/static/opportunities.js?v=0.21.0" defer></script>
+    <script src="/static/app.js?v=0.21.0" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Sari la conținut</a>
@@ -62,7 +62,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.20.1 · beta</span>
+        <span class="version">v0.21.0 · beta</span>
       </div>
     </aside>
     <main class="main" id="main-content" tabindex="-1">
@@ -450,6 +450,7 @@
           <button type="button" data-research-target="engine-candidates" class="active">Candidați</button>
           <button type="button" data-research-target="engine-alerts-panel">Alerte</button>
           <button type="button" data-research-target="engine-daily-panel">Rezultate</button>
+          <button type="button" data-research-target="engine-pilot-panel">Pilot 30 zile</button>
           <button type="button" data-research-target="engine-method">Metodologie</button>
           <span class="research-label">DATE EXTERNE · DECIZII MANUALE</span>
         </nav>
@@ -528,6 +529,16 @@
           </button>
         </section>
         <section id="engine-detail" class="panel padded" aria-label="Dosarul candidatului" hidden></section>
+        <details class="panel padded" id="engine-pilot-panel" open>
+          <summary>Pilot Solana · 30 de zile</summary>
+          <p id="engine-pilot-status" class="footnote" role="status">Se verifică pilotul…</p>
+          <div class="engine-controls">
+            <button type="button" id="engine-pilot-start">Începe pilotul de 30 de zile</button>
+            <button type="button" id="engine-pilot-refresh" class="secondary">Actualizează bilanțul</button>
+            <button type="button" id="engine-pilot-export" class="secondary" disabled>Descarcă bilanțul JSON</button>
+          </div>
+          <div id="engine-pilot" aria-live="polite"></div>
+        </details>
         <details class="panel padded" id="engine-daily-panel">
           <summary>Bilanț zilnic · cohortele descoperite și rezultatele lor</summary>
           <div class="engine-controls">
