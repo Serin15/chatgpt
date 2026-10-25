@@ -41,6 +41,9 @@ spațiul de stocare, backupurile și disponibilitatea furnizorilor rămân neces
   alertă → afișare și semnal/primă alertă → observație eligibilă pentru intrarea paper.
   Sunt timpi de primire, nu latențe de execuție pe exchange. Intrările refuzate sau
   neobservate păstrează o latență necunoscută.
+  Alertă → afișare include timpul în care browserul nu era deschis sau alerta nu
+  era vizibilă. Fără o măsurare separată a disponibilității clientului, această
+  durată nu poate fi atribuită integral motorului sau serviciilor de date.
 - Rezultatele nete după costurile originale pentru pool și Jupiter, separat.
   Nu se inventează PnL pentru lipsa unei cotații, o intrare respinsă sau o ieșire indisponibilă.
 - Comparație între selecțiile de la prima evaluare și controlul prospectiv fără
@@ -50,6 +53,9 @@ spațiul de stocare, backupurile și disponibilitatea furnizorilor rămân neces
   dublează această cohortă. Nu este un control sincronizat la momentul alertei.
 - Punctualitatea observațiilor pentru alerte și control, cu verificarea identității,
   sursei, ferestrei originale și prospețimii prin validatorul existent de preț.
+  Aceste contoare operaționale sunt la nivelul joburilor/semnalelor. Un token poate
+  avea un semnal fără alertă în control și, mai târziu, un alt semnal cu alertă;
+  comparația financiară principală păstrează separat controlul distinct la prima evaluare.
 - Export JSON cu protocolul, data generării și rezultatele vizibile.
 
 Comparația principală folosește numai orizonturi ajunse la termenul conservator:
@@ -106,11 +112,26 @@ real de citire. Verifică limitele exacte, lipsa datelor viitoare, pierderi și 
 necunoscute, controlul distinct, alertele ulterioare, idempotenta, autentificarea,
 CSRF, exportul și layoutul mobil. Dovezile cu servicii reale sunt păstrate separat.
 
+**621 teste Python și 44 scenarii Chromium au trecut local.** Verificatorul real
+a trecut toate cele șapte criterii în 938s, pe workerul normal: 284 înregistrări
+noi, 280 prime evaluări și 10 alerte de oportunitate la snapshot. Browserul real
+a confirmat exportul și navigarea. [Dovezi și limite](pilot-v0.21-evidence/).
+Trei scenarii pool selectate au ajuns la termenul conservator de 5m; două au
+rezultat evaluat și unul indisponibil. Toate cele 19 scenarii de control mature
+au PnL necunoscut. Acest eșantion scurt și inegal nu demonstrează utilitatea financiară.
+
+Verificarea nativă Windows/Linux este în
+[CI run 40206582614](https://github.com/Serin15/chatgpt/actions/runs/40206582614),
+pentru commitul de cod `2f77e2b3483315b5f1c483c26256dbaddef75b5a`.
+
 ## Pornirea pilotului din acest mediu
 
 Declarație în cloud: **25 octombrie 2026, 17:09:53 → 24 noiembrie 2026, 17:09:53**,
 în Europe/Bucharest. Politica este **32**, iar declarațiile anterioare sunt păstrate.
 Aceasta este o perioadă începută; cele 30 de zile nu au fost încă observate.
+La verificarea din 25 octombrie, baza principală avea aproximativ 8 GiB și mediul
+avea 4,7 GiB liberi. Capacitatea și operarea continuă trebuie rezolvate pentru
+întregul interval; această pornire nu garantează 30 de zile de găzduire neîntreruptă.
 
 Înaintea unei beta comerciale mai sunt necesare evaluarea pilotului și feedback
 de la utilizatori reali, operare continuă, conturi separate pentru varianta online,

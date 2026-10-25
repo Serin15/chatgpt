@@ -1,0 +1,131 @@
+{
+  "study": {
+    "id": 1,
+    "declared_at": "2026-10-25T15:09:53.818169+00:00",
+    "ends_at": "2026-11-24T15:09:53.818169+00:00",
+    "sha256": "e8e5d4a4461dff5c51ccd9e57cee7c4b3a6516cdca44882cd7927647b3ffde7c",
+    "payload": {
+      "analysis_from": "2026-10-25T15:09:53.818169+00:00",
+      "chain": "solana",
+      "changed_policies": "retained in universe, excluded from frozen-policy comparison",
+      "cohort": "new engine registrations during [declared_at, ends_at); no historical enrollment",
+      "control": "prospective contract-hash enrollment, excluding selected tokens",
+      "costs": "original independent paper outcomes, pool and Jupiter kept separate",
+      "duration_days": 30,
+      "maturity": "signal + frozen entry window + horizon + exit window; same rule for all groups",
+      "policy": {
+        "collection_rules": {
+          "background_watch_hours": 48,
+          "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
+          "execution_order": "earliest currently due deadline among admitted unique candidates; stable ties",
+          "market_batch_size": 30,
+          "monitoring_version": "bounded-background-v1",
+          "network_budget_rule": "interval minus 5s for finalization; optional enrichment waits share min(30s,interval/4); discovery min(10s,interval/6); markets min(15s,interval/4) per batch",
+          "network_budget_version": "collection-network-budget-v2",
+          "open_promises_override_background_age": true,
+          "research_reserve_rule": "up to max(1,floor(budget/6)) slots after balanced protected followups and discovery, before surplus followups; manual/evidenced-story cadence overrides daily background",
+          "route_admission_rule": "one quote per candidate dispatch; require time for the full original quote timeout before claiming; defer without a failed attempt",
+          "route_budget_scope": "one_collector_cycle",
+          "scheduling_version": "balanced-research-deadlines-v2",
+          "security_allocation_version": "early-security-reserve-v1",
+          "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
+          "security_refresh_reserve_seconds": 85,
+          "version": "incremental-routes-v1"
+        },
+        "config": {
+          "active_watch_seconds": 900,
+          "activity_samples": 0,
+          "ai_narratives": false,
+          "alert_verdicts": [
+            "INVESTIGATE",
+            "CONSIDER"
+          ],
+          "background_interval_seconds": 86400,
+          "background_watch_hours": 48,
+          "cooldown_seconds": 3600,
+          "discovery_pages": 2,
+          "enabled": true,
+          "entry_window_seconds": 180,
+          "exit_window_seconds": 180,
+          "horizons_seconds": [
+            300,
+            3600,
+            86400
+          ],
+          "interval_seconds": 60,
+          "max_change_5m_pct": 30.0,
+          "max_extension_pct": 50.0,
+          "max_liquidity_drop_pct": 30.0,
+          "max_pool_age_hours": 24,
+          "max_roundtrip_cost_pct": 5.0,
+          "min_transactions_5m": 10,
+          "observation_budget": 60,
+          "position_usd": 50.0,
+          "routed_quote_budget": 4,
+          "routed_quotes_enabled": true,
+          "routed_slippage_bps": 50,
+          "security_budget": 8,
+          "telegram_enabled": false,
+          "test_from": "2026-10-18T00:00:00Z"
+        },
+        "forward_quote_window_version": 2,
+        "observation_rules": {
+          "max_snapshot_age": 120,
+          "min_signal_delay": 3
+        },
+        "paper_rules": {
+          "max_price_impact": "0.02",
+          "min_liquidity": "25000",
+          "network_fee_usd": "0.01",
+          "reference_fee": "0.006",
+          "reference_slippage": "0.005",
+          "swap_fee": "0.003"
+        },
+        "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+        "routed_policy": {
+          "enabled": true,
+          "entry_window_seconds": 180,
+          "execution_verified": false,
+          "exit_window_seconds": 180,
+          "forward_quote_window_version": 2,
+          "horizons_seconds": [
+            300,
+            3600,
+            86400
+          ],
+          "model": "independent_jupiter_min_out_scenario",
+          "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+          "observation_rules": {
+            "max_snapshot_age": 120,
+            "min_signal_delay": 3
+          },
+          "paper_rules": {
+            "max_price_impact": "0.02",
+            "min_liquidity": "25000",
+            "network_fee_usd": "0.01",
+            "reference_fee": "0.006",
+            "reference_slippage": "0.005",
+            "swap_fee": "0.003"
+          },
+          "position_usd": "50.0",
+          "quote_schema_version": 2,
+          "quote_timeout_seconds": 20,
+          "slippage_bps": 50,
+          "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+          "timestamp_clock": "utc_capture_clock_v1",
+          "version": "jupiter-forward-v2"
+        },
+        "rule_version": "memescope-3.2-market-references",
+        "sampling_version": "balanced-deadlines-v1",
+        "source_sha256": "cc2e2c6499bbd495b8c28aa38f76d366efb9785e50336a54cd262da62bda9251"
+      },
+      "policy_id": 32,
+      "policy_sha256": "07c24837093b3e152265198211d0e3f1058eb82a7e6fe8e2eba910b270c74fc0",
+      "real_money_execution": false,
+      "selection": "noncritical alert on the original first baseline only",
+      "threshold_optimization": false,
+      "version": "solana-pilot-v1"
+    }
+  },
+  "report_state": "preparing"
+}
