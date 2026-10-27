@@ -626,6 +626,16 @@ function renderPortfolio() {
       ),
       node("code", position.address),
     );
+    if (position.opportunity) {
+      const origin = position.opportunity;
+      desc.append(
+        node("p", `Decizia de la intrare: ${origin.verdict} · observație ${date(origin.observed_at)}`, "footnote"),
+        button("Deschide oportunitatea", "text-button", () => {
+          navigate("opportunities");
+          openOpportunity(origin.candidate_id);
+        }),
+      );
+    }
     const figures = node("div", undefined, "numbers");
     figures.append(
       node("div", `Cost intrare: ${cash(position.entry_cost)}`),
@@ -685,6 +695,10 @@ function renderPortfolio() {
     );
     box.append(top, node("p", date(order.at)));
     const context = order.details.entry_context;
+    if (context?.opportunity_context) {
+      const origin = context.opportunity_context;
+      box.append(node("p", `Oportunitate #${origin.candidate_id} · verdict păstrat ${origin.observation.payload.decision.verdict} · dovadă din ${date(origin.observation.at)}. Intrarea folosește cotația nouă din momentul ordinului.`, "footnote"));
+    }
     if (context?.news_context)
       box.append(
         node(
@@ -1539,8 +1553,9 @@ $("add-form").onsubmit = (event) => {
     await openToken(address);
   });
 };
-$("paper-account").onchange = async () => {
-  state.account = $("paper-account").value;
+async function selectPaperAccount(account) {
+  state.account = account;
+  $("paper-account").value = account;
   state.portfolio = null;
   state.performance = null;
   for (const id of [
@@ -1555,7 +1570,8 @@ $("paper-account").onchange = async () => {
     $(id).textContent = "—";
   $("positions").replaceChildren();
   await load();
-};
+}
+$("paper-account").onchange = () => selectPaperAccount($("paper-account").value);
 $("detail-back").onclick = () =>
   navigate(state.back === "detail" ? "news" : state.back);
 document.querySelectorAll(".nav-item[data-page]").forEach((b) => {

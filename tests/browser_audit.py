@@ -891,6 +891,83 @@ async def check(base):
             await page.set_viewport_size({"width": 320, "height": 844})
             assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
 
+        async def manual_opportunity_draft(page):
+            await ready(page)
+            await page.locator("#engine-rows button").click()
+            box = page.locator(".opportunity-paper")
+            await box.locator("summary").click()
+            thesis = box.get_by_label("Ipoteza oportunității")
+            await thesis.fill("Explicit fixture thesis <script> remains text")
+            await thesis.focus()
+            await page.evaluate("openOpportunity(opportunityView.selection, false)")
+            await expect(thesis).to_have_value("Explicit fixture thesis <script> remains text")
+            await expect(thesis).to_be_focused()
+            await expect(box).to_have_attribute("open", "")
+            await expect(box.get_by_label("Suma ordinului din oportunitate")).to_have_value("50")
+            # Actual local API/server + fixture providers, no intercepted successful fill.
+            await box.get_by_role("button", name="Salvează decizia").click()
+            await expect(box.locator('[role="status"]')).to_contain_text("Decizie #")
+            await box.get_by_label("Suma ordinului din oportunitate").fill("25")
+            await expect(box.get_by_role("button", name="Cumpără virtual")).to_be_disabled()
+            await expect(box.locator('[role="status"]')).to_contain_text("Date schimbate")
+            await page.set_viewport_size({"width": 320, "height": 844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
+        async def manual_opportunity_failure_and_expiry(page):
+            await ready(page)
+            await page.locator("#engine-rows button").click()
+            box = page.locator(".opportunity-paper")
+            await box.locator("summary").click()
+            path = "**/api/opportunities/*/paper-signal"
+            await page.route(path, lambda route: route.fulfill(status=503, json={"detail": "Explicit fixture outage"}))
+            await box.get_by_role("button", name="Salvează decizia").click()
+            await expect(box.locator('[role="status"]')).to_contain_text("Explicit fixture outage")
+            await expect(box.get_by_role("button", name="Cumpără virtual")).to_be_disabled()
+            await page.unroute(path)
+            # A short mocked expiry checks UI timing only, not real quote delivery.
+            await page.route(path, lambda route: route.fulfill(json={
+                "id": 999, "min_delay_seconds": 0, "valid_for_seconds": .05,
+                "snapshot": {"analysis": {"paper_allowed": True}, "market": {"price_usd": 1}},
+            }))
+            await box.get_by_role("button", name="Salvează decizia").click()
+            await expect(box.locator('[role="status"]')).to_contain_text("expirat")
+            await expect(box.get_by_role("button", name="Cumpără virtual")).to_be_disabled()
+
+        async def manual_opportunity_roundtrip(page):
+            await ready(page)
+            await page.locator("#engine-rows button").click()
+            box = page.locator(".opportunity-paper")
+            await box.locator("summary").click()
+            await box.get_by_label("Cont pentru oportunitate").select_option("scanner")
+            await box.get_by_role("button", name="Salvează decizia").click()
+            buy_button = box.get_by_role("button", name="Cumpără virtual")
+            await expect(buy_button).to_be_enabled(timeout=6000)
+            await buy_button.click()
+            await expect(box.locator('[role="status"]')).to_contain_text("Alocarea maximă")
+            await expect(buy_button).to_be_disabled()
+            await box.get_by_label("Cont pentru oportunitate").select_option("news")
+            await box.get_by_label("Ipoteza oportunității").fill("Explicit isolated paper hypothesis")
+            await box.get_by_role("button", name="Salvează decizia").click()
+            await expect(buy_button).to_be_enabled(timeout=6000)
+            await buy_button.click()
+            await expect(page.locator("#view-portfolio")).to_be_visible()
+            await expect(page.locator("#paper-account")).to_have_value("news")
+            await expect(page.locator("#positions")).to_contain_text("Decizia de la intrare: INVESTIGATE")
+            await page.get_by_role("button", name="Deschide oportunitatea").click()
+            await expect(page.locator("#engine-detail")).to_be_visible()
+            await page.evaluate("navigate('portfolio')")
+            await page.get_by_role("button", name="Simulează ieșirea", exact=True).click()
+            await expect(page.locator("#positions")).to_contain_text("PnL net realizat")
+            await expect(page.locator("#orders")).to_contain_text("Explicit isolated paper hypothesis")
+            await expect(page.locator("#orders")).to_contain_text("verdict păstrat INVESTIGATE")
+            portfolio = await page.request.get(base + "/api/portfolio?account=news")
+            ledger = await portfolio.json()
+            assert len(ledger["positions"]) == 1 and ledger["positions"][0]["closed_at"]
+            assert float(ledger["positions"][0]["pnl"]) < 0
+            assert len([o for o in ledger["orders"] if o["status"] == "filled"]) == 2
+            scanner = await page.request.get(base + "/api/portfolio?account=scanner")
+            assert (await scanner.json())["cash"] == "100"
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -941,6 +1018,9 @@ async def check(base):
             ("activity windows preserve missing evidence without invented zeros", activity_windows_keep_missing_values),
             ("request deadline explains timeout and recovery in Romanian", request_timeout_explains_recovery),
             ("performance snapshot date, stale cache and refresh errors remain visible", performance_snapshot_freshness),
+            ("manual opportunity draft survives refresh and fits 320px", manual_opportunity_draft),
+            ("manual opportunity API failure and expiry keep buy disabled", manual_opportunity_failure_and_expiry),
+            ("manual opportunity risk rejection, account isolation, buy and sell after costs", manual_opportunity_roundtrip),
         ]:
             await scenario(name, fn)
         await browser.close()

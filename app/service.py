@@ -16,6 +16,7 @@ from app.models import Market, epoch, freshness, utcnow
 from app.notifications import Notifications
 from app.onchain import Onchain
 from app.opportunities import Opportunities
+from app.opportunity_paper import validate_origin
 from app.performance import Performance
 from app.providers import ProviderError
 from app.research import Research
@@ -138,11 +139,13 @@ class Service:
         self.news_paper.save_snapshot(market, snapshot["security"], snapshot["analysis"])
         return self.news_paper.latest(market.address)
 
-    def signal(self, address, account, news_id=None, thesis=""):
+    def signal(self, address, account, news_id=None, thesis="", *, opportunity_context=None):
         snapshot = self.store.latest(address)
         if not snapshot:
             raise paper.Rejected("Token fără observații de piață.")
         context = {"paper_account": account, "thesis": thesis}
+        if opportunity_context is not None:
+            context["opportunity_context"] = opportunity_context
         context["rules_at_signal"] = self.frozen_rules()
         context["paper_execution_mode"] = "jupiter" if self.jupiter.enabled else "estimated_pool"
         context["research_context"] = self.research.case(address)
@@ -161,7 +164,24 @@ class Service:
 
     def portfolio(self, account):
         portfolio = self.paper_store(account).portfolio() | {"account": account}
+        with self.paper_store(account).connect() as db:
+            origins = {
+                row["id"]: json.loads(row["evidence"]).get("opportunity_context")
+                for row in db.execute(
+                    "SELECT p.id,s.evidence FROM positions p JOIN signals s ON s.id=p.signal_id"
+                )
+            }
         for position in portfolio["positions"]:
+            origin = origins.get(position["id"])
+            position["opportunity"] = (
+                {
+                    "candidate_id": origin["candidate_id"],
+                    "observation_id": origin["observation"]["id"],
+                    "observed_at": origin["observation"]["at"],
+                    "verdict": origin["observation"]["payload"]["decision"]["verdict"],
+                }
+                if origin else None
+            )
             position["valuation"] = None
             position["kind"] = (
                 "market_asset" if position["address"].startswith("asset:") else "dex_token"
@@ -359,6 +379,7 @@ class Service:
                 if self.jupiter.enabled
                 else None
             )
+            validate_origin(self, store, request.signal_id, request.amount_usd)
             order = paper.buy(
                 store,
                 self.copy_for_paper(current, request.account),

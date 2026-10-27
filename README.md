@@ -1,4 +1,6 @@
-# MemeScope v0.22.0 — research workspace
+# MemeScope v0.23.0 — research workspace
+
+**Decizie manuală v0.23.0:** [oportunitate → decizie documentată → ordin virtual → portofoliu și rezultat net](docs/MANUAL-PAPER-V0.23.md). Prețurile sunt colectate din nou, limitele conturilor rămân active, iar dovezile inițiale sunt păstrate separat de experimentele automate.
 
 **Stocare și viteză v0.22.0:** [backup pe alt disc, spațiu temporar separat și index derivat pentru căutări/rapoarte](docs/STORAGE-SEARCH-V0.22.md). Actualizările indexului păstrează datele originale și regulile pilotului.
 

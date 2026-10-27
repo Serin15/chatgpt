@@ -338,6 +338,11 @@ td { font-size: 12px; padding: 20px; border-bottom-color: #292c38; }
 .coin-name small, .glance-prices small { font-size: 11px; color: #a6afc5; }
 .detail-heading h1 { font-size: 34px; }
 .paper-box { border-color: #594369; background: #1b1722; }
+.opportunity-paper summary { font-weight: 700; cursor: pointer; }
+.opportunity-paper .paper-box { position: static; max-width: 720px; padding: 20px; border: 1px solid #594369; border-radius: 12px; }
+.opportunity-paper .paper-box label { font-size: 12px; }
+.opportunity-paper input, .opportunity-paper select, .opportunity-paper textarea { display: block; width: 100%; margin-top: 8px; font-size: 16px; }
+.opportunity-paper textarea { min-height: 90px; resize: vertical; }
 .evidence-form label { color: #bcb1cc; font-size: 12px; }
 .panel p { overflow-wrap: anywhere; }
 .toast { font-size: 13px; line-height: 1.7; background: #2e233a; border-color: #735b89; color: #f0e5ff; z-index: 80; }

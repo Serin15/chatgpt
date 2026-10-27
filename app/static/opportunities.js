@@ -18,6 +18,7 @@ const opportunityView = {
   dailyDay: null,
   dailyRequest: 0,
   daily: null,
+  paperDraft: null,
 };
 const opportunityLabels = {
   security_risk: "Risc în verificările disponibile",
@@ -1193,6 +1194,108 @@ function engineChart(observations, parent) {
   panel.append(axis, node("p", `Min observat ${price(lo)} · max observat ${price(hi)} · ${priced.length} observații. Extrema dintre observații rămân necunoscute.`, "footnote"));
   parent.append(panel);
 }
+function opportunityPaperForm(candidate) {
+  if (opportunityView.paperDraft?.candidateId === candidate.id)
+    return opportunityView.paperDraft.element;
+  const latest = candidate.observations.at(-1);
+  const box = node("details", undefined, "dossier-section opportunity-paper");
+  box.append(node("summary", "Portofoliul meu · ordin virtual"));
+  box.append(node("p", "Tu decizi suma și momentul. Acest ordin folosește soldul contului tău virtual și este separat de experimentele automate de 50 USD.", "footnote"));
+  opportunityView.paperDraft = {candidateId: candidate.id, element: box};
+  if (candidate.chain !== "solana" || !candidate.eligible || !["MONITOR", "INVESTIGATE", "CONSIDER"].includes(latest?.decision?.verdict)) {
+    box.append(node("p", "Intrare indisponibilă: este necesar un candidat Solana eligibil, evaluat și fără verdict REJECT. Actualizează dosarul după reevaluare.", "warn"));
+    // Rebuild disabled forms when a later observation becomes eligible.
+    opportunityView.paperDraft = null;
+    return box;
+  }
+  box.append(node("p", `Dovada aleasă: observația #${latest.id} din ${date(latest.at)}, verdict ${latest.decision.verdict}. Rămâne legată de ordin chiar dacă dosarul se actualizează. Prețul intrării va fi colectat din nou.`, "footnote"));
+  const form = node("form", undefined, "paper-box"), account = node("select"), amount = node("input"), thesis = node("textarea");
+  account.setAttribute("aria-label", "Cont pentru oportunitate");
+  for (const [value, label] of [["news", "News · capital inițial 500 USD"], ["scanner", "Scanner"]]) {
+    const option = node("option", label); option.value = value; account.append(option);
+  }
+  amount.type = "number"; amount.min = state.status?.rules?.min_position || "2";
+  amount.step = ".01"; amount.value = "50"; amount.required = true;
+  amount.setAttribute("aria-label", "Suma ordinului din oportunitate");
+  thesis.maxLength = 1000; thesis.placeholder = "De ce intru și ce invalidează ipoteza?";
+  thesis.setAttribute("aria-label", "Ipoteza oportunității");
+  for (const [labelText, control] of [["Cont virtual", account], ["Suma ordinului · USD", amount], ["Ipoteza mea", thesis]]) {
+    const label = node("label", labelText); label.append(control); form.append(label);
+  }
+  const limits = node("p", undefined, "footnote"), costs = node("p", undefined, "footnote"), status = node("p", "Salvează decizia pentru a colecta dovezi noi. Nu se plasează automat un ordin.", "footnote");
+  status.setAttribute("role", "status");
+  const renderLimits = () => {
+    const r = state.status?.rules;
+    limits.textContent = r ? `Alocare maximă ${Number(r.max_allocation) * 100}% din capital, inclusiv costuri. ${account.value === "scanner" ? `Capital inițial Scanner: ${cash(r.initial_balance)}; 50 USD poate depăși limita.` : "Capitalul și expunerea disponibile sunt reverificate la ordin."}` : "Soldul, alocarea, expunerea și costurile sunt verificate pe server.";
+  };
+  let saved = null, busy = false, generation = 0, readyTimer = null, expiryTimer = null;
+  const invalidate = () => {
+    generation++; saved = null; clearTimeout(readyTimer); clearTimeout(expiryTimer);
+    costs.textContent = "";
+    buy.disabled = true; save.textContent = "Salvează decizia și verifică datele";
+  };
+  const save = button("Salvează decizia și verifică datele", "secondary", async () => {
+    if (busy || !form.reportValidity()) return;
+    invalidate(); busy = true; save.disabled = true;
+    account.disabled = amount.disabled = thesis.disabled = true;
+    status.textContent = "Colectăm prețul și verificările de securitate…";
+    try {
+      const result = await api(`/api/opportunities/${candidate.id}/paper-signal`, {
+        observation_id: latest.id, account: account.value, thesis: thesis.value, amount_usd: amount.value,
+      });
+      const token = ++generation;
+      saved = {id: result.id, address: candidate.contract, account: account.value, amount: amount.value};
+      const allowed = result.snapshot?.analysis?.paper_allowed === true;
+      const analysis = result.snapshot?.analysis;
+      const preview = result.cost_preview;
+      costs.textContent = preview?.available ? `Estimare pentru suma ta: debit ${cash(-Number(preview.entry.cash_change))}, impact intrare ${percent(Number(preview.entry.price_impact) * 100)}, ieșire la același preț ${cash(preview.exit_at_unchanged_price.cash_change)}, rezultat tur-retur ${cash(preview.roundtrip_pnl_usd)}, break-even +${percent(preview.break_even_rise_pct)}. Include fee și rețea presupuse; nu garantează execuția și se recalculează la ordin.` : preview?.reason || "";
+      status.textContent = `Decizie #${result.id} salvată. Preț nou ${price(result.snapshot?.market?.price_usd)}. ${allowed ? `Așteaptă minimum ${result.min_delay_seconds} secunde; ordinul verifică din nou datele.` : `Intrare blocată: ${[...(analysis?.critical || []), ...(analysis?.unknown || [])].join("; ") || "verificări incomplete"}.`}`;
+      if (allowed) {
+        readyTimer = setTimeout(() => {
+          if (generation === token) buy.disabled = false;
+        }, result.min_delay_seconds * 1000);
+        expiryTimer = setTimeout(() => {
+          if (generation === token) {
+            invalidate(); status.textContent = "Decizia a expirat. Salvează din nou pentru dovezi actuale.";
+          }
+        }, result.valid_for_seconds * 1000);
+      }
+    } catch (error) {
+      status.textContent = error.message; message(error.message);
+    } finally {
+      busy = false; save.disabled = false;
+      account.disabled = amount.disabled = thesis.disabled = false;
+    }
+  });
+  const buy = button("Cumpără virtual", "primary", async () => {
+    if (busy || !saved || buy.disabled) return;
+    const order = saved;
+    invalidate(); busy = true; save.disabled = true;
+    account.disabled = amount.disabled = thesis.disabled = true;
+    status.textContent = "Verificăm datele noi, costurile și limitele contului…";
+    try {
+      await api("/api/paper/buy", {address: order.address, signal_id: order.id, account: order.account, amount_usd: order.amount});
+      status.textContent = "Ordin virtual înregistrat în portofoliu.";
+      message("Ordin virtual înregistrat. Verdictul inițial și costurile sunt păstrate în jurnal.", true);
+      if (box.isConnected && state.page === "opportunities" && opportunityView.selection === candidate.id) {
+        await selectPaperAccount(order.account);
+        navigate("portfolio");
+      }
+    } catch (error) {
+      status.textContent = `${error.message} Salvează o decizie nouă înainte să reîncerci.`; message(error.message);
+    } finally {
+      busy = false; save.disabled = false;
+      account.disabled = amount.disabled = thesis.disabled = false;
+    }
+  });
+  buy.disabled = true;
+  for (const control of [account, amount, thesis]) control.addEventListener("input", () => {
+    invalidate(); renderLimits(); status.textContent = "Date schimbate. Salvează o decizie nouă.";
+  });
+  form.onsubmit = event => event.preventDefault();
+  form.append(limits, save, buy, status, costs);
+  renderLimits(); box.append(form); return box;
+}
 async function openOpportunity(id, scroll = true) {
   opportunityView.selection = id;
   const serial = ++opportunityView.detailRequest;
@@ -1204,6 +1307,7 @@ async function openOpportunity(id, scroll = true) {
     )
       return;
     const root = $("engine-detail");
+    const focused = root.contains(document.activeElement) ? document.activeElement : null;
     const expanded =
       root.dataset.candidateId === String(id)
         ? new Set(
@@ -1223,6 +1327,7 @@ async function openOpportunity(id, scroll = true) {
     identity.append(candidateAvatar(c.contract, m?.symbol || c.discovery.name), title);
     const close = button("Închide dosarul ×", "secondary dossier-close", () => {
       opportunityView.selection = null;
+      opportunityView.paperDraft = null;
       opportunityView.detailRequest++;
       root.hidden = true;
       renderCandidateRows();
@@ -1288,6 +1393,7 @@ async function openOpportunity(id, scroll = true) {
       ["Variație / 5 minute", percent(m?.change_5m), "Raportată de sursă; fără predicție"],
     ]) metrics.append(engineStat(label, value, note));
     root.append(metrics);
+    root.append(opportunityPaperForm(c));
     engineChart(c.observations, root);
     dossierActivity(root, latest?.features);
     if (d) {
@@ -1378,6 +1484,7 @@ async function openOpportunity(id, scroll = true) {
       details.open = expanded.has(
         details.querySelector("summary")?.textContent,
       );
+    if (!scroll && focused?.isConnected) focused.focus({preventScroll: true});
     if (scroll) root.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
     if (

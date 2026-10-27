@@ -37,6 +37,8 @@ from app.models import (
 )
 from app.news import News
 from app.opportunity_catalog import OpportunityCatalog
+from app.opportunity_paper import OpportunityPaperInput
+from app.opportunity_paper import prepare as prepare_opportunity_paper
 from app.opportunity_rules import EngineConfig
 from app.paper import Rejected
 from app.performance_cache import PerformanceReports
@@ -543,6 +545,15 @@ def create_app(
         try:
             return request.app.state.service.opportunities.detail(candidate_id)
         except ValueError as exc:
+            raise HTTPException(404, str(exc)) from None
+
+    @app.post("/api/opportunities/{candidate_id}/paper-signal")
+    async def opportunity_paper_signal(
+        candidate_id: int, body: OpportunityPaperInput, request: Request
+    ):
+        try:
+            return await prepare_opportunity_paper(request.app.state.service, candidate_id, body)
+        except LookupError as exc:
             raise HTTPException(404, str(exc)) from None
 
     @app.get("/api/discovery")
