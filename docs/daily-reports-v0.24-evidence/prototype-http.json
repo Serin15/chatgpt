@@ -1,0 +1,85 @@
+{
+  "requests": [
+    {
+      "day": "2026-10-27",
+      "http": 200,
+      "seconds": 21.02828224799987,
+      "bytes": 11548252,
+      "generated_at": "2026-10-27T20:31:14.006015+00:00",
+      "snapshot_at": "2026-10-27T20:31:14.006015+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "http": 200,
+      "seconds": 2.3386660129999655,
+      "bytes": 11548252,
+      "generated_at": "2026-10-27T20:31:14.006015+00:00",
+      "snapshot_at": "2026-10-27T20:31:14.006015+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "http": 200,
+      "seconds": 1.1461067029999867,
+      "bytes": 11548252,
+      "generated_at": "2026-10-27T20:31:14.006015+00:00",
+      "snapshot_at": "2026-10-27T20:31:14.006015+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "http": 200,
+      "seconds": 1.8282554120000896,
+      "bytes": 16917976,
+      "generated_at": "2026-10-27T20:20:54.196870+00:00",
+      "snapshot_at": "2026-10-27T20:20:54.196870+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "http": 200,
+      "seconds": 1.2380430369998976,
+      "bytes": 16917976,
+      "generated_at": "2026-10-27T20:20:54.196870+00:00",
+      "snapshot_at": "2026-10-27T20:20:54.196870+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "http": 200,
+      "seconds": 1.1902945609999733,
+      "bytes": 16917974,
+      "generated_at": "2026-10-27T20:20:54.196870+00:00",
+      "snapshot_at": "2026-10-27T20:20:54.196870+00:00"
+    }
+  ],
+  "median_seconds": 1.5331492244999936,
+  "full_response_matches_persisted_report": [
+    {
+      "day": "2026-10-27",
+      "all_fields_match_disk_snapshot": true,
+      "sha256": "0a4dac575fba0dd5c721b67dd1e658eab4b8e063aeddff73ef9afea11d27c9af"
+    },
+    {
+      "day": "2026-10-27",
+      "all_fields_match_disk_snapshot": true,
+      "sha256": "0a4dac575fba0dd5c721b67dd1e658eab4b8e063aeddff73ef9afea11d27c9af"
+    },
+    {
+      "day": "2026-10-27",
+      "all_fields_match_disk_snapshot": true,
+      "sha256": "0a4dac575fba0dd5c721b67dd1e658eab4b8e063aeddff73ef9afea11d27c9af"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_match_disk_snapshot": true,
+      "sha256": "0fca20264126428b7295bd8530715b2f1c0aa4e63958f3b3d97bc780e0c49af9"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_match_disk_snapshot": true,
+      "sha256": "0fca20264126428b7295bd8530715b2f1c0aa4e63958f3b3d97bc780e0c49af9"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_match_disk_snapshot": true,
+      "sha256": "0fca20264126428b7295bd8530715b2f1c0aa4e63958f3b3d97bc780e0c49af9"
+    }
+  ]
+}

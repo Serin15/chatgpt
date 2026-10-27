@@ -1,0 +1,162 @@
+{
+  "requests": [
+    {
+      "day": "2026-10-27",
+      "phase": "ready",
+      "http": 200,
+      "seconds": 0.30002875600030166,
+      "bytes": 11548247,
+      "generated_at": "2026-10-27T20:39:54.113458+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.29442379800002527,
+      "bytes": 11548247,
+      "generated_at": "2026-10-27T20:39:54.113458+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.18114628300008917,
+      "bytes": 11548247,
+      "generated_at": "2026-10-27T20:39:54.113458+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.13983460100007505,
+      "bytes": 11548247,
+      "generated_at": "2026-10-27T20:39:54.113458+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.10960319099967819,
+      "bytes": 11548248,
+      "generated_at": "2026-10-27T20:39:54.113458+00:00"
+    },
+    {
+      "day": "2026-10-27",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.19124746500028778,
+      "bytes": 11548247,
+      "generated_at": "2026-10-27T20:39:54.113458+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "waiting",
+      "http": 202,
+      "seconds": 0.026202839000234235,
+      "bytes": 276,
+      "generated_at": null
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "ready",
+      "http": 200,
+      "seconds": 0.3347140240002773,
+      "bytes": 16924445,
+      "generated_at": "2026-10-27T20:40:38.619872+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.16649159500002497,
+      "bytes": 16924444,
+      "generated_at": "2026-10-27T20:40:38.619872+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.10839082599977701,
+      "bytes": 16924445,
+      "generated_at": "2026-10-27T20:40:38.619872+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.09288529600007678,
+      "bytes": 16924445,
+      "generated_at": "2026-10-27T20:40:38.619872+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.05563099700020757,
+      "bytes": 16924445,
+      "generated_at": "2026-10-27T20:40:38.619872+00:00"
+    },
+    {
+      "day": "2026-10-26",
+      "phase": "cached",
+      "http": 200,
+      "seconds": 0.07279883699993661,
+      "bytes": 16924444,
+      "generated_at": "2026-10-27T20:40:38.619872+00:00"
+    }
+  ],
+  "cached_median_seconds": 0.12471889599987662,
+  "cached_max_seconds": 0.29442379800002527,
+  "full_response_matches_disk": [
+    {
+      "day": "2026-10-27",
+      "all_fields_identical": true,
+      "sha256": "dc357e4b7fa21cf9a069170368879255801c5330884ed7f1e59189a637478362"
+    },
+    {
+      "day": "2026-10-27",
+      "all_fields_identical": true,
+      "sha256": "dc357e4b7fa21cf9a069170368879255801c5330884ed7f1e59189a637478362"
+    },
+    {
+      "day": "2026-10-27",
+      "all_fields_identical": true,
+      "sha256": "dc357e4b7fa21cf9a069170368879255801c5330884ed7f1e59189a637478362"
+    },
+    {
+      "day": "2026-10-27",
+      "all_fields_identical": true,
+      "sha256": "dc357e4b7fa21cf9a069170368879255801c5330884ed7f1e59189a637478362"
+    },
+    {
+      "day": "2026-10-27",
+      "all_fields_identical": true,
+      "sha256": "dc357e4b7fa21cf9a069170368879255801c5330884ed7f1e59189a637478362"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_identical": true,
+      "sha256": "e2d79a18cfaa4b274e6584c8d7a1cb8180cd594dcacb5d06b4531462686b98ed"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_identical": true,
+      "sha256": "e2d79a18cfaa4b274e6584c8d7a1cb8180cd594dcacb5d06b4531462686b98ed"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_identical": true,
+      "sha256": "e2d79a18cfaa4b274e6584c8d7a1cb8180cd594dcacb5d06b4531462686b98ed"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_identical": true,
+      "sha256": "e2d79a18cfaa4b274e6584c8d7a1cb8180cd594dcacb5d06b4531462686b98ed"
+    },
+    {
+      "day": "2026-10-26",
+      "all_fields_identical": true,
+      "sha256": "e2d79a18cfaa4b274e6584c8d7a1cb8180cd594dcacb5d06b4531462686b98ed"
+    }
+  ]
+}

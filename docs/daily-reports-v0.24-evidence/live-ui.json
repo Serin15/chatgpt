@@ -1,0 +1,50 @@
+{
+  "source": "actual_running_v0.24.0_no_interception",
+  "daily": {
+    "day": "2026-10-27",
+    "generated_at": "2026-10-27T20:49:05.959958+00:00",
+    "totals": {
+      "discovered": 15169,
+      "eligible": 15169,
+      "excluded": 0,
+      "first_evaluations": 15129,
+      "eligible_without_first_evaluation": 40,
+      "security_pass_at_first_evaluation": 487,
+      "liquidity_pass_at_first_evaluation": 555,
+      "selected_at_first_evaluation": 321,
+      "opportunity_alerts": 454,
+      "risk_alerts": 350,
+      "alerts_displayed_in_app": 86
+    },
+    "cache": {
+      "snapshot_at": "2026-10-27T20:49:05.959958+00:00",
+      "calculated_at": "2026-10-27T20:49:16.503874+00:00",
+      "calculation_seconds": 10.838159539999651,
+      "calculation_mode": "isolated_read_only_process",
+      "served_from_cache": true,
+      "seconds_since_snapshot": 68.79930305480957,
+      "stale": false,
+      "refresh": {
+        "state": "running",
+        "started_at": "2026-10-27T20:50:01.978972+00:00",
+        "error": null,
+        "at": "2026-10-27T20:49:16.678402+00:00"
+      },
+      "persistence_error": null
+    }
+  },
+  "javascript_errors": [],
+  "widths_fit": {
+    "320": true,
+    "390": true,
+    "768": true,
+    "1440": true
+  },
+  "reading_panel_preserved": true,
+  "actual_large_json_export": {
+    "bytes": 19278762,
+    "day": "2026-10-27",
+    "individual_rows": 45387,
+    "complete": true
+  }
+}

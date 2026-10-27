@@ -1,0 +1,19 @@
+{
+  "checks": {
+    "config": true,
+    "original_speed_5m": true,
+    "original_speed_signal": true,
+    "main_ledger": true,
+    "news_ledger": true,
+    "original_policies": true,
+    "original_declarations": true,
+    "history_counts_not_decreased": true
+  },
+  "all_preserved": true,
+  "policy_count": 32,
+  "manual_accounts": {
+    "scanner_balance": "100",
+    "news_balance": "500"
+  },
+  "manual_orders_created": 0
+}

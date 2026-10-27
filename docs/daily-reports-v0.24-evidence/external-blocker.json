@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-10-27T20:50:11.314380+00:00",
+  "latest_code_commit": "072e1d7fd3c249ad11b2768bbe156e376669fde4",
+  "github_actions_status": "unverified",
+  "blocker": "HTTP proxy CONNECT returns 403 Forbidden for api.github.com",
+  "active_custom_allowed_hosts": [],
+  "desired_config_contains_required_hosts": true,
+  "desired_custom_host_count": 34,
+  "crypto_source_verification": "blocked_by_active_cloud_network_policy",
+  "required_action": "Review and Save the prepared environment draft, then Publish; recheck access afterward.",
+  "native_windows_v024": "unverified; v0.23 success is not reused as v0.24 evidence"
+}

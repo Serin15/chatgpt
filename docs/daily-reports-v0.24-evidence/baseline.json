@@ -1,0 +1,41 @@
+{
+  "scope": "original daily_report read-only on real database; HTTP service not running at start of turn",
+  "requests": [
+    {
+      "day": "2026-10-27",
+      "seconds": 20.132309735000035,
+      "generated_at": "2026-10-27T20:12:43.965318+00:00",
+      "totals": {
+        "discovered": 15169,
+        "eligible": 15169,
+        "excluded": 0,
+        "first_evaluations": 15129,
+        "eligible_without_first_evaluation": 40,
+        "security_pass_at_first_evaluation": 487,
+        "liquidity_pass_at_first_evaluation": 555,
+        "selected_at_first_evaluation": 321,
+        "opportunity_alerts": 454,
+        "risk_alerts": 350,
+        "alerts_displayed_in_app": 66
+      }
+    },
+    {
+      "day": "2026-10-26",
+      "seconds": 33.32543645499982,
+      "generated_at": "2026-10-27T20:13:04.097785+00:00",
+      "totals": {
+        "discovered": 21056,
+        "eligible": 21056,
+        "excluded": 0,
+        "first_evaluations": 21040,
+        "eligible_without_first_evaluation": 16,
+        "security_pass_at_first_evaluation": 664,
+        "liquidity_pass_at_first_evaluation": 858,
+        "selected_at_first_evaluation": 421,
+        "opportunity_alerts": 689,
+        "risk_alerts": 571,
+        "alerts_displayed_in_app": 5
+      }
+    }
+  ]
+}
