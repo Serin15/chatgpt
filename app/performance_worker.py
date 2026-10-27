@@ -5,10 +5,12 @@ import json
 import sqlite3
 import sys
 from contextlib import contextmanager
+from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
 
 from app.archive_codec import configure
+from app.daily_research import daily_report
 from app.opportunity_routes import Routes
 from app.opportunity_rules import EngineConfig
 from app.opportunity_sampling import Sampling
@@ -52,11 +54,16 @@ def main():
     parser.add_argument("--database", required=True)
     parser.add_argument("--news-database", required=True)
     parser.add_argument("--max-snapshot-age", type=int, default=120)
-    parser.add_argument("--kind", choices=["performance", "routes"], default="performance")
+    parser.add_argument("--kind", choices=["performance", "routes", "daily"], default="performance")
+    parser.add_argument("--day", type=date.fromisoformat)
     args = parser.parse_args()
     try:
         engine = ReadEngine(args.database, args.news_database, args.max_snapshot_age)
-        if args.kind == "routes":
+        if args.kind == "daily":
+            if args.day is None:
+                raise ValueError("Daily report requires a UTC day")
+            data = daily_report(engine, args.day)
+        elif args.kind == "routes":
             # Routes.__init__ runs migrations; the reader must never invoke it.
             routes = Routes.__new__(Routes)
             routes.engine, routes.store = engine, engine.store

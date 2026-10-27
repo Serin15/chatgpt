@@ -22,6 +22,7 @@ from app.announcements import ApprovalInput, VerificationInput
 from app.assets import Assets, research_case
 from app.auth import LoginInput
 from app.config import Settings
+from app.daily_cache import DailyReports
 from app.daily_research import daily_report
 from app.listings import ListingInput
 from app.logging_config import install_redaction
@@ -76,6 +77,7 @@ def create_app(
         app.state.pilot = Pilot(app.state.service.opportunities)
         app.state.catalog = OpportunityCatalog(app.state.service.opportunities)
         app.state.backup_lock = Lock()
+        app.state.daily_reports = DailyReports(app.state.service.opportunities) if run_scanner else None
         # lifespan already holds RuntimeLock for this DATA_DIR. No previous app
         # can still own its worker, including after a forced exit. Recover only
         # this ephemeral lease; research rows and deadlines remain unchanged.
@@ -116,6 +118,7 @@ def create_app(
                     ("performance_report", app.state.performance_reports.run),
                     ("routes_report", app.state.routed_reports.run),
                     ("candidate_index", app.state.catalog.run),
+                    ("daily_report", app.state.daily_reports.run),
                 ]
             ]
             if run_scanner
@@ -249,6 +252,7 @@ def create_app(
             "opportunity_engine": service.opportunities.status,
             "storage": disk_health(settings.data_dir),
             "candidate_index": request.app.state.catalog.status(),
+            "daily_reports": request.app.state.daily_reports.status() if request.app.state.daily_reports else None,
         }
 
     @app.get("/api/tokens")
@@ -492,6 +496,9 @@ def create_app(
         try:
             engine = request.app.state.service.opportunities
             chosen = day or date.fromisoformat(utcnow()[:10])
+            if request.app.state.daily_reports is not None:
+                data = request.app.state.daily_reports.request(chosen)
+                return JSONResponse(data, status_code=202 if data["report_state"] == "preparing" else 200)
             data = engine.shared_report(("daily", chosen), lambda: daily_report(engine, chosen))
             # This synchronous endpoint runs in the worker pool. Encode the large
             # plain-JSON report here instead of recursively encoding on the API loop.

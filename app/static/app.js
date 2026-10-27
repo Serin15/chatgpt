@@ -847,6 +847,7 @@ function renderHealth() {
   }
   for (const [name, item] of Object.entries(status.workers || {}))
     if (item.state === "error") errors.push("worker_" + name);
+  if (["error", "partial"].includes(status.daily_reports?.state)) errors.push("daily_reports");
   const count = errors.length + Object.keys(state.sectionErrors).length;
   $("connection").replaceChildren(
     node(
@@ -888,6 +889,12 @@ function renderHealth() {
   }
   if (status.candidate_index)
     details.append(node("p", `Index candidați: ${status.candidate_index.state === "ready" ? "actualizat" : status.candidate_index.state === "updating" ? "se actualizează" : "se pregătește"} · ${number(status.candidate_index.indexed_candidates)} candidați indexați · ${number(status.candidate_index.pending_subjects)} în așteptare. Date derivate; semnalele originale sunt păstrate.`, "footnote"));
+  if (status.daily_reports) {
+    const daily = status.daily_reports;
+    details.append(node("p", `Bilanțuri zilnice: ${daily.state} · în calcul ${daily.active_day || "—"} · în coadă ${daily.queued} · ${daily.cached_days.length} snapshoturi. ${daily.persistence_error ? `Cache disc: ${daily.persistence_error}.` : ""}`, "footnote"));
+    for (const [day, item] of Object.entries(daily.diagnostics || {}))
+      details.append(node("p", `Bilanț ${day} UTC: ${item.state} · ultima eroare ${item.last_error || item.error} · ${date(item.last_error_at || item.at)}`, "footnote"));
+  }
   $("section-alerts").replaceChildren();
   for (const [key, value] of Object.entries(state.sectionErrors))
     $("section-alerts").append(

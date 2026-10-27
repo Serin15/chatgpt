@@ -18,6 +18,7 @@ const opportunityView = {
   dailyDay: null,
   dailyRequest: 0,
   daily: null,
+  dailyRetry: null,
   paperDraft: null,
 };
 const opportunityLabels = {
@@ -1015,6 +1016,7 @@ function renderEngineNarratives(data) {
   );
 }
 async function loadDailyResearch() {
+  clearTimeout(opportunityView.dailyRetry);
   const day = opportunityView.dailyDay || new Date().toISOString().slice(0, 10);
   const serial = ++opportunityView.dailyRequest;
   $("engine-daily-export").disabled = true;
@@ -1023,13 +1025,50 @@ async function loadDailyResearch() {
   try {
     const data = await api("/api/opportunities/daily?day=" + encodeURIComponent(day));
     if (serial !== opportunityView.dailyRequest) return;
+    if (data.report_state === "preparing") {
+      dailyReportNotice(data, day);
+      opportunityError("Bilanț zilnic", data.report_cache?.refresh?.state === "error" ? new Error("Calculul bilanțului a eșuat; se reîncearcă în fundal.") : null);
+      opportunityView.dailyRetry = setTimeout(() => {
+        if (serial === opportunityView.dailyRequest && state.page === "opportunities") loadDailyResearch();
+      }, 3000);
+      return;
+    }
+    if (data.day_utc !== day || !data.totals || !data.models || !Number.isFinite(new Date(data.generated_at).getTime()))
+      throw new Error("Bilanț invalid sau pentru altă zi; raportul anterior rămâne păstrat.");
+    const sameDay = opportunityView.daily?.day_utc === data.day_utc;
+    const sameSnapshot = sameDay && opportunityView.daily.generated_at === data.generated_at;
+    if (!sameSnapshot) {
+      const opened = sameDay ? new Set([...$("engine-daily").querySelectorAll("details[open]")].map(d => d.querySelector("summary")?.textContent)) : new Set();
+      renderDailyResearch(data);
+      for (const details of $("engine-daily").querySelectorAll("details"))
+        details.open = opened.has(details.querySelector("summary")?.textContent);
+    }
     opportunityView.daily = data;
     $("engine-daily-export").disabled = false;
-    renderDailyResearch(data);
-    opportunityError("Bilanț zilnic", null);
+    dailyReportNotice(data, day);
+    opportunityError("Bilanț zilnic", data.report_cache?.refresh?.state === "error" ? new Error("Ultimul calcul a eșuat; este afișat bilanțul anterior, datat.") : null);
   } catch (error) {
     if (serial === opportunityView.dailyRequest) opportunityError("Bilanț zilnic", error);
   }
+}
+function dailyReportNotice(data, requestedDay) {
+  const root = $("engine-daily"), cache = data.report_cache;
+  root.querySelector(".daily-report-notice")?.remove();
+  if (!cache) return;
+  const refresh = cache.refresh || {}, pending = data.report_state === "preparing";
+  const notice = node("p", undefined, "daily-report-notice footnote");
+  const previousDay = opportunityView.daily?.day_utc;
+  if (pending) {
+    notice.textContent = `Bilanțul pentru ${requestedDay} UTC se pregătește în fundal. ${refresh.state === "busy" ? "Coada este ocupată; se reîncearcă automat." : refresh.state === "error" ? "Calculul a eșuat; reîncercarea este automată." : "Candidații rămân accesibili; actualizarea este automată."} ${previousDay ? `Raportul afișat mai jos este pentru ${previousDay} UTC.` : "Nu există încă un rezultat calculat; lipsa lui nu înseamnă zero."}`;
+    if (!previousDay) root.replaceChildren();
+  } else {
+    notice.textContent = `Snapshot din cache · date la ${date(cache.snapshot_at)} · calcul încheiat ${date(cache.calculated_at)}. ${cache.stale ? "Date păstrate, încă neactualizate." : "Ultima versiune completă."} ${refresh.state === "running" || refresh.queued ? "Actualizare în fundal." : ""}`;
+  }
+  if (refresh.error) notice.textContent += ` Calcul: ${refresh.error}.`;
+  if (refresh.last_error && !refresh.error) notice.textContent += ` Ultima eroare păstrată: ${refresh.last_error} · ${date(refresh.last_error_at)}.`;
+  if (cache.persistence_error) notice.textContent += ` Cache-ul pe disc nu este disponibil: ${cache.persistence_error}; copia din memorie rămâne datată.`;
+  notice.classList.toggle("warn", pending || cache.stale || Boolean(refresh.error) || Boolean(cache.persistence_error));
+  root.prepend(notice);
 }
 function renderForwardEvaluation(root, forward) {
   if (!forward) return;

@@ -968,6 +968,80 @@ async def check(base):
             scanner = await page.request.get(base + "/api/portfolio?account=scanner")
             assert (await scanner.json())["cash"] == "100"
 
+        async def daily_background_preparation(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            data = await page.evaluate("opportunityView.daily")
+            calls = []
+
+            async def reports(route):
+                calls.append(1)
+                await route.fulfill(status=202 if len(calls) == 1 else 200, json={
+                    "day_utc": data["day_utc"], "report_state": "preparing",
+                    "report_cache": {"stale": True, "refresh": {"state": "running"}},
+                } if len(calls) == 1 else data)
+
+            await page.route("**/api/opportunities/daily?*", reports)
+            await page.evaluate("loadDailyResearch()")
+            await expect(page.locator(".daily-report-notice")).to_contain_text("se pregătește în fundal")
+            await expect(page.locator("#engine-daily-export")).to_be_disabled()
+            await expect(page.locator("#engine-rows tr")).to_have_count(1)
+            await expect(page.locator("#engine-daily-export")).to_be_enabled(timeout=6000)
+            assert len(calls) == 2
+
+        async def daily_cached_error_and_health(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            data = await page.evaluate("structuredClone(opportunityView.daily)")
+            data.update(day_utc="2020-01-01", generated_at="2020-01-01T12:00:00Z", report_state="ready")
+            data["report_cache"] = {"snapshot_at": data["generated_at"], "calculated_at": data["generated_at"],
+                "stale": True, "refresh": {"state": "error", "error": "TimeoutError"},
+                "persistence_error": "DatabaseError"}
+            await page.route("**/api/opportunities/daily?*", lambda route: route.fulfill(json=data))
+            await page.evaluate("opportunityView.dailyDay='2020-01-01'; loadDailyResearch()")
+            notice = page.locator(".daily-report-notice")
+            await expect(notice).to_contain_text("2020")
+            await expect(notice).to_contain_text("neactualizate")
+            await expect(notice).to_contain_text("TimeoutError")
+            await expect(notice).to_contain_text("DatabaseError")
+            await expect(page.locator("#engine-daily-export")).to_be_enabled()
+            await page.evaluate("""() => {
+                state.status.daily_reports={state:'error',active_day:null,queued:0,cached_days:['2020-01-01'],
+                    diagnostics:{'2020-01-01':{state:'error',last_error:'TimeoutError',last_error_at:'2020-01-01T12:00:00Z'}}};
+                renderHealth();
+            }""")
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-components")).to_contain_text("Bilanț 2020-01-01 UTC")
+            await expect(page.locator("#health-components")).to_contain_text("TimeoutError")
+            await page.set_viewport_size({"width":320,"height":844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+
+        async def daily_wrong_day_is_not_exported(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            original = await page.evaluate("opportunityView.daily.day_utc")
+            await page.route("**/api/opportunities/daily?*", lambda route: route.fulfill(json={"day_utc":"2000-01-01"}))
+            await page.evaluate("loadDailyResearch()")
+            assert await page.evaluate("opportunityView.daily.day_utc") == original
+            await expect(page.locator("#engine-daily-export")).to_be_disabled()
+            await expect(page.locator("#engine-errors")).to_contain_text("Bilanț invalid")
+
+        async def daily_reading_survives_refresh(page):
+            await ready(page)
+            await page.wait_for_function("() => opportunityView.daily !== null")
+            original = await page.evaluate("structuredClone(opportunityView.daily)")
+            await page.route("**/api/opportunities/daily?*", lambda route: route.fulfill(json=original))
+            await page.evaluate("""() => {
+                const item=document.querySelector('#engine-daily details');
+                item.open=true; item.dataset.reading='preserved';
+            }""")
+            await page.evaluate("loadDailyResearch()")
+            await expect(page.locator('#engine-daily details').first).to_have_attribute("open", "")
+            await expect(page.locator('#engine-daily details').first).to_have_attribute("data-reading", "preserved")
+            original["generated_at"] = "2020-01-01T00:00:00Z"  # UI fixture for another report generation
+            await page.evaluate("loadDailyResearch()")
+            await expect(page.locator('#engine-daily details').first).to_have_attribute("open", "")
+
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
@@ -1018,6 +1092,10 @@ async def check(base):
             ("activity windows preserve missing evidence without invented zeros", activity_windows_keep_missing_values),
             ("request deadline explains timeout and recovery in Romanian", request_timeout_explains_recovery),
             ("performance snapshot date, stale cache and refresh errors remain visible", performance_snapshot_freshness),
+            ("daily background preparation retries without blocking candidates", daily_background_preparation),
+            ("dated daily cache and persistent errors remain visible on mobile", daily_cached_error_and_health),
+            ("wrong-day daily response never replaces or exports valid data", daily_wrong_day_is_not_exported),
+            ("daily reading panels survive cached and new report generations", daily_reading_survives_refresh),
             ("manual opportunity draft survives refresh and fits 320px", manual_opportunity_draft),
             ("manual opportunity API failure and expiry keep buy disabled", manual_opportunity_failure_and_expiry),
             ("manual opportunity risk rejection, account isolation, buy and sell after costs", manual_opportunity_roundtrip),

@@ -14,11 +14,14 @@ from app.models import utcnow
 
 
 class PerformanceReports:
-    def __init__(self, engine, interval_seconds=45, stale_after_seconds=120, kind="performance"):
-        if kind not in {"performance", "routes"}:
+    def __init__(self, engine, interval_seconds=45, stale_after_seconds=120, kind="performance", day=None):
+        if kind not in {"performance", "routes", "daily"}:
             raise ValueError("Unknown report kind")
         self.engine = engine
         self.kind = kind
+        self.day = day
+        if kind == "daily" and day is None:
+            raise ValueError("Daily report requires a UTC day")
         self.interval_seconds = interval_seconds
         self.stale_after_seconds = stale_after_seconds
         self.lock = Lock()
@@ -57,7 +60,12 @@ class PerformanceReports:
         if clocks is None:
             return
         try:
-            data = self.engine.routes.report() if self.kind == "routes" else self.engine.report()
+            if self.kind == "daily":
+                from app.daily_research import daily_report
+
+                data = daily_report(self.engine, self.day)
+            else:
+                data = self.engine.routes.report() if self.kind == "routes" else self.engine.report()
         except Exception as error:
             self._failed(error)
             raise
@@ -81,6 +89,7 @@ class PerformanceReports:
                 str(self.engine.service.settings.max_snapshot_age),
                 "--kind",
                 self.kind,
+                *(["--day", self.day.isoformat()] if self.kind == "daily" else []),
                 cwd=str(Path(__file__).resolve().parent.parent),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,

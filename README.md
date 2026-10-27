@@ -1,4 +1,6 @@
-# MemeScope v0.23.0 — research workspace
+# MemeScope v0.24.0 — research workspace
+
+**Bilanț zilnic v0.24.0:** [calcul în fundal, raport complet păstrat pe disc și erori vizibile după repornire](docs/DAILY-REPORTS-V0.24.md). Cererile HTTP nu așteaptă calculul istoric; rapoartele păstrate își mențin data reală.
 
 **Decizie manuală v0.23.0:** [oportunitate → decizie documentată → ordin virtual → portofoliu și rezultat net](docs/MANUAL-PAPER-V0.23.md). Prețurile sunt colectate din nou, limitele conturilor rămân active, iar dovezile inițiale sunt păstrate separat de experimentele automate.
 
