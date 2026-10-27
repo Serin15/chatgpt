@@ -1,0 +1,22 @@
+{
+  "financial_and_collector_sources_unchanged": {
+    "opportunities.py": true,
+    "opportunity_rules.py": true,
+    "opportunity_routes.py": true,
+    "opportunity_sources.py": true,
+    "opportunity_outcomes.py": true,
+    "opportunity_sampling.py": true,
+    "opportunity_lifecycle.py": true,
+    "forward_evaluation.py": true,
+    "cohort_comparisons.py": true,
+    "analysis.py": true,
+    "models.py": true,
+    "paper.py": true,
+    "jupiter.py": true,
+    "providers.py": true,
+    "collection_budget.py": true
+  },
+  "engine_source_sha256": "cc2e2c6499bbd495b8c28aa38f76d366efb9785e50336a54cd262da62bda9251",
+  "pilot_declaration_unchanged": true,
+  "policy_32_source_matches": true
+}

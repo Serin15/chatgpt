@@ -1,0 +1,9 @@
+{
+  "status": 507,
+  "seconds": 0.012868076970335096,
+  "response": {
+    "detail": "Spa\u021biu insuficient pentru backupul complet. Verific\u0103 panoul Stocare.",
+    "free_bytes": 3175702528,
+    "required_free_bytes": 21291545344
+  }
+}

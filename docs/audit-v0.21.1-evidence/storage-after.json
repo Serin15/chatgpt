@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-27T05:11:33.235630+00:00",
+  "state": "warning",
+  "disk_free_bytes": 3175739392,
+  "disk_total_bytes": 33770192896,
+  "backup_ready": false,
+  "backup_required_free_bytes": 21291545344,
+  "backup_space_deficit_bytes": 18115805952,
+  "databases": [
+    {
+      "database": "research.sqlite3",
+      "file_bytes": 10370052096,
+      "logical_page_bytes": 10370347008,
+      "reusable_bytes": 0,
+      "wal_bytes": 4630912,
+      "last_archive": {
+        "cutoff": "2026-10-18T05:15:55.801274+00:00",
+        "tables": {
+          "snapshots": {
+            "rows_compressed": 128071,
+            "original_payload_bytes": 237945971,
+            "stored_payload_bytes": 157186512
+          },
+          "opportunity_observations": {
+            "rows_compressed": 128558,
+            "original_payload_bytes": 675153450,
+            "stored_payload_bytes": 306672734
+          }
+        },
+        "codec": "memescope-zlib-sha256-v1"
+      }
+    },
+    {
+      "database": "news_paper/research.sqlite3",
+      "file_bytes": 2654208,
+      "logical_page_bytes": 2654208,
+      "reusable_bytes": 0,
+      "wal_bytes": 0,
+      "last_archive": {
+        "cutoff": "2026-10-18T05:15:55.801274+00:00",
+        "tables": {
+          "snapshots": {
+            "rows_compressed": 0,
+            "original_payload_bytes": 0,
+            "stored_payload_bytes": 0
+          }
+        },
+        "codec": "memescope-zlib-sha256-v1"
+      }
+    }
+  ],
+  "backup_count": 3,
+  "backup_bytes": 1644136862,
+  "automatic_archival": false,
+  "history_deleted": false,
+  "archive_is_independent_backup": false
+}

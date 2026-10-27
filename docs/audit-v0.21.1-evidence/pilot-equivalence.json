@@ -1,0 +1,34 @@
+{
+  "at_epoch": 1793077338.4537654,
+  "timings_seconds": {
+    "before": 30.856050042028073,
+    "after": 14.964724485005718
+  },
+  "checks": {
+    "same_sqlite_snapshot": true,
+    "same_report_clock": true,
+    "all_report_fields_identical": true
+  },
+  "sha256": {
+    "before": "e73370918fd4954503eb01f19f38a8a3c8aa0caf440e72247ded0929857b8cd2",
+    "after": "e73370918fd4954503eb01f19f38a8a3c8aa0caf440e72247ded0929857b8cd2"
+  },
+  "cohort": {
+    "new_registrations": 33973,
+    "eligible": 33973,
+    "first_evaluations": 33957,
+    "analysis_tokens": 33957,
+    "analysis_exclusions": {
+      "no_first_evaluation_yet": 16
+    },
+    "security_pass_at_first": 1122,
+    "liquidity_pass_at_first": 1351,
+    "opportunity_alerts": 1116,
+    "risk_alerts": 855,
+    "alerts_displayed": 9,
+    "initially_selected_tokens": 717,
+    "control_tokens_excluding_selected": 6658,
+    "already_extended_alerts": 0,
+    "global_missed_opportunities": null
+  }
+}

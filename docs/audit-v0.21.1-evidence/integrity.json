@@ -1,0 +1,18 @@
+[
+  {
+    "database": "research.sqlite3",
+    "state": "ok",
+    "checks": [
+      "ok"
+    ],
+    "seconds": 46.471
+  },
+  {
+    "database": "news_paper/research.sqlite3",
+    "state": "ok",
+    "checks": [
+      "ok"
+    ],
+    "seconds": 0.017
+  }
+]

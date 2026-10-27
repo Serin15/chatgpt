@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/api/opportunities/routes",
+    "status": 200,
+    "seconds": 88.6460065949941
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 4.838478051999118
+  }
+]

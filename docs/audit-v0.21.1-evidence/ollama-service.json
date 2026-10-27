@@ -1,0 +1,7 @@
+{
+  "url": "http://127.0.0.1:11434/api/tags",
+  "generation_requested": false,
+  "at_epoch": 1793079956.294289,
+  "state": "unavailable",
+  "error": "URLError"
+}

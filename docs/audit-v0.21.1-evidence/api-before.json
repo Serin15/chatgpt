@@ -1,0 +1,130 @@
+[
+  {
+    "path": "/healthz",
+    "status": 200,
+    "seconds": 0.078,
+    "keys": [
+      "application",
+      "app_id",
+      "version",
+      "instance_id",
+      "live_execution"
+    ]
+  },
+  {
+    "path": "/api/status",
+    "status": 200,
+    "seconds": 0.012,
+    "keys": [
+      "application",
+      "live_execution",
+      "chain",
+      "providers",
+      "scanner",
+      "rules",
+      "discovery"
+    ]
+  },
+  {
+    "path": "/api/opportunities?limit=5",
+    "status": 200,
+    "seconds": 0.608,
+    "keys": [
+      "items",
+      "matching_total",
+      "ranking_limited",
+      "next_cursor",
+      "status",
+      "config",
+      "coverage"
+    ]
+  },
+  {
+    "path": "/api/opportunities/pilot",
+    "status": 200,
+    "seconds": 0.014,
+    "keys": [
+      "version",
+      "study",
+      "report_state",
+      "generated_at",
+      "phase",
+      "elapsed_days",
+      "remaining_days"
+    ]
+  },
+  {
+    "path": "/api/opportunities/performance",
+    "status": 200,
+    "seconds": 0.017,
+    "keys": [
+      "rule_version",
+      "totals",
+      "sampling",
+      "first_evaluation_security_pass",
+      "first_evaluation_liquidity_pass",
+      "first_evaluation_verdicts",
+      "current_security_pass"
+    ]
+  },
+  {
+    "path": "/api/opportunities/coverage",
+    "status": 200,
+    "seconds": 0.297,
+    "keys": [
+      "version",
+      "monitoring",
+      "activated_at",
+      "generated_at",
+      "policy",
+      "enrollment",
+      "groups"
+    ]
+  },
+  {
+    "path": "/api/portfolio?account=scanner",
+    "status": 200,
+    "seconds": 0.003,
+    "keys": [
+      "mode",
+      "initial_balance",
+      "cash",
+      "positions",
+      "orders",
+      "account",
+      "realized_pnl_usd"
+    ]
+  },
+  {
+    "path": "/api/portfolio?account=news",
+    "status": 200,
+    "seconds": 0.011,
+    "keys": [
+      "mode",
+      "initial_balance",
+      "cash",
+      "positions",
+      "orders",
+      "account",
+      "realized_pnl_usd"
+    ]
+  },
+  {
+    "path": "/api/news",
+    "status": 200,
+    "seconds": 0.309,
+    "keys": null
+  },
+  {
+    "path": "/api/assets",
+    "status": 200,
+    "seconds": 0.008,
+    "keys": null
+  },
+  {
+    "path": "/api/wallets",
+    "status": 200,
+    "seconds": 0.004,
+    "keys": null
+  }
+]

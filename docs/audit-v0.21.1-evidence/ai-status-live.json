@@ -1,0 +1,18 @@
+{
+  "provider": "disabled",
+  "model": "",
+  "daily_request_limit": 20,
+  "state": "unverified",
+  "at": null,
+  "error": null,
+  "configuration_error": null,
+  "configured": false,
+  "api_key_present": null,
+  "requests_today": 0,
+  "environment_override": false,
+  "automatic_analysis": false,
+  "automatic_analysis_scope": "token_dossier",
+  "automatic_narratives_configurable": true,
+  "live_execution": false,
+  "note": "Citările sunt verificate ca text, nu ca adevăr. Analizele de dosar sunt manuale; clasificarea narativă poate fi activată separat în Level 3. Limita zilnică include încercările eșuate, fără a garanta un plafon de cost API."
+}

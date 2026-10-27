@@ -1,0 +1,133 @@
+[
+  {
+    "elapsed_seconds": 0.0412,
+    "status": 503,
+    "at_epoch": 1793079069.719102,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0167,
+    "status": 503,
+    "at_epoch": 1793079072.7360322,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0113,
+    "status": 503,
+    "at_epoch": 1793079075.7477694,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0403,
+    "status": 503,
+    "at_epoch": 1793079078.7911263,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.012,
+    "status": 503,
+    "at_epoch": 1793079081.9907792,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0094,
+    "status": 503,
+    "at_epoch": 1793079085.0009081,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0087,
+    "status": 503,
+    "at_epoch": 1793079088.0103438,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0134,
+    "status": 503,
+    "at_epoch": 1793079091.0241027,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0628,
+    "status": 503,
+    "at_epoch": 1793079094.0873,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0198,
+    "status": 503,
+    "at_epoch": 1793079097.1074462,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0161,
+    "status": 503,
+    "at_epoch": 1793079100.2167952,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0142,
+    "status": 503,
+    "at_epoch": 1793079103.23137,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0074,
+    "status": 503,
+    "at_epoch": 1793079106.2390552,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0138,
+    "status": 503,
+    "at_epoch": 1793079109.256678,
+    "response": {
+      "detail": "Raportul istoric se preg\u0103te\u0219te \u00een fundal. Candida\u021bii r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 prima calculare."
+    }
+  },
+  {
+    "elapsed_seconds": 0.0124,
+    "status": 200,
+    "at_epoch": 1793079112.2692714,
+    "report_cache": {
+      "served_from_cache": true,
+      "snapshot_at": "2026-10-27T05:30:44.646560+00:00",
+      "calculated_at": "2026-10-27T05:31:50.943913+00:00",
+      "calculation_seconds": 66.29736156796571,
+      "calculation_mode": "isolated_read_only_process",
+      "seconds_since_snapshot": 67.61253869900247,
+      "seconds_since_calculation": 1.317305453994777,
+      "stale": false,
+      "refresh": {
+        "state": "ok",
+        "at": "2026-10-27T05:31:50.943913+00:00"
+      }
+    }
+  }
+]

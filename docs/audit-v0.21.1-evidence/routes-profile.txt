@@ -1,0 +1,67 @@
+elapsed 15   File "/workspace/audit-v0211/profile_routes.py", line 13, in <module>
+    result=r.report();profiler.disable();signal.setitimer(signal.ITIMER_REAL,0);profiler.dump_stats(str(out/'routes-profile.stats'))
+  File "/workspace/chatgpt/app/opportunity_routes.py", line 521, in report
+    for r in db.execute(
+  File "/workspace/chatgpt/app/archive_codec.py", line 55, in row_factory
+    return sqlite3.Row(cursor, tuple(decode(value) for value in row))
+  File "/workspace/chatgpt/app/archive_codec.py", line 55, in <genexpr>
+    return sqlite3.Row(cursor, tuple(decode(value) for value in row))
+
+elapsed 30   File "/workspace/audit-v0211/profile_routes.py", line 13, in <module>
+    result=r.report();profiler.disable();signal.setitimer(signal.ITIMER_REAL,0);profiler.dump_stats(str(out/'routes-profile.stats'))
+  File "/workspace/chatgpt/app/opportunity_routes.py", line 521, in report
+    for r in db.execute(
+  File "/workspace/chatgpt/app/archive_codec.py", line 55, in row_factory
+    return sqlite3.Row(cursor, tuple(decode(value) for value in row))
+  File "/workspace/chatgpt/app/archive_codec.py", line 55, in <genexpr>
+    return sqlite3.Row(cursor, tuple(decode(value) for value in row))
+  File "/workspace/chatgpt/app/archive_codec.py", line 18, in decode
+    def decode(value):
+
+elapsed 45   File "/workspace/audit-v0211/profile_routes.py", line 13, in <module>
+    result=r.report();profiler.disable();signal.setitimer(signal.ITIMER_REAL,0);profiler.dump_stats(str(out/'routes-profile.stats'))
+  File "/workspace/chatgpt/app/opportunity_routes.py", line 520, in report
+    dict(r) | {"payload": json.loads(r["payload"])}
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+
+elapsed 60   File "/workspace/audit-v0211/profile_routes.py", line 13, in <module>
+    result=r.report();profiler.disable();signal.setitimer(signal.ITIMER_REAL,0);profiler.dump_stats(str(out/'routes-profile.stats'))
+  File "/workspace/chatgpt/app/opportunity_routes.py", line 557, in report
+    policy = json.loads(row.pop("policy"))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+
+elapsed 75   File "/workspace/audit-v0211/profile_routes.py", line 13, in <module>
+    result=r.report();profiler.disable();signal.setitimer(signal.ITIMER_REAL,0);profiler.dump_stats(str(out/'routes-profile.stats'))
+  File "/workspace/chatgpt/app/opportunity_routes.py", line 594, in report
+    s: summary([r for r in same if r["kind"] == "baseline" and r["split"] == s])
+
+finished 76.06164147501113
+         58124836 function calls (58124806 primitive calls) in 75.364 seconds
+
+   Ordered by: cumulative time
+   List reduced from 154 to 15 due to restriction <15>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1   26.385   26.385   75.363   75.363 /workspace/chatgpt/app/opportunity_routes.py:510(report)
+  1063313    4.341    0.000   21.186    0.000 /workspace/chatgpt/app/archive_codec.py:54(row_factory)
+  1608670    1.935    0.000   20.749    0.000 /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py:299(loads)
+  1608670    3.300    0.000   17.697    0.000 /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py:333(decode)
+ 10170040   11.629    0.000   16.845    0.000 /workspace/chatgpt/app/archive_codec.py:55(<genexpr>)
+  1608670    8.937    0.000    8.937    0.000 /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py:344(raw_decode)
+  9106727    3.283    0.000    5.190    0.000 /workspace/chatgpt/app/archive_codec.py:18(decode)
+  3217350    4.371    0.000    4.371    0.000 {method 'match' of 're.Pattern' objects}
+  2660968    1.503    0.000    3.411    0.000 /workspace/chatgpt/app/models.py:13(epoch)
+      118    0.002    0.000    2.423    0.021 /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/collections/__init__.py:595(__init__)
+      118    0.020    0.000    2.421    0.021 /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/collections/__init__.py:669(update)
+      118    0.519    0.004    2.398    0.020 {built-in method _collections._count_elements}
+ 10715570    2.163    0.000    2.164    0.000 {built-in method builtins.isinstance}
+      117    0.617    0.005    1.937    0.017 /workspace/chatgpt/app/opportunity_outcomes.py:254(summary)
+  2660968    1.244    0.000    1.244    0.000 {method 'timestamp' of 'datetime.datetime' objects}
+
+

@@ -1,0 +1,32 @@
+[
+  {
+    "params": {
+      "sort": "rank",
+      "limit": 5
+    },
+    "status": 200,
+    "seconds": 11.268078382010572,
+    "items": 5,
+    "detail": null
+  },
+  {
+    "params": {
+      "q": "__audit_no_such_token_72a61__",
+      "limit": 5
+    },
+    "status": 503,
+    "seconds": 5.014166271022987,
+    "items": 0,
+    "detail": "C\u0103utarea a dep\u0103\u0219it limita de execu\u021bie. Folose\u0219te adresa exact\u0103 a contractului sau o c\u0103utare mai precis\u0103."
+  },
+  {
+    "params": {
+      "verdict": "CONSIDER",
+      "limit": 5
+    },
+    "status": 200,
+    "seconds": 8.301025027001742,
+    "items": 0,
+    "detail": null
+  }
+]

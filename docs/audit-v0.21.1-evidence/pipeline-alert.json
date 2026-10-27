@@ -1,0 +1,133 @@
+{
+  "id": 12369,
+  "candidate_id": 197521,
+  "signal_id": 465359,
+  "at": "2026-10-27T05:09:02.809414+00:00",
+  "severity": "research",
+  "fingerprint": "41406c859b806d4cae8c02160e1e59d99cd486373fa74047c35d1738cc7e2f69",
+  "payload": {
+    "alert_kind": "opportunity",
+    "chain": "solana",
+    "contract": "HQBT7S7Ncqwto3fXK8RVQ2GoA2RyaGoVXBASpCVWRhWB",
+    "costs": {
+      "break_even_price_estimate": "0.00001993917327667139216378586919",
+      "break_even_rise_pct": "1.201519345732242044690036200",
+      "economically_feasible_in_model": true,
+      "entry": {
+        "cash_change": "-50.01",
+        "execution_verified": false,
+        "model": "estimated_balanced_constant_product",
+        "network_fee_usd": "0.01",
+        "pool_address": "8NMGr2rMYLXdGgGxU28f6YQkwLAsDjYV9o5buntSnajF",
+        "price_impact": "0.0027549814651920996349851278",
+        "quantity": "2523172.388002230059652609159",
+        "swap_fee_usd": "0.1500"
+      },
+      "execution_verified": false,
+      "model": "estimated_pool_not_routed",
+      "roundtrip_cost_pct": 1.1842388910054966,
+      "roundtrip_net_usd": "-0.59223786939184886067189513",
+      "same_price_exit": {
+        "cash_change": "49.41776213060815113932810487",
+        "execution_verified": false,
+        "model": "estimated_balanced_constant_product",
+        "network_fee_usd": "0.01",
+        "pool_address": "8NMGr2rMYLXdGgGxU28f6YQkwLAsDjYV9o5buntSnajF",
+        "price_impact": "0.0027391927348580429387501026",
+        "quantity": "2523172.388002230059652609159",
+        "swap_fee_usd": "0.1491379925218805214995879741"
+      }
+    },
+    "data_observed_at": "2026-10-27T05:08:59.841501+00:00",
+    "decision_at": "2026-10-27T05:09:02.809414+00:00",
+    "discovered_at": "2026-10-27T05:08:27.491142+00:00",
+    "features": {
+      "activity_sample": null,
+      "buyers_5m_provider_reported": 84,
+      "changes": {
+        "15m": null,
+        "1h": null,
+        "5m": null
+      },
+      "distribution": null,
+      "excessive_extension": false,
+      "history_observations": 0,
+      "history_span_seconds": 0,
+      "holder_growth": null,
+      "latest_liquidity_change_pct": null,
+      "organic_demand_verified": false,
+      "pool_age_hours": 0.030502614974975587,
+      "price_change_since_first_capture_pct": 5.8828308098103355,
+      "reported_transactions_5m": 157,
+      "sellers_5m_provider_reported": 27,
+      "social_mentions_growth": null,
+      "story_reference_prior_24h_move_reported_pct": null,
+      "suspicions": [],
+      "token_launch_time_known": false,
+      "unique_buyers": null
+    },
+    "invalidation": [
+      "New privileged authority or transfer restriction",
+      "Liquidity decline or unavailable exit quote",
+      "Fresh evidence no longer available",
+      "Momentum becomes excessively extended",
+      "Contradictory contract/source evidence"
+    ],
+    "links": {
+      "explorer": "https://solscan.io/token/HQBT7S7Ncqwto3fXK8RVQ2GoA2RyaGoVXBASpCVWRhWB",
+      "market": "https://dexscreener.com/solana/8NMGr2rMYLXdGgGxU28f6YQkwLAsDjYV9o5buntSnajF"
+    },
+    "liquidity_usd": 36089.2912,
+    "live_execution": false,
+    "name": ".AiTown / SOL",
+    "narrative": {
+      "ai_interpretations": [],
+      "community_activity": null,
+      "contradictory": [],
+      "market_references": [],
+      "news_recurrence_counts": {},
+      "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+      "publication_hosts": [],
+      "ranking_supported": false,
+      "score": null,
+      "social_mentions_growth": null,
+      "supported": [],
+      "uncertain": []
+    },
+    "negative": [],
+    "positive": [
+      "[RPC] Mint authority revocată.",
+      "[RPC] Freeze authority revocată.",
+      "Small-position estimated round trip passes liquidity and impact limits.",
+      "Fresh security screening, reported activity and recent pool age support further research."
+    ],
+    "price_usd": 1.9702444593300708e-05,
+    "purpose": "research_candidate_not_buy_instruction",
+    "rank_score": 60,
+    "scores": {
+      "data_reliability": 70,
+      "early_momentum": 57.258,
+      "entry_attractiveness": 58,
+      "exit_liquidity": 58,
+      "market_participation_quality": 60,
+      "narrative_social_evidence": null,
+      "security_risk": 0,
+      "wallet_intelligence": null
+    },
+    "signal_id": 465359,
+    "symbol": ".AiTown",
+    "unknown": [
+      "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+      "Owner-level holder growth unavailable.",
+      "No corroborated contract-specific narrative; name matches remain uncertain.",
+      "No reliable monitored-wallet accumulation evidence.",
+      "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+      "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+    ],
+    "verdict": "INVESTIGATE"
+  },
+  "delivered_in_app_at": "2026-10-27T05:24:55.276301+00:00",
+  "seen_at": null,
+  "telegram_state": "pending",
+  "telegram_details": null
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "url": "https://www.anthropic.com/news",
+    "readable": true,
+    "observed_at": "2026-10-27T05:41:16.908620+00:00",
+    "sha256": "ef08e1ceeacc7543d03289f5e38466c52a80608a862e34a1435dc2e10e5a65d2",
+    "text_characters": 942,
+    "truncated": false,
+    "publisher": "Anthropic",
+    "affiliation_verified": false,
+    "seconds": 0.72
+  },
+  {
+    "url": "https://developers.circle.com/stablecoins/usdc-contract-addresses",
+    "readable": true,
+    "observed_at": "2026-10-27T05:41:17.909581+00:00",
+    "sha256": "00aba7df09af9958e56d8ff3b061367f515782ce3f53983b7f9e6e0a63828581",
+    "text_characters": 5403,
+    "truncated": false,
+    "publisher": "Circle",
+    "affiliation_verified": false,
+    "seconds": 1.001
+  }
+]

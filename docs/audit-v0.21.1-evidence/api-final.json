@@ -1,0 +1,32 @@
+[
+  {
+    "route": "/healthz",
+    "status": 200,
+    "seconds": 0.0281
+  },
+  {
+    "route": "/api/opportunities?limit=5",
+    "status": 200,
+    "seconds": 0.878
+  },
+  {
+    "route": "/api/opportunities/routes",
+    "status": 200,
+    "seconds": 0.0079
+  },
+  {
+    "route": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 12.2249
+  },
+  {
+    "route": "/api/opportunities/pilot",
+    "status": 200,
+    "seconds": 0.0135
+  },
+  {
+    "route": "/api/opportunities/197521",
+    "status": 200,
+    "seconds": 3.0658
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/api/opportunities/routes",
+    "error": "ReadTimeout",
+    "seconds": 30.01419499196345
+  },
+  {
+    "path": "/api/opportunities/narratives",
+    "status": 200,
+    "seconds": 1.1433724280213937
+  },
+  {
+    "path": "/api/ai/status",
+    "status": 200,
+    "seconds": 0.06057218002388254
+  },
+  {
+    "path": "/api/discovery?chain=base&limit=3",
+    "status": 200,
+    "seconds": 0.09113762702327222
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "error": "ReadTimeout",
+    "seconds": 30.025131520989817
+  }
+]

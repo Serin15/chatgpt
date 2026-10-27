@@ -1,0 +1,111 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_recovered_worker_retains_failure_type_time_and_sanitized_log _______
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-23/test_recovered_worker_retains_0'), scan_interval_seconds=9...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f25eef337d0>
+caplog = <_pytest.logging.LogCaptureFixture object at 0x7f25eef31cd0>
+
+    def test_recovered_worker_retains_failure_type_time_and_sanitized_log(settings, monkeypatch, caplog):
+        calls = []
+    
+        async def blocked(self):
+            await asyncio.Event().wait()
+    
+        async def flaky(self):
+            calls.append(True)
+            if len(calls) == 1:
+                raise RuntimeError("/private/fixture/path?token=fixture-secret")
+            await asyncio.Event().wait()
+    
+        monkeypatch.setattr(Service, "run", flaky)
+        for cls, method in [(Service, "run_intelligence"), (FixtureNews, "run"),
+                            (FixtureAssets, "run"), (Performance, "run"),
+                            (Opportunities, "run_collection_reports"), (PerformanceReports, "run")]:
+            monkeypatch.setattr(cls, method, blocked)
+        app = create_app(settings, NewsFixtureProviders(), True, FixtureNews, FixtureAssets)
+        with TestClient(app) as client:
+            deadline = time.monotonic() + 8
+            while len(calls) < 2 and time.monotonic() < deadline:
+                time.sleep(.02)
+            worker = client.get("/api/status").json()["workers"]["scanner"]
+            assert worker["state"] == "running" and worker["error"] is None
+            assert worker["restarts"] == 1
+>           assert worker["last_error"] == "RuntimeError"
+                   ^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'last_error'
+
+tests/test_worker_diagnostics.py:42: KeyError
+_________ test_launcher_rejects_unsafe_or_unknown_execution_mode[True] _________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-23/test_launcher_rejects_unsafe_o0'), scan_interval_seconds=9...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+live_flag = True
+
+    @pytest.mark.parametrize("live_flag", [True, None, "false", 0])
+    def test_launcher_rejects_unsafe_or_unknown_execution_mode(settings, live_flag):
+        payload = {"app_id":"pulse_crypto_research", "version":__version__,
+                   "instance_id":instance_id(settings.data_dir), "live_execution":live_flag}
+        with patch("app.desktop.Settings.from_environment", return_value=settings):
+>           assert not our_app("unused", payload)
+E           AssertionError: assert not True
+E            +  where True = our_app('unused', {'app_id': 'pulse_crypto_research', 'version': '0.21.0', 'instance_id': '484b56dba098383896f2ed8c', 'live_execution': True})
+
+tests/test_regressions.py:65: AssertionError
+_________ test_launcher_rejects_unsafe_or_unknown_execution_mode[None] _________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-23/test_launcher_rejects_unsafe_o1'), scan_interval_seconds=9...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+live_flag = None
+
+    @pytest.mark.parametrize("live_flag", [True, None, "false", 0])
+    def test_launcher_rejects_unsafe_or_unknown_execution_mode(settings, live_flag):
+        payload = {"app_id":"pulse_crypto_research", "version":__version__,
+                   "instance_id":instance_id(settings.data_dir), "live_execution":live_flag}
+        with patch("app.desktop.Settings.from_environment", return_value=settings):
+>           assert not our_app("unused", payload)
+E           AssertionError: assert not True
+E            +  where True = our_app('unused', {'app_id': 'pulse_crypto_research', 'version': '0.21.0', 'instance_id': '431190365942ce769444644a', 'live_execution': None})
+
+tests/test_regressions.py:65: AssertionError
+________ test_launcher_rejects_unsafe_or_unknown_execution_mode[false] _________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-23/test_launcher_rejects_unsafe_o2'), scan_interval_seconds=9...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+live_flag = 'false'
+
+    @pytest.mark.parametrize("live_flag", [True, None, "false", 0])
+    def test_launcher_rejects_unsafe_or_unknown_execution_mode(settings, live_flag):
+        payload = {"app_id":"pulse_crypto_research", "version":__version__,
+                   "instance_id":instance_id(settings.data_dir), "live_execution":live_flag}
+        with patch("app.desktop.Settings.from_environment", return_value=settings):
+>           assert not our_app("unused", payload)
+E           AssertionError: assert not True
+E            +  where True = our_app('unused', {'app_id': 'pulse_crypto_research', 'version': '0.21.0', 'instance_id': '28f5323db80812429ac7f141', 'live_execution': 'false'})
+
+tests/test_regressions.py:65: AssertionError
+__________ test_launcher_rejects_unsafe_or_unknown_execution_mode[0] ___________
+
+settings = Settings(data_dir=PosixPath('/tmp/pytest-of-agent/pytest-23/test_launcher_rejects_unsafe_o3'), scan_interval_seconds=9...al('2'), max_snapshot_age=120, min_signal_delay=3, reference_fee=Decimal('0.006'), reference_slippage=Decimal('0.005'))
+live_flag = 0
+
+    @pytest.mark.parametrize("live_flag", [True, None, "false", 0])
+    def test_launcher_rejects_unsafe_or_unknown_execution_mode(settings, live_flag):
+        payload = {"app_id":"pulse_crypto_research", "version":__version__,
+                   "instance_id":instance_id(settings.data_dir), "live_execution":live_flag}
+        with patch("app.desktop.Settings.from_environment", return_value=settings):
+>           assert not our_app("unused", payload)
+E           AssertionError: assert not True
+E            +  where True = our_app('unused', {'app_id': 'pulse_crypto_research', 'version': '0.21.0', 'instance_id': 'b6b5bf114d5935a7b80a2584', 'live_execution': 0})
+
+tests/test_regressions.py:65: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/chatgpt/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_worker_diagnostics.py::test_recovered_worker_retains_failure_type_time_and_sanitized_log
+FAILED tests/test_regressions.py::test_launcher_rejects_unsafe_or_unknown_execution_mode[True]
+FAILED tests/test_regressions.py::test_launcher_rejects_unsafe_or_unknown_execution_mode[None]
+FAILED tests/test_regressions.py::test_launcher_rejects_unsafe_or_unknown_execution_mode[false]
+FAILED tests/test_regressions.py::test_launcher_rejects_unsafe_or_unknown_execution_mode[0]
+5 failed, 1 warning in 6.26s
