@@ -40,7 +40,7 @@ Mutarea destinației nu creează spațiu fizic. Backupul întregii baze mari din
 - Căutarea și clasamentul păstrează semantica originală: adrese Solana sensibile la majuscule, căutare Unicode, filtre, paginare și verificarea prospețimii la ora cererii. Un mic rest de actualizări este suprapus direct din sursele originale, fără verdict vechi sau număr parțial de rezultate.
 - La prima pornire pe un istoric mare, clasamentul/căutarea pot răspunde temporar 503 până când indexarea inițială este aproape completă. Lista recentă rămâne accesibilă. Detaliile de stare arată progresul; indexul este persistent și nu se reconstruiește integral la fiecare pornire.
 - Raportul financiar global citește proiecțiile pentru subiecții actualizați și datele originale pentru cei din coadă, în aceeași tranzacție. Nu așteaptă ca indexul să fie complet pentru a calcula un raport corect. Verificarea prospețimii folosește timestampurile originale și ora calculului.
-- Raportul zilnic materializează numai coloanele cohortei folosite efectiv, fără schimbarea ferestrelor sau rezultatelor.
+- Raportul zilnic selectează numai coloanele cohortei folosite efectiv și permite optimizatorului SQLite să aleagă planul, fără schimbarea ferestrelor sau rezultatelor.
 - Manifestul istoriei exclude numai cache-ul derivat `ui_catalog_*`, la fel cum exclude deja metadatele de arhivare. Semnalele, observațiile, politicile, ordinele și rezultatele financiare rămân verificate. Cache-ul poate fi reconstruit din surse.
 
 ## Verificări
