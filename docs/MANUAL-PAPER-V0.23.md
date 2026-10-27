@@ -48,15 +48,34 @@ uv run --with playwright python tests/browser_audit.py
 
 Testele unitare/de integrare folosesc SQLite real în directoare temporare și furnizori simulați. Acoperă proveniența, prețul nou, costurile, intrare/ieșire, risc nou după pregătire, lipsa datelor, conturi separate, sume invalide, duplicate, expirare și păstrarea tabelelor studiului. Chromium verifică și formularul la actualizare, focusul, 320 px, erori API, expirare și parcursul complet. Aceste teste nu sunt dovezi de predicție sau de execuție on-chain.
 
+Rezultate finale: **690 teste trecute** local, **52 scenarii Chromium trecute**, Ruff și sintaxa JavaScript verificate. [CI 40537269078](https://github.com/Serin15/chatgpt/actions/runs/40537269078) a trecut pe Linux și Windows, inclusiv pornirea Windows și arhivarea/restaurarea din dosare cu spații, pe baze temporare.
+
 Cu o instanță MemeScope deja pornită în modul paper pool, verificarea cu furnizori reali este:
 
 ```bash
 uv run --frozen python -m app.opportunity_paper_verify --url http://127.0.0.1:8000 --output manual-paper-live.json
 ```
 
-Comanda citește numai prin GET din instanța sursă. Alege primul candidat INVESTIGATE din clasament, fără încercarea altor tokenuri până când unul reușește, și copiază dovezile acestuia într-o bază temporară. Colectează cotații/securitate reale, încearcă un ordin virtual de 50 USD și ieșirea, apoi șterge baza temporară. Nu creează ordine în conturile utilizatorului, nu trimite mesaje, nu activează AI și nu declară profitabilitate. Fiecare blocaj păstrează criteriul neverificat; pragurile nu sunt relaxate.
+Comanda citește numai prin GET din instanța sursă. Alege primul candidat INVESTIGATE din clasament, fără încercarea altor tokenuri până când unul reușește, și copiază dovezile acestuia într-o bază temporară. Colectează cotații/securitate reale, încearcă un ordin virtual de 50 USD și ieșirea, apoi șterge baza temporară. Contul temporar începe cu 500 USD și limitele implicite; proba nu reproduce setările personalizate ale conturilor utilizatorului. Nu creează ordine în conturile utilizatorului, nu trimite mesaje, nu activează AI și nu declară profitabilitate. Fiecare blocaj păstrează criteriul neverificat; pragurile nu sunt relaxate pentru a obține un rezultat favorabil.
 
 Proba inițială din **27 octombrie 2026, 16:00:00–16:00:11 UTC**, pe candidatul existent `206089`, contract Solana `Bgw1fG9hCVKupMd59dMwKyK9968rkJ8LyFabuMZ3N1Nv`, a trecut toate cele șase verificări: decizie, intrare, ieșire, proveniență, rezultat net și conturi de producție neschimbate. Prețul nou DEX Screener la pregătire a fost `0.00003187 USD`; cotația și verificările de securitate au fost colectate la aproximativ 16:00:05 UTC. Rezultatul virtual net a fost **−0.51398676456313959406276592 USD**. Candidatul fusese descoperit anterior probei; proba nu pretinde o descoperire nouă sau o tranzacție executabilă garantată.
+
+După repornirea instanței pe v0.23.0, proba din **16:06:21–16:06:40 UTC** a ales candidatul `206026`, contract Solana `ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL`. A trecut aceleași șase verificări, cu rezultat virtual net **−0.50014465434043322867258939 USD**. Două probe scurte, pe candidați aleși manual/din clasament, nu măsoară avantajul statistic al motorului și nu înlocuiesc grupul de control.
+
+Dovezile și separarea testelor reale de cele simulate sunt în [manual-paper-v0.23-evidence](manual-paper-v0.23-evidence/README.md).
+
+## Fișierele schimbate
+
+| Fișiere | Rol |
+| --- | --- |
+| `app/opportunity_paper.py` | Leagă observația aleasă de decizia manuală, calculează estimarea preliminară și verifică veto-urile ulterioare. |
+| `app/main.py`, `app/service.py` | Endpoint pentru pregătire, context atomic în semnalul existent, verificare înaintea ordinului, proveniență în portofoliu. |
+| `app/static/opportunities.js` | Formular, cont/sumă/ipoteză, costuri, expirare, invalidarea modificărilor, păstrarea formularului și focusului la refresh. |
+| `app/static/app.js`, `app/static/workspace.css` | Proveniență și redeschiderea dosarului din portofoliu, context în jurnal, stiluri responsive. |
+| `app/opportunity_paper_verify.py` | Verificare cu furnizori reali într-un cont temporar, fără ordine în instanța sursă. |
+| `tests/test_opportunity_paper.py`, `tests/browser_audit.py` | Regresii API/financiare și parcursul în Chromium cu furnizori simulați. |
+| `app/__init__.py`, `app/static/index.html`, `pyproject.toml`, `uv.lock` | Versiune 0.23.0 și actualizarea referințelor statice; fără schimbarea dependențelor. |
+| `README.md`, acest document și dovezile | Instrucțiuni și rezultate verificabile. |
 
 ## Limite rămase
 

@@ -1,0 +1,14 @@
+{
+  "source": "actual_running_v0.23.0_no_provider_interception",
+  "candidate": 206089,
+  "draft_and_focus_preserved": true,
+  "widths_fit": {
+    "320": true,
+    "390": true,
+    "768": true,
+    "1440": true
+  },
+  "javascript_errors": [],
+  "financial_posts": [],
+  "ledgers_unchanged": true
+}

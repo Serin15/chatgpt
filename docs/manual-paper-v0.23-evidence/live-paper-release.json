@@ -1,0 +1,1433 @@
+{
+  "started_at": "2026-10-27T16:06:21.124522+00:00",
+  "data": "live_provider_quotes",
+  "fills": "virtual_estimated_pool_in_disposable_ledger",
+  "source_access": "GET_only",
+  "live_execution": false,
+  "checks": {
+    "manual_signal": true,
+    "virtual_entry": true,
+    "virtual_exit": true,
+    "origin_preserved": true,
+    "net_result_recorded": true,
+    "production_ledgers_unchanged": true
+  },
+  "source": {
+    "app_id": "pulse_crypto_research",
+    "version": "0.23.0",
+    "instance_id": "8d14ec2aa3dc43af006e08dc"
+  },
+  "candidate": {
+    "id": 206026,
+    "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+    "chain": "solana",
+    "discovered_at": "2026-10-27T15:49:31.944520+00:00",
+    "source_observation_at": "2026-10-27T16:05:21.206492+00:00",
+    "note": "Existing real candidate; not claimed as newly discovered during this verification."
+  },
+  "prepare_http": 200,
+  "fresh_snapshot": {
+    "id": 1,
+    "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+    "at": "2026-10-27T16:06:34.507519+00:00",
+    "market": {
+      "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+      "symbol": "NEX Ai",
+      "name": "Nexchain Ai coin",
+      "pair_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+      "dex": "pumpswap",
+      "price_usd": 3.668e-05,
+      "liquidity_usd": 54594.35,
+      "volume_5m": 16786.94,
+      "volume_1h": 81082.23,
+      "change_5m": 13.4,
+      "buys_5m": 385,
+      "sells_5m": 81,
+      "buyers_5m_reported": null,
+      "sellers_5m_reported": null,
+      "market_cap": 36684.0,
+      "fdv": 36684.0,
+      "pool_created_at": 1793116072000,
+      "observed_at": "2026-10-27T16:06:34.507519+00:00",
+      "source": "DEX Screener"
+    },
+    "security": {
+      "observed_at": "2026-10-27T16:06:34.507539+00:00",
+      "rpc": {
+        "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "mint_authority": null,
+        "freeze_authority": null,
+        "extensions": [
+          {
+            "extension": "metadataPointer",
+            "state": {
+              "authority": null,
+              "metadataAddress": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL"
+            }
+          },
+          {
+            "extension": "tokenMetadata",
+            "state": {
+              "additionalMetadata": [],
+              "mint": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+              "name": "Nexchain Ai coin",
+              "symbol": "NEX Ai",
+              "updateAuthority": null,
+              "uri": "https://ipfs.io/ipfs/bafkreiacpwrqwqez7czcycg2ifvvrpio4su5qpdptqu35n6xq5jlgbo65y"
+            }
+          }
+        ],
+        "slot": 462132093
+      },
+      "goplus": {
+        "balance_mutable_authority": {
+          "authority": [],
+          "status": "0"
+        },
+        "closable": {
+          "authority": [],
+          "status": "0"
+        },
+        "creators": [],
+        "default_account_state": "1",
+        "default_account_state_upgradable": {
+          "authority": [],
+          "status": "0"
+        },
+        "freezable": {
+          "authority": [],
+          "status": "0"
+        },
+        "metadata": {
+          "description": "",
+          "name": "Nexchain Ai coin",
+          "symbol": "NEX Ai",
+          "uri": "https://ipfs.io/ipfs/bafkreiacpwrqwqez7czcycg2ifvvrpio4su5qpdptqu35n6xq5jlgbo65y"
+        },
+        "metadata_mutable": {
+          "metadata_upgrade_authority": [],
+          "status": "0"
+        },
+        "mintable": {
+          "authority": [],
+          "status": "0"
+        },
+        "non_transferable": "0",
+        "total_supply": "1000000000",
+        "transfer_fee": {},
+        "transfer_fee_upgradable": {
+          "authority": [],
+          "status": "0"
+        },
+        "transfer_hook": [],
+        "transfer_hook_upgradable": {
+          "authority": [],
+          "status": "0"
+        },
+        "trusted_token": 0
+      },
+      "errors": []
+    },
+    "analysis": {
+      "action": "investigate",
+      "paper_allowed": true,
+      "security_checks_complete": true,
+      "security_fresh": true,
+      "scores": {
+        "security_risk": null,
+        "liquidity_exit": 100,
+        "activity": 100,
+        "momentum": 77,
+        "data_completeness": 100,
+        "research_priority": 95,
+        "wallet_quality": null,
+        "copyability": null
+      },
+      "critical": [],
+      "unknown": [],
+      "positive": [
+        "[RPC] Mint authority revocată.",
+        "[RPC] Freeze authority revocată."
+      ],
+      "warnings": [
+        "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+        "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+      ],
+      "explanation_type": "deterministic_rules",
+      "invalidation": [
+        "Autoritate privilegiată/restricție nouă",
+        "Scăderea lichidității sub prag",
+        "Date expirate sau surse indisponibile"
+      ]
+    }
+  },
+  "cost_preview": {
+    "available": true,
+    "entry": {
+      "quantity": "1356573.883881278448270541435",
+      "cash_change": "-50.01",
+      "swap_fee_usd": "0.150",
+      "price_impact": "0.0018228673868546944320268839",
+      "network_fee_usd": "0.01",
+      "model": "estimated_balanced_constant_product",
+      "execution_verified": false,
+      "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK"
+    },
+    "exit_at_unchanged_price": {
+      "quantity": "1356573.883881278448270541435",
+      "cash_change": "49.50985534565956677132741061",
+      "swap_fee_usd": "0.1492773901822958804476903795",
+      "price_impact": "0.0018141018382180414922543234",
+      "network_fee_usd": "0.01",
+      "model": "estimated_balanced_constant_product",
+      "execution_verified": false,
+      "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK"
+    },
+    "roundtrip_pnl_usd": "-0.50014465434043322867258939",
+    "break_even_price_estimate": "0.00003705114373386717070755217124",
+    "break_even_rise_pct": "1.011842240641141514591524600",
+    "scope": "indicative_pool_estimate_not_guaranteed_execution"
+  },
+  "buy_http": 200,
+  "entry": {
+    "quantity": "1356573.883881278448270541435",
+    "cash_change": "-50.01",
+    "swap_fee_usd": "0.150",
+    "price_impact": "0.0018228673868546944320268839",
+    "network_fee_usd": "0.01",
+    "model": "estimated_balanced_constant_product",
+    "execution_verified": false,
+    "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+    "break_even_price_estimate": "0.00003705114373386717070755217124",
+    "break_even_rise_pct": "1.011842240641141514591524600",
+    "snapshot_id": 2,
+    "signal_id": 1,
+    "position_id": 1,
+    "reasons": {
+      "action": "investigate",
+      "paper_allowed": true,
+      "security_checks_complete": true,
+      "security_fresh": true,
+      "scores": {
+        "security_risk": null,
+        "liquidity_exit": 100,
+        "activity": 100,
+        "momentum": 77,
+        "data_completeness": 100,
+        "research_priority": 95,
+        "wallet_quality": null,
+        "copyability": null
+      },
+      "critical": [],
+      "unknown": [],
+      "positive": [
+        "[RPC] Mint authority revocată.",
+        "[RPC] Freeze authority revocată."
+      ],
+      "warnings": [
+        "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+        "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+      ],
+      "explanation_type": "deterministic_rules",
+      "invalidation": [
+        "Autoritate privilegiată/restricție nouă",
+        "Scăderea lichidității sub prag",
+        "Date expirate sau surse indisponibile"
+      ]
+    },
+    "signal_delay_seconds": 3.7082889080047607,
+    "entry_context": {
+      "action": "investigate",
+      "paper_allowed": true,
+      "security_checks_complete": true,
+      "security_fresh": true,
+      "scores": {
+        "security_risk": null,
+        "liquidity_exit": 100,
+        "activity": 100,
+        "momentum": 77,
+        "data_completeness": 100,
+        "research_priority": 95,
+        "wallet_quality": null,
+        "copyability": null
+      },
+      "critical": [],
+      "unknown": [],
+      "positive": [
+        "[RPC] Mint authority revocată.",
+        "[RPC] Freeze authority revocată."
+      ],
+      "warnings": [
+        "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+        "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+      ],
+      "explanation_type": "deterministic_rules",
+      "invalidation": [
+        "Autoritate privilegiată/restricție nouă",
+        "Scăderea lichidității sub prag",
+        "Date expirate sau surse indisponibile"
+      ],
+      "paper_account": "news",
+      "thesis": "Live verification in isolated disposable ledger; no production order.",
+      "opportunity_context": {
+        "candidate_id": 206026,
+        "chain": "solana",
+        "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+        "pool": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+        "discovered_at": "2026-10-27T15:49:31.944520+00:00",
+        "discovery": {
+          "chain": "solana",
+          "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+          "discovery_basis": "provider_new_pool_feed",
+          "first_capture_available": true,
+          "imported_from_cache": false,
+          "indexed_at": null,
+          "liquidity_usd": 44890.1924,
+          "name": "NEX Ai / SOL",
+          "observed_at": "2026-10-27T15:49:31.944511+00:00",
+          "official_affiliation": "unverified",
+          "pool": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+          "pool_created_at_reported": "2026-10-27T15:47:52Z",
+          "pool_identifier_type": "account_address",
+          "price_usd": 2.505108403681653e-05,
+          "source": "GeckoTerminal",
+          "source_first_seen_at": "2026-10-27T15:49:31.944520+00:00",
+          "token_launched_at": null
+        },
+        "observation": {
+          "id": 814117,
+          "candidate_id": 206026,
+          "at": "2026-10-27T16:05:21.206492+00:00",
+          "status": "ok",
+          "payload": {
+            "collection_lane": "other_followup",
+            "decision": {
+              "costs": {
+                "break_even_price_estimate": "0.00003552367007380794748192707504",
+                "break_even_rise_pct": "1.030653993049057671454516700",
+                "economically_feasible_in_model": true,
+                "entry": {
+                  "cash_change": "-50.01",
+                  "execution_verified": false,
+                  "model": "estimated_balanced_constant_product",
+                  "network_fee_usd": "0.01",
+                  "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                  "price_impact": "0.0019154687281372755764935992",
+                  "quantity": "1415037.091143115588426141779",
+                  "swap_fee_usd": "0.1500"
+                },
+                "execution_verified": false,
+                "model": "estimated_pool_not_routed",
+                "roundtrip_cost_pct": 1.0183990084941263,
+                "roundtrip_net_usd": "-0.50930134414791263641308179",
+                "same_price_exit": {
+                  "cash_change": "49.50069865585208736358691821",
+                  "execution_verified": false,
+                  "model": "estimated_balanced_constant_product",
+                  "network_fee_usd": "0.01",
+                  "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                  "price_impact": "0.0019060822341628052551553690",
+                  "quantity": "1415037.091143115588426141779",
+                  "swap_fee_usd": "0.1492635416517070704375353822"
+                }
+              },
+              "invalidation": [
+                "New privileged authority or transfer restriction",
+                "Liquidity decline or unavailable exit quote",
+                "Fresh evidence no longer available",
+                "Momentum becomes excessively extended",
+                "Contradictory contract/source evidence"
+              ],
+              "liquidity_filter_passed": true,
+              "negative": [],
+              "positive": [
+                "[RPC] Mint authority revocată.",
+                "[RPC] Freeze authority revocată.",
+                "Small-position estimated round trip passes liquidity and impact limits.",
+                "Fresh security screening, reported activity and recent pool age support further research."
+              ],
+              "rank_score": 72,
+              "rule_version": "memescope-3.2-market-references",
+              "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+              "scores": {
+                "data_reliability": 85,
+                "early_momentum": 59.31,
+                "entry_attractiveness": 67,
+                "exit_liquidity": 83,
+                "market_participation_quality": 60,
+                "narrative_social_evidence": null,
+                "security_risk": 0,
+                "wallet_intelligence": null
+              },
+              "screening": {
+                "action": "investigate",
+                "critical": [],
+                "explanation_type": "deterministic_rules",
+                "invalidation": [
+                  "Autoritate privilegiată/restricție nouă",
+                  "Scăderea lichidității sub prag",
+                  "Date expirate sau surse indisponibile"
+                ],
+                "paper_allowed": true,
+                "positive": [
+                  "[RPC] Mint authority revocată.",
+                  "[RPC] Freeze authority revocată."
+                ],
+                "scores": {
+                  "activity": 100,
+                  "copyability": null,
+                  "data_completeness": 100,
+                  "liquidity_exit": 100,
+                  "momentum": 69,
+                  "research_priority": 94,
+                  "security_risk": null,
+                  "wallet_quality": null
+                },
+                "security_checks_complete": true,
+                "security_fresh": true,
+                "unknown": [],
+                "warnings": [
+                  "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+                  "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+                ]
+              },
+              "security_filter_passed": true,
+              "unknown": [
+                "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+                "Owner-level holder growth unavailable.",
+                "No corroborated contract-specific narrative; name matches remain uncertain.",
+                "No reliable monitored-wallet accumulation evidence.",
+                "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+                "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+              ],
+              "verdict": "INVESTIGATE"
+            },
+            "execution_verified": false,
+            "features": {
+              "activity_sample": null,
+              "buyers_5m_provider_reported": 280,
+              "changes": {
+                "15m": null,
+                "1h": null,
+                "5m": {
+                  "baseline_at": "2026-10-27T15:58:35.308506+00:00",
+                  "baseline_observation_id": 813911,
+                  "elapsed_seconds": 406,
+                  "liquidity_change_pct": 9.675714898918475,
+                  "price_change_pct": 23.481291352501323,
+                  "reported_buyers_change_pct": -1.4084507042253502,
+                  "volume_5m_ratio": 1.095500026397319
+                }
+              },
+              "distribution": null,
+              "excessive_extension": false,
+              "history_observations": 7,
+              "history_span_seconds": 882.7538909912109,
+              "holder_growth": null,
+              "latest_liquidity_change_pct": -0.16577694609810623,
+              "organic_demand_verified": false,
+              "pool_age_hours": 0.2914462477631039,
+              "price_change_since_first_capture_pct": 40.358313024078775,
+              "reported_transactions_5m": 368,
+              "sellers_5m_provider_reported": 51,
+              "social_mentions_growth": null,
+              "story_reference_prior_24h_move_reported_pct": null,
+              "suspicions": [],
+              "token_launch_time_known": false,
+              "unique_buyers": null
+            },
+            "market": {
+              "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+              "buyers_5m_reported": 280,
+              "buys_5m": 301,
+              "change_5m": 9.31,
+              "dex": "GeckoTerminal reported pool",
+              "fdv": null,
+              "liquidity_usd": 51950.2231,
+              "market_cap": null,
+              "name": "NEX Ai / SOL",
+              "observed_at": "2026-10-27T16:05:18.198044+00:00",
+              "pair_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+              "pool_created_at": null,
+              "price_usd": 3.516127894831997e-05,
+              "sellers_5m_reported": 51,
+              "sells_5m": 67,
+              "source": "GeckoTerminal pool observation",
+              "symbol": "NEX Ai",
+              "volume_1h": 68683.8194935901,
+              "volume_5m": 14596.4698120396
+            },
+            "narrative": {
+              "ai_interpretations": [],
+              "community_activity": null,
+              "contradictory": [],
+              "market_references": [],
+              "news_recurrence_counts": {},
+              "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+              "publication_hosts": [],
+              "ranking_supported": false,
+              "score": null,
+              "social_mentions_growth": null,
+              "supported": [],
+              "uncertain": []
+            },
+            "policy_id": 32,
+            "security": {
+              "errors": [],
+              "goplus": {
+                "balance_mutable_authority": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "closable": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "creators": [],
+                "default_account_state": "1",
+                "default_account_state_upgradable": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "freezable": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "metadata": {
+                  "description": "",
+                  "name": "Nexchain Ai coin",
+                  "symbol": "NEX Ai",
+                  "uri": "https://ipfs.io/ipfs/bafkreiacpwrqwqez7czcycg2ifvvrpio4su5qpdptqu35n6xq5jlgbo65y"
+                },
+                "metadata_mutable": {
+                  "metadata_upgrade_authority": [],
+                  "status": "0"
+                },
+                "mintable": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "non_transferable": "0",
+                "total_supply": "1000000000",
+                "transfer_fee": {},
+                "transfer_fee_upgradable": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "transfer_hook": [],
+                "transfer_hook_upgradable": {
+                  "authority": [],
+                  "status": "0"
+                },
+                "trusted_token": 0
+              },
+              "observed_at": "2026-10-27T16:05:20.635345+00:00",
+              "rpc": {
+                "extensions": [
+                  {
+                    "extension": "metadataPointer",
+                    "state": {
+                      "authority": null,
+                      "metadataAddress": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL"
+                    }
+                  },
+                  {
+                    "extension": "tokenMetadata",
+                    "state": {
+                      "additionalMetadata": [],
+                      "mint": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+                      "name": "Nexchain Ai coin",
+                      "symbol": "NEX Ai",
+                      "updateAuthority": null,
+                      "uri": "https://ipfs.io/ipfs/bafkreiacpwrqwqez7czcycg2ifvvrpio4su5qpdptqu35n6xq5jlgbo65y"
+                    }
+                  }
+                ],
+                "freeze_authority": null,
+                "mint_authority": null,
+                "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+                "slot": 462131747
+              }
+            },
+            "source_kind": "live_provider_observation",
+            "wallet": {
+              "events": [],
+              "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+              "score": null
+            }
+          }
+        },
+        "discovery_signal": {
+          "id": 483276,
+          "candidate_id": 206026,
+          "observation_id": null,
+          "at": "2026-10-27T15:49:35.220740+00:00",
+          "kind": "discovery",
+          "verdict": "MONITOR",
+          "policy_id": 32,
+          "payload": {
+            "decision_at": "2026-10-27T15:49:35.220740+00:00",
+            "discovery": {
+              "chain": "solana",
+              "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+              "discovery_basis": "provider_new_pool_feed",
+              "first_capture_available": true,
+              "imported_from_cache": false,
+              "indexed_at": null,
+              "liquidity_usd": 44890.1924,
+              "name": "NEX Ai / SOL",
+              "observed_at": "2026-10-27T15:49:31.944511+00:00",
+              "official_affiliation": "unverified",
+              "pool": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+              "pool_created_at_reported": "2026-10-27T15:47:52Z",
+              "pool_identifier_type": "account_address",
+              "price_usd": 2.505108403681653e-05,
+              "source": "GeckoTerminal",
+              "source_first_seen_at": "2026-10-27T15:49:31.944520+00:00",
+              "token_launched_at": null
+            },
+            "negative": [],
+            "no_future_data": true,
+            "positive": [],
+            "scores": {},
+            "unknown": [
+              "Discovery metadata only; enrichment has not yet completed."
+            ],
+            "verdict": "MONITOR"
+          }
+        },
+        "observation_signal": null,
+        "linked_at": "2026-10-27T16:06:34.215138+00:00",
+        "scope": "manual_decision_not_automatic_study_entry",
+        "intended_amount_usd": "50"
+      },
+      "rules_at_signal": {
+        "swap_fee": "0.003",
+        "network_fee_usd": "0.01",
+        "reference_fee": "0.006",
+        "reference_slippage": "0.005",
+        "max_price_impact": "0.02",
+        "min_liquidity": "25000"
+      },
+      "paper_execution_mode": "estimated_pool",
+      "research_context": {
+        "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+        "checks": [
+          {
+            "key": "identity",
+            "label": "Identitate / contract",
+            "status": "unknown"
+          },
+          {
+            "key": "announcement",
+            "label": "Anunț original / emitent",
+            "status": "unknown"
+          },
+          {
+            "key": "product",
+            "label": "Produs funcțional",
+            "status": "unknown"
+          },
+          {
+            "key": "team",
+            "label": "Echipă",
+            "status": "unknown"
+          },
+          {
+            "key": "tokenomics",
+            "label": "Tokenomics / vesting",
+            "status": "unknown"
+          },
+          {
+            "key": "audit",
+            "label": "Audit / permisiuni",
+            "status": "unknown"
+          },
+          {
+            "key": "liquidity",
+            "label": "Piață / lichiditate",
+            "status": "unknown"
+          },
+          {
+            "key": "distribution",
+            "label": "Distribuție / concentrare",
+            "status": "unknown"
+          },
+          {
+            "key": "unlocks",
+            "label": "Deblocări / vesting",
+            "status": "unknown"
+          },
+          {
+            "key": "contract_risk",
+            "label": "Riscuri on-chain",
+            "status": "unknown"
+          }
+        ],
+        "evidence": [],
+        "verdict": "incomplete",
+        "automatically_verified": false,
+        "fundamentals_verified": false,
+        "announcements": {
+          "checks": [],
+          "approvals": [],
+          "sources": [
+            {
+              "host": "blog.ethereum.org",
+              "publisher": "Ethereum Foundation",
+              "kind": "primary",
+              "relations": [
+                "issuer"
+              ],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "blog.kraken.com",
+              "publisher": "Kraken",
+              "kind": "primary",
+              "relations": [
+                "listing"
+              ],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "www.coindesk.com",
+              "publisher": "CoinDesk · redacție",
+              "kind": "editorial",
+              "relations": [],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "www.anthropic.com",
+              "publisher": "Anthropic",
+              "kind": "primary",
+              "relations": [
+                "issuer"
+              ],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "developers.circle.com",
+              "publisher": "Circle",
+              "kind": "primary",
+              "relations": [
+                "issuer"
+              ],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "solana.com",
+              "publisher": "Solana",
+              "kind": "primary",
+              "relations": [
+                "issuer"
+              ],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "decrypt.co",
+              "publisher": "Decrypt · redacție",
+              "kind": "editorial",
+              "relations": [],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            },
+            {
+              "host": "cointelegraph.com",
+              "publisher": "Cointelegraph · redacție",
+              "kind": "editorial",
+              "relations": [],
+              "status": {
+                "state": "unverified",
+                "at": null
+              }
+            }
+          ],
+          "note": "Potrivirea verifică textul și chain-ul raportat. Relația cu emitentul/listarea cere o evaluare manuală separată a sursei, valabilă 30 de zile. Rezultatele cer reverificare după 24h; nu confirmă adevărul integral, susținerea unei persoane sau profitabilitatea."
+        },
+        "ai": [],
+        "note": "Confirmările manuale expiră după 30 de zile; disputele rămân până la retragere. Un citat găsit într-un document nu demonstrează adevărul afirmației, afilierea sau profitabilitatea."
+      },
+      "ai_context": []
+    }
+  },
+  "sell_http": 200,
+  "exit": {
+    "quantity": "1356573.883881278448270541435",
+    "cash_change": "49.50985534565956677132741061",
+    "swap_fee_usd": "0.1492773901822958804476903795",
+    "price_impact": "0.0018141018382180414922543234",
+    "network_fee_usd": "0.01",
+    "model": "estimated_balanced_constant_product",
+    "execution_verified": false,
+    "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+    "position_id": 1,
+    "pnl": "-0.50014465434043322867258939",
+    "snapshot_id": 3,
+    "exit_reason": "manual_paper_exit"
+  },
+  "ledger": {
+    "mode": "paper",
+    "initial_balance": "500",
+    "cash": "499.4998553456595667713274106",
+    "positions": [
+      {
+        "id": 1,
+        "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+        "quantity": "1356573.883881278448270541435",
+        "entry_cost": "50.01",
+        "entry_at": "2026-10-27T16:06:38.725235+00:00",
+        "entry_snapshot_id": 2,
+        "signal_id": 1,
+        "closed_at": "2026-10-27T16:06:40.769674+00:00",
+        "exit_proceeds": "49.50985534565956677132741061",
+        "pnl": "-0.50014465434043322867258939",
+        "opportunity": {
+          "candidate_id": 206026,
+          "observation_id": 814117,
+          "observed_at": "2026-10-27T16:05:21.206492+00:00",
+          "verdict": "INVESTIGATE"
+        },
+        "valuation": null,
+        "kind": "dex_token"
+      }
+    ],
+    "orders": [
+      {
+        "id": 2,
+        "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+        "side": "sell",
+        "at": "2026-10-27T16:06:40.769698+00:00",
+        "status": "filled",
+        "details": {
+          "quantity": "1356573.883881278448270541435",
+          "cash_change": "49.50985534565956677132741061",
+          "swap_fee_usd": "0.1492773901822958804476903795",
+          "price_impact": "0.0018141018382180414922543234",
+          "network_fee_usd": "0.01",
+          "model": "estimated_balanced_constant_product",
+          "execution_verified": false,
+          "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+          "position_id": 1,
+          "pnl": "-0.50014465434043322867258939",
+          "snapshot_id": 3,
+          "exit_reason": "manual_paper_exit"
+        }
+      },
+      {
+        "id": 1,
+        "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+        "side": "buy",
+        "at": "2026-10-27T16:06:38.725577+00:00",
+        "status": "filled",
+        "details": {
+          "quantity": "1356573.883881278448270541435",
+          "cash_change": "-50.01",
+          "swap_fee_usd": "0.150",
+          "price_impact": "0.0018228673868546944320268839",
+          "network_fee_usd": "0.01",
+          "model": "estimated_balanced_constant_product",
+          "execution_verified": false,
+          "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+          "break_even_price_estimate": "0.00003705114373386717070755217124",
+          "break_even_rise_pct": "1.011842240641141514591524600",
+          "snapshot_id": 2,
+          "signal_id": 1,
+          "position_id": 1,
+          "reasons": {
+            "action": "investigate",
+            "paper_allowed": true,
+            "security_checks_complete": true,
+            "security_fresh": true,
+            "scores": {
+              "security_risk": null,
+              "liquidity_exit": 100,
+              "activity": 100,
+              "momentum": 77,
+              "data_completeness": 100,
+              "research_priority": 95,
+              "wallet_quality": null,
+              "copyability": null
+            },
+            "critical": [],
+            "unknown": [],
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ]
+          },
+          "signal_delay_seconds": 3.7082889080047607,
+          "entry_context": {
+            "action": "investigate",
+            "paper_allowed": true,
+            "security_checks_complete": true,
+            "security_fresh": true,
+            "scores": {
+              "security_risk": null,
+              "liquidity_exit": 100,
+              "activity": 100,
+              "momentum": 77,
+              "data_completeness": 100,
+              "research_priority": 95,
+              "wallet_quality": null,
+              "copyability": null
+            },
+            "critical": [],
+            "unknown": [],
+            "positive": [
+              "[RPC] Mint authority revocată.",
+              "[RPC] Freeze authority revocată."
+            ],
+            "warnings": [
+              "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+              "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+            ],
+            "explanation_type": "deterministic_rules",
+            "invalidation": [
+              "Autoritate privilegiată/restricție nouă",
+              "Scăderea lichidității sub prag",
+              "Date expirate sau surse indisponibile"
+            ],
+            "paper_account": "news",
+            "thesis": "Live verification in isolated disposable ledger; no production order.",
+            "opportunity_context": {
+              "candidate_id": 206026,
+              "chain": "solana",
+              "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+              "pool": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+              "discovered_at": "2026-10-27T15:49:31.944520+00:00",
+              "discovery": {
+                "chain": "solana",
+                "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+                "discovery_basis": "provider_new_pool_feed",
+                "first_capture_available": true,
+                "imported_from_cache": false,
+                "indexed_at": null,
+                "liquidity_usd": 44890.1924,
+                "name": "NEX Ai / SOL",
+                "observed_at": "2026-10-27T15:49:31.944511+00:00",
+                "official_affiliation": "unverified",
+                "pool": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                "pool_created_at_reported": "2026-10-27T15:47:52Z",
+                "pool_identifier_type": "account_address",
+                "price_usd": 2.505108403681653e-05,
+                "source": "GeckoTerminal",
+                "source_first_seen_at": "2026-10-27T15:49:31.944520+00:00",
+                "token_launched_at": null
+              },
+              "observation": {
+                "id": 814117,
+                "candidate_id": 206026,
+                "at": "2026-10-27T16:05:21.206492+00:00",
+                "status": "ok",
+                "payload": {
+                  "collection_lane": "other_followup",
+                  "decision": {
+                    "costs": {
+                      "break_even_price_estimate": "0.00003552367007380794748192707504",
+                      "break_even_rise_pct": "1.030653993049057671454516700",
+                      "economically_feasible_in_model": true,
+                      "entry": {
+                        "cash_change": "-50.01",
+                        "execution_verified": false,
+                        "model": "estimated_balanced_constant_product",
+                        "network_fee_usd": "0.01",
+                        "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                        "price_impact": "0.0019154687281372755764935992",
+                        "quantity": "1415037.091143115588426141779",
+                        "swap_fee_usd": "0.1500"
+                      },
+                      "execution_verified": false,
+                      "model": "estimated_pool_not_routed",
+                      "roundtrip_cost_pct": 1.0183990084941263,
+                      "roundtrip_net_usd": "-0.50930134414791263641308179",
+                      "same_price_exit": {
+                        "cash_change": "49.50069865585208736358691821",
+                        "execution_verified": false,
+                        "model": "estimated_balanced_constant_product",
+                        "network_fee_usd": "0.01",
+                        "pool_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                        "price_impact": "0.0019060822341628052551553690",
+                        "quantity": "1415037.091143115588426141779",
+                        "swap_fee_usd": "0.1492635416517070704375353822"
+                      }
+                    },
+                    "invalidation": [
+                      "New privileged authority or transfer restriction",
+                      "Liquidity decline or unavailable exit quote",
+                      "Fresh evidence no longer available",
+                      "Momentum becomes excessively extended",
+                      "Contradictory contract/source evidence"
+                    ],
+                    "liquidity_filter_passed": true,
+                    "negative": [],
+                    "positive": [
+                      "[RPC] Mint authority revocată.",
+                      "[RPC] Freeze authority revocată.",
+                      "Small-position estimated round trip passes liquidity and impact limits.",
+                      "Fresh security screening, reported activity and recent pool age support further research."
+                    ],
+                    "rank_score": 72,
+                    "rule_version": "memescope-3.2-market-references",
+                    "score_note": "Heuristic research scores, not probabilities. Security risk: higher is worse; other known scores: higher is stronger evidence. Unknown dimensions stay null.",
+                    "scores": {
+                      "data_reliability": 85,
+                      "early_momentum": 59.31,
+                      "entry_attractiveness": 67,
+                      "exit_liquidity": 83,
+                      "market_participation_quality": 60,
+                      "narrative_social_evidence": null,
+                      "security_risk": 0,
+                      "wallet_intelligence": null
+                    },
+                    "screening": {
+                      "action": "investigate",
+                      "critical": [],
+                      "explanation_type": "deterministic_rules",
+                      "invalidation": [
+                        "Autoritate privilegiată/restricție nouă",
+                        "Scăderea lichidității sub prag",
+                        "Date expirate sau surse indisponibile"
+                      ],
+                      "paper_allowed": true,
+                      "positive": [
+                        "[RPC] Mint authority revocată.",
+                        "[RPC] Freeze authority revocată."
+                      ],
+                      "scores": {
+                        "activity": 100,
+                        "copyability": null,
+                        "data_completeness": 100,
+                        "liquidity_exit": 100,
+                        "momentum": 69,
+                        "research_priority": 94,
+                        "security_risk": null,
+                        "wallet_quality": null
+                      },
+                      "security_checks_complete": true,
+                      "security_fresh": true,
+                      "unknown": [],
+                      "warnings": [
+                        "Concentrarea pe proprietari, wash trading și retragerea LP sunt nevalidate.",
+                        "Cumpărările/vânzările sunt tranzacții raportate, nu participanți unici."
+                      ]
+                    },
+                    "security_filter_passed": true,
+                    "unknown": [
+                      "Unique buyer identities are not independently validated; provider counters and transaction counts do not prove organic participation.",
+                      "Owner-level holder growth unavailable.",
+                      "No corroborated contract-specific narrative; name matches remain uncertain.",
+                      "No reliable monitored-wallet accumulation evidence.",
+                      "Wash trading, developer identity, LP ownership and sellability are not proven by aggregate data.",
+                      "Pool API freshness uses receipt time; an upstream trade timestamp is not supplied by these endpoints."
+                    ],
+                    "verdict": "INVESTIGATE"
+                  },
+                  "execution_verified": false,
+                  "features": {
+                    "activity_sample": null,
+                    "buyers_5m_provider_reported": 280,
+                    "changes": {
+                      "15m": null,
+                      "1h": null,
+                      "5m": {
+                        "baseline_at": "2026-10-27T15:58:35.308506+00:00",
+                        "baseline_observation_id": 813911,
+                        "elapsed_seconds": 406,
+                        "liquidity_change_pct": 9.675714898918475,
+                        "price_change_pct": 23.481291352501323,
+                        "reported_buyers_change_pct": -1.4084507042253502,
+                        "volume_5m_ratio": 1.095500026397319
+                      }
+                    },
+                    "distribution": null,
+                    "excessive_extension": false,
+                    "history_observations": 7,
+                    "history_span_seconds": 882.7538909912109,
+                    "holder_growth": null,
+                    "latest_liquidity_change_pct": -0.16577694609810623,
+                    "organic_demand_verified": false,
+                    "pool_age_hours": 0.2914462477631039,
+                    "price_change_since_first_capture_pct": 40.358313024078775,
+                    "reported_transactions_5m": 368,
+                    "sellers_5m_provider_reported": 51,
+                    "social_mentions_growth": null,
+                    "story_reference_prior_24h_move_reported_pct": null,
+                    "suspicions": [],
+                    "token_launch_time_known": false,
+                    "unique_buyers": null
+                  },
+                  "market": {
+                    "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+                    "buyers_5m_reported": 280,
+                    "buys_5m": 301,
+                    "change_5m": 9.31,
+                    "dex": "GeckoTerminal reported pool",
+                    "fdv": null,
+                    "liquidity_usd": 51950.2231,
+                    "market_cap": null,
+                    "name": "NEX Ai / SOL",
+                    "observed_at": "2026-10-27T16:05:18.198044+00:00",
+                    "pair_address": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                    "pool_created_at": null,
+                    "price_usd": 3.516127894831997e-05,
+                    "sellers_5m_reported": 51,
+                    "sells_5m": 67,
+                    "source": "GeckoTerminal pool observation",
+                    "symbol": "NEX Ai",
+                    "volume_1h": 68683.8194935901,
+                    "volume_5m": 14596.4698120396
+                  },
+                  "narrative": {
+                    "ai_interpretations": [],
+                    "community_activity": null,
+                    "contradictory": [],
+                    "market_references": [],
+                    "news_recurrence_counts": {},
+                    "note": "Distinct publication hosts are not proven editorial independence. RSS headline counts are not social audience growth. Exact contract mentions do not establish issuer endorsement.",
+                    "publication_hosts": [],
+                    "ranking_supported": false,
+                    "score": null,
+                    "social_mentions_growth": null,
+                    "supported": [],
+                    "uncertain": []
+                  },
+                  "policy_id": 32,
+                  "security": {
+                    "errors": [],
+                    "goplus": {
+                      "balance_mutable_authority": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "closable": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "creators": [],
+                      "default_account_state": "1",
+                      "default_account_state_upgradable": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "freezable": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "metadata": {
+                        "description": "",
+                        "name": "Nexchain Ai coin",
+                        "symbol": "NEX Ai",
+                        "uri": "https://ipfs.io/ipfs/bafkreiacpwrqwqez7czcycg2ifvvrpio4su5qpdptqu35n6xq5jlgbo65y"
+                      },
+                      "metadata_mutable": {
+                        "metadata_upgrade_authority": [],
+                        "status": "0"
+                      },
+                      "mintable": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "non_transferable": "0",
+                      "total_supply": "1000000000",
+                      "transfer_fee": {},
+                      "transfer_fee_upgradable": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "transfer_hook": [],
+                      "transfer_hook_upgradable": {
+                        "authority": [],
+                        "status": "0"
+                      },
+                      "trusted_token": 0
+                    },
+                    "observed_at": "2026-10-27T16:05:20.635345+00:00",
+                    "rpc": {
+                      "extensions": [
+                        {
+                          "extension": "metadataPointer",
+                          "state": {
+                            "authority": null,
+                            "metadataAddress": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL"
+                          }
+                        },
+                        {
+                          "extension": "tokenMetadata",
+                          "state": {
+                            "additionalMetadata": [],
+                            "mint": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+                            "name": "Nexchain Ai coin",
+                            "symbol": "NEX Ai",
+                            "updateAuthority": null,
+                            "uri": "https://ipfs.io/ipfs/bafkreiacpwrqwqez7czcycg2ifvvrpio4su5qpdptqu35n6xq5jlgbo65y"
+                          }
+                        }
+                      ],
+                      "freeze_authority": null,
+                      "mint_authority": null,
+                      "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+                      "slot": 462131747
+                    }
+                  },
+                  "source_kind": "live_provider_observation",
+                  "wallet": {
+                    "events": [],
+                    "note": "Observed deltas from user-tracked wallets; transfers and swap candidates do not establish smart-money quality, cost basis or profitability.",
+                    "score": null
+                  }
+                }
+              },
+              "discovery_signal": {
+                "id": 483276,
+                "candidate_id": 206026,
+                "observation_id": null,
+                "at": "2026-10-27T15:49:35.220740+00:00",
+                "kind": "discovery",
+                "verdict": "MONITOR",
+                "policy_id": 32,
+                "payload": {
+                  "decision_at": "2026-10-27T15:49:35.220740+00:00",
+                  "discovery": {
+                    "chain": "solana",
+                    "contract": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+                    "discovery_basis": "provider_new_pool_feed",
+                    "first_capture_available": true,
+                    "imported_from_cache": false,
+                    "indexed_at": null,
+                    "liquidity_usd": 44890.1924,
+                    "name": "NEX Ai / SOL",
+                    "observed_at": "2026-10-27T15:49:31.944511+00:00",
+                    "official_affiliation": "unverified",
+                    "pool": "CTBMPmuK6egJbASosREeExCzDXFVBUYr7vozaKQAu6PK",
+                    "pool_created_at_reported": "2026-10-27T15:47:52Z",
+                    "pool_identifier_type": "account_address",
+                    "price_usd": 2.505108403681653e-05,
+                    "source": "GeckoTerminal",
+                    "source_first_seen_at": "2026-10-27T15:49:31.944520+00:00",
+                    "token_launched_at": null
+                  },
+                  "negative": [],
+                  "no_future_data": true,
+                  "positive": [],
+                  "scores": {},
+                  "unknown": [
+                    "Discovery metadata only; enrichment has not yet completed."
+                  ],
+                  "verdict": "MONITOR"
+                }
+              },
+              "observation_signal": null,
+              "linked_at": "2026-10-27T16:06:34.215138+00:00",
+              "scope": "manual_decision_not_automatic_study_entry",
+              "intended_amount_usd": "50"
+            },
+            "rules_at_signal": {
+              "swap_fee": "0.003",
+              "network_fee_usd": "0.01",
+              "reference_fee": "0.006",
+              "reference_slippage": "0.005",
+              "max_price_impact": "0.02",
+              "min_liquidity": "25000"
+            },
+            "paper_execution_mode": "estimated_pool",
+            "research_context": {
+              "address": "ZT8rLXRskyNqAh13NCLyHNgLSBqzyXFwQkaRr6HbvYL",
+              "checks": [
+                {
+                  "key": "identity",
+                  "label": "Identitate / contract",
+                  "status": "unknown"
+                },
+                {
+                  "key": "announcement",
+                  "label": "Anunț original / emitent",
+                  "status": "unknown"
+                },
+                {
+                  "key": "product",
+                  "label": "Produs funcțional",
+                  "status": "unknown"
+                },
+                {
+                  "key": "team",
+                  "label": "Echipă",
+                  "status": "unknown"
+                },
+                {
+                  "key": "tokenomics",
+                  "label": "Tokenomics / vesting",
+                  "status": "unknown"
+                },
+                {
+                  "key": "audit",
+                  "label": "Audit / permisiuni",
+                  "status": "unknown"
+                },
+                {
+                  "key": "liquidity",
+                  "label": "Piață / lichiditate",
+                  "status": "unknown"
+                },
+                {
+                  "key": "distribution",
+                  "label": "Distribuție / concentrare",
+                  "status": "unknown"
+                },
+                {
+                  "key": "unlocks",
+                  "label": "Deblocări / vesting",
+                  "status": "unknown"
+                },
+                {
+                  "key": "contract_risk",
+                  "label": "Riscuri on-chain",
+                  "status": "unknown"
+                }
+              ],
+              "evidence": [],
+              "verdict": "incomplete",
+              "automatically_verified": false,
+              "fundamentals_verified": false,
+              "announcements": {
+                "checks": [],
+                "approvals": [],
+                "sources": [
+                  {
+                    "host": "blog.ethereum.org",
+                    "publisher": "Ethereum Foundation",
+                    "kind": "primary",
+                    "relations": [
+                      "issuer"
+                    ],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "blog.kraken.com",
+                    "publisher": "Kraken",
+                    "kind": "primary",
+                    "relations": [
+                      "listing"
+                    ],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "www.coindesk.com",
+                    "publisher": "CoinDesk · redacție",
+                    "kind": "editorial",
+                    "relations": [],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "www.anthropic.com",
+                    "publisher": "Anthropic",
+                    "kind": "primary",
+                    "relations": [
+                      "issuer"
+                    ],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "developers.circle.com",
+                    "publisher": "Circle",
+                    "kind": "primary",
+                    "relations": [
+                      "issuer"
+                    ],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "solana.com",
+                    "publisher": "Solana",
+                    "kind": "primary",
+                    "relations": [
+                      "issuer"
+                    ],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "decrypt.co",
+                    "publisher": "Decrypt · redacție",
+                    "kind": "editorial",
+                    "relations": [],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  },
+                  {
+                    "host": "cointelegraph.com",
+                    "publisher": "Cointelegraph · redacție",
+                    "kind": "editorial",
+                    "relations": [],
+                    "status": {
+                      "state": "unverified",
+                      "at": null
+                    }
+                  }
+                ],
+                "note": "Potrivirea verifică textul și chain-ul raportat. Relația cu emitentul/listarea cere o evaluare manuală separată a sursei, valabilă 30 de zile. Rezultatele cer reverificare după 24h; nu confirmă adevărul integral, susținerea unei persoane sau profitabilitatea."
+              },
+              "ai": [],
+              "note": "Confirmările manuale expiră după 30 de zile; disputele rămân până la retragere. Un citat găsit într-un document nu demonstrează adevărul afirmației, afilierea sau profitabilitatea."
+            },
+            "ai_context": []
+          }
+        }
+      }
+    ],
+    "account": "news",
+    "realized_pnl_usd": "-0.50014465434043322867258939",
+    "estimated_equity_usd": "499.4998553456595667713274106"
+  },
+  "finished_at": "2026-10-27T16:06:40.828497+00:00",
+  "passed": true
+}

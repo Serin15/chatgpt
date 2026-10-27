@@ -1,0 +1,15 @@
+{
+  "checks": {
+    "config": true,
+    "original_speed_5m": true,
+    "original_speed_signal": true,
+    "main_ledger": true,
+    "news_ledger": true,
+    "original_policies": true,
+    "original_declarations": true,
+    "history_counts_not_decreased": true
+  },
+  "all_preserved": true,
+  "financial_source_sha256": "cc2e2c6499bbd495b8c28aa38f76d366efb9785e50336a54cd262da62bda9251",
+  "production_orders_created": 0
+}
