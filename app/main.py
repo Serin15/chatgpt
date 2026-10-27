@@ -36,6 +36,7 @@ from app.models import (
     utcnow,
 )
 from app.news import News
+from app.opportunity_catalog import OpportunityCatalog
 from app.opportunity_rules import EngineConfig
 from app.paper import Rejected
 from app.performance_cache import PerformanceReports
@@ -71,6 +72,7 @@ def create_app(
         sources = providers or Providers(settings)
         app.state.service = Service(settings, store, sources)
         app.state.pilot = Pilot(app.state.service.opportunities)
+        app.state.catalog = OpportunityCatalog(app.state.service.opportunities)
         app.state.backup_lock = Lock()
         # lifespan already holds RuntimeLock for this DATA_DIR. No previous app
         # can still own its worker, including after a forced exit. Recover only
@@ -111,6 +113,7 @@ def create_app(
                     ("collection_report", app.state.service.opportunities.run_collection_reports),
                     ("performance_report", app.state.performance_reports.run),
                     ("routes_report", app.state.routed_reports.run),
+                    ("candidate_index", app.state.catalog.run),
                 ]
             ]
             if run_scanner
@@ -243,6 +246,7 @@ def create_app(
             "authentication_enabled": service.auth.enabled,
             "opportunity_engine": service.opportunities.status,
             "storage": disk_health(settings.data_dir),
+            "candidate_index": request.app.state.catalog.status(),
         }
 
     @app.get("/api/tokens")
@@ -447,7 +451,7 @@ def create_app(
         q: str = Query("", max_length=120),
         verdict: Literal["all", "PENDING", "REJECT", "MONITOR", "INVESTIGATE", "CONSIDER"] = "all",
     ):
-        return JSONResponse(request.app.state.service.opportunities.listing(
+        return JSONResponse(request.app.state.catalog.listing(
             limit, before, sort == "rank", q, verdict
         ))
 

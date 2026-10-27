@@ -872,6 +872,8 @@ function renderHealth() {
     if (item.last_error)
       details.append(node("p", `Ultima eroare worker_${name}: ${item.last_error} · ${date(item.last_error_at)}${item.state === "running" ? " · proces repornit; starea curentă se verifică separat" : ""}`, "footnote"));
   }
+  if (status.candidate_index)
+    details.append(node("p", `Index candidați: ${status.candidate_index.state === "ready" ? "actualizat" : status.candidate_index.state === "updating" ? "se actualizează" : "se pregătește"} · ${number(status.candidate_index.indexed_candidates)} candidați indexați · ${number(status.candidate_index.pending_subjects)} în așteptare. Date derivate; semnalele originale sunt păstrate.`, "footnote"));
   $("section-alerts").replaceChildren();
   for (const [key, value] of Object.entries(state.sectionErrors))
     $("section-alerts").append(
@@ -2422,8 +2424,14 @@ $("storage-refresh").onclick = () =>
         target.append(node("p", `Ultima arhivare: ${rows} rânduri comprimate; observații mai vechi de ${date(db.last_archive.cutoff)}. Istoricul este accesibil în dosare și rapoarte.`, "footnote"));
       }
     }
-    target.append(node("p", `Backupuri locale: ${report.backup_count} · ${bytes(report.backup_bytes)}. Arhivare automată: oprită.`, "footnote"));
-    if (report.backup_ready !== undefined)
+    target.append(node("p", `Backupuri în destinația curentă: ${report.backup_count} · ${bytes(report.backup_bytes)}. Arhivare automată: oprită.`, "footnote"));
+    if (report.backup_configuration_error)
+      target.append(node("p", report.backup_configuration_error, "warn"));
+    if (report.backup_destination)
+      target.append(node("p", `Destinație backup: ${report.backup_destination} · liber ${bytes(report.backup_disk_free_bytes)}.`, "footnote"));
+    if (report.backup_work_directory)
+      target.append(node("p", `Spațiu temporar: ${report.backup_work_directory}${report.backup_shared_volume ? " · volum comun cu arhiva" : ` · liber ${bytes(report.backup_work_free_bytes)} · necesar cu rezervă ${bytes(report.backup_work_required_free_bytes)}`}.`, "footnote"));
+    if (report.backup_ready !== undefined && !report.backup_configuration_error)
       target.append(node("p", `Backup complet: ${report.backup_ready ? "spațiu estimat suficient" : "spațiu insuficient"} · necesar estimat cu rezervă ${bytes(report.backup_required_free_bytes)}${report.backup_ready ? "" : " · deficit " + bytes(report.backup_space_deficit_bytes)}. Estimarea include copia SQLite, arhiva ZIP și paginile WAL.`, report.backup_ready ? "footnote" : "warn"));
   });
 $("backup-button").onclick = () =>

@@ -563,6 +563,34 @@ async def check(base):
             await expect(page.locator("#message")).to_contain_text("Spațiu insuficient")
             await expect(page.locator("#backup-button")).to_be_enabled()
 
+        async def external_backup_layout(page):
+            await ready(page)
+            data = await (await page.request.get(base + "/api/storage")).json()
+            data.update(backup_destination="D:\\Backups\\" + "Știri" * 50,
+                        backup_work_directory="E:\\Temporary working folder", backup_shared_volume=False,
+                        backup_disk_free_bytes=40*1024**3,backup_work_free_bytes=30*1024**3,
+                        backup_work_required_free_bytes=12*1024**3)
+            await page.route("**/api/storage", lambda r:r.fulfill(json=data))
+            await page.locator('.nav-item[data-page="journal"]').click()
+            await page.locator("#storage-panel > summary").click()
+            await page.locator("#storage-refresh").click()
+            await expect(page.locator("#storage-status")).to_contain_text("Destinație backup: D:")
+            await expect(page.locator("#storage-status")).to_contain_text("Spațiu temporar: E:")
+            await page.set_viewport_size({"width":390,"height":844})
+            assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+
+        async def invalid_backup_configuration(page):
+            await ready(page)
+            await page.route("**/api/storage", lambda r:r.fulfill(json={
+                "at":"2026-01-01T00:00:00Z","state":"warning","disk_free_bytes":10*1024**3,
+                "databases":[],"backup_count":0,"backup_bytes":0,"backup_ready":False,
+                "backup_configuration_error":"Destinația configurată nu este accesibilă."}))
+            await page.locator('.nav-item[data-page="journal"]').click()
+            await page.locator("#storage-panel > summary").click()
+            await page.locator("#storage-refresh").click()
+            await expect(page.locator("#storage-status")).to_contain_text("Destinația configurată")
+            await expect(page.locator("#storage-status")).not_to_contain_text("NaN")
+
         async def network_budget_status(page):
             await ready(page)
             value = await (await page.request.get(base + "/api/opportunities?limit=50")).json()
@@ -895,6 +923,8 @@ async def check(base):
             ("actual fixture database capacity and mobile layout", storage_capacity),
             ("storage failure preserves candidate workflow", storage_failure),
             ("backup capacity warning and HTTP 507 remain readable", backup_capacity_and_failure),
+            ("external backup and work volumes fit mobile layout", external_backup_layout),
+            ("invalid backup configuration remains readable", invalid_backup_configuration),
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
             ("priority freshness separates active research from background backlog", priority_monitoring),
             ("network budget distinguishes deferred observations and virtual quotes", network_budget_status),

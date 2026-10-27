@@ -68,8 +68,8 @@ def daily_report(engine, day: date | None = None):
     at = utcnow()
     now = epoch(at)
     params = {"start": start.timestamp(), "end": end.timestamp(), "at": now}
-    cohort = """WITH cohort AS (
-        SELECT * FROM opportunity_candidates WHERE chain='solana'
+    cohort = """WITH cohort AS MATERIALIZED (
+        SELECT id,contract,pool,eligible FROM opportunity_candidates WHERE chain='solana'
         AND research_epoch(discovered_at)>=:start
         AND research_epoch(discovered_at)<:end
         AND research_epoch(discovered_at)<=:at) """

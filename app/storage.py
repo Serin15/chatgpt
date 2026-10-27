@@ -6,6 +6,7 @@ Run `python -m app.storage --help`. No network or real-money execution.
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import sqlite3
 import sys
@@ -53,6 +54,71 @@ def backup_estimate(data_dir):
     )
 
 
+def existing_directory(path):
+    path = Path(path)
+    while not path.exists():
+        path = path.parent
+    if not path.is_dir():
+        raise ValueError("Backup destination must be a directory")
+    return path
+
+
+def volume_id(path):
+    return existing_directory(path).stat().st_dev
+
+
+def backup_plan(data_dir):
+    """Admin-configured paths only; never accept filesystem paths from HTTP input."""
+    def configured(name, default):
+        value = os.getenv(name)
+        if value is None:
+            return Path(default).resolve()
+        path = Path(value.strip()).expanduser()
+        if not value.strip() or not path.is_absolute():
+            raise ValueError("Backup paths must be absolute directories")
+        path = path.resolve()
+        existing_directory(path)
+        return path
+
+    target = configured("PULSE_BACKUP_DIR", Path(data_dir) / "backups")
+    work = configured("PULSE_BACKUP_WORK_DIR", target)
+    sizes = [file_bytes(Path(data_dir) / n) + file_bytes(Path(data_dir) / (n + "-wal"))
+             for n in DATABASES]
+    archive, scratch = sum(sizes), max(sizes, default=0)
+    shared = volume_id(target) == volume_id(work)
+    target_required = archive + (scratch if shared else 0) + RESERVE
+    work_required = target_required if shared else scratch + RESERVE
+    target_free = shutil.disk_usage(existing_directory(target)).free
+    work_free = target_free if shared else shutil.disk_usage(existing_directory(work)).free
+    target_deficit, work_deficit = max(0, target_required - target_free), max(0, work_required - work_free)
+    return {
+        "backup_destination": str(target), "backup_work_directory": str(work),
+        "backup_shared_volume": shared, "backup_configuration_error": None,
+        "backup_disk_free_bytes": target_free, "backup_work_free_bytes": work_free,
+        "backup_required_free_bytes": target_required,
+        "backup_work_required_free_bytes": work_required,
+        "backup_work_space_deficit_bytes": work_deficit,
+        "backup_space_deficit_bytes": target_deficit + (0 if shared else work_deficit),
+        "backup_ready": target_deficit == 0 and work_deficit == 0,
+    }
+
+
+def backup_status(data_dir):
+    try:
+        return backup_plan(data_dir)
+    except (OSError, ValueError):
+        return {"backup_ready": False, "backup_configuration_error":
+                "Destinația sau spațiul temporar pentru backup nu sunt accesibile/configurate corect."}
+
+
+def require_backup_space(plan):
+    for path, needed in [(plan["backup_destination"], plan["backup_required_free_bytes"]),
+                         (plan["backup_work_directory"], plan["backup_work_required_free_bytes"])]:
+        free = shutil.disk_usage(existing_directory(path)).free
+        if free < needed:
+            raise InsufficientSpace(needed, free)
+
+
 def read_connection(path):
     db = sqlite3.connect(Path(path).resolve().as_uri() + "?mode=ro", uri=True, timeout=10)
     configure(db)
@@ -69,22 +135,20 @@ def require_space(folder, needed):
 def disk_health(data_dir):
     try:
         free = shutil.disk_usage(data_dir).free
-        needed = backup_estimate(data_dir) + RESERVE
     except OSError:
         return {
             "state": "error",
             "at": utcnow(),
             "error": "Spațiul de stocare nu poate fi verificat.",
         }
-    ready = free >= needed
+    report = backup_status(data_dir)
+    ready = report["backup_ready"]
     state = "error" if free < RESERVE else "partial" if free < RESERVE * 2 or not ready else "ok"
     return {
         "state": state,
         "at": utcnow(),
         "disk_free_bytes": free,
-        "backup_ready": ready,
-        "backup_required_free_bytes": needed,
-        "backup_space_deficit_bytes": max(0, needed - free),
+        **report,
         "error": "Spațiu liber redus; verifică panoul Stocare din Jurnal & rezultate."
         if free < 2 * RESERVE else "Spațiu insuficient pentru backupul complet; verifică panoul Stocare."
         if not ready else None,
@@ -95,7 +159,7 @@ def tables(db):
     return {
         row[0]
         for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        if not row[0].startswith(("sqlite_", "storage_archive_"))
+        if not row[0].startswith(("sqlite_", "storage_archive_", "ui_catalog_"))
     }
 
 
@@ -159,21 +223,19 @@ def capacity(data_dir):
                 "last_archive": latest,
             }
         )
-    backup_dir = data_dir / "backups"
+    report = backup_status(data_dir)
+    backup_dir = Path(report.get("backup_destination", data_dir / "backups"))
     backups = list(backup_dir.glob("*.zip")) if backup_dir.is_dir() else []
-    needed = backup_estimate(data_dir) + RESERVE
     return {
         "at": utcnow(),
         "state": "critical"
         if disks.free < RESERVE
         else "warning"
-        if disks.free < 2 * RESERVE or disks.free < needed
+        if disks.free < 2 * RESERVE or not report["backup_ready"]
         else "ok",
         "disk_free_bytes": disks.free,
         "disk_total_bytes": disks.total,
-        "backup_ready": disks.free >= needed,
-        "backup_required_free_bytes": needed,
-        "backup_space_deficit_bytes": max(0, needed - disks.free),
+        **report,
         "databases": databases,
         "backup_count": len(backups),
         "backup_bytes": sum(file_bytes(p) for p in backups),

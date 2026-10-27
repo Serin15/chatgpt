@@ -11,12 +11,16 @@ from pathlib import Path
 
 from app import __version__
 from app.models import utcnow
-from app.storage import backup_estimate, require_space
+from app.storage import backup_plan, require_backup_space
 
 
 def backup(service):
-    folder = service.settings.data_dir / "backups"
+    plan = backup_plan(service.settings.data_dir)
+    require_backup_space(plan)
+    folder = Path(plan["backup_destination"])
+    work = Path(plan["backup_work_directory"])
     folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+    work.mkdir(mode=0o700, parents=True, exist_ok=True)
     name = (
         "pulse-" + utcnow().replace(":", "").replace("+", "-") + "-" + uuid.uuid4().hex[:8] + ".zip"
     )
@@ -25,12 +29,11 @@ def backup(service):
         ("research.sqlite3", service.store),
         ("news_paper/research.sqlite3", service.news_paper),
     ]
-    require_space(folder, backup_estimate(service.settings.data_dir))
     partial = target.with_suffix(".zip.partial")
     try:
-        # Scratch and final ZIP use the same filesystem checked above. Failure
-        # never publishes an incomplete ZIP or removes an older backup.
-        with tempfile.TemporaryDirectory(prefix=".backup-", dir=folder) as scratch:
+        # Both target and working volumes are checked. Failure never publishes
+        # an incomplete ZIP or removes an older backup.
+        with tempfile.TemporaryDirectory(prefix=".backup-", dir=work) as scratch:
             with zipfile.ZipFile(partial, "x", compression=zipfile.ZIP_DEFLATED) as archive:
                 partial.chmod(0o600)
                 for relative, store in stores:
@@ -46,6 +49,8 @@ def backup(service):
                         if destination.execute("PRAGMA quick_check").fetchone()[0] != "ok":
                             raise ValueError("Backup SQLite integrity check failed")
                     archive.write(copied, relative)
+                    # At most one complete database copy is kept in scratch.
+                    copied.unlink()
             with zipfile.ZipFile(partial) as archive:
                 if archive.testzip() is not None:
                     raise ValueError("Backup ZIP checksum failed")

@@ -8,6 +8,7 @@ from collections import Counter, defaultdict
 
 from app.cohort_comparisons import partition
 from app.models import epoch
+from app.opportunity_catalog import available as catalog_available
 from app.opportunity_outcomes import summary, wilson
 from app.opportunity_rules import RULE_VERSION
 
@@ -96,9 +97,8 @@ def report(engine, now=None):
             totals[key] = db.execute(
                 "SELECT count(*) FROM opportunity_alerts WHERE " + condition
             ).fetchone()[0]
-        for row in projection(
-            db,
-            """
+        has_catalog = catalog_available(db)
+        current_query = """
             SELECT c.id,json_extract(c.discovery,'$.price_usd') AS initial_price,
             json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,
               '$.market.price_usd','$.market.observed_at','$.security.observed_at',
@@ -106,8 +106,25 @@ def report(engine, now=None):
               '$.decision.liquidity_filter_passed') AS fields
             FROM opportunity_candidates c LEFT JOIN opportunity_observations o ON o.id=(
               SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1)
-        """,
-        ):
+        """
+        if has_catalog:
+            current_query = """
+              SELECT c.id,
+                CASE WHEN x.candidate_id IS NULL OR d.candidate_id IS NOT NULL
+                  THEN json_extract(c.discovery,'$.price_usd') ELSE x.initial_price END AS initial_price,
+                CASE WHEN x.candidate_id IS NULL OR d.candidate_id IS NOT NULL THEN
+                  json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,
+                    '$.market.price_usd','$.market.observed_at','$.security.observed_at',
+                    '$.decision.verdict','$.decision.security_filter_passed','$.decision.liquidity_filter_passed')
+                  ELSE x.current_fields END AS fields
+              FROM opportunity_candidates c
+              LEFT JOIN ui_catalog_candidates x ON x.candidate_id=c.id
+              LEFT JOIN ui_catalog_dirty d ON d.candidate_id=c.id
+              LEFT JOIN opportunity_observations o ON o.id=CASE
+                WHEN x.candidate_id IS NULL OR d.candidate_id IS NOT NULL THEN (
+                  SELECT id FROM opportunity_observations WHERE candidate_id=c.id ORDER BY id DESC LIMIT 1) END
+            """
+        for row in projection(db, current_query):
             price, market_at, security_at, verdict, security, liquidity = (
                 json.loads(row["fields"]) if row["fields"] else [None] * 6
             )
@@ -125,17 +142,28 @@ def report(engine, now=None):
             if price is not None and (row["initial_price"] or 0) > 0:
                 collapses += price / row["initial_price"] <= 0.2
                 appreciated += price / row["initial_price"] >= 2
-        for row in projection(
-            db,
-            """
+        baseline_query = """
             SELECT s.id,json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,
               '$.features.changes.5m.volume_5m_ratio','$.features.excessive_extension',
               '$.narrative.supported','$.decision.security_filter_passed',
               '$.decision.liquidity_filter_passed','$.decision.verdict') AS fields
             FROM opportunity_signals s JOIN opportunity_observations o ON o.id=s.observation_id
             WHERE s.kind='baseline'
-        """,
-        ):
+        """
+        if has_catalog:
+            baseline_query = """
+              SELECT x.signal_id AS id,x.fields FROM ui_catalog_baselines x
+              WHERE NOT EXISTS(SELECT 1 FROM ui_catalog_dirty d WHERE d.candidate_id=x.candidate_id)
+              UNION ALL
+              SELECT s.id,json_extract(CASE WHEN typeof(o.payload)='blob' THEN archive_text(o.payload) ELSE o.payload END,
+                '$.features.changes.5m.volume_5m_ratio','$.features.excessive_extension',
+                '$.narrative.supported','$.decision.security_filter_passed',
+                '$.decision.liquidity_filter_passed','$.decision.verdict') AS fields
+              FROM opportunity_signals s JOIN opportunity_observations o ON o.id=s.observation_id
+              WHERE s.kind='baseline' AND EXISTS(
+                SELECT 1 FROM ui_catalog_dirty d WHERE d.candidate_id=s.candidate_id)
+            """
+        for row in projection(db, baseline_query):
             volume, extended, narrative, security, liquidity, verdict = json.loads(row["fields"])
             first_security += bool(security)
             first_liquidity += bool(liquidity)

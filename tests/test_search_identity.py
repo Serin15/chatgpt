@@ -32,7 +32,7 @@ def test_untracked_exact_address_never_matches_another_case_variant(client_engin
     assert response.json()["matching_total"] == 0
 
 
-def test_expensive_text_search_times_out_without_blocking_dashboard(client_engine, monkeypatch):
+def test_legacy_search_deadline_is_preserved_and_indexed_api_avoids_payload_scan(client_engine, monkeypatch):
     from itertools import chain, repeat
 
     client, engine = client_engine
@@ -40,8 +40,13 @@ def test_expensive_text_search_times_out_without_blocking_dashboard(client_engin
         candidate(engine, 17000 + i, 0)
     ticks = chain([0], repeat(100))
     monkeypatch.setattr("app.opportunities.monotonic", lambda: next(ticks))
+    import pytest
+
+    from app.providers import ProviderError
+
+    with pytest.raises(ProviderError, match="adresa exactă"):
+        engine.listing(query="unmatched text")
     response = client.get("/api/opportunities", params={"q": "unmatched text"})
-    assert response.status_code == 503
-    assert "adresa exactă" in response.json()["detail"]
+    assert response.status_code == 200 and response.json()["matching_total"] == 0
     assert client.get("/api/opportunities").status_code == 200
     assert client.get("/healthz").status_code == 200

@@ -1,4 +1,6 @@
-# MemeScope v0.21.1 — research workspace
+# MemeScope v0.22.0 — research workspace
+
+**Stocare și viteză v0.22.0:** [backup pe alt disc, spațiu temporar separat și index derivat pentru căutări/rapoarte](docs/STORAGE-SEARCH-V0.22.md). Actualizările indexului păstrează datele originale și regulile pilotului.
 
 **Audit v0.21.1:** [probleme reproduse, corecții, verificări reale și limite rămase](docs/AUDIT-V0.21.1.md). Backupul explică lipsa spațiului, exportul citește doar snapshoturile necesare, iar erorile componentelor rămân vizibile după recuperare. Protocolul pilotului și conturile virtuale sunt păstrate.
 
