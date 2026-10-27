@@ -3,6 +3,7 @@
 import asyncio
 import json
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from datetime import timedelta
 from threading import Event
 
@@ -183,7 +184,7 @@ def test_replaced_source_database_does_not_reuse_an_unrelated_cached_report(
     replacement = engine.store.path.with_suffix(".replacement")
     import sqlite3
 
-    with engine.store.connect() as source, sqlite3.connect(replacement) as target:
+    with engine.store.connect() as source, closing(sqlite3.connect(replacement)) as target:
         source.backup(target)
     replacement.replace(engine.store.path)
     restored = DailyReports(engine)
