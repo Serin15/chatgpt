@@ -29,6 +29,30 @@ COLD_COLUMNS = {
 }
 
 
+class InsufficientSpace(ValueError):
+    def __init__(self, needed, free):
+        self.required_bytes, self.free_bytes = needed, free
+        super().__init__(
+            f"Insufficient disk space: need {needed} free bytes including reserve; have {free}."
+        )
+
+
+def file_bytes(path):
+    try:
+        return Path(path).stat().st_size
+    except FileNotFoundError:
+        return 0
+
+
+def backup_estimate(data_dir):
+    # Cheap, conservative bound: SQLite copy plus a worst-case ZIP, including
+    # pages still in WAL. Do not scan SQLite on the status request's critical path.
+    return 2 * sum(
+        file_bytes(Path(data_dir) / name) + file_bytes(Path(data_dir) / (name + "-wal"))
+        for name in DATABASES
+    )
+
+
 def read_connection(path):
     db = sqlite3.connect(Path(path).resolve().as_uri() + "?mode=ro", uri=True, timeout=10)
     configure(db)
@@ -39,28 +63,31 @@ def read_connection(path):
 def require_space(folder, needed):
     free = shutil.disk_usage(folder).free
     if free < needed + RESERVE:
-        raise ValueError(
-            f"Insufficient disk space: need {needed + RESERVE} free bytes including reserve; have {free}."
-        )
+        raise InsufficientSpace(needed + RESERVE, free)
 
 
 def disk_health(data_dir):
     try:
         free = shutil.disk_usage(data_dir).free
+        needed = backup_estimate(data_dir) + RESERVE
     except OSError:
         return {
             "state": "error",
             "at": utcnow(),
             "error": "Spațiul de stocare nu poate fi verificat.",
         }
-    state = "error" if free < RESERVE else "partial" if free < RESERVE * 2 else "ok"
+    ready = free >= needed
+    state = "error" if free < RESERVE else "partial" if free < RESERVE * 2 or not ready else "ok"
     return {
         "state": state,
         "at": utcnow(),
         "disk_free_bytes": free,
+        "backup_ready": ready,
+        "backup_required_free_bytes": needed,
+        "backup_space_deficit_bytes": max(0, needed - free),
         "error": "Spațiu liber redus; verifică panoul Stocare din Jurnal & rezultate."
-        if state != "ok"
-        else None,
+        if free < 2 * RESERVE else "Spațiu insuficient pentru backupul complet; verifică panoul Stocare."
+        if not ready else None,
     }
 
 
@@ -128,26 +155,28 @@ def capacity(data_dir):
                 "file_bytes": path.stat().st_size,
                 "logical_page_bytes": pages * page_size,
                 "reusable_bytes": free_pages * page_size,
-                "wal_bytes": Path(str(path) + "-wal").stat().st_size
-                if Path(str(path) + "-wal").exists()
-                else 0,
+                "wal_bytes": file_bytes(str(path) + "-wal"),
                 "last_archive": latest,
             }
         )
     backup_dir = data_dir / "backups"
     backups = list(backup_dir.glob("*.zip")) if backup_dir.is_dir() else []
+    needed = backup_estimate(data_dir) + RESERVE
     return {
         "at": utcnow(),
         "state": "critical"
         if disks.free < RESERVE
         else "warning"
-        if disks.free < 2 * RESERVE
+        if disks.free < 2 * RESERVE or disks.free < needed
         else "ok",
         "disk_free_bytes": disks.free,
         "disk_total_bytes": disks.total,
+        "backup_ready": disks.free >= needed,
+        "backup_required_free_bytes": needed,
+        "backup_space_deficit_bytes": max(0, needed - disks.free),
         "databases": databases,
         "backup_count": len(backups),
-        "backup_bytes": sum(p.stat().st_size for p in backups if p.is_file()),
+        "backup_bytes": sum(file_bytes(p) for p in backups),
         "automatic_archival": False,
         "history_deleted": False,
         "archive_is_independent_backup": False,

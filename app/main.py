@@ -1,16 +1,19 @@
 import asyncio
+import errno
+import logging
 import os
+import sqlite3
 from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict
 from datetime import date
 from pathlib import Path
+from threading import Lock
 from typing import Literal
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from starlette.concurrency import run_in_threadpool
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app import __version__, instance_id
@@ -42,11 +45,13 @@ from app.providers import ProviderError, Providers
 from app.research import EvidenceInput, SourceInput
 from app.runtime_lock import RuntimeLock
 from app.service import Service
-from app.storage import capacity, disk_health
+from app.storage import InsufficientSpace, capacity, disk_health
 from app.store import Store
 from app.wallets import WalletInput
+from app.workers import supervise
 
 STATIC = Path(__file__).parent / "static"
+log = logging.getLogger(__name__)
 
 
 def create_app(
@@ -66,6 +71,7 @@ def create_app(
         sources = providers or Providers(settings)
         app.state.service = Service(settings, store, sources)
         app.state.pilot = Pilot(app.state.service.opportunities)
+        app.state.backup_lock = Lock()
         # lifespan already holds RuntimeLock for this DATA_DIR. No previous app
         # can still own its worker, including after a forced exit. Recover only
         # this ephemeral lease; research rows and deadlines remain unchanged.
@@ -89,29 +95,9 @@ def create_app(
             PerformanceReports(app.state.service.opportunities) if run_scanner else None
         )
 
-        async def supervised(name, fn):
-            app.state.workers[name] = {
-                "state": "running",
-                "started_at": utcnow(),
-                "restarts": 0,
-                "error": None,
-            }
-            while True:
-                try:
-                    await fn()
-                    raise RuntimeError("Worker returned unexpectedly")
-                except asyncio.CancelledError:
-                    raise
-                except Exception as exc:
-                    record = app.state.workers[name]
-                    record.update(state="error", error=type(exc).__name__)
-                    record["restarts"] += 1
-                    await asyncio.sleep(5)
-                    record.update(state="running", error=None)
-
         tasks = (
             [
-                asyncio.create_task(supervised(name, fn))
+                asyncio.create_task(supervise(name, fn, app.state.workers))
                 for name, fn in [
                     ("scanner", app.state.service.run),
                     ("news", news.run),
@@ -409,8 +395,27 @@ def create_app(
 
     @app.post("/api/backup")
     async def backup_data(request: Request):
-        path = await run_in_threadpool(backup, request.app.state.service)
-        return FileResponse(path, filename=path.name, media_type="application/zip")
+        if not request.app.state.backup_lock.acquire(blocking=False):
+            raise HTTPException(409, "Un backup este deja în curs. Așteaptă finalizarea lui.")
+        try:
+            service = request.app.state.service
+            path = await service.opportunities._background(backup, service)
+            return FileResponse(path, filename=path.name, media_type="application/zip")
+        except InsufficientSpace as error:
+            return JSONResponse({
+                "detail": "Spațiu insuficient pentru backupul complet. Verifică panoul Stocare.",
+                "free_bytes": error.free_bytes, "required_free_bytes": error.required_bytes,
+            }, status_code=507)
+        except (OSError, sqlite3.Error, ValueError) as error:
+            log.warning("Backup failed: %s", type(error).__name__)
+            full = (isinstance(error, OSError) and error.errno == errno.ENOSPC
+                    or isinstance(error, sqlite3.Error)
+                    and getattr(error, "sqlite_errorcode", None) == sqlite3.SQLITE_FULL)
+            return JSONResponse({"detail": "Spațiu insuficient pentru finalizarea backupului."
+                                 if full else "Backupul nu a putut fi creat sau verificat. Arhivele existente sunt păstrate."},
+                                status_code=507 if full else 503)
+        finally:
+            request.app.state.backup_lock.release()
 
     @app.get("/api/storage")
     def storage_capacity():

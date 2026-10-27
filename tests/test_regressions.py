@@ -49,11 +49,20 @@ def test_launcher_requires_matching_version_and_data_directory(settings):
         "app_id": "pulse_crypto_research",
         "version": __version__,
         "instance_id": instance_id(settings.data_dir),
+        "live_execution": False,
     }
     with patch("app.desktop.Settings.from_environment", return_value=settings):
         assert our_app("unused", payload)
         assert not our_app("unused", payload | {"version": "0.2.0"})
         assert not our_app("unused", payload | {"instance_id": "another-folder"})
+
+
+@pytest.mark.parametrize("live_flag", [True, None, "false", 0])
+def test_launcher_rejects_unsafe_or_unknown_execution_mode(settings, live_flag):
+    payload = {"app_id":"pulse_crypto_research", "version":__version__,
+               "instance_id":instance_id(settings.data_dir), "live_execution":live_flag}
+    with patch("app.desktop.Settings.from_environment", return_value=settings):
+        assert not our_app("unused", payload)
 
 
 def test_asset_watchlist_search_and_concurrent_limit(settings):

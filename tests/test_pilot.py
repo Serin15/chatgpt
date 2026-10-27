@@ -5,6 +5,7 @@ import json
 import sqlite3
 import time
 from concurrent.futures import ThreadPoolExecutor
+from decimal import Decimal
 
 import pytest
 
@@ -258,3 +259,25 @@ def test_pilot_endpoints_retain_hosted_authentication_and_csrf(client_engine):
     assert client.post("/api/opportunities/pilot/start", headers={
         "x-pulse-csrf": session.json()["csrf"]
     }).status_code == 200
+
+
+@pytest.mark.parametrize("value", ["-0.0000000000000000000012345", "0", None, "NaN"])
+def test_projected_outcomes_preserve_decimal_pnl_and_ignore_unused_provider_payload(
+    client_engine, monkeypatch, value
+):
+    _, engine = client_engine
+    at, _, _ = begin(engine, monkeypatch)
+    c, _, _ = observe(engine, 51000, at + 1)
+    with engine.store.connect() as db:
+        sid = db.execute("SELECT id FROM opportunity_signals WHERE candidate_id=? AND kind='baseline'",
+                         (c["id"],)).fetchone()[0]
+        db.execute("UPDATE opportunity_outcomes SET state='evaluated',payload=?,updated_at=? WHERE signal_id=? AND horizon_seconds=300",
+                   (json.dumps({"pnl_usd":value,"unused_provider_details":"fixture"*20000}),
+                    stamp(at + 500),sid))
+    result = report(engine, at + 1000)
+    measured = result["models"]["estimated_pool"]["300"]["comparison"]["selected_at_first_evaluation"]
+    if value is None or value == "NaN":
+        assert measured["evaluated"] == 0 and measured["mean_net_pnl_usd"] is None
+    else:
+        assert Decimal(measured["mean_net_pnl_usd"]) == Decimal(value)
+    assert "unused_provider_details" not in json.dumps(result)

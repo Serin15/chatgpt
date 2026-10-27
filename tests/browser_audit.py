@@ -106,6 +106,17 @@ async def check(base):
             await expect(page.locator("#health-components")).to_contain_text("Explicit fixture worker failure", timeout=1000)
             await expect(page.locator("#health-components")).to_contain_text("worker_scanner: eroare")
 
+        async def recovered_worker_history(page):
+            await ready(page)
+            await page.evaluate("""() => {
+                state.status.workers = {performance_report:{state:'running',started_at:new Date().toISOString(),
+                    error:null,restarts:1,last_error:'TimeoutError',last_error_at:new Date().toISOString()}};
+                renderHealth();
+            }""")
+            await page.locator("#connection").click()
+            await expect(page.locator("#health-components")).to_contain_text("Ultima eroare worker_performance_report: TimeoutError")
+            await expect(page.locator("#health-components")).to_contain_text("proces repornit")
+
         async def isolation(page):
             gate = asyncio.Event()
 
@@ -524,6 +535,22 @@ async def check(base):
             await page.locator('.nav-item[data-page="opportunities"]').click()
             await expect(page.locator("#engine-rows tr")).to_have_count(1)
 
+        async def backup_capacity_and_failure(page):
+            await ready(page)
+            data = await (await page.request.get(base + "/api/storage")).json()
+            data.update(state="warning",backup_ready=False,backup_required_free_bytes=20*1024**3,
+                        backup_space_deficit_bytes=17*1024**3)
+            await page.route("**/api/storage", lambda r:r.fulfill(json=data))
+            await page.route("**/api/backup",lambda r:r.fulfill(status=507,json={"detail":"Spațiu insuficient pentru backupul complet."}))
+            await page.locator('.nav-item[data-page="journal"]').click()
+            await page.locator("#storage-panel > summary").click()
+            await page.locator("#storage-refresh").click()
+            await expect(page.locator("#storage-status")).to_contain_text("Backup complet: spațiu insuficient")
+            await expect(page.locator("#storage-status")).to_contain_text("deficit")
+            await page.locator("#backup-button").click()
+            await expect(page.locator("#message")).to_contain_text("Spațiu insuficient")
+            await expect(page.locator("#backup-button")).to_be_enabled()
+
         async def network_budget_status(page):
             await ready(page)
             value = await (await page.request.get(base + "/api/opportunities?limit=50")).json()
@@ -830,6 +857,7 @@ async def check(base):
             ("news source health details", news_health_details),
             ("stale source status is consistent in details", stale_health_details),
             ("worker failure has visible diagnostic details", worker_health_details),
+            ("recovered worker retains failure type and timestamp", recovered_worker_history),
             ("independent candidate loading", isolation),
             ("detail response race", detail_race),
             ("expanded evidence survives refresh", details_preserved),
@@ -853,6 +881,7 @@ async def check(base):
             ("live candidates before sequential history reports", history_requests_are_sequential),
             ("actual fixture database capacity and mobile layout", storage_capacity),
             ("storage failure preserves candidate workflow", storage_failure),
+            ("backup capacity warning and HTTP 507 remain readable", backup_capacity_and_failure),
             ("bounded polling preserves visible history and raw totals on mobile", bounded_monitoring),
             ("priority freshness separates active research from background backlog", priority_monitoring),
             ("network budget distinguishes deferred observations and virtual quotes", network_budget_status),

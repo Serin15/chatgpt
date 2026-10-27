@@ -3,7 +3,7 @@
 from hashlib import sha256
 from pathlib import Path
 
-__version__ = "0.21.0"
+__version__ = "0.21.1"
 
 
 def instance_id(data_dir):

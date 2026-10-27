@@ -31,6 +31,7 @@ def our_app(url, payload=None):
         payload.get("app_id") == "pulse_crypto_research"
         and payload.get("version") == __version__
         and payload.get("instance_id") == instance_id(Settings.from_environment().data_dir)
+        and payload.get("live_execution") is False
     )
 
 

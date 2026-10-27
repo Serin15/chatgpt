@@ -869,6 +869,8 @@ function renderHealth() {
     details.append(node("p",
       `worker_${name}: ${item.state === "error" ? "eroare" : item.state || "neverificat"} · pornit ${date(item.started_at)} · reporniri ${item.restarts ?? 0}${note ? " · " + note : ""}`,
       "footnote"));
+    if (item.last_error)
+      details.append(node("p", `Ultima eroare worker_${name}: ${item.last_error} · ${date(item.last_error_at)}${item.state === "running" ? " · proces repornit; starea curentă se verifică separat" : ""}`, "footnote"));
   }
   $("section-alerts").replaceChildren();
   for (const [key, value] of Object.entries(state.sectionErrors))
@@ -2421,6 +2423,8 @@ $("storage-refresh").onclick = () =>
       }
     }
     target.append(node("p", `Backupuri locale: ${report.backup_count} · ${bytes(report.backup_bytes)}. Arhivare automată: oprită.`, "footnote"));
+    if (report.backup_ready !== undefined)
+      target.append(node("p", `Backup complet: ${report.backup_ready ? "spațiu estimat suficient" : "spațiu insuficient"} · necesar estimat cu rezervă ${bytes(report.backup_required_free_bytes)}${report.backup_ready ? "" : " · deficit " + bytes(report.backup_space_deficit_bytes)}. Estimarea include copia SQLite, arhiva ZIP și paginile WAL.`, report.backup_ready ? "footnote" : "warn"));
   });
 $("backup-button").onclick = () =>
   action($("backup-button"), async () => {
@@ -2432,7 +2436,10 @@ $("backup-button").onclick = () =>
       },
       body: "{}",
     });
-    if (!response.ok) throw new Error("Backupul nu a putut fi creat.");
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(typeof error.detail === "string" ? error.detail : "Backupul nu a putut fi creat.");
+    }
     const url = URL.createObjectURL(await response.blob()),
       a = node("a");
     a.href = url;

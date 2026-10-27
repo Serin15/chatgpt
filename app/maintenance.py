@@ -11,7 +11,7 @@ from pathlib import Path
 
 from app import __version__
 from app.models import utcnow
-from app.storage import require_space
+from app.storage import backup_estimate, require_space
 
 
 def backup(service):
@@ -25,7 +25,7 @@ def backup(service):
         ("research.sqlite3", service.store),
         ("news_paper/research.sqlite3", service.news_paper),
     ]
-    require_space(folder, sum(s.path.stat().st_size for _, s in stores) * 2)
+    require_space(folder, backup_estimate(service.settings.data_dir))
     partial = target.with_suffix(".zip.partial")
     try:
         # Scratch and final ZIP use the same filesystem checked above. Failure
@@ -74,11 +74,10 @@ def export(service, account):
             for o in orders
             if o["details"].get("snapshot_id") is not None
         )
-        snapshots = [
-            store.unpack(r)
-            for r in db.execute("SELECT * FROM snapshots ORDER BY id")
-            if r["id"] in referenced
-        ]
+        snapshots = [store.unpack(r) for r in db.execute(
+            "SELECT * FROM snapshots WHERE id IN (SELECT value FROM json_each(?)) ORDER BY id",
+            (json.dumps(list(referenced)),),
+        )] if referenced else []
         observations = [
             dict(r) | {"context": json.loads(r["context"])}
             for r in db.execute("SELECT * FROM equity_observations ORDER BY id")

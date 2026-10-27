@@ -109,7 +109,7 @@ class Pilot:
 
 
 COHORT = """WITH cohort AS MATERIALIZED (
-  SELECT * FROM opportunity_candidates
+  SELECT id,chain,contract,pool,discovered_at,ingested_at,eligible FROM opportunity_candidates
   WHERE chain='solana' AND ingested_at>=:start AND ingested_at<:end
     AND ingested_at<=:at
 ) """
@@ -197,17 +197,21 @@ def report(engine, now=None):
                 }
         models, entry_pairs, alert_entry_pairs, alert_followup = {}, {}, {}, {}
         config = p["policy"]["config"]
+        wanted_signals = json.dumps(sorted(set(firsts) | set(alert_subjects)))
         for name, table in [("estimated_pool", "opportunity_outcomes"),
                             ("jupiter_quotes", "routed_outcomes")]:
             outcomes = {}
-            for row in db.execute(COHORT + f"""
-              SELECT r.*,s.candidate_id FROM {table} r
-              JOIN opportunity_signals s ON s.id=r.signal_id JOIN cohort c ON c.id=s.candidate_id
+            # Fetch only the subjects actually analyzed, and only used fields.
+            # Sorting full provider payloads made the report increasingly costly
+            # as the pilot accumulated observations and unrelated later signals.
+            for row in db.execute(f"""
+              SELECT r.signal_id,r.horizon_seconds,r.state,r.updated_at,
+                json_extract(r.payload,'$.pnl_usd','$.entry_at','$.entry_quote') AS fields
+              FROM json_each(:wanted) w JOIN {table} r ON r.signal_id=w.value
               ORDER BY r.signal_id,r.horizon_seconds
-            """, params):
-                if row["signal_id"] not in firsts and row["signal_id"] not in alert_subjects:
-                    continue
-                body = json.loads(row["payload"])
+            """, {"wanted": wanted_signals}):
+                pnl, entry_at, entry_quote = json.loads(row["fields"])
+                body = {"pnl_usd": pnl, "entry_at": entry_at, "entry_quote": entry_quote}
                 state = row["state"]
                 if seconds(row["updated_at"]) is None or seconds(row["updated_at"]) > clock:
                     state, body = "future_update_unavailable", {}

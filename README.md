@@ -1,4 +1,6 @@
-# MemeScope v0.21.0 — research workspace
+# MemeScope v0.21.1 — research workspace
+
+**Audit v0.21.1:** [probleme reproduse, corecții, verificări reale și limite rămase](docs/AUDIT-V0.21.1.md). Backupul explică lipsa spațiului, exportul citește doar snapshoturile necesare, iar erorile componentelor rămân vizibile după recuperare. Protocolul pilotului și conturile virtuale sunt păstrate.
 
 **Pilot Solana v0.21.0:** [30 de zile, protocol fix, latențe și rezultate comparabile](docs/PILOT-V0.21.md). Urmărește numai înregistrări noi, separă alertele ulterioare de selecția inițială și păstrează necunoscutele. Activare din „Oportunități timpurii → Pilot 30 zile”.
 
