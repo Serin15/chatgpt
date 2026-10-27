@@ -1,0 +1,92 @@
+[
+  {
+    "path": "/healthz",
+    "status": 200,
+    "seconds": 3.472693195042666,
+    "matching_total": null
+  },
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 3.3843087650020607,
+    "matching_total": 199174
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 200,
+    "seconds": 0.35477025603177026,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 0.25356705597369,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 29.779815363988746,
+    "matching_total": null
+  },
+  {
+    "path": "/healthz",
+    "status": 200,
+    "seconds": 0.01028262299951166,
+    "matching_total": null
+  },
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 3.492888673034031,
+    "matching_total": 199174
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 200,
+    "seconds": 1.4147915089852177,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 1.3189742450485937,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 12.350627860985696,
+    "matching_total": null
+  },
+  {
+    "path": "/healthz",
+    "status": 200,
+    "seconds": 0.008961648039985448,
+    "matching_total": null
+  },
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 2.458919864031486,
+    "matching_total": 199174
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 200,
+    "seconds": 0.8036000709980726,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 0.34897964395349845,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 15.982096398016438,
+    "matching_total": null
+  }
+]

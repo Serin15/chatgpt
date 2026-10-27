@@ -53,6 +53,38 @@ uv run --frozen pytest -q
 uv run --with playwright python tests/browser_audit.py
 ```
 
-Rezultatele finale, comparațiile pe baza reală și verificarea Windows sunt consemnate separat în dovezile acestei versiuni după finalizarea lor. Testele simulate nu reprezintă validare a profitabilității, generare AI reală sau livrare Telegram.
+Local: **662 teste pytest trecute**, 272,21 s, un avertisment existent de depreciere Starlette/httpx; **49 scenarii Chromium trecute** cu furnizori controlați. Ruff și verificarea sintaxei celor trei fișiere JavaScript au trecut. Testele simulate nu reprezintă validare a profitabilității, generare AI reală sau livrare Telegram.
+
+CI pentru codul final: [40465684548](https://github.com/Serin15/chatgpt/actions/runs/40465684548), commit `7115eca8741c7c491b9697a0ddf59881c7b67ee0`: **succes pe Linux și Windows**, 662 teste pe fiecare sistem, 49 scenarii Chromium pe Linux, pornire Windows și arhivare/restaurare din foldere cu spații pe baze temporare. Extrasele logurilor și metadata joburilor sunt în folderul de dovezi.
+
+## Măsurare pe baza reală
+
+Comparația finală folosește aceeași tranzacție SQLite și aceeași oră pentru fiecare metodă. Toate cele șase rezultate complete sunt identice cu versiunea v0.21.1, inclusiv câmpurile financiare și rezultatele necunoscute. Valorile sunt timpi interni pe acest mediu, nu garanții pentru alte calculatoare.
+
+| Operație | Metoda veche | Metoda nouă |
+|---|---:|---:|
+| Clasament, 5 rezultate | 9,22 s | 0,81 s |
+| Căutare fără rezultat | 10,29 s | 0,22 s |
+| Filtru CONSIDER | 7,67 s | 0,18 s |
+| Candidați recenți | 0,55 s | 0,62 s |
+| Calcul global complet | 78,54 s | 65,85 s |
+| Bilanț zilnic | 5,50 s | 5,76 s |
+
+Pentru compararea rezultatului complet al căutării vechi s-a dezactivat **numai în procesul verificatorului** limita ei de execuție de 5 s. Endpointul vechi real răspundea 503 după aproximativ 5 s; limita din motorul original este păstrată. Căutarea nouă din aplicație nu folosește acel proces verificator.
+
+Ultimul eșantion HTTP pe instanța normală: clasament 0,83 s, căutare 0,19 s și filtru de verdict 0,19 s, toate 200. Bilanțul zilnic a durat 13,20 s în acel eșantion; în testul de sarcină a ajuns la 29,78 s. Calculul global rămâne costisitor, iar snapshotul său poate fi vechi în timpul recalculării; interfața arată explicit aceste informații. Nu declarăm rezolvate toate limitele de performanță ale istoricului mare.
+
+O încercare cu materializare SQL forțată a produs o regresie a bilanțului zilnic: 4,06 → 116,48 s. A fost depistată pe baza reală și eliminată înaintea versiunii finale. Logul încercării este păstrat separat de verificarea finală. Un alt defect depistat în helperul nou de backup, parcurgerea fără oprire a părinților unui volum inexistent, a fost reprodus într-un subprocess izolat cu timeout și corectat prin respingere explicită.
+
+## Verificări live și limite
+
+- Indexarea inițială a ajuns automat la **198.820 candidați**; progresul este păstrat, iar după restart indexul este reutilizat. Semnalele noi continuă să fie colectate.
+- Verificatorul colectării normale a trecut toate cele șase criterii în **111 s**, cu **3 capturi distincte pentru alerte și 5 pentru control**, primite în intervalul verificării și în ferestrele promise. Nu au fost injectați candidați sau modificate praguri.
+- Chromium pe API real, fără interceptări: 50 candidați afișați, nouă destinații, zero erori JavaScript, fără depășire orizontală la 320/390/768/1536 px. Singurul răspuns 5xx observat în acea verificare a fost 507 al backupului mare, așteptat din cauza capacității.
+- Backup și restaurare verificate pe **două volume reale diferite**, cu baze mici sintetice, CRC valid și istoric restaurat identic. Acest test verifică funcționarea destinației/folderului temporar separat; nu este backupul bazei mari din producție.
+- În captura finală, volumul aplicației avea aproximativ **2,73 GiB liberi**, iar backupul colocat necesita conservator **20,23 GiB**. Backupul și restaurarea întregului istoric real rămân blocate de capacitate; `/tmp` nu este o destinație persistentă și nu rezolvă lipsa unui volum adecvat. Pe PC se calculează capacitatea pentru baza și discurile locale.
+- Verificarea de păstrare confirmă politicile și declarațiile originale, configurația, semnalul/rezultatul de referință și conturile manuale Scanner $100 / News $500, cu zero ordine. Cele 20 de fișiere verificate pentru reguli/colectare/executare sunt identice cu baza v0.21.1; hashul motorului rămâne `cc2e2c6499bbd495b8c28aa38f76d366efb9785e50336a54cd262da62bda9251`.
+
+[Dovezi și comenzi de repetare](storage-search-v0.22-evidence/). Fișierele principale modificate: `app/storage.py` și `app/maintenance.py` pentru volume; `app/opportunity_catalog.py`, `app/main.py` și `app/performance_reporting.py` pentru proiecții/citire; `app/daily_research.py` pentru coloanele citite; interfața, versiunea/lockul, `.env.example` și testele de regresie.
 
 Pilotul prospectiv, policy 32, soldurile manuale și execuția reală dezactivată sunt păstrate. AI și Telegram nu sunt activate de această versiune.

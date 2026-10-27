@@ -1,0 +1,67 @@
+{
+  "at_epoch": 1793084385.8912175,
+  "same_sqlite_snapshot": true,
+  "same_clock": true,
+  "legacy_text_deadline_disabled_for_result_comparison": true,
+  "dirty_subjects_in_snapshot": 0,
+  "checks": {
+    "rank": true,
+    "text": true,
+    "verdict": true,
+    "recent": true,
+    "performance": true,
+    "daily": true
+  },
+  "sha256": {
+    "rank": [
+      "cf9027d62de8d617b57aceb4bbc3f88863001550fa096e5ea8887305e91a35e3",
+      "cf9027d62de8d617b57aceb4bbc3f88863001550fa096e5ea8887305e91a35e3"
+    ],
+    "text": [
+      "37236ce98a864b70e7d72a94b49d0ba0e8dc35fd113f478aeddbee0510f140b8",
+      "37236ce98a864b70e7d72a94b49d0ba0e8dc35fd113f478aeddbee0510f140b8"
+    ],
+    "verdict": [
+      "37236ce98a864b70e7d72a94b49d0ba0e8dc35fd113f478aeddbee0510f140b8",
+      "37236ce98a864b70e7d72a94b49d0ba0e8dc35fd113f478aeddbee0510f140b8"
+    ],
+    "recent": [
+      "66424286564428b3605eb2083250b5f1f999c142fb7a51a6323688edcd2d6b84",
+      "66424286564428b3605eb2083250b5f1f999c142fb7a51a6323688edcd2d6b84"
+    ],
+    "performance": [
+      "46f1f381dd02cca0e66e8677d0ac29c74ecefed695a318a2ef11e33487cbabb4",
+      "46f1f381dd02cca0e66e8677d0ac29c74ecefed695a318a2ef11e33487cbabb4"
+    ],
+    "daily": [
+      "2eaaedd2604e13af8c24b4f65ce599d298a8089ed27b68ddeae086c288426d85",
+      "2eaaedd2604e13af8c24b4f65ce599d298a8089ed27b68ddeae086c288426d85"
+    ]
+  },
+  "seconds": {
+    "rank": {
+      "before": 37.2457736650249,
+      "after": 0.8836207520216703
+    },
+    "text": {
+      "before": 12.266659536981024,
+      "after": 0.25055826402967796
+    },
+    "verdict": {
+      "before": 10.077831527974922,
+      "after": 0.11619055399205536
+    },
+    "recent": {
+      "before": 0.6874471600167453,
+      "after": 0.6015964009566233
+    },
+    "performance": {
+      "before": 112.9587285030284,
+      "after": 53.688897214015014
+    },
+    "daily": {
+      "before": 4.062573201023042,
+      "after": 116.48117235599784
+    }
+  }
+}

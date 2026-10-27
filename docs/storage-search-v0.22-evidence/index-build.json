@@ -1,0 +1,684 @@
+[
+  {
+    "at_epoch": 1793083482.5162194,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 189807,
+      "indexed_candidates": 8999,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083487.5862784,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 184807,
+      "indexed_candidates": 13999,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083492.6553676,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 183808,
+      "indexed_candidates": 14998,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083500.6000133,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 182809,
+      "indexed_candidates": 15997,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083505.6772702,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 180811,
+      "indexed_candidates": 17995,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083510.732693,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 178815,
+      "indexed_candidates": 19992,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083515.810781,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 177816,
+      "indexed_candidates": 20991,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083520.8774757,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 176818,
+      "indexed_candidates": 21988,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083525.9800074,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 174821,
+      "indexed_candidates": 23985,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083531.0319982,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 172824,
+      "indexed_candidates": 25982,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083536.0512695,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 170826,
+      "indexed_candidates": 27980,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083541.1001074,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 168833,
+      "indexed_candidates": 29973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083546.125184,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 154833,
+      "indexed_candidates": 43973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083551.1502059,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 141833,
+      "indexed_candidates": 56973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083556.1745987,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 127833,
+      "indexed_candidates": 70973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083561.2082887,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 115833,
+      "indexed_candidates": 82973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083566.2261357,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 105833,
+      "indexed_candidates": 92973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083572.9235134,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 93833,
+      "indexed_candidates": 104973,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083577.9390068,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 84849,
+      "indexed_candidates": 113971,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083582.9542196,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 76854,
+      "indexed_candidates": 121966,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083588.0340655,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 71862,
+      "indexed_candidates": 126958,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083593.059209,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 66870,
+      "indexed_candidates": 131956,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083598.073257,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 61880,
+      "indexed_candidates": 136940,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083603.1069787,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 59890,
+      "indexed_candidates": 138932,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083608.1363204,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 56900,
+      "indexed_candidates": 141922,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083613.175487,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 50907,
+      "indexed_candidates": 147913,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083618.2366333,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 39907,
+      "indexed_candidates": 158913,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083623.2813818,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 28907,
+      "indexed_candidates": 169913,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083628.325451,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 19907,
+      "indexed_candidates": 178913,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083633.4007394,
+    "index": {
+      "state": "preparing",
+      "pending_subjects": 8907,
+      "indexed_candidates": 189913,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  },
+  {
+    "at_epoch": 1793083638.4944859,
+    "index": {
+      "state": "ready",
+      "pending_subjects": 0,
+      "indexed_candidates": 198820,
+      "version": 1,
+      "derived_data_only": true
+    },
+    "workers": {
+      "scanner": "running",
+      "news": "running",
+      "assets": "running",
+      "performance": "running",
+      "intelligence": "running",
+      "collection_report": "running",
+      "performance_report": "running",
+      "routes_report": "running",
+      "candidate_index": "running"
+    },
+    "live_execution": false
+  }
+]

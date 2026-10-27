@@ -1,0 +1,51 @@
+[
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 0.826204230019357
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 200,
+    "seconds": 0.19013544300105423
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 0.19148509303340688
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 13.198301116994116
+  },
+  {
+    "path": "/api/opportunities/performance",
+    "status": 200,
+    "seconds": 0.031806104991119355,
+    "cache": {
+      "served_from_cache": true,
+      "snapshot_at": "2026-10-27T07:22:35.258232+00:00",
+      "calculated_at": "2026-10-27T07:23:34.024477+00:00",
+      "calculation_seconds": 58.766255476977676,
+      "calculation_mode": "isolated_read_only_process",
+      "seconds_since_snapshot": 177.05321215395816,
+      "seconds_since_calculation": 118.28994539403357,
+      "stale": true,
+      "refresh": {
+        "state": "running",
+        "started_at": "2026-10-27T07:24:19.081588+00:00"
+      }
+    }
+  },
+  {
+    "path": "/api/storage",
+    "status": 200,
+    "seconds": 0.006927528011146933
+  },
+  {
+    "path": "/api/status",
+    "status": 200,
+    "seconds": 0.03236707200994715
+  }
+]

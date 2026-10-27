@@ -1,0 +1,13 @@
+{
+  "same_sqlite_snapshot": true,
+  "same_clock": true,
+  "all_fields_identical": true,
+  "seconds": {
+    "before": 4.039443855988793,
+    "after": 5.675793533970136
+  },
+  "sha256": {
+    "before": "3354b2cc315761534750c185792abd8200a3357487a18286589d6e9f2b488296",
+    "after": "3354b2cc315761534750c185792abd8200a3357487a18286589d6e9f2b488296"
+  }
+}

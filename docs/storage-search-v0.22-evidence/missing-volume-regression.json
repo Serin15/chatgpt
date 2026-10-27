@@ -1,0 +1,9 @@
+{
+  "before_commit": "b91d27fdb9e5280adf781fed4b55ce3396ef7d78",
+  "old_helper_timed_out_after_seconds": 2,
+  "old_child_killed": true,
+  "new_exit_code": 0,
+  "new_result": "ValueError: unavailable volume rejected",
+  "environment": "isolated child; simulated unavailable filesystem root",
+  "seconds": 2.408876370987855
+}

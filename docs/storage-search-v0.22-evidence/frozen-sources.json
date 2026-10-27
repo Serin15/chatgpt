@@ -1,0 +1,25 @@
+{
+  "unchanged": {
+    "opportunities.py": true,
+    "opportunity_rules.py": true,
+    "opportunity_sources.py": true,
+    "narratives.py": true,
+    "story_evidence.py": true,
+    "story_discovery.py": true,
+    "story_markets.py": true,
+    "announcements.py": true,
+    "news.py": true,
+    "opportunity_outcomes.py": true,
+    "opportunity_sampling.py": true,
+    "opportunity_lifecycle.py": true,
+    "opportunity_routes.py": true,
+    "analysis.py": true,
+    "paper.py": true,
+    "models.py": true,
+    "forward_evaluation.py": true,
+    "collection_budget.py": true,
+    "providers.py": true,
+    "jupiter.py": true
+  },
+  "engine_source_sha256": "cc2e2c6499bbd495b8c28aa38f76d366efb9785e50336a54cd262da62bda9251"
+}

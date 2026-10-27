@@ -1,0 +1,113 @@
+{
+  "version": "0.22.0",
+  "app_id": "pulse_crypto_research",
+  "live_execution": false,
+  "instance_id": "8d14ec2aa3dc43af006e08dc",
+  "workers": {
+    "scanner": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.231516+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "news": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.239322+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "assets": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.239456+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "performance": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.260939+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "intelligence": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.274079+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "collection_report": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.277644+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "performance_report": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.277668+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "routes_report": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.291249+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    },
+    "candidate_index": {
+      "state": "running",
+      "started_at": "2026-10-27T07:14:09.298182+00:00",
+      "restarts": 0,
+      "error": null,
+      "last_error": null,
+      "last_error_at": null,
+      "error_history": []
+    }
+  },
+  "candidate_index": {
+    "state": "updating",
+    "pending_subjects": 1,
+    "indexed_candidates": 199311,
+    "version": 1,
+    "derived_data_only": true
+  },
+  "storage": {
+    "state": "partial",
+    "at": "2026-10-27T07:25:32.353631+00:00",
+    "disk_free_bytes": 2936422400,
+    "backup_destination": "/workspace/chatgpt/data/backups",
+    "backup_work_directory": "/workspace/chatgpt/data/backups",
+    "backup_shared_volume": true,
+    "backup_configuration_error": null,
+    "backup_disk_free_bytes": 2936422400,
+    "backup_work_free_bytes": 2936422400,
+    "backup_required_free_bytes": 21722112464,
+    "backup_work_required_free_bytes": 21722112464,
+    "backup_work_space_deficit_bytes": 18785690064,
+    "backup_space_deficit_bytes": 18785690064,
+    "backup_ready": false,
+    "error": "Spațiu insuficient pentru backupul complet; verifică panoul Stocare."
+  }
+}

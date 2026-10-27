@@ -1,0 +1,26 @@
+{
+  "data_kind": "synthetic databases; actual different filesystems and real SQLite/ZIP/restore",
+  "production_database_backed_up": false,
+  "backup_file": "/tmp/memescope-v022-backup-proof/pulse-2026-10-27T070115.883934-0000-7da81674.zip",
+  "backup_bytes": 2102,
+  "plan": {
+    "backup_destination": "/tmp/memescope-v022-backup-proof",
+    "backup_work_directory": "/workspace/storage-search-v022/fixture-work",
+    "backup_shared_volume": false,
+    "backup_configuration_error": null,
+    "backup_disk_free_bytes": 17478922240,
+    "backup_work_free_bytes": 2945998848,
+    "backup_required_free_bytes": 536969216,
+    "backup_work_required_free_bytes": 536920064,
+    "backup_work_space_deficit_bytes": 0,
+    "backup_space_deficit_bytes": 0,
+    "backup_ready": true
+  },
+  "source_device": 27,
+  "backup_device": 34,
+  "work_device": 27,
+  "different_backup_and_work_volumes": true,
+  "crc_ok": true,
+  "restored_history_identical": true,
+  "scratch_clean": true
+}

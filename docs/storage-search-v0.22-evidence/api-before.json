@@ -1,0 +1,42 @@
+[
+  {
+    "path": "/healthz",
+    "status": 200,
+    "seconds": 0.03838067903416231
+  },
+  {
+    "path": "/api/storage",
+    "status": 200,
+    "seconds": 0.013964503013994545
+  },
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 6.009348023973871
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "error": "HTTPError",
+    "seconds": 5.014355951978359
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 6.924305027991068
+  },
+  {
+    "path": "/api/opportunities/daily",
+    "status": 200,
+    "seconds": 6.3333017289987765
+  },
+  {
+    "path": "/api/opportunities/performance",
+    "status": 200,
+    "seconds": 0.016502326994668692
+  },
+  {
+    "path": "/api/opportunities/pilot",
+    "status": 200,
+    "seconds": 0.009761171007994562
+  }
+]

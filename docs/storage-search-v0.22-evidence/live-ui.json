@@ -1,0 +1,1655 @@
+{
+  "real_data": true,
+  "response_interception": false,
+  "javascript_errors": [],
+  "http5xx": [
+    {
+      "url": "http://127.0.0.1:8001/api/backup",
+      "status": 507
+    }
+  ],
+  "orders_placed": 0,
+  "candidate_rows": 50,
+  "routed_cache_text": "",
+  "index_health_text": "dex: ok · 27.10.2026, 09:18:08\n\nrpc: ok · 27.10.2026, 09:18:16\n\ngoplus: ok · 27.10.2026, 09:18:16\n\ncoingecko: ok · 27.10.2026, 09:18:10\n\ncoingecko_catalog: ok · 27.10.2026, 09:18:10\n\nperformance: ok · 27.10.2026, 09:18:09\n\nannouncements: ok · 27.10.2026, 09:14:21\n\nopportunity_engine: running · 27.10.2026, 09:17:20\n\nstory_discovery: ok · 27.10.2026, 09:17:27\n\nrouted_quotes: eroare / date vechi · 27.10.2026, 09:18:43 · Collector time budget exhausted; routed work remains pending.\n\nnews_trump: ok · 27.10.2026, 09:14:11\n\nnews_memecoins: ok · 27.10.2026, 09:14:11\n\nnews_claude: ok · 27.10.2026, 09:14:14\n\nnews_launches: ok · 27.10.2026, 09:14:14\n\nnews_crypto: ok · 27.10.2026, 09:14:14\n\nnews_elon: ok · 27.10.2026, 09:14:15\n\nnews_kraken_official: ok · 27.10.2026, 09:14:15\n\nnews_coindesk: ok · 27.10.2026, 09:14:15\n\nnews_zelensky: ok · 27.10.2026, 09:14:15\n\nnews_ethereum_official: ok · 27.10.2026, 09:14:15\n\nnews_decrypt: ok · 27.10.2026, 09:14:16\n\nnews_cointelegraph: ok · 27.10.2026, 09:14:16\n\nnews_solana_official: ok · 27.10.2026, 09:14:16\n\ndiscovery_solana: ok · 27.10.2026, 09:17:28\n\ndiscovery_boosts: ok · 27.10.2026, 09:17:28\n\ndiscovery_profiles: ok · 27.10.2026, 09:17:28\n\nonchain_solana: ok · 27.10.2026, 09:17:53\n\nstorage: eroare / date vechi · 27.10.2026, 09:18:43 · Spațiu insuficient pentru backupul complet; verifică panoul Stocare.\n\nworker_scanner: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_news: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_assets: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_performance: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_intelligence: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_collection_report: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_performance_report: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_routes_report: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nworker_candidate_index: running · pornit 27.10.2026, 09:14:09 · reporniri 0\n\nIndex candidați: actualizat · 199,211 candidați indexați · 0 în așteptare. Date derivate; semnalele originale sunt păstrate.",
+  "pilot_text": "Pilot Solana · 30 de zile\n\n25.10.2026, 17:09:53 → 24.11.2026, 17:09:53 · politica 32 · 1.7/30 zile calendaristice · bilanț 27.10.2026, 09:17:27. Snapshot în cache, actualizare running. Date vechi: verifică ora bilanțului.\n\nActualizează bilanțul\nDescarcă bilanțul JSON\nÎNREGISTRĂRI NOI\n35746\n35746 eligibile · 35730 prime evaluări\nALERTE\n1176\n22 afișate · 913 avertizări de risc\n\n35730 tokenuri în comparația politicii inițiale · 757 selectate inițial · 7005 control fără suprapunere.\n\nÎnregistrări în afara comparației · motive\nCât de repede ajunge informația\n\nÎnregistrare → prima evaluare: mediană 25.1s, p95 49.4s · 35730/35746 măsurate · 16 lipsă · 0 ceas invalid.\n\nDescoperire în sursă → alertă: mediană 32.6s, p95 853.2s · 1176/1176 măsurate · 0 lipsă · 0 ceas invalid.\n\nAlertă → afișare în aplicație: mediană 397.5s, p95 796.8s · 22/1176 măsurate · 1154 lipsă · 0 ceas invalid.\n\nPrima evaluare → observație eligibilă pentru intrarea paper estimată: mediană 54.6s, p95 157.0s · 1275/35730 măsurate · 34455 lipsă · 0 ceas invalid.\n\nPrima alertă → observație eligibilă pentru intrarea paper estimată: mediană 54.4s, p95 71.8s · 946/1100 măsurate · 154 lipsă · 0 ceas invalid.\n\nCe s-a întâmplat după prima alertă a fiecărui token\n\nInclude și alertele emise după prima evaluare. Aceste rezultate sunt descriptive; nu modifică selecția inițială din comparația cu controlul.\n\nPool estimativ · 5m: 661/1094 evaluate la termen · medie netă evaluată 5,58 USD · 433 necunoscute · 6 încă înainte de termen.\n\nPool estimativ · 60m: 231/1070 evaluate la termen · medie netă evaluată 41,38 USD · 839 necunoscute · 30 încă înainte de termen.\n\nPool estimativ · 1440m: 64/494 evaluate la termen · medie netă evaluată 9,06 USD · 430 necunoscute · 606 încă înainte de termen.\n\nJupiter · 5m: 340/1094 evaluate la termen · medie netă evaluată 5,92 USD · 754 necunoscute · 6 încă înainte de termen.\n\nJupiter · 60m: 114/1070 evaluate la termen · medie netă evaluată 48,26 USD · 956 necunoscute · 30 încă înainte de termen.\n\nJupiter · 1440m: 11/494 evaluate la termen · medie netă evaluată 0,37 USD · 483 necunoscute · 606 încă înainte de termen.\n\nEstimări de pool\nOrizont / grup\tEvaluate / ajunse la termen\tMedie netă evaluată\tNecunoscute\n5m · Toate\t851/35596\t6,33 USD\t34745\n5m · Selectate inițial\t447/752\t5,97 USD\t305\n5m · Control distinct\t82/6977\t4,98 USD\t6895\n5m · 134/35730 nu au ajuns încă la termenul conservator.\n60m · Toate\t340/34916\t30,59 USD\t34576\n60m · Selectate inițial\t151/737\t48,12 USD\t586\n60m · Control distinct\t31/6850\t23,12 USD\t6819\n60m · 814/35730 nu au ajuns încă la termenul conservator.\n1440m · Toate\t113/14654\t6,14 USD\t14541\n1440m · Selectate inițial\t39/343\t14,90 USD\t304\n1440m · Control distinct\t9/2886\t1,24 USD\t2877\n1440m · 21076/35730 nu au ajuns încă la termenul conservator.\nCotații Jupiter\nOrizont / grup\tEvaluate / ajunse la termen\tMedie netă evaluată\tNecunoscute\n5m · Toate\t272/35596\t6,05 USD\t35324\n5m · Selectate inițial\t222/752\t6,51 USD\t530\n5m · Control distinct\t12/6977\t0,33 USD\t6965\n5m · 134/35730 nu au ajuns încă la termenul conservator.\n60m · Toate\t94/34916\t44,18 USD\t34822\n60m · Selectate inițial\t76/737\t48,76 USD\t661\n60m · Control distinct\t7/6850\t37,35 USD\t6843\n60m · 814/35730 nu au ajuns încă la termenul conservator.\n1440m · Toate\t12/14654\t0,20 USD\t14642\n1440m · Selectate inițial\t8/343\t-6,94 USD\t335\n1440m · Control distinct\t0/2886\t—\t2886\n1440m · 21076/35730 nu au ajuns încă la termenul conservator.\nPunctualitatea colectării\nGrup / observație\tPreț valid în fereastră\tÎncercări fără preț valid\tTermene ratate\tÎn așteptare\nAlerte · Intrare\t1173\t1\t1\t1\nAlerte · Ieșire\t2481\t10\t0\t563\nAlerte · Reper pentru ieșire Jupiter\t1601\t2\t0\t356\nControl distinct · Reper de preț\t16888\t223\t7\t4332\nControl distinct · Intrare\t6914\t80\t7\t4\nControl distinct · Ieșire\t275\t0\t0\t64\nControl distinct · Reper pentru ieșire Jupiter\t80\t0\t0\t19\nDetaliile colectării și motivele datelor nevalide\n\nZilele calendaristice nu dovedesc colectare continuă. Comparația include numai orizonturi ajunse la termen; lipsurile rămân necunoscute. Latențele fără intrare includ și intrările refuzate. Mediile folosesc doar rezultate evaluate. Prețurile și cotațiile paper nu confirmă execuția. Rezultatele sunt descriptive, fără dovadă de profitabilitate sau drawdown de portofoliu.",
+  "export": {
+    "version": "solana-pilot-v1",
+    "study": {
+      "id": 1,
+      "declared_at": "2026-10-25T15:09:53.818169+00:00",
+      "ends_at": "2026-11-24T15:09:53.818169+00:00",
+      "sha256": "e8e5d4a4461dff5c51ccd9e57cee7c4b3a6516cdca44882cd7927647b3ffde7c",
+      "payload": {
+        "analysis_from": "2026-10-25T15:09:53.818169+00:00",
+        "chain": "solana",
+        "changed_policies": "retained in universe, excluded from frozen-policy comparison",
+        "cohort": "new engine registrations during [declared_at, ends_at); no historical enrollment",
+        "control": "prospective contract-hash enrollment, excluding selected tokens",
+        "costs": "original independent paper outcomes, pool and Jupiter kept separate",
+        "duration_days": 30,
+        "maturity": "signal + frozen entry window + horizon + exit window; same rule for all groups",
+        "policy": {
+          "collection_rules": {
+            "background_watch_hours": 48,
+            "coverage_reporting": "background-coverage-v1; complete cached report with calculation timestamp",
+            "execution_order": "earliest currently due deadline among admitted unique candidates; stable ties",
+            "market_batch_size": 30,
+            "monitoring_version": "bounded-background-v1",
+            "network_budget_rule": "interval minus 5s for finalization; optional enrichment waits share min(30s,interval/4); discovery min(10s,interval/6); markets min(15s,interval/4) per batch",
+            "network_budget_version": "collection-network-budget-v2",
+            "open_promises_override_background_age": true,
+            "research_reserve_rule": "up to max(1,floor(budget/6)) slots after balanced protected followups and discovery, before surplus followups; manual/evidenced-story cadence overrides daily background",
+            "route_admission_rule": "one quote per candidate dispatch; require time for the full original quote timeout before claiming; defer without a failed attempt",
+            "route_budget_scope": "one_collector_cycle",
+            "scheduling_version": "balanced-research-deadlines-v2",
+            "security_allocation_version": "early-security-reserve-v1",
+            "security_early_reserve_rule": "ceil(budget/3); single-slot budgets alternate cycles; unused future slots may be borrowed",
+            "security_refresh_reserve_seconds": 85,
+            "version": "incremental-routes-v1"
+          },
+          "config": {
+            "active_watch_seconds": 900,
+            "activity_samples": 0,
+            "ai_narratives": false,
+            "alert_verdicts": [
+              "INVESTIGATE",
+              "CONSIDER"
+            ],
+            "background_interval_seconds": 86400,
+            "background_watch_hours": 48,
+            "cooldown_seconds": 3600,
+            "discovery_pages": 2,
+            "enabled": true,
+            "entry_window_seconds": 180,
+            "exit_window_seconds": 180,
+            "horizons_seconds": [
+              300,
+              3600,
+              86400
+            ],
+            "interval_seconds": 60,
+            "max_change_5m_pct": 30,
+            "max_extension_pct": 50,
+            "max_liquidity_drop_pct": 30,
+            "max_pool_age_hours": 24,
+            "max_roundtrip_cost_pct": 5,
+            "min_transactions_5m": 10,
+            "observation_budget": 60,
+            "position_usd": 50,
+            "routed_quote_budget": 4,
+            "routed_quotes_enabled": true,
+            "routed_slippage_bps": 50,
+            "security_budget": 8,
+            "telegram_enabled": false,
+            "test_from": "2026-10-18T00:00:00Z"
+          },
+          "forward_quote_window_version": 2,
+          "observation_rules": {
+            "max_snapshot_age": 120,
+            "min_signal_delay": 3
+          },
+          "paper_rules": {
+            "max_price_impact": "0.02",
+            "min_liquidity": "25000",
+            "network_fee_usd": "0.01",
+            "reference_fee": "0.006",
+            "reference_slippage": "0.005",
+            "swap_fee": "0.003"
+          },
+          "paper_source_sha256": "17c1419ee3577acea7fbc58b4c037b1511b997aa3c76e3f353251077855d1480",
+          "routed_policy": {
+            "enabled": true,
+            "entry_window_seconds": 180,
+            "execution_verified": false,
+            "exit_window_seconds": 180,
+            "forward_quote_window_version": 2,
+            "horizons_seconds": [
+              300,
+              3600,
+              86400
+            ],
+            "model": "independent_jupiter_min_out_scenario",
+            "note": "USDC conversion and network fees are configured assumptions. Routes and min outputs are observed quotes, not executed fills. No fallback to estimated pool results.",
+            "observation_rules": {
+              "max_snapshot_age": 120,
+              "min_signal_delay": 3
+            },
+            "paper_rules": {
+              "max_price_impact": "0.02",
+              "min_liquidity": "25000",
+              "network_fee_usd": "0.01",
+              "reference_fee": "0.006",
+              "reference_slippage": "0.005",
+              "swap_fee": "0.003"
+            },
+            "position_usd": "50.0",
+            "quote_schema_version": 2,
+            "quote_timeout_seconds": 20,
+            "slippage_bps": 50,
+            "source_sha256": "0ad33d6b40cd23f133078fa9e78f42008cfaec7776d463299872c3fa3b04e3f7",
+            "timestamp_clock": "utc_capture_clock_v1",
+            "version": "jupiter-forward-v2"
+          },
+          "rule_version": "memescope-3.2-market-references",
+          "sampling_version": "balanced-deadlines-v1",
+          "source_sha256": "cc2e2c6499bbd495b8c28aa38f76d366efb9785e50336a54cd262da62bda9251"
+        },
+        "policy_id": 32,
+        "policy_sha256": "07c24837093b3e152265198211d0e3f1058eb82a7e6fe8e2eba910b270c74fc0",
+        "real_money_execution": false,
+        "selection": "noncritical alert on the original first baseline only",
+        "threshold_optimization": false,
+        "version": "solana-pilot-v1"
+      }
+    },
+    "report_state": "ready",
+    "generated_at": "2026-10-27T07:17:27.132197+00:00",
+    "phase": "collecting",
+    "elapsed_days": 1.6719133568030817,
+    "remaining_days": 28.32808664319692,
+    "totals": {
+      "new_registrations": 35746,
+      "eligible": 35746,
+      "first_evaluations": 35730,
+      "analysis_tokens": 35730,
+      "analysis_exclusions": {
+        "no_first_evaluation_yet": 16
+      },
+      "security_pass_at_first": 1191,
+      "liquidity_pass_at_first": 1424,
+      "opportunity_alerts": 1176,
+      "risk_alerts": 913,
+      "alerts_displayed": 22,
+      "initially_selected_tokens": 757,
+      "control_tokens_excluding_selected": 7005,
+      "already_extended_alerts": 0,
+      "global_missed_opportunities": null
+    },
+    "latency": {
+      "registration_to_first_evaluation": {
+        "subjects": 35746,
+        "measured": 35730,
+        "missing": 16,
+        "invalid_clock": 0,
+        "p50_seconds": 25.105359077453613,
+        "p95_seconds": 49.370266914367676,
+        "max_seconds": 3615.0193209648132,
+        "method": "nearest-rank empirical quantiles; receipt timestamps, not exchange execution"
+      },
+      "discovery_to_alert": {
+        "subjects": 1176,
+        "measured": 1176,
+        "missing": 0,
+        "invalid_clock": 0,
+        "p50_seconds": 32.64931893348694,
+        "p95_seconds": 853.1995570659637,
+        "max_seconds": 12492.293169021606,
+        "method": "nearest-rank empirical quantiles; receipt timestamps, not exchange execution"
+      },
+      "alert_to_display": {
+        "subjects": 1176,
+        "measured": 22,
+        "missing": 1154,
+        "invalid_clock": 0,
+        "p50_seconds": 397.53852796554565,
+        "p95_seconds": 796.792573928833,
+        "max_seconds": 952.4668869972229,
+        "method": "nearest-rank empirical quantiles; receipt timestamps, not exchange execution"
+      },
+      "signal_to_pool_paper_entry": {
+        "subjects": 35730,
+        "measured": 1275,
+        "missing": 34455,
+        "invalid_clock": 0,
+        "p50_seconds": 54.647818088531494,
+        "p95_seconds": 156.9876799583435,
+        "max_seconds": 179.01804614067078,
+        "method": "nearest-rank empirical quantiles; receipt timestamps, not exchange execution"
+      },
+      "first_alert_to_pool_paper_entry": {
+        "subjects": 1100,
+        "measured": 946,
+        "missing": 154,
+        "invalid_clock": 0,
+        "p50_seconds": 54.39302706718445,
+        "p95_seconds": 71.83946990966797,
+        "max_seconds": 167.24522399902344,
+        "method": "nearest-rank empirical quantiles; receipt timestamps, not exchange execution"
+      }
+    },
+    "collection": {
+      "all": {
+        "entry": {
+          "attempted": 38860,
+          "price:observed": 38589,
+          "missed": 1402,
+          "price:quote_unavailable": 271,
+          "due": 28
+        },
+        "checkpoint": {
+          "attempted": 17111,
+          "price:observed": 16888,
+          "price:quote_unavailable": 223,
+          "missed": 7,
+          "due": 6,
+          "not_due": 4326
+        },
+        "exit": {
+          "attempted": 9250,
+          "price:observed": 9232,
+          "missed": 190,
+          "price:quote_unavailable": 18,
+          "not_due": 2445,
+          "due": 4
+        },
+        "routed_exit": {
+          "attempted": 4294,
+          "price:observed": 4292,
+          "missed": 56,
+          "not_due": 1159,
+          "price:quote_unavailable": 2,
+          "due": 2
+        }
+      },
+      "alerts": {
+        "entry": {
+          "attempted": 1174,
+          "price:observed": 1173,
+          "missed": 1,
+          "price:quote_unavailable": 1,
+          "due": 1
+        },
+        "exit": {
+          "attempted": 2491,
+          "price:observed": 2481,
+          "price:quote_unavailable": 10,
+          "not_due": 563
+        },
+        "routed_exit": {
+          "attempted": 1603,
+          "price:observed": 1601,
+          "price:quote_unavailable": 2,
+          "not_due": 355,
+          "due": 1
+        }
+      },
+      "control": {
+        "checkpoint": {
+          "attempted": 17111,
+          "price:observed": 16888,
+          "price:quote_unavailable": 223,
+          "missed": 7,
+          "due": 6,
+          "not_due": 4326
+        },
+        "entry": {
+          "attempted": 6994,
+          "price:observed": 6914,
+          "price:quote_unavailable": 80,
+          "missed": 7,
+          "due": 4
+        },
+        "exit": {
+          "attempted": 275,
+          "price:observed": 275,
+          "not_due": 64
+        },
+        "routed_exit": {
+          "attempted": 80,
+          "price:observed": 80,
+          "not_due": 19
+        }
+      }
+    },
+    "models": {
+      "estimated_pool": {
+        "300": {
+          "planned": 35730,
+          "not_yet_mature": 134,
+          "matured": 35596,
+          "comparison": {
+            "all_first_evaluations": {
+              "experiments": 35596,
+              "evaluated": 851,
+              "unresolved_or_unavailable": 34745,
+              "states": {
+                "entry_unavailable": 33020,
+                "evaluated": 851,
+                "exit_unavailable": 402,
+                "missing_forward_exit": 18,
+                "missing_forward_entry": 1305
+              },
+              "profitable_after_costs": 566,
+              "nonprofitable_after_costs": 285,
+              "nonprofitable_rate_among_evaluated": 0.33490011750881316,
+              "evaluated_fraction": 0.023907180582087875,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.01590066299584223,
+                0.9919934824137544
+              ],
+              "net_pnl_independent_experiments_usd": "5386.482885196860525088591547",
+              "mean_net_pnl_usd": "6.329592109514524706332069973",
+              "worst_net_pnl_usd": "-48.94205562111398351340909833",
+              "best_net_pnl_usd": "169.2553462682236128328121194",
+              "win_rate_95pct_wilson_approx": [
+                0.6327108494905007,
+                0.6960050202098038
+              ]
+            },
+            "selected_at_first_evaluation": {
+              "experiments": 752,
+              "evaluated": 447,
+              "unresolved_or_unavailable": 305,
+              "states": {
+                "evaluated": 447,
+                "entry_unavailable": 99,
+                "exit_unavailable": 206
+              },
+              "profitable_after_costs": 366,
+              "nonprofitable_after_costs": 81,
+              "nonprofitable_rate_among_evaluated": 0.18120805369127516,
+              "evaluated_fraction": 0.5944148936170213,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.4867021276595745,
+                0.8922872340425532
+              ],
+              "net_pnl_independent_experiments_usd": "2670.434071442534092512072796",
+              "mean_net_pnl_usd": "5.974125439468756359087411177",
+              "worst_net_pnl_usd": "-36.36808184627046769319033368",
+              "best_net_pnl_usd": "169.2553462682236128328121194",
+              "win_rate_95pct_wilson_approx": [
+                0.780415373916212,
+                0.8517356964375443
+              ]
+            },
+            "prospective_fixed_control": {
+              "experiments": 7121,
+              "evaluated": 176,
+              "unresolved_or_unavailable": 6945,
+              "states": {
+                "entry_unavailable": 6877,
+                "exit_unavailable": 61,
+                "evaluated": 176,
+                "missing_forward_entry": 7
+              },
+              "profitable_after_costs": 106,
+              "nonprofitable_after_costs": 70,
+              "nonprofitable_rate_among_evaluated": 0.3977272727272727,
+              "evaluated_fraction": 0.024715629827271452,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.014885549782333942,
+                0.9901699199550625
+              ],
+              "net_pnl_independent_experiments_usd": "874.8029305937998381343200255",
+              "mean_net_pnl_usd": "4.970471196555680898490454690",
+              "worst_net_pnl_usd": "-36.24637922474545961734120872",
+              "best_net_pnl_usd": "94.0724201033994791418178180",
+              "win_rate_95pct_wilson_approx": [
+                0.5285227396344968,
+                0.6716534153819177
+              ]
+            },
+            "control_excluding_selected": {
+              "experiments": 6977,
+              "evaluated": 82,
+              "unresolved_or_unavailable": 6895,
+              "states": {
+                "entry_unavailable": 6857,
+                "exit_unavailable": 31,
+                "evaluated": 82,
+                "missing_forward_entry": 7
+              },
+              "profitable_after_costs": 40,
+              "nonprofitable_after_costs": 42,
+              "nonprofitable_rate_among_evaluated": 0.5121951219512195,
+              "evaluated_fraction": 0.011752902393578903,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.005733123118818977,
+                0.9939802207252401
+              ],
+              "net_pnl_independent_experiments_usd": "408.7440798842286349060048420",
+              "mean_net_pnl_usd": "4.984683901027178474463473683",
+              "worst_net_pnl_usd": "-22.61671813157077725320265400",
+              "best_net_pnl_usd": "65.8293234789638842086659235",
+              "win_rate_95pct_wilson_approx": [
+                0.3826071216079986,
+                0.5940941514344423
+              ]
+            },
+            "overlap": 144,
+            "conditional_mean_difference_usd": "0.989441538441577884623937494",
+            "interpretation": "Descriptive, conditional on evaluated outcomes. Unequal coverage, token correlation and selection differences prevent a causal/profitability conclusion. No threshold optimization."
+          },
+          "all_planned": {
+            "experiments": 35730,
+            "evaluated": 853,
+            "unresolved_or_unavailable": 34877,
+            "states": {
+              "entry_unavailable": 33109,
+              "evaluated": 853,
+              "exit_unavailable": 403,
+              "missing_forward_exit": 18,
+              "missing_forward_entry": 1318,
+              "pending": 29
+            },
+            "profitable_after_costs": 568,
+            "nonprofitable_after_costs": 285,
+            "nonprofitable_rate_among_evaluated": 0.33411488862837047,
+            "evaluated_fraction": 0.02387349566190876,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.01589700531766023,
+              0.9920235096557515
+            ],
+            "net_pnl_independent_experiments_usd": "5410.944417274832998211286117",
+            "mean_net_pnl_usd": "6.343428390709065648547814909",
+            "worst_net_pnl_usd": "-48.94205562111398351340909833",
+            "best_net_pnl_usd": "169.2553462682236128328121194",
+            "win_rate_95pct_wilson_approx": [
+              0.6335496202690258,
+              0.6967331297748562
+            ]
+          }
+        },
+        "3600": {
+          "planned": 35730,
+          "not_yet_mature": 814,
+          "matured": 34916,
+          "comparison": {
+            "all_first_evaluations": {
+              "experiments": 34916,
+              "evaluated": 340,
+              "unresolved_or_unavailable": 34576,
+              "states": {
+                "entry_unavailable": 32396,
+                "exit_unavailable": 887,
+                "missing_forward_entry": 1276,
+                "evaluated": 340,
+                "missing_forward_exit": 17
+              },
+              "profitable_after_costs": 187,
+              "nonprofitable_after_costs": 153,
+              "nonprofitable_rate_among_evaluated": 0.45,
+              "evaluated_fraction": 0.009737656088899073,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.00535571084889449,
+                0.9956180547599954
+              ],
+              "net_pnl_independent_experiments_usd": "10399.36765699745331503427875",
+              "mean_net_pnl_usd": "30.58637546175721563245376103",
+              "worst_net_pnl_usd": "-49.39606263238056570933618667",
+              "best_net_pnl_usd": "677.3241700781179180208176500",
+              "win_rate_95pct_wilson_approx": [
+                0.4968530904975825,
+                0.6020296508577395
+              ]
+            },
+            "selected_at_first_evaluation": {
+              "experiments": 737,
+              "evaluated": 151,
+              "unresolved_or_unavailable": 586,
+              "states": {
+                "exit_unavailable": 488,
+                "entry_unavailable": 98,
+                "evaluated": 151
+              },
+              "profitable_after_costs": 118,
+              "nonprofitable_after_costs": 33,
+              "nonprofitable_rate_among_evaluated": 0.2185430463576159,
+              "evaluated_fraction": 0.20488466757123475,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.16010854816824965,
+                0.9552238805970149
+              ],
+              "net_pnl_independent_experiments_usd": "7266.389520004924597690180492",
+              "mean_net_pnl_usd": "48.12178490069486488536543372",
+              "worst_net_pnl_usd": "-49.39606263238056570933618667",
+              "best_net_pnl_usd": "677.3241700781179180208176500",
+              "win_rate_95pct_wilson_approx": [
+                0.7090077168569897,
+                0.8399403694453993
+              ]
+            },
+            "prospective_fixed_control": {
+              "experiments": 6993,
+              "evaluated": 62,
+              "unresolved_or_unavailable": 6931,
+              "states": {
+                "entry_unavailable": 6753,
+                "exit_unavailable": 171,
+                "evaluated": 62,
+                "missing_forward_entry": 7
+              },
+              "profitable_after_costs": 36,
+              "nonprofitable_after_costs": 26,
+              "nonprofitable_rate_among_evaluated": 0.41935483870967744,
+              "evaluated_fraction": 0.008866008866008865,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.005148005148005148,
+                0.9962819962819963
+              ],
+              "net_pnl_independent_experiments_usd": "2115.334904051874968514071332",
+              "mean_net_pnl_usd": "34.11830490406249949216244084",
+              "worst_net_pnl_usd": "-9.71570881198011395825805984",
+              "best_net_pnl_usd": "677.3241700781179180208176500",
+              "win_rate_95pct_wilson_approx": [
+                0.45665361737846166,
+                0.6952260453271835
+              ]
+            },
+            "control_excluding_selected": {
+              "experiments": 6850,
+              "evaluated": 31,
+              "unresolved_or_unavailable": 6819,
+              "states": {
+                "entry_unavailable": 6733,
+                "exit_unavailable": 79,
+                "evaluated": 31,
+                "missing_forward_entry": 7
+              },
+              "profitable_after_costs": 14,
+              "nonprofitable_after_costs": 17,
+              "nonprofitable_rate_among_evaluated": 0.5483870967741935,
+              "evaluated_fraction": 0.004525547445255474,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.0020437956204379564,
+                0.9975182481751825
+              ],
+              "net_pnl_independent_experiments_usd": "716.5928579228359623004944426",
+              "mean_net_pnl_usd": "23.11589864267212781614498202",
+              "worst_net_pnl_usd": "-1.02033229645913549671430152",
+              "best_net_pnl_usd": "172.9357639821589345677574643",
+              "win_rate_95pct_wilson_approx": [
+                0.29161482836586106,
+                0.6222812039633085
+              ]
+            },
+            "overlap": 143,
+            "conditional_mean_difference_usd": "25.00588625802273706922045170",
+            "interpretation": "Descriptive, conditional on evaluated outcomes. Unequal coverage, token correlation and selection differences prevent a causal/profitability conclusion. No threshold optimization."
+          },
+          "all_planned": {
+            "experiments": 35730,
+            "evaluated": 340,
+            "unresolved_or_unavailable": 35390,
+            "states": {
+              "entry_unavailable": 33109,
+              "exit_unavailable": 889,
+              "missing_forward_entry": 1318,
+              "evaluated": 340,
+              "missing_forward_exit": 17,
+              "pending": 57
+            },
+            "profitable_after_costs": 187,
+            "nonprofitable_after_costs": 153,
+            "nonprofitable_rate_among_evaluated": 0.45,
+            "evaluated_fraction": 0.009515813042261404,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.0052336971732437725,
+              0.9957178841309824
+            ],
+            "net_pnl_independent_experiments_usd": "10399.36765699745331503427875",
+            "mean_net_pnl_usd": "30.58637546175721563245376103",
+            "worst_net_pnl_usd": "-49.39606263238056570933618667",
+            "best_net_pnl_usd": "677.3241700781179180208176500",
+            "win_rate_95pct_wilson_approx": [
+              0.4968530904975825,
+              0.6020296508577395
+            ]
+          }
+        },
+        "86400": {
+          "planned": 35730,
+          "not_yet_mature": 21076,
+          "matured": 14654,
+          "comparison": {
+            "all_first_evaluations": {
+              "experiments": 14654,
+              "evaluated": 113,
+              "unresolved_or_unavailable": 14541,
+              "states": {
+                "entry_unavailable": 13807,
+                "exit_unavailable": 456,
+                "missing_forward_entry": 271,
+                "evaluated": 113,
+                "missing_forward_exit": 7
+              },
+              "profitable_after_costs": 30,
+              "nonprofitable_after_costs": 83,
+              "nonprofitable_rate_among_evaluated": 0.7345132743362832,
+              "evaluated_fraction": 0.007711205131704654,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.002047222601337519,
+                0.9943360174696328
+              ],
+              "net_pnl_independent_experiments_usd": "694.2274348963042443004112998",
+              "mean_net_pnl_usd": "6.143605618551364993808949556",
+              "worst_net_pnl_usd": "-49.95152436450581668981710526",
+              "best_net_pnl_usd": "214.8438226627300628790120297",
+              "win_rate_95pct_wilson_approx": [
+                0.19275522468473327,
+                0.3536392101740843
+              ]
+            },
+            "selected_at_first_evaluation": {
+              "experiments": 343,
+              "evaluated": 39,
+              "unresolved_or_unavailable": 304,
+              "states": {
+                "exit_unavailable": 270,
+                "entry_unavailable": 34,
+                "evaluated": 39
+              },
+              "profitable_after_costs": 19,
+              "nonprofitable_after_costs": 20,
+              "nonprofitable_rate_among_evaluated": 0.5128205128205128,
+              "evaluated_fraction": 0.11370262390670553,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.05539358600583091,
+                0.9416909620991254
+              ],
+              "net_pnl_independent_experiments_usd": "581.2191331521754209344411132",
+              "mean_net_pnl_usd": "14.90305469620962617780618239",
+              "worst_net_pnl_usd": "-49.95152436450581668981710526",
+              "best_net_pnl_usd": "214.8438226627300628790120297",
+              "win_rate_95pct_wilson_approx": [
+                0.3386492878313309,
+                0.6380089135430342
+              ]
+            },
+            "prospective_fixed_control": {
+              "experiments": 2956,
+              "evaluated": 19,
+              "unresolved_or_unavailable": 2937,
+              "states": {
+                "entry_unavailable": 2844,
+                "exit_unavailable": 93,
+                "evaluated": 19
+              },
+              "profitable_after_costs": 4,
+              "nonprofitable_after_costs": 15,
+              "nonprofitable_rate_among_evaluated": 0.7894736842105263,
+              "evaluated_fraction": 0.0064276048714479025,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.0013531799729364006,
+                0.9949255751014885
+              ],
+              "net_pnl_independent_experiments_usd": "-10.72299608268027423004728892",
+              "mean_net_pnl_usd": "-0.5643682148779091700024888905",
+              "worst_net_pnl_usd": "-46.57162898669709377815840683",
+              "best_net_pnl_usd": "28.55809641207413309807810809",
+              "win_rate_95pct_wilson_approx": [
+                0.08507538491591576,
+                0.43334714240266087
+              ]
+            },
+            "control_excluding_selected": {
+              "experiments": 2886,
+              "evaluated": 9,
+              "unresolved_or_unavailable": 2877,
+              "states": {
+                "entry_unavailable": 2835,
+                "exit_unavailable": 42,
+                "evaluated": 9
+              },
+              "profitable_after_costs": 1,
+              "nonprofitable_after_costs": 8,
+              "nonprofitable_rate_among_evaluated": 0.8888888888888888,
+              "evaluated_fraction": 0.0031185031185031187,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.0003465003465003465,
+                0.9972279972279973
+              ],
+              "net_pnl_independent_experiments_usd": "11.18505843534748921321430118",
+              "mean_net_pnl_usd": "1.242784270594165468134922353",
+              "worst_net_pnl_usd": "-1.02176145837832418159648981",
+              "best_net_pnl_usd": "16.65638347494049907204400060",
+              "win_rate_95pct_wilson_approx": [
+                0.019890371327130535,
+                0.4350062147680601
+              ]
+            },
+            "overlap": 70,
+            "conditional_mean_difference_usd": "13.66027042561546070967126004",
+            "interpretation": "Descriptive, conditional on evaluated outcomes. Unequal coverage, token correlation and selection differences prevent a causal/profitability conclusion. No threshold optimization."
+          },
+          "all_planned": {
+            "experiments": 35730,
+            "evaluated": 113,
+            "unresolved_or_unavailable": 35617,
+            "states": {
+              "entry_unavailable": 33109,
+              "exit_unavailable": 457,
+              "missing_forward_entry": 1318,
+              "evaluated": 113,
+              "missing_forward_exit": 7,
+              "pending": 726
+            },
+            "profitable_after_costs": 30,
+            "nonprofitable_after_costs": 83,
+            "nonprofitable_rate_among_evaluated": 0.7345132743362832,
+            "evaluated_fraction": 0.0031626084522809964,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.0008396305625524769,
+              0.9976770221102714
+            ],
+            "net_pnl_independent_experiments_usd": "694.2274348963042443004112998",
+            "mean_net_pnl_usd": "6.143605618551364993808949556",
+            "worst_net_pnl_usd": "-49.95152436450581668981710526",
+            "best_net_pnl_usd": "214.8438226627300628790120297",
+            "win_rate_95pct_wilson_approx": [
+              0.19275522468473327,
+              0.3536392101740843
+            ]
+          }
+        }
+      },
+      "jupiter_quotes": {
+        "300": {
+          "planned": 35730,
+          "not_yet_mature": 134,
+          "matured": 35596,
+          "comparison": {
+            "all_first_evaluations": {
+              "experiments": 35596,
+              "evaluated": 272,
+              "unresolved_or_unavailable": 35324,
+              "states": {
+                "entry_rejected": 34411,
+                "exit_unavailable": 287,
+                "entry_unavailable": 626,
+                "evaluated": 272
+              },
+              "profitable_after_costs": 201,
+              "nonprofitable_after_costs": 71,
+              "nonprofitable_rate_among_evaluated": 0.2610294117647059,
+              "evaluated_fraction": 0.007641308012136195,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.00564670187661535,
+                0.9980053938644792
+              ],
+              "net_pnl_independent_experiments_usd": "1645.477540752811654325955738",
+              "mean_net_pnl_usd": "6.049549782179454611492484331",
+              "worst_net_pnl_usd": "-49.81126551795042575452716298",
+              "best_net_pnl_usd": "134.2561395954343742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.683705352002731,
+                0.7875796173419944
+              ]
+            },
+            "selected_at_first_evaluation": {
+              "experiments": 752,
+              "evaluated": 222,
+              "unresolved_or_unavailable": 530,
+              "states": {
+                "evaluated": 222,
+                "exit_unavailable": 195,
+                "entry_unavailable": 335
+              },
+              "profitable_after_costs": 170,
+              "nonprofitable_after_costs": 52,
+              "nonprofitable_rate_among_evaluated": 0.23423423423423423,
+              "evaluated_fraction": 0.29521276595744683,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.22606382978723405,
+                0.9308510638297872
+              ],
+              "net_pnl_independent_experiments_usd": "1444.833625500866760965794772",
+              "mean_net_pnl_usd": "6.508259574328228652999075550",
+              "worst_net_pnl_usd": "-33.71431834598461006036217304",
+              "best_net_pnl_usd": "134.2561395954343742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.7058237238565298,
+                0.8166663753988773
+              ]
+            },
+            "prospective_fixed_control": {
+              "experiments": 7121,
+              "evaluated": 53,
+              "unresolved_or_unavailable": 7068,
+              "states": {
+                "entry_rejected": 6900,
+                "exit_unavailable": 59,
+                "entry_unavailable": 109,
+                "evaluated": 53
+              },
+              "profitable_after_costs": 39,
+              "nonprofitable_after_costs": 14,
+              "nonprofitable_rate_among_evaluated": 0.2641509433962264,
+              "evaluated_fraction": 0.007442774891166971,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.005476758882179469,
+                0.9980339839910125
+              ],
+              "net_pnl_independent_experiments_usd": "324.8485725909258201207243457",
+              "mean_net_pnl_usd": "6.129218350772185285296685768",
+              "worst_net_pnl_usd": "-28.33506568806001006036217304",
+              "best_net_pnl_usd": "134.2561395954343742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.6041907894277545,
+                0.8356279348868316
+              ]
+            },
+            "control_excluding_selected": {
+              "experiments": 6977,
+              "evaluated": 12,
+              "unresolved_or_unavailable": 6965,
+              "states": {
+                "entry_rejected": 6900,
+                "exit_unavailable": 21,
+                "entry_unavailable": 44,
+                "evaluated": 12
+              },
+              "profitable_after_costs": 7,
+              "nonprofitable_after_costs": 5,
+              "nonprofitable_rate_among_evaluated": 0.4166666666666667,
+              "evaluated_fraction": 0.001719936935645693,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.001003296545793321,
+                0.9992833596101476
+              ],
+              "net_pnl_independent_experiments_usd": "3.91753040416361086519114686",
+              "mean_net_pnl_usd": "0.326460867013634238765928905",
+              "worst_net_pnl_usd": "-28.33506568806001006036217304",
+              "best_net_pnl_usd": "9.88345554064877424547283702",
+              "win_rate_95pct_wilson_approx": [
+                0.3195073356553728,
+                0.8067425380947535
+              ]
+            },
+            "overlap": 144,
+            "conditional_mean_difference_usd": "6.181798707314594414233146645",
+            "interpretation": "Descriptive, conditional on evaluated outcomes. Unequal coverage, token correlation and selection differences prevent a causal/profitability conclusion. No threshold optimization."
+          },
+          "all_planned": {
+            "experiments": 35730,
+            "evaluated": 272,
+            "unresolved_or_unavailable": 35458,
+            "states": {
+              "entry_rejected": 34539,
+              "exit_unavailable": 288,
+              "entry_unavailable": 628,
+              "evaluated": 272,
+              "pending": 3
+            },
+            "profitable_after_costs": 201,
+            "nonprofitable_after_costs": 71,
+            "nonprofitable_rate_among_evaluated": 0.2610294117647059,
+            "evaluated_fraction": 0.007612650433809124,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.005625524769101596,
+              0.9980128743352925
+            ],
+            "net_pnl_independent_experiments_usd": "1645.477540752811654325955738",
+            "mean_net_pnl_usd": "6.049549782179454611492484331",
+            "worst_net_pnl_usd": "-49.81126551795042575452716298",
+            "best_net_pnl_usd": "134.2561395954343742454728370",
+            "win_rate_95pct_wilson_approx": [
+              0.683705352002731,
+              0.7875796173419944
+            ]
+          }
+        },
+        "3600": {
+          "planned": 35730,
+          "not_yet_mature": 814,
+          "matured": 34916,
+          "comparison": {
+            "all_first_evaluations": {
+              "experiments": 34916,
+              "evaluated": 94,
+              "unresolved_or_unavailable": 34822,
+              "states": {
+                "entry_rejected": 33757,
+                "exit_unavailable": 454,
+                "entry_unavailable": 611,
+                "evaluated": 94
+              },
+              "profitable_after_costs": 74,
+              "nonprofitable_after_costs": 20,
+              "nonprofitable_rate_among_evaluated": 0.2127659574468085,
+              "evaluated_fraction": 0.0026921755069309198,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.0021193722075839158,
+                0.9994271967006529
+              ],
+              "net_pnl_independent_experiments_usd": "4153.269420516353619315895374",
+              "mean_net_pnl_usd": "44.18371723953567680123292951",
+              "worst_net_pnl_usd": "-49.72198286750601006036217304",
+              "best_net_pnl_usd": "263.4921208868863742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.694080201974153,
+                0.857832276971408
+              ]
+            },
+            "selected_at_first_evaluation": {
+              "experiments": 737,
+              "evaluated": 76,
+              "unresolved_or_unavailable": 661,
+              "states": {
+                "exit_unavailable": 336,
+                "entry_unavailable": 325,
+                "evaluated": 76
+              },
+              "profitable_after_costs": 62,
+              "nonprofitable_after_costs": 14,
+              "nonprofitable_rate_among_evaluated": 0.18421052631578946,
+              "evaluated_fraction": 0.10312075983717775,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.08412483039348712,
+                0.9810040705563093
+              ],
+              "net_pnl_independent_experiments_usd": "3705.642831999384884507042255",
+              "mean_net_pnl_usd": "48.75845831578138005930318757",
+              "worst_net_pnl_usd": "-49.72198286750601006036217304",
+              "best_net_pnl_usd": "263.4921208868863742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.7142152897559246,
+                0.8869750671507506
+              ]
+            },
+            "prospective_fixed_control": {
+              "experiments": 6993,
+              "evaluated": 19,
+              "unresolved_or_unavailable": 6974,
+              "states": {
+                "entry_rejected": 6774,
+                "exit_unavailable": 91,
+                "entry_unavailable": 109,
+                "evaluated": 19
+              },
+              "profitable_after_costs": 14,
+              "nonprofitable_after_costs": 5,
+              "nonprofitable_rate_among_evaluated": 0.2631578947368421,
+              "evaluated_fraction": 0.002717002717002717,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.002002002002002002,
+                0.9992849992849993
+              ],
+              "net_pnl_independent_experiments_usd": "721.8501327827368933601609658",
+              "mean_net_pnl_usd": "37.99211225172299438737689294",
+              "worst_net_pnl_usd": "-2.62043748271842575452716298",
+              "best_net_pnl_usd": "191.5902759697519742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.5120803155892935,
+                0.8819376166045982
+              ]
+            },
+            "control_excluding_selected": {
+              "experiments": 6850,
+              "evaluated": 7,
+              "unresolved_or_unavailable": 6843,
+              "states": {
+                "entry_rejected": 6774,
+                "exit_unavailable": 25,
+                "entry_unavailable": 44,
+                "evaluated": 7
+              },
+              "profitable_after_costs": 5,
+              "nonprofitable_after_costs": 2,
+              "nonprofitable_rate_among_evaluated": 0.2857142857142857,
+              "evaluated_fraction": 0.0010218978102189782,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.00072992700729927,
+                0.9997080291970802
+              ],
+              "net_pnl_independent_experiments_usd": "261.4414814191262668008048289",
+              "mean_net_pnl_usd": "37.34878305987518097154354699",
+              "worst_net_pnl_usd": "-2.62043748271842575452716298",
+              "best_net_pnl_usd": "122.3844241118623742454728370",
+              "win_rate_95pct_wilson_approx": [
+                0.35892909014821267,
+                0.9177828342909844
+              ]
+            },
+            "overlap": 143,
+            "conditional_mean_difference_usd": "11.40967525590619908775964058",
+            "interpretation": "Descriptive, conditional on evaluated outcomes. Unequal coverage, token correlation and selection differences prevent a causal/profitability conclusion. No threshold optimization."
+          },
+          "all_planned": {
+            "experiments": 35730,
+            "evaluated": 94,
+            "unresolved_or_unavailable": 35636,
+            "states": {
+              "entry_rejected": 34539,
+              "exit_unavailable": 454,
+              "entry_unavailable": 628,
+              "evaluated": 94,
+              "pending": 15
+            },
+            "profitable_after_costs": 74,
+            "nonprofitable_after_costs": 20,
+            "nonprofitable_rate_among_evaluated": 0.2127659574468085,
+            "evaluated_fraction": 0.002630842429331094,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.0020710887209627765,
+              0.9994402462916316
+            ],
+            "net_pnl_independent_experiments_usd": "4153.269420516353619315895374",
+            "mean_net_pnl_usd": "44.18371723953567680123292951",
+            "worst_net_pnl_usd": "-49.72198286750601006036217304",
+            "best_net_pnl_usd": "263.4921208868863742454728370",
+            "win_rate_95pct_wilson_approx": [
+              0.694080201974153,
+              0.857832276971408
+            ]
+          }
+        },
+        "86400": {
+          "planned": 35730,
+          "not_yet_mature": 21076,
+          "matured": 14654,
+          "comparison": {
+            "all_first_evaluations": {
+              "experiments": 14654,
+              "evaluated": 12,
+              "unresolved_or_unavailable": 14642,
+              "states": {
+                "entry_rejected": 14131,
+                "exit_unavailable": 247,
+                "entry_unavailable": 264,
+                "evaluated": 12
+              },
+              "profitable_after_costs": 8,
+              "nonprofitable_after_costs": 4,
+              "nonprofitable_rate_among_evaluated": 0.3333333333333333,
+              "evaluated_fraction": 0.0008188890405350075,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.0005459260270233384,
+                0.9997270369864883
+              ],
+              "net_pnl_independent_experiments_usd": "2.37153147775468933601609656",
+              "mean_net_pnl_usd": "0.1976276231462241113346747133",
+              "worst_net_pnl_usd": "-49.95242510021341006036217304",
+              "best_net_pnl_usd": "40.93296271717858993963782696",
+              "win_rate_95pct_wilson_approx": [
+                0.3906175873976139,
+                0.8618821601026385
+              ]
+            },
+            "selected_at_first_evaluation": {
+              "experiments": 343,
+              "evaluated": 8,
+              "unresolved_or_unavailable": 335,
+              "states": {
+                "exit_unavailable": 192,
+                "entry_unavailable": 143,
+                "evaluated": 8
+              },
+              "profitable_after_costs": 5,
+              "nonprofitable_after_costs": 3,
+              "nonprofitable_rate_among_evaluated": 0.375,
+              "evaluated_fraction": 0.023323615160349854,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.014577259475218658,
+                0.9912536443148688
+              ],
+              "net_pnl_independent_experiments_usd": "-55.49363084873667042253521128",
+              "mean_net_pnl_usd": "-6.93670385609208380281690141",
+              "worst_net_pnl_usd": "-49.95242510021341006036217304",
+              "best_net_pnl_usd": "26.4389372469760000",
+              "win_rate_95pct_wilson_approx": [
+                0.30573785458380187,
+                0.863158240538479
+              ]
+            },
+            "prospective_fixed_control": {
+              "experiments": 2956,
+              "evaluated": 3,
+              "unresolved_or_unavailable": 2953,
+              "states": {
+                "entry_rejected": 2850,
+                "exit_unavailable": 49,
+                "entry_unavailable": 54,
+                "evaluated": 3
+              },
+              "profitable_after_costs": 2,
+              "nonprofitable_after_costs": 1,
+              "nonprofitable_rate_among_evaluated": 0.3333333333333333,
+              "evaluated_fraction": 0.0010148849797023004,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0.0006765899864682003,
+                0.9996617050067659
+              ],
+              "net_pnl_independent_experiments_usd": "-14.66326005280042012072434608",
+              "mean_net_pnl_usd": "-4.887753350933473373574782027",
+              "worst_net_pnl_usd": "-46.65048759173821006036217304",
+              "best_net_pnl_usd": "26.4389372469760000",
+              "win_rate_95pct_wilson_approx": [
+                0.2076549551264879,
+                0.9385096847238394
+              ]
+            },
+            "control_excluding_selected": {
+              "experiments": 2886,
+              "evaluated": 0,
+              "unresolved_or_unavailable": 2886,
+              "states": {
+                "entry_rejected": 2850,
+                "exit_unavailable": 15,
+                "entry_unavailable": 21
+              },
+              "profitable_after_costs": 0,
+              "nonprofitable_after_costs": 0,
+              "nonprofitable_rate_among_evaluated": null,
+              "evaluated_fraction": 0,
+              "win_fraction_sensitivity_bounds_all_planned": [
+                0,
+                1
+              ],
+              "net_pnl_independent_experiments_usd": null,
+              "mean_net_pnl_usd": null,
+              "worst_net_pnl_usd": null,
+              "best_net_pnl_usd": null,
+              "win_rate_95pct_wilson_approx": null
+            },
+            "overlap": 70,
+            "conditional_mean_difference_usd": null,
+            "interpretation": "Descriptive, conditional on evaluated outcomes. Unequal coverage, token correlation and selection differences prevent a causal/profitability conclusion. No threshold optimization."
+          },
+          "all_planned": {
+            "experiments": 35730,
+            "evaluated": 12,
+            "unresolved_or_unavailable": 35718,
+            "states": {
+              "entry_rejected": 34539,
+              "exit_unavailable": 247,
+              "entry_unavailable": 628,
+              "evaluated": 12,
+              "pending": 304
+            },
+            "profitable_after_costs": 8,
+            "nonprofitable_after_costs": 4,
+            "nonprofitable_rate_among_evaluated": 0.3333333333333333,
+            "evaluated_fraction": 0.00033585222502099076,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.00022390148334732718,
+              0.9998880492583263
+            ],
+            "net_pnl_independent_experiments_usd": "2.37153147775468933601609656",
+            "mean_net_pnl_usd": "0.1976276231462241113346747133",
+            "worst_net_pnl_usd": "-49.95242510021341006036217304",
+            "best_net_pnl_usd": "40.93296271717858993963782696",
+            "win_rate_95pct_wilson_approx": [
+              0.3906175873976139,
+              0.8618821601026385
+            ]
+          }
+        }
+      }
+    },
+    "alert_followup": {
+      "estimated_pool": {
+        "300": {
+          "all_planned": {
+            "experiments": 1100,
+            "evaluated": 663,
+            "unresolved_or_unavailable": 437,
+            "states": {
+              "evaluated": 663,
+              "entry_unavailable": 152,
+              "exit_unavailable": 281,
+              "missing_forward_entry": 1,
+              "pending": 3
+            },
+            "profitable_after_costs": 509,
+            "nonprofitable_after_costs": 154,
+            "nonprofitable_rate_among_evaluated": 0.23227752639517346,
+            "evaluated_fraction": 0.6027272727272728,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.4627272727272727,
+              0.86
+            ],
+            "net_pnl_independent_experiments_usd": "3715.354808581894868694114964",
+            "mean_net_pnl_usd": "5.603853406609192863792028603",
+            "worst_net_pnl_usd": "-49.00502265764561686340394724",
+            "best_net_pnl_usd": "169.2553462682236128328121194",
+            "win_rate_95pct_wilson_approx": [
+              0.7340914132729722,
+              0.7982688953820368
+            ]
+          },
+          "matured": {
+            "experiments": 1094,
+            "evaluated": 661,
+            "unresolved_or_unavailable": 433,
+            "states": {
+              "evaluated": 661,
+              "entry_unavailable": 152,
+              "exit_unavailable": 280,
+              "missing_forward_entry": 1
+            },
+            "profitable_after_costs": 507,
+            "nonprofitable_after_costs": 154,
+            "nonprofitable_rate_among_evaluated": 0.2329803328290469,
+            "evaluated_fraction": 0.6042047531992687,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.463436928702011,
+              0.8592321755027422
+            ],
+            "net_pnl_independent_experiments_usd": "3690.893276503922395571420394",
+            "mean_net_pnl_usd": "5.583802233742696513723782744",
+            "worst_net_pnl_usd": "-49.00502265764561686340394724",
+            "best_net_pnl_usd": "169.2553462682236128328121194",
+            "win_rate_95pct_wilson_approx": [
+              0.7333061141733032,
+              0.7976474242334394
+            ]
+          },
+          "not_yet_mature": 6
+        },
+        "3600": {
+          "all_planned": {
+            "experiments": 1100,
+            "evaluated": 231,
+            "unresolved_or_unavailable": 869,
+            "states": {
+              "exit_unavailable": 695,
+              "entry_unavailable": 152,
+              "evaluated": 231,
+              "missing_forward_entry": 1,
+              "pending": 21
+            },
+            "profitable_after_costs": 164,
+            "nonprofitable_after_costs": 67,
+            "nonprofitable_rate_among_evaluated": 0.29004329004329005,
+            "evaluated_fraction": 0.21,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.14909090909090908,
+              0.9390909090909091
+            ],
+            "net_pnl_independent_experiments_usd": "9559.896268565264131704580656",
+            "mean_net_pnl_usd": "41.38483233145135987750900717",
+            "worst_net_pnl_usd": "-49.39606263238056570933618667",
+            "best_net_pnl_usd": "677.3241700781179180208176500",
+            "win_rate_95pct_wilson_approx": [
+              0.6483821874113569,
+              0.7646621795151163
+            ]
+          },
+          "matured": {
+            "experiments": 1070,
+            "evaluated": 231,
+            "unresolved_or_unavailable": 839,
+            "states": {
+              "exit_unavailable": 689,
+              "entry_unavailable": 149,
+              "evaluated": 231,
+              "missing_forward_entry": 1
+            },
+            "profitable_after_costs": 164,
+            "nonprofitable_after_costs": 67,
+            "nonprofitable_rate_among_evaluated": 0.29004329004329005,
+            "evaluated_fraction": 0.21588785046728973,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.15327102803738318,
+              0.9373831775700935
+            ],
+            "net_pnl_independent_experiments_usd": "9559.896268565264131704580656",
+            "mean_net_pnl_usd": "41.38483233145135987750900717",
+            "worst_net_pnl_usd": "-49.39606263238056570933618667",
+            "best_net_pnl_usd": "677.3241700781179180208176500",
+            "win_rate_95pct_wilson_approx": [
+              0.6483821874113569,
+              0.7646621795151163
+            ]
+          },
+          "not_yet_mature": 30
+        },
+        "86400": {
+          "all_planned": {
+            "experiments": 1100,
+            "evaluated": 64,
+            "unresolved_or_unavailable": 1036,
+            "states": {
+              "exit_unavailable": 378,
+              "entry_unavailable": 152,
+              "evaluated": 64,
+              "pending": 505,
+              "missing_forward_entry": 1
+            },
+            "profitable_after_costs": 23,
+            "nonprofitable_after_costs": 41,
+            "nonprofitable_rate_among_evaluated": 0.640625,
+            "evaluated_fraction": 0.05818181818181818,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.02090909090909091,
+              0.9627272727272728
+            ],
+            "net_pnl_independent_experiments_usd": "580.1328469012791764097197775",
+            "mean_net_pnl_usd": "9.064575732832487131401871523",
+            "worst_net_pnl_usd": "-49.95152436450581668981710526",
+            "best_net_pnl_usd": "214.8438226627300628790120297",
+            "win_rate_95pct_wilson_approx": [
+              0.2528823053221461,
+              0.48179376363849163
+            ]
+          },
+          "matured": {
+            "experiments": 494,
+            "evaluated": 64,
+            "unresolved_or_unavailable": 430,
+            "states": {
+              "exit_unavailable": 377,
+              "entry_unavailable": 53,
+              "evaluated": 64
+            },
+            "profitable_after_costs": 23,
+            "nonprofitable_after_costs": 41,
+            "nonprofitable_rate_among_evaluated": 0.640625,
+            "evaluated_fraction": 0.12955465587044535,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.0465587044534413,
+              0.917004048582996
+            ],
+            "net_pnl_independent_experiments_usd": "580.1328469012791764097197775",
+            "mean_net_pnl_usd": "9.064575732832487131401871523",
+            "worst_net_pnl_usd": "-49.95152436450581668981710526",
+            "best_net_pnl_usd": "214.8438226627300628790120297",
+            "win_rate_95pct_wilson_approx": [
+              0.2528823053221461,
+              0.48179376363849163
+            ]
+          },
+          "not_yet_mature": 606
+        }
+      },
+      "jupiter_quotes": {
+        "300": {
+          "all_planned": {
+            "experiments": 1100,
+            "evaluated": 340,
+            "unresolved_or_unavailable": 760,
+            "states": {
+              "evaluated": 340,
+              "exit_unavailable": 255,
+              "entry_unavailable": 501,
+              "pending": 4
+            },
+            "profitable_after_costs": 256,
+            "nonprofitable_after_costs": 84,
+            "nonprofitable_rate_among_evaluated": 0.24705882352941178,
+            "evaluated_fraction": 0.3090909090909091,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.23272727272727273,
+              0.9236363636363636
+            ],
+            "net_pnl_independent_experiments_usd": "2013.894515393929306237424553",
+            "mean_net_pnl_usd": "5.923219162923321488933601626",
+            "worst_net_pnl_usd": "-39.09206224701762575452716298",
+            "best_net_pnl_usd": "134.2561395954343742454728370",
+            "win_rate_95pct_wilson_approx": [
+              0.7044389243643516,
+              0.7957914142566878
+            ]
+          },
+          "matured": {
+            "experiments": 1094,
+            "evaluated": 340,
+            "unresolved_or_unavailable": 754,
+            "states": {
+              "evaluated": 340,
+              "exit_unavailable": 254,
+              "entry_unavailable": 500
+            },
+            "profitable_after_costs": 256,
+            "nonprofitable_after_costs": 84,
+            "nonprofitable_rate_among_evaluated": 0.24705882352941178,
+            "evaluated_fraction": 0.31078610603290674,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.2340036563071298,
+              0.923217550274223
+            ],
+            "net_pnl_independent_experiments_usd": "2013.894515393929306237424553",
+            "mean_net_pnl_usd": "5.923219162923321488933601626",
+            "worst_net_pnl_usd": "-39.09206224701762575452716298",
+            "best_net_pnl_usd": "134.2561395954343742454728370",
+            "win_rate_95pct_wilson_approx": [
+              0.7044389243643516,
+              0.7957914142566878
+            ]
+          },
+          "not_yet_mature": 6
+        },
+        "3600": {
+          "all_planned": {
+            "experiments": 1100,
+            "evaluated": 114,
+            "unresolved_or_unavailable": 986,
+            "states": {
+              "exit_unavailable": 474,
+              "entry_unavailable": 501,
+              "evaluated": 114,
+              "pending": 11
+            },
+            "profitable_after_costs": 91,
+            "nonprofitable_after_costs": 23,
+            "nonprofitable_rate_among_evaluated": 0.20175438596491227,
+            "evaluated_fraction": 0.10363636363636364,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.08272727272727273,
+              0.9790909090909091
+            ],
+            "net_pnl_independent_experiments_usd": "5501.528439785811549698189137",
+            "mean_net_pnl_usd": "48.25902140162992587454551875",
+            "worst_net_pnl_usd": "-49.72198286750601006036217304",
+            "best_net_pnl_usd": "263.4921208868863742454728370",
+            "win_rate_95pct_wilson_approx": [
+              0.7154154623254456,
+              0.8616303347445196
+            ]
+          },
+          "matured": {
+            "experiments": 1070,
+            "evaluated": 114,
+            "unresolved_or_unavailable": 956,
+            "states": {
+              "exit_unavailable": 471,
+              "entry_unavailable": 485,
+              "evaluated": 114
+            },
+            "profitable_after_costs": 91,
+            "nonprofitable_after_costs": 23,
+            "nonprofitable_rate_among_evaluated": 0.20175438596491227,
+            "evaluated_fraction": 0.10654205607476636,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.08504672897196262,
+              0.9785046728971962
+            ],
+            "net_pnl_independent_experiments_usd": "5501.528439785811549698189137",
+            "mean_net_pnl_usd": "48.25902140162992587454551875",
+            "worst_net_pnl_usd": "-49.72198286750601006036217304",
+            "best_net_pnl_usd": "263.4921208868863742454728370",
+            "win_rate_95pct_wilson_approx": [
+              0.7154154623254456,
+              0.8616303347445196
+            ]
+          },
+          "not_yet_mature": 30
+        },
+        "86400": {
+          "all_planned": {
+            "experiments": 1100,
+            "evaluated": 11,
+            "unresolved_or_unavailable": 1089,
+            "states": {
+              "exit_unavailable": 270,
+              "entry_unavailable": 501,
+              "evaluated": 11,
+              "pending": 318
+            },
+            "profitable_after_costs": 8,
+            "nonprofitable_after_costs": 3,
+            "nonprofitable_rate_among_evaluated": 0.2727272727272727,
+            "evaluated_fraction": 0.01,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.007272727272727273,
+              0.9972727272727273
+            ],
+            "net_pnl_independent_experiments_usd": "4.03735720375349939637826960",
+            "mean_net_pnl_usd": "0.3670324730684999451252972364",
+            "worst_net_pnl_usd": "-49.95242510021341006036217304",
+            "best_net_pnl_usd": "41.23469591960098993963782696",
+            "win_rate_95pct_wilson_approx": [
+              0.4343497069897537,
+              0.9025411942607853
+            ]
+          },
+          "matured": {
+            "experiments": 494,
+            "evaluated": 11,
+            "unresolved_or_unavailable": 483,
+            "states": {
+              "exit_unavailable": 270,
+              "entry_unavailable": 213,
+              "evaluated": 11
+            },
+            "profitable_after_costs": 8,
+            "nonprofitable_after_costs": 3,
+            "nonprofitable_rate_among_evaluated": 0.2727272727272727,
+            "evaluated_fraction": 0.022267206477732792,
+            "win_fraction_sensitivity_bounds_all_planned": [
+              0.016194331983805668,
+              0.9939271255060729
+            ],
+            "net_pnl_independent_experiments_usd": "4.03735720375349939637826960",
+            "mean_net_pnl_usd": "0.3670324730684999451252972364",
+            "worst_net_pnl_usd": "-49.95242510021341006036217304",
+            "best_net_pnl_usd": "41.23469591960098993963782696",
+            "win_rate_95pct_wilson_approx": [
+              0.4343497069897537,
+              0.9025411942607853
+            ]
+          },
+          "not_yet_mature": 606
+        }
+      }
+    },
+    "alert_followup_scope": "Descriptive first noncritical alert per newly enrolled token, including later alerts. Separate from the original first-evaluation comparison; no retrospective selection or matched-time control claim.",
+    "first_candidates": [
+      {
+        "candidate_id": 163457,
+        "contract": "J7MuP6nk2eQJLnVDT6Mh6XByRsWgTcNBTxCNBKcCpump",
+        "ingested_at": "2026-10-25T15:10:36.046799+00:00",
+        "first_signal_id": 392601,
+        "first_verdict": "REJECT"
+      },
+      {
+        "candidate_id": 163458,
+        "contract": "6AiFF8XVPLk9fR44Ra296G7TZ2BYcsDuRAJv88Vupump",
+        "ingested_at": "2026-10-25T15:10:36.046799+00:00",
+        "first_signal_id": 392602,
+        "first_verdict": "REJECT"
+      },
+      {
+        "candidate_id": 163459,
+        "contract": "2rFgLvd9amLcLtEp1ntDgFfGeVDG3RoBnRVjKDsjpump",
+        "ingested_at": "2026-10-25T15:10:36.046799+00:00",
+        "first_signal_id": 392603,
+        "first_verdict": "REJECT"
+      },
+      {
+        "candidate_id": 163460,
+        "contract": "6StGBaBMKsCjW4sLTrdof4ZUNFx25N27LX9abxc5B7be",
+        "ingested_at": "2026-10-25T15:10:36.046799+00:00",
+        "first_signal_id": 392604,
+        "first_verdict": "REJECT"
+      },
+      {
+        "candidate_id": 163461,
+        "contract": "92E5Yws9KQ3DSgKvzxvPnq47fRU1bYd2Z1FgQsB2pump",
+        "ingested_at": "2026-10-25T15:10:36.046799+00:00",
+        "first_signal_id": 392605,
+        "first_verdict": "REJECT"
+      }
+    ],
+    "first_verdicts": {
+      "REJECT": 34314,
+      "MONITOR": 659,
+      "INVESTIGATE": 757,
+      "PENDING": 16
+    },
+    "live_execution": false,
+    "profitability_demonstrated": false,
+    "limitations": [
+      "Thirty elapsed days do not prove thirty days of continuous collection.",
+      "Only new Solana engine registrations are enrolled; feed coverage is partial.",
+      "Primary comparisons use the frozen policy, verified source kind and original holdout boundary.",
+      "Only conservatively matured horizons enter comparison; unresolved outcomes remain counted.",
+      "Evaluated-only means and Wilson intervals are descriptive, not causal evidence or return predictions.",
+      "Pool estimates and Jupiter quotes are independent scenarios, not executed trades or one funded portfolio.",
+      "A timely price observation is not a successful entry or exit; source trade timestamps may be unavailable.",
+      "Later alerts do not retrospectively select an initially rejected token."
+    ],
+    "report_cache": {
+      "served_from_cache": true,
+      "snapshot_at": "2026-10-27T07:16:32.723458+00:00",
+      "calculated_at": "2026-10-27T07:17:59.844427+00:00",
+      "calculation_seconds": 87.12097180000274,
+      "calculation_mode": "isolated_read_only_process",
+      "seconds_since_snapshot": 140.9614189119893,
+      "seconds_since_calculation": 53.88294075499289,
+      "stale": true,
+      "refresh": {
+        "state": "running",
+        "started_at": "2026-10-27T07:18:44.897436+00:00"
+      }
+    }
+  },
+  "layout": {
+    "320": {
+      "width": 320,
+      "scroll": 320
+    },
+    "390": {
+      "width": 390,
+      "scroll": 390
+    },
+    "768": {
+      "width": 768,
+      "scroll": 768
+    },
+    "1536": {
+      "width": 1536,
+      "scroll": 1536
+    }
+  },
+  "navigation": {
+    "overview": "Privire de ansamblu",
+    "news": "Inteligență de piață",
+    "market": "Piața crypto",
+    "scanner": "Tokenuri emergente",
+    "portfolio": "Portofoliu virtual",
+    "journal": "Jurnal & rezultate",
+    "advanced": "Cercetare avansată",
+    "sources": "Surse & metodologie",
+    "opportunities": "Oportunități timpurii"
+  },
+  "storage_text": "Verificat 27.10.2026, 09:19:06 · Liber pe disc: 2,73 GiB · spațiu redus: copiază backupurile pe alt disc\n\nresearch.sqlite3: 9,85 GiB pe disc · 0 B reutilizabili în bază · WAL 26,11 MiB\n\nUltima arhivare: 256629 rânduri comprimate; observații mai vechi de 18.10.2026, 08:15:55. Istoricul este accesibil în dosare și rapoarte.\n\nnews_paper/research.sqlite3: 2,55 MiB pe disc · 0 B reutilizabili în bază · WAL 0 B\n\nUltima arhivare: 0 rânduri comprimate; observații mai vechi de 18.10.2026, 08:15:55. Istoricul este accesibil în dosare și rapoarte.\n\nBackupuri în destinația curentă: 3 · 1,53 GiB. Arhivare automată: oprită.\n\nDestinație backup: /workspace/chatgpt/data/backups · liber 2,73 GiB.\n\nSpațiu temporar: /workspace/chatgpt/data/backups · volum comun cu arhiva.\n\nBackup complet: spațiu insuficient · necesar estimat cu rezervă 20,24 GiB · deficit 17,52 GiB. Estimarea include copia SQLite, arhiva ZIP și paginile WAL.",
+  "backup_status": 507,
+  "backup_message": "Spațiu insuficient pentru backupul complet. Verifică panoul Stocare.",
+  "unexpected_http5xx": [],
+  "ledgers": {
+    "scanner": {
+      "mode": "paper",
+      "initial_balance": "100",
+      "cash": "100",
+      "positions": [],
+      "orders": [],
+      "account": "scanner",
+      "realized_pnl_usd": "0",
+      "estimated_equity_usd": "100"
+    },
+    "news": {
+      "mode": "paper",
+      "initial_balance": "500",
+      "cash": "500",
+      "positions": [],
+      "orders": [],
+      "account": "news",
+      "realized_pnl_usd": "0",
+      "estimated_equity_usd": "500"
+    }
+  },
+  "at_epoch": 1793085549.0998063
+}

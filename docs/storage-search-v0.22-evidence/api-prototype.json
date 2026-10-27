@@ -1,0 +1,60 @@
+[
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 503,
+    "seconds": 1.0289637999958359,
+    "body": {
+      "detail": "Indexul de c\u0103utare se preg\u0103te\u0219te \u00een fundal. Candida\u021bii recen\u021bi r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 indexare."
+    }
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 200,
+    "seconds": 0.252028989023529,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 0.11154878098750487,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 0.6465044699725695,
+    "matching_total": 198958
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 503,
+    "seconds": 6.904126269975677,
+    "body": {
+      "detail": "Indexul de c\u0103utare se preg\u0103te\u0219te \u00een fundal. Candida\u021bii recen\u021bi r\u0103m\u00e2n accesibili; re\u00eencearc\u0103 dup\u0103 indexare."
+    }
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 0.11902376101352274,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?sort=rank&limit=5",
+    "status": 200,
+    "seconds": 0.4900075810146518,
+    "matching_total": 198958
+  },
+  {
+    "path": "/api/opportunities?q=__unmatched_audit_v022__&limit=5",
+    "status": 200,
+    "seconds": 0.11603048100369051,
+    "matching_total": 0
+  },
+  {
+    "path": "/api/opportunities?verdict=CONSIDER&limit=5",
+    "status": 200,
+    "seconds": 0.07974715798627585,
+    "matching_total": 0
+  }
+]
