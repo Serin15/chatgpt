@@ -94,6 +94,10 @@ def create_app(
         app.state.performance_reports = (
             PerformanceReports(app.state.service.opportunities) if run_scanner else None
         )
+        app.state.routed_reports = (
+            PerformanceReports(app.state.service.opportunities, kind="routes", stale_after_seconds=240)
+            if run_scanner else None
+        )
 
         tasks = (
             [
@@ -106,6 +110,7 @@ def create_app(
                     ("intelligence", app.state.service.run_intelligence),
                     ("collection_report", app.state.service.opportunities.run_collection_reports),
                     ("performance_report", app.state.performance_reports.run),
+                    ("routes_report", app.state.routed_reports.run),
                 ]
             ]
             if run_scanner
@@ -490,8 +495,10 @@ def create_app(
 
     @app.get("/api/opportunities/routes")
     def opportunity_routes(request: Request):
+        if request.app.state.routed_reports is not None:
+            return JSONResponse(request.app.state.routed_reports.read())
         engine = request.app.state.service.opportunities
-        return engine.shared_report(("routes",), engine.routes.report)
+        return JSONResponse(engine.shared_report(("routes",), engine.routes.report))
 
     @app.get("/api/opportunities/narratives")
     def opportunity_narratives(request: Request):

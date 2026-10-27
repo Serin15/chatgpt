@@ -14,8 +14,11 @@ from app.models import utcnow
 
 
 class PerformanceReports:
-    def __init__(self, engine, interval_seconds=45, stale_after_seconds=120):
+    def __init__(self, engine, interval_seconds=45, stale_after_seconds=120, kind="performance"):
+        if kind not in {"performance", "routes"}:
+            raise ValueError("Unknown report kind")
         self.engine = engine
+        self.kind = kind
         self.interval_seconds = interval_seconds
         self.stale_after_seconds = stale_after_seconds
         self.lock = Lock()
@@ -54,7 +57,7 @@ class PerformanceReports:
         if clocks is None:
             return
         try:
-            data = self.engine.report()
+            data = self.engine.routes.report() if self.kind == "routes" else self.engine.report()
         except Exception as error:
             self._failed(error)
             raise
@@ -76,6 +79,8 @@ class PerformanceReports:
                 str(self.engine.service.news_paper.path.resolve()),
                 "--max-snapshot-age",
                 str(self.engine.service.settings.max_snapshot_age),
+                "--kind",
+                self.kind,
                 cwd=str(Path(__file__).resolve().parent.parent),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,

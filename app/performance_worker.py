@@ -9,6 +9,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from app.archive_codec import configure
+from app.opportunity_routes import Routes
 from app.opportunity_rules import EngineConfig
 from app.opportunity_sampling import Sampling
 from app.performance_reporting import report
@@ -51,15 +52,25 @@ def main():
     parser.add_argument("--database", required=True)
     parser.add_argument("--news-database", required=True)
     parser.add_argument("--max-snapshot-age", type=int, default=120)
+    parser.add_argument("--kind", choices=["performance", "routes"], default="performance")
     args = parser.parse_args()
     try:
         engine = ReadEngine(args.database, args.news_database, args.max_snapshot_age)
-        data = report(engine)
-        try:
-            data["pilot"] = pilot_report(engine)
-        except Exception as error:
-            # A pilot error must not discard the existing full performance report.
-            data["pilot"] = {"report_state": "error", "error": type(error).__name__}
+        if args.kind == "routes":
+            # Routes.__init__ runs migrations; the reader must never invoke it.
+            routes = Routes.__new__(Routes)
+            routes.engine, routes.store = engine, engine.store
+            with engine.store.connect() as db:
+                row = db.execute("SELECT payload FROM routed_runtime WHERE id=1").fetchone()
+            routes.status = json.loads(row[0]) if row else {"state": "unverified", "at": None, "cycles": 0}
+            data = routes.report()
+        else:
+            data = report(engine)
+            try:
+                data["pilot"] = pilot_report(engine)
+            except Exception as error:
+                # A pilot error must not discard the existing full performance report.
+                data["pilot"] = {"report_state": "error", "error": type(error).__name__}
         sys.stdout.buffer.write(
             json.dumps(data, ensure_ascii=False, allow_nan=False).encode("utf-8")
         )

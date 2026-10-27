@@ -117,6 +117,18 @@ async def check(base):
             await expect(page.locator("#health-components")).to_contain_text("Ultima eroare worker_performance_report: TimeoutError")
             await expect(page.locator("#health-components")).to_contain_text("proces repornit")
 
+        async def routed_cache_freshness(page):
+            await ready(page)
+            await page.evaluate("""async () => {
+                const data = await api('/api/opportunities/routes');
+                data.report_cache = {snapshot_at:'2026-01-01T00:00:00Z',
+                    calculated_at:'2026-01-01T00:01:00Z',stale:true,refresh:{state:'error'}};
+                renderEngineRoutes(data);
+            }""")
+            await expect(page.locator("#engine-routes")).to_contain_text("date vechi")
+            await expect(page.locator("#engine-routes")).to_contain_text("ultimul rezultat complet este păstrat")
+            await expect(page.locator("#engine-routes")).to_contain_text("snapshotul")
+
         async def isolation(page):
             gate = asyncio.Event()
 
@@ -854,6 +866,7 @@ async def check(base):
         for name, fn in [
             ("candidate priority", layout),
             ("routed health", health),
+            ("routed report snapshot and failed refresh remain explicit", routed_cache_freshness),
             ("news source health details", news_health_details),
             ("stale source status is consistent in details", stale_health_details),
             ("worker failure has visible diagnostic details", worker_health_details),

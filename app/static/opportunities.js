@@ -837,6 +837,10 @@ function renderEngineRoutes(data) {
   root.replaceChildren();
   $("engine-routes-summary").textContent =
     `Paper cu cotații Jupiter · ${data.status.state} · ${data.entry_states.filled || 0} intrări virtuale cotate`;
+  if (data.report_cache) {
+    const cache = data.report_cache;
+    root.append(node("p", `Raport din snapshotul ${date(cache.snapshot_at)} · calculat ${date(cache.calculated_at)} · ${cache.stale ? "date vechi" : "rezultat memorat"}${cache.refresh?.state === "error" ? " · actualizare eșuată; ultimul rezultat complet este păstrat" : ""}. Colectarea curentă se verifică separat în starea componentelor.`, cache.stale || cache.refresh?.state === "error" ? "warn footnote" : "footnote"));
+  }
   root.append(
     node(
       "p",
