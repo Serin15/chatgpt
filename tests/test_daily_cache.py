@@ -310,3 +310,59 @@ def test_invalid_large_report_never_replaces_last_complete_snapshot(
     assert result["totals"] == original["totals"]
     assert result["generated_at"] == original["generated_at"]
     assert result["report_cache"]["refresh"]["last_error"] == "ValueError"
+
+
+def test_background_scheduling_does_not_copy_a_complete_report_every_tick(
+    client_engine, monkeypatch
+):
+    import app.daily_cache as module
+
+    _, engine = client_engine
+    cache = DailyReports(engine)
+    fake_calculator(monkeypatch)
+    calculate(cache, cache.today())
+    original = module.deepcopy
+
+    def guarded(value):
+        assert value is not cache.entries[cache.today().isoformat()]["data"], (
+            "Idle worker copied the full report"
+        )
+        return original(value)
+
+    async def stop():
+        raise asyncio.CancelledError()
+
+    monkeypatch.setattr(module, "deepcopy", guarded)
+    monkeypatch.setattr(cache, "calculate_next", stop)
+    with pytest.raises(asyncio.CancelledError):
+        asyncio.run(cache.run())
+
+
+def test_http_reuses_complete_encoded_generation_and_updates_only_metadata(
+    client_engine, monkeypatch
+):
+    import app.daily_cache as module
+
+    client, engine = client_engine
+    cache = client.app.state.daily_reports = DailyReports(engine)
+    fake_calculator(monkeypatch)
+    expected = calculate(cache, cache.today())
+    original = module.deepcopy
+
+    def guarded(value):
+        assert value is not cache.entries[cache.today().isoformat()]["data"], (
+            "HTTP rebuilt the full report"
+        )
+        return original(value)
+
+    monkeypatch.setattr(module, "deepcopy", guarded)
+    response = client.get("/api/opportunities/daily")
+    assert response.status_code == 200
+    result = response.json()
+    assert {k: v for k, v in result.items() if k != "report_cache"} == {
+        k: v for k, v in expected.items() if k != "report_cache"
+    }
+    cache.entries[cache.today().isoformat()]["refresh"].update(state="error", error="TimeoutError")
+    updated = client.get("/api/opportunities/daily").json()
+    assert updated["report_cache"]["refresh"]["error"] == "TimeoutError"
+    assert updated["totals"] == expected["totals"]

@@ -99,8 +99,10 @@ class PerformanceReports:
                 raise ProviderError(
                     "Raportul istoric nu a putut fi calculat în procesul de citire."
                 )
-            data = json.loads(output.decode("utf-8"))
-            self._publish(data, clocks, "isolated_read_only_process")
+            if self.kind == "daily":
+                await asyncio.to_thread(self._decode_publish, output, clocks)
+            else:
+                self._decode_publish(output, clocks)
         except BaseException as error:
             self._failed(error)
             raise
@@ -119,6 +121,10 @@ class PerformanceReports:
                     with suppress(ProcessLookupError):
                         process.kill()
                     await process.communicate()
+
+    def _decode_publish(self, output, clocks):
+        data = json.loads(output.decode("utf-8"))
+        self._publish(data, clocks, "isolated_read_only_process")
 
     def read(self):
         with self.lock:

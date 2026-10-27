@@ -12,7 +12,7 @@ from typing import Literal
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Query, Request
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
@@ -497,8 +497,8 @@ def create_app(
             engine = request.app.state.service.opportunities
             chosen = day or date.fromisoformat(utcnow()[:10])
             if request.app.state.daily_reports is not None:
-                data = request.app.state.daily_reports.request(chosen)
-                return JSONResponse(data, status_code=202 if data["report_state"] == "preparing" else 200)
+                body, status = request.app.state.daily_reports.http_response(chosen)
+                return Response(body, status_code=status, media_type="application/json")
             data = engine.shared_report(("daily", chosen), lambda: daily_report(engine, chosen))
             # This synchronous endpoint runs in the worker pool. Encode the large
             # plain-JSON report here instead of recursively encoding on the API loop.

@@ -50,6 +50,7 @@ class DailyReports:
         self.path = source.parent / "daily-reports.sqlite3"
         self.lock = Lock()
         self.entries, self.pending = OrderedDict(), OrderedDict()
+        self.encoded = {}
         self.active = None
         self.persistence_error = None
         self._restore()
@@ -106,6 +107,8 @@ class DailyReports:
                     )
                 entry["next_attempt"] = 0
                 self.entries[day] = entry
+                if entry.get("data"):
+                    self.encoded[day] = self._encode(entry["data"])
         except (
             sqlite3.Error,
             ValueError,
@@ -116,11 +119,12 @@ class DailyReports:
             OverflowError,
         ) as error:
             self.entries.clear()
+            self.encoded.clear()
             self.persistence_error = type(error).__name__
 
     def _persist(self, day, entry):
         try:
-            payload = json.dumps(entry, ensure_ascii=False, allow_nan=False)
+            payload = json.dumps(entry, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
             if len(payload.encode("utf-8")) > MAX_BYTES:
                 raise ValueError("Oversized derived report")
             with self._connect() as db:
@@ -140,7 +144,13 @@ class DailyReports:
     def today():
         return datetime.now(UTC).date()
 
-    def request(self, day):
+    @staticmethod
+    def _encode(data):
+        return json.dumps(data, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode(
+            "utf-8"
+        )
+
+    def request(self, day, *, schedule_only=False, encoded=False):
         if day > self.today():
             raise ValueError("Alege ziua UTC curentă sau o zi trecută.")
         key, now = day.isoformat(), time.monotonic()
@@ -160,6 +170,7 @@ class DailyReports:
                     if victim is None:
                         return self._preparing(key, "busy")
                     self.entries.pop(victim)
+                    self.encoded.pop(victim, None)
                 self.entries[key] = {
                     "data": None,
                     "refresh": {"state": "not_started"},
@@ -169,7 +180,9 @@ class DailyReports:
             self.entries.move_to_end(key)
             if now >= entry["next_attempt"] and key != self.active:
                 self.pending.setdefault(key, None)
-            data = deepcopy(entry["data"])
+            if schedule_only:
+                return None
+            data = entry["data"]
             refresh = deepcopy(entry["refresh"])
             if key in self.pending:
                 refresh["queued"] = True
@@ -184,7 +197,24 @@ class DailyReports:
                 "refresh": refresh,
                 "persistence_error": self.persistence_error,
             }
-            return data | {"report_state": "ready", "report_cache": meta}
+            if encoded:
+                return self.encoded[key], meta
+            return deepcopy(data) | {"report_state": "ready", "report_cache": meta}
+
+    def http_response(self, day):
+        result = self.request(day, encoded=True)
+        if isinstance(result, dict):
+            return self._encode(result), 202
+        body, meta = result
+        extra = self._encode({"report_state": "ready", "report_cache": meta})
+        # Reuse immutable complete JSON; only the small freshness envelope changes.
+        return body[:-1] + (b"," if len(body) > 2 else b"") + extra[1:], 200
+
+    @staticmethod
+    def _record(entry):
+        # Data/meta are immutable published generations. Copy mutable diagnostics
+        # without walking tens of thousands of reference rows on the event loop.
+        return dict(entry) | {"refresh": deepcopy(entry["refresh"])}
 
     def _preparing(self, day, state, refresh=None):
         return {
@@ -230,7 +260,7 @@ class DailyReports:
             self.active = key
             entry = self.entries[key]
             entry["refresh"].update(state="running", started_at=utcnow(), error=None)
-            started = deepcopy(entry)
+            started = self._record(entry)
         worker = PerformanceReports(self.engine, kind="daily", day=date.fromisoformat(key))
         try:
             await self._save(key, started)
@@ -240,10 +270,12 @@ class DailyReports:
             if data["day_utc"] != key:
                 raise ValueError("Report day mismatch")
             # Validate before replacing the last complete report.
-            if len(json.dumps(data, allow_nan=False).encode("utf-8")) > MAX_BYTES - 8192:
+            encoded = await asyncio.to_thread(self._encode, data)
+            if len(encoded) > MAX_BYTES - 8192:
                 raise ValueError("Oversized derived report")
             with self.lock:
-                entry["data"] = deepcopy(data)
+                entry["data"] = data
+                self.encoded[key] = encoded
                 entry["meta"] = {
                     "snapshot_at": data["generated_at"],
                     "calculated_at": snapshot["calculated_at"],
@@ -272,7 +304,7 @@ class DailyReports:
         finally:
             with self.lock:
                 self.active = None
-                final = deepcopy(entry)
+                final = self._record(entry)
             await self._save(key, final)
         return True
 
@@ -286,6 +318,6 @@ class DailyReports:
 
     async def run(self):
         while True:
-            self.request(self.today())
+            self.request(self.today(), schedule_only=True)
             await self.calculate_next()
             await asyncio.sleep(0.5)
