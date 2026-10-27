@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from app.maintenance import backup
-from app.storage import RESERVE, logical_manifest, restore_backup
+from app.storage import RESERVE, existing_directory, logical_manifest, restore_backup
 from tests.test_opportunities import client_engine as client_engine
 
 
@@ -82,3 +82,10 @@ def test_invalid_destination_does_not_block_dashboard_or_expose_path(
     assert status.json()["backup_configuration_error"]
     assert client.post("/api/backup").status_code == 503
     assert client.get("/api/opportunities").status_code == 200
+
+
+def test_unavailable_volume_stops_at_root_instead_of_looping(tmp_path, monkeypatch):
+    with monkeypatch.context() as patch:
+        patch.setattr(Path, "exists", lambda _: False)
+        with pytest.raises(ValueError, match="volume is unavailable"):
+            existing_directory(tmp_path)

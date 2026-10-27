@@ -57,6 +57,8 @@ def backup_estimate(data_dir):
 def existing_directory(path):
     path = Path(path)
     while not path.exists():
+        if path.parent == path:
+            raise ValueError("Backup volume is unavailable")
         path = path.parent
     if not path.is_dir():
         raise ValueError("Backup destination must be a directory")
@@ -76,7 +78,10 @@ def backup_plan(data_dir):
         path = Path(value.strip()).expanduser()
         if not value.strip() or not path.is_absolute():
             raise ValueError("Backup paths must be absolute directories")
-        path = path.resolve()
+        try:
+            path = path.resolve()
+        except RuntimeError:
+            raise ValueError("Backup directory cannot be resolved") from None
         existing_directory(path)
         return path
 
