@@ -1,0 +1,1 @@
+PASS: partial failures, health, tiny prices, navigation, search/watch, manual evidence, signal invalidation, mobile contracts/journal, JSON export and ZIP backup

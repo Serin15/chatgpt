@@ -1,0 +1,3 @@
+compressing: research.sqlite3
+compressing: news_paper/research.sqlite3
+restoring_and_verifying: both databases

@@ -1,0 +1,10 @@
+{
+  "destination": "/workspace/chatgpt/data/backups",
+  "work_dir": "/tmp/memescope-backup-verify",
+  "max_archive_bytes": 1782034432,
+  "restore_required_bytes": 11569405952,
+  "shared_volume": false,
+  "reserve_bytes": 536870912,
+  "mode": "offline_bounded_compression",
+  "compression_fit_is_unverified": true
+}

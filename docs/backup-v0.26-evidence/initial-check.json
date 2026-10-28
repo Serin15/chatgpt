@@ -1,0 +1,39 @@
+{
+  "probes": [
+    {
+      "source": "dexscreener",
+      "error": "ProxyError",
+      "proxy_policy_denial": true,
+      "seconds": 0.199
+    },
+    {
+      "source": "geckoterminal",
+      "error": "ProxyError",
+      "proxy_policy_denial": true,
+      "seconds": 0.094
+    },
+    {
+      "source": "coingecko",
+      "error": "ProxyError",
+      "proxy_policy_denial": true,
+      "seconds": 0.065
+    },
+    {
+      "source": "github_ci",
+      "error": "ProxyError",
+      "proxy_policy_denial": true,
+      "seconds": 0.047
+    }
+  ],
+  "compression_sample": {
+    "source_bytes": 11032506368,
+    "sample_bytes": 67108864,
+    "compressed_sample_bytes": 9027416,
+    "ratio": 0.13451898097991943,
+    "whole_archive_size_is_not_proven": true
+  },
+  "configured_backup_paths": {
+    "PULSE_BACKUP_DIR": false,
+    "PULSE_BACKUP_WORK_DIR": false
+  }
+}

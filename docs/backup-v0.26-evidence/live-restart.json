@@ -1,0 +1,15 @@
+{
+  "version": "0.26.0",
+  "live_execution": false,
+  "source": "actual application API and browser, no HTTP mocks",
+  "candidates_displayed": 50,
+  "storage_panel_retains_online_capacity_warning": true,
+  "backup_count": 4,
+  "backup_bytes": 3008500135,
+  "javascript_errors": [],
+  "widths_fit": [
+    320,
+    390,
+    1440
+  ]
+}

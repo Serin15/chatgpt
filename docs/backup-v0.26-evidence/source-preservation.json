@@ -1,0 +1,36 @@
+{
+  "base": "20697586bd721e133bd192f2fb9daf926a19eb9b",
+  "files": {
+    "app/offline_backup.py": "74fa28dc502161c9f29f9686e8557a9b652dc034cc5d443ed7c2b922f47e0f98",
+    "tests/test_offline_backup.py": "a46c4dfbcbe15b6aedad081d7cdef10ab965e1bb03dd1362b5cc84fb58197c2a",
+    "app/__init__.py": "efab4c203f1cd8549d3f691e3408ed102b1ca85965727d83eda77870789cbbec",
+    "pyproject.toml": "e9eecc6f75f3852f05355cbb270239279e125eb4f47e531c9bd2eccb063f9c69",
+    "uv.lock": "ac474a36e8129e9d34275d82ca9235d3602d72dabc75f9c8eee7d56beb108854",
+    "app/static/index.html": "3d953444483915815d44d9b153a87863f365226b2b9a5aa6221f236a723dc1f4"
+  },
+  "research_and_financial_sources_unchanged": {
+    "opportunities.py": true,
+    "opportunity_rules.py": true,
+    "opportunity_sources.py": true,
+    "narratives.py": true,
+    "story_evidence.py": true,
+    "story_discovery.py": true,
+    "story_markets.py": true,
+    "announcements.py": true,
+    "news.py": true,
+    "opportunity_outcomes.py": true,
+    "opportunity_sampling.py": true,
+    "opportunity_lifecycle.py": true,
+    "opportunity_routes.py": true,
+    "analysis.py": true,
+    "paper.py": true,
+    "models.py": true,
+    "forward_evaluation.py": true,
+    "collection_budget.py": true,
+    "providers.py": true,
+    "jupiter.py": true,
+    "daily_research.py": true,
+    "cohort_comparisons.py": true,
+    "price_research.py": true
+  }
+}

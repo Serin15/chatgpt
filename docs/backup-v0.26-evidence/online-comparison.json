@@ -1,0 +1,20 @@
+{
+  "online_plan": {
+    "backup_destination": "/workspace/chatgpt/data/backups",
+    "backup_work_directory": "/workspace/chatgpt/data/backups",
+    "backup_shared_volume": true,
+    "backup_configuration_error": null,
+    "backup_disk_free_bytes": 954548224,
+    "backup_work_free_bytes": 954548224,
+    "backup_required_free_bytes": 22604914688,
+    "backup_work_required_free_bytes": 22604914688,
+    "backup_work_space_deficit_bytes": 21650366464,
+    "backup_space_deficit_bytes": 21650366464,
+    "backup_ready": false
+  },
+  "online_backup": {
+    "state": "blocked",
+    "required_bytes": 22604914688,
+    "free_bytes": 954548224
+  }
+}

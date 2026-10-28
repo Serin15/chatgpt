@@ -1,0 +1,30 @@
+{
+  "archive": "data/backups/pulse-offline-56223f335190468a80142ccd4aef9971.zip",
+  "archive_bytes": 1364363273,
+  "sha256": "e4a7431fda7ab562655e72136d907e86edd7b229b38062caec7faf4c79816ec5",
+  "restoration_verified": true,
+  "source_bytes": 11035508736,
+  "files": {
+    "research.sqlite3": {
+      "bytes": 11032535040,
+      "sha256": "3fc542a2e5bfe36f577ef3f3b6587bf67a9decc8196008acd23af90a3ae0e5bb"
+    },
+    "news_paper/research.sqlite3": {
+      "bytes": 2973696,
+      "sha256": "3accfc8571d0b4a913120b02865dbe3da7bf6a714d525017af3f957aaa52c030"
+    }
+  },
+  "plan": {
+    "destination": "/workspace/chatgpt/data/backups",
+    "work_dir": "/tmp/memescope-backup-verify",
+    "max_archive_bytes": 1782018048,
+    "restore_required_bytes": 11569405952,
+    "shared_volume": false,
+    "reserve_bytes": 536870912,
+    "mode": "offline_bounded_compression",
+    "compression_fit_is_unverified": true
+  },
+  "live_execution": false,
+  "backup_volume_differs_from_data": false,
+  "independent_offsite_backup_verified": false
+}

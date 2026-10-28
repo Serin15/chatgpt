@@ -1,4 +1,6 @@
-# MemeScope v0.25.0 — research workspace
+# MemeScope v0.26.0 — research workspace
+
+**Backup v0.26.0:** [backup offline comprimat, cu limită strictă de spațiu și verificare prin restaurare](docs/BACKUP-V0.26.md). Folosește bazele blocate direct, fără clonarea lor înainte de comprimare. Backupul online și rezerva sa conservatoare sunt păstrate.
 
 **Interfață v0.25.0:** [corecții de afișare, navigare, formulare și verificări în browser](docs/UI-V0.25.md). Carduri cu acțiuni vizibile pe telefon, dovezi complete derulabile, mesaje de eroare care pot fi închise și căutări fără rezultate explicate.
 
