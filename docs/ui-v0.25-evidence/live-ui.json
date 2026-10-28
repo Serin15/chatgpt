@@ -1,0 +1,337 @@
+{
+  "data": "actual stored application data, no HTTP mocks; external crypto APIs remain proxy blocked",
+  "version": "0.25.0",
+  "live_execution": false,
+  "page_width_checks": [
+    {
+      "page": "opportunities",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "opportunities",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "opportunities",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "opportunities",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "opportunities",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "opportunities",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "opportunities",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "overview",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "overview",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "overview",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "overview",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "overview",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "overview",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "overview",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "news",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "news",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "news",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "news",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "news",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "news",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "news",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "market",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "market",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "market",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "market",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "market",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "market",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "market",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "scanner",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "scanner",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "scanner",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "scanner",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "scanner",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "scanner",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "scanner",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "portfolio",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "portfolio",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "portfolio",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "portfolio",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "portfolio",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "portfolio",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "portfolio",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "journal",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "journal",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "journal",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "journal",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "journal",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "journal",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "journal",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "advanced",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "advanced",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "advanced",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "advanced",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "advanced",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "advanced",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "advanced",
+      "width": 1920,
+      "doc": 1920
+    },
+    {
+      "page": "sources",
+      "width": 320,
+      "doc": 320
+    },
+    {
+      "page": "sources",
+      "width": 390,
+      "doc": 390
+    },
+    {
+      "page": "sources",
+      "width": 600,
+      "doc": 600
+    },
+    {
+      "page": "sources",
+      "width": 768,
+      "doc": 768
+    },
+    {
+      "page": "sources",
+      "width": 1024,
+      "doc": 1024
+    },
+    {
+      "page": "sources",
+      "width": 1440,
+      "doc": 1440
+    },
+    {
+      "page": "sources",
+      "width": 1920,
+      "doc": 1920
+    }
+  ],
+  "inventory_counts": {
+    "opportunities": 167,
+    "overview": 5,
+    "news": 26,
+    "market": 62,
+    "scanner": 104,
+    "portfolio": 3,
+    "journal": 4,
+    "advanced": 136,
+    "sources": 0
+  },
+  "opened_real_stored_candidate": true,
+  "javascript_errors": [],
+  "browser_writes": [],
+  "financial_actions": 0
+}

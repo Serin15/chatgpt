@@ -1,0 +1,1 @@
+PASS: healthy market section rendered while news response remained blocked; real Chromium, fake data

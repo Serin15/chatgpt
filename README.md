@@ -1,4 +1,6 @@
-# MemeScope v0.24.0 — research workspace
+# MemeScope v0.25.0 — research workspace
+
+**Interfață v0.25.0:** [corecții de afișare, navigare, formulare și verificări în browser](docs/UI-V0.25.md). Carduri cu acțiuni vizibile pe telefon, dovezi complete derulabile, mesaje de eroare care pot fi închise și căutări fără rezultate explicate.
 
 **Bilanț zilnic v0.24.0:** [calcul în fundal, raport complet păstrat pe disc și erori vizibile după repornire](docs/DAILY-REPORTS-V0.24.md). Cererile HTTP nu așteaptă calculul istoric; rapoartele păstrate își mențin data reală.
 

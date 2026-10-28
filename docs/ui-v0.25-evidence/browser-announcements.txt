@@ -1,0 +1,1 @@
+PASS: original document, exact contract, manual source review, revocation, negative context, immutable signal/export, mobile, no orders

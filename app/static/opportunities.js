@@ -367,20 +367,20 @@ function renderOpportunityStats(report) {
   root.append(
     engineStat(
       "CANDIDAȚI",
-      t.discovered,
-      `${t.eligible} eligibili în universul observat`,
+      number(t.discovered),
+      `${number(t.eligible)} eligibili în universul observat`,
     ),
     engineStat(
       "FILTRU DE SECURITATE",
-      report.current_security_pass,
+      number(report.current_security_pass),
       "Verificări limitate, fără garanție de siguranță",
     ),
     engineStat(
       "ALERTE",
-      t.alerts,
-      `${t.delivered_in_app} afișate în aplicație`,
+      number(t.alerts),
+      `${number(t.delivered_in_app)} afișate în aplicație`,
     ),
-    engineStat("OBSERVAȚII", t.observations, "Inclusiv încercările fără date"),
+    engineStat("OBSERVAȚII", number(t.observations), "Inclusiv încercările fără date"),
   );
   renderEnginePerformance(report);
 }

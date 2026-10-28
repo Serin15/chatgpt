@@ -1,0 +1,1 @@
+PASS: AI configuration, connection, exact quotations, immutable signal/export, bad host rejected, desktop/mobile, zero automatic orders. Model transport is simulated.

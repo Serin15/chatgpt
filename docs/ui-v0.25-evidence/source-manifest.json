@@ -1,0 +1,42 @@
+{
+  "base": "c56c605c0850ebcc9d7b655e12b624f87ca921e1",
+  "files": {
+    ".github/workflows/checks.yml": "8b94a5f6c417ba4bb67d1789ce7100aeb6b7e817ee1f3ca75ca50e438f3c30a7",
+    "README.md": "de4f939735493158fec279834de2031215008676d2f537aa384e35581e41ad86",
+    "app/__init__.py": "60f938a6319c2431d1d347aaaa596bb5f2f25b32303e8dbf78eb7c01b01acc96",
+    "app/static/advanced.js": "117ea782f1d3fca9e7b77bd51ab851991049c70bbe30346659fe2e6c99409c6c",
+    "app/static/app.js": "0b65cac0d93a75e276ffee33a5ea8870720ec6eec6600f3811eaa1e44b0f4419",
+    "app/static/index.html": "d8bb2e7086ce44323954ecd7caac042c833ae724742e2c720314158b5f6bdc76",
+    "app/static/opportunities.js": "7e9ff9d547bb85fd68aca2119216e3b0fba56d65e82ade7797f0edbe29739346",
+    "app/static/workspace.css": "4aa0e186d337ad32584a25034f8196dc602b476de3669c3644a88630ca4abb4a",
+    "pyproject.toml": "b9eff268b38d9587b167e93eb8cbc6722e5e9e5031a415474653b11d78f4abed",
+    "tests/browser_advanced.py": "54c5532e3558d5be20f5fa4facd8af77368ac370f3bd8f06da52836b5b2dbf8d",
+    "uv.lock": "dd8e1238b3175917b908dbaf6b2057e91128c297aec9656f4a3f463b7adf0353",
+    "tests/browser_interface.py": "8d04e95a419233aa26f95007267464262689c67302e42a50e9d549f7927290b7"
+  },
+  "financial_sources_unchanged": {
+    "opportunities.py": true,
+    "opportunity_rules.py": true,
+    "opportunity_sources.py": true,
+    "narratives.py": true,
+    "story_evidence.py": true,
+    "story_discovery.py": true,
+    "story_markets.py": true,
+    "announcements.py": true,
+    "news.py": true,
+    "opportunity_outcomes.py": true,
+    "opportunity_sampling.py": true,
+    "opportunity_lifecycle.py": true,
+    "opportunity_routes.py": true,
+    "analysis.py": true,
+    "paper.py": true,
+    "models.py": true,
+    "forward_evaluation.py": true,
+    "collection_budget.py": true,
+    "providers.py": true,
+    "jupiter.py": true,
+    "daily_research.py": true,
+    "cohort_comparisons.py": true,
+    "price_research.py": true
+  }
+}

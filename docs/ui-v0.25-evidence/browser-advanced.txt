@@ -1,0 +1,1 @@
+PASS: login, authenticated mutations with CSRF, advanced panels, mobile width, logout; fake data, real browser

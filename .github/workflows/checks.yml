@@ -46,6 +46,8 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
+          npm install --prefix "$RUNNER_TEMP/memescope-ui-audit" --no-audit --no-fund axe-core@4.14.0
+          export BROWSER_AXE_PATH="$RUNNER_TEMP/memescope-ui-audit/node_modules/axe-core/axe.min.js"
           uv run --with playwright playwright install --with-deps chromium
           uv run --with playwright python - <<'PY'
           import os
@@ -56,6 +58,11 @@ jobs:
           with sync_playwright() as browser:
               subprocess.run(
                   [sys.executable, "tests/browser_audit.py"],
+                  env=os.environ | {"BROWSER_EXECUTABLE": browser.chromium.executable_path},
+                  check=True,
+              )
+              subprocess.run(
+                  [sys.executable, "tests/browser_interface.py"],
                   env=os.environ | {"BROWSER_EXECUTABLE": browser.chromium.executable_path},
                   check=True,
               )

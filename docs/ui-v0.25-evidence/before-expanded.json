@@ -1,0 +1,620 @@
+{
+  "results": [
+    {
+      "page": "overview",
+      "width": 320,
+      "doc": 350,
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "secondary",
+          "width": 124,
+          "text": "Portofoliul meu"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "wave-decoration",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "ARTICLE",
+          "id": "",
+          "cls": "",
+          "width": 147,
+          "text": "VALOARE NETĂ ESTIMATĂ\n↗\n500,00 USD\nDupă costuri estimate de ieșire"
+        },
+        {
+          "tag": "ARTICLE",
+          "id": "",
+          "cls": "",
+          "width": 147,
+          "text": "INFORMAȚII COLECTATE\n◷\n1\n0 din surse primare"
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "overview",
+      "width": 390,
+      "doc": 390,
+      "overflow": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "wave-decoration",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "overview",
+      "width": 768,
+      "doc": 768,
+      "overflow": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "wave-decoration",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "overview",
+      "width": 1024,
+      "doc": 1024,
+      "overflow": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "wave-decoration",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "overview",
+      "width": 1440,
+      "doc": 1440,
+      "overflow": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "wave-decoration",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "",
+          "width": 250,
+          "text": ""
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "portfolio",
+      "width": 320,
+      "doc": 351,
+      "overflow": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "",
+          "width": 165,
+          "text": "Valoare netă estimată\n500,00 USD"
+        },
+        {
+          "tag": "SMALL",
+          "id": "",
+          "cls": "",
+          "width": 125,
+          "text": "Valoare netă estimată"
+        },
+        {
+          "tag": "STRONG",
+          "id": "portfolio-equity",
+          "cls": "",
+          "width": 125,
+          "text": "500,00 USD"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "",
+          "width": 165,
+          "text": "Poziții deschise\n0"
+        },
+        {
+          "tag": "SMALL",
+          "id": "",
+          "cls": "",
+          "width": 125,
+          "text": "Poziții deschise"
+        },
+        {
+          "tag": "STRONG",
+          "id": "open-count",
+          "cls": "",
+          "width": 125,
+          "text": "0"
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "portfolio",
+      "width": 390,
+      "doc": 390,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "portfolio",
+      "width": 768,
+      "doc": 768,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "portfolio",
+      "width": 1024,
+      "doc": 1024,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "portfolio",
+      "width": 1440,
+      "doc": 1440,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "opportunities",
+      "width": 320,
+      "doc": 320,
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "width": 72,
+          "text": "Metodologie"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "width": 88,
+          "text": "De investigat"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "width": 76,
+          "text": "De urmărit"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "width": 63,
+          "text": "Respinși"
+        },
+        {
+          "tag": "DETAILS",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare\n{\n  \"alert_kind\": \"opportunity\",\n  \"c"
+        },
+        {
+          "tag": "SUMMARY",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare"
+        }
+      ],
+      "clipped": [],
+      "tiny": [
+        {
+          "text": "Începe pilotul de 30 de zile",
+          "cls": ""
+        }
+      ],
+      "axe": []
+    },
+    {
+      "page": "opportunities",
+      "width": 390,
+      "doc": 390,
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "width": 76,
+          "text": "De urmărit"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "width": 63,
+          "text": "Respinși"
+        },
+        {
+          "tag": "DETAILS",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare\n{\n  \"alert_kind\": \"opportunity\",\n  \"c"
+        },
+        {
+          "tag": "SUMMARY",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare"
+        }
+      ],
+      "clipped": [],
+      "tiny": [
+        {
+          "text": "Începe pilotul de 30 de zile",
+          "cls": ""
+        }
+      ],
+      "axe": []
+    },
+    {
+      "page": "opportunities",
+      "width": 768,
+      "doc": 768,
+      "overflow": [
+        {
+          "tag": "DETAILS",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare\n{\n  \"alert_kind\": \"opportunity\",\n  \"c"
+        },
+        {
+          "tag": "SUMMARY",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare"
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "opportunities",
+      "width": 1024,
+      "doc": 1024,
+      "overflow": [
+        {
+          "tag": "DETAILS",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare\n{\n  \"alert_kind\": \"opportunity\",\n  \"c"
+        },
+        {
+          "tag": "SUMMARY",
+          "id": "",
+          "cls": "",
+          "width": 927,
+          "text": "Dovezi și condiții de invalidare"
+        }
+      ],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "opportunities",
+      "width": 1440,
+      "doc": 1440,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": [
+        {
+          "id": "scrollable-region-focusable",
+          "nodes": [
+            {
+              "target": [
+                ".daily-comparisons[open=\"\"]:nth-child(8) > .table-scroll"
+              ],
+              "summary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+            },
+            {
+              "target": [
+                ".daily-comparisons[open=\"\"]:nth-child(11) > .table-scroll"
+              ],
+              "summary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+            },
+            {
+              "target": [
+                ".price-reference-comparisons > .table-scroll"
+              ],
+              "summary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "detail",
+      "width": 320,
+      "doc": 320,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "detail",
+      "width": 390,
+      "doc": 390,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "detail",
+      "width": 768,
+      "doc": 768,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "detail",
+      "width": 1024,
+      "doc": 1024,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "detail",
+      "width": 1440,
+      "doc": 1440,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": [
+        {
+          "id": "scrollable-region-focusable",
+          "nodes": [
+            {
+              "target": [
+                ".fundamentals-panel > div > details[open=\"\"] > pre"
+              ],
+              "summary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "advanced",
+      "width": 320,
+      "doc": 320,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "advanced",
+      "width": 390,
+      "doc": 390,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "advanced",
+      "width": 768,
+      "doc": 768,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "advanced",
+      "width": 1024,
+      "doc": 1024,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": []
+    },
+    {
+      "page": "advanced",
+      "width": 1440,
+      "doc": 1440,
+      "overflow": [],
+      "clipped": [],
+      "tiny": [],
+      "axe": [
+        {
+          "id": "scrollable-region-focusable",
+          "nodes": [
+            {
+              "target": [
+                ".padded:nth-child(4) > div > details[open=\"\"] > pre"
+              ],
+              "summary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

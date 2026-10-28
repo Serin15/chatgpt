@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>MemeScope — Early Opportunity Engine</title>
-    <link rel="stylesheet" href="/static/style.css?v=0.24.0" />
-    <link rel="stylesheet" href="/static/workspace.css?v=0.24.0" />
-    <script src="/static/advanced.js?v=0.24.0" defer></script>
-    <script src="/static/opportunities.js?v=0.24.0" defer></script>
-    <script src="/static/app.js?v=0.24.0" defer></script>
+    <link rel="stylesheet" href="/static/style.css?v=0.25.0" />
+    <link rel="stylesheet" href="/static/workspace.css?v=0.25.0" />
+    <script src="/static/advanced.js?v=0.25.0" defer></script>
+    <script src="/static/opportunities.js?v=0.25.0" defer></script>
+    <script src="/static/app.js?v=0.25.0" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Sari la conținut</a>
@@ -62,7 +62,7 @@
       <div class="profile">
         <span class="avatar">M</span>
         <div>Spațiul meu<small>Personal · local</small></div>
-        <span class="version">v0.24.0 · beta</span>
+        <span class="version">v0.25.0 · beta</span>
       </div>
     </aside>
     <main class="main" id="main-content" tabindex="-1">
@@ -91,7 +91,10 @@
           ><span class="avatar small-avatar">M</span>
         </div>
       </header>
-      <div id="message" class="toast" role="status" hidden></div>
+      <div id="message" class="toast" role="status" hidden>
+        <span id="message-text"></span>
+        <button id="message-close" class="icon-button" type="button" aria-label="Închide mesajul">×</button>
+      </div>
       <div
         id="section-alerts"
         class="section-alerts"
@@ -278,8 +281,8 @@
         </form>
         <div id="asset-search-results"></div>
         <section class="panel">
-          <div class="table-scroll">
-            <table>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Piața crypto, tabel derulabil">
+            <table class="responsive-table">
               <thead>
                 <tr>
                   <th>ACTIV</th>
@@ -293,7 +296,7 @@
               <tbody id="asset-rows"></tbody>
             </table>
           </div>
-          <div id="assets-empty" class="empty-state">
+          <div id="assets-empty" class="empty-state" role="status">
             Se așteaptă prima observație de piață. Nu sunt folosite prețuri
             fictive.
           </div>
@@ -329,8 +332,8 @@
           </form>
         </div>
         <section class="panel">
-          <div class="table-scroll">
-            <table>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Tokenuri emergente, tabel derulabil">
+            <table class="responsive-table">
               <thead>
                 <tr>
                   <th>TOKEN</th>
@@ -344,7 +347,7 @@
               <tbody id="tokens"></tbody>
             </table>
           </div>
-          <div class="empty-state" id="empty">
+          <div class="empty-state" id="empty" role="status">
             Nicio observație de token încă. Adaugă un mint sau pornește
             scanarea.
           </div>
@@ -508,7 +511,7 @@
             <button type="button" data-verdict="MONITOR" aria-pressed="false">De urmărit</button>
             <button type="button" data-verdict="REJECT" aria-pressed="false">Respinși</button>
           </div>
-          <div class="table-scroll">
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Candidați, tabel derulabil">
             <table class="engine-table">
               <thead>
                 <tr>
@@ -534,7 +537,7 @@
           <summary>Pilot Solana · 30 de zile</summary>
           <p id="engine-pilot-status" class="footnote" role="status">Se verifică pilotul…</p>
           <div class="engine-controls">
-            <button type="button" id="engine-pilot-start">Începe pilotul de 30 de zile</button>
+            <button type="button" id="engine-pilot-start" class="primary">Începe pilotul de 30 de zile</button>
             <button type="button" id="engine-pilot-refresh" class="secondary">Actualizează bilanțul</button>
             <button type="button" id="engine-pilot-export" class="secondary" disabled>Descarcă bilanțul JSON</button>
           </div>

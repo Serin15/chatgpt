@@ -96,6 +96,11 @@ function node(tag, text, className) {
   const n = document.createElement(tag);
   if (text !== undefined) n.textContent = text;
   if (className) n.className = className;
+  if (tag === "pre" || n.classList.contains("table-scroll")) {
+    n.tabIndex = 0;
+    n.setAttribute("role", "region");
+    n.setAttribute("aria-label", tag === "pre" ? "Date tehnice derulabile" : "Tabel derulabil");
+  }
   return n;
 }
 function icon(type = "arrow") {
@@ -164,10 +169,11 @@ function coin(asset) {
 let messageTimeout;
 function message(text, success = false) {
   clearTimeout(messageTimeout);
-  $("message").textContent = text;
+  $("message-text").textContent = text;
   $("message").hidden = !text;
   $("message").className = "toast" + (success ? " success" : "");
-  if (text)
+  $("message").setAttribute("role", success ? "status" : "alert");
+  if (text && success)
     messageTimeout = setTimeout(() => {
       $("message").hidden = true;
     }, 12000);
@@ -264,6 +270,7 @@ function setWorkspaceNavigation(open, returnFocus = false) {
 }
 async function action(b, fn) {
   b.disabled = true;
+  b.setAttribute("aria-busy", "true");
   message("");
   try {
     await fn();
@@ -271,6 +278,7 @@ async function action(b, fn) {
     message(error.message);
   } finally {
     b.disabled = false;
+    b.removeAttribute("aria-busy");
     await load();
   }
 }
@@ -281,7 +289,8 @@ function renderOverview() {
   const target = $("overview-news");
   target.replaceChildren();
   for (const article of state.news.slice(0, 4)) {
-    const row = node("article", undefined, "mini-story");
+    const row = node("a", undefined, "mini-story");
+    row.href = "#news";
     const symbol = node(
       "span",
       article.source_kind === "primary" ? "◇" : "◷",
@@ -293,7 +302,8 @@ function renderOverview() {
       node("p", `${article.publisher} · ${date(article.published_at)}`),
     );
     row.append(symbol, content, icon());
-    row.onclick = () => {
+    row.onclick = (event) => {
+      event.preventDefault();
       navigate("news");
       $("news-search").value = "";
       state.filter = "all";
@@ -312,7 +322,8 @@ function renderOverview() {
       ["bitcoin", "ethereum", "solana", "dogecoin"].includes(a.asset_id),
     )
     .slice(0, 4)) {
-    const row = node("div", undefined, "glance-row");
+    const row = node("a", undefined, "glance-row");
+    row.href = "#detail";
     const prices = node("div", undefined, "glance-prices");
     prices.append(
       node("div", price(asset.price_usd)),
@@ -323,8 +334,10 @@ function renderOverview() {
       ),
     );
     row.append(coin(asset), prices);
-    row.onclick = () =>
+    row.onclick = (event) => {
+      event.preventDefault();
       openAsset(asset.asset_id).catch((e) => message(e.message));
+    };
     $("market-glance").append(row);
   }
   if (!state.assets.length)
@@ -499,9 +512,10 @@ function renderNews() {
 function renderAssets() {
   $("asset-rows").replaceChildren();
   const query = $("asset-search").value.toLowerCase();
-  for (const asset of state.assets.filter((a) =>
+  const matches = state.assets.filter((a) =>
     (a.name + " " + a.symbol + " " + a.asset_id).toLowerCase().includes(query),
-  )) {
+  );
+  for (const asset of matches) {
     const row = node("tr");
     const first = node("td");
     const b = button("", "token-button", () =>
@@ -536,9 +550,15 @@ function renderAssets() {
       ),
     );
     row.append(research);
+    ["Activ", "Preț USD", "Variație 24h", "Volum 24h", "Capitalizare", "Cercetare"].forEach(
+      (label, i) => row.children[i].dataset.label = label,
+    );
     $("asset-rows").append(row);
   }
-  $("assets-empty").hidden = state.assets.length > 0;
+  $("assets-empty").hidden = matches.length > 0;
+  $("assets-empty").textContent = state.assets.length
+    ? "Niciun activ nu corespunde căutării. Încearcă alt nume sau simbol."
+    : "Se așteaptă prima observație de piață. Nu sunt folosite prețuri fictive.";
   const status = state.status?.crypto_market;
   $("market-status").textContent =
     `CoinGecko · ${status?.state === "ok" ? "observat " + date(status.at) : status?.error || "încă neverificat"}`;
@@ -546,11 +566,12 @@ function renderAssets() {
 function renderTokens() {
   $("tokens").replaceChildren();
   const query = $("search").value.toLowerCase();
-  for (const token of state.tokens.filter((t) =>
+  const matches = state.tokens.filter((t) =>
     (t.address + " " + (t.snapshot?.market.symbol || ""))
       .toLowerCase()
       .includes(query),
-  )) {
+  );
+  for (const token of matches) {
     const m = token.snapshot?.market,
       a = token.snapshot?.analysis,
       row = node("tr"),
@@ -588,9 +609,15 @@ function renderTokens() {
         token.error ? "warn" : "",
       ),
     );
+    ["Token", "Prioritate research", "Lichiditate", "Volum 5m", "Decizie", "Date"].forEach(
+      (label, i) => row.children[i].dataset.label = label,
+    );
     $("tokens").append(row);
   }
-  $("empty").hidden = state.tokens.length > 0;
+  $("empty").hidden = matches.length > 0;
+  $("empty").textContent = state.tokens.length
+    ? "Niciun token nu corespunde căutării. Încearcă alt simbol sau contract."
+    : "Nicio observație de token încă. Adaugă un mint sau pornește scanarea.";
 }
 function renderPortfolio() {
   const p = state.portfolio;
@@ -895,6 +922,9 @@ function renderHealth() {
     for (const [day, item] of Object.entries(daily.diagnostics || {}))
       details.append(node("p", `Bilanț ${day} UTC: ${item.state} · ultima eroare ${item.last_error || item.error} · ${date(item.last_error_at || item.at)}`, "footnote"));
   }
+  const sourcesExpanded = $("section-alerts").querySelector("details")?.open || false;
+  const sourcesFocus = $("section-alerts").contains(document.activeElement)
+    ? document.activeElement.tagName.toLowerCase() : null;
   $("section-alerts").replaceChildren();
   for (const [key, value] of Object.entries(state.sectionErrors))
     $("section-alerts").append(
@@ -903,15 +933,27 @@ function renderHealth() {
         `${pageNames[key] || key}: ${value}. Ultima actualizare reușită: ${date(state.updated[key])}. Datele afișate pot fi vechi.`,
       ),
     );
-  if (errors.length)
-    $("section-alerts").append(
-      node(
+  if (errors.length) {
+    const description = node(
         "p",
         "Surse afectate: " +
           errors.map((name) => name + (stale.has(name) ? " · date vechi" : "")).join(", ") +
           ". Apasă indicatorul de stare pentru detalii.",
-      ),
-    );
+      );
+    if (errors.length > 4) {
+      const warning = node("details");
+      warning.open = sourcesExpanded;
+      warning.append(node("summary", `${errors.length} surse afectate · deschide lista și detaliile`), description);
+      warning.append(button("Vezi starea componentelor", "text-button", () => {
+        setHealthDetails(true);
+        $("health-details").scrollIntoView({block: "start"});
+        $("health-close").focus({preventScroll: true});
+      }));
+      $("section-alerts").append(warning);
+    } else $("section-alerts").append(description);
+  }
+  if (["summary", "button"].includes(sourcesFocus))
+    $("section-alerts").querySelector(`details ${sourcesFocus}`)?.focus({preventScroll: true});
   $("section-alerts").hidden = !count;
 }
 async function load() {
@@ -1519,12 +1561,23 @@ $("scan-button").onclick = () =>
   });
 $("refresh-all").onclick = () =>
   action($("refresh-all"), async () => {
-    await api("/api/assets/refresh", {});
-    await api("/api/news/refresh", {});
+    const jobs = [
+      ["Piața crypto", () => api("/api/assets/refresh", {})],
+      ["Știri", () => api("/api/news/refresh", {})],
+    ];
+    if (state.page === "opportunities")
+      jobs.push(["Oportunități", () => renderOpportunities()]);
+    if (state.page === "advanced")
+      jobs.push(["Cercetare avansată", () => renderAdvanced()]);
+    const results = await Promise.allSettled(jobs.map(([, run]) => run()));
+    const failures = results.flatMap((r, i) => r.status === "rejected"
+      ? [`${jobs[i][0]}: ${r.reason.message}`] : []);
+    if (failures.length) throw new Error(failures.join("\n"));
   });
 $("connection").onclick = () => {
   setHealthDetails($("health-details").hidden);
 };
+$("message-close").onclick = () => message("");
 $("health-close").onclick = () => {
   setHealthDetails(false);
   $("connection").focus();
@@ -1582,6 +1635,7 @@ $("paper-account").onchange = () => selectPaperAccount($("paper-account").value)
 $("detail-back").onclick = () =>
   navigate(state.back === "detail" ? "news" : state.back);
 document.querySelectorAll(".nav-item[data-page]").forEach((b) => {
+  b.title = pageNames[b.dataset.page];
   const span = b.querySelector("span");
   if (span) span.replaceChildren(icon(b.dataset.page));
 });

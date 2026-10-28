@@ -30,6 +30,7 @@ function showLogin() {
     event.preventDefault();
     const b = event.currentTarget.querySelector("button");
     b.disabled = true;
+    b.setAttribute("aria-busy", "true");
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -57,6 +58,7 @@ function showLogin() {
       $("login-error").textContent = error.message;
     } finally {
       b.disabled = false;
+      b.removeAttribute("aria-busy");
     }
   };
 }
@@ -98,9 +100,9 @@ async function renderAdvanced() {
         "Solana și Base. Data primei observări și data pool-ului nu confirmă lansarea tokenului. Acoperirea furnizorilor este parțială.",
       );
       const chain = node("select");
-      chain.setAttribute("aria-label", "Chain discovery");
-      for (const value of ["all", "solana", "base"]) {
-        const o = node("option", value);
+      chain.setAttribute("aria-label", "Rețeaua pentru descoperire");
+      for (const [value, label] of [["all", "Toate rețelele"], ["solana", "Solana"], ["base", "Base"]]) {
+        const o = node("option", label);
         o.value = value;
         chain.append(o);
       }
@@ -117,7 +119,9 @@ async function renderAdvanced() {
           await renderAdvanced();
         }),
       );
-      panel.append(chain, refresh);
+      const chainLabel = node("label", "Rețeaua pentru descoperire", "field-label");
+      chainLabel.append(chain);
+      panel.append(chainLabel, refresh);
       jsonDetails(panel, "Starea surselor și acoperirea", {
         sources: data.sources,
         coverage: data.coverage,
@@ -190,13 +194,15 @@ async function renderAdvanced() {
       );
       const form = node("form", undefined, "evidence-form"),
         chain = node("select");
-      chain.setAttribute("aria-label", "Chain wallet");
+      chain.setAttribute("aria-label", "Rețeaua walletului");
       for (const v of ["solana", "base"]) {
         const o = node("option", v);
         o.value = v;
         chain.append(o);
       }
-      form.append(chain);
+      const chainLabel = node("label", "Rețeaua walletului", "field-label");
+      chainLabel.append(chain);
+      form.append(chainLabel);
       const address = inputField(form, "Adresa publică a walletului");
       address.required = true;
       const label = inputField(form, "Etichetă wallet");
@@ -334,7 +340,9 @@ async function renderAdvanced() {
         horizon.append(o);
       }
       horizon.value = "3600";
-      form.append(horizon);
+      const horizonLabel = node("label", "Orizont evaluare", "field-label");
+      horizonLabel.append(horizon);
+      form.append(horizonLabel);
       const report = node("div");
       jsonDetails(report, "Cohorte, eșantion și date lipsă", data);
       const run = button("Calculează raportul forward", "secondary", () => {});

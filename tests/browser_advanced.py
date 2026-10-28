@@ -59,6 +59,7 @@ with tempfile.TemporaryDirectory() as folder:
             page.locator("#login-password").fill("isolated-browser-password-123456")
             page.locator("#login-form button").click()
             expect(page.locator("#login-dialog")).not_to_be_visible()
+            page.locator("#mobile-more").click()
             page.locator('.nav-item[data-page="advanced"]').click()
             expect(page.locator("#advanced-content")).to_contain_text(
                 "Pool-uri și tokenuri observate"
